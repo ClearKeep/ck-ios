@@ -1,0 +1,7 @@
+for_platform :ios do
+    workspace("iOSBase-SwiftUI.xcworkspace")
+    include_bitcode(true)
+    clean(true)
+    output_name("iOSBase-SwiftUI")
+    derived_data_path("./DerivedData")
+end

@@ -1,0 +1,40 @@
+git_url(ENV['GIT_URL'])
+
+storage_mode("git")
+
+username(ENV['APPLE_ID'])
+
+# DEV
+for_lane :dev do
+  app_identifier([ENV['APP_IDENTIFIER'] + ".dev"])
+end
+
+# QA
+for_lane :qa do
+  app_identifier([ENV['APP_IDENTIFIER'] + ".qa"])
+end
+
+# PPE
+for_lane :ppe do
+  app_identifier([ENV['APP_IDENTIFIER'] + ".ppe"])
+end
+
+
+# PROD
+for_lane :production do
+  app_identifier([ENV['APP_IDENTIFIER']])
+end
+
+# PROVISION ADHOC
+for_lane :update_adhoc_profiles do
+  app_identifier([
+    ENV['APP_IDENTIFIER'] + ".qa",
+    ENV['APP_IDENTIFIER'] + ".ppe",
+    ENV['APP_IDENTIFIER']
+  ])
+end
+
+# PROVISION DEV
+for_lane :update_dev_profiles do
+  app_identifier([ENV['APP_IDENTIFIER'] + ".dev"])
+end

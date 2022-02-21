@@ -1,0 +1,183 @@
+reporter: "xcode"
+
+excluded:
+  - vendor
+  - fastlane
+  - Pods
+  - ClearKeepUITests
+  - ClearKeepUITests
+  - ClearKeepUITestsLaunchTests
+disabled_rules:
+  - vertical_parameter_alignment
+  - function_parameter_count
+  - todo
+  - line_length
+  - xctfail_message
+  - force_cast
+  - multiline_parameters_brackets
+  - multiline_arguments_brackets
+  - multiline_function_chains
+  - multiline_literal_brackets
+opt_in_rules:
+  - force_unwrapping
+  - closure_spacing
+  - overridden_super_call
+  - redundant_nil_coalescing
+  - operator_usage_whitespace
+  - multiline_arguments
+  - multiline_parameters
+
+superfluous_disable_command: warning
+
+large_tuple: 3
+
+type_body_length:
+  warning: 500
+  error: 800
+
+file_length:
+  warning: 400
+  error: 800
+
+function_body_length:
+  warning: 50
+
+type_name:
+  min_length: 3
+  max_length:
+    warning: 80
+    error: 100
+  excluded:
+    - iPhone
+    - iPad
+  validates_start_with_lowercase: true
+
+identifier_name:
+  min_length:
+    error: 3
+  max_length:
+    warning: 80
+  excluded:
+    - id
+    - to
+    - kg
+
+cyclomatic_complexity:
+  ignores_case_statements: true
+
+overridden_super_call: error
+
+multiline_arguments: error
+
+multiline_parameters: error
+
+multiple_closures_with_trailing_closure: error
+
+redundant_discardable_let: warning
+
+trailing_whitespace:
+  severity: error
+  ignores_empty_lines: true
+  ignores_comments: true
+
+colon: error
+
+vertical_whitespace: error
+
+unused_optional_binding: error
+
+empty_enum_arguments: error
+
+unused_closure_parameter: error
+
+unneeded_break_in_switch: error
+
+redundant_void_return: error
+
+void_return: error
+
+force_unwrapping: error
+
+legacy_constructor: error
+
+comma: error
+
+closing_brace: error
+
+opening_brace: error
+
+force_try: warning
+
+closure_spacing: error
+
+control_statement: error
+
+leading_whitespace: error
+
+legacy_cggeometry_functions: error
+
+legacy_constant: error
+
+legacy_nsgeometry_functions: error
+
+mark: error
+
+nesting: error
+
+operator_whitespace: error
+
+operator_usage_whitespace: error
+
+redundant_nil_coalescing: error
+
+return_arrow_whitespace: error
+
+trailing_newline: error
+
+trailing_semicolon: error
+
+weak_delegate: error
+
+custom_rules:
+
+  space_colon:
+    include: "*.swift"
+    name: "Colon in protocol declaration"
+    regex: "(protocol|extension)\\s+\\w+\\s+:"
+    message: "Please remove the space before the colon"
+    severity: error
+
+  not_spaces:
+    include: "*.swift"
+    name: "Tabs vs Spaces"
+    regex: "^  .*"
+    message: "Please use tabs instead of spaces"
+    severity: warning
+
+  double_space:
+    include: "*.swift"
+    name: "Double space"
+    regex: "[a-zA-Z0-9_:\\(\\)\\{\\}\\.]  +[a-zA-Z0-9_:\\(\\)\\{\\}\\.]"
+    message: "Should only have a single space"
+    severity: error
+    match_kinds:
+      - argument
+      - attribute.builtin
+      - attribute.id
+      - buildconfig.id
+      - buildconfig.keyword
+      - identifier
+      - keyword
+      - number
+      - objectliteral
+      - parameter
+      - placeholder
+      - string_interpolation_anchor
+      - typeidentifier
+
+  private_weak_order:
+    include: "*.swift"
+    name: "Private weak order"
+    regex: "weak private"
+    message: "Please use 'private weak' instead"
+    severity: error

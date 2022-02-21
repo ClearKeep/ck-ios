@@ -1,0 +1,81 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Build QA"
+  lane :qa do
+    match_adhoc
+    build_qa
+  end
+
+  desc "Build PPE"
+  lane :ppe do
+    match_adhoc
+    build_ppe
+  end
+
+
+  desc "Match QA"
+  private_lane :match_adhoc do
+    sync_code_signing(
+      type: "adhoc", 
+      readonly: true,
+      clone_branch_directly: true)
+  end
+
+  desc "Build QA"
+  private_lane :build_qa do
+    build_app(
+      workspace: "iOSBase-SwiftUI.xcworkspace",
+      scheme: "QA",
+      export_method: "ad-hoc",
+      configuration: "QA")
+  end
+
+  desc "Build PPE"
+  private_lane :build_ppe do
+    build_app(
+      workspace: "iOSBase-SwiftUI.xcworkspace",
+      scheme: "PPE",
+      export_method: "ad-hoc",
+      configuration: "PPE")
+  end
+
+  desc "Precheck"
+  lane :dev_lane do
+    build_app(
+      workspace: "iOSBase-SwiftUI.xcworkspace",
+      scheme: "Develoment",
+      skip_package_ipa: true,
+      skip_archive: true,
+      skip_codesigning: true,
+      analyze_build_time: true,
+      derived_data_path: "./DerivedData",
+      clean: false,
+      export_method: "development")
+  end
+
+  desc "Renew provisioning profiles for default target"
+  lane :update_adhoc_profiles do
+    sync_code_signing(type: "adhoc", force_for_new_devices: true)
+  end
+
+  desc "Renew provisioning profiles for default target"
+  lane :update_dev_profiles do
+    sync_code_signing(type: "development", force_for_new_devices: true)
+  end
+end
