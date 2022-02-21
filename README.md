@@ -1,4 +1,13 @@
-# iOS-Base
+# ck-ios
+iOS client with end to end encryption messaging
+
+# Prerequisites
+* Xcode 13.0.1
+* Swift-protobuf version 1.12.0
+* grpc-swift commit: e2e138df61dcbfc2dc1cf284fdab6f983539ab48
+
+## Build & Run
+* Git clone source code
 
 ## Architecture
 CleanSwift: https://clean-swift.com/
