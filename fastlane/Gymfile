@@ -1,7 +1,7 @@
 for_platform :ios do
-    workspace("iOSBase-SwiftUI.xcworkspace")
+    workspace("ClearKeep.xcodeproj")
     include_bitcode(true)
     clean(true)
-    output_name("iOSBase-SwiftUI")
+    output_name("ClearKeep")
     derived_data_path("./DerivedData")
 end
