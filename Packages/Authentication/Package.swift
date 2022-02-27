@@ -4,31 +4,28 @@
 import PackageDescription
 
 let package = Package(
-	name: "Networking",
-	platforms: [
-		.iOS(.v14)
-	],
+	name: "Authentication",
 	products: [
 		// Products define the executables and libraries a package produces, and make them visible to other packages.
 		.library(
-			name: "Networking",
-			targets: ["Networking"])
+			name: "Authentication",
+			targets: ["Authentication"])
 	],
 	dependencies: [
 		// Dependencies declare other packages that this package depends on.
 		// .package(url: /* package url */, from: "1.0.0"),
-		.package(path: "./Common"),
-		.package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.5.0"))
+		.package(url: "https://github.com/facebook/facebook-ios-sdk.git", .upToNextMajor(from: "12.3.2")),
+		.package(url: "https://github.com/google/GoogleSignIn-iOS.git", .upToNextMajor(from: "6.1.0")),
+		.package(url: "https://github.com/AzureAD/microsoft-authentication-library-for-objc.git", .upToNextMajor(from: "1.1.26"))
 	],
 	targets: [
 		// Targets are the basic building blocks of a package. A target can define a module or a test suite.
 		// Targets can depend on other targets in this package, and on products in packages this package depends on.
 		.target(
-			name: "Networking",
-			dependencies: ["Common",
-						   "Alamofire"]),
+			name: "Authentication",
+			dependencies: []),
 		.testTarget(
-			name: "NetworkingTests",
-			dependencies: ["Networking"])
+			name: "AuthenticationTests",
+			dependencies: ["Authentication"])
 	]
 )
