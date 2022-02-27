@@ -15,6 +15,7 @@ pipeline {
 			steps {
 				sh """
 				bundle install
+				bundle exec fastlane run cocoapods
 				"""
 			}
 		}
