@@ -33,7 +33,7 @@ public struct NormalTextField: ViewModifier {
 		.background(colorScheme == .light ? Color(colorStyle.gray5) : Color(colorStyle.gray5Dark))
 		.cornerRadius(16)
 		.overlay(RoundedRectangle(cornerRadius: 16)
-					.stroke(focused ? Color(colorStyle.gray3Dark) : Color(colorStyle.gray5), lineWidth: 2))
+					.stroke(colorScheme == .light ? (focused ? Color(colorStyle.gray3) : Color(colorStyle.gray5)) : (focused ? Color(colorStyle.gray3Dark) : Color(colorStyle.gray5Dark)), lineWidth: 2))
 	}
 }
 
@@ -58,7 +58,7 @@ struct PasswordTextField: ViewModifier {
 		.background(colorScheme == .light ? Color(colorStyle.gray5) : Color(colorStyle.gray5Dark))
 		.cornerRadius(16)
 		.overlay(RoundedRectangle(cornerRadius: 16)
-					.stroke(focused ? Color(colorStyle.gray3Dark) : Color(colorStyle.gray5), lineWidth: 2))
+					.stroke(colorScheme == .light ? (focused ? Color(colorStyle.gray3) : Color(colorStyle.gray5)) : (focused ? Color(colorStyle.gray3Dark) : Color(colorStyle.gray5Dark)), lineWidth: 2))
 	}
 }
 
@@ -84,7 +84,7 @@ struct PasswordTextFieldError: ViewModifier {
 		.background(colorScheme == .light ? Color(colorStyle.errorLight) : Color(colorStyle.gray5Dark))
 		.cornerRadius(16)
 		.overlay(RoundedRectangle(cornerRadius: 16)
-					.stroke(focused ? Color(colorStyle.errorDark) : Color(colorStyle.errorLight), lineWidth: 2))
+					.stroke(colorScheme == .light ? (focused ? Color(colorStyle.errorDark) : Color(colorStyle.errorLight)) : (focused ? Color(colorStyle.primary) : Color(colorStyle.gray5Dark)), lineWidth: 2))
 	}
 }
 
