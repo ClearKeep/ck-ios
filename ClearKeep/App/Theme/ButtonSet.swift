@@ -32,7 +32,7 @@ struct BoderButton: ButtonStyle {
 	func makeBody(configuration: Configuration) -> some View {
 		configuration.label
 			.frame(width: UIScreen.main.bounds.width - 80.0, height: 40.0)
-			.font(Font(fontStyle.font(style: .textS)))
+			.font(Font(fontStyle.font(style: .linkS)))
 			.foregroundColor(colorScheme == .light ? Color(colorStyle.primary) : Color(colorStyle.offWhite))
 			.overlay(
 				RoundedRectangle(cornerRadius: 40.0)
