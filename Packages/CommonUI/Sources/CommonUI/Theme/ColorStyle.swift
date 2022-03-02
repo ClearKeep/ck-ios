@@ -6,60 +6,65 @@
 //
 
 import UIKit
+import SwiftUI
+import Common
 
 public protocol IColorSet {
-	var neutral: UIColor { get }
-	var neutral100: UIColor { get }
-	var neutral200: UIColor { get }
-	var neutral300: UIColor { get }
-	var neutral400: UIColor { get }
-	var neutral500: UIColor { get }
-	var neutral600: UIColor { get }
-	
-	var red: UIColor { get }
-	var red100: UIColor { get }
-	var red600: UIColor { get }
-	
-	var green: UIColor { get }
-	var green100: UIColor { get }
-	var green500: UIColor { get }
-	
-	var yellow: UIColor { get }
-	var yellow100: UIColor { get }
-	var yellow300: UIColor { get }
-	var yellow500: UIColor { get }
-	
-	var gray: UIColor { get }
-	var gray25: UIColor { get }
-	var gray50: UIColor { get }
-	var gray75: UIColor { get }
-	var gray100: UIColor { get }
-	var gray150: UIColor { get }
-	
-	var white: UIColor { get }
 	var black: UIColor { get }
+	var gray1: UIColor { get }
+	var gray2: UIColor { get }
+	var gray3: UIColor { get }
+	var gray4: UIColor { get }
+	var gray5: UIColor { get }
+	var graylight: UIColor { get }
+	var gray3Dark: UIColor { get }
+	var gray5Dark: UIColor { get }
 	
-	var blue: UIColor { get }
-	var blue100: UIColor { get }
-	var blue200: UIColor { get }
-	var blue400: UIColor { get }
-	var blue600: UIColor { get }
-	var blue700: UIColor { get }
+	var background: UIColor { get }
+	var offWhite: UIColor { get }
+	
+	var primary: UIColor { get }
+	var primaryDark: UIColor { get }
+	var primaryLight: UIColor { get }
+	
+	var secondary: UIColor { get }
+	var secondaryDark: UIColor { get }
+	var secondaryLight: UIColor { get }
+	
+	var error: UIColor { get }
+	var errorDark: UIColor { get }
+	var errorLight: UIColor { get }
+	
+	var success: UIColor { get }
+	var successDark: UIColor { get }
+	var successLight: UIColor { get }
+	
+	var warning: UIColor { get }
+	var warningDark: UIColor { get }
+	var warningLight: UIColor { get }
+	
+	var gradientPrimary: LinearGradient { get }
+	var gradientPrimaryDark: UIColor { get }
+	var gradientPrimaryLight: UIColor { get }
+	
+	var gradientSecondary: LinearGradient { get }
+	var gradientSecondaryDark: UIColor { get }
+	var gradientSecondaryLight: UIColor { get }
+	
+	var gradientAccent: LinearGradient { get }
+	var gradientAccentDark: UIColor { get }
+	var gradientAccentLight: UIColor { get }
 	
 	func color(of label: ColorStyle) -> UIColor
 }
 
 public enum ColorStyle {
-	case header
-	case normal
-	case highlighted
+	case initial
+	case active
+	case typing
+	case filled
 	case disabled
-	case selected
-	case success
 	case error
-	case warning
-	case input
-	case placeholder
-	
-	case primaryText
+	case success
+	case caption
 }

@@ -8,6 +8,6 @@
 import UIKit
 
 public protocol IImageSet {
-	var splashLogo: UIImage { get }
+	var CKLogo: UIImage { get }
 	var logo: UIImage { get }
 }

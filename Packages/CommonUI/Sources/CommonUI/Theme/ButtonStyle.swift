@@ -1,104 +1,107 @@
 //
-//  ButtonStyle.swift
-//  CommonUI
+//  File.swift
+//  
 //
-//  Created by NamNH on 02/11/2021.
+//  Created by MinhDev on 25/02/2022.
 //
 
-import UIKit
-import Foundation
+import SwiftUI
 
 private enum Constants {
-	static let cornerRadius: CGFloat = 12.0
+	static let cornerRadius: CGFloat = 40.0
 }
 
-public enum ButtonStyle {
-	case `default`
+public enum ButtonIcon {
+	case google
+	case facebook
+	case office
+	
+	public var iconImage: UIImage {
+		switch self {
+		case .google:
+			return commonUIConfig.imageSet.googleIcon
+		case .facebook:
+			return commonUIConfig.imageSet.facebookIcon
+		case .office:
+			return commonUIConfig.imageSet.officeIcon
+		}
+	}
+}
+
+public enum ButtonStyles {
+	case standard
+	case active
+	case loading
+	case disabled
 	case primary
-	case cancelled
-	case selected
-	case deselected
+	case secondary
+	case subtle
+	case text
 	case border
 	
 	public var backgroundColor: UIColor {
 		switch self {
-		case .default:
-			return commonUIConfig.colorSet.blue700
-		case .border:
-			return .white
-		case .cancelled:
-			return commonUIConfig.colorSet.white
+		case .primary:
+			return commonUIConfig.colorSet.primary
+		case .secondary:
+			return commonUIConfig.colorSet.offWhite
 		default:
-			return commonUIConfig.colorSet.blue700
+			return commonUIConfig.colorSet.offWhite
 		}
 	}
 	
-	public var disabledBackgroundColor: UIColor {
+	public var backgroundGardientColor: LinearGradient {
 		switch self {
-		case .default:
-			return commonUIConfig.colorSet.blue700.withAlphaComponent(0.3)
-		case .border:
-			return .white.withAlphaComponent(0.3)
+		case .primary:
+			return commonUIConfig.colorSet.gradientPrimary
+		case .standard:
+			return commonUIConfig.colorSet.gradientPrimary
+		case .secondary:
+			return commonUIConfig.colorSet.gradientPrimary
 		default:
-			return commonUIConfig.colorSet.blue700.withAlphaComponent(0.3)
-		}
-	}
-	
-	public var highlightedBackgroundColor: UIColor {
-		switch self {
-		case .default:
-			return commonUIConfig.colorSet.blue700.withAlphaComponent(0.3)
-		case .border:
-			return .white.withAlphaComponent(0.3)
-		default:
-			return commonUIConfig.colorSet.blue700.withAlphaComponent(0.3)
+			return commonUIConfig.colorSet.gradientPrimary
 		}
 	}
 	
 	public var borderColor: UIColor {
 		switch self {
 		case .border:
-			return commonUIConfig.colorSet.blue700
+			return commonUIConfig.colorSet.offWhite
+		case .secondary:
+			return commonUIConfig.colorSet.primaryLight
+		case .subtle:
+			return commonUIConfig.colorSet.gray4
 		default:
-			return .clear
+			return commonUIConfig.colorSet.offWhite
 		}
 	}
 	
 	public var textColor: UIColor {
 		switch self {
 		case .border:
-			return commonUIConfig.colorSet.blue700
-		case .cancelled:
-			return commonUIConfig.colorSet.neutral500
+			return commonUIConfig.colorSet.primary
+		case .disabled:
+			return commonUIConfig.colorSet.primary
 		default:
-			return commonUIConfig.colorSet.white
+			return commonUIConfig.colorSet.primary
 		}
 	}
 	
 	public var disabledTextColor: UIColor {
 		switch self {
 		case .border:
-			return commonUIConfig.colorSet.blue700
+			return commonUIConfig.colorSet.gray3.withAlphaComponent(0.3)
 		default:
-			return commonUIConfig.colorSet.white
+			return commonUIConfig.colorSet.primary.withAlphaComponent(0.3)
 		}
 	}
 	
 	public var highlightedTextColor: UIColor {
 		switch self {
-		case .border:
-			return commonUIConfig.colorSet.blue700
+		case .disabled:
+			return commonUIConfig.colorSet.graylight
 		default:
-			return commonUIConfig.colorSet.white
-		}
-	}
-	
-	public var textStyle: TextStyle {
-		switch self {
-		case .border:
-			return .textM
-		default:
-			return .textM
+			return commonUIConfig.colorSet.background
 		}
 	}
 	

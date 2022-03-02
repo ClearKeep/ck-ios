@@ -12,23 +12,20 @@ public protocol IFontSet {
 }
 
 public enum FontStyle {
-	case heading1
-	case heading2
-	case heading3
-
-	case body1
-	case body2
-	case body3
+	case displayL
+	case displayM
+	case displayS
 	
-	case input1
-	case input2
-	case input3
+	case displayLB
+	case displayMB
+	case displaySB
 	
-	case placeholder1
-	case placeholder2
-	case placeholder3
-
-	case display1
-	case display2
-	case display3
+	case textL
+	case textM
+	case textS
+	case textXS
+	case linkL
+	case linkM
+	case linkS
+	case linkXS
 }

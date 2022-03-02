@@ -16,5 +16,6 @@ public struct CommonUIConfig {
 		self.fontSet = fontSet
 		self.colorSet = colorSet
 		self.imageSet = imageSet
+
 	}
 }

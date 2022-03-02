@@ -10,46 +10,69 @@ import CommonUI
 
 struct DefaultFontSet: IFontSet {
 	enum Font: String {
-		case inter = "Inter"
+		case sfPro = "SFProDisplay"
 	}
 	
 	enum Weight: String {
 		case bold = "Bold"
 		case regular = "Regular"
-		case light = "Light"
-		case medium = "Medium"
 	}
 	
 	enum Size: CGFloat {
-		case extraExtraExtraLarge = 60.0
-		case extraExtraExtraMediumLarge = 48.0
-		case extraExtraMediumLarge = 40.0
-		case extraExtraLarge = 34.0
-		case extraLarge = 28.0
-		case extraMediumLarge = 25.0
-		case large = 24.0
-		case extraMedium = 22.0
-		case medium = 18.0
-		case regular = 16.0
-		case small = 14.0
+		case large = 42.0
+		case medium = 32.0
+		case small = 24.0
 		case extraSmall = 12.0
-		case extraExtraSmall = 10.0
+		case tLarge = 20.0
+		case tMedium = 16.0
+		case tSmall = 14.0
 	}
-	
-	var heading1: UIFont { font(name: .inter, weight: .medium, size: .regular) }
-	
-	var body1: UIFont { font(name: .inter, weight: .medium, size: .regular) }
-	
-	var display4: UIFont { font(name: .inter, weight: .medium, size: .regular) }
-	
+
+	var displayL: UIFont { font(name: .sfPro, weight: .regular, size: .large) }
+	var displayM: UIFont { font(name: .sfPro, weight: .regular, size: .medium) }
+	var displayS: UIFont { font(name: .sfPro, weight: .regular, size: .small) }
+	var displayLB: UIFont { font(name: .sfPro, weight: .bold, size: .large) }
+	var displayMB: UIFont { font(name: .sfPro, weight: .bold, size: .medium) }
+	var displaySB: UIFont { font(name: .sfPro, weight: .bold, size: .small) }
+	var textL: UIFont { font(name: .sfPro, weight: .regular, size: .tLarge) }
+	var textM: UIFont { font(name: .sfPro, weight: .regular, size: .tMedium) }
+	var textS: UIFont { font(name: .sfPro, weight: .regular, size: .tSmall) }
+	var textXS: UIFont { font(name: .sfPro, weight: .regular, size: .extraSmall) }
+	var linkL: UIFont { font(name: .sfPro, weight: .bold, size: .tLarge) }
+	var linkM: UIFont { font(name: .sfPro, weight: .bold, size: .tMedium) }
+	var linkS: UIFont { font(name: .sfPro, weight: .bold, size: .tSmall) }
+	var linkXS: UIFont { font(name: .sfPro, weight: .bold, size: .extraSmall) }
+		
 	func font(style: FontStyle) -> UIFont {
 		switch style {
-		case .heading1:
-			return heading1
-		case .body1:
-			return body1
-		default:
-			return display4
+		case .displayL:
+			return displayL
+		case .displayS:
+			return displayS
+		case .displayM:
+			return displayM
+		case .displayLB:
+			return displayLB
+		case .displayMB:
+			return displayMB
+		case .displaySB:
+			return displaySB
+		case .textL:
+			return textL
+		case .textM:
+			return textM
+		case .textS:
+			return textS
+		case .textXS:
+			return textXS
+		case .linkL:
+			return linkL
+		case .linkM:
+			return linkM
+		case .linkS:
+			return linkS
+		case .linkXS:
+			return linkS
 		}
 	}
 	
