@@ -18,13 +18,13 @@ struct LoginView: View {
 			TextField("Email", text: $email, onEditingChanged: { edit in
 				self.editing = edit
 			   })
-				.modifier(NormalTextField(mode: .light, image: image.mailIcon, focused: $editing))
+				.modifier(NormalTextField(image: image.mailIcon, focused: $editing))
 
 			TextField("Password", text: $password, onCommit: { editing = false})
 				.onTapGesture {
 					editing = true
 				}
-				.modifier(PasswordTextField(mode: .error, image: image.lockIcon, focused: $editing))
+				.modifier(PasswordTextField(image: image.lockIcon, focused: $editing))
 			}
     }
 }

@@ -9,121 +9,39 @@ import UIKit
 import SwiftUI
 import CommonUI
 
-var colorStyle: IColorSet = ColorSet()
-var fontStyle: IFontSet = DefaultFontSet()
-var imageStyle: IAppImageSet = AppImageSet()
+private var colorStyle: IColorSet = ColorSet()
+private var fontStyle: IFontSet = DefaultFontSet()
+private var imageStyle: IAppImageSet = AppImageSet()
 
 public struct NormalTextField: ViewModifier {
-	enum Mode {
-		case light, dark
 
-		var bgColor: Color {
-			switch self {
-			case .light:
-				return Color(colorStyle.gray5)
-			case .dark:
-				return Color(colorStyle.gray5Dark)
-			}
-		}
-
-		var fgColor: Color {
-			switch self {
-			case .light:
-				return Color(colorStyle.gray3)
-			case .dark:
-				return Color(colorStyle.gray3Dark)
-			}
-		}
-
-		var borderColor: Color {
-			switch self {
-			case .light:
-				return Color(colorStyle.gray3)
-			case .dark:
-				return Color(colorStyle.gray3Dark)
-			}
-		}
-
-		var imageSet: UIImage {
-			switch self {
-			case .light:
-				return imageStyle.mailIcon
-			case .dark:
-				return imageStyle.mailIcon
-			}
-		}
-	}
-
-	var mode: Mode
 	var image: UIImage
 	@Binding var focused: Bool
+	@Environment(\.colorScheme) var colorScheme
 
 	public func body(content: Content) -> some View {
 		HStack {
 			Image(uiImage: image)
-				.foregroundColor(mode.fgColor)
+				.foregroundColor(colorScheme == .light ? Color(colorStyle.gray3) : Color(colorStyle.gray3Dark))
 				.padding(.leading)
 			content
 				.font(Font(fontStyle.font(style: .textS)))
-				.foregroundColor(mode.fgColor)
+				.foregroundColor(colorScheme == .light ? Color(colorStyle.gray3) : Color(colorStyle.gray3Dark))
 				.padding(.leading, 10)
 		}
 		.frame(width: UIScreen.main.bounds.width - 30, height: 52)
-		.background(mode.bgColor)
+		.background(colorScheme == .light ? Color(colorStyle.gray5) : Color(colorStyle.gray5Dark))
 		.cornerRadius(16)
 		.overlay(RoundedRectangle(cornerRadius: 16)
-					.stroke(focused ? mode.borderColor : mode.bgColor, lineWidth: 2))
+					.stroke(focused ? Color(colorStyle.gray3Dark) : Color(colorStyle.gray5), lineWidth: 2))
 	}
 }
 
 struct PasswordTextField: ViewModifier {
 
-	enum Mode {
-		case light, dark, error, errorDark
-
-		var bgColor: Color {
-			switch self {
-			case .light:
-				return Color(colorStyle.gray5)
-			case .dark:
-				return Color(colorStyle.gray5Dark)
-			case .error:
-				return Color(colorStyle.errorLight)
-			case .errorDark:
-				return Color(colorStyle.gray5Dark)
-			}
-		}
-
-		var fgColor: Color {
-			switch self {
-			case .light:
-				return Color(colorStyle.gray1)
-			case .dark:
-				return Color(colorStyle.gray1)
-			case .error:
-				return Color(colorStyle.gray3Dark)
-			case .errorDark:
-				return Color(colorStyle.gray3Dark)
-			}
-		}
-
-		var borderColor: Color {
-			switch self {
-			case .light:
-				return Color(colorStyle.black)
-			case .dark:
-				return Color(colorStyle.gray3Dark)
-			case .error:
-				return Color(colorStyle.errorDark)
-			case .errorDark:
-				return Color(colorStyle.primary)
-			}
-		}
-	}
-
-	var mode: Mode
 	var image: UIImage
 	@Binding var focused: Bool
+	@Environment(\.colorScheme) var colorScheme
 
 	func body(content: Content) -> some View {
 		HStack {
@@ -131,16 +49,42 @@ struct PasswordTextField: ViewModifier {
 				.padding(.leading)
 			content
 				.font(Font(fontStyle.font(style: .textS)))
-				.foregroundColor(mode.fgColor)
+				.foregroundColor(colorScheme == .light ? Color(colorStyle.gray1) : Color(colorStyle.gray1))
 				.padding(.leading, 10)
 			Image(uiImage: imageStyle.eyeIcon)
 				.padding(.trailing)
 		}
 		.frame(width: UIScreen.main.bounds.width - 30, height: 52)
-		.background(mode.bgColor)
+		.background(colorScheme == .light ? Color(colorStyle.gray5) : Color(colorStyle.gray5Dark))
 		.cornerRadius(16)
 		.overlay(RoundedRectangle(cornerRadius: 16)
-					.stroke(focused ? mode.borderColor : mode.bgColor, lineWidth: 2))
+					.stroke(focused ? Color(colorStyle.gray3Dark) : Color(colorStyle.gray5), lineWidth: 2))
+	}
+}
+
+struct PasswordTextFieldError: ViewModifier {
+
+	var image: UIImage
+	@Binding var focused: Bool
+	@Environment(\.colorScheme) var colorScheme
+
+	func body(content: Content) -> some View {
+		HStack {
+			Image(uiImage: image)
+				.padding(.leading)
+				.foregroundColor(colorScheme == .light ? Color(colorStyle.gray3Dark) : Color(colorStyle.gray3Dark))
+			content
+				.font(Font(fontStyle.font(style: .textS)))
+				.foregroundColor(colorScheme == .light ? Color(colorStyle.gray3Dark) : Color(colorStyle.gray3Dark))
+				.padding(.leading, 10)
+			Image(uiImage: imageStyle.eyeIcon)
+				.padding(.trailing)
+		}
+		.frame(width: UIScreen.main.bounds.width - 30, height: 52)
+		.background(colorScheme == .light ? Color(colorStyle.errorLight) : Color(colorStyle.gray5Dark))
+		.cornerRadius(16)
+		.overlay(RoundedRectangle(cornerRadius: 16)
+					.stroke(focused ? Color(colorStyle.errorDark) : Color(colorStyle.errorLight), lineWidth: 2))
 	}
 }
 
