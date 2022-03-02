@@ -55,16 +55,18 @@ public struct NormalTextField: ViewModifier {
 	}
 
 	var mode: Mode
+	var image: UIImage
 	@Binding var focused: Bool
 
 	public func body(content: Content) -> some View {
 		HStack {
-			Image(uiImage: mode.imageSet)
+			Image(uiImage: image)
 				.foregroundColor(mode.fgColor)
 				.padding(.leading)
 			content
 				.font(Font(fontStyle.font(style: .textS)))
 				.foregroundColor(mode.fgColor)
+				.padding(.leading, 10)
 		}
 		.frame(width: UIScreen.main.bounds.width - 30, height: 52)
 		.background(mode.bgColor)
@@ -117,31 +119,20 @@ struct PasswordTextField: ViewModifier {
 				return Color(colorStyle.primary)
 			}
 		}
-
-		var imageSet: UIImage {
-			switch self {
-			case .light:
-				return imageStyle.lockIcon
-			case .dark:
-				return imageStyle.lockIcon
-			case .error:
-				return imageStyle.lockIcon
-			case .errorDark:
-				return imageStyle.lockIcon
-			}
-		}
 	}
 
 	var mode: Mode
+	var image: UIImage
 	@Binding var focused: Bool
 
 	func body(content: Content) -> some View {
 		HStack {
-			Image(uiImage: mode.imageSet)
+			Image(uiImage: image)
 				.padding(.leading)
 			content
 				.font(Font(fontStyle.font(style: .textS)))
 				.foregroundColor(mode.fgColor)
+				.padding(.leading, 10)
 			Image(uiImage: imageStyle.eyeIcon)
 				.padding(.trailing)
 		}
