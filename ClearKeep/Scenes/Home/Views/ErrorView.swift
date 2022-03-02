@@ -12,14 +12,18 @@ struct ErrorView: View {
 	let retryAction: () -> Void
 	var body: some View {
 		VStack {
-			Text("An Error Occured")
-				.font(.title)
-			Text(error.localizedDescription)
-				.font(.callout)
-				.multilineTextAlignment(.center)
-				.padding(.bottom, 40).padding()
+			Button(action: retryAction, label: { Text("Retry").bold() })
+				.buttonStyle(PrimaryButton(mode: .dark))
+			Button(action: retryAction, label: { Text("Retry").bold() })
+				.buttonStyle(PrimaryButton(mode: .light))
+			Button(action: retryAction, label: { Text("Retry").bold() })
+				.buttonStyle(BoderButton(mode: .dark))
+			Button(action: retryAction, label: { Text("Retry").bold() })
+				.buttonStyle(BoderButton(mode: .light))
 			Button(action: retryAction, label: { Text("Retry").bold() })
 				.buttonStyle(TextButton(mode: .dark))
+			Button(action: retryAction, label: { Text("Retry").bold() })
+				.buttonStyle(TextButton(mode: .light))
 			Button(action: retryAction, label: { Text("Retry").bold() })
 				.buttonStyle(IconButton(mode: .office))
 		}

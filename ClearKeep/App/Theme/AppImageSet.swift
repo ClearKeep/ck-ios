@@ -27,6 +27,7 @@ extension AppImageSet: ICommonUIImageSet {
 	var chevleftIcon: UIImage { UIImage(named: "ic_Chev-left") ?? UIImage() }
 	var chevDownIcon: UIImage { UIImage(named: "ic_Chev-down") ?? UIImage() }
 	var microPhoneIcon: UIImage { UIImage(named: "ic_Microphone") ?? UIImage() }
+	var phoneCallIcon: UIImage { UIImage(named: "ic_Phone call") ?? UIImage() }
 	var videoIcon: UIImage { UIImage(named: "ic_Video") ?? UIImage() }
 	var sendIcon: UIImage { UIImage(named: "ic_Send plane") ?? UIImage() }
 	var downloadIcon: UIImage { UIImage(named: "ic_File-download") ?? UIImage() }
@@ -34,8 +35,11 @@ extension AppImageSet: ICommonUIImageSet {
 	var phoneIncommingIcon: UIImage { UIImage(named: "ic_Phone-incomming") ?? UIImage() }
 	var phoneOffIcon: UIImage { UIImage(named: "ic_Phone-off") ?? UIImage() }
 	var microphoneOffIcon: UIImage { UIImage(named: "ic_Microphone-off") ?? UIImage() }
-	var messageCricleIcon: UIImage { UIImage(named: "ic_Message cricle") ?? UIImage() }
+	var messageCricleIcon: UIImage { UIImage(named: "ic_Message circle") ?? UIImage() }
 	var crossIcon: UIImage { UIImage(named: "ic_Cross") ?? UIImage() }
+	var dotVerticalIcon: UIImage { UIImage(named: "ic_Dots-vertical") ?? UIImage() }
+	var dotIcon: UIImage { UIImage(named: "ic_Dots") ?? UIImage() }
+	var emoticonIcon: UIImage { UIImage(named: "ic_Emoticon") ?? UIImage() }
 	var straitFaceIcon: UIImage { UIImage(named: "ic_Straight face") ?? UIImage() }
 	var speakerIcon: UIImage { UIImage(named: "ic_Speaker") ?? UIImage() }
 	var cameraRolateIcon: UIImage { UIImage(named: "ic_Camera-rotate") ?? UIImage() }
@@ -68,6 +72,7 @@ extension AppImageSet: ICommonUIImageSet {
 	var forwardIcon: UIImage { UIImage(named: "ic_Forward") ?? UIImage() }
 	var uploadIcon: UIImage { UIImage(named: "ic_Upload") ?? UIImage() }
 	var linkIcon: UIImage { UIImage(named: "ic_Link") ?? UIImage() }
+	var loadingIcon: UIImage { UIImage(named: "ic_Loading") ?? UIImage() }
 	var arrowRightIcon: UIImage { UIImage(named: "ic_Arrow-right") ?? UIImage() }
 	var forderPlusIcon: UIImage { UIImage(named: "ic_Chev-left") ?? UIImage() }
 	var googleIcon: UIImage { UIImage(named: "ic_Google") ?? UIImage() }

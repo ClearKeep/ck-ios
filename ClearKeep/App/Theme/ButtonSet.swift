@@ -15,17 +15,17 @@ struct PrimaryButton: ButtonStyle {
 		var bgColor: Color {
 			switch self {
 			case .light:
-				return Color(ButtonStyles.primary.backgroundColor)
+				return Color(ButtonMode.light.backgroundColor)
 			case .dark:
-				return Color(ButtonStyles.primary.backgroundColor)
+				return Color(ButtonMode.dark.backgroundColor)
 			}
 		}
 		var fgColor: Color {
 			switch self {
 			case .light:
-				return Color(ButtonStyles.primary.textColor)
+				return Color(ButtonMode.light.textColor)
 			case .dark:
-				return Color(ButtonStyles.primary.textColor)
+				return Color(ButtonMode.dark.textColor)
 			}
 		}
 	}
@@ -34,7 +34,6 @@ struct PrimaryButton: ButtonStyle {
 	func makeBody(configuration: Configuration) -> some View {
 		configuration.label
 			.frame(width: UIScreen.main.bounds.width - 20.0, height: 40.0)
-			.padding()
 			.font(Font(fontStyle.font(style: .textS)))
 			.background(mode.bgColor)
 			.foregroundColor(mode.fgColor)
@@ -51,25 +50,25 @@ struct BoderButton: ButtonStyle {
 		var bgColor: Color {
 			switch self {
 			case .light:
-				return Color(ButtonStyles.border.borderColor)
+				return Color(ButtonMode.light.backgroundColor)
 			case .dark:
-				return Color(ButtonStyles.secondary.borderColor)
+				return Color(ButtonMode.dark.backgroundColor)
 			}
 		}
 		var fgColor: Color {
 			switch self {
 			case .light:
-				return Color(ButtonStyles.border.backgroundColor)
+				return Color(ButtonMode.light.textColor)
 			case .dark:
-				return Color(ButtonStyles.subtle.borderColor)
+				return Color(ButtonMode.dark.textColor)
 			}
 		}
 		var boder: Color {
 			switch self {
 			case .light:
-				return Color(ButtonStyles.border.backgroundColor)
+				return Color(ButtonStyles.primary.borderColor)
 			case .dark:
-				return Color(ButtonStyles.border.backgroundColor)
+				return Color(ButtonStyles.secondary.borderColor)
 			}
 		}
 	}
@@ -78,7 +77,6 @@ struct BoderButton: ButtonStyle {
 	func makeBody(configuration: Configuration) -> some View {
 		configuration.label
 			.frame(width: UIScreen.main.bounds.width - 80.0, height: 40.0)
-			.padding()
 			.font(Font(fontStyle.font(style: .textS)))
 			.foregroundColor(mode.fgColor)
 			.overlay(
@@ -96,9 +94,9 @@ struct TextButton: ButtonStyle {
 		var fgColor: Color {
 			switch self {
 			case .light:
-				return Color(ButtonStyles.disabled.textColor)
+				return Color(ButtonMode.light.textColor)
 			case .dark:
-				return Color(ButtonStyles.primary.textColor)
+				return Color(ButtonMode.dark.textColor)
 			}
 		}
 	}

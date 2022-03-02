@@ -19,6 +19,7 @@ public protocol ICommonUIImageSet: IImageSet {
 	var chevleftIcon: UIImage { get }
 	var chevDownIcon: UIImage { get }
 	var microPhoneIcon: UIImage { get }
+	var phoneCallIcon: UIImage { get }
 	var videoIcon: UIImage { get }
 	var sendIcon: UIImage { get }
 	var downloadIcon: UIImage { get }
@@ -28,6 +29,9 @@ public protocol ICommonUIImageSet: IImageSet {
 	var microphoneOffIcon: UIImage { get }
 	var messageCricleIcon: UIImage { get }
 	var crossIcon: UIImage { get }
+	var dotVerticalIcon: UIImage { get }
+	var dotIcon: UIImage { get }
+	var emoticonIcon: UIImage { get }
 	var straitFaceIcon: UIImage { get }
 	var speakerIcon: UIImage { get }
 	var cameraRolateIcon: UIImage { get }
@@ -35,12 +39,12 @@ public protocol ICommonUIImageSet: IImageSet {
 	var videosIcon: UIImage { get }
 	var menuIcon: UIImage { get }
 	var adjustmentIcon: UIImage { get }
-	var usersPlusIcon: UIImage { get }
+	var userPlusIcon: UIImage { get }
 	var pencilIcon: UIImage { get }
 	var userIcon: UIImage { get }
 	var notificationIcon: UIImage { get }
 	var userOfflineIcon: UIImage { get }
-	var userPlusIcon: UIImage { get }
+	var usersPlusIcon: UIImage { get }
 	var trashIcon: UIImage { get }
 	var mailIcon: UIImage { get }
 	var lockIcon: UIImage { get }
@@ -60,6 +64,7 @@ public protocol ICommonUIImageSet: IImageSet {
 	var forwardIcon: UIImage { get }
 	var uploadIcon: UIImage { get }
 	var linkIcon: UIImage { get }
+	var loadingIcon: UIImage { get }
 	var arrowRightIcon: UIImage { get }
 	var forderPlusIcon: UIImage { get }
 	var googleIcon: UIImage { get }

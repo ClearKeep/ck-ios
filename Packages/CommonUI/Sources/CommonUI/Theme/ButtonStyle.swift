@@ -28,6 +28,44 @@ public enum ButtonIcon {
 	}
 }
 
+public enum ButtonMode {
+	case light
+	case dark
+
+	public var backgroundColor: UIColor {
+		switch self {
+		case .light:
+			return commonUIConfig.colorSet.offWhite
+		case .dark:
+			return commonUIConfig.colorSet.primary
+		}
+	}
+	public var textColor: UIColor {
+		switch self {
+		case .light:
+			return commonUIConfig.colorSet.primary
+		case .dark:
+			return commonUIConfig.colorSet.offWhite
+		}
+	}
+	public var backgroundGardientColor: LinearGradient {
+		switch self {
+		case .light:
+			return commonUIConfig.colorSet.gradientPrimary
+		case .dark:
+			return commonUIConfig.colorSet.gradientSecondary
+		}
+	}
+	public var borderColor: UIColor {
+		switch self {
+		case .light:
+			return commonUIConfig.colorSet.offWhite
+		case .dark:
+			return commonUIConfig.colorSet.primary
+		}
+	}
+}
+
 public enum ButtonStyles {
 	case standard
 	case active
@@ -65,10 +103,10 @@ public enum ButtonStyles {
 	
 	public var borderColor: UIColor {
 		switch self {
-		case .border:
-			return commonUIConfig.colorSet.offWhite
-		case .secondary:
+		case .primary:
 			return commonUIConfig.colorSet.primaryLight
+		case .secondary:
+			return commonUIConfig.colorSet.offWhite
 		case .subtle:
 			return commonUIConfig.colorSet.gray4
 		default:
@@ -78,6 +116,10 @@ public enum ButtonStyles {
 	
 	public var textColor: UIColor {
 		switch self {
+		case .primary:
+			return commonUIConfig.colorSet.primary
+		case .secondary:
+			return commonUIConfig.colorSet.offWhite
 		case .border:
 			return commonUIConfig.colorSet.primary
 		case .disabled:
