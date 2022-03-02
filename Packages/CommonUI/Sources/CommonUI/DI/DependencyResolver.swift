@@ -10,7 +10,7 @@ import Foundation
 public class DependencyResolver {
 	public static var shared = DependencyResolver()
 	
-	var commonUIConfig: CommonUIConfig!
+	public var commonUIConfig: CommonUIConfig!
 	
 	public init(_ commonUIConfig: CommonUIConfig? = nil) {
 		self.commonUIConfig = commonUIConfig

@@ -46,6 +46,8 @@
 		CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117ED527BBB0DD000941D9 /* ErrorView.swift */; };
 		CB3F77DF27C3549700E569B0 /* CommonUI in Frameworks */ = {isa = PBXBuildFile; productRef = CB3F77DE27C3549700E569B0 /* CommonUI */; };
 		CB3F77E327C359ED00E569B0 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = CB3F77E227C359ED00E569B0 /* Networking */; };
+		F54F6D8B27CE1216009478DF /* TextFieldSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54F6D8A27CE1216009478DF /* TextFieldSet.swift */; };
+		F54F6D8F27CF5F01009478DF /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54F6D8E27CF5F01009478DF /* LoginView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +113,8 @@
 		CB3F77D927C353E300E569B0 /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Common; path = Packages/Common; sourceTree = "<group>"; };
 		CB3F77DA27C353EC00E569B0 /* CommonUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CommonUI; path = Packages/CommonUI; sourceTree = "<group>"; };
 		CB3F77DB27C353F900E569B0 /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Networking; path = Packages/Networking; sourceTree = "<group>"; };
+		F54F6D8A27CE1216009478DF /* TextFieldSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldSet.swift; sourceTree = "<group>"; };
+		F54F6D8E27CF5F01009478DF /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,6 +228,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				F54F6D8727CE0EA0009478DF /* Login */,
 				CB117E7D27BB660D000941D9 /* Home */,
 				CB117EBB27BB7D2F000941D9 /* ContentView.swift */,
 				CB117EBD27BB7DE2000941D9 /* RootViewModifier.swift */,
@@ -245,6 +250,7 @@
 				CB117E5E27BB64B0000941D9 /* AppImageSet.swift */,
 				CB117E6027BB64B0000941D9 /* ColorSet.swift */,
 				CB117E5F27BB64B0000941D9 /* FontSet.swift */,
+				F54F6D8A27CE1216009478DF /* TextFieldSet.swift */,
 			);
 			name = Theme;
 			path = "Thêm";
@@ -350,6 +356,30 @@
 				CB3F77DB27C353F900E569B0 /* Networking */,
 			);
 			name = Packages;
+			sourceTree = "<group>";
+		};
+		F54F6D8727CE0EA0009478DF /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				F54F6D8927CE0EB3009478DF /* Models */,
+				F54F6D8827CE0EAD009478DF /* View */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		F54F6D8827CE0EAD009478DF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F54F6D8E27CF5F01009478DF /* LoginView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F54F6D8927CE0EB3009478DF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -561,6 +591,8 @@
 				CB117E6127BB64B0000941D9 /* AppImageSet.swift in Sources */,
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
 				CB117E6227BB64B0000941D9 /* FontSet.swift in Sources */,
+				F54F6D8F27CF5F01009478DF /* LoginView.swift in Sources */,
+				F54F6D8B27CE1216009478DF /* TextFieldSet.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,

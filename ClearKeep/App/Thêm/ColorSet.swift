@@ -20,8 +20,7 @@ struct ColorSet: IColorSet {
 	var graylight: UIColor { UIColor(hex: "#E0E0E0") }
 	var gray3Dark: UIColor { UIColor(hex: "#C4C4C4") }
 	var gray5Dark: UIColor { UIColor(hex: "#424242") }
-
-
+	
 	var background: UIColor { UIColor(hex: "F7F7FC") }
 	var offWhite: UIColor { UIColor(hex: "FCFCFC") }
 	var primary: UIColor { UIColor(hex: "#6267FB") }
