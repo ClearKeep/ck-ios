@@ -6,60 +6,54 @@
 //
 
 import CommonUI
-import UIKit
+import SwiftUI
 
 struct ColorSet: IColorSet {
-	var neutral: UIColor { UIColor(hex: "") }
-	var neutral100: UIColor { UIColor(hex: "#FFFFFF") }
-	var neutral200: UIColor { UIColor(hex: "#F7F7F7") }
-	var neutral300: UIColor { UIColor(hex: "#EBECED") }
-	var neutral400: UIColor { UIColor(hex: "#D6D9DB") }
-	var neutral500: UIColor { UIColor(hex: "#9AA0A5") }
-	var neutral600: UIColor { UIColor(hex: "#34404B") }
+	// MARK: - Grayscale
+	var black: Color { Color(UIColor(hex: "#000000")) }
+	var grey1: Color { Color(UIColor(hex: "#4E4B66")) }
+	var grey2: Color { Color(UIColor(hex: "#6E7191")) }
+	var grey3: Color { Color(UIColor(hex: "#A0A3BD")) }
+	var grey4: Color { Color(UIColor(hex: "#D9DBE9")) }
+	var grey5: Color { Color(UIColor(hex: "#EFF0F6")) }
+	var background: Color { Color(UIColor(hex: "#F7F7FC")) }
+	var offWhite: Color { Color(UIColor(hex: "#FCFCFC")) }
 	
-	var red: UIColor { UIColor.red }
-	var red100: UIColor { UIColor(hex: "#F9E8E8") }
-	var red600: UIColor { UIColor(hex: "#FA3232") }
+	// MARK: - Primary
+	var primaryDefault: Color { Color(UIColor(hex: "#6267FB")) }
+	var primaryDark: Color { Color(UIColor(hex: "#363BD0")) }
+	var primaryLight: Color { Color(UIColor(hex: "#898DFF")) }
 	
-	var green: UIColor { UIColor.green }
-	var green100: UIColor { UIColor(hex: "#E2FADC") }
-	var green500: UIColor { UIColor(hex: "#62B47F") }
+	// MARK: - Secondary
+	var secondaryDefault: Color { Color(UIColor(hex: "#E06464")) }
+	var secondaryDark: Color { Color(UIColor(hex: "#D42B2B")) }
+	var secondaryLight: Color { Color(UIColor(hex: "#E99191")) }
 	
-	var yellow: UIColor { UIColor.yellow }
-	var yellow100: UIColor { UIColor(hex: "#FAF7DC") }
-	var yellow300: UIColor { UIColor(hex: "#FEBD47") }
-	var yellow500: UIColor { UIColor(hex: "#B78915") }
+	// MARK: - Error
+	var errorDefault: Color { Color(UIColor(hex: "#ED2E7E")) }
+	var errorDark: Color { Color(UIColor(hex: "#C30052")) }
+	var errorLight: Color { Color(UIColor(hex: "#FFE8F1")) }
 	
-	var gray: UIColor { UIColor.gray }
-	var gray25: UIColor { UIColor(hex: "#FAFAFE") }
-	var gray50: UIColor { UIColor(hex: "#F8F8FC") }
-	var gray75: UIColor { UIColor(hex: "#F5F5F5") }
-	var gray100: UIColor { UIColor(hex: "#F1F1F1") }
-	var gray150: UIColor { UIColor(hex: "#E5E5E5") }
+	// MARK: - Success
+	var successDefault: Color { Color(UIColor(hex: "#00BA88")) }
+	var successDark: Color { Color(UIColor(hex: "#00966D")) }
+	var successLight: Color { Color(UIColor(hex: "#DBFFF5")) }
 	
-	var white: UIColor { UIColor.white }
-	var black: UIColor { UIColor.black }
+	// MARK: - Warning
+	var warningDefault: Color { Color(UIColor(hex: "#F4B740")) }
+	var warningDark: Color { Color(UIColor(hex: "#946200")) }
+	var warningLight: Color { Color(UIColor(hex: "#FFD789")) }
 	
-	var blue: UIColor { UIColor.blue }
-	var blue100: UIColor { UIColor(hex: "#5B97FF") }
-	var blue200: UIColor { UIColor(hex: "#568DEB") }
-	var blue400: UIColor { UIColor(hex: "#335FAE") }
-	var blue600: UIColor { UIColor(hex: "#142848") }
-	var blue700: UIColor { UIColor(hex: "#0957DE") }
+	// MARK: - Gradient Primary
+	var gradientPrimary: [Color] { [Color(UIColor(hex: "#7773F3")), Color(UIColor(hex: "#8ABFF3"))] }
 	
-	func color(of label: ColorStyle) -> UIColor {
-		switch label {
-		case .header:
-			return blue600
-		case .normal:
-			return neutral500
-		case .error:
-			return red600
-		case .placeholder:
-			return neutral400
-		case .primaryText:
-			return neutral500
-		default: return .black
-		}
+	// MARK: - Gradient Secondary
+	var gradientSecondary: [Color] { [Color(UIColor(hex: "#4147FB")), Color(UIColor(hex: "#64A1E0"))] }
+	
+	// MARK: - Gradient Accent
+	var gradientAccent: [Color] { [Color(UIColor(hex: "#E06464")), Color(UIColor(hex: "#E99191"))] }
+	
+	func color(of label: ColorStyle) -> Color {
+		return Color(UIColor(hex: "#"))
 	}
 }
