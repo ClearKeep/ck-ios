@@ -8,15 +8,22 @@
 import SwiftUI
 import Combine
 import Common
+import CommonUI
 
 struct HomeView: View {
 	
 	@Environment(\.injected) private var injected: DIContainer
 	@State private(set) var samples: Loadable<[ISampleModel]>
+	@State private(set) var searchKeyword: String
+	@State private(set) var inputStyle: TextInputStyle
 	let inspection = ViewInspector<Self>()
 	
-	init(samples: Loadable<[ISampleModel]> = .notRequested) {
+	init(samples: Loadable<[ISampleModel]> = .notRequested,
+		 searchKeyword: String = "",
+		 inputStyle: TextInputStyle = .error(message: "Test")) {
 		self._samples = .init(initialValue: samples)
+		self._searchKeyword = .init(initialValue: searchKeyword)
+		self._inputStyle = .init(initialValue: inputStyle)
 	}
 	
 	var body: some View {

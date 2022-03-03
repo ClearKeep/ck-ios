@@ -51,6 +51,10 @@
 		CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3F78F727C4CC0000E569B0 /* AppImageSet.swift */; };
 		CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3F78F827C4CC0000E569B0 /* ColorSet.swift */; };
 		CB73083C27CB97EA00AB0FBD /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = CB73083B27CB97EA00AB0FBD /* Networking */; };
+		CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73083D27CE644800AB0FBD /* ServerView.swift */; };
+		CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73083F27CE647E00AB0FBD /* HomeHeaderView.swift */; };
+		CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73084127CE648F00AB0FBD /* HomeContentView.swift */; };
+		CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73084327CE785B00AB0FBD /* AppTheme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -158,6 +162,10 @@
 		CB3F78F727C4CC0000E569B0 /* AppImageSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppImageSet.swift; sourceTree = "<group>"; };
 		CB3F78F827C4CC0000E569B0 /* ColorSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
 		CB73083A27CB968400AB0FBD /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Networking; path = Packages/Networking; sourceTree = "<group>"; };
+		CB73083D27CE644800AB0FBD /* ServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerView.swift; sourceTree = "<group>"; };
+		CB73083F27CE647E00AB0FBD /* HomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
+		CB73084127CE648F00AB0FBD /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
+		CB73084327CE785B00AB0FBD /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		CBD0AA3B27C7484900F86EFD /* Authentication */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Authentication; path = Packages/Authentication; sourceTree = "<group>"; };
 		EE672FA0EC8A123D35608506 /* Pods-ClearKeepUITests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.ppe.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -392,6 +400,9 @@
 			children = (
 				CB117ED327BBB0CE000941D9 /* ActivityIndicatorView.swift */,
 				CB117ED527BBB0DD000941D9 /* ErrorView.swift */,
+				CB73083D27CE644800AB0FBD /* ServerView.swift */,
+				CB73083F27CE647E00AB0FBD /* HomeHeaderView.swift */,
+				CB73084127CE648F00AB0FBD /* HomeContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -422,6 +433,7 @@
 				CB3F78F627C4CC0000E569B0 /* FontSet.swift */,
 				CB3F78F727C4CC0000E569B0 /* AppImageSet.swift */,
 				CB3F78F827C4CC0000E569B0 /* ColorSet.swift */,
+				CB73084327CE785B00AB0FBD /* AppTheme.swift */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -725,11 +737,13 @@
 				CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */,
 				CB117E7227BB65C7000941D9 /* APIResourceQueryAdapter.swift in Sources */,
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
+				CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */,
 				CB117E7B27BB65E2000941D9 /* LocationConfigurations.swift in Sources */,
 				CB117EC427BB8DB1000941D9 /* SceneDelegate.swift in Sources */,
 				CB117ECD27BBA6E5000941D9 /* HomeWorker.swift in Sources */,
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
+				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
@@ -737,9 +751,11 @@
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
 				CB117E7327BB65C7000941D9 /* APIResourceResponseAdapter.swift in Sources */,
+				CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */,
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
 				CB117E8627BB6687000941D9 /* SampleModel.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
+				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
 				CB117E7127BB65C7000941D9 /* APIConfigurations.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,

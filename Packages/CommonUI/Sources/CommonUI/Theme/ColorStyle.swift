@@ -5,48 +5,54 @@
 //  Created by NamNH on 01/11/2021.
 //
 
-import UIKit
+import SwiftUI
 
 public protocol IColorSet {
-	var neutral: UIColor { get }
-	var neutral100: UIColor { get }
-	var neutral200: UIColor { get }
-	var neutral300: UIColor { get }
-	var neutral400: UIColor { get }
-	var neutral500: UIColor { get }
-	var neutral600: UIColor { get }
+	// MARK: - Grayscale
+	var black: Color { get }
+	var grey1: Color { get }
+	var grey2: Color { get }
+	var grey3: Color { get }
+	var grey4: Color { get }
+	var grey5: Color { get }
+	var background: Color { get }
+	var offWhite: Color { get }
 	
-	var red: UIColor { get }
-	var red100: UIColor { get }
-	var red600: UIColor { get }
+	// MARK: - Primary
+	var primaryDefault: Color { get }
+	var primaryDark: Color { get }
+	var primaryLight: Color { get }
 	
-	var green: UIColor { get }
-	var green100: UIColor { get }
-	var green500: UIColor { get }
+	// MARK: - Secondary
+	var secondaryDefault: Color { get }
+	var secondaryDark: Color { get }
+	var secondaryLight: Color { get }
 	
-	var yellow: UIColor { get }
-	var yellow100: UIColor { get }
-	var yellow300: UIColor { get }
-	var yellow500: UIColor { get }
+	// MARK: - Error
+	var errorDefault: Color { get }
+	var errorDark: Color { get }
+	var errorLight: Color { get }
 	
-	var gray: UIColor { get }
-	var gray25: UIColor { get }
-	var gray50: UIColor { get }
-	var gray75: UIColor { get }
-	var gray100: UIColor { get }
-	var gray150: UIColor { get }
+	// MARK: - Success
+	var successDefault: Color { get }
+	var successDark: Color { get }
+	var successLight: Color { get }
 	
-	var white: UIColor { get }
-	var black: UIColor { get }
+	// MARK: - Warning
+	var warningDefault: Color { get }
+	var warningDark: Color { get }
+	var warningLight: Color { get }
 	
-	var blue: UIColor { get }
-	var blue100: UIColor { get }
-	var blue200: UIColor { get }
-	var blue400: UIColor { get }
-	var blue600: UIColor { get }
-	var blue700: UIColor { get }
+	// MARK: - Gradient Primary
+	var gradientPrimary: [Color] { get }
 	
-	func color(of label: ColorStyle) -> UIColor
+	// MARK: - Gradient Secondary
+	var gradientSecondary: [Color] { get }
+	
+	// MARK: - Gradient Accent
+	var gradientAccent: [Color] { get }
+	
+	func color(of label: ColorStyle) -> Color
 }
 
 public enum ColorStyle {
@@ -60,6 +66,5 @@ public enum ColorStyle {
 	case warning
 	case input
 	case placeholder
-	
 	case primaryText
 }
