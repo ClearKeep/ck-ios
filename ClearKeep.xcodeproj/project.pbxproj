@@ -52,6 +52,7 @@
 		CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3F78F827C4CC0000E569B0 /* ColorSet.swift */; };
 		CB73083C27CB97EA00AB0FBD /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = CB73083B27CB97EA00AB0FBD /* Networking */; };
 		F5D565EF27D127F700EDBD6C /* TextFieldSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D565EE27D127F700EDBD6C /* TextFieldSet.swift */; };
+		F5D565F427D12A7F00EDBD6C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D565F327D12A7F00EDBD6C /* LoginView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -162,6 +163,7 @@
 		CBD0AA3B27C7484900F86EFD /* Authentication */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Authentication; path = Packages/Authentication; sourceTree = "<group>"; };
 		EE672FA0EC8A123D35608506 /* Pods-ClearKeepUITests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.ppe.xcconfig"; sourceTree = "<group>"; };
 		F5D565EE27D127F700EDBD6C /* TextFieldSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldSet.swift; sourceTree = "<group>"; };
+		F5D565F327D12A7F00EDBD6C /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -291,6 +293,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				F5D565F027D12A7F00EDBD6C /* Login */,
 				CB117E7D27BB660D000941D9 /* Home */,
 				CB117EBB27BB7D2F000941D9 /* ContentView.swift */,
 				CB117EBD27BB7DE2000941D9 /* RootViewModifier.swift */,
@@ -450,6 +453,30 @@
 				BC66592A954EAE31AA31BA36 /* Pods-ClearKeepUITests.production.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		F5D565F027D12A7F00EDBD6C /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				F5D565F127D12A7F00EDBD6C /* Models */,
+				F5D565F227D12A7F00EDBD6C /* View */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		F5D565F127D12A7F00EDBD6C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F5D565F227D12A7F00EDBD6C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F5D565F327D12A7F00EDBD6C /* LoginView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -735,6 +762,7 @@
 				F5D565EF27D127F700EDBD6C /* TextFieldSet.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
+				F5D565F427D12A7F00EDBD6C /* LoginView.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
 				CB117E7727BB65C8000941D9 /* SampleResponse.swift in Sources */,
