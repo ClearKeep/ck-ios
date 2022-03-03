@@ -77,8 +77,12 @@ struct PasswordTextFieldError: ViewModifier {
 				.font(Font(fontStyle.font(style: .textS)))
 				.foregroundColor(colorScheme == .light ? Color(colorStyle.gray3Dark) : Color(colorStyle.gray3Dark))
 				.padding(.leading, 10)
-			Image(uiImage: imageStyle.eyeIcon)
-				.padding(.trailing)
+			Button(action: {
+					  print("button pressed")
+
+					}) {
+						Image(uiImage: imageStyle.eyeIcon)
+					}
 		}
 		.frame(width: UIScreen.main.bounds.width - 30, height: 52)
 		.background(colorScheme == .light ? Color(colorStyle.errorLight) : Color(colorStyle.gray5Dark))
