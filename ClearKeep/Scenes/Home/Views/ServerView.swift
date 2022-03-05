@@ -11,7 +11,7 @@ struct ServerView: View {
 	
 	private var items: [String] = ["a", "b", "c"]
 	
-    var body: some View {
+	var body: some View {
 		ScrollView {
 			LazyVStack {
 				ForEach(items, id: \.self) { item in
@@ -19,11 +19,11 @@ struct ServerView: View {
 				}
 			}
 		}
-    }
+	}
 }
 
 struct ServerView_Previews: PreviewProvider {
-    static var previews: some View {
-        ServerView()
-    }
+	static var previews: some View {
+		ServerView()
+	}
 }
