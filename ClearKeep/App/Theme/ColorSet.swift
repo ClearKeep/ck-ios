@@ -38,7 +38,7 @@ struct ColorSet: IColorSet {
 	var warning: UIColor { UIColor(hex: "#F4B740") }
 	var warningDark: UIColor { UIColor(hex: "#946200") }
 	var warningLight: UIColor { UIColor(hex: "#FFD789") }
-	var gradientPrimary: LinearGradient { LinearGradient(gradient: Gradient(colors: [Color(UIColor(hex: "#7773F3")), Color(UIColor(hex: "#8ABFF3"))]), startPoint: .topLeading, endPoint: .bottomTrailing) }
+	var gradientPrimary: [Color] { [Color(UIColor(hex: "#7773F3")), Color(UIColor(hex: "#8ABFF3"))] }
 	var gradientPrimaryDark: UIColor { UIColor(hex: "#7773F3") }
 	var gradientPrimaryLight: UIColor { UIColor(hex: "#8ABFF3") }
 	var gradientSecondary: LinearGradient { LinearGradient(gradient: Gradient(colors: [Color(UIColor(hex: "#4147FB")), Color(UIColor(hex: "#64A1E0"))]), startPoint: .topLeading, endPoint: .bottomTrailing) }

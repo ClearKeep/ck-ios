@@ -42,7 +42,7 @@ public protocol IColorSet {
 	var warningDark: UIColor { get }
 	var warningLight: UIColor { get }
 
-	var gradientPrimary: LinearGradient { get }
+	var gradientPrimary: [Color] { get }
 	var gradientPrimaryDark: UIColor { get }
 	var gradientPrimaryLight: UIColor { get }
 
