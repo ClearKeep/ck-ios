@@ -13,6 +13,7 @@ private enum Constants {
 
 protocol ITextInputStyle {
 	var backgroundColor: Color { get }
+	var tintColor: Color { get }
 	var borderColor: Color { get }
 	var borderWidth: CGFloat { get }
 	var textColor: Color { get }
@@ -29,6 +30,23 @@ public enum TextInputStyle: ITextInputStyle {
 	case success(message: String)
 	
 	public var backgroundColor: Color {
+		switch self {
+		case .default:
+			return commonUIConfig.colorSet.grey5
+		case .normal:
+			return commonUIConfig.colorSet.offWhite
+		case .disabled:
+			return commonUIConfig.colorSet.grey5.opacity(0.5)
+		case .highlighted:
+			return commonUIConfig.colorSet.offWhite
+		case .error:
+			return commonUIConfig.colorSet.errorLight
+		case .success:
+			return commonUIConfig.colorSet.successLight
+		}
+	}
+	
+	public var tintColor: Color {
 		switch self {
 		case .default:
 			return commonUIConfig.colorSet.grey5
