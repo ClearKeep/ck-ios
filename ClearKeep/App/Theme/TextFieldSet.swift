@@ -21,7 +21,7 @@ public struct NormalTextField: ViewModifier {
 	public func body(content: Content) -> some View {
 		HStack {
 			Image(uiImage: image)
-				.foregroundColor(colorScheme == .light ? Color(colorStyle.gray3) : Color(colorStyle.gray3Dark))
+				.foregroundColor(colorScheme == .light ? Color(colorStyle.gray3) : Color(colorStyle.offWhite))
 				.padding(.leading)
 			content
 				.font(Font(fontStyle.font(style: .textS)))
@@ -49,13 +49,14 @@ struct PasswordTextField: ViewModifier {
 		HStack {
 			Image(uiImage: image)
 				.padding(.leading)
-				.foregroundColor(colorScheme == .light ? Color(colorStyle.gray1) : Color(colorStyle.gray3Dark))
+				.foregroundColor(colorScheme == .light ? Color(colorStyle.gray1) : Color(colorStyle.offWhite))
 			content
 				.font(Font(fontStyle.font(style: .textS)))
 				.foregroundColor(colorScheme == .light ? Color(colorStyle.gray1) : Color(colorStyle.gray3Dark))
 				.padding(.leading, 10)
 			Image(uiImage: imageStyle.eyeIcon)
 				.padding(.trailing)
+				.foregroundColor(colorScheme == .light ? Color(colorStyle.gray1) : Color(colorStyle.offWhite))
 		}
 		.frame(width: UIScreen.main.bounds.width - 30, height: 52)
 		.background(colorScheme == .light ? Color(colorStyle.gray5) : Color(colorStyle.gray5Dark))

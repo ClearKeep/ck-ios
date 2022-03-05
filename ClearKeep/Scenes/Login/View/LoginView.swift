@@ -40,9 +40,11 @@ struct LoginView: View {
 
 							Spacer(minLength: 25)
 
-							TextField("Password", text: $password, onEditingChanged: { edit in
-								self.editingPassword = edit
-							   })
+							SecureField("Password", text: $password, onCommit: {
+								editingPassword = false
+							}).onTapGesture {
+								editingPassword = true
+							}
 								.modifier(PasswordTextField(image: image.lockIcon, focused: $editingPassword))
 						}
 
