@@ -11,8 +11,8 @@ import CommonUI
 protocol IAppImageSet: IImageSet & ICommonUIImageSet {}
 
 struct AppImageSet: IAppImageSet {
-	var splashLogo: Image { Image("splash_logo") }
-	var logo: Image { Image("logo") }
+	var splashLogo: Image { Image("logo_clearkeep") }
+	var logo: Image { Image("logo_clearkeep2") }
 	var homeIcon: Image { Image("ic_home") }
 	var plusIcon: Image { Image("ic_plus") }
 	var noteIcon: Image { Image("ic_notes") }
