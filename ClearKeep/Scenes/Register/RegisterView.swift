@@ -9,31 +9,41 @@ import SwiftUI
 import CommonUI
 
 private enum Constants {
-	static let width = 315.0
-	static let height = 500.0
-	static let radius = 32.0
+	static let widthReView = UIScreen.main.bounds.width - 20
+	static let spacer = 50.0
+	static let heightLogo = 120.0
+	static let widthLogo = 160.0
 }
 
 struct RegisterView: View {
-	@State var imageIcon: IAppImageSet = AppImageSet()
-	var bgm: IColorSet = ColorSet()
+	// MARK: - Variables
+	@Environment(\.colorScheme) var colorScheme
+	@State var appTheme: AppTheme
+
+	// MARK: - Body
 	var body: some View {
-		ScrollView {
-			imageIcon.logo
-				.resizable()
-				.scaledToFit()
-				.frame(width: 100, height: 200, alignment: .center)
-
-			RegisterContentView(username: "Test", password: "123", displayname: "Minh", rePassword: "123", inputStyle: .normal)
+		ZStack {
+			ScrollView {
+				Spacer(minLength: Constants.spacer)
+				VStack(spacing: 20) {
+					appTheme.imageSet.logo
+						.resizable()
+						.aspectRatio(contentMode: .fit)
+						.frame(width: Constants.widthLogo, height: Constants.heightLogo)
+					RegisterContentView(username: "Test", password: "123", displayname: "Minh", rePassword: "123", appTheme: .shared, inputStyle: .normal)
+						.frame(width: Constants.widthReView)
+				}
+			}
 		}
-		.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center)
-		.background(bgm.primaryLight)
+		.frame(maxWidth: .infinity, maxHeight: .infinity)
+		.background(colorScheme == .light ? appTheme.colorSet.primaryDefault : appTheme.colorSet.black)
+		.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
 	}
-
 }
 
+// MARK: - Preview
 struct RegisterView_Previews: PreviewProvider {
 	static var previews: some View {
-		RegisterView()
+		RegisterView( appTheme: .shared)
 	}
 }

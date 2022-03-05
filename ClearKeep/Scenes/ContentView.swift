@@ -27,7 +27,7 @@ struct ContentView: View {
 //					.inject(container)
 //			}
 //		}
-		RegisterView()
+		RegisterView(appTheme: .shared)
 	}
 }
 

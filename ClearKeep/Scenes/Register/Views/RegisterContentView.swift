@@ -10,55 +10,64 @@ import CommonUI
 import RealmSwift
 
 private enum Constants {
-	static let width = 300.0
-	static let height = 500.0
-	static let notifyHeight = 20.0
+	static let width = 120.0
+	static let height = 40.0
+	static let radius = 20.0
 }
 
 struct RegisterContentView: View {
 	// MARK: - Variables
+	@Environment(\.colorScheme) var colorScheme
 	@State var username: String
 	@State var password: String
 	@State var displayname: String
 	@State var rePassword: String
 	@State var focused: Bool = false
-	@State var imageIcon: IAppImageSet = AppImageSet()
+	@State var appTheme: AppTheme
 	@State var inputStyle: TextInputStyle
-	@State var fontStyle: IFontSet = DefaultFontSet()
-	var bgm: IColorSet = ColorSet()
 	// MARK: - Body
 	var body: some View {
 		GroupBox(label:
 					Text("Please fill in the information below to complete your sign up")
-					.font(fontStyle.font(style: .body1))) {
+					.font(appTheme.fontSet.font(style: .body1))) {
 			VStack(alignment: .center, spacing: 20.0) {
-				CommonTextField(text: $username, inputStyle: $inputStyle, focused: $focused, placeHolder: "Email", onEditingChanged: { isEditing in
+				CommonTextField(text: $username, inputStyle: $inputStyle, inputIcon: appTheme.imageSet.mailIcon, placeHolder: "email", keyboardType: .default, onEditingChanged: { isEditing in
 					if isEditing {
 						inputStyle = .normal
 					} else {
 						inputStyle = .highlighted
 					}
 				})
+				CommonTextField(text: $displayname, inputStyle: $inputStyle, inputIcon: appTheme.imageSet.userIcon, placeHolder: "DisplayName", keyboardType: .default, onEditingChanged: { isEditing in
+					if isEditing {
+						inputStyle = .highlighted
+					} else {
+						inputStyle = .normal
+					}
+				})
+				SecureTextField(secureText: $password, inputStyle: $inputStyle, inputIcon: appTheme.imageSet.lockIcon, placeHolder: "Password", keyboardType: .default )
+				SecureTextField(secureText: $password, inputStyle: $inputStyle, inputIcon: appTheme.imageSet.lockIcon, placeHolder: "RePassword", keyboardType: .default )
+				HStack {
+					Button("Sign in instead") {
 
-				CommonTextField(text: $displayname, inputStyle: $inputStyle, focused: $focused, placeHolder: "Email", onEditingChanged: { isEditing in
-					if isEditing {
-						inputStyle = .highlighted
-					} else {
-						inputStyle = .normal
+					}.foregroundColor(appTheme.colorSet.primaryDefault)
+					Spacer()
+					Button("Sign up") {
+
 					}
-				})
-				SecureTextField(text: $password, inputStyle: $inputStyle, placeHolder: "Password")
-				SecureTextField(text: $password, inputStyle: $inputStyle, placeHolder: "Confirm Password")
+					.frame(width: Constants.width, height: Constants.height)
+					.background(appTheme.colorSet.primaryDefault)
+					.foregroundColor(appTheme.colorSet.offWhite)
+					.cornerRadius(Constants.radius)
+				}
 			}
-
 		}
-					.frame(width: UIScreen.main.bounds.width - 20, height: 400, alignment: .center)
-		
 	}
 }
+// MARK: - Preview
 struct RegisterContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		RegisterContentView(username: "Test", password: "123", displayname: "Minh", rePassword: "123", inputStyle: .normal)
+		RegisterContentView(username: "Test", password: "123", displayname: "Minh", rePassword: "123", appTheme: .shared, inputStyle: .normal)
 
 	}
 }
