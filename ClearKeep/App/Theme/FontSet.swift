@@ -5,56 +5,42 @@
 //  Created by NamNH on 02/11/2021.
 //
 
-import UIKit
+import SwiftUI
 import CommonUI
 
 struct DefaultFontSet: IFontSet {
-	enum Font: String {
-		case inter = "Inter"
-	}
-	
-	enum Weight: String {
-		case bold = "Bold"
-		case regular = "Regular"
-		case light = "Light"
-		case medium = "Medium"
-	}
-	
-	enum Size: CGFloat {
-		case extraExtraExtraLarge = 60.0
-		case extraExtraExtraMediumLarge = 48.0
-		case extraExtraMediumLarge = 40.0
-		case extraExtraLarge = 34.0
-		case extraLarge = 28.0
-		case extraMediumLarge = 25.0
-		case large = 24.0
-		case extraMedium = 22.0
-		case medium = 18.0
-		case regular = 16.0
-		case small = 14.0
-		case extraSmall = 12.0
-		case extraExtraSmall = 10.0
-	}
-	
-	var heading1: UIFont { font(name: .inter, weight: .medium, size: .regular) }
-	
-	var body1: UIFont { font(name: .inter, weight: .medium, size: .regular) }
-	
-	var display4: UIFont { font(name: .inter, weight: .medium, size: .regular) }
-	
-	func font(style: FontStyle) -> UIFont {
+	func font(style: FontStyle) -> Font {
 		switch style {
 		case .heading1:
-			return heading1
+			return Font.system(size: 48.0, weight: Font.Weight.bold)
+		case .heading2:
+			return Font.system(size: 32.0, weight: Font.Weight.bold)
+		case .heading3:
+			return Font.system(size: 24.0, weight: Font.Weight.bold)
 		case .body1:
-			return body1
-		default:
-			return display4
+			return Font.system(size: 24.0, weight: Font.Weight.bold)
+		case .body2:
+			return Font.system(size: 44.0, weight: Font.Weight.bold)
+		case .body3:
+			return Font.system(size: 44.0, weight: Font.Weight.bold)
+		case .input1:
+			return Font.system(size: 44.0, weight: Font.Weight.bold)
+		case .input2:
+			return Font.system(size: 44.0, weight: Font.Weight.bold)
+		case .input3:
+			return Font.system(size: 44.0, weight: Font.Weight.bold)
+		case .placeholder1:
+			return Font.system(size: 44.0, weight: Font.Weight.bold)
+		case .placeholder2:
+			return Font.system(size: 44.0, weight: Font.Weight.bold)
+		case .placeholder3:
+			return Font.system(size: 44.0, weight: Font.Weight.bold)
+		case .display1:
+			return Font.system(size: 48.0, weight: Font.Weight.regular)
+		case .display2:
+			return Font.system(size: 32.0, weight: Font.Weight.regular)
+		case .display3:
+			return Font.system(size: 24.0, weight: Font.Weight.regular)
 		}
-	}
-	
-	func font(name: Font, weight: Weight, size: Size) -> UIFont {
-		let fullname = "\(name)-\(weight)"
-		return UIFont(name: fullname, size: size.rawValue) ?? UIFont.systemFont(ofSize: size.rawValue)
 	}
 }

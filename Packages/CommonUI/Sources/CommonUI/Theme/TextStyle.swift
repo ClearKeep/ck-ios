@@ -6,11 +6,11 @@
 //
 
 import Foundation
-import UIKit
+import SwiftUI
 
 public protocol ITextStyle {
-	var font: UIFont { get }
-	var weight: String { get }
+	var font: Font { get }
+	var weight: Font.Weight { get }
 	var size: CGFloat { get }
 }
 
@@ -33,26 +33,18 @@ public enum TextStyle: ITextStyle {
 	case textXS
 	case textXXS
 	
-	enum Weight: String {
-		case regular = "Regular"
-		case medium = "Medium"
-		case bold = "Bold"
+	public var font: Font {
+		return Font.system(size: size, weight: weight)
 	}
 	
-	public var font: UIFont {
-		let fontName = "Inter"
-		let fullFontName = "\(fontName)-\(self.weight)"
-		return UIFont(name: fullFontName, size: self.size) ?? UIFont.systemFont(ofSize: self.size)
-	}
-	
-	public var weight: String {
+	public var weight: Font.Weight {
 		switch self {
 		case .header1, .header2, .header3, .header4, .header5, .header6, .header7:
-			return Weight.bold.rawValue
+			return Font.Weight.regular
 		case .bodyL, .bodyM, .bodyS, .bodyXS, .bodyXXS:
-			return Weight.medium.rawValue
+			return Font.Weight.medium
 		case .textL, .textM, .textS, .textXS, .textXXS:
-			return Weight.regular.rawValue
+			return Font.Weight.regular
 		}
 	}
 	
@@ -63,7 +55,7 @@ public enum TextStyle: ITextStyle {
 		case .header2:
 			return 36.0
 		case .header3:
-			return 28.0
+			return 24.0
 		case .header4:
 			return 18.0
 		case .header5:
