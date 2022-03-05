@@ -66,70 +66,71 @@ protocol IAppImageSet: IImageSet & ICommonUIImageSet {
 }
 
 struct AppImageSet: IAppImageSet {
-	var splashLogo: Image { Image("logo_Clearkeep") }
-	var logo: Image { Image("logo_Clearkeep2") }
-	var homeIcon: Image { Image("ic_Home") }
-	var plusIcon: Image { Image("ic_Plus") }
-	var noteIcon: Image { Image("ic_Notes") }
-	var gearIcon: Image { Image("ic_Gear") }
-	var logoutIcon: Image { Image("ic_Logout") }
-	var chevUpIcon: Image { Image("ic_Chev-up") }
-	var chevRightIcon: Image { Image("ic_Chev-right") }
-	var chevleftIcon: Image { Image("ic_Chev-left") }
-	var chevDownIcon: Image { Image("ic_Chev-down") }
-	var microPhoneIcon: Image { Image("ic_Microphone") }
-	var phoneCallIcon: Image { Image("ic_Phone call") }
-	var videoIcon: Image { Image("ic_Video") }
-	var sendIcon: Image { Image("ic_Send plane") }
-	var downloadIcon: Image { Image("ic_File-download") }
-	var messagePlusIcon: Image { Image("ic_Message plus") }
-	var phoneIncommingIcon: Image { Image("ic_Phone-incomming") }
-	var phoneOffIcon: Image { Image("ic_Phone-off") }
-	var microphoneOffIcon: Image { Image("ic_Microphone-off") }
-	var messageCricleIcon: Image { Image("ic_Message circle") }
-	var crossIcon: Image { Image("ic_Cross") }
-	var dotVerticalIcon: Image { Image("ic_Dots-vertical") }
-	var dotIcon: Image { Image("ic_Dots") }
-	var emoticonIcon: Image { Image("ic_Emoticon") }
-	var straitFaceIcon: Image { Image("ic_Straight face") }
-	var speakerIcon: Image { Image("ic_Speaker") }
-	var cameraRolateIcon: Image { Image("ic_Camera-rotate") }
-	var backIcon: Image { Image("ic_arrow-left") }
-	var videosIcon: Image { Image("ic_Video") }
-	var menuIcon: Image { Image("ic_Hamburger") }
-	var adjustmentIcon: Image { Image("ic_Adjustment") }
-	var userPlusIcon: Image { Image("ic_user-plus") }
+	var splashLogo: Image { Image("logo_clearkeep") }
+	var logo: Image { Image("logo_clearkeep2") }
+	var homeIcon: Image { Image("ic_home") }
+	var plusIcon: Image { Image("ic_plus") }
+	var noteIcon: Image { Image("ic_notes") }
+	var gearIcon: Image { Image("ic_gear") }
+	var logoutIcon: Image { Image("ic_logout") }
+	var chevUpIcon: Image { Image("ic_chev_up") }
+	var chevRightIcon: Image { Image("ic_chev_rright") }
+	var chevleftIcon: Image { Image("ic_chev_left") }
+	var chevDownIcon: Image { Image("ic_chev+_down") }
+	var microPhoneIcon: Image { Image("ic_microphone") }
+	var phoneCallIcon: Image { Image("ic_phone_call") }
+	var videoIcon: Image { Image("ic_video") }
+	var sendIcon: Image { Image("ic_send_plane") }
+	var downloadIcon: Image { Image("ic_file_download") }
+	var messagePlusIcon: Image { Image("ic_message_plus") }
+	var phoneIncommingIcon: Image { Image("ic_phone_incomming") }
+	var phoneOffIcon: Image { Image("ic_phone_off") }
+	var microphoneOffIcon: Image { Image("ic_microphone_off") }
+	var messageCricleIcon: Image { Image("ic_message_circle") }
+	var crossIcon: Image { Image("ic_cross") }
+	var dotVerticalIcon: Image { Image("ic_dots_vertical") }
+	var dotIcon: Image { Image("ic_dots") }
+	var emoticonIcon: Image { Image("ic_emoticon") }
+	var straitFaceIcon: Image { Image("ic_straigh_face") }
+	var speakerIcon: Image { Image("ic_speaker") }
+	var cameraRolateIcon: Image { Image("ic_camera_rotate") }
+	var backIcon: Image { Image("ic_arrow_left") }
+	var videosIcon: Image { Image("ic_video") }
+	var menuIcon: Image { Image("ic_hamburger") }
+	var adjustmentIcon: Image { Image("ic_adjustment") }
+	var userPlusIcon: Image { Image("ic_user_plus") }
 	var pencilIcon: Image { Image("ic_pencil") }
-	var notificationIcon: Image { Image("ic_Notification") }
-	var userOfflineIcon: Image { Image("ic_user-off") }
-	var usersPlusIcon: Image { Image("ic_user-plus") }
-	var trashIcon: Image { Image("ic_Trash") }
-	var userCheckIcon: Image { Image("ic_user-check") }
-	var faceIcon: Image { Image("ic_Straight face") }
+	var notificationIcon: Image { Image("ic_notification") }
+	var userOfflineIcon: Image { Image("ic_user_off") }
+	var usersPlusIcon: Image { Image("ic_user_plus") }
+	var trashIcon: Image { Image("ic_trash") }
+	var userCheckIcon: Image { Image("ic_user_check") }
+	var faceIcon: Image { Image("ic_straight_face") }
 	var photoIcon: Image { Image("ic_photos") }
 	var atIcon: Image { Image("ic_at") }
-	var archireIcon: Image { Image("ic_Archive") }
-	var shareIcon: Image { Image("ic_Share") }
-	var bellIcon: Image { Image("ic_Bell") }
-	var alertIcon: Image { Image("ic_Alert") }
-	var copyIcon: Image { Image("ic_Copy") }
-	var quoteIcon: Image { Image("ic_Quote") }
-	var forwardIcon: Image { Image("ic_Forward") }
-	var uploadIcon: Image { Image("ic_Upload") }
-	var linkIcon: Image { Image("ic_Link") }
-	var loadingIcon: Image { Image("ic_Loading") }
-	var arrowRightIcon: Image { Image("ic_Arrow-right") }
-	var forderPlusIcon: Image { Image("ic_Chev-left") }
+	var archireIcon: Image { Image("ic_archive") }
+	var shareIcon: Image { Image("ic_share") }
+	var bellIcon: Image { Image("ic_bell") }
+	var alertIcon: Image { Image("ic_alert") }
+	var copyIcon: Image { Image("ic_copy") }
+	var quoteIcon: Image { Image("ic_quote") }
+	var forwardIcon: Image { Image("ic_forward") }
+	var uploadIcon: Image { Image("ic_upload") }
+	var linkIcon: Image { Image("ic_link") }
+	var loadingIcon: Image { Image("ic_loading") }
+	var arrowRightIcon: Image { Image("ic_arrow_right") }
+	var forderPlusIcon: Image { Image("ic_chev_left") }
 }
 
 extension AppImageSet: ICommonUIImageSet {
-	var searchIcon: Image { Image("ic_Search") }
-	var googleIcon: Image { Image("ic_Google") }
-	var facebookIcon: Image { Image("ic_FaceBook") }
-	var officeIcon: Image { Image("ic_Office") }
-	var eyeIcon: Image { Image("ic_eye") }
-	var eyeCrossIcon: Image { Image("ic_eye-cross") }
+
+	var searchIcon: Image { Image("ic_search") }
+	var googleIcon: Image { Image("ic_google") }
+	var facebookIcon: Image { Image("ic_faceBook") }
+	var officeIcon: Image { Image("ic_office") }
+	var eyeOn: Image { Image("ic_eye") }
+	var eyeOff: Image { Image("ic_eye_off") }
 	var userIcon: Image { Image("ic_user") }
-	var mailIcon: Image { Image("ic_Mail") }
-	var lockIcon: Image { Image("ic_Lock") }
+	var mailIcon: Image { Image("ic_mail") }
+	var lockIcon: Image { Image("ic_lock") }
 }

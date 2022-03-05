@@ -5,66 +5,66 @@
 //  Created by NamNH on 01/11/2021.
 //
 
-import UIKit
 import SwiftUI
-import Common
 
 public protocol IColorSet {
-	var black: UIColor { get }
-	var gray1: UIColor { get }
-	var gray2: UIColor { get }
-	var gray3: UIColor { get }
-	var gray4: UIColor { get }
-	var gray5: UIColor { get }
-	var graylight: UIColor { get }
-	var gray3Dark: UIColor { get }
-	var gray5Dark: UIColor { get }
+	// MARK: - Grayscale
+	var black: Color { get }
+	var grey1: Color { get }
+	var grey2: Color { get }
+	var grey3: Color { get }
+	var grey4: Color { get }
+	var grey5: Color { get }
+	var background: Color { get }
+	var offWhite: Color { get }
 	
-	var background: UIColor { get }
-	var offWhite: UIColor { get }
+	// MARK: - Primary
+	var primaryDefault: Color { get }
+	var primaryDark: Color { get }
+	var primaryLight: Color { get }
 	
-	var primary: UIColor { get }
-	var primaryDark: UIColor { get }
-	var primaryLight: UIColor { get }
+	// MARK: - Secondary
+	var secondaryDefault: Color { get }
+	var secondaryDark: Color { get }
+	var secondaryLight: Color { get }
 	
-	var secondary: UIColor { get }
-	var secondaryDark: UIColor { get }
-	var secondaryLight: UIColor { get }
+	// MARK: - Error
+	var errorDefault: Color { get }
+	var errorDark: Color { get }
+	var errorLight: Color { get }
 	
-	var error: UIColor { get }
-	var errorDark: UIColor { get }
-	var errorLight: UIColor { get }
+	// MARK: - Success
+	var successDefault: Color { get }
+	var successDark: Color { get }
+	var successLight: Color { get }
 	
-	var success: UIColor { get }
-	var successDark: UIColor { get }
-	var successLight: UIColor { get }
+	// MARK: - Warning
+	var warningDefault: Color { get }
+	var warningDark: Color { get }
+	var warningLight: Color { get }
 	
-	var warning: UIColor { get }
-	var warningDark: UIColor { get }
-	var warningLight: UIColor { get }
+	// MARK: - Gradient Primary
+	var gradientPrimary: [Color] { get }
 	
-	var gradientPrimary: LinearGradient { get }
-	var gradientPrimaryDark: UIColor { get }
-	var gradientPrimaryLight: UIColor { get }
+	// MARK: - Gradient Secondary
+	var gradientSecondary: [Color] { get }
 	
-	var gradientSecondary: LinearGradient { get }
-	var gradientSecondaryDark: UIColor { get }
-	var gradientSecondaryLight: UIColor { get }
+	// MARK: - Gradient Accent
+	var gradientAccent: [Color] { get }
 	
-	var gradientAccent: LinearGradient { get }
-	var gradientAccentDark: UIColor { get }
-	var gradientAccentLight: UIColor { get }
-	
-	func color(of label: ColorStyle) -> UIColor
+	func color(of label: ColorStyle) -> Color
 }
 
 public enum ColorStyle {
-	case initial
-	case active
-	case typing
-	case filled
+	case header
+	case normal
+	case highlighted
 	case disabled
-	case error
+	case selected
 	case success
-	case caption
+	case error
+	case warning
+	case input
+	case placeholder
+	case primaryText
 }
