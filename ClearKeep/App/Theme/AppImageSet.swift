@@ -4,78 +4,132 @@
 //
 //  Created by NamNH on 02/11/2021.
 //
+// swiftlint:disable force_unwrappin
 
-// swiftlint:disable force_unwrapping
-import UIKit
+import SwiftUI
 import CommonUI
 
-protocol IAppImageSet: IImageSet & ICommonUIImageSet {}
+protocol IAppImageSet: IImageSet & ICommonUIImageSet {
+	var homeIcon: Image { get }
+	var plusIcon: Image { get }
+	var noteIcon: Image { get }
+	var gearIcon: Image { get }
+	var logoutIcon: Image { get }
+	var chevUpIcon: Image { get }
+	var chevRightIcon: Image { get }
+	var chevleftIcon: Image { get }
+	var chevDownIcon: Image { get }
+	var microPhoneIcon: Image { get }
+	var phoneCallIcon: Image { get }
+	var videoIcon: Image { get }
+	var sendIcon: Image { get }
+	var downloadIcon: Image { get }
+	var messagePlusIcon: Image { get }
+	var phoneIncommingIcon: Image { get }
+	var phoneOffIcon: Image { get }
+	var microphoneOffIcon: Image { get }
+	var messageCricleIcon: Image { get }
+	var crossIcon: Image { get }
+	var dotVerticalIcon: Image { get }
+	var dotIcon: Image { get }
+	var emoticonIcon: Image { get }
+	var straitFaceIcon: Image { get }
+	var speakerIcon: Image { get }
+	var cameraRolateIcon: Image { get }
+	var backIcon: Image { get }
+	var videosIcon: Image { get }
+	var menuIcon: Image { get }
+	var adjustmentIcon: Image { get }
+	var userPlusIcon: Image { get }
+	var pencilIcon: Image { get }
+	var notificationIcon: Image { get }
+	var userOfflineIcon: Image { get }
+	var usersPlusIcon: Image { get }
+	var trashIcon: Image { get }
+	var userCheckIcon: Image { get }
+	var faceIcon: Image { get }
+	var photoIcon: Image { get }
+	var atIcon: Image { get }
+	var archireIcon: Image { get }
+	var shareIcon: Image { get }
+	var bellIcon: Image { get }
+	var alertIcon: Image { get }
+	var copyIcon: Image { get }
+	var quoteIcon: Image { get }
+	var forwardIcon: Image { get }
+	var uploadIcon: Image { get }
+	var linkIcon: Image { get }
+	var loadingIcon: Image { get }
+	var arrowRightIcon: Image { get }
+	var forderPlusIcon: Image { get }
+
+}
 
 struct AppImageSet: IAppImageSet {
-	var CKLogo: UIImage { UIImage(named: "logo_Clearkeep")! }
-	var logo: UIImage { UIImage(named: "logo_Clearkeep2")! }
+	var splashLogo: Image { Image("logo_Clearkeep") }
+	var logo: Image { Image("logo_Clearkeep2") }
+	var homeIcon: Image { Image("ic_Home") }
+	var plusIcon: Image { Image("ic_Plus") }
+	var noteIcon: Image { Image("ic_Notes") }
+	var gearIcon: Image { Image("ic_Gear") }
+	var logoutIcon: Image { Image("ic_Logout") }
+	var chevUpIcon: Image { Image("ic_Chev-up") }
+	var chevRightIcon: Image { Image("ic_Chev-right") }
+	var chevleftIcon: Image { Image("ic_Chev-left") }
+	var chevDownIcon: Image { Image("ic_Chev-down") }
+	var microPhoneIcon: Image { Image("ic_Microphone") }
+	var phoneCallIcon: Image { Image("ic_Phone call") }
+	var videoIcon: Image { Image("ic_Video") }
+	var sendIcon: Image { Image("ic_Send plane") }
+	var downloadIcon: Image { Image("ic_File-download") }
+	var messagePlusIcon: Image { Image("ic_Message plus") }
+	var phoneIncommingIcon: Image { Image("ic_Phone-incomming") }
+	var phoneOffIcon: Image { Image("ic_Phone-off") }
+	var microphoneOffIcon: Image { Image("ic_Microphone-off") }
+	var messageCricleIcon: Image { Image("ic_Message circle") }
+	var crossIcon: Image { Image("ic_Cross") }
+	var dotVerticalIcon: Image { Image("ic_Dots-vertical") }
+	var dotIcon: Image { Image("ic_Dots") }
+	var emoticonIcon: Image { Image("ic_Emoticon") }
+	var straitFaceIcon: Image { Image("ic_Straight face") }
+	var speakerIcon: Image { Image("ic_Speaker") }
+	var cameraRolateIcon: Image { Image("ic_Camera-rotate") }
+	var backIcon: Image { Image("ic_arrow-left") }
+	var videosIcon: Image { Image("ic_Video") }
+	var menuIcon: Image { Image("ic_Hamburger") }
+	var adjustmentIcon: Image { Image("ic_Adjustment") }
+	var userPlusIcon: Image { Image("ic_user-plus") }
+	var pencilIcon: Image { Image("ic_pencil") }
+	var notificationIcon: Image { Image("ic_Notification") }
+	var userOfflineIcon: Image { Image("ic_user-off") }
+	var usersPlusIcon: Image { Image("ic_user-plus") }
+	var trashIcon: Image { Image("ic_Trash") }
+	var userCheckIcon: Image { Image("ic_user-check") }
+	var faceIcon: Image { Image("ic_Straight face") }
+	var photoIcon: Image { Image("ic_photos") }
+	var atIcon: Image { Image("ic_at") }
+	var archireIcon: Image { Image("ic_Archive") }
+	var shareIcon: Image { Image("ic_Share") }
+	var bellIcon: Image { Image("ic_Bell") }
+	var alertIcon: Image { Image("ic_Alert") }
+	var copyIcon: Image { Image("ic_Copy") }
+	var quoteIcon: Image { Image("ic_Quote") }
+	var forwardIcon: Image { Image("ic_Forward") }
+	var uploadIcon: Image { Image("ic_Upload") }
+	var linkIcon: Image { Image("ic_Link") }
+	var loadingIcon: Image { Image("ic_Loading") }
+	var arrowRightIcon: Image { Image("ic_Arrow-right") }
+	var forderPlusIcon: Image { Image("ic_Chev-left") }
 }
 
 extension AppImageSet: ICommonUIImageSet {
-	var homeIcon: UIImage { UIImage(named: "ic_Home") ?? UIImage() }
-	var plusIcon: UIImage { UIImage(named: "ic_Plus") ?? UIImage() }
-	var noteIcon: UIImage { UIImage(named: "ic_Notes") ?? UIImage() }
-	var gearIcon: UIImage { UIImage(named: "ic_Gear") ?? UIImage() }
-	var logoutIcon: UIImage { UIImage(named: "ic_Logout") ?? UIImage() }
-	var chevUpIcon: UIImage { UIImage(named: "ic_Chev-up") ?? UIImage() }
-	var chevRightIcon: UIImage { UIImage(named: "ic_Chev-right") ?? UIImage() }
-	var chevleftIcon: UIImage { UIImage(named: "ic_Chev-left") ?? UIImage() }
-	var chevDownIcon: UIImage { UIImage(named: "ic_Chev-down") ?? UIImage() }
-	var microPhoneIcon: UIImage { UIImage(named: "ic_Microphone") ?? UIImage() }
-	var phoneCallIcon: UIImage { UIImage(named: "ic_Phone call") ?? UIImage() }
-	var videoIcon: UIImage { UIImage(named: "ic_Video") ?? UIImage() }
-	var sendIcon: UIImage { UIImage(named: "ic_Send plane") ?? UIImage() }
-	var downloadIcon: UIImage { UIImage(named: "ic_File-download") ?? UIImage() }
-	var messagePlusIcon: UIImage { UIImage(named: "ic_Message plus") ?? UIImage() }
-	var phoneIncommingIcon: UIImage { UIImage(named: "ic_Phone-incomming") ?? UIImage() }
-	var phoneOffIcon: UIImage { UIImage(named: "ic_Phone-off") ?? UIImage() }
-	var microphoneOffIcon: UIImage { UIImage(named: "ic_Microphone-off") ?? UIImage() }
-	var messageCricleIcon: UIImage { UIImage(named: "ic_Message circle") ?? UIImage() }
-	var crossIcon: UIImage { UIImage(named: "ic_Cross") ?? UIImage() }
-	var dotVerticalIcon: UIImage { UIImage(named: "ic_Dots-vertical") ?? UIImage() }
-	var dotIcon: UIImage { UIImage(named: "ic_Dots") ?? UIImage() }
-	var emoticonIcon: UIImage { UIImage(named: "ic_Emoticon") ?? UIImage() }
-	var straitFaceIcon: UIImage { UIImage(named: "ic_Straight face") ?? UIImage() }
-	var speakerIcon: UIImage { UIImage(named: "ic_Speaker") ?? UIImage() }
-	var cameraRolateIcon: UIImage { UIImage(named: "ic_Camera-rotate") ?? UIImage() }
-	var backIcon: UIImage { UIImage(named: "ic_arrow-left") ?? UIImage() }
-	var videosIcon: UIImage { UIImage(named: "ic_Video") ?? UIImage() }
-	var menuIcon: UIImage { UIImage(named: "ic_Hamburger") ?? UIImage() }
-	var adjustmentIcon: UIImage { UIImage(named: "ic_Adjustment") ?? UIImage() }
-	var userPlusIcon: UIImage { UIImage(named: "ic_user-plus") ?? UIImage() }
-	var pencilIcon: UIImage { UIImage(named: "ic_pencil") ?? UIImage() }
-	var userIcon: UIImage { UIImage(named: "ic_user") ?? UIImage() }
-	var notificationIcon: UIImage { UIImage(named: "ic_Notification") ?? UIImage() }
-	var userOfflineIcon: UIImage { UIImage(named: "ic_user-off") ?? UIImage() }
-	var usersPlusIcon: UIImage { UIImage(named: "ic_user-plus") ?? UIImage() }
-	var trashIcon: UIImage { UIImage(named: "ic_Trash") ?? UIImage() }
-	var mailIcon: UIImage { UIImage(named: "ic_Mail") ?? UIImage() }
-	var lockIcon: UIImage { UIImage(named: "ic_Lock") ?? UIImage() }
-	var userCheckIcon: UIImage { UIImage(named: "ic_user-check") ?? UIImage() }
-	var eyeIcon: UIImage { UIImage(named: "ic_eye") ?? UIImage() }
-	var eyeCrossIcon: UIImage { UIImage(named: "ic_eye-cross") ?? UIImage() }
-	var faceIcon: UIImage { UIImage(named: "ic_Straight face") ?? UIImage() }
-	var photoIcon: UIImage { UIImage(named: "ic_photos") ?? UIImage() }
-	var atIcon: UIImage { UIImage(named: "ic_at") ?? UIImage() }
-	var archireIcon: UIImage { UIImage(named: "ic_Archive") ?? UIImage() }
-	var shareIcon: UIImage { UIImage(named: "ic_Share") ?? UIImage() }
-	var bellIcon: UIImage { UIImage(named: "ic_Bell") ?? UIImage() }
-	var searchIcon: UIImage { UIImage(named: "ic_Search") ?? UIImage() }
-	var alertIcon: UIImage { UIImage(named: "ic_Alert") ?? UIImage() }
-	var copyIcon: UIImage { UIImage(named: "ic_Copy") ?? UIImage() }
-	var quoteIcon: UIImage { UIImage(named: "ic_Quote") ?? UIImage() }
-	var forwardIcon: UIImage { UIImage(named: "ic_Forward") ?? UIImage() }
-	var uploadIcon: UIImage { UIImage(named: "ic_Upload") ?? UIImage() }
-	var linkIcon: UIImage { UIImage(named: "ic_Link") ?? UIImage() }
-	var loadingIcon: UIImage { UIImage(named: "ic_Loading") ?? UIImage() }
-	var arrowRightIcon: UIImage { UIImage(named: "ic_Arrow-right") ?? UIImage() }
-	var forderPlusIcon: UIImage { UIImage(named: "ic_Chev-left") ?? UIImage() }
-	var googleIcon: UIImage { UIImage(named: "ic_Google") ?? UIImage() }
-	var facebookIcon: UIImage { UIImage(named: "ic_FaceBook") ?? UIImage() }
-	var officeIcon: UIImage { UIImage(named: "ic_Office") ?? UIImage() }
+	var searchIcon: Image { Image("ic_Search") }
+	var googleIcon: Image { Image("ic_Google") }
+	var facebookIcon: Image { Image("ic_FaceBook") }
+	var officeIcon: Image { Image("ic_Office") }
+	var eyeIcon: Image { Image("ic_eye") }
+	var eyeCrossIcon: Image { Image("ic_eye-cross") }
+	var userIcon: Image { Image("ic_user") }
+	var mailIcon: Image { Image("ic_Mail") }
+	var lockIcon: Image { Image("ic_Lock") }
 }
