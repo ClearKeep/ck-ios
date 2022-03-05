@@ -17,4 +17,6 @@ struct AppImageSet: IAppImageSet {
 
 extension AppImageSet: ICommonUIImageSet {
 	var searchIcon: Image { Image("ic_search") }
+	var eyeOn: Image { Image("ic_eye_on") }
+	var eyeOff: Image { Image("ic_eye_off") }
 }

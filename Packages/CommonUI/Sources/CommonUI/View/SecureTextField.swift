@@ -1,9 +1,11 @@
 //
-//  CommonTextField.swift
+//  SecureTextField.swift
 //  
 //
-//  Created by NamNH on 03/03/2022.
+//  Created by NamNH on 05/03/2022.
 //
+
+// swiftlint:disable multiple_closures_with_trailing_closure
 
 import SwiftUI
 
@@ -15,28 +17,26 @@ private enum Constants {
 	static let spacing = 14.0
 }
 
-public struct CommonTextField: View {
+public struct SecureTextField: View {
 	// MARK: - Variables
-	@Binding var text: String
+	@Binding var secureText: String
 	@Binding var inputStyle: TextInputStyle
+	@State private var isRevealed = false
 	private let inputIcon: Image?
 	private let placeHolder: String
 	private let keyboardType: UIKeyboardType
-	private let onEditingChanged: (Bool) -> Void
 	
 	// MARK: - Init
-	public init(text: Binding<String>,
+	public init(secureText: Binding<String>,
 				inputStyle: Binding<TextInputStyle>,
 				inputIcon: Image? = nil,
 				placeHolder: String,
-				keyboardType: UIKeyboardType = .default,
-				onEditingChanged: @escaping (Bool) -> Void) {
-		self._text = text
+				keyboardType: UIKeyboardType = .default) {
+		self._secureText = secureText
 		self._inputStyle = inputStyle
 		self.inputIcon = inputIcon
 		self.placeHolder = placeHolder
 		self.keyboardType = keyboardType
-		self.onEditingChanged = onEditingChanged
 	}
 	
 	// MARK: - Body
@@ -45,17 +45,22 @@ public struct CommonTextField: View {
 			HStack(alignment: .center) {
 				if let inputIcon = inputIcon {
 					inputIcon
-						.foregroundColor(borderColor)
+						.foregroundColor(tintColor)
 						.padding(.leading, Constants.paddingHorizontal)
 				} else {
 					Spacer()
 						.frame(width: Constants.spacing)
 				}
-				TextField(placeHolder, text: $text, onEditingChanged: onEditingChanged)
+				SecureField(placeHolder, text: $secureText)
 					.font(font)
 					.foregroundColor(textColor)
 					.padding(.vertical, Constants.paddingVertical)
-					.padding(.trailing, Constants.paddingHorizontal)
+					.padding(.trailing, Constants.spacing)
+				Button(action: { isRevealed.toggle() }) {
+					secureIcon
+						.foregroundColor(tintColor)
+						.padding(.trailing, Constants.paddingHorizontal)
+				}
 			}
 			.frame(height: Constants.textFieldHeight)
 			.padding()
@@ -76,9 +81,13 @@ public struct CommonTextField: View {
 }
 
 // MARK: - Private func
-private extension CommonTextField {
+private extension SecureTextField {
 	var backgroundColor: Color {
 		inputStyle.backgroundColor
+	}
+	
+	var tintColor: Color {
+		inputStyle.tintColor
 	}
 	
 	var borderColor: Color {
@@ -105,6 +114,10 @@ private extension CommonTextField {
 		inputStyle.textStyle.font
 	}
 	
+	var secureIcon: Image {
+		isRevealed ? commonUIConfig.imageSet.eyeOn : commonUIConfig.imageSet.eyeOff
+	}
+	
 	var needShowNotifiyMessage: Bool {
 		switch inputStyle {
 		case .error, .success: return true
@@ -120,10 +133,8 @@ private extension CommonTextField {
 	}
 }
 
-struct CommonTextField_Previews: PreviewProvider {
+struct SecureTextField_Previews: PreviewProvider {
 	static var previews: some View {
-		CommonTextField(text: .constant("Test"), inputStyle: .constant(.error(message: "Error")), placeHolder: "Phone") { _ in
-			
-		}
+		SecureTextField(secureText: .constant("Test"), inputStyle: .constant(.error(message: "Error")), placeHolder: "Phone")
 	}
 }
