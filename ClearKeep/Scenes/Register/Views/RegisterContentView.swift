@@ -64,6 +64,7 @@ struct RegisterContentView: View {
 		}
 	}
 }
+
 // MARK: - Preview
 struct RegisterContentView_Previews: PreviewProvider {
 	static var previews: some View {
