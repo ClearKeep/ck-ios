@@ -9,12 +9,9 @@ import SwiftUI
 
 public protocol ICommonUIImageSet: IImageSet {
 	var searchIcon: Image { get }
+	var eyeOn: Image { get }
+	var eyeOff: Image { get }
 	var userIcon: Image { get }
 	var mailIcon: Image { get }
 	var lockIcon: Image { get }
-	var eyeIcon: Image { get }
-	var eyeCrossIcon: Image { get }
-	var googleIcon: Image { get }
-	var facebookIcon: Image { get }
-	var officeIcon: Image { get }
 }
