@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 private enum Constants {
 	static let textFieldHeight = 52.0
 	static let notifyHeight = 20.0
