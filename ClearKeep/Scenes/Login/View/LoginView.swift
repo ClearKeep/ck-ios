@@ -20,7 +20,7 @@ struct LoginView: View {
 	
     var body: some View {
 		ScrollView {
-			colorScheme == .light ? Color(colorStyle.primary) : Color(colorStyle.gray3Dark)
+			colorScheme == .light ? Color(colorStyle.primary) : Color(colorStyle.black)
 				VStack() {
 					Spacer(minLength: 50)
 					// Logo
@@ -72,7 +72,7 @@ struct LoginView: View {
 					VStack {
 						Text("Sign in with")
 							.font(Font(fontStyle.font(style: .linkL)))
-							.foregroundColor(colorScheme == .light ? Color(colorStyle.offWhite) : Color(colorStyle.primary))
+							.foregroundColor(colorScheme == .light ? Color(colorStyle.offWhite) : Color(colorStyle.offWhite))
 
 						HStack {
 							Button(action: { }, label: {
@@ -93,7 +93,7 @@ struct LoginView: View {
 							//Sign up button
 						Text("Don't have an account?")
 							.font(Font(fontStyle.font(style: .linkL)))
-							.foregroundColor(colorScheme == .light ? Color(colorStyle.offWhite) : Color(colorStyle.primary))
+							.foregroundColor(colorScheme == .light ? Color(colorStyle.offWhite) : Color(colorStyle.offWhite))
 
 						Spacer(minLength: 20.0)
 
@@ -104,11 +104,11 @@ struct LoginView: View {
 
 						Text("App version: 1.1.1")
 							.font(Font(fontStyle.font(style: .linkXS)))
-							.foregroundColor(colorScheme == .light ? Color(colorStyle.offWhite) : Color(colorStyle.primary))
+							.foregroundColor(colorScheme == .light ? Color(colorStyle.offWhite) : Color(colorStyle.offWhite))
 					}
 
 		}
-		.background(colorScheme == .light ? Color(colorStyle.primary) : Color(colorStyle.gray3Dark))
+		.background(colorScheme == .light ? Color(colorStyle.primary) : Color(colorStyle.black))
 		.edgesIgnoringSafeArea(.all)
     }
 }
