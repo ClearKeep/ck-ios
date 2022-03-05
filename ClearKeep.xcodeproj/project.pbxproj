@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		04F3C7A727D3898E00B2796A /* FogotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F3C7A627D3898E00B2796A /* FogotPasswordView.swift */; };
+		04F3C7AB27D3B55F00B2796A /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F3C7AA27D3B55F00B2796A /* Test.swift */; };
 		4420AE57DA690DE6C8C54963 /* Pods_ClearKeep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 475749C4F2F15D4A61EEB83D /* Pods_ClearKeep.framework */; };
 		B11C151A05AD567AA57FD53D /* Pods_ClearKeepUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FC5765DC2A8FA5A318B742 /* Pods_ClearKeepUITests.framework */; };
 		B691E362FF810CA0E58283D3 /* Pods_ClearKeepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 416279F50D6ADE4CF6389D01 /* Pods_ClearKeepTests.framework */; };
@@ -98,6 +99,7 @@
 
 /* Begin PBXFileReference section */
 		04F3C7A627D3898E00B2796A /* FogotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordView.swift; sourceTree = "<group>"; };
+		04F3C7AA27D3B55F00B2796A /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		0B4D15934D622F846F2806A1 /* Pods-ClearKeepTests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.ppe.xcconfig"; sourceTree = "<group>"; };
 		128D9595C6F7214A99944057 /* Pods-ClearKeep.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.qa.xcconfig"; sourceTree = "<group>"; };
 		328ECF9F2F3251DE45D45614 /* Pods-ClearKeep.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.production.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.production.xcconfig"; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				04F3C7A627D3898E00B2796A /* FogotPasswordView.swift */,
+				04F3C7AA27D3B55F00B2796A /* Test.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -784,6 +787,7 @@
 				CB117E8627BB6687000941D9 /* SampleModel.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
+				04F3C7AB27D3B55F00B2796A /* Test.swift in Sources */,
 				CB117E7127BB65C7000941D9 /* APIConfigurations.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
