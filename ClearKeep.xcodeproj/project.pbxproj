@@ -55,6 +55,7 @@
 		CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73083F27CE647E00AB0FBD /* HomeHeaderView.swift */; };
 		CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73084127CE648F00AB0FBD /* HomeContentView.swift */; };
 		CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73084327CE785B00AB0FBD /* AppTheme.swift */; };
+		CBCF494F27D46715006D84FE /* Localize.strings in Resources */ = {isa = PBXBuildFile; fileRef = CBCF494E27D46714006D84FE /* Localize.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -166,6 +167,7 @@
 		CB73083F27CE647E00AB0FBD /* HomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
 		CB73084127CE648F00AB0FBD /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
 		CB73084327CE785B00AB0FBD /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
+		CBCF494E27D46714006D84FE /* Localize.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localize.strings; sourceTree = "<group>"; };
 		CBD0AA3B27C7484900F86EFD /* Authentication */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Authentication; path = Packages/Authentication; sourceTree = "<group>"; };
 		EE672FA0EC8A123D35608506 /* Pods-ClearKeepUITests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.ppe.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -249,7 +251,6 @@
 				CB117E5927BB63E2000941D9 /* Scenes */,
 				CB117E5827BB63CD000941D9 /* App */,
 				CB117E5727BB6026000941D9 /* Info.plist */,
-				CB117E2627BB5283000941D9 /* Assets.xcassets */,
 				CB117E2827BB5283000941D9 /* Preview Content */,
 			);
 			path = ClearKeep;
@@ -283,6 +284,7 @@
 		CB117E5827BB63CD000941D9 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				CBCF495027D4671E006D84FE /* Resources */,
 				CB117EA427BB784A000941D9 /* System */,
 				CB117EAD27BB7879000941D9 /* Injected */,
 				CB117E7827BB65E2000941D9 /* Location */,
@@ -436,6 +438,15 @@
 				CB73084327CE785B00AB0FBD /* AppTheme.swift */,
 			);
 			path = Theme;
+			sourceTree = "<group>";
+		};
+		CBCF495027D4671E006D84FE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CB117E2627BB5283000941D9 /* Assets.xcassets */,
+				CBCF494E27D46714006D84FE /* Localize.strings */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		DD5137E11C952DD6A3E2EFC4 /* Pods */ = {
@@ -597,6 +608,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBCF494F27D46715006D84FE /* Localize.strings in Resources */,
 				CB117E2A27BB5283000941D9 /* Preview Assets.xcassets in Resources */,
 				CB117E2727BB5283000941D9 /* Assets.xcassets in Resources */,
 			);
