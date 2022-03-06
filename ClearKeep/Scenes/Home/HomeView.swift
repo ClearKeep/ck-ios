@@ -20,7 +20,7 @@ struct HomeView: View {
 	
 	init(samples: Loadable<[ISampleModel]> = .notRequested,
 		 searchKeyword: String = "",
-		 searchInputStyle: TextInputStyle = .error(message: "Test")) {
+		 searchInputStyle: TextInputStyle = .default) {
 		self._samples = .init(initialValue: samples)
 		self._searchKeyword = .init(initialValue: searchKeyword)
 		self._searchInputStyle = .init(initialValue: searchInputStyle)

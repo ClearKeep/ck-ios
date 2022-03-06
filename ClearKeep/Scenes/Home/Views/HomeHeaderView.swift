@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Common
 import CommonUI
 
 struct HomeHeaderView: View {
@@ -28,8 +29,7 @@ struct HomeHeaderView: View {
 							inputStyle: $inputStyle,
 							inputIcon: AppTheme.shared.imageSet.searchIcon,
 							placeHolder: "General.Search".localized,
-							onEditingChanged: { _ in },
-							onCancelHandler: { })
+							onEditingChanged: { _ in }).frame(height: 52.0)
 		}
 	}
 }
