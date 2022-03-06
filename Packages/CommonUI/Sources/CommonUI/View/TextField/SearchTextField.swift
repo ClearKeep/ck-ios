@@ -9,7 +9,6 @@ import SwiftUI
 
 private enum Constants {
 	static let textFieldHeight = 52.0
-	static let notifyHeight = 22.0
 	static let paddingVertical = 14.0
 	static let paddingHorizontal = 24.0
 	static let spacing = 14.0

@@ -18,8 +18,12 @@ struct HomeView: View {
 	@State private(set) var searchInputStyle: TextInputStyle = .default
 	let inspection = ViewInspector<Self>()
 	
-	init(samples: Loadable<[ISampleModel]> = .notRequested) {
+	init(samples: Loadable<[ISampleModel]> = .notRequested,
+		 searchKeyword: String = "",
+		 searchInputStyle: TextInputStyle = .error(message: "Test")) {
 		self._samples = .init(initialValue: samples)
+		self._searchKeyword = .init(initialValue: searchKeyword)
+		self._searchInputStyle = .init(initialValue: searchInputStyle)
 	}
 	
 	var body: some View {
