@@ -12,13 +12,13 @@ struct DefaultFontSet: IFontSet {
 	func font(style: FontStyle) -> Font {
 		switch style {
 		case .heading1:
-			return Font.system(size: 48.0, weight: Font.Weight.bold)
+			return Font.system(size: 44.0, weight: Font.Weight.bold)
 		case .heading2:
-			return Font.system(size: 32.0, weight: Font.Weight.bold)
+			return Font.system(size: 44.0, weight: Font.Weight.bold)
 		case .heading3:
-			return Font.system(size: 24.0, weight: Font.Weight.bold)
+			return Font.system(size: 44.0, weight: Font.Weight.bold)
 		case .body1:
-			return Font.system(size: 24.0, weight: Font.Weight.bold)
+			return Font.system(size: 44.0, weight: Font.Weight.bold)
 		case .body2:
 			return Font.system(size: 44.0, weight: Font.Weight.bold)
 		case .body3:
@@ -36,11 +36,11 @@ struct DefaultFontSet: IFontSet {
 		case .placeholder3:
 			return Font.system(size: 44.0, weight: Font.Weight.bold)
 		case .display1:
-			return Font.system(size: 48.0, weight: Font.Weight.regular)
+			return Font.system(size: 44.0, weight: Font.Weight.bold)
 		case .display2:
-			return Font.system(size: 32.0, weight: Font.Weight.regular)
+			return Font.system(size: 44.0, weight: Font.Weight.bold)
 		case .display3:
-			return Font.system(size: 24.0, weight: Font.Weight.regular)
+			return Font.system(size: 44.0, weight: Font.Weight.bold)
 		}
 	}
 }

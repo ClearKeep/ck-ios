@@ -16,7 +16,7 @@ private enum Constants {
 }
 
 struct RegisterContentView: View {
-	// MARK: - Variables
+// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@State var username: String
 	@State var password: String
@@ -25,7 +25,7 @@ struct RegisterContentView: View {
 	@State var focused: Bool = false
 	@State var appTheme: AppTheme
 	@State var inputStyle: TextInputStyle
-	// MARK: - Body
+// MARK: - Body
 	var body: some View {
 		GroupBox(label:
 					Text("Please fill in the information below to complete your sign up")

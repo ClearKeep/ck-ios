@@ -10,6 +10,7 @@ import SwiftUI
 struct ServerView: View {
 	
 	private var items: [String] = ["a", "b", "c"]
+	
 	var body: some View {
 		ScrollView {
 			LazyVStack {

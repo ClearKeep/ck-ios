@@ -7,12 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04F3C79527D2146700B2796A /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F3C79427D2146700B2796A /* AppTheme.swift */; };
-		04F3C79927D2154700B2796A /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F3C79627D2154700B2796A /* HomeContentView.swift */; };
-		04F3C79A27D2154700B2796A /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F3C79727D2154700B2796A /* HomeHeaderView.swift */; };
-		04F3C79B27D2154700B2796A /* ServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F3C79827D2154700B2796A /* ServerView.swift */; };
-		04F3C7A027D215A100B2796A /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F3C79F27D215A100B2796A /* RegisterView.swift */; };
-		04F3C7A227D215BE00B2796A /* RegisterContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F3C7A127D215BE00B2796A /* RegisterContentView.swift */; };
+		04F3C7B027D4988C00B2796A /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F3C7AD27D4988C00B2796A /* RegisterView.swift */; };
+		04F3C7B127D4988C00B2796A /* RegisterContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F3C7AF27D4988C00B2796A /* RegisterContentView.swift */; };
 		4420AE57DA690DE6C8C54963 /* Pods_ClearKeep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 475749C4F2F15D4A61EEB83D /* Pods_ClearKeep.framework */; };
 		B11C151A05AD567AA57FD53D /* Pods_ClearKeepUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FC5765DC2A8FA5A318B742 /* Pods_ClearKeepUITests.framework */; };
 		B691E362FF810CA0E58283D3 /* Pods_ClearKeepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 416279F50D6ADE4CF6389D01 /* Pods_ClearKeepTests.framework */; };
@@ -57,6 +53,10 @@
 		CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3F78F727C4CC0000E569B0 /* AppImageSet.swift */; };
 		CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3F78F827C4CC0000E569B0 /* ColorSet.swift */; };
 		CB73083C27CB97EA00AB0FBD /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = CB73083B27CB97EA00AB0FBD /* Networking */; };
+		CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73083D27CE644800AB0FBD /* ServerView.swift */; };
+		CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73083F27CE647E00AB0FBD /* HomeHeaderView.swift */; };
+		CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73084127CE648F00AB0FBD /* HomeContentView.swift */; };
+		CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73084327CE785B00AB0FBD /* AppTheme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,12 +98,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		04F3C79427D2146700B2796A /* AppTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
-		04F3C79627D2154700B2796A /* HomeContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
-		04F3C79727D2154700B2796A /* HomeHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
-		04F3C79827D2154700B2796A /* ServerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerView.swift; sourceTree = "<group>"; };
-		04F3C79F27D215A100B2796A /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
-		04F3C7A127D215BE00B2796A /* RegisterContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterContentView.swift; sourceTree = "<group>"; };
+		04F3C7AD27D4988C00B2796A /* RegisterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		04F3C7AF27D4988C00B2796A /* RegisterContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterContentView.swift; sourceTree = "<group>"; };
 		0B4D15934D622F846F2806A1 /* Pods-ClearKeepTests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.ppe.xcconfig"; sourceTree = "<group>"; };
 		128D9595C6F7214A99944057 /* Pods-ClearKeep.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.qa.xcconfig"; sourceTree = "<group>"; };
 		328ECF9F2F3251DE45D45614 /* Pods-ClearKeep.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.production.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.production.xcconfig"; sourceTree = "<group>"; };
@@ -170,6 +166,10 @@
 		CB3F78F727C4CC0000E569B0 /* AppImageSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppImageSet.swift; sourceTree = "<group>"; };
 		CB3F78F827C4CC0000E569B0 /* ColorSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
 		CB73083A27CB968400AB0FBD /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Networking; path = Packages/Networking; sourceTree = "<group>"; };
+		CB73083D27CE644800AB0FBD /* ServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerView.swift; sourceTree = "<group>"; };
+		CB73083F27CE647E00AB0FBD /* HomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
+		CB73084127CE648F00AB0FBD /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
+		CB73084327CE785B00AB0FBD /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		CBD0AA3B27C7484900F86EFD /* Authentication */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Authentication; path = Packages/Authentication; sourceTree = "<group>"; };
 		EE672FA0EC8A123D35608506 /* Pods-ClearKeepUITests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.ppe.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -211,29 +211,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		04F3C79C27D2155D00B2796A /* Register */ = {
+		04F3C7AC27D4988C00B2796A /* Register */ = {
 			isa = PBXGroup;
 			children = (
-				04F3C79D27D2156A00B2796A /* Views */,
-				04F3C79E27D2157300B2796A /* Models */,
-				04F3C79F27D215A100B2796A /* RegisterView.swift */,
+				04F3C7AD27D4988C00B2796A /* RegisterView.swift */,
+				04F3C7AE27D4988C00B2796A /* Views */,
 			);
 			path = Register;
 			sourceTree = "<group>";
 		};
-		04F3C79D27D2156A00B2796A /* Views */ = {
+		04F3C7AE27D4988C00B2796A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				04F3C7A127D215BE00B2796A /* RegisterContentView.swift */,
+				04F3C7AF27D4988C00B2796A /* RegisterContentView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		04F3C79E27D2157300B2796A /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		72767F943F8717C11FDB899B /* Frameworks */ = {
@@ -326,7 +318,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				04F3C79C27D2155D00B2796A /* Register */,
+				04F3C7AC27D4988C00B2796A /* Register */,
 				CB117E7D27BB660D000941D9 /* Home */,
 				CB117EBB27BB7D2F000941D9 /* ContentView.swift */,
 				CB117EBD27BB7DE2000941D9 /* RootViewModifier.swift */,
@@ -428,11 +420,11 @@
 		CB117ED227BBB0B3000941D9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				04F3C79627D2154700B2796A /* HomeContentView.swift */,
-				04F3C79727D2154700B2796A /* HomeHeaderView.swift */,
-				04F3C79827D2154700B2796A /* ServerView.swift */,
 				CB117ED327BBB0CE000941D9 /* ActivityIndicatorView.swift */,
 				CB117ED527BBB0DD000941D9 /* ErrorView.swift */,
+				CB73083D27CE644800AB0FBD /* ServerView.swift */,
+				CB73083F27CE647E00AB0FBD /* HomeHeaderView.swift */,
+				CB73084127CE648F00AB0FBD /* HomeContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -460,10 +452,10 @@
 		CB3F78F527C4CC0000E569B0 /* Theme */ = {
 			isa = PBXGroup;
 			children = (
-				04F3C79427D2146700B2796A /* AppTheme.swift */,
 				CB3F78F627C4CC0000E569B0 /* FontSet.swift */,
 				CB3F78F727C4CC0000E569B0 /* AppImageSet.swift */,
 				CB3F78F827C4CC0000E569B0 /* ColorSet.swift */,
+				CB73084327CE785B00AB0FBD /* AppTheme.swift */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -767,35 +759,35 @@
 				CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */,
 				CB117E7227BB65C7000941D9 /* APIResourceQueryAdapter.swift in Sources */,
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
+				CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */,
 				CB117E7B27BB65E2000941D9 /* LocationConfigurations.swift in Sources */,
 				CB117EC427BB8DB1000941D9 /* SceneDelegate.swift in Sources */,
 				CB117ECD27BBA6E5000941D9 /* HomeWorker.swift in Sources */,
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
+				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
-				04F3C79B27D2154700B2796A /* ServerView.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
+				04F3C7B027D4988C00B2796A /* RegisterView.swift in Sources */,
 				CB117E7727BB65C8000941D9 /* SampleResponse.swift in Sources */,
-				04F3C7A027D215A100B2796A /* RegisterView.swift in Sources */,
-				04F3C79527D2146700B2796A /* AppTheme.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
-				04F3C79927D2154700B2796A /* HomeContentView.swift in Sources */,
 				CB117E7327BB65C7000941D9 /* APIResourceResponseAdapter.swift in Sources */,
+				CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */,
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
 				CB117E8627BB6687000941D9 /* SampleModel.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
+				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
 				CB117E7127BB65C7000941D9 /* APIConfigurations.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
 				CB117E7627BB65C8000941D9 /* ServerErrorResponse.swift in Sources */,
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
-				04F3C79A27D2154700B2796A /* HomeHeaderView.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
-				04F3C7A227D215BE00B2796A /* RegisterContentView.swift in Sources */,
+				04F3C7B127D4988C00B2796A /* RegisterContentView.swift in Sources */,
 				CB117E7527BB65C8000941D9 /* APIService.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,

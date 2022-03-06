@@ -16,11 +16,11 @@ private enum Constants {
 }
 
 struct RegisterView: View {
-	// MARK: - Variables
+// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@State var appTheme: AppTheme
 
-	// MARK: - Body
+// MARK: - Body
 	var body: some View {
 		ZStack {
 			ScrollView {
