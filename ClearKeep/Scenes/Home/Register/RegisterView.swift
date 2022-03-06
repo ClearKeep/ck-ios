@@ -36,7 +36,7 @@ struct RegisterView: View {
 			}
 		}
 		.frame(maxWidth: .infinity, maxHeight: .infinity)
-		.background(backgroundColor)
+		.background(backgroundColorView)
 		.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
 	}
 }
@@ -45,8 +45,15 @@ private extension RegisterView {
 	var imageLogo: Image {
 		AppTheme.shared.imageSet.logo
 	}
-	var backgroundColor: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.black
+
+	var backgroundColorView: LinearGradient {
+		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
+	}
+	var backgroundColorBlack: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: [.black, .black]), startPoint: .leading, endPoint: .trailing)
+	}
+	var backgroundColorGradient: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
 }
 // MARK: - Preview

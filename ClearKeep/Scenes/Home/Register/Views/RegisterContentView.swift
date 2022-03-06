@@ -28,36 +28,54 @@ struct RegisterContentView: View {
 	// MARK: - Body
 	var body: some View {
 		GroupBox(label:
-					Text("Register.Title")
+					Text("Register.Please fill in the information below to complete your sign up".localized)
 					.font(fontTitle)) {
 			VStack(alignment: .center, spacing: Constants.sapcing) {
-				CommonTextField(text: $username, inputStyle: $inputStyle, inputIcon: iconMail, placeHolder: "General.Email", keyboardType: .default, onEditingChanged: { isEditing in
+				CommonTextField(text: $username,
+								inputStyle: $inputStyle,
+								inputIcon: iconMail,
+								placeHolder: "General.Email".localized,
+								keyboardType: .default,
+								onEditingChanged: { isEditing in
 					if isEditing {
 						inputStyle = .normal
 					} else {
 						inputStyle = .highlighted
 					}
 				})
-				CommonTextField(text: $displayname, inputStyle: $inputStyle, inputIcon: iconUser, placeHolder: "General.Displayname", keyboardType: .default, onEditingChanged: { isEditing in
+				CommonTextField(text: $displayname,
+								inputStyle: $inputStyle,
+								inputIcon: iconUser,
+								placeHolder: "General.Displayname".localized,
+								keyboardType: .default,
+								onEditingChanged: { isEditing in
 					if isEditing {
 						inputStyle = .highlighted
 					} else {
 						inputStyle = .normal
 					}
 				})
-				SecureTextField(secureText: $password, inputStyle: $inputStyle, inputIcon: iconSecure, placeHolder: "General.Password", keyboardType: .default )
-				SecureTextField(secureText: $password, inputStyle: $inputStyle, inputIcon: iconSecure, placeHolder: "General.RePassword", keyboardType: .default )
+				SecureTextField(secureText: $password,
+								inputStyle: $inputStyle,
+								inputIcon: iconSecure,
+								placeHolder: "General.Password".localized,
+								keyboardType: .default )
+				SecureTextField(secureText: $password,
+								inputStyle: $inputStyle,
+								inputIcon: iconSecure,
+								placeHolder: "General.Confirm Password".localized,
+								keyboardType: .default )
 				HStack {
-					Button("Register.SignIn") {
+					Button("Register.Sign in instead".localized) {
 
 					}
 					.foregroundColor(foregroundColorPrimary)
 					Spacer()
-					Button("Register.SignUp") {
+					Button("Register.Sign up".localized) {
 
 					}
 					.frame(width: Constants.width, height: Constants.height)
-					.background(LinearGradient(gradient: Gradient(colors: backgroundColorView), startPoint: .leading, endPoint: .trailing))
+					.background(LinearGradient(gradient: Gradient(colors: backgroundColorButton), startPoint: .leading, endPoint: .trailing))
 					.foregroundColor(foregroundColorWhite)
 					.cornerRadius(Constants.radius)
 				}
@@ -68,24 +86,30 @@ struct RegisterContentView: View {
 
 // MARK: - Private func
 private extension RegisterContentView {
-	var backgroundColorView: [Color] {
+	var backgroundColorButton: [Color] {
 		AppTheme.shared.colorSet.gradientPrimary
 	}
+
 	var foregroundColorWhite: Color {
 		AppTheme.shared.colorSet.offWhite
 	}
+
 	var foregroundColorPrimary: Color {
 		AppTheme.shared.colorSet.primaryDefault
 	}
+
 	var iconSecure: Image {
 		AppTheme.shared.imageSet.lockIcon
 	}
+
 	var iconUser: Image {
 		AppTheme.shared.imageSet.userIcon
 	}
+
 	var iconMail: Image {
 		AppTheme.shared.imageSet.mailIcon
 	}
+
 	var fontTitle: Font {
 		AppTheme.shared.fontSet.font(style: .body1)
 	}
@@ -94,6 +118,5 @@ private extension RegisterContentView {
 struct RegisterContentView_Previews: PreviewProvider {
 	static var previews: some View {
 		RegisterContentView(username: "Test", password: "123", displayname: "Minh", rePassword: "123", inputStyle: .normal)
-
 	}
 }
