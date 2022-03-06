@@ -4,7 +4,6 @@
 //
 //  Created by MinhDev on 05/03/2022.
 //
-
 import SwiftUI
 import CommonUI
 
@@ -21,7 +20,7 @@ struct FogotPasswordView: View {
 	@State var email: String
 	@State var appTheme: AppTheme
 	@State var inputStyle: TextInputStyle
-	
+
 // MARK: - Body
 	var body: some View {
 		NavigationView {
