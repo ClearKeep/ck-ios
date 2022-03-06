@@ -58,7 +58,6 @@ public struct CommonTextField: View {
 					.padding(.trailing, Constants.paddingHorizontal)
 			}
 			.frame(height: Constants.textFieldHeight)
-			.padding()
 			.background(backgroundColor)
 			.cornerRadius(cornerRadius)
 			.overlay(
