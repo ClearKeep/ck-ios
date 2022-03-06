@@ -1,2 +1,18 @@
 // MARK: - General
 "General.Search" = "Search...";
+"General.Email" = "Email";
+"General.Displayname" = "Display Name";
+"General.Password" = "Password"
+"General.RePassword" = "Confirm Password";
+// MARK: - Register
+"Register.Title" = "Please fill in the information below to complete your sign up";
+"Register.SignIn" = "Sign in instead";
+"Register.SignUp" = "Sign up";
+// MARK: - ForgotPassword
+"ForgotPass.Title" = "Please enter your email to reset your password";
+"ForgotPass.Title2" = "Please enter your details to change password";
+"ForgotPass.TitleNav" = "Forgot password";
+"ForgotPass.TitleNav2" = "Enter Your New Password";
+"ForgotPass.Titlebt" = "Reset password";
+"ForgotPass.Titlebt2" = "Save";
+

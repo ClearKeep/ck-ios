@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04F3C7C327D4F12300B2796A /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F3C7C027D4F12200B2796A /* RegisterView.swift */; };
+		04F3C7C427D4F12300B2796A /* RegisterContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F3C7C227D4F12200B2796A /* RegisterContentView.swift */; };
 		4420AE57DA690DE6C8C54963 /* Pods_ClearKeep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 475749C4F2F15D4A61EEB83D /* Pods_ClearKeep.framework */; };
 		B11C151A05AD567AA57FD53D /* Pods_ClearKeepUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FC5765DC2A8FA5A318B742 /* Pods_ClearKeepUITests.framework */; };
 		B691E362FF810CA0E58283D3 /* Pods_ClearKeepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 416279F50D6ADE4CF6389D01 /* Pods_ClearKeepTests.framework */; };
@@ -97,6 +99,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		04F3C7C027D4F12200B2796A /* RegisterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		04F3C7C227D4F12200B2796A /* RegisterContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterContentView.swift; sourceTree = "<group>"; };
 		0B4D15934D622F846F2806A1 /* Pods-ClearKeepTests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.ppe.xcconfig"; sourceTree = "<group>"; };
 		128D9595C6F7214A99944057 /* Pods-ClearKeep.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.qa.xcconfig"; sourceTree = "<group>"; };
 		328ECF9F2F3251DE45D45614 /* Pods-ClearKeep.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.production.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.production.xcconfig"; sourceTree = "<group>"; };
@@ -209,6 +213,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04F3C7BF27D4F12200B2796A /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				04F3C7C027D4F12200B2796A /* RegisterView.swift */,
+				04F3C7C127D4F12200B2796A /* Views */,
+			);
+			path = Register;
+			sourceTree = "<group>";
+		};
+		04F3C7C127D4F12200B2796A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				04F3C7C227D4F12200B2796A /* RegisterContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		72767F943F8717C11FDB899B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -356,6 +377,7 @@
 		CB117E7D27BB660D000941D9 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				04F3C7BF27D4F12200B2796A /* Register */,
 				CB117ED227BBB0B3000941D9 /* Views */,
 				CB117E8027BB6621000941D9 /* Models */,
 				CB117E7E27BB661B000941D9 /* HomeView.swift */,
@@ -759,6 +781,7 @@
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
+				04F3C7C327D4F12300B2796A /* RegisterView.swift in Sources */,
 				CB117E7727BB65C8000941D9 /* SampleResponse.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
@@ -776,6 +799,7 @@
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
+				04F3C7C427D4F12300B2796A /* RegisterContentView.swift in Sources */,
 				CB117E7527BB65C8000941D9 /* APIService.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
