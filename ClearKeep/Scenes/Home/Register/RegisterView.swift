@@ -30,7 +30,7 @@ struct RegisterView: View {
 						.resizable()
 						.aspectRatio(contentMode: .fit)
 						.frame(width: Constants.widthLogo, height: Constants.heightLogo)
-					RegisterContentView(username: "Test", password: "123", displayname: "Minh", rePassword: "123", inputStyle: .normal)
+					RegisterContentView(username: "", password: "", displayname: "Minh", rePassword: "123", inputStyle: .normal)
 						.frame(width: Constants.widthReView)
 				}
 			}
