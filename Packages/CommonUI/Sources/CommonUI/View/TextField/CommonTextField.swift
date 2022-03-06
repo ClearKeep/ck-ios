@@ -45,7 +45,7 @@ public struct CommonTextField: View {
 			HStack(alignment: .center) {
 				if let inputIcon = inputIcon {
 					inputIcon
-						.foregroundColor(borderColor)
+						.foregroundColor(tintColor)
 						.padding(.leading, Constants.paddingHorizontal)
 				} else {
 					Spacer()
@@ -79,6 +79,10 @@ public struct CommonTextField: View {
 private extension CommonTextField {
 	var backgroundColor: Color {
 		inputStyle.backgroundColor
+	}
+	
+	var tintColor: Color {
+		inputStyle.tintColor
 	}
 	
 	var borderColor: Color {
