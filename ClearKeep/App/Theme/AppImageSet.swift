@@ -4,7 +4,6 @@
 //
 //  Created by NamNH on 02/11/2021.
 //
-// swiftlint:disable force_unwrappin
 
 import SwiftUI
 import CommonUI
@@ -20,9 +19,9 @@ struct AppImageSet: IAppImageSet {
 	var gearIcon: Image { Image("ic_gear") }
 	var logoutIcon: Image { Image("ic_logout") }
 	var chevUpIcon: Image { Image("ic_chev_up") }
-	var chevRightIcon: Image { Image("ic_chev_rright") }
+	var chevRightIcon: Image { Image("ic_chev_right") }
 	var chevleftIcon: Image { Image("ic_chev_left") }
-	var chevDownIcon: Image { Image("ic_chev+_down") }
+	var chevDownIcon: Image { Image("ic_chev_down") }
 	var microPhoneIcon: Image { Image("ic_microphone") }
 	var phoneCallIcon: Image { Image("ic_phone_call") }
 	var videoIcon: Image { Image("ic_video") }
@@ -30,14 +29,14 @@ struct AppImageSet: IAppImageSet {
 	var downloadIcon: Image { Image("ic_file_download") }
 	var messagePlusIcon: Image { Image("ic_message_plus") }
 	var phoneIncommingIcon: Image { Image("ic_phone_incomming") }
-	var phoneOffIcon: Image { Image("ic_phone_off") }
+	var phoneOffIcon: Image { Image("ic_phone-off") }
 	var microphoneOffIcon: Image { Image("ic_microphone_off") }
 	var messageCricleIcon: Image { Image("ic_message_circle") }
 	var crossIcon: Image { Image("ic_cross") }
 	var dotVerticalIcon: Image { Image("ic_dots_vertical") }
 	var dotIcon: Image { Image("ic_dots") }
 	var emoticonIcon: Image { Image("ic_emoticon") }
-	var straitFaceIcon: Image { Image("ic_straigh_face") }
+	var straitFaceIcon: Image { Image("ic_straight_face") }
 	var speakerIcon: Image { Image("ic_speaker") }
 	var cameraRolateIcon: Image { Image("ic_camera_rotate") }
 	var backIcon: Image { Image("ic_arrow_left") }
@@ -69,12 +68,8 @@ struct AppImageSet: IAppImageSet {
 }
 
 extension AppImageSet: ICommonUIImageSet {
-
 	var searchIcon: Image { Image("ic_search") }
-	var googleIcon: Image { Image("ic_google") }
-	var facebookIcon: Image { Image("ic_faceBook") }
-	var officeIcon: Image { Image("ic_office") }
-	var eyeOn: Image { Image("ic_eye") }
+	var eyeOn: Image { Image("ic_eye_on") }
 	var eyeOff: Image { Image("ic_eye_off") }
 	var userIcon: Image { Image("ic_user") }
 	var mailIcon: Image { Image("ic_mail") }
