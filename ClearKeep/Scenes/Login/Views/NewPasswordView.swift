@@ -1,8 +1,8 @@
 //
-//  FogotPasswordView.swift
+//  NewPasswordView.swift
 //  ClearKeep
 //
-//  Created by MinhDev on 05/03/2022.
+//  Created by MinhDev on 06/03/2022.
 //
 import SwiftUI
 import CommonUI
@@ -13,7 +13,7 @@ private enum Constants {
 	static let radius = 40.0
 }
 
-struct FogotPasswordView: View {
+struct NewPasswordView: View {
 // MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -26,7 +26,7 @@ struct FogotPasswordView: View {
 		NavigationView {
 			VStack(alignment: .center, spacing: 10) {
 				Spacer()
-				Text("Please enter your email to reset your password")
+				Text("Please enter your details to change password")
 					.font(appTheme.fontSet.font(style: .input2))
 					.foregroundColor(colorScheme == .light ? appTheme.colorSet.offWhite : appTheme.colorSet.grey3)
 					.padding(.all)
@@ -59,7 +59,7 @@ struct FogotPasswordView: View {
 	}
 }
 // MARK: - Private
-private extension FogotPasswordView {
+private extension NewPasswordView {
 	var btnBack : some View {
 		Button(action: customBack) {
 			HStack {
@@ -67,7 +67,7 @@ private extension FogotPasswordView {
 					.aspectRatio(contentMode: .fit)
 					.foregroundColor(colorScheme == .light ? appTheme.colorSet.offWhite : appTheme.colorSet.grey3)
 				Spacer()
-				Text("Forgot password")
+				Text("Enter Your New Password")
 					.padding(.all)
 					.font(appTheme.fontSet.font(style: .body2))
 			}
@@ -77,11 +77,14 @@ private extension FogotPasswordView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
+	var colorbg: Color {
+		background(LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)) as! Color
+	}
 }
 
 // MARK: - Preview
-struct FogotPasswordView_Previews: PreviewProvider {
+struct NewPasswordView_Previews: PreviewProvider {
 	static var previews: some View {
-		FogotPasswordView(email: "minhdn1@vmodev.com", appTheme: .shared, inputStyle: .normal)
+		NewPasswordView(email: "minhdn1@vmodev.com", appTheme: .shared, inputStyle: .normal)
 	}
 }
