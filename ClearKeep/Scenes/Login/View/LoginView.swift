@@ -13,112 +13,133 @@ struct LoginView: View {
 	@State private var password: String = ""
 	@State private var editingEmail = false
 	@State private var editingPassword = false
-	private var image: IAppImageSet = AppImageSet()
-	var colorStyle: IColorSet = ColorSet()
-	var fontStyle: IFontSet = DefaultFontSet()
+	var appTheme: AppTheme = .shared
+	@State var inputStyle: TextInputStyle  = .normal
 	@Environment(\.colorScheme) var colorScheme
 	
-    var body: some View {
+	var body: some View {
 		ScrollView {
-			colorScheme == .light ? Color(colorStyle.primary) : Color(colorStyle.black)
-				VStack() {
+			colorScheme == .light ? appTheme.colorSet.primaryDefault : appTheme.colorSet.black
+					VStack {
 					Spacer(minLength: 50)
-					// Logo
-					Image(uiImage: image.logo)
+
+					// MARK: - Logo
+					appTheme.imageSet.logo
 						.resizable()
 						.aspectRatio(contentMode: .fit)
 						.frame(width: 150.0, height: 150.0)
 
 					Spacer(minLength: 50)
 
-					//Text Input
+					// MARK: - Text Input
 						VStack {
-							TextField("Email", text: $email, onEditingChanged: { edit in
-								self.editingEmail = edit
-							   })
-								.modifier(NormalTextField(image: image.mailIcon, focused: $editingEmail))
+							CommonTextField(text: $email, inputStyle: $inputStyle, inputIcon: appTheme.imageSet.mailIcon, placeHolder: "email", keyboardType: .default, onEditingChanged: { isEditing in
+												if isEditing {
+													inputStyle = .normal
+												} else {
+													inputStyle = .highlighted
+												}
+											})
 
 							Spacer(minLength: 25)
 
-							SecureField("Password", text: $password, onCommit: {
-								editingPassword = false
-							}).onTapGesture {
-								editingPassword = true
-							}
-								.modifier(PasswordTextField(image: image.lockIcon, focused: $editingPassword))
+							SecureTextField(secureText: $password, inputStyle: $inputStyle, inputIcon: appTheme.imageSet.lockIcon, placeHolder: "Password", keyboardType: .default )
 						}
-
 					Spacer(minLength: 25)
 
-					//Button
+					// MARK: - Signin button
 					Button("Sign in") {}
-					.buttonStyle(PrimaryButton())
+						.frame(width: UIScreen.main.bounds.width - 30.0, height: 40.0)
+						.font(appTheme.fontSet.font(style: .display1))
+						.background(colorScheme == .light ? appTheme.colorSet.offWhite : appTheme.colorSet.primaryDefault)
+						.foregroundColor(colorScheme == .light ? appTheme.colorSet.primaryDefault : appTheme.colorSet.offWhite)
+						.cornerRadius(40.0)
 
-					//Button
+					// MARK: - Support Button
 					HStack {
 						Button("Advanced Server Settings") {}
-						.buttonStyle(TextButton())
+							.padding()
+							.font(appTheme.fontSet.font(style: .display2))
+							.foregroundColor(colorScheme == .light ? appTheme.colorSet.offWhite : appTheme.colorSet.primaryDefault)
+
 						Spacer()
+
 						Button("Forgot password?") {}
-						.buttonStyle(TextButton())
+							.padding()
+							.font(appTheme.fontSet.font(style: .display2))
+							.foregroundColor(colorScheme == .light ? appTheme.colorSet.offWhite : appTheme.colorSet.primaryDefault)
 					}
 				}
 					Spacer(minLength: 30)
-
+				// MARK: - Line between 2 views
 					Rectangle().frame(height: 1)
-						.padding(.horizontal, 20).foregroundColor(Color(colorStyle.offWhite))
+				.padding(.horizontal, 20).foregroundColor(appTheme.colorSet.offWhite)
 
 					Spacer(minLength: 30)
 
-				//Social login button
+				// MARK: - Social login button
 					VStack {
 						Text("Sign in with")
-							.font(Font(fontStyle.font(style: .linkL)))
-							.foregroundColor(colorScheme == .light ? Color(colorStyle.offWhite) : Color(colorStyle.offWhite))
+//							.font(Font(fontStyle.font(style: .linkL)))
+							.foregroundColor(colorScheme == .light ? appTheme.colorSet.offWhite : appTheme.colorSet.offWhite)
 
 						HStack {
 							Button(action: { }, label: {
 								Text("")
-							}).buttonStyle(IconButton(image: image.googleIcon))
+								appTheme.imageSet.googleIcon
+							})
+								.frame(width: 54.0, height: 54.0)
+								.padding()
 
 							Button(action: { }, label: {
 								Text("")
-							}).buttonStyle(IconButton(image: image.officeIcon))
+								appTheme.imageSet.officeIcon
+							})
+								.frame(width: 54.0, height: 54.0)
+								.padding()
 
 							Button(action: { }, label: {
 								Text("")
-							}).buttonStyle(IconButton(image: image.facebookIcon))
+								appTheme.imageSet.facebookIcon
+							})
+								.frame(width: 54.0, height: 54.0)
+								.padding()
 						}.padding(.horizontal)
-
 						Spacer(minLength: 25.0)
 
-							//Sign up button
+						// MARK: - Sign up button
+
 						Text("Don't have an account?")
-							.font(Font(fontStyle.font(style: .linkL)))
-							.foregroundColor(colorScheme == .light ? Color(colorStyle.offWhite) : Color(colorStyle.offWhite))
+							.font(appTheme.fontSet.font(style: .display2))
+							.foregroundColor(colorScheme == .light ? appTheme.colorSet.offWhite : appTheme.colorSet.offWhite)
 
 						Spacer(minLength: 20.0)
 
 						Button("Sign up") {}
-						.buttonStyle(BoderButton())
+							.frame(width: UIScreen.main.bounds.width - 80.0, height: 40.0)
+							.font(appTheme.fontSet.font(style: .display2))
+							.foregroundColor(colorScheme == .light ? appTheme.colorSet.offWhite : appTheme.colorSet.primaryDefault)
+							.overlay(
+								RoundedRectangle(cornerRadius: 40.0)
+									.stroke(colorScheme == .light ? appTheme.colorSet.offWhite : appTheme.colorSet.primaryDefault, lineWidth: 4))
 
 						Spacer(minLength: 15.0)
 
 						Text("App version: 1.1.1")
-							.font(Font(fontStyle.font(style: .linkXS)))
-							.foregroundColor(colorScheme == .light ? Color(colorStyle.offWhite) : Color(colorStyle.offWhite))
+							.font(appTheme.fontSet.font(style: .display1))
+							.foregroundColor(colorScheme == .light ? appTheme.colorSet.offWhite : appTheme.colorSet.offWhite)
 					}
 
 		}
-		.background(colorScheme == .light ? Color(colorStyle.primary) : Color(colorStyle.black))
+		.background(colorScheme == .light ? appTheme.colorSet.primaryDefault : appTheme.colorSet.black)
 		.edgesIgnoringSafeArea(.all)
-    }
+	}
 }
 
 #if DEBUG
 struct LoginView_Previews: PreviewProvider {
-    static var previews: some View {
-			LoginView()
-    }
+	static var previews: some View {
+		LoginView()
+	}
 }
 #endif
