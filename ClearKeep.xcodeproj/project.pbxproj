@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0443519F27D5AB630054A78F /* IRegisterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0443519E27D5AB630054A78F /* IRegisterModel.swift */; };
+		044351A427D5B30D0054A78F /* RegisterInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351A027D5B30D0054A78F /* RegisterInMemoryStore.swift */; };
+		044351A527D5B30D0054A78F /* RegisterWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351A127D5B30D0054A78F /* RegisterWorker.swift */; };
+		044351A627D5B30D0054A78F /* RegisterRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351A227D5B30D0054A78F /* RegisterRemoteStore.swift */; };
+		044351A727D5B30D0054A78F /* RegisterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351A327D5B30D0054A78F /* RegisterInteractor.swift */; };
 		04F3C7C327D4F12300B2796A /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F3C7C027D4F12200B2796A /* RegisterView.swift */; };
 		04F3C7C427D4F12300B2796A /* RegisterContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F3C7C227D4F12200B2796A /* RegisterContentView.swift */; };
 		4420AE57DA690DE6C8C54963 /* Pods_ClearKeep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 475749C4F2F15D4A61EEB83D /* Pods_ClearKeep.framework */; };
@@ -99,6 +104,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0443519E27D5AB630054A78F /* IRegisterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IRegisterModel.swift; sourceTree = "<group>"; };
+		044351A027D5B30D0054A78F /* RegisterInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInMemoryStore.swift; sourceTree = "<group>"; };
+		044351A127D5B30D0054A78F /* RegisterWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterWorker.swift; sourceTree = "<group>"; };
+		044351A227D5B30D0054A78F /* RegisterRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRemoteStore.swift; sourceTree = "<group>"; };
+		044351A327D5B30D0054A78F /* RegisterInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInteractor.swift; sourceTree = "<group>"; };
 		04F3C7C027D4F12200B2796A /* RegisterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		04F3C7C227D4F12200B2796A /* RegisterContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterContentView.swift; sourceTree = "<group>"; };
 		0B4D15934D622F846F2806A1 /* Pods-ClearKeepTests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.ppe.xcconfig"; sourceTree = "<group>"; };
@@ -213,11 +223,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0443519B27D5A8470054A78F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0443519E27D5AB630054A78F /* IRegisterModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		04F3C7BF27D4F12200B2796A /* Register */ = {
 			isa = PBXGroup;
 			children = (
 				04F3C7C027D4F12200B2796A /* RegisterView.swift */,
+				0443519B27D5A8470054A78F /* Models */,
 				04F3C7C127D4F12200B2796A /* Views */,
+				044351A027D5B30D0054A78F /* RegisterInMemoryStore.swift */,
+				044351A127D5B30D0054A78F /* RegisterWorker.swift */,
+				044351A227D5B30D0054A78F /* RegisterRemoteStore.swift */,
+				044351A327D5B30D0054A78F /* RegisterInteractor.swift */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -320,6 +343,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				04F3C7BF27D4F12200B2796A /* Register */,
 				CB117E7D27BB660D000941D9 /* Home */,
 				CB117EBB27BB7D2F000941D9 /* ContentView.swift */,
 				CB117EBD27BB7DE2000941D9 /* RootViewModifier.swift */,
@@ -377,7 +401,6 @@
 		CB117E7D27BB660D000941D9 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				04F3C7BF27D4F12200B2796A /* Register */,
 				CB117ED227BBB0B3000941D9 /* Views */,
 				CB117E8027BB6621000941D9 /* Models */,
 				CB117E7E27BB661B000941D9 /* HomeView.swift */,
@@ -779,6 +802,7 @@
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
+				044351A727D5B30D0054A78F /* RegisterInteractor.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
 				04F3C7C327D4F12300B2796A /* RegisterView.swift in Sources */,
@@ -792,16 +816,20 @@
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
 				CB117E7127BB65C7000941D9 /* APIConfigurations.swift in Sources */,
+				044351A427D5B30D0054A78F /* RegisterInMemoryStore.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
+				044351A627D5B30D0054A78F /* RegisterRemoteStore.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
 				CB117E7627BB65C8000941D9 /* ServerErrorResponse.swift in Sources */,
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
+				044351A527D5B30D0054A78F /* RegisterWorker.swift in Sources */,
 				04F3C7C427D4F12300B2796A /* RegisterContentView.swift in Sources */,
 				CB117E7527BB65C8000941D9 /* APIService.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
+				0443519F27D5AB630054A78F /* IRegisterModel.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
 				CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */,
 				CB117E7427BB65C8000941D9 /* APIServiceError.swift in Sources */,

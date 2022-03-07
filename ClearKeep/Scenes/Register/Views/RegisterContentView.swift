@@ -19,12 +19,11 @@ private enum Constants {
 struct RegisterContentView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
-	@State var username: String
-	@State var password: String
-	@State var displayname: String
-	@State var rePassword: String
-	@State var focused: Bool = false
-	@State var inputStyle: TextInputStyle
+	@Binding var username: String
+	@Binding var password: String
+	@Binding var displayname: String
+	@Binding var rePassword: String
+	@Binding var inputStyle: TextInputStyle
 	// MARK: - Body
 	var body: some View {
 		GroupBox(label:
@@ -117,6 +116,6 @@ private extension RegisterContentView {
 // MARK: - Preview
 struct RegisterContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		RegisterContentView(username: "Test", password: "123", displayname: "Minh", rePassword: "123", inputStyle: .normal)
+		RegisterContentView(username: .constant("Test"), password: .constant("Test"), displayname: .constant("Test"), rePassword: .constant("Test"), inputStyle: .constant(.default))
 	}
 }
