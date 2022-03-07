@@ -8,15 +8,22 @@
 import SwiftUI
 import Combine
 import Common
+import CommonUI
 
 struct HomeView: View {
 	
 	@Environment(\.injected) private var injected: DIContainer
 	@State private(set) var samples: Loadable<[ISampleModel]>
+	@State private(set) var searchKeyword: String = ""
+	@State private(set) var searchInputStyle: TextInputStyle = .default
 	let inspection = ViewInspector<Self>()
 	
-	init(samples: Loadable<[ISampleModel]> = .notRequested) {
+	init(samples: Loadable<[ISampleModel]> = .notRequested,
+		 searchKeyword: String = "",
+		 searchInputStyle: TextInputStyle = .default) {
 		self._samples = .init(initialValue: samples)
+		self._searchKeyword = .init(initialValue: searchKeyword)
+		self._searchInputStyle = .init(initialValue: searchInputStyle)
 	}
 	
 	var body: some View {
@@ -75,6 +82,7 @@ private extension HomeView {
 				Text(sample.name)
 			}
 			.id(samples.count)
+			HomeHeaderView(searchText: $searchKeyword, inputStyle: $searchInputStyle)
 		}.padding(.bottom, 0)
 	}
 }
