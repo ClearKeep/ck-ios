@@ -22,7 +22,7 @@ private enum Constant {
 	static let lineWidthBorder = 4.0
 }
 
-struct LoginView: View {
+struct LoginContentView: View {
 	@State private var email: String = ""
 	@State private var password: String = ""
 	@State private var editingEmail = false
@@ -150,7 +150,7 @@ struct LoginView: View {
 }
 
 // MARK: - Private func
-private extension LoginView {
+private extension LoginContentView {
 	var imageLogo: Image {
 		AppTheme.shared.imageSet.logo
 	}
@@ -221,9 +221,9 @@ private extension LoginView {
 }
 
 #if DEBUG
-struct LoginView_Previews: PreviewProvider {
+struct LoginContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		LoginView()
+		LoginContentView()
 	}
 }
 #endif
