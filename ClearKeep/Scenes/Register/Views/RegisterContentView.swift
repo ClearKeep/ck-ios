@@ -8,6 +8,7 @@
 import SwiftUI
 import CommonUI
 import RealmSwift
+import SwiftUIX
 
 private enum Constants {
 	static let width = 120.0
@@ -27,64 +28,22 @@ struct RegisterContentView: View {
 	// MARK: - Body
 	var body: some View {
 		GroupBox(label:
-					Text("Register.Please fill in the information below to complete your sign up".localized)
+					Text("Register.Title".localized)
 					.font(AppTheme.shared.fontSet.font(style: .body1))) {
 			VStack(alignment: .center, spacing: Constants.sapcing) {
-				CommonTextField(text: $username,
-								inputStyle: $inputStyle,
-								inputIcon: AppTheme.shared.imageSet.mailIcon,
-								placeHolder: "General.Email".localized,
-								keyboardType: .default,
-								onEditingChanged: { isEditing in
-					if isEditing {
-						inputStyle = .normal
-					} else {
-						inputStyle = .highlighted
-					}
-				})
-				CommonTextField(text: $displayname,
-								inputStyle: $inputStyle,
-								inputIcon: AppTheme.shared.imageSet.userIcon,
-								placeHolder: "General.Displayname".localized,
-								keyboardType: .default,
-								onEditingChanged: { isEditing in
-					if isEditing {
-						inputStyle = .highlighted
-					} else {
-						inputStyle = .normal
-					}
-				})
-				SecureTextField(secureText: $password,
-								inputStyle: $inputStyle,
-								inputIcon: AppTheme.shared.imageSet.lockIcon,
-								placeHolder: "General.Password".localized,
-								keyboardType: .default )
-				SecureTextField(secureText: $rePassword,
-								inputStyle: $inputStyle,
-								inputIcon: AppTheme.shared.imageSet.lockIcon,
-								placeHolder: "General.Confirm Password".localized,
-								keyboardType: .default )
-				HStack {
-					Button("Register.Sign in instead".localized) {
-
-					}
-					.foregroundColor(foregroundColorPrimary)
-					Spacer()
-					Button("Register.Sign up".localized) {
-
-					}
-					.frame(width: Constants.width, height: Constants.height)
-					.background(LinearGradient(gradient: Gradient(colors: backgroundColorButton), startPoint: .leading, endPoint: .trailing))
-					.foregroundColor(foregroundColorWhite)
-					.cornerRadius(Constants.radius)
-				}
+				nomalTextfield
+				secureTexfield
+				button
 			}
 		}
 	}
 }
 
-// MARK: - Private func
+// MARK: - Private variables
 private extension RegisterContentView {
+	var backgroundColorView: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: backgroundColorButton), startPoint: .leading, endPoint: .trailing)
+	}
 	var backgroundColorButton: [Color] {
 		AppTheme.shared.colorSet.gradientPrimary
 	}
@@ -95,6 +54,80 @@ private extension RegisterContentView {
 
 	var foregroundColorPrimary: Color {
 		AppTheme.shared.colorSet.primaryDefault
+	}
+}
+// MARK: - Private
+private extension RegisterContentView {
+
+	var button: AnyView {
+		AnyView(buttonView)
+	}
+	var secureTexfield: AnyView {
+		AnyView(secureView)
+	}
+	var nomalTextfield: AnyView {
+		AnyView(nomalTextfieldView)
+	}
+}
+// MARK: - Loading Content
+private extension RegisterContentView {
+	var buttonView: some View {
+		HStack {
+			Button("Register.SignInInstead".localized) {
+			}
+			.foregroundColor(foregroundColorPrimary)
+			Spacer()
+			Button("Register.SignUp".localized) {
+			}
+			.frame(width: Constants.width, height: Constants.height)
+			.background(backgroundColorView)
+			.foregroundColor(foregroundColorWhite)
+			.cornerRadius(Constants.radius)
+		}
+	}
+	
+	var secureView: some View {
+		VStack(spacing: Constants.sapcing) {
+			SecureTextField(secureText: $password,
+							inputStyle: $inputStyle,
+							inputIcon: AppTheme.shared.imageSet.lockIcon,
+							placeHolder: "General.Password".localized,
+							keyboardType: .default )
+			SecureTextField(secureText: $rePassword,
+							inputStyle: $inputStyle,
+							inputIcon: AppTheme.shared.imageSet.lockIcon,
+							placeHolder: "General.ConfirmPassword".localized,
+							keyboardType: .default )
+		}
+	}
+	
+	var nomalTextfieldView: some View {
+		VStack(spacing: Constants.sapcing) {
+			CommonTextField(text: $username,
+							inputStyle: $inputStyle,
+							inputIcon: AppTheme.shared.imageSet.mailIcon,
+							placeHolder: "General.Email".localized,
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				if isEditing {
+					inputStyle = .default
+				} else {
+					inputStyle = .normal
+				}
+			})
+			CommonTextField(text: $displayname,
+							inputStyle: $inputStyle,
+							inputIcon: AppTheme.shared.imageSet.userIcon,
+							placeHolder: "General.Displayname".localized,
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				if isEditing {
+					inputStyle = .highlighted
+				} else {
+					inputStyle = .normal
+				}
+			})
+		}
 	}
 }
 // MARK: - Preview

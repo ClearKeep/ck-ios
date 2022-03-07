@@ -12,10 +12,10 @@ import CommonUI
 
 private enum Constants {
 	static let widthReView = UIScreen.main.bounds.width - 20
-	static let spacer = 50.0
+	static let minSpacer = 50.0
 	static let heightLogo = 120.0
 	static let widthLogo = 160.0
-	static let spacing = 20.0
+	static let spacing = 30.0
 }
 
 struct RegisterView: View {
@@ -54,15 +54,11 @@ struct RegisterView: View {
 }
 // MARK: - Private variable
 private extension RegisterView {
-	var imageLogo: Image {
-		AppTheme.shared.imageSet.logo
-	}
-
 	var backgroundColorView: LinearGradient {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
 	}
 	var backgroundColorBlack: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [.black, .black]), startPoint: .leading, endPoint: .trailing)
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
 	}
 	var backgroundColorGradient: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
@@ -77,24 +73,21 @@ private extension RegisterView {
 // MARK: - Loading Content
 private extension RegisterView {
 	var notRequestedView: some View {
-		ZStack {
-			ScrollView {
-				Spacer(minLength: Constants.spacer)
 				VStack(spacing: Constants.spacing) {
-					imageLogo
+					Spacer()
+					AppTheme.shared.imageSet.logo
 						.resizable()
 						.aspectRatio(contentMode: .fit)
 						.frame(width: Constants.widthLogo, height: Constants.heightLogo)
 					RegisterContentView(username: $username, password: $password, displayname: $displayname, rePassword: $rePassword, inputStyle: $inputStyle)
 						.frame(width: Constants.widthReView)
-				}
-			}
+					Spacer()
 		}
 		.frame(maxWidth: .infinity, maxHeight: .infinity)
 		.background(backgroundColorView)
 		.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
 	}
-	}
+}
 // MARK: - Interactors
 private extension RegisterView {
 }
