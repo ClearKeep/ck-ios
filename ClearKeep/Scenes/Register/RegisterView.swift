@@ -19,6 +19,8 @@ private enum Constants {
 }
 
 struct RegisterView: View {
+	// MARK: - Constants
+	private let inspection = ViewInspector<Self>()
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
@@ -28,7 +30,6 @@ struct RegisterView: View {
 	@State private(set) var password: String
 	@State private(set) var rePassword: String
 	@State private(set) var inputStyle: TextInputStyle = .default
-	let inspection = ViewInspector<Self>()
 
 	init(samples: Loadable<[IRegisterModel]> = .notRequested,
 		 username: String = "",
@@ -46,9 +47,9 @@ struct RegisterView: View {
 	// MARK: - Body
 	var body: some View {
 		NavigationView {
-			self.content
+			content
+				.onReceive(inspection.notice) { inspection.visit(self, $0) }
 		}
-		.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
 	}
 }
 // MARK: - Private variable
@@ -70,37 +71,12 @@ private extension RegisterView {
 // MARK: - Private
 private extension RegisterView {
 	var content: AnyView {
-		switch samples {
-		case .notRequested: return AnyView(notRequestedView)
-		case let .isLoading(last, _): return AnyView(loadingView(last))
-		case let .loaded(countries): return AnyView(loadedView(countries, showLoading: false))
-		case let .failed(error): return AnyView(failedView(error))
-		}
+		AnyView(notRequestedView)
 	}
 }
 // MARK: - Loading Content
 private extension RegisterView {
 	var notRequestedView: some View {
-		Text("").onAppear(perform: reloadSamples)
-	}
-
-	func loadingView(_ previouslyLoaded: [IRegisterModel]?) -> some View {
-		if let samples = previouslyLoaded {
-			return AnyView(loadedView(samples, showLoading: true))
-		} else {
-			return AnyView(ActivityIndicatorView().padding())
-		}
-	}
-
-	func failedView(_ error: Error) -> some View {
-		ErrorView(error: error, retryAction: {
-			self.reloadSamples()
-		})
-	}
-}
-// MARK: - Displaying Content
-private extension RegisterView {
-	func loadedView(_ samples: [IRegisterModel], showLoading: Bool) -> some View {
 		ZStack {
 			ScrollView {
 				Spacer(minLength: Constants.spacer)
@@ -118,16 +94,16 @@ private extension RegisterView {
 		.background(backgroundColorView)
 		.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
 	}
-}
-
+	}
 // MARK: - Interactors
 private extension RegisterView {
-	func reloadSamples() { }
 }
 
 // MARK: - Preview
+#if DEBUG
 struct RegisterView_Previews: PreviewProvider {
 	static var previews: some View {
 		RegisterView()
 	}
 }
+#endif

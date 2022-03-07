@@ -28,11 +28,11 @@ struct RegisterContentView: View {
 	var body: some View {
 		GroupBox(label:
 					Text("Register.Please fill in the information below to complete your sign up".localized)
-					.font(fontTitle)) {
+					.font(AppTheme.shared.fontSet.font(style: .body1))) {
 			VStack(alignment: .center, spacing: Constants.sapcing) {
 				CommonTextField(text: $username,
 								inputStyle: $inputStyle,
-								inputIcon: iconMail,
+								inputIcon: AppTheme.shared.imageSet.mailIcon,
 								placeHolder: "General.Email".localized,
 								keyboardType: .default,
 								onEditingChanged: { isEditing in
@@ -44,7 +44,7 @@ struct RegisterContentView: View {
 				})
 				CommonTextField(text: $displayname,
 								inputStyle: $inputStyle,
-								inputIcon: iconUser,
+								inputIcon: AppTheme.shared.imageSet.userIcon,
 								placeHolder: "General.Displayname".localized,
 								keyboardType: .default,
 								onEditingChanged: { isEditing in
@@ -56,12 +56,12 @@ struct RegisterContentView: View {
 				})
 				SecureTextField(secureText: $password,
 								inputStyle: $inputStyle,
-								inputIcon: iconSecure,
+								inputIcon: AppTheme.shared.imageSet.lockIcon,
 								placeHolder: "General.Password".localized,
 								keyboardType: .default )
-				SecureTextField(secureText: $password,
+				SecureTextField(secureText: $rePassword,
 								inputStyle: $inputStyle,
-								inputIcon: iconSecure,
+								inputIcon: AppTheme.shared.imageSet.lockIcon,
 								placeHolder: "General.Confirm Password".localized,
 								keyboardType: .default )
 				HStack {
@@ -96,26 +96,12 @@ private extension RegisterContentView {
 	var foregroundColorPrimary: Color {
 		AppTheme.shared.colorSet.primaryDefault
 	}
-
-	var iconSecure: Image {
-		AppTheme.shared.imageSet.lockIcon
-	}
-
-	var iconUser: Image {
-		AppTheme.shared.imageSet.userIcon
-	}
-
-	var iconMail: Image {
-		AppTheme.shared.imageSet.mailIcon
-	}
-
-	var fontTitle: Font {
-		AppTheme.shared.fontSet.font(style: .body1)
-	}
 }
 // MARK: - Preview
+#if DEBUG
 struct RegisterContentView_Previews: PreviewProvider {
 	static var previews: some View {
 		RegisterContentView(username: .constant("Test"), password: .constant("Test"), displayname: .constant("Test"), rePassword: .constant("Test"), inputStyle: .constant(.default))
 	}
 }
+#endif
