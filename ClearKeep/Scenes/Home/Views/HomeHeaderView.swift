@@ -6,12 +6,17 @@
 //
 
 import SwiftUI
+import Common
 import CommonUI
 
 struct HomeHeaderView: View {
-	@State var searchKeyword: String
-	@State var inputStyle: TextInputStyle
+	// MARK: - Variables
+	@Binding var searchText: String
+	@Binding var inputStyle: TextInputStyle
 	
+	// MARK: - Init
+	
+	// MARK: - Body
 	var body: some View {
 		VStack {
 			HStack {
@@ -19,20 +24,18 @@ struct HomeHeaderView: View {
 				Button("Menu") {
 					
 				}
-				SearchTextField(text: $searchKeyword, inputStyle: $inputStyle, placeHolder: "Search", onEditingChanged: { isEditing in
-					if isEditing {
-						inputStyle = .highlighted
-					} else {
-						inputStyle = .normal
-					}
-				})
 			}
+			SearchTextField(searchText: $searchText,
+							inputStyle: $inputStyle,
+							inputIcon: AppTheme.shared.imageSet.searchIcon,
+							placeHolder: "General.Search".localized,
+							onEditingChanged: { _ in }).frame(height: 52.0)
 		}
 	}
 }
 
 struct HomeHeaderView_Previews: PreviewProvider {
 	static var previews: some View {
-		HomeHeaderView(searchKeyword: "Test", inputStyle: .normal)
+		HomeHeaderView(searchText: .constant("Test"), inputStyle: .constant(.default))
 	}
 }

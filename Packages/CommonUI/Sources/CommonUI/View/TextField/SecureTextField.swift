@@ -63,7 +63,6 @@ public struct SecureTextField: View {
 				}
 			}
 			.frame(height: Constants.textFieldHeight)
-			.padding()
 			.background(backgroundColor)
 			.cornerRadius(cornerRadius)
 			.overlay(

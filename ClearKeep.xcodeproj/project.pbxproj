@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04F3C7B627D4A38300B2796A /* FogotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F3C7B527D4A38300B2796A /* FogotPasswordView.swift */; };
-		04F3C7B827D4A5E400B2796A /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F3C7B727D4A5E400B2796A /* Test.swift */; };
-		04F3C7BA27D4A6DF00B2796A /* NewPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F3C7B927D4A6DF00B2796A /* NewPasswordView.swift */; };
+		044351AD27D5E31A0054A78F /* FogotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351AB27D5E3190054A78F /* FogotPasswordView.swift */; };
+		044351AE27D5E31A0054A78F /* NewPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351AC27D5E31A0054A78F /* NewPasswordView.swift */; };
+		044351B527D6010D0054A78F /* LoginInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351B027D6010D0054A78F /* LoginInMemoryStore.swift */; };
+		044351B627D6010D0054A78F /* LoginWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351B127D6010D0054A78F /* LoginWorker.swift */; };
+		044351B727D6010D0054A78F /* LoginRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351B227D6010D0054A78F /* LoginRemoteStore.swift */; };
+		044351B827D6010D0054A78F /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351B327D6010D0054A78F /* LoginInteractor.swift */; };
+		044351B927D6010D0054A78F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351B427D6010D0054A78F /* LoginView.swift */; };
 		4420AE57DA690DE6C8C54963 /* Pods_ClearKeep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 475749C4F2F15D4A61EEB83D /* Pods_ClearKeep.framework */; };
 		B11C151A05AD567AA57FD53D /* Pods_ClearKeepUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FC5765DC2A8FA5A318B742 /* Pods_ClearKeepUITests.framework */; };
 		B691E362FF810CA0E58283D3 /* Pods_ClearKeepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 416279F50D6ADE4CF6389D01 /* Pods_ClearKeepTests.framework */; };
@@ -58,6 +62,7 @@
 		CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73083F27CE647E00AB0FBD /* HomeHeaderView.swift */; };
 		CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73084127CE648F00AB0FBD /* HomeContentView.swift */; };
 		CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73084327CE785B00AB0FBD /* AppTheme.swift */; };
+		CBCF494F27D46715006D84FE /* Localize.strings in Resources */ = {isa = PBXBuildFile; fileRef = CBCF494E27D46714006D84FE /* Localize.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,9 +104,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		04F3C7B527D4A38300B2796A /* FogotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordView.swift; sourceTree = "<group>"; };
-		04F3C7B727D4A5E400B2796A /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
-		04F3C7B927D4A6DF00B2796A /* NewPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordView.swift; sourceTree = "<group>"; };
+		044351AB27D5E3190054A78F /* FogotPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FogotPasswordView.swift; sourceTree = "<group>"; };
+		044351AC27D5E31A0054A78F /* NewPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPasswordView.swift; sourceTree = "<group>"; };
+		044351B027D6010D0054A78F /* LoginInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInMemoryStore.swift; sourceTree = "<group>"; };
+		044351B127D6010D0054A78F /* LoginWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWorker.swift; sourceTree = "<group>"; };
+		044351B227D6010D0054A78F /* LoginRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRemoteStore.swift; sourceTree = "<group>"; };
+		044351B327D6010D0054A78F /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
+		044351B427D6010D0054A78F /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		0B4D15934D622F846F2806A1 /* Pods-ClearKeepTests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.ppe.xcconfig"; sourceTree = "<group>"; };
 		128D9595C6F7214A99944057 /* Pods-ClearKeep.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.qa.xcconfig"; sourceTree = "<group>"; };
 		328ECF9F2F3251DE45D45614 /* Pods-ClearKeep.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.production.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.production.xcconfig"; sourceTree = "<group>"; };
@@ -172,6 +181,7 @@
 		CB73083F27CE647E00AB0FBD /* HomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
 		CB73084127CE648F00AB0FBD /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
 		CB73084327CE785B00AB0FBD /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
+		CBCF494E27D46714006D84FE /* Localize.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localize.strings; sourceTree = "<group>"; };
 		CBD0AA3B27C7484900F86EFD /* Authentication */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Authentication; path = Packages/Authentication; sourceTree = "<group>"; };
 		EE672FA0EC8A123D35608506 /* Pods-ClearKeepUITests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.ppe.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -213,28 +223,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		04F3C7B227D4A34A00B2796A /* Login */ = {
+		044351A827D5E2B30054A78F /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				04F3C7B427D4A36300B2796A /* Views */,
-				04F3C7B327D4A35900B2796A /* Models */,
+				044351AA27D5E2F90054A78F /* Views */,
+				044351A927D5E2F20054A78F /* Models */,
+				044351B027D6010D0054A78F /* LoginInMemoryStore.swift */,
+				044351B127D6010D0054A78F /* LoginWorker.swift */,
+				044351B227D6010D0054A78F /* LoginRemoteStore.swift */,
+				044351B327D6010D0054A78F /* LoginInteractor.swift */,
+				044351B427D6010D0054A78F /* LoginView.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
 		};
-		04F3C7B327D4A35900B2796A /* Models */ = {
+		044351A927D5E2F20054A78F /* Models */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		04F3C7B427D4A36300B2796A /* Views */ = {
+		044351AA27D5E2F90054A78F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				04F3C7B527D4A38300B2796A /* FogotPasswordView.swift */,
-				04F3C7B727D4A5E400B2796A /* Test.swift */,
-				04F3C7B927D4A6DF00B2796A /* NewPasswordView.swift */,
+				044351AB27D5E3190054A78F /* FogotPasswordView.swift */,
+				044351AC27D5E31A0054A78F /* NewPasswordView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -281,7 +295,6 @@
 				CB117E5927BB63E2000941D9 /* Scenes */,
 				CB117E5827BB63CD000941D9 /* App */,
 				CB117E5727BB6026000941D9 /* Info.plist */,
-				CB117E2627BB5283000941D9 /* Assets.xcassets */,
 				CB117E2827BB5283000941D9 /* Preview Content */,
 			);
 			path = ClearKeep;
@@ -315,6 +328,7 @@
 		CB117E5827BB63CD000941D9 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				CBCF495027D4671E006D84FE /* Resources */,
 				CB117EA427BB784A000941D9 /* System */,
 				CB117EAD27BB7879000941D9 /* Injected */,
 				CB117E7827BB65E2000941D9 /* Location */,
@@ -329,7 +343,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				04F3C7B227D4A34A00B2796A /* Login */,
+				044351A827D5E2B30054A78F /* Login */,
 				CB117E7D27BB660D000941D9 /* Home */,
 				CB117EBB27BB7D2F000941D9 /* ContentView.swift */,
 				CB117EBD27BB7DE2000941D9 /* RootViewModifier.swift */,
@@ -469,6 +483,15 @@
 				CB73084327CE785B00AB0FBD /* AppTheme.swift */,
 			);
 			path = Theme;
+			sourceTree = "<group>";
+		};
+		CBCF495027D4671E006D84FE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CB117E2627BB5283000941D9 /* Assets.xcassets */,
+				CBCF494E27D46714006D84FE /* Localize.strings */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		DD5137E11C952DD6A3E2EFC4 /* Pods */ = {
@@ -630,6 +653,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBCF494F27D46715006D84FE /* Localize.strings in Resources */,
 				CB117E2A27BB5283000941D9 /* Preview Assets.xcassets in Resources */,
 				CB117E2727BB5283000941D9 /* Assets.xcassets in Resources */,
 			);
@@ -769,17 +793,22 @@
 			files = (
 				CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */,
 				CB117E7227BB65C7000941D9 /* APIResourceQueryAdapter.swift in Sources */,
+				044351B827D6010D0054A78F /* LoginInteractor.swift in Sources */,
+				044351AD27D5E31A0054A78F /* FogotPasswordView.swift in Sources */,
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
 				CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */,
 				CB117E7B27BB65E2000941D9 /* LocationConfigurations.swift in Sources */,
 				CB117EC427BB8DB1000941D9 /* SceneDelegate.swift in Sources */,
+				044351B927D6010D0054A78F /* LoginView.swift in Sources */,
 				CB117ECD27BBA6E5000941D9 /* HomeWorker.swift in Sources */,
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
+				044351AE27D5E31A0054A78F /* NewPasswordView.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
+				044351B627D6010D0054A78F /* LoginWorker.swift in Sources */,
 				CB117E7727BB65C8000941D9 /* SampleResponse.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
@@ -789,19 +818,18 @@
 				CB117E8627BB6687000941D9 /* SampleModel.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
+				044351B727D6010D0054A78F /* LoginRemoteStore.swift in Sources */,
 				CB117E7127BB65C7000941D9 /* APIConfigurations.swift in Sources */,
-				04F3C7B827D4A5E400B2796A /* Test.swift in Sources */,
-				04F3C7BA27D4A6DF00B2796A /* NewPasswordView.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
 				CB117E7627BB65C8000941D9 /* ServerErrorResponse.swift in Sources */,
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
-				04F3C7B627D4A38300B2796A /* FogotPasswordView.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
 				CB117E7527BB65C8000941D9 /* APIService.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
+				044351B527D6010D0054A78F /* LoginInMemoryStore.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
 				CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */,
 				CB117E7427BB65C8000941D9 /* APIServiceError.swift in Sources */,
