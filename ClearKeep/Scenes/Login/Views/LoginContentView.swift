@@ -9,8 +9,9 @@ import CommonUI
 
 private enum Constant {
 	static let spacerTopView = 50.0
-	static let spacerBottomView = 15.0
+	static let spacerBottomView = 20.0
 	static let spacer = 25.0
+	static let spacerBottom = 45.0
 	static let widthLogo = 160.0
 	static let heightLogo = 120.0
 	static let widthSignInBt = UIScreen.main.bounds.width - 30.0
@@ -19,7 +20,7 @@ private enum Constant {
 	static let heightBt = 40.0
 	static let radius = 40.0
 	static let heightRectangle = 1.0
-	static let lineWidthBorder = 4.0
+	static let lineWidthBorder = 3.0
 }
 
 struct LoginContentView: View {
@@ -27,15 +28,15 @@ struct LoginContentView: View {
 	@State private var password: String = ""
 	@State private var editingEmail = false
 	@State private var editingPassword = false
-	var appTheme: AppTheme = .shared
 	@State var inputStyle: TextInputStyle  = .normal
 	@Environment(\.colorScheme) var colorScheme
 
 	var body: some View {
-		ScrollView {
-			backgroundColorView
-					VStack {
-						Spacer(minLength: Constant.spacerTopView)
+		NavigationView {
+			ScrollView {
+				backgroundColorView
+				VStack {
+					Spacer(minLength: Constant.spacerTopView)
 
 					// MARK: - Logo
 					imageLogo
@@ -46,22 +47,17 @@ struct LoginContentView: View {
 					Spacer(minLength: Constant.spacerTopView)
 
 					// MARK: - Text Input
-						VStack {
-							CommonTextField(text: $email, inputStyle: $inputStyle, inputIcon: iconMail, placeHolder: "General.Email".localized, keyboardType: .default, onEditingChanged: { isEditing in
-												if isEditing {
-													inputStyle = .normal
-												} else {
-													inputStyle = .highlighted
-												}
-											})
+					VStack(spacing: Constant.spacer) {
+						CommonTextField(text: $email, inputStyle: $inputStyle, inputIcon: iconMail, placeHolder: "General.Email".localized, keyboardType: .default, onEditingChanged: { isEditing in
+							if isEditing {
+								inputStyle = .normal
+							} else {
+								inputStyle = .highlighted
+							}
+						})
+						SecureTextField(secureText: $password, inputStyle: $inputStyle, inputIcon: iconLock, placeHolder: "General.Password".localized, keyboardType: .default )
 
-							Spacer(minLength: Constant.spacer)
-
-							SecureTextField(secureText: $password, inputStyle: $inputStyle, inputIcon: iconLock, placeHolder: "General.Password".localized, keyboardType: .default )
-						}
-					Spacer(minLength: Constant.spacer)
-
-					// MARK: - Signin button
+						// MARK: - Signin button
 						Button("Login.SignIn".localized) {}
 						.frame(width: Constant.widthSignInBt, height: Constant.heightBt)
 						.font(fontSignIn)
@@ -69,83 +65,83 @@ struct LoginContentView: View {
 						.foregroundColor(foregroundColorView)
 						.cornerRadius(Constant.radius)
 
-					// MARK: - Support Button
-					HStack {
-						Button("Login.AdvancedServerSettings".localized) {}
+						// MARK: - Support Button
+						HStack {
+							Button("Login.AdvancedServerSettings".localized) {}
 							.padding()
 							.font(fontSignIn)
 							.foregroundColor(foregroundColorViewBt)
 
-						Spacer()
+							Spacer()
 
-						Button("Login.ForgotPassword?".localized) {}
+							Button("Login.ForgotPassword?".localized) {}
 							.padding()
 							.font(fontSignIn)
 							.foregroundColor(foregroundColorViewBt)
+						}
+						VStack(spacing: Constant.spacerBottomView) {
+							// MARK: - Line between 2 views
+							Rectangle().frame(height: Constant.heightRectangle)
+								.padding(.horizontal).foregroundColor(foregroundColorWhite)
+
+							Text("Login.SignInWith".localized)
+								.font(fontSignIn)
+								.foregroundColor(foregroundColorWhite)
+
+							HStack(spacing: Constant.spacerBottom) {
+								Button(action: { }, label: {
+									Text("")
+									iconGoogle
+								})
+									.frame(width: Constant.widthIconBt, height: Constant.widthIconBt)
+
+								Button(action: { }, label: {
+									Text("")
+									iconOffice
+								})
+									.frame(width: Constant.widthIconBt, height: Constant.widthIconBt)
+
+								Button(action: { }, label: {
+									Text("")
+									iconFacebook
+								})
+									.frame(width: Constant.widthIconBt, height: Constant.widthIconBt)
+							}
+						}
 					}
-				}
-					Spacer(minLength: Constant.spacer)
-				// MARK: - Line between 2 views
-					Rectangle().frame(height: Constant.heightRectangle)
-						.padding(.horizontal).foregroundColor(foregroundColorWhite)
+					.frame(width: Constant.widthSignInBt)
 
-					Spacer(minLength: Constant.spacer)
+					Spacer(minLength: Constant.spacerBottom)
+				}
 
 				// MARK: - Social login button
-					VStack {
-						Text("Login.SignInWith".localized)
-							.font(fontSignIn)
-							.foregroundColor(foregroundColorWhite)
+				VStack {
+					// MARK: - Sign up button
+					Text("Login.Don'tHaveAnAccount?".localized)
+						.font(fontSignIn)
+						.foregroundColor(foregroundColorWhite)
 
-						HStack {
-							Button(action: { }, label: {
-								Text("")
-								iconGoogle
-							})
-								.frame(width: Constant.widthIconBt, height: Constant.widthIconBt)
-								.padding()
+					Spacer(minLength: Constant.spacer)
 
-							Button(action: { }, label: {
-								Text("")
-								iconOffice
-							})
-								.frame(width: Constant.widthIconBt, height: Constant.widthIconBt)
-								.padding()
+					Button("Login.SignUp".localized) {}
+					.frame(width: Constant.widthSignUpBt, height: Constant.heightBt)
+					.font(fontSignIn)
+					.foregroundColor(foregroundColorViewBt)
+					.overlay(
+						RoundedRectangle(cornerRadius: Constant.radius)
+							.stroke(foregroundColorViewBt, lineWidth: Constant.lineWidthBorder))
 
-							Button(action: { }, label: {
-								Text("")
-								iconFacebook
-							})
-								.frame(width: Constant.widthIconBt, height: Constant.widthIconBt)
-								.padding()
-						}.padding(.horizontal)
-						Spacer(minLength: Constant.spacer)
+					Spacer(minLength: Constant.spacerBottomView)
 
-						// MARK: - Sign up button
-						Text("Login.Don'tHaveAnAccount?".localized)
-							.font(fontSignIn)
-							.foregroundColor(foregroundColorWhite)
+					Text("Login.AppVersion:1.1.1".localized)
+						.font(AppTheme.shared.fontSet.font(style: .placeholder3))
+						.foregroundColor(foregroundColorWhite)
+				}
 
-						Spacer(minLength: Constant.spacer)
-
-						Button("Login.SignUp".localized) {}
-						.frame(width: Constant.widthSignUpBt, height: Constant.heightBt)
-							.font(fontSignIn)
-							.foregroundColor(foregroundColorViewBt)
-							.overlay(
-								RoundedRectangle(cornerRadius: Constant.radius)
-									.stroke(foregroundColorViewBt, lineWidth: Constant.lineWidthBorder))
-
-						Spacer(minLength: Constant.spacerBottomView)
-
-						Text("Login.AppVersion:1.1.1".localized)
-							.font(appTheme.fontSet.font(style: .placeholder3))
-							.foregroundColor(foregroundColorWhite)
-					}
-
+			}
+			.background(backgroundColorView)
+			.edgesIgnoringSafeArea(.all)
 		}
-		.background(backgroundColorView)
-		.edgesIgnoringSafeArea(.all)
 	}
 }
 
