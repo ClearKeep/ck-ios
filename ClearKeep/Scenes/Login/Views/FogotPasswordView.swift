@@ -116,7 +116,6 @@ private extension FogotPasswordView {
 		.frame(maxWidth: .infinity, maxHeight: .infinity)
 		.background(backgroundViewColor)
 		.edgesIgnoringSafeArea(.all)
-
 	}
 }
 // MARK: - Interactor

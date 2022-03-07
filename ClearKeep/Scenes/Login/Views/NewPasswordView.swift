@@ -77,8 +77,8 @@ private extension NewPasswordView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
-	var colorbg: Color {
-		background(LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)) as! Color
+	var colorbg: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
 }
 
