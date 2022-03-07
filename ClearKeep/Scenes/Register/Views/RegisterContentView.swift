@@ -20,11 +20,14 @@ private enum Constants {
 struct RegisterContentView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
-	@Binding var username: String
+	@Binding var email: String
 	@Binding var password: String
 	@Binding var displayname: String
 	@Binding var rePassword: String
-	@Binding var inputStyle: TextInputStyle
+	@Binding var emailStyle: TextInputStyle
+	@Binding var nameStyle: TextInputStyle
+	@Binding var passwordStyle: TextInputStyle
+	@Binding var rePasswordStyle: TextInputStyle
 	// MARK: - Body
 	var body: some View {
 		GroupBox(label:
@@ -89,12 +92,12 @@ private extension RegisterContentView {
 	var secureView: some View {
 		VStack(spacing: Constants.sapcing) {
 			SecureTextField(secureText: $password,
-							inputStyle: $inputStyle,
+							inputStyle: $passwordStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "General.Password".localized,
 							keyboardType: .default )
 			SecureTextField(secureText: $rePassword,
-							inputStyle: $inputStyle,
+							inputStyle: $rePasswordStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "General.ConfirmPassword".localized,
 							keyboardType: .default )
@@ -103,28 +106,28 @@ private extension RegisterContentView {
 	
 	var nomalTextfieldView: some View {
 		VStack(spacing: Constants.sapcing) {
-			CommonTextField(text: $username,
-							inputStyle: $inputStyle,
+			CommonTextField(text: $email,
+							inputStyle: $emailStyle,
 							inputIcon: AppTheme.shared.imageSet.mailIcon,
 							placeHolder: "General.Email".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
 				if isEditing {
-					inputStyle = .default
+					emailStyle = .default
 				} else {
-					inputStyle = .normal
+					emailStyle = .normal
 				}
 			})
 			CommonTextField(text: $displayname,
-							inputStyle: $inputStyle,
+							inputStyle: $nameStyle,
 							inputIcon: AppTheme.shared.imageSet.userIcon,
 							placeHolder: "General.Displayname".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
 				if isEditing {
-					inputStyle = .highlighted
+					nameStyle = .highlighted
 				} else {
-					inputStyle = .normal
+					nameStyle = .normal
 				}
 			})
 		}
@@ -134,7 +137,7 @@ private extension RegisterContentView {
 #if DEBUG
 struct RegisterContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		RegisterContentView(username: .constant("Test"), password: .constant("Test"), displayname: .constant("Test"), rePassword: .constant("Test"), inputStyle: .constant(.default))
+		RegisterContentView(email: .constant("Test"), password: .constant("Test"), displayname: .constant("Test"), rePassword: .constant("Test"), emailStyle: .constant(.default), nameStyle: .constant(.default), passwordStyle: .constant(.default), rePasswordStyle: .constant(.default))
 	}
 }
 #endif

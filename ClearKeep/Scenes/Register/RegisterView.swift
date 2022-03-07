@@ -25,11 +25,14 @@ struct RegisterView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@State private(set) var samples: Loadable<[IRegisterModel]>
-	@State private(set) var username: String
+	@State private(set) var email: String
 	@State private(set) var displayname: String
 	@State private(set) var password: String
 	@State private(set) var rePassword: String
-	@State private(set) var inputStyle: TextInputStyle = .default
+	@State private(set) var emailStyle: TextInputStyle = .default
+	@State private(set) var nameStyle: TextInputStyle = .default
+	@State private(set) var passwordStyle: TextInputStyle = .default
+	@State private(set) var rePasswordStyle: TextInputStyle = .default
 
 	init(samples: Loadable<[IRegisterModel]> = .notRequested,
 		 username: String = "",
@@ -38,11 +41,14 @@ struct RegisterView: View {
 		 rePassword: String = "",
 		 inputStyle: TextInputStyle = .default) {
 		self._samples = .init(initialValue: samples)
-		self._username = .init(initialValue: username)
+		self._email = .init(initialValue: username)
 		self._displayname = .init(initialValue: displayname)
 		self._password = .init(initialValue: password)
 		self._rePassword = .init(initialValue: rePassword)
-		self._inputStyle = .init(initialValue: inputStyle)
+		self._emailStyle = .init(initialValue: inputStyle)
+		self._nameStyle = .init(initialValue: inputStyle)
+		self._passwordStyle = .init(initialValue: inputStyle)
+		self._rePasswordStyle = .init(initialValue: inputStyle)
 	}
 	// MARK: - Body
 	var body: some View {
@@ -79,7 +85,7 @@ private extension RegisterView {
 						.resizable()
 						.aspectRatio(contentMode: .fit)
 						.frame(width: Constants.widthLogo, height: Constants.heightLogo)
-					RegisterContentView(username: $username, password: $password, displayname: $displayname, rePassword: $rePassword, inputStyle: $inputStyle)
+					RegisterContentView(email: $email, password: $password, displayname: $displayname, rePassword: $rePassword, emailStyle: $emailStyle, nameStyle: $nameStyle, passwordStyle: $passwordStyle, rePasswordStyle: $rePasswordStyle)
 						.frame(width: Constants.widthReView)
 					Spacer()
 		}
