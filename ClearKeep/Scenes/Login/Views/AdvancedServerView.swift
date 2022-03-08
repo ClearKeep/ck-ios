@@ -39,7 +39,7 @@ struct AdvancedServerView: View {
 			.background(backgroundViewColor)
 			.edgesIgnoringSafeArea(.all)
 			.navigationBarBackButtonHidden(true)
-			.navigationBarItems(leading: btnBack)
+			.navigationBarItems(leading: buttonBack)
 	}
 }
 // MARK: - Private
@@ -92,14 +92,7 @@ private extension AdvancedServerView {
 					severUrlStyle = .highlighted
 				}
 			})
-			Button("AdvancedServer.Submit".localized) {
-				self.showingNewPass = true
-			}
-			.frame(maxWidth: .infinity, alignment: .center)
-			.padding(.all, Constants.padding)
-			.background(backgroundButton)
-			.foregroundColor(foregroundButton)
-			.cornerRadius(Constants.radius)
+			buttonSubmit
 			Spacer()
 			Spacer()
 			Spacer()
@@ -108,7 +101,7 @@ private extension AdvancedServerView {
 		.padding(.all, Constants.padding)
 	}
 
-	var btnBack : some View {
+	var buttonBack : some View {
 		Button(action: customBack) {
 			HStack {
 				AppTheme.shared.imageSet.backIcon
@@ -121,6 +114,16 @@ private extension AdvancedServerView {
 			}
 			.foregroundColor(foregroundBackButton)
 		}
+	}
+	var buttonSubmit: some View {
+		Button("AdvancedServer.Submit".localized) {
+			self.showingNewPass = true
+		}
+		.frame(maxWidth: .infinity, alignment: .center)
+		.padding(.all, Constants.padding)
+		.background(backgroundButton)
+		.foregroundColor(foregroundButton)
+		.cornerRadius(Constants.radius)
 	}
 }
 // MARK: - Interactor
