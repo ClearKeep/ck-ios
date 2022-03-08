@@ -25,7 +25,7 @@ struct RegisterView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@State private(set) var samples: Loadable<[IRegisterModel]>
-	@State private(set) var email: String
+	@State private(set) var emails: String
 	@State private(set) var displayname: String
 	@State private(set) var password: String
 	@State private(set) var rePassword: String
@@ -33,23 +33,27 @@ struct RegisterView: View {
 	@State private(set) var nameStyle: TextInputStyle = .default
 	@State private(set) var passwordStyle: TextInputStyle = .default
 	@State private(set) var rePasswordStyle: TextInputStyle = .default
-
+	
 	init(samples: Loadable<[IRegisterModel]> = .notRequested,
+		 email: String = "",
 		 username: String = "",
 		 displayname: String = "",
 		 password: String = "",
 		 rePassword: String = "",
-		 inputStyle: TextInputStyle = .default) {
-		self._samples = .init(initialValue: samples)
-		self._email = .init(initialValue: username)
-		self._displayname = .init(initialValue: displayname)
-		self._password = .init(initialValue: password)
-		self._rePassword = .init(initialValue: rePassword)
-		self._emailStyle = .init(initialValue: inputStyle)
-		self._nameStyle = .init(initialValue: inputStyle)
-		self._passwordStyle = .init(initialValue: inputStyle)
-		self._rePasswordStyle = .init(initialValue: inputStyle)
-	}
+		 emailStyle: TextInputStyle = .default,
+		 nameStyle: TextInputStyle = .default,
+		 passwordStyle: TextInputStyle = .default,
+		 rePasswordStyle: TextInputStyle = .default) {
+	self._samples = .init(initialValue: samples)
+	self._emails = .init(initialValue: email)
+	self._displayname = .init(initialValue: displayname)
+	self._password = .init(initialValue: password)
+	self._rePassword = .init(initialValue: rePassword)
+	self._emailStyle = .init(initialValue: emailStyle)
+	self._nameStyle = .init(initialValue: nameStyle)
+	self._passwordStyle = .init(initialValue: passwordStyle)
+	self._rePasswordStyle = .init(initialValue: rePasswordStyle)
+}
 	// MARK: - Body
 	var body: some View {
 		NavigationView {
@@ -79,15 +83,15 @@ private extension RegisterView {
 // MARK: - Loading Content
 private extension RegisterView {
 	var notRequestedView: some View {
-				VStack(spacing: Constants.spacing) {
-					Spacer()
-					AppTheme.shared.imageSet.logo
-						.resizable()
-						.aspectRatio(contentMode: .fit)
-						.frame(width: Constants.widthLogo, height: Constants.heightLogo)
-					RegisterContentView(email: $email, password: $password, displayname: $displayname, rePassword: $rePassword, emailStyle: $emailStyle, nameStyle: $nameStyle, passwordStyle: $passwordStyle, rePasswordStyle: $rePasswordStyle)
-						.frame(width: Constants.widthReView)
-					Spacer()
+		VStack(spacing: Constants.spacing) {
+			Spacer()
+			AppTheme.shared.imageSet.logo
+				.resizable()
+				.aspectRatio(contentMode: .fit)
+				.frame(width: Constants.widthLogo, height: Constants.heightLogo)
+			RegisterContentView(email: $emails, password: $password, displayname: $displayname, rePassword: $rePassword, emailStyle: $emailStyle, nameStyle: $nameStyle, passwordStyle: $passwordStyle, rePasswordStyle: $rePasswordStyle)
+				.frame(width: Constants.widthReView)
+			Spacer()
 		}
 		.frame(maxWidth: .infinity, maxHeight: .infinity)
 		.background(backgroundColorView)
