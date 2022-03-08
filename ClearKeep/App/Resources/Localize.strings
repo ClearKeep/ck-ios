@@ -5,20 +5,6 @@
 "General.Password" = "Password";
 "General.ConfirmPassword" = "Confirm Password";
 "General.Save" = "Save";
-"General.Notification" = "Notification";
-"General.Online" = "Online";
-"General.Busy" = "Busy";
-// MARK: - Login
-"Login.SignInWith" = "Sign in with";
-"Login.SignIn" = "Sign in";
-"Login.AdvancedServerSettings" = "Advanced Server Settings";
-"Login.ForgotPassword?" = "Forgot Password?";
-"Login.SignUp.Suggest" = "Don't have an account?";
-"Login.SignUp" = "Sign up";
-"Login.Version" = "App version: 1.1.1";
-"General.DisplayName" = "Display Name";
-"General.Password" = "Password";
-"General.ConfirmPassword" = "Confirm Password";
 // MARK: - Register
 "Register.Title" = "Please fill in the information below to complete your sign up";
 "Register.SignInInstead" = "Sign in instead";
@@ -36,11 +22,4 @@
 "AdvancedServer.SeverButton" = "Use Custom Server";
 "AdvancedServer.Submit" = "Submit";
 "AdvancedServer.ServerUrl" = "Server URL";
-// MARK: - Home
-"Home.Title" = "CK Development";
-"Home.Menu" = "Menu";
-"Home.Profile" = "Profile";
-"Home.Server" = "Sever";
-"Home.GroupChat" = "Group Chat";
-"Home.Message" = "Direct Messages";
-"Home.Signout" = "Sign out";
+
