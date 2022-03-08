@@ -38,7 +38,7 @@ struct FogotPasswordView: View {
 			.background(backgroundViewColor)
 			.edgesIgnoringSafeArea(.all)
 			.navigationBarBackButtonHidden(true)
-			.navigationBarItems(leading: btnBack)
+			.navigationBarItems(leading: buttonBack)
 	}
 }
 // MARK: - Private
@@ -91,19 +91,7 @@ private extension FogotPasswordView {
 					emailStyle = .highlighted
 				}
 			})
-			NavigationLink(
-				destination: NewPasswordView(password: "", rePassword: "", passwordStyle: .normal, rePasswordStyle: .normal),
-				isActive: $showingNewPass,
-				label: {
-					Button("ForgotPass.Resetpassword".localized) {
-						self.showingNewPass = true
-					}
-					.frame(maxWidth: .infinity, alignment: .center)
-					.padding(.all, Constants.padding)
-					.background(backgroundButton)
-					.foregroundColor(foregroundButton)
-					.cornerRadius(Constants.radius)
-				})
+			buttonResetPassword
 			Spacer()
 			Spacer()
 			Spacer()
@@ -112,7 +100,7 @@ private extension FogotPasswordView {
 		.padding(.all, Constants.padding)
 	}
 	
-	var btnBack : some View {
+	var buttonBack: some View {
 		Button(action: customBack) {
 			HStack {
 				AppTheme.shared.imageSet.backIcon
@@ -125,6 +113,21 @@ private extension FogotPasswordView {
 			}
 			.foregroundColor(foregroundBackButton)
 		}
+	}
+	var buttonResetPassword: some View {
+		NavigationLink(
+			destination: NewPasswordView(password: "", rePassword: "", passwordStyle: .normal, rePasswordStyle: .normal),
+			isActive: $showingNewPass,
+			label: {
+				Button("ForgotPass.Resetpassword".localized) {
+					self.showingNewPass = true
+				}
+				.frame(maxWidth: .infinity, alignment: .center)
+				.padding(.all, Constants.padding)
+				.background(backgroundButton)
+				.foregroundColor(foregroundButton)
+				.cornerRadius(Constants.radius)
+			})
 	}
 }
 // MARK: - Interactor

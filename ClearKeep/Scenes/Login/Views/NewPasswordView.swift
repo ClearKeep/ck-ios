@@ -45,7 +45,7 @@ struct NewPasswordView: View {
 			.background(backgroundViewColor)
 			.edgesIgnoringSafeArea(.all)
 			.navigationBarBackButtonHidden(true)
-			.navigationBarItems(leading: btnBack)
+			.navigationBarItems(leading: buttonBack)
 	}
 }
 // MARK: - Private
@@ -95,14 +95,7 @@ private extension NewPasswordView {
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "General.ConfirmPassword".localized,
 							keyboardType: .default )
-			Button("ForgotPass.Save".localized) {
-
-			}
-			.frame(maxWidth: .infinity, alignment: .center)
-			.padding(.all, Constants.padding)
-			.background(backgroundButton)
-			.foregroundColor(foregroundButton)
-			.cornerRadius(Constants.radius)
+			buttonSave
 			Spacer()
 			Spacer()
 			Spacer()
@@ -110,7 +103,7 @@ private extension NewPasswordView {
 		.frame(maxWidth: .infinity, alignment: .center)
 		.padding(.all, Constants.padding)
 	}
-	var btnBack : some View {
+	var buttonBack: some View {
 		Button(action: customBack) {
 			HStack {
 				AppTheme.shared.imageSet.backIcon
@@ -123,6 +116,16 @@ private extension NewPasswordView {
 			}
 			.foregroundColor(foregroundBackButton)
 		}
+	}
+	var buttonSave: some View {
+		Button("ForgotPass.Save".localized) {
+
+		}
+		.frame(maxWidth: .infinity, alignment: .center)
+		.padding(.all, Constants.padding)
+		.background(backgroundButton)
+		.foregroundColor(foregroundButton)
+		.cornerRadius(Constants.radius)
 	}
 }
 // MARK: - Interactor
