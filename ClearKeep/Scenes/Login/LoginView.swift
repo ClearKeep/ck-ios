@@ -10,87 +10,93 @@ import Combine
 import Common
 import CommonUI
 
+private enum Constants {
+	static let minSpacer = 50.0
+	static let heightLogo = 120.0
+	static let widthLogo = 150.0
+	static let spacing = 30.0
+	static let paddingVertical = 14.0
+	static let paddingHorizontal = 24.0
+}
+
 struct LoginView: View {
 
 	@Environment(\.injected) private var injected: DIContainer
-	@State private(set) var samples: Loadable<[ISampleModel]>
-	@State private(set) var searchKeyword: String = ""
-	@State private(set) var searchInputStyle: TextInputStyle = .default
+	@Environment(\.colorScheme) var colorScheme
+	@State private(set) var samples: Loadable<[ILoginModel]>
+	@State private(set) var email: String
+	@State private(set) var password: String
+	@State private(set) var emailStyle: TextInputStyle = .default
+	@State private(set) var passwordStyle: TextInputStyle = .default
 	let inspection = ViewInspector<Self>()
 
-	init(samples: Loadable<[ISampleModel]> = .notRequested,
-		 searchKeyword: String = "",
-		 searchInputStyle: TextInputStyle = .default) {
+	init(samples: Loadable<[ILoginModel]> = .notRequested,
+		email: String = "",
+		password: String = "",
+		inputStyle: TextInputStyle = .default) {
 		self._samples = .init(initialValue: samples)
-		self._searchKeyword = .init(initialValue: searchKeyword)
-		self._searchInputStyle = .init(initialValue: searchInputStyle)
+		self._email = .init(initialValue: email)
+		self._password = .init(initialValue: password)
+		self._emailStyle = .init(initialValue: inputStyle)
+		self._passwordStyle = .init(initialValue: inputStyle)
 	}
 
 	var body: some View {
-		GeometryReader { _ in
-			NavigationView {
-				self.content
-					.navigationBarTitle("Login")
-			}
-			.navigationViewStyle(DoubleColumnNavigationViewStyle())
-		}
-		.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
+		NavigationView {
+					content
+						.onReceive(inspection.notice) { inspection.visit(self, $0) }
+				}
 	}
 }
 
 // MARK: - Private
 private extension LoginView {
 	var content: AnyView {
-		switch samples {
-		case .notRequested: return AnyView(notRequestedView)
-		case let .isLoading(last, _): return AnyView(loadingView(last))
-		case let .loaded(countries): return AnyView(loadedView(countries, showSearch: true, showLoading: false))
-		case let .failed(error): return AnyView(failedView(error))
+			AnyView(notRequestedView)
 		}
-	}
 }
 
 // MARK: - Loading Content
 private extension LoginView {
 	var notRequestedView: some View {
-		Text("").onAppear(perform: reloadSamples)
-	}
-
-	func loadingView(_ previouslyLoaded: [ISampleModel]?) -> some View {
-		if let samples = previouslyLoaded {
-			return AnyView(loadedView(samples, showSearch: true, showLoading: true))
-		} else {
-			return AnyView(ActivityIndicatorView().padding())
+		ScrollView {
+			background
+			VStack(spacing: Constants.spacing) {
+				Spacer(minLength: Constants.minSpacer)
+				AppTheme.shared.imageSet.logo
+					.resizable()
+					.aspectRatio(contentMode: .fit)
+					.frame(width: Constants.widthLogo, height: Constants.heightLogo)
+				LoginContentView(email: $email, password: $password, emailStyle: $emailStyle, passwordStyle: $passwordStyle)
+				Spacer()
+			}
+			.padding(.leading, Constants.paddingVertical)
+			.padding(.trailing, Constants.paddingVertical)
 		}
-	}
-
-	func failedView(_ error: Error) -> some View {
-		ErrorView(error: error, retryAction: {
-			self.reloadSamples()
-		})
+		.background(background)
+		.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
 	}
 }
 
 // MARK: - Displaying Content
 private extension LoginView {
-	func loadedView(_ samples: [ISampleModel], showSearch: Bool, showLoading: Bool) -> some View {
-		VStack {
-			if showLoading {
-				ActivityIndicatorView().padding()
-			}
-			ForEach(samples, id: \.id) { sample in
-				Text(sample.name)
-			}
-			.id(samples.count)
-			HomeHeaderView(searchText: $searchKeyword, inputStyle: $searchInputStyle)
-		}.padding(.bottom, 0)
-	}
+
 }
 
 // MARK: - Interactors
 private extension LoginView {
-	func reloadSamples() {
-		injected.interactors.homeInteractor.worker.getSamples(samples: $samples)
+}
+
+// MARK: - Support Variables
+private extension LoginView {
+	var background: LinearGradient {
+		colorScheme == .light ? backgroundGradientPrimary : backgroundBlack
+	}
+	var backgroundBlack: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]), startPoint: .leading, endPoint: .trailing)
+	}
+	var backgroundGradientPrimary: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
 }
 

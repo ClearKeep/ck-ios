@@ -8,7 +8,7 @@
 "Login.SignIn" = "Sign in";
 "Login.AdvancedServerSettings" = "Advanced Server Settings";
 "Login.ForgotPassword?" = "Forgot Password?";
-"Login.Don'tHaveAnAccount?" = "Don't have an account?";
+"Login.SignUp.Suggest" = "Don't have an account?";
 "Login.SignUp" = "Sign up";
-"Login.AppVersion:1.1.1" = "App version: 1.1.1";
+"Login.Version" = "App version: 1.1.1";
 

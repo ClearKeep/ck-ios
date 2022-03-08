@@ -56,6 +56,7 @@
 		CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73084127CE648F00AB0FBD /* HomeContentView.swift */; };
 		CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73084327CE785B00AB0FBD /* AppTheme.swift */; };
 		CBCF494F27D46715006D84FE /* Localize.strings in Resources */ = {isa = PBXBuildFile; fileRef = CBCF494E27D46714006D84FE /* Localize.strings */; };
+		F51AB9EC27D6F5B300FD6303 /* ILoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51AB9EB27D6F5B300FD6303 /* ILoginModel.swift */; };
 		F5D09AF827D51174001E8CC4 /* LoginContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D09AF727D51174001E8CC4 /* LoginContentView.swift */; };
 		F5D09AFA27D5E84D001E8CC4 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D09AF927D5E84D001E8CC4 /* LoginView.swift */; };
 		F5D09AFC27D5E864001E8CC4 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D09AFB27D5E864001E8CC4 /* LoginInteractor.swift */; };
@@ -176,6 +177,7 @@
 		CBCF494E27D46714006D84FE /* Localize.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localize.strings; sourceTree = "<group>"; };
 		CBD0AA3B27C7484900F86EFD /* Authentication */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Authentication; path = Packages/Authentication; sourceTree = "<group>"; };
 		EE672FA0EC8A123D35608506 /* Pods-ClearKeepUITests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.ppe.xcconfig"; sourceTree = "<group>"; };
+		F51AB9EB27D6F5B300FD6303 /* ILoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ILoginModel.swift; sourceTree = "<group>"; };
 		F5D09AF727D51174001E8CC4 /* LoginContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginContentView.swift; sourceTree = "<group>"; };
 		F5D09AF927D5E84D001E8CC4 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F5D09AFB27D5E864001E8CC4 /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
@@ -502,6 +504,7 @@
 		F5D09AF527D51149001E8CC4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F51AB9EB27D6F5B300FD6303 /* ILoginModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -798,6 +801,7 @@
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
+				F51AB9EC27D6F5B300FD6303 /* ILoginModel.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,

@@ -14,168 +14,191 @@ private enum Constant {
 	static let spacerBottom = 45.0
 	static let widthLogo = 160.0
 	static let heightLogo = 120.0
-	static let widthSignInBt = UIScreen.main.bounds.width - 30.0
-	static let widthSignUpBt = UIScreen.main.bounds.width - 30.0
-	static let widthIconBt = 54.0
-	static let heightBt = 40.0
+	static let paddingVertical = 14.0
+	static let paddingHorizontal = 24.0
+	static let paddingHorizontalSignUp = 60.0
+	static let widthIconButton = 54.0
+	static let heightButton = 40.0
 	static let radius = 40.0
 	static let heightRectangle = 1.0
 	static let lineWidthBorder = 3.0
 }
 
 struct LoginContentView: View {
-	@State private var email: String = ""
-	@State private var password: String = ""
+	@Binding var email: String
+	@Binding var password: String
+	@Binding var emailStyle: TextInputStyle
+	@Binding var passwordStyle: TextInputStyle
 	@State private var editingEmail = false
 	@State private var editingPassword = false
-	@State var inputStyle: TextInputStyle  = .normal
 	@Environment(\.colorScheme) var colorScheme
 
 	var body: some View {
-		NavigationView {
-			ScrollView {
-				backgroundColorView
-				VStack {
-					Spacer(minLength: Constant.spacerTopView)
-
-					// MARK: - Logo
-					imageLogo
-						.resizable()
-						.aspectRatio(contentMode: .fit)
-						.frame(width: Constant.widthLogo, height: Constant.heightLogo)
-
-					Spacer(minLength: Constant.spacerTopView)
-
-					// MARK: - Text Input
-					VStack(spacing: Constant.spacer) {
-						CommonTextField(text: $email, inputStyle: $inputStyle, inputIcon: iconMail, placeHolder: "General.Email".localized, keyboardType: .default, onEditingChanged: { isEditing in
-							if isEditing {
-								inputStyle = .normal
-							} else {
-								inputStyle = .highlighted
-							}
-						})
-						SecureTextField(secureText: $password, inputStyle: $inputStyle, inputIcon: iconLock, placeHolder: "General.Password".localized, keyboardType: .default )
-
-						// MARK: - Signin button
-						Button("Login.SignIn".localized) {}
-						.frame(width: Constant.widthSignInBt, height: Constant.heightBt)
-						.font(fontSignIn)
-						.background(backgroundSignInBt)
-						.foregroundColor(foregroundColorView)
-						.cornerRadius(Constant.radius)
-
-						// MARK: - Support Button
-						HStack {
-							Button("Login.AdvancedServerSettings".localized) {}
-							.padding()
-							.font(fontSignIn)
-							.foregroundColor(foregroundColorViewBt)
-
-							Spacer()
-
-							Button("Login.ForgotPassword?".localized) {}
-							.padding()
-							.font(fontSignIn)
-							.foregroundColor(foregroundColorViewBt)
-						}
-						VStack(spacing: Constant.spacerBottomView) {
-							// MARK: - Line between 2 views
-							Rectangle().frame(height: Constant.heightRectangle)
-								.padding(.horizontal).foregroundColor(foregroundColorWhite)
-
-							Text("Login.SignInWith".localized)
-								.font(fontSignIn)
-								.foregroundColor(foregroundColorWhite)
-
-							HStack(spacing: Constant.spacerBottom) {
-								Button(action: { }, label: {
-									Text("")
-									iconGoogle
-								})
-									.frame(width: Constant.widthIconBt, height: Constant.widthIconBt)
-
-								Button(action: { }, label: {
-									Text("")
-									iconOffice
-								})
-									.frame(width: Constant.widthIconBt, height: Constant.widthIconBt)
-
-								Button(action: { }, label: {
-									Text("")
-									iconFacebook
-								})
-									.frame(width: Constant.widthIconBt, height: Constant.widthIconBt)
-							}
-						}
-					}
-					.frame(width: Constant.widthSignInBt)
-
-					Spacer(minLength: Constant.spacerBottom)
-				}
-
-				// MARK: - Social login button
-				VStack {
-					// MARK: - Sign up button
-					Text("Login.Don'tHaveAnAccount?".localized)
-						.font(fontSignIn)
-						.foregroundColor(foregroundColorWhite)
-
-					Spacer(minLength: Constant.spacer)
-
-					Button("Login.SignUp".localized) {}
-					.frame(width: Constant.widthSignUpBt, height: Constant.heightBt)
-					.font(fontSignIn)
-					.foregroundColor(foregroundColorViewBt)
-					.overlay(
-						RoundedRectangle(cornerRadius: Constant.radius)
-							.stroke(foregroundColorViewBt, lineWidth: Constant.lineWidthBorder))
-
-					Spacer(minLength: Constant.spacerBottomView)
-
-					Text("Login.AppVersion:1.1.1".localized)
-						.font(AppTheme.shared.fontSet.font(style: .placeholder3))
-						.foregroundColor(foregroundColorWhite)
-				}
-
-			}
-			.background(backgroundColorView)
-			.edgesIgnoringSafeArea(.all)
+		VStack(alignment: .center, spacing: Constant.spacer) {
+			textInput
+			button
+			extraButton
+			lineSeperate
+			signInWith
+			socialLoginButton
+			signUp
 		}
+	}
+}
+
+// MARK: - Private
+private extension LoginContentView {
+
+	var button: AnyView {
+		AnyView(buttonSignIn)
+	}
+
+	var textInput: AnyView {
+		AnyView(textInputView)
+	}
+
+	var extraButton: AnyView {
+		AnyView(extraButtonView)
+	}
+
+	var lineSeperate: AnyView {
+		AnyView(lineSeperateView)
+	}
+
+	var signInWith: AnyView {
+		AnyView(signInWithView)
+	}
+
+	var socialLoginButton: AnyView {
+		AnyView(socialLoginButtonView)
+	}
+
+	var signUp: AnyView {
+		AnyView(signUpView)
+	}
+}
+
+// MARK: - Loading Content
+private extension LoginContentView {
+	var buttonSignIn: some View {
+		Button("Login.SignIn".localized) {}
+			.frame(maxWidth: .infinity)
+			.frame(height: Constant.heightButton)
+			.font(fontSignIn)
+			.background(backgroundSignInButton)
+			.foregroundColor(foregroundColorView)
+			.cornerRadius(Constant.radius)
+	}
+
+	var textInputView: some View {
+		VStack(spacing: Constant.spacer) {
+			CommonTextField(text: $email,
+							inputStyle: $emailStyle,
+							inputIcon: AppTheme.shared.imageSet.mailIcon,
+							placeHolder: "General.Email".localized,
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				if isEditing {
+					emailStyle = .normal
+				} else {
+					emailStyle = .highlighted
+				}
+			})
+			SecureTextField(secureText: $password,
+							inputStyle: $passwordStyle,
+							inputIcon: AppTheme.shared.imageSet.lockIcon,
+							placeHolder: "General.Password".localized,
+							keyboardType: .default )
+		}
+	}
+
+	var extraButtonView: some View {
+		HStack {
+			Button("Login.AdvancedServerSettings".localized) {}
+			.padding()
+			.font(fontSignIn)
+			.foregroundColor(foregroundColorViewButton)
+
+			Spacer()
+
+			Button("Login.ForgotPassword?".localized) {}
+			.padding()
+			.font(fontSignIn)
+			.foregroundColor(foregroundColorViewButton)
+		}
+	}
+
+	var lineSeperateView: some View {
+		Rectangle().frame(height: Constant.heightRectangle)
+			.padding(.horizontal).foregroundColor(foregroundColorWhite)
+	}
+
+	var signInWithView: some View {
+		Text("Login.SignUp.Suggest".localized)
+			.font(fontSignIn)
+			.foregroundColor(foregroundColorWhite)
+	}
+
+	var socialLoginButtonView: some View {
+		HStack(spacing: Constant.spacerBottom) {
+			Button(action: { }, label: {
+				Text("")
+				AppTheme.shared.imageSet.googleIcon
+			})
+				.frame(width: Constant.widthIconButton, height: Constant.widthIconButton)
+
+			Button(action: { }, label: {
+				Text("")
+				AppTheme.shared.imageSet.officeIcon
+			})
+				.frame(width: Constant.widthIconButton, height: Constant.widthIconButton)
+
+			Button(action: { }, label: {
+				Text("")
+				AppTheme.shared.imageSet.facebookIcon
+			})
+				.frame(width: Constant.widthIconButton, height: Constant.widthIconButton)
+		}
+		.frame(maxWidth: .infinity)
+		.padding(.leading, Constant.paddingHorizontalSignUp)
+		.padding(.trailing, Constant.paddingHorizontalSignUp)
+	}
+
+	var signUpView: some View {
+		VStack {
+			Text("Login.SignUp.Suggest".localized)
+				.font(fontSignIn)
+				.foregroundColor(foregroundColorWhite)
+
+			Spacer(minLength: Constant.spacer)
+
+			Button("Login.SignUp".localized) {}
+			.frame(maxWidth: .infinity)
+			.frame(height: Constant.heightButton)
+			.font(fontSignIn)
+			.foregroundColor(foregroundColorViewButton)
+			.overlay(
+				RoundedRectangle(cornerRadius: Constant.radius)
+					.stroke(foregroundColorViewButton, lineWidth: Constant.lineWidthBorder))
+
+			Spacer(minLength: Constant.spacerBottomView)
+
+			Text("Login.Version".localized)
+				.font(AppTheme.shared.fontSet.font(style: .placeholder3))
+				.foregroundColor(foregroundColorWhite)
+		}
+		.padding(.leading, Constant.paddingHorizontalSignUp)
+		.padding(.trailing, Constant.paddingHorizontalSignUp)
 	}
 }
 
 // MARK: - Private func
 private extension LoginContentView {
-	var imageLogo: Image {
-		AppTheme.shared.imageSet.logo
-	}
-
-	var iconLock: Image {
-		AppTheme.shared.imageSet.lockIcon
-	}
-
-	var iconMail: Image {
-		AppTheme.shared.imageSet.mailIcon
-	}
-
-	var iconGoogle: Image {
-		AppTheme.shared.imageSet.googleIcon
-	}
-
-	var iconOffice: Image {
-		AppTheme.shared.imageSet.officeIcon
-	}
-
-	var iconFacebook: Image {
-		AppTheme.shared.imageSet.facebookIcon
-	}
-
 	var backgroundColorView: LinearGradient {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorDark
 	}
 
-	var backgroundSignInBt: LinearGradient {
+	var backgroundSignInButton: LinearGradient {
 		colorScheme == .light ? backgroundColorWhite : backgroundColorGradient
 	}
 
@@ -183,7 +206,7 @@ private extension LoginContentView {
 		colorScheme == .light ? foregroundColorPrimary : foregroundColorWhite
 	}
 
-	var foregroundColorViewBt: Color {
+	var foregroundColorViewButton: Color {
 		colorScheme == .light ? foregroundColorWhite : foregroundColorPrimary
 	}
 
@@ -196,15 +219,15 @@ private extension LoginContentView {
 	}
 
 	var foregroundColorGradient: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [.white, .white]), startPoint: .leading, endPoint: .trailing)
+		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
 	}
 
 	var backgroundColorWhite: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [.white, .white]), startPoint: .leading, endPoint: .trailing)
+		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
 	}
 
 	var backgroundColorDark: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [.black, .black]), startPoint: .leading, endPoint: .trailing)
+		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]), startPoint: .leading, endPoint: .trailing)
 	}
 
 	var backgroundColorGradient: LinearGradient {
@@ -219,7 +242,7 @@ private extension LoginContentView {
 #if DEBUG
 struct LoginContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		LoginContentView()
+		LoginContentView(email: .constant("Test"), password: .constant("Test"), emailStyle: .constant(.default), passwordStyle: .constant(.default))
 	}
 }
 #endif
