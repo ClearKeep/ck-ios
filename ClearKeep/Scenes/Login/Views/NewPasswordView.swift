@@ -1,12 +1,14 @@
 //
-//  FogotPasswordView.swift
+//  NewPasswordView.swift
 //  ClearKeep
 //
-//  Created by MinhDev on 05/03/2022.
+//  Created by MinhDev on 08/03/2022.
 //
+
 import SwiftUI
 import CommonUI
 import Common
+import CNIOBoringSSL
 
 private enum Constants {
 	static let radius = 40.0
@@ -14,23 +16,28 @@ private enum Constants {
 	static let padding = 10.0
 }
 
-struct FogotPasswordView: View {
+struct NewPasswordView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
-	
+
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
-	@State private(set) var email: String
-	@State private(set) var emailStyle: TextInputStyle
-	@State private(set) var showingNewPass: Bool = false
-	init(email: String = "",
-		 emailStyle: TextInputStyle = .default) {
-		self._email = .init(initialValue: email)
-		self._emailStyle = .init(initialValue: emailStyle)
+	@State private(set) var password: String
+	@State private(set) var rePassword: String
+	@State private(set) var passwordStyle: TextInputStyle
+	@State private(set) var rePasswordStyle: TextInputStyle
+
+	init(password: String = "",
+		 rePassword: String = "",
+		 passwordStyle: TextInputStyle = .default,
+		 rePasswordStyle: TextInputStyle = .default) {
+		self._password = .init(initialValue: password)
+		self._rePassword = .init(initialValue: rePassword)
+		self._passwordStyle = .init(initialValue: rePasswordStyle)
+		self._rePasswordStyle = .init(initialValue: rePasswordStyle)
 	}
-	// MARK: - Body
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
@@ -42,16 +49,16 @@ struct FogotPasswordView: View {
 	}
 }
 // MARK: - Private
-private extension FogotPasswordView {
-	
+private extension NewPasswordView {
+
 	var backgroundButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
-	
+
 	var backgroundViewColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.black
 	}
-	
+
 	var foregroundButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
 	}
@@ -60,50 +67,42 @@ private extension FogotPasswordView {
 	}
 }
 // MARK: - Private Func
-private extension FogotPasswordView {
+private extension NewPasswordView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
-	
+
 	var content: AnyView {
-		AnyView(fogotPasswordView)
+		AnyView(newPasswordView)
 	}
 }
 // MARK: - Loading Content
-private extension FogotPasswordView {
-	var fogotPasswordView: some View {
+private extension NewPasswordView {
+	var newPasswordView: some View {
 		VStack(spacing: Constants.spacing) {
 			Spacer()
-			Text("ForgotPass.Please enter your email to reset your password".localized)
+			Text("ForgotPass.TitleChangePassword".localized)
 				.font(AppTheme.shared.fontSet.font(style: .body2))
 				.foregroundColor(foregroundBackButton)
-				.frame(maxWidth: .infinity, alignment: .leading)
 				.padding(.all)
-			CommonTextField(text: $email,
-							inputStyle: $emailStyle,
-							inputIcon: AppTheme.shared.imageSet.mailIcon,
-							placeHolder: "General.Email".localized,
-							keyboardType: .default,
-							onEditingChanged: { isEditing in
-				if isEditing {
-					emailStyle = .normal
-				} else {
-					emailStyle = .highlighted
-				}
-			})
-			NavigationLink(
-				destination: NewPasswordView(password: "", rePassword: "", passwordStyle: .normal, rePasswordStyle: .normal),
-				isActive: $showingNewPass,
-				label: {
-					Button("ForgotPass.Resetpassword".localized) {
-						self.showingNewPass = true
-					}
-					.frame(maxWidth: .infinity, alignment: .center)
-					.padding(.all, Constants.padding)
-					.background(backgroundButton)
-					.foregroundColor(foregroundButton)
-					.cornerRadius(Constants.radius)
-				})
+			SecureTextField(secureText: $password,
+							inputStyle: $passwordStyle,
+							inputIcon: AppTheme.shared.imageSet.lockIcon,
+							placeHolder: "General.Password".localized,
+							keyboardType: .default )
+			SecureTextField(secureText: $rePassword,
+							inputStyle: $rePasswordStyle,
+							inputIcon: AppTheme.shared.imageSet.lockIcon,
+							placeHolder: "General.ConfirmPassword".localized,
+							keyboardType: .default )
+			Button("ForgotPass.Save".localized) {
+
+			}
+			.frame(maxWidth: .infinity, alignment: .center)
+			.padding(.all, Constants.padding)
+			.background(backgroundButton)
+			.foregroundColor(foregroundButton)
+			.cornerRadius(Constants.radius)
 			Spacer()
 			Spacer()
 			Spacer()
@@ -111,7 +110,6 @@ private extension FogotPasswordView {
 		.frame(maxWidth: .infinity, alignment: .center)
 		.padding(.all, Constants.padding)
 	}
-	
 	var btnBack : some View {
 		Button(action: customBack) {
 			HStack {
@@ -119,7 +117,7 @@ private extension FogotPasswordView {
 					.aspectRatio(contentMode: .fit)
 					.foregroundColor(foregroundBackButton)
 				Spacer()
-				Text("ForgotPass.Forgotpassword".localized)
+				Text("ForgotPass.NewPassword".localized)
 					.padding(.all)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 			}
@@ -128,13 +126,13 @@ private extension FogotPasswordView {
 	}
 }
 // MARK: - Interactor
-private extension FogotPasswordView {
+private extension NewPasswordView {
 }
 // MARK: - Preview
 #if DEBUG
-struct FogotPasswordView_Previews: PreviewProvider {
+struct NewPasswordView_Previews: PreviewProvider {
 	static var previews: some View {
-		FogotPasswordView(email: "", emailStyle: .normal)
+		NewPasswordView()
 	}
 }
 #endif
