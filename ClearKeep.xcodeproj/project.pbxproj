@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		044351AD27D5E31A0054A78F /* FogotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351AB27D5E3190054A78F /* FogotPasswordView.swift */; };
-		044351AE27D5E31A0054A78F /* NewPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351AC27D5E31A0054A78F /* NewPasswordView.swift */; };
 		044351B527D6010D0054A78F /* LoginInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351B027D6010D0054A78F /* LoginInMemoryStore.swift */; };
 		044351B627D6010D0054A78F /* LoginWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351B127D6010D0054A78F /* LoginWorker.swift */; };
 		044351B727D6010D0054A78F /* LoginRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351B227D6010D0054A78F /* LoginRemoteStore.swift */; };
@@ -105,7 +104,6 @@
 
 /* Begin PBXFileReference section */
 		044351AB27D5E3190054A78F /* FogotPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FogotPasswordView.swift; sourceTree = "<group>"; };
-		044351AC27D5E31A0054A78F /* NewPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPasswordView.swift; sourceTree = "<group>"; };
 		044351B027D6010D0054A78F /* LoginInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInMemoryStore.swift; sourceTree = "<group>"; };
 		044351B127D6010D0054A78F /* LoginWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWorker.swift; sourceTree = "<group>"; };
 		044351B227D6010D0054A78F /* LoginRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRemoteStore.swift; sourceTree = "<group>"; };
@@ -248,7 +246,6 @@
 			isa = PBXGroup;
 			children = (
 				044351AB27D5E3190054A78F /* FogotPasswordView.swift */,
-				044351AC27D5E31A0054A78F /* NewPasswordView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -805,7 +802,6 @@
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
-				044351AE27D5E31A0054A78F /* NewPasswordView.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
 				044351B627D6010D0054A78F /* LoginWorker.swift in Sources */,

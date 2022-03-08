@@ -18,7 +18,7 @@ struct LoginView: View {
 	// MARK: - Body
 	var body: some View {
 		content
-		.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 	}
 }
 
@@ -32,10 +32,10 @@ private extension LoginView {
 // MARK: - Loading Content
 private extension LoginView {
 	var notRequestedView: some View {
-		NavigationView{
-		NavigationLink(destination: FogotPasswordView(email: "", inputStyle: .normal)) {
-			Text("sadsd")
-		}
+		NavigationView {
+			NavigationLink(destination: FogotPasswordView(email: "", password: "", rePassword: "", emailStyle: .normal, passwordStyle: .normal, rePasswordStyle: .normal)) {
+				Text("sadsd")
+			}
 		}
 	}
 }
@@ -43,7 +43,7 @@ private extension LoginView {
 // MARK: - Interactor
 private extension LoginView {
 }
-	
+
 // MARK: - Preview
 #if DEBUG
 struct LoginView_Previews: PreviewProvider {
