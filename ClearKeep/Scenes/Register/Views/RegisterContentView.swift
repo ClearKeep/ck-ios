@@ -15,6 +15,7 @@ private enum Constants {
 	static let height = 40.0
 	static let radius = 20.0
 	static let sapcing = 20.0
+	static let padding = 10.0
 }
 
 struct RegisterContentView: View {
@@ -32,12 +33,16 @@ struct RegisterContentView: View {
 	var body: some View {
 		GroupBox(label:
 					Text("Register.Title".localized)
-					.font(AppTheme.shared.fontSet.font(style: .body1))) {
+					.font(AppTheme.shared.fontSet.font(style: .body1))
+					.frame(maxWidth: .infinity, alignment: .leading)
+					.padding(.all, Constants.padding)) {
 			VStack(alignment: .center, spacing: Constants.sapcing) {
 				nomalTextfield
 				secureTexfield
 				button
 			}
+			.frame(maxWidth: .infinity, alignment: .center)
+			.padding(.all, Constants.padding)
 		}
 	}
 }
@@ -50,18 +55,18 @@ private extension RegisterContentView {
 	var backgroundColorButton: [Color] {
 		AppTheme.shared.colorSet.gradientPrimary
 	}
-
+	
 	var foregroundColorWhite: Color {
 		AppTheme.shared.colorSet.offWhite
 	}
-
+	
 	var foregroundColorPrimary: Color {
 		AppTheme.shared.colorSet.primaryDefault
 	}
 }
 // MARK: - Private
 private extension RegisterContentView {
-
+	
 	var button: AnyView {
 		AnyView(buttonView)
 	}
@@ -82,7 +87,8 @@ private extension RegisterContentView {
 			Spacer()
 			Button("Register.SignUp".localized) {
 			}
-			.frame(width: Constants.width, height: Constants.height)
+			.frame(maxWidth: .infinity, alignment: .center)
+			.padding(.all, Constants.padding)
 			.background(backgroundColorView)
 			.foregroundColor(foregroundColorWhite)
 			.cornerRadius(Constants.radius)
