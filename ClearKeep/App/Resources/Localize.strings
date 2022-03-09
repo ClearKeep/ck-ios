@@ -1,6 +1,16 @@
 // MARK: - General
 "General.Search" = "Search...";
 "General.Email" = "Email";
+"General.Password" = "Password";
+
+// MARK: - Login
+"Login.SignInWith" = "Sign in with";
+"Login.SignIn" = "Sign in";
+"Login.AdvancedServerSettings" = "Advanced Server Settings";
+"Login.ForgotPassword?" = "Forgot Password?";
+"Login.SignUp.Suggest" = "Don't have an account?";
+"Login.SignUp" = "Sign up";
+"Login.Version" = "App version: 1.1.1";
 "General.DisplayName" = "Display Name";
 "General.Password" = "Password";
 "General.ConfirmPassword" = "Confirm Password";
