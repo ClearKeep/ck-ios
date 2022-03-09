@@ -63,6 +63,13 @@
 		CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73084127CE648F00AB0FBD /* HomeContentView.swift */; };
 		CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73084327CE785B00AB0FBD /* AppTheme.swift */; };
 		CBCF494F27D46715006D84FE /* Localize.strings in Resources */ = {isa = PBXBuildFile; fileRef = CBCF494E27D46714006D84FE /* Localize.strings */; };
+		F51AB9EC27D6F5B300FD6303 /* ILoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51AB9EB27D6F5B300FD6303 /* ILoginModel.swift */; };
+		F5D09AF827D51174001E8CC4 /* LoginContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D09AF727D51174001E8CC4 /* LoginContentView.swift */; };
+		F5D09AFA27D5E84D001E8CC4 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D09AF927D5E84D001E8CC4 /* LoginView.swift */; };
+		F5D09AFC27D5E864001E8CC4 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D09AFB27D5E864001E8CC4 /* LoginInteractor.swift */; };
+		F5D09AFE27D5E872001E8CC4 /* LoginRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D09AFD27D5E872001E8CC4 /* LoginRemoteStore.swift */; };
+		F5D09B0027D5E887001E8CC4 /* LoginInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D09AFF27D5E887001E8CC4 /* LoginInMemoryStore.swift */; };
+		F5D09B0227D5E89C001E8CC4 /* LoginWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D09B0127D5E89C001E8CC4 /* LoginWorker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -184,6 +191,13 @@
 		CBCF494E27D46714006D84FE /* Localize.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localize.strings; sourceTree = "<group>"; };
 		CBD0AA3B27C7484900F86EFD /* Authentication */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Authentication; path = Packages/Authentication; sourceTree = "<group>"; };
 		EE672FA0EC8A123D35608506 /* Pods-ClearKeepUITests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.ppe.xcconfig"; sourceTree = "<group>"; };
+		F51AB9EB27D6F5B300FD6303 /* ILoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ILoginModel.swift; sourceTree = "<group>"; };
+		F5D09AF727D51174001E8CC4 /* LoginContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginContentView.swift; sourceTree = "<group>"; };
+		F5D09AF927D5E84D001E8CC4 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		F5D09AFB27D5E864001E8CC4 /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
+		F5D09AFD27D5E872001E8CC4 /* LoginRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRemoteStore.swift; sourceTree = "<group>"; };
+		F5D09AFF27D5E887001E8CC4 /* LoginInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInMemoryStore.swift; sourceTree = "<group>"; };
+		F5D09B0127D5E89C001E8CC4 /* LoginWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWorker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -343,6 +357,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				F5D09AF427D51120001E8CC4 /* Login */,
 				04F3C7BF27D4F12200B2796A /* Register */,
 				CB117E7D27BB660D000941D9 /* Home */,
 				CB117EBB27BB7D2F000941D9 /* ContentView.swift */,
@@ -515,6 +530,36 @@
 				BC66592A954EAE31AA31BA36 /* Pods-ClearKeepUITests.production.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		F5D09AF427D51120001E8CC4 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				F5D09AF627D51155001E8CC4 /* Views */,
+				F5D09AF527D51149001E8CC4 /* Models */,
+				F5D09AF927D5E84D001E8CC4 /* LoginView.swift */,
+				F5D09AFB27D5E864001E8CC4 /* LoginInteractor.swift */,
+				F5D09AFD27D5E872001E8CC4 /* LoginRemoteStore.swift */,
+				F5D09AFF27D5E887001E8CC4 /* LoginInMemoryStore.swift */,
+				F5D09B0127D5E89C001E8CC4 /* LoginWorker.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		F5D09AF527D51149001E8CC4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F51AB9EB27D6F5B300FD6303 /* ILoginModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F5D09AF627D51155001E8CC4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F5D09AF727D51174001E8CC4 /* LoginContentView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -801,19 +846,24 @@
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
+				F51AB9EC27D6F5B300FD6303 /* ILoginModel.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				044351A727D5B30D0054A78F /* RegisterInteractor.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
+				F5D09AF827D51174001E8CC4 /* LoginContentView.swift in Sources */,
 				04F3C7C327D4F12300B2796A /* RegisterView.swift in Sources */,
 				CB117E7727BB65C8000941D9 /* SampleResponse.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
+				F5D09AFA27D5E84D001E8CC4 /* LoginView.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
 				CB117E7327BB65C7000941D9 /* APIResourceResponseAdapter.swift in Sources */,
 				CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */,
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
 				CB117E8627BB6687000941D9 /* SampleModel.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
+				F5D09B0227D5E89C001E8CC4 /* LoginWorker.swift in Sources */,
+				F5D09AFC27D5E864001E8CC4 /* LoginInteractor.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
 				CB117E7127BB65C7000941D9 /* APIConfigurations.swift in Sources */,
 				044351A427D5B30D0054A78F /* RegisterInMemoryStore.swift in Sources */,
@@ -829,10 +879,12 @@
 				04F3C7C427D4F12300B2796A /* RegisterContentView.swift in Sources */,
 				CB117E7527BB65C8000941D9 /* APIService.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
+				F5D09AFE27D5E872001E8CC4 /* LoginRemoteStore.swift in Sources */,
 				0443519F27D5AB630054A78F /* IRegisterModel.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
 				CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */,
 				CB117E7427BB65C8000941D9 /* APIServiceError.swift in Sources */,
+				F5D09B0027D5E887001E8CC4 /* LoginInMemoryStore.swift in Sources */,
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
