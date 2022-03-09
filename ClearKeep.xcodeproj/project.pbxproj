@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		044351AD27D5E31A0054A78F /* FogotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351AB27D5E3190054A78F /* FogotPasswordView.swift */; };
+		044351C827D713AA0054A78F /* NewPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351C727D713AA0054A78F /* NewPasswordView.swift */; };
 		0443519F27D5AB630054A78F /* IRegisterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0443519E27D5AB630054A78F /* IRegisterModel.swift */; };
 		044351A427D5B30D0054A78F /* RegisterInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351A027D5B30D0054A78F /* RegisterInMemoryStore.swift */; };
 		044351A527D5B30D0054A78F /* RegisterWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351A127D5B30D0054A78F /* RegisterWorker.swift */; };
@@ -111,6 +113,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+
+		044351AB27D5E3190054A78F /* FogotPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FogotPasswordView.swift; sourceTree = "<group>"; };
+		044351C727D713AA0054A78F /* NewPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordView.swift; sourceTree = "<group>"; };
 		0443519E27D5AB630054A78F /* IRegisterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IRegisterModel.swift; sourceTree = "<group>"; };
 		044351A027D5B30D0054A78F /* RegisterInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInMemoryStore.swift; sourceTree = "<group>"; };
 		044351A127D5B30D0054A78F /* RegisterWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterWorker.swift; sourceTree = "<group>"; };
@@ -237,6 +242,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+
+		044351A827D5E2B30054A78F /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				044351AA27D5E2F90054A78F /* Views */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		044351AA27D5E2F90054A78F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				044351AB27D5E3190054A78F /* FogotPasswordView.swift */,
+				044351C727D713AA0054A78F /* NewPasswordView.swift */,
+
 		0443519B27D5A8470054A78F /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,6 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				04F3C7C227D4F12200B2796A /* RegisterContentView.swift */,
+
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -357,6 +378,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+
 				F5D09AF427D51120001E8CC4 /* Login */,
 				04F3C7BF27D4F12200B2796A /* Register */,
 				CB117E7D27BB660D000941D9 /* Home */,
@@ -838,6 +860,7 @@
 			files = (
 				CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */,
 				CB117E7227BB65C7000941D9 /* APIResourceQueryAdapter.swift in Sources */,
+				044351AD27D5E31A0054A78F /* FogotPasswordView.swift in Sources */,
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
 				CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */,
 				CB117E7B27BB65E2000941D9 /* LocationConfigurations.swift in Sources */,
@@ -862,6 +885,7 @@
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
 				CB117E8627BB6687000941D9 /* SampleModel.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
+				044351C827D713AA0054A78F /* NewPasswordView.swift in Sources */,
 				F5D09B0227D5E89C001E8CC4 /* LoginWorker.swift in Sources */,
 				F5D09AFC27D5E864001E8CC4 /* LoginInteractor.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
