@@ -4,7 +4,6 @@
 "General.DisplayName" = "Display Name";
 "General.Password" = "Password";
 "General.ConfirmPassword" = "Confirm Password";
-"General.Save" = "Save";
 // MARK: - Register
 "Register.Title" = "Please fill in the information below to complete your sign up";
 "Register.SignInInstead" = "Sign in instead";
