@@ -24,6 +24,7 @@
 		044351F827D9AFCA0054A78F /* RegisterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F027D9AFCA0054A78F /* RegisterInteractor.swift */; };
 		044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F127D9AFCA0054A78F /* RegisterView.swift */; };
 		044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F327D9AFCA0054A78F /* RegisterContentView.swift */; };
+		04510ED027E835EA00F55108 /* HomeMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04510ECF27E835EA00F55108 /* HomeMenuView.swift */; };
 		0AE9AF3959D3B8A72B1D187F /* Pods_ClearKeep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 635EF60AD22964799FE6AD5A /* Pods_ClearKeep.framework */; };
 		1399F48EA36E2C560F63D637 /* Pods_ClearKeepUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043C28503235DF68DE838375 /* Pods_ClearKeepUITests.framework */; };
 		A090BEEEEBA9104F224A934C /* Pods_ClearKeepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AED5EC19A255BC452B7D58A /* Pods_ClearKeepTests.framework */; };
@@ -132,6 +133,7 @@
 		044351F027D9AFCA0054A78F /* RegisterInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterInteractor.swift; sourceTree = "<group>"; };
 		044351F127D9AFCA0054A78F /* RegisterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		044351F327D9AFCA0054A78F /* RegisterContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterContentView.swift; sourceTree = "<group>"; };
+		04510ECF27E835EA00F55108 /* HomeMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMenuView.swift; sourceTree = "<group>"; };
 		0FDB768EFF8247C921BE1332 /* Pods-ClearKeepUITests.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.development.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.development.xcconfig"; sourceTree = "<group>"; };
 		18AD980EB2C78C4E04E85229 /* Pods-ClearKeepTests.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.qa.xcconfig"; sourceTree = "<group>"; };
 		22433B97DDBB41E5D872E751 /* Pods-ClearKeep.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.development.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.development.xcconfig"; sourceTree = "<group>"; };
@@ -490,6 +492,7 @@
 				CB73083D27CE644800AB0FBD /* ServerView.swift */,
 				CB73083F27CE647E00AB0FBD /* HomeHeaderView.swift */,
 				CB73084127CE648F00AB0FBD /* HomeContentView.swift */,
+				04510ECF27E835EA00F55108 /* HomeMenuView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -838,6 +841,7 @@
 			files = (
 				CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */,
 				044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */,
+				04510ED027E835EA00F55108 /* HomeMenuView.swift in Sources */,
 				CB117E7227BB65C7000941D9 /* APIResourceQueryAdapter.swift in Sources */,
 				044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */,
 				044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */,
