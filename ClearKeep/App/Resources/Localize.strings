@@ -5,6 +5,17 @@
 "General.Password" = "Password";
 "General.ConfirmPassword" = "Confirm Password";
 "General.Save" = "Save";
+// MARK: - Login
+"Login.SignInWith" = "Sign in with";
+"Login.SignIn" = "Sign in";
+"Login.AdvancedServerSettings" = "Advanced Server Settings";
+"Login.ForgotPassword?" = "Forgot Password?";
+"Login.SignUp.Suggest" = "Don't have an account?";
+"Login.SignUp" = "Sign up";
+"Login.Version" = "App version: 1.1.1";
+"General.DisplayName" = "Display Name";
+"General.Password" = "Password";
+"General.ConfirmPassword" = "Confirm Password";
 // MARK: - Register
 "Register.Title" = "Please fill in the information below to complete your sign up";
 "Register.SignInInstead" = "Sign in instead";
