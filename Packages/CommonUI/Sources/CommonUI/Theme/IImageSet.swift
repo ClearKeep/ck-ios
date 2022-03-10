@@ -62,4 +62,7 @@ public protocol IImageSet {
 	var loadingIcon: Image { get }
 	var arrowRightIcon: Image { get }
 	var forderPlusIcon: Image { get }
+	var googleIcon: Image { get }
+	var officeIcon: Image { get }
+	var facebookIcon: Image { get }
 }

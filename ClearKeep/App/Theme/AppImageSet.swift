@@ -11,8 +11,8 @@ import CommonUI
 protocol IAppImageSet: IImageSet & ICommonUIImageSet {}
 
 struct AppImageSet: IAppImageSet {
-	var splashLogo: Image { Image("logo_clearkeep") }
-	var logo: Image { Image("logo_clearkeep2") }
+	var splashLogo: Image { Image("logo_Clearkeep") }
+	var logo: Image { Image("logo_Clearkeep2") }
 	var homeIcon: Image { Image("ic_home") }
 	var plusIcon: Image { Image("ic_plus") }
 	var noteIcon: Image { Image("ic_notes") }
@@ -65,6 +65,9 @@ struct AppImageSet: IAppImageSet {
 	var loadingIcon: Image { Image("ic_loading") }
 	var arrowRightIcon: Image { Image("ic_arrow_right") }
 	var forderPlusIcon: Image { Image("ic_chev_left") }
+	var googleIcon: Image { Image("ic_google") }
+	var officeIcon: Image { Image("ic_office") }
+	var facebookIcon: Image { Image("ic_faceBook") }
 }
 
 extension AppImageSet: ICommonUIImageSet {

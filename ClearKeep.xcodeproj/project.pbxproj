@@ -56,7 +56,15 @@
 		CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73084127CE648F00AB0FBD /* HomeContentView.swift */; };
 		CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73084327CE785B00AB0FBD /* AppTheme.swift */; };
 		CBCF494F27D46715006D84FE /* Localize.strings in Resources */ = {isa = PBXBuildFile; fileRef = CBCF494E27D46714006D84FE /* Localize.strings */; };
-		F51AB9F127D7407200FD6303 /* SocialContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51AB9F027D7407200FD6303 /* SocialContentView.swift */; };
+		F51AB9F327D7437100FD6303 /* SocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51AB9F227D7437100FD6303 /* SocialView.swift */; };
+		F51AB9F527D7438600FD6303 /* SocialInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51AB9F427D7438600FD6303 /* SocialInteractor.swift */; };
+		F51AB9F727D7439400FD6303 /* SocialRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51AB9F627D7439400FD6303 /* SocialRemoteStore.swift */; };
+		F51AB9F927D743A500FD6303 /* SocialInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51AB9F827D743A500FD6303 /* SocialInMemoryStore.swift */; };
+		F51AB9FB27D743B000FD6303 /* SocialWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51AB9FA27D743B000FD6303 /* SocialWorker.swift */; };
+		F51AB9FD27D74C8A00FD6303 /* SocialModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51AB9FC27D74C8A00FD6303 /* SocialModel.swift */; };
+		F5F5B1EC27D8413100F282FB /* SocialConfirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F5B1EB27D8413100F282FB /* SocialConfirm.swift */; };
+		F5F5B1EE27D89EBF00F282FB /* SocialVerify.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F5B1ED27D89EBF00F282FB /* SocialVerify.swift */; };
+		F5F5B1F027D8F8F800F282FB /* LoginTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F5B1EF27D8F8F800F282FB /* LoginTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,7 +179,15 @@
 		CBCF494E27D46714006D84FE /* Localize.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localize.strings; sourceTree = "<group>"; };
 		CBD0AA3B27C7484900F86EFD /* Authentication */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Authentication; path = Packages/Authentication; sourceTree = "<group>"; };
 		EE672FA0EC8A123D35608506 /* Pods-ClearKeepUITests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.ppe.xcconfig"; sourceTree = "<group>"; };
-		F51AB9F027D7407200FD6303 /* SocialContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialContentView.swift; sourceTree = "<group>"; };
+		F51AB9F227D7437100FD6303 /* SocialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialView.swift; sourceTree = "<group>"; };
+		F51AB9F427D7438600FD6303 /* SocialInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialInteractor.swift; sourceTree = "<group>"; };
+		F51AB9F627D7439400FD6303 /* SocialRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialRemoteStore.swift; sourceTree = "<group>"; };
+		F51AB9F827D743A500FD6303 /* SocialInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialInMemoryStore.swift; sourceTree = "<group>"; };
+		F51AB9FA27D743B000FD6303 /* SocialWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialWorker.swift; sourceTree = "<group>"; };
+		F51AB9FC27D74C8A00FD6303 /* SocialModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialModel.swift; sourceTree = "<group>"; };
+		F5F5B1EB27D8413100F282FB /* SocialConfirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialConfirm.swift; sourceTree = "<group>"; };
+		F5F5B1ED27D89EBF00F282FB /* SocialVerify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialVerify.swift; sourceTree = "<group>"; };
+		F5F5B1EF27D8F8F800F282FB /* LoginTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -480,6 +496,11 @@
 			children = (
 				F51AB9EF27D7405600FD6303 /* Views */,
 				F51AB9EE27D7404E00FD6303 /* Models */,
+				F51AB9F227D7437100FD6303 /* SocialView.swift */,
+				F51AB9F427D7438600FD6303 /* SocialInteractor.swift */,
+				F51AB9F627D7439400FD6303 /* SocialRemoteStore.swift */,
+				F51AB9F827D743A500FD6303 /* SocialInMemoryStore.swift */,
+				F51AB9FA27D743B000FD6303 /* SocialWorker.swift */,
 			);
 			path = "Social Login";
 			sourceTree = "<group>";
@@ -487,6 +508,7 @@
 		F51AB9EE27D7404E00FD6303 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F51AB9FC27D74C8A00FD6303 /* SocialModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -494,7 +516,9 @@
 		F51AB9EF27D7405600FD6303 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F51AB9F027D7407200FD6303 /* SocialContentView.swift */,
+				F5F5B1EB27D8413100F282FB /* SocialConfirm.swift */,
+				F5F5B1ED27D89EBF00F282FB /* SocialVerify.swift */,
+				F5F5B1EF27D8F8F800F282FB /* LoginTest.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -783,24 +807,31 @@
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
+				F51AB9FD27D74C8A00FD6303 /* SocialModel.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
 				CB117E7727BB65C8000941D9 /* SampleResponse.swift in Sources */,
+				F51AB9F727D7439400FD6303 /* SocialRemoteStore.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
+				F5F5B1EE27D89EBF00F282FB /* SocialVerify.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
-				F51AB9F127D7407200FD6303 /* SocialContentView.swift in Sources */,
+				F51AB9F527D7438600FD6303 /* SocialInteractor.swift in Sources */,
 				CB117E7327BB65C7000941D9 /* APIResourceResponseAdapter.swift in Sources */,
 				CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */,
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
 				CB117E8627BB6687000941D9 /* SampleModel.swift in Sources */,
+				F51AB9F927D743A500FD6303 /* SocialInMemoryStore.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
+				F5F5B1EC27D8413100F282FB /* SocialConfirm.swift in Sources */,
+				F51AB9F327D7437100FD6303 /* SocialView.swift in Sources */,
 				CB117E7127BB65C7000941D9 /* APIConfigurations.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
 				CB117E7627BB65C8000941D9 /* ServerErrorResponse.swift in Sources */,
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
+				F51AB9FB27D743B000FD6303 /* SocialWorker.swift in Sources */,
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
@@ -810,6 +841,7 @@
 				CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */,
 				CB117E7427BB65C8000941D9 /* APIServiceError.swift in Sources */,
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
+				F5F5B1F027D8F8F800F282FB /* LoginTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
