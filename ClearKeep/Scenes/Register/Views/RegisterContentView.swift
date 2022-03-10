@@ -11,8 +11,6 @@ import RealmSwift
 import SwiftUIX
 
 private enum Constants {
-	static let width = 120.0
-	static let height = 40.0
 	static let radius = 20.0
 	static let sapcing = 20.0
 	static let padding = 10.0

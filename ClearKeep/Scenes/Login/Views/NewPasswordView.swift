@@ -14,6 +14,7 @@ private enum Constants {
 	static let radius = 40.0
 	static let spacing = 20.0
 	static let padding = 10.0
+	static let paddingtop = 100.0
 }
 
 struct NewPasswordView: View {
@@ -41,7 +42,6 @@ struct NewPasswordView: View {
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.frame(maxWidth: .infinity, maxHeight: .infinity)
 			.background(backgroundViewColor)
 			.edgesIgnoringSafeArea(.all)
 			.navigationBarBackButtonHidden(true)
@@ -80,11 +80,11 @@ private extension NewPasswordView {
 private extension NewPasswordView {
 	var newPasswordView: some View {
 		VStack(spacing: Constants.spacing) {
-			Spacer()
 			Text("ForgotPass.TitleChangePassword".localized)
 				.font(AppTheme.shared.fontSet.font(style: .body2))
 				.foregroundColor(foregroundBackButton)
-				.padding(.all)
+				.frame(maxWidth: .infinity, alignment: .leading)
+				.padding(.top, Constants.paddingtop)
 			SecureTextField(secureText: $password,
 							inputStyle: $passwordStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
@@ -96,8 +96,6 @@ private extension NewPasswordView {
 							placeHolder: "General.ConfirmPassword".localized,
 							keyboardType: .default )
 			buttonSave
-			Spacer()
-			Spacer()
 			Spacer()
 		}
 		.frame(maxWidth: .infinity, alignment: .center)

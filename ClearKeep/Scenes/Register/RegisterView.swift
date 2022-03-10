@@ -11,11 +11,11 @@ import Common
 import CommonUI
 
 private enum Constants {
-	static let widthReView = UIScreen.main.bounds.width - 20
-	static let minSpacer = 50.0
 	static let heightLogo = 120.0
 	static let widthLogo = 160.0
 	static let spacing = 30.0
+	static let paddingtop = 80.0
+	static let padding = 20.0
 }
 
 struct RegisterView: View {
@@ -56,10 +56,11 @@ struct RegisterView: View {
 }
 	// MARK: - Body
 	var body: some View {
-		NavigationView {
 			content
 				.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		}
+				.background(backgroundColorView)
+				.edgesIgnoringSafeArea(.all)
+				.navigationBarBackButtonHidden(true)
 	}
 }
 // MARK: - Private variable
@@ -83,19 +84,16 @@ private extension RegisterView {
 // MARK: - Loading Content
 private extension RegisterView {
 	var notRequestedView: some View {
-		VStack(spacing: Constants.spacing) {
-			Spacer()
+		VStack {
 			AppTheme.shared.imageSet.logo
 				.resizable()
 				.aspectRatio(contentMode: .fit)
 				.frame(width: Constants.widthLogo, height: Constants.heightLogo)
+				.padding(.top, Constants.paddingtop)
 			RegisterContentView(email: $emails, password: $password, displayname: $displayname, rePassword: $rePassword, emailStyle: $emailStyle, nameStyle: $nameStyle, passwordStyle: $passwordStyle, rePasswordStyle: $rePasswordStyle)
-				.frame(width: Constants.widthReView)
 			Spacer()
 		}
-		.frame(maxWidth: .infinity, maxHeight: .infinity)
-		.background(backgroundColorView)
-		.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+		.padding(.horizontal, Constants.padding)
 	}
 }
 // MARK: - Interactors
