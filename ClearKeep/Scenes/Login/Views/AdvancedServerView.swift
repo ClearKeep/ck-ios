@@ -25,7 +25,7 @@ struct AdvancedServerView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@State private(set) var severUrl: String
 	@State private(set) var severUrlStyle: TextInputStyle
-	@State private(set) var showingNewPass: Bool = false
+	@State private(set) var isShowingView: Bool = false
 	init(severUrl: String = "",
 		 severUrlStyle: TextInputStyle = .default) {
 		self._severUrl = .init(initialValue: severUrl)
@@ -35,10 +35,10 @@ struct AdvancedServerView: View {
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.frame(maxWidth: .infinity, maxHeight: .infinity)
-			.background(backgroundViewColor)
+			.background(backgroundColorView)
 			.edgesIgnoringSafeArea(.all)
 			.navigationBarBackButtonHidden(true)
+			.navigationBarTitleDisplayMode(.inline)
 			.navigationBarItems(leading: buttonBack)
 	}
 }
@@ -49,14 +49,23 @@ private extension AdvancedServerView {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
 
-	var backgroundViewColor: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.black
-	}
+	var backgroundColorView: LinearGradient {
+			colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
+		}
+	var backgroundColorBlack: LinearGradient {
+			LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
+		}
+	var backgroundColorGradient: LinearGradient {
+			LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
+		}
 
 	var foregroundButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
 	}
 	var foregroundBackButton: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
+	}
+	var foregroundCheckmask: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
 }
@@ -65,21 +74,25 @@ private extension AdvancedServerView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
-
 	var content: AnyView {
-		AnyView(fogotPasswordView)
+		if isShowingView {
+			return AnyView(severUrlView)
+		} else {
+			return AnyView(checkMarkView)
+		}
 	}
 }
 // MARK: - Loading Content
 private extension AdvancedServerView {
-	var fogotPasswordView: some View {
+	var severUrlView: some View {
 		VStack(spacing: Constants.spacing) {
-			Spacer()
+			checkMaskButton
+				.padding(.top, 100)
+				.frame(maxWidth: .infinity, alignment: .leading)
 			Text("AdvancedServer.Title".localized)
 				.font(AppTheme.shared.fontSet.font(style: .body2))
 				.foregroundColor(foregroundBackButton)
 				.frame(maxWidth: .infinity, alignment: .leading)
-				.padding(.all)
 			CommonTextField(text: $severUrl,
 							inputStyle: $severUrlStyle,
 							inputIcon: AppTheme.shared.imageSet.mailIcon,
@@ -94,10 +107,7 @@ private extension AdvancedServerView {
 			})
 			buttonSubmit
 			Spacer()
-			Spacer()
-			Spacer()
 		}
-		.frame(maxWidth: .infinity, alignment: .center)
 		.padding(.all, Constants.padding)
 	}
 
@@ -117,13 +127,25 @@ private extension AdvancedServerView {
 	}
 	var buttonSubmit: some View {
 		Button("AdvancedServer.Submit".localized) {
-			self.showingNewPass = true
 		}
 		.frame(maxWidth: .infinity, alignment: .center)
 		.padding(.all, Constants.padding)
 		.background(backgroundButton)
 		.foregroundColor(foregroundButton)
 		.cornerRadius(Constants.radius)
+	}
+	var checkMaskButton: some View {
+		CheckBoxButtons(text: "AdvancedServer.SeverButton".localized, checked: $isShowingView)
+			.foregroundColor(foregroundCheckmask)
+	}
+	var checkMarkView: some View {
+		VStack {
+			checkMaskButton
+				.frame(maxWidth: .infinity, alignment: .leading)
+				.padding(.top, 100)
+			Spacer()
+		}
+		.padding(.all, Constants.padding)
 	}
 }
 // MARK: - Interactor
