@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+protocol ISocialInMemoryStore {}
+
+struct SocialInMemoryStore { }
+
+extension SocialInMemoryStore: ISocialInMemoryStore {}

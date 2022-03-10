@@ -190,5 +190,5 @@ private extension SocialConfirm {
 struct SocialConfirm_Previews: PreviewProvider {
 	static var previews: some View {
 		SocialConfirm()
-    }
+	}
 }
