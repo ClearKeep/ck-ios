@@ -65,6 +65,9 @@ struct AppImageSet: IAppImageSet {
 	var loadingIcon: Image { Image("ic_loading") }
 	var arrowRightIcon: Image { Image("ic_arrow_right") }
 	var forderPlusIcon: Image { Image("ic_chev_left") }
+	var googleIcon: Image { Image("ic_google") }
+	var officeIcon: Image { Image("ic_office") }
+	var facebookIcon: Image { Image("ic_faceBook") }
 }
 
 extension AppImageSet: ICommonUIImageSet {
