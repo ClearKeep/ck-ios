@@ -20,8 +20,8 @@ struct HomeHeaderView: View {
 	var body: some View {
 		VStack {
 			HStack {
-				Text("CK Development")
-				Button("Menu") {
+				Text("Home.Title".localized)
+				Button("Home.menu".localized) {
 					
 				}
 			}

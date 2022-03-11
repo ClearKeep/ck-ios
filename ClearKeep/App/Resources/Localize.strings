@@ -33,3 +33,6 @@
 "AdvancedServer.SeverButton" = "Use Custom Server";
 "AdvancedServer.Submit" = "Submit";
 "AdvancedServer.ServerUrl" = "Server URL";
+// MARK: - Home
+"Home.Title" = "CK Development";
+"Home.Menu" = "Menu";
