@@ -62,7 +62,9 @@
 		F51AB9F927D743A500FD6303 /* SocialInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51AB9F827D743A500FD6303 /* SocialInMemoryStore.swift */; };
 		F51AB9FB27D743B000FD6303 /* SocialWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51AB9FA27D743B000FD6303 /* SocialWorker.swift */; };
 		F51AB9FD27D74C8A00FD6303 /* SocialModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51AB9FC27D74C8A00FD6303 /* SocialModel.swift */; };
-		F553068627DA4E29007A0832 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553068527DA4E29007A0832 /* UserProfileView.swift */; };
+		F553068627DA4E29007A0832 /* UserProfileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553068527DA4E29007A0832 /* UserProfileContentView.swift */; };
+		F553068827DA5534007A0832 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553068727DA5534007A0832 /* ProfileModel.swift */; };
+		F553068A27DF05A2007A0832 /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553068927DF05A2007A0832 /* CountryCode.swift */; };
 		F5F5B1EC27D8413100F282FB /* SocialConfirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F5B1EB27D8413100F282FB /* SocialConfirm.swift */; };
 		F5F5B1EE27D89EBF00F282FB /* SocialVerify.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F5B1ED27D89EBF00F282FB /* SocialVerify.swift */; };
 		F5F5B1F027D8F8F800F282FB /* LoginTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F5B1EF27D8F8F800F282FB /* LoginTest.swift */; };
@@ -186,7 +188,9 @@
 		F51AB9F827D743A500FD6303 /* SocialInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialInMemoryStore.swift; sourceTree = "<group>"; };
 		F51AB9FA27D743B000FD6303 /* SocialWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialWorker.swift; sourceTree = "<group>"; };
 		F51AB9FC27D74C8A00FD6303 /* SocialModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialModel.swift; sourceTree = "<group>"; };
-		F553068527DA4E29007A0832 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
+		F553068527DA4E29007A0832 /* UserProfileContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileContentView.swift; sourceTree = "<group>"; };
+		F553068727DA5534007A0832 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		F553068927DF05A2007A0832 /* CountryCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		F5F5B1EB27D8413100F282FB /* SocialConfirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialConfirm.swift; sourceTree = "<group>"; };
 		F5F5B1ED27D89EBF00F282FB /* SocialVerify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialVerify.swift; sourceTree = "<group>"; };
 		F5F5B1EF27D8F8F800F282FB /* LoginTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTest.swift; sourceTree = "<group>"; };
@@ -538,7 +542,8 @@
 		F553068327DA4C63007A0832 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F553068527DA4E29007A0832 /* UserProfileView.swift */,
+				F553068527DA4E29007A0832 /* UserProfileContentView.swift */,
+				F553068927DF05A2007A0832 /* CountryCode.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -546,6 +551,7 @@
 		F553068427DA4C69007A0832 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F553068727DA5534007A0832 /* ProfileModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -835,6 +841,7 @@
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
 				F51AB9FD27D74C8A00FD6303 /* SocialModel.swift in Sources */,
+				F553068A27DF05A2007A0832 /* CountryCode.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
@@ -860,8 +867,9 @@
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
 				F51AB9FB27D743B000FD6303 /* SocialWorker.swift in Sources */,
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
+				F553068827DA5534007A0832 /* ProfileModel.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
-				F553068627DA4E29007A0832 /* UserProfileView.swift in Sources */,
+				F553068627DA4E29007A0832 /* UserProfileContentView.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
 				CB117E7527BB65C8000941D9 /* APIService.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,

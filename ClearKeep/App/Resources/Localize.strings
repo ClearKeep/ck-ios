@@ -16,3 +16,24 @@
 "Social.input.verify" = "Security phrase";
 "Social.forgot.verify" = "Forgot phrase?";
 "Social.verify.next" = "Verify";
+
+// MARK: - User Profile
+"UserProfile.save" = "Save";
+"UserProfile.setting" = "Profile Settings";
+"UserProfile.picture.change" = "Change profile picture";
+"UserProfile.picture.size" = "Maximum file size 5MB";
+"UserProfile.username" = "Username";
+"UserProfile.email" = "Email";
+"UserProfile.phoneNumber" = "Phone Number";
+"UserProfile.link.copy" = "Copy Profile Link";
+"UserProfile.password.change" = "Change Password";
+"UserProfile.2FA" = "Two-factor authentication";
+"UserProfile.2FA.title" = "Give your account more protection over scam and account hacking";
+"UserProfile.enable" = "Enable";
+"UserProfile.disable" = "Disable";
+"UserProfile.code.country" = "Country Codes";
+"UserProfile.authen.2fa" = "Two-factor authentication";
+
+// MARK: - Country Codes
+"Country.code" = "Country Codes"
+"Country.search" = "Search"
