@@ -48,7 +48,7 @@ struct SocialVerify: View {
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.background(background)
+			.background(Color.backgroundGradientPrimary)
 			.edgesIgnoringSafeArea(.all)
 			.navigationBarBackButtonHidden(true)
 	}
@@ -86,8 +86,8 @@ private extension SocialVerify {
 				.frame(maxWidth: .infinity)
 				.frame(height: Constant.heightButton)
 				.font(AppTheme.shared.fontSet.font(style: .body3))
-				.background(backgroundColorDarkView.opacity(0.4))
-				.foregroundColor(foregroundColorView)
+				.background(Color.backgroundColorDarkView(colorScheme).opacity(0.4))
+				.foregroundColor(.foregroundColorView(colorScheme))
 				.cornerRadius(Constant.radius)
 			})
 	}
@@ -97,13 +97,13 @@ private extension SocialVerify {
 			HStack(spacing: Constant.spacer) {
 				AppTheme.shared.imageSet.backIcon
 					.aspectRatio(contentMode: .fit)
-					.foregroundColor(foregroundColorWhite)
+					.foregroundColor(.foregroundColorWhite(colorScheme))
 				Text("Social.verify.back".localized)
 					.padding(.all)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
-			.foregroundColor(foregroundColorWhite)
+			.foregroundColor(.foregroundColorWhite(colorScheme))
 		}
 	}
 
@@ -119,64 +119,9 @@ private extension SocialVerify {
 		HStack {
 			Text("Social.title.verify")
 				.font(AppTheme.shared.fontSet.font(style: .placeholder1))
-				.foregroundColor(foregroundMessage)
+				.foregroundColor(.foregroundColorMessage(colorScheme))
 			Spacer()
 		}
-	}
-}
-
-// MARK: - Support Variables
-private extension SocialVerify {
-	var background: LinearGradient {
-		colorScheme == .light ? backgroundGradientPrimary : backgroundColorDark
-	}
-
-	var backgroundGradientPrimary: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var backgroundColorWhite: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var backgroundColorDark: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var backgroundColorGradient: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var backgroundColorDarkView: LinearGradient {
-		colorScheme == .light ? backgroundColorWhite : backgroundColorGradient
-	}
-
-	var foregroundColorWhite: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite
-	}
-
-	var foregroundColorPrimary: Color {
-		AppTheme.shared.colorSet.primaryDefault
-	}
-
-	var foregroundColorView: Color {
-		colorScheme == .light ? foregroundColorPrimary : foregroundColorWhite
-	}
-
-	var foregroundColorMessage: Color {
-		colorScheme == .light ? foregroundColorWhite : foregroundColorPrimary
-	}
-
-	var foregroundColorBackground: Color {
-		AppTheme.shared.colorSet.background
-	}
-
-	var foregroundColorGrey: Color {
-		AppTheme.shared.colorSet.grey1
-	}
-
-	var foregroundMessage: Color {
-		colorScheme == .light ? foregroundColorBackground : foregroundColorGrey
 	}
 }
 

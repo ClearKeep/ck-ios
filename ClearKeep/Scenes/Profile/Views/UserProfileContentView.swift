@@ -5,10 +5,10 @@
 //  Created by đông on 10/03/2022.
 //
 
-import SwiftUI
 import Combine
 import Common
 import CommonUI
+import SwiftUI
 
 struct UserProfileContentView: View {
 	let inspection = ViewInspector<Self>()
@@ -23,31 +23,32 @@ struct UserProfileContentView: View {
 	@State private(set) var phone: String
 	@State private(set) var phoneStyle: TextInputStyle = .default
 	@State private(set) var isExpand = false
+	@State private(set) var isShowCountryCode: Bool = false
 	@State private(set) var selectedNum = 1
-
+	
 	init(samples: Loadable<[IProfileModel]> = .notRequested,
 		 username: String = "",
 		 email: String = "",
 		 phone: String = "",
 		 inputStyle: TextInputStyle = .default) {
-		self._samples = .init(initialValue: samples)
-		self._username = .init(initialValue: username)
-		self._usernameStyle = .init(initialValue: inputStyle)
-		self._email = .init(initialValue: email)
-		self._emailStyle = .init(initialValue: inputStyle)
-		self._phone = .init(initialValue: phone)
-		self._phoneStyle = .init(initialValue: phoneStyle)
+		_samples = .init(initialValue: samples)
+		_username = .init(initialValue: username)
+		_usernameStyle = .init(initialValue: inputStyle)
+		_email = .init(initialValue: email)
+		_emailStyle = .init(initialValue: inputStyle)
+		_phone = .init(initialValue: phone)
+		_phoneStyle = .init(initialValue: phoneStyle)
 	}
 	
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		//			.background(background)
 			.navigationBarBackButtonHidden(true)
 	}
 }
 
 // MARK: - Private
+
 private extension UserProfileContentView {
 	var content: AnyView {
 		AnyView(notRequestedView)
@@ -55,21 +56,33 @@ private extension UserProfileContentView {
 }
 
 // MARK: - Loading Content
+
 private extension UserProfileContentView {
 	var notRequestedView: some View {
 		VStack {
-			buttonTop
-			profileSettings
-				.padding(.top, 20)
-			textInput
-				.padding(.top, 20)
-			twoFactor
-				.padding(.top, 20)
-			Spacer()
+			backgroundColorGradient
+				.frame(maxWidth: .infinity, maxHeight: 60.0)
+			ZStack {
+				VStack {
+					buttonTop
+					profileSettings
+						.padding(.top, 20)
+					textInput
+						.padding(.top, 20)
+					twoFactor
+						.padding(.top, 20)
+					Spacer()
+				}
+				.padding(.horizontal, 20)
+				
+				if isShowCountryCode {
+					CountryCode(isShowing: $isShowCountryCode)
+				}
+			}
 		}
-		.padding(.horizontal, 20)
+		.edgesIgnoringSafeArea(.all)
 	}
-
+	
 	var buttonTop: some View {
 		HStack {
 			Button(action: { }, label: {
@@ -84,7 +97,7 @@ private extension UserProfileContentView {
 		}
 		.frame(maxWidth: .infinity)
 	}
-
+	
 	var profileSettings: some View {
 		VStack(alignment: .leading, spacing: 20.0) {
 			HStack {
@@ -93,7 +106,7 @@ private extension UserProfileContentView {
 					.foregroundColor(foregroundColorSetting)
 				Spacer()
 			}
-
+			
 			Button(action: customBack) {
 				HStack {
 					Circle()
@@ -113,13 +126,13 @@ private extension UserProfileContentView {
 		}
 		.frame(maxWidth: .infinity)
 	}
-
+	
 	var textInput: some View {
 		VStack(alignment: .leading, spacing: 20.0) {
 			Text("UserProfile.username".localized)
 				.font(AppTheme.shared.fontSet.font(style: .input3))
 				.foregroundColor(foregroundGrey1)
-
+			
 			CommonTextField(text: $username,
 							inputStyle: $usernameStyle,
 							inputIcon: Image(""),
@@ -132,11 +145,11 @@ private extension UserProfileContentView {
 					usernameStyle = .highlighted
 				}
 			})
-
+			
 			Text("UserProfile.email".localized)
 				.font(AppTheme.shared.fontSet.font(style: .input3))
 				.foregroundColor(foregroundGrey1)
-
+			
 			CommonTextField(text: $email,
 							inputStyle: $emailStyle,
 							inputIcon: Image(""),
@@ -149,24 +162,14 @@ private extension UserProfileContentView {
 					emailStyle = .highlighted
 				}
 			})
-
+			
 			Text("UserProfile.phoneNumber".localized)
 				.font(AppTheme.shared.fontSet.font(style: .input3))
 				.foregroundColor(foregroundGrey1)
 			
 			HStack {
-				DisclosureGroup("+\(selectedNum)", isExpanded: $isExpand) {
-					VStack(alignment: .leading) {
-						ForEach(1...5, id: \.self) { num in
-							Text("+\(num)")
-								.onTapGesture {
-									self.selectedNum = num
-									withAnimation {
-										self.isExpand.toggle()
-									}
-								}
-						}
-					}
+				Button("+") {
+					isShowCountryCode = true
 				}
 				.frame(width: 80, height: 52)
 				.background(AppTheme.shared.colorSet.grey5)
@@ -175,7 +178,7 @@ private extension UserProfileContentView {
 					RoundedRectangle(cornerRadius: 16)
 						.stroke(AppTheme.shared.colorSet.grey5, lineWidth: 2)
 				)
-
+				
 				CommonTextField(text: $phone,
 								inputStyle: $phoneStyle,
 								inputIcon: Image(""),
@@ -194,19 +197,19 @@ private extension UserProfileContentView {
 					Text("UserProfile.link.copy".localized)
 						.font(AppTheme.shared.fontSet.font(style: .body3))
 						.foregroundColor(foregroundPrimary)
-
+					
 					Spacer()
 					AppTheme.shared.imageSet.copyIcon
 						.foregroundColor(foregroundPrimary)
 				}
 			}
-
+			
 			Button(action: buttonSupport) {
 				HStack {
 					Text("UserProfile.password.change".localized)
 						.font(AppTheme.shared.fontSet.font(style: .body3))
 						.foregroundColor(foregroundPrimary)
-
+					
 					Spacer()
 					AppTheme.shared.imageSet.arrowRightIcon
 						.foregroundColor(foregroundPrimary)
@@ -214,14 +217,14 @@ private extension UserProfileContentView {
 			}
 		}
 	}
-
+	
 	var twoFactor: some View {
 		VStack(spacing: 20) {
 			HStack {
-			Text("UserProfile.authen.2fa".localized)
+				Text("UserProfile.authen.2fa".localized)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundBlack)
-
+				
 				Spacer()
 				Button(action: buttonSupport) {
 					Text("Disable")
@@ -230,7 +233,7 @@ private extension UserProfileContentView {
 				}
 			}
 			HStack {
-			Text("UserProfile.2FA.title".localized)
+				Text("UserProfile.2FA.title".localized)
 					.padding(.trailing, 100)
 					.font(AppTheme.shared.fontSet.font(style: .input3))
 					.foregroundColor(foregroundGrey1)
@@ -241,46 +244,48 @@ private extension UserProfileContentView {
 }
 
 // MARK: - Private Func
+
 private extension UserProfileContentView {
 	func customBack() {
-		self.presentationMode.wrappedValue.dismiss()
+		presentationMode.wrappedValue.dismiss()
 	}
-
+	
 	func buttonSupport() {
 		print("Button pressed")
 	}
 }
 
 // MARK: - Color func
+
 private extension UserProfileContentView {
 	var backgroundColorGradient: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var foregroundPrimary: Color {
 		AppTheme.shared.colorSet.primaryDefault
 	}
-
+	
 	var foregroundWhite: Color {
 		AppTheme.shared.colorSet.offWhite
 	}
-
+	
 	var foregroundBlack: Color {
 		AppTheme.shared.colorSet.black
 	}
-
+	
 	var foregroundGrey3: Color {
 		AppTheme.shared.colorSet.grey3
 	}
-
+	
 	var foregroundGrey1: Color {
 		AppTheme.shared.colorSet.grey1
 	}
-
+	
 	var foregroundColorSetting: Color {
 		colorScheme == .light ? foregroundBlack : foregroundWhite
 	}
-
+	
 	var foregroundColorPicture: Color {
 		colorScheme == .light ? foregroundGrey3 : foregroundWhite
 	}

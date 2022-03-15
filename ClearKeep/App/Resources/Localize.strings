@@ -35,5 +35,5 @@
 "UserProfile.authen.2fa" = "Two-factor authentication";
 
 // MARK: - Country Codes
-"Country.code" = "Country Codes"
-"Country.search" = "Search"
+"Country.code" = "Country Codes";
+"Country.search" = "Search";

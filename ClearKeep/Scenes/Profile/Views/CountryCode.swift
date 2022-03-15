@@ -11,25 +11,36 @@ import Common
 import CommonUI
 
 struct CountryCode: View {
+
 	let inspection = ViewInspector<Self>()
 	@Environment(\.injected) private var injected: DIContainer
-	@Environment(\.colorScheme) var colorScheme
-	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+	@Environment(\.colorScheme) private var colorScheme
+	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
+
+	@Binding var isShowing: Bool
 	@State private(set) var samples: Loadable<[IProfileModel]>
 	@State private(set) var search: String
 	@State private(set) var searchStyle: TextInputStyle = .default
 	@State private(set) var isExpand = false
 	@State private(set) var selectedNum = 1
 
-	init(samples: Loadable<[IProfileModel]> = .notRequested,
+	init(isShowing: Binding<Bool>, samples: Loadable<[IProfileModel]> = .notRequested,
 		 search: String = "",
 		 inputStyle: TextInputStyle = .default) {
+		self._isShowing = isShowing
 		self._samples = .init(initialValue: samples)
 		self._search = .init(initialValue: search)
 		self._searchStyle = .init(initialValue: inputStyle)
 	}
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+	
+	var body: some View {
+		VStack {
+//		Button("Close") {
+//			isShowing = false
+//		}
+        content
+		}
+		.background(Color.white)
     }
 }
 
@@ -43,27 +54,38 @@ private extension CountryCode {
 // MARK: - Loading Content
 private extension CountryCode {
 	var notRequestedView: some View {
-		VStack {
+		VStack(spacing: 25.0) {
+			buttonTop
 			title
-			profileSettings
-				.padding(.top, 20)
-			textInput
-				.padding(.top, 20)
-			twoFactor
-				.padding(.top, 20)
-			Spacer()
+			searchInput
+			listCountry
+//			Spacer()
 		}
 		.padding(.horizontal, 20)
 	}
 
+	var buttonTop: some View {
+		HStack {
+			Button(action: {
+				isShowing = false
+			}, label: {
+				AppTheme.shared.imageSet.crossIcon
+			})
+			Spacer()
+		}
+		.frame(maxWidth: .infinity)
+	}
+
 	var title: some View {
 		Text("Country.code".localized)
-		.frame(maxWidth: .infinity)
+			.frame(maxWidth: .infinity, alignment: .leading)
+			.font(AppTheme.shared.fontSet.font(style: .body1))
 	}
 
 	var searchInput: some View {
 		SearchTextField(searchText: $search,
 						inputStyle: $searchStyle,
+						inputIcon: AppTheme.shared.imageSet.searchIcon,
 						placeHolder: "Country.search".localized,
 						onEditingChanged: { isEditing in
 			if isEditing {
@@ -73,10 +95,19 @@ private extension CountryCode {
 			}
 		})
 	}
+
+	var listCountry: some View {
+		List(1..<50) { row in
+			Text("\(row)")
+		}
+		.frame(maxWidth: .infinity, alignment: .leading)
+		.listStyle(PlainListStyle())
+		.listRowBackground(Color.green.opacity(0.5))
+	}
 }
 
 struct CountryCode_Previews: PreviewProvider {
     static var previews: some View {
-        CountryCode()
+		CountryCode(isShowing: .init(projectedValue: .constant(false)))
     }
 }

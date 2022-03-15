@@ -65,6 +65,7 @@
 		F553068627DA4E29007A0832 /* UserProfileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553068527DA4E29007A0832 /* UserProfileContentView.swift */; };
 		F553068827DA5534007A0832 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553068727DA5534007A0832 /* ProfileModel.swift */; };
 		F553068A27DF05A2007A0832 /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553068927DF05A2007A0832 /* CountryCode.swift */; };
+		F58CF57027E0479100A16C00 /* ExtensionColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F58CF56F27E0479100A16C00 /* ExtensionColor.swift */; };
 		F5F5B1EC27D8413100F282FB /* SocialConfirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F5B1EB27D8413100F282FB /* SocialConfirm.swift */; };
 		F5F5B1EE27D89EBF00F282FB /* SocialVerify.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F5B1ED27D89EBF00F282FB /* SocialVerify.swift */; };
 		F5F5B1F027D8F8F800F282FB /* LoginTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F5B1EF27D8F8F800F282FB /* LoginTest.swift */; };
@@ -191,6 +192,7 @@
 		F553068527DA4E29007A0832 /* UserProfileContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileContentView.swift; sourceTree = "<group>"; };
 		F553068727DA5534007A0832 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		F553068927DF05A2007A0832 /* CountryCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
+		F58CF56F27E0479100A16C00 /* ExtensionColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionColor.swift; sourceTree = "<group>"; };
 		F5F5B1EB27D8413100F282FB /* SocialConfirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialConfirm.swift; sourceTree = "<group>"; };
 		F5F5B1ED27D89EBF00F282FB /* SocialVerify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialVerify.swift; sourceTree = "<group>"; };
 		F5F5B1EF27D8F8F800F282FB /* LoginTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTest.swift; sourceTree = "<group>"; };
@@ -462,6 +464,7 @@
 				CB3F78F727C4CC0000E569B0 /* AppImageSet.swift */,
 				CB3F78F827C4CC0000E569B0 /* ColorSet.swift */,
 				CB73084327CE785B00AB0FBD /* AppTheme.swift */,
+				F58CF56F27E0479100A16C00 /* ExtensionColor.swift */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -874,6 +877,7 @@
 				CB117E7527BB65C8000941D9 /* APIService.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
+				F58CF57027E0479100A16C00 /* ExtensionColor.swift in Sources */,
 				CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */,
 				CB117E7427BB65C8000941D9 /* APIServiceError.swift in Sources */,
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
