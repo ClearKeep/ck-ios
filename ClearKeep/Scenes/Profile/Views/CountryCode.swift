@@ -106,6 +106,7 @@ private extension CountryCode {
 		List(values, id: \.self) { value in
 			Button {
 				self.selectedNum = value
+				isShowing = false
 			} label: {
 				Text("\(value)")
 			}
