@@ -53,6 +53,7 @@ public protocol IColorSet {
 	var gradientAccent: [Color] { get }
 	// MARK: - Gradient Black
 	var gradientBlack: [Color] { get }
+	var gradientLinear: [Color] { get }
 	
 	func color(of label: ColorStyle) -> Color
 }

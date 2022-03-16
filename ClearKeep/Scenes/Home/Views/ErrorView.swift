@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct ErrorView: View {
+	// MARK: - Variables
 	let error: Error
 	let retryAction: () -> Void
-	
+	// MARK: - Body
 	var body: some View {
 		VStack {
 			Text("An Error Occured")
@@ -23,7 +24,7 @@ struct ErrorView: View {
 		}
 	}
 }
-
+// MARK: - Preview
 #if DEBUG
 struct ErrorView_Previews: PreviewProvider {
 	static var previews: some View {

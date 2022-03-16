@@ -9,33 +9,116 @@ import SwiftUI
 import Common
 import CommonUI
 
+private enum Constants {
+	static let radius = 40.0
+	static let spacing = 10.0
+	static let paddingTop = 50.0
+	static let paddingLeading = 100.0
+	static let padding = 20.0
+	static let sizeImage = 56.0
+	static let sizeCircle = 12.0
+	static let sizeOffset = 30.0
+	static let sizeIcon = 24.0
+	static let sizeDisable = 12.0
+}
 struct HomeHeaderView: View {
 	// MARK: - Variables
+	@Environment(\.colorScheme) var colorScheme
 	@Binding var searchText: String
 	@Binding var inputStyle: TextInputStyle
-	
+	@State var isMenuAction: Bool
+	@State private var offset = CGFloat.zero
+	@State private var closeOffset = CGFloat.zero
+	@State private var openOffset = CGFloat.zero
 	// MARK: - Init
 	
 	// MARK: - Body
 	var body: some View {
+		NavigationView {
+			content
+				.background(backgroundColorView)
+				.edgesIgnoringSafeArea(.all)
+				.navigationBarTitle("")
+				.navigationBarHidden(true)
+		}
+	}
+}
+
+// MARK: - Private
+private extension HomeHeaderView {
+	var content: AnyView {
+		AnyView(contentView)
+	}
+	var header: AnyView {
+		AnyView(headerView)
+	}
+}
+
+// MARK: - Private variable
+private extension HomeHeaderView {
+	var backgroundColorView: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.black
+	}
+	var backgroundColor: LinearGradient {
+		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
+	}
+	var backgroundColorBlack: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
+	}
+	var backgroundColorGradient: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientLinear), startPoint: .leading, endPoint: .trailing)
+	}
+}
+// MARK: - Private func
+private extension HomeHeaderView {
+	func menuAction() {
+		self.isMenuAction.toggle()
+	}
+}
+// MARK: - Displaying Content
+private extension HomeHeaderView {
+	var contentView: some View {
+		GeometryReader { geometry in
+			ZStack {
+				ServerView(isChangeSever: false)
+				header
+				HomeMenuView(userName: "Test", urlString: "test", expand: false, show: true, isChangeStatus: true, isMenuAction: $isMenuAction)
+					.frame(width: geometry.size.width)
+					.offset(x: self.isMenuAction ? 0 : geometry.size.width )
+					.animation(.default)
+			}
+		}
+	}
+	var headerView: some View {
 		VStack {
 			HStack {
 				Text("Home.Title".localized)
-				Button("Home.menu".localized) {
-					
+					.font(AppTheme.shared.fontSet.font(style: .display3))
+				Spacer()
+				Button(action: menuAction) {
+					AppTheme.shared.imageSet.menuIcon
+						.resizable()
+						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 				}
 			}
 			SearchTextField(searchText: $searchText,
 							inputStyle: $inputStyle,
 							inputIcon: AppTheme.shared.imageSet.searchIcon,
 							placeHolder: "General.Search".localized,
-							onEditingChanged: { _ in }).frame(height: 52.0)
+							onEditingChanged: { _ in })
+			HomeContentView(isExpandGroup: false, isExpandMessage: false, isAddAction: false, isChangeStatus: false)
+			Spacer()
 		}
+		.padding(.top, Constants.paddingLeading)
+		.padding(.leading, Constants.paddingLeading)
+		.padding(.trailing, Constants.padding)
 	}
 }
-
+// MARK: - Preview
+#if DEBUG
 struct HomeHeaderView_Previews: PreviewProvider {
 	static var previews: some View {
-		HomeHeaderView(searchText: .constant("Test"), inputStyle: .constant(.default))
+		HomeHeaderView(searchText: .constant("Test"), inputStyle: .constant(.default), isMenuAction: false)
 	}
 }
+#endif
