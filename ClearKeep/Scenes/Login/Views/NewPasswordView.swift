@@ -8,7 +8,6 @@
 import SwiftUI
 import CommonUI
 import Common
-import CNIOBoringSSL
 
 private enum Constants {
 	static let radius = 40.0
