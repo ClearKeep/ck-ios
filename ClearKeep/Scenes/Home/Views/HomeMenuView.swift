@@ -78,6 +78,7 @@ private extension HomeMenuView {
 	var foregroundStatusView: Color {
 		isChangeStatus ? AppTheme.shared.colorSet.successDefault : AppTheme.shared.colorSet.errorDefault
 	}
+	
 	var foregroundButtonExpand: Color {
 		isChangeStatus ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.grey5
 	}
@@ -92,6 +93,9 @@ private extension HomeMenuView {
 	}
 	var foregroundText: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.grey5
+	}
+	var changeTextStatus: Text {
+		isChangeStatus ? Text("General.Online".localized) : Text("General.Busy".localized)
 	}
 }
 // MARK: - Private func
@@ -111,10 +115,13 @@ private extension HomeMenuView {
 	func signOut() {
 
 	}
+	func chooseAction() {
+		isChangeStatus.toggle()
+		expand.toggle()
+	}
 }
 // MARK: - Displaying Content
 private extension HomeMenuView {
-
 	var menuView: some View {
 		VStack(alignment: .trailing) {
 			Button(action: menuAction) {
@@ -134,11 +141,11 @@ private extension HomeMenuView {
 				HStack {
 					Spacer()
 					AppTheme.shared.imageSet.logoutIcon
-					.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
-					.padding(.all, Constants.padding)
+						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+						.padding(.all, Constants.padding)
 					Text("Home.Signout".localized)
-					.font(AppTheme.shared.fontSet.font(style: .body3))
-					.foregroundColor(AppTheme.shared.colorSet.errorDefault)
+						.font(AppTheme.shared.fontSet.font(style: .body3))
+						.foregroundColor(AppTheme.shared.colorSet.errorDefault)
 					Spacer()
 				}
 			}
@@ -170,12 +177,22 @@ private extension HomeMenuView {
 		}
 	}
 	var statusView: some View {
-		ZStack {
-			VStack(alignment: .leading, spacing: Constants.spacing) {
-				Text(userName)
-					.font(AppTheme.shared.fontSet.font(style: .body2))
-					.foregroundColor(foregroundColorUserName)
-				popUp
+		VStack(alignment: .leading, spacing: Constants.spacing) {
+			Text(userName)
+				.font(AppTheme.shared.fontSet.font(style: .body2))
+				.foregroundColor(foregroundColorUserName)
+			Button(action: expandAction) {
+				HStack {
+					changeTextStatus
+						.font(AppTheme.shared.fontSet.font(style: .input3))
+						.foregroundColor(foregroundStatusView)
+					AppTheme.shared.imageSet.chevDownIcon
+						.resizable()
+						.frame(width: Constants.expandWidth, height: Constants.expandHeight)
+						.foregroundColor(foregroundButtonExpand)
+				}
+			}
+			ZStack {
 				HStack {
 					Text(urlString)
 						.font(AppTheme.shared.fontSet.font(style: .placeholder3))
@@ -186,21 +203,40 @@ private extension HomeMenuView {
 							.foregroundColor(foregroundButtonCoppy)
 					}
 				}
+				popUp
+					.opacity(expand ? 1 : 0)
 			}
 		}
 	}
 	var popUpView: some View {
-		Button(action: expandAction) {
-			HStack {
-				Text("online")
-					.font(AppTheme.shared.fontSet.font(style: .input3))
-					.foregroundColor(foregroundStatusView)
-				AppTheme.shared.imageSet.chevDownIcon
-					.resizable()
-					.frame(width: Constants.expandWidth, height: Constants.expandHeight)
-					.foregroundColor(foregroundButtonExpand)
+		VStack {
+			Button(action: chooseAction) {
+				HStack {
+					Circle()
+						.frame(width: Constants.sizeCircle, height: Constants.sizeCircle)
+						.foregroundColor(AppTheme.shared.colorSet.successDefault)
+					Text("General.Online".localized)
+						.font(AppTheme.shared.fontSet.font(style: .input3))
+						.foregroundColor(foregroundText)
+					Spacer()
+				}
+			}
+			Button(action: chooseAction) {
+				HStack {
+					Circle()
+						.frame(width: Constants.sizeCircle, height: Constants.sizeCircle)
+						.foregroundColor(AppTheme.shared.colorSet.errorDefault)
+					Text("General.Busy".localized)
+						.font(AppTheme.shared.fontSet.font(style: .input3))
+						.foregroundColor(foregroundText)
+					Spacer()
+				}
 			}
 		}
+		.padding(.all, 10)
+		.background(.white)
+		.cornerRadius(10)
+		.shadow(color: AppTheme.shared.colorSet.grey3, radius: 10)
 	}
 	var listView: some View {
 		Button(action: expandAction) {
