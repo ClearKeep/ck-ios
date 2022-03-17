@@ -95,6 +95,10 @@ private extension CommonTextField {
 	var cornerRadius: CGFloat {
 		inputStyle.cornerRadius
 	}
+
+	var cornerRadiusPasscode: CGFloat {
+		inputStyle.cornerRadiusPasscode
+	}
 	
 	var textColor: Color {
 		inputStyle.textColor

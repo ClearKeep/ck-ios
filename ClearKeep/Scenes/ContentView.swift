@@ -19,15 +19,14 @@ struct ContentView: View {
 	}
 	
 	var body: some View {
-//		Group {
-//			if isRunningTests {
-//				Text("Running unit tests")
-//			} else {
-//				UserProfileContentView()
-//					.inject(container)
-//			}
-//		}
-		UserProfileContentView()
+		Group {
+			if isRunningTests {
+				Text("Running unit tests")
+			} else {
+				HomeView()
+					.inject(container)
+			}
+		}
 	}
 }
 
