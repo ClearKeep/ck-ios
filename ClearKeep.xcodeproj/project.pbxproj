@@ -66,8 +66,6 @@
 		F553068827DA5534007A0832 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553068727DA5534007A0832 /* ProfileModel.swift */; };
 		F553068A27DF05A2007A0832 /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553068927DF05A2007A0832 /* CountryCode.swift */; };
 		F58CF57027E0479100A16C00 /* ExtensionColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F58CF56F27E0479100A16C00 /* ExtensionColor.swift */; };
-		F58CF57527E2F2D000A16C00 /* TwoFactorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F58CF57427E2F2D000A16C00 /* TwoFactorModel.swift */; };
-		F58CF57727E2F30400A16C00 /* TwoFactorContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F58CF57627E2F30400A16C00 /* TwoFactorContentView.swift */; };
 		F5F5B1EC27D8413100F282FB /* SocialConfirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F5B1EB27D8413100F282FB /* SocialConfirm.swift */; };
 		F5F5B1EE27D89EBF00F282FB /* SocialVerify.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F5B1ED27D89EBF00F282FB /* SocialVerify.swift */; };
 		F5F5B1F027D8F8F800F282FB /* LoginTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F5B1EF27D8F8F800F282FB /* LoginTest.swift */; };
@@ -195,8 +193,6 @@
 		F553068727DA5534007A0832 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		F553068927DF05A2007A0832 /* CountryCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		F58CF56F27E0479100A16C00 /* ExtensionColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionColor.swift; sourceTree = "<group>"; };
-		F58CF57427E2F2D000A16C00 /* TwoFactorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorModel.swift; sourceTree = "<group>"; };
-		F58CF57627E2F30400A16C00 /* TwoFactorContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorContentView.swift; sourceTree = "<group>"; };
 		F5F5B1EB27D8413100F282FB /* SocialConfirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialConfirm.swift; sourceTree = "<group>"; };
 		F5F5B1ED27D89EBF00F282FB /* SocialVerify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialVerify.swift; sourceTree = "<group>"; };
 		F5F5B1EF27D8F8F800F282FB /* LoginTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTest.swift; sourceTree = "<group>"; };
@@ -329,7 +325,6 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				F58CF57127E2F29400A16C00 /* Two Factor */,
 				F553068227DA4852007A0832 /* Profile */,
 				F51AB9ED27D7403400FD6303 /* Social Login */,
 				CB117E7D27BB660D000941D9 /* Home */,
@@ -562,31 +557,6 @@
 				F553068727DA5534007A0832 /* ProfileModel.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		F58CF57127E2F29400A16C00 /* Two Factor */ = {
-			isa = PBXGroup;
-			children = (
-				F58CF57327E2F2A700A16C00 /* Views */,
-				F58CF57227E2F2A000A16C00 /* Models */,
-			);
-			path = "Two Factor";
-			sourceTree = "<group>";
-		};
-		F58CF57227E2F2A000A16C00 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				F58CF57427E2F2D000A16C00 /* TwoFactorModel.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		F58CF57327E2F2A700A16C00 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				F58CF57627E2F30400A16C00 /* TwoFactorContentView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -868,7 +838,6 @@
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
 				CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */,
 				CB117E7B27BB65E2000941D9 /* LocationConfigurations.swift in Sources */,
-				F58CF57527E2F2D000A16C00 /* TwoFactorModel.swift in Sources */,
 				CB117EC427BB8DB1000941D9 /* SceneDelegate.swift in Sources */,
 				CB117ECD27BBA6E5000941D9 /* HomeWorker.swift in Sources */,
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
@@ -890,7 +859,6 @@
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
 				CB117E8627BB6687000941D9 /* SampleModel.swift in Sources */,
 				F51AB9F927D743A500FD6303 /* SocialInMemoryStore.swift in Sources */,
-				F58CF57727E2F30400A16C00 /* TwoFactorContentView.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
 				F5F5B1EC27D8413100F282FB /* SocialConfirm.swift in Sources */,
