@@ -73,29 +73,35 @@ private extension HomeMenuView {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
 	var backgroundColorMenu: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.darkgrey3
 	}
 	var foregroundStatusView: Color {
 		isChangeStatus ? AppTheme.shared.colorSet.successDefault : AppTheme.shared.colorSet.errorDefault
 	}
 	
-	var foregroundButtonExpand: Color {
-		isChangeStatus ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.grey5
+	var foregroundButton: Color {
+		isChangeStatus ? AppTheme.shared.colorSet.greyLight : AppTheme.shared.colorSet.grey1
 	}
 	var foregroundColorUserName: Color {
 		AppTheme.shared.colorSet.primaryDefault
 	}
 	var foregroundColorUrlString: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.grey1
+		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight
 	}
 	var foregroundButtonCoppy: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDark : AppTheme.shared.colorSet.primaryDefault
 	}
 	var foregroundText: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.grey5
+		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight
+	}
+	var foregroundStatusText: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.black
 	}
 	var changeTextStatus: Text {
 		isChangeStatus ? Text("General.Online".localized) : Text("General.Busy".localized)
+	}
+	var foregroundSignout: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.errorDefault : AppTheme.shared.colorSet.primaryDefault
 	}
 }
 // MARK: - Private func
@@ -119,6 +125,9 @@ private extension HomeMenuView {
 		isChangeStatus.toggle()
 		expand.toggle()
 	}
+	func profileAction() {
+
+	}
 }
 // MARK: - Displaying Content
 private extension HomeMenuView {
@@ -128,6 +137,7 @@ private extension HomeMenuView {
 				AppTheme.shared.imageSet.crossIcon
 					.resizable()
 					.frame(width: Constants.sizeDisable, height: Constants.sizeDisable)
+					.foregroundColor(foregroundButton)
 			}
 			.padding(.top, Constants.padding)
 			.padding(.trailing, Constants.padding)
@@ -143,9 +153,10 @@ private extension HomeMenuView {
 					AppTheme.shared.imageSet.logoutIcon
 						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 						.padding(.all, Constants.padding)
+						.foregroundColor(foregroundSignout)
 					Text("Home.Signout".localized)
 						.font(AppTheme.shared.fontSet.font(style: .body3))
-						.foregroundColor(AppTheme.shared.colorSet.errorDefault)
+						.foregroundColor(foregroundSignout)
 					Spacer()
 				}
 			}
@@ -189,7 +200,7 @@ private extension HomeMenuView {
 					AppTheme.shared.imageSet.chevDownIcon
 						.resizable()
 						.frame(width: Constants.expandWidth, height: Constants.expandHeight)
-						.foregroundColor(foregroundButtonExpand)
+						.foregroundColor(foregroundButton)
 				}
 			}
 			ZStack {
@@ -217,7 +228,7 @@ private extension HomeMenuView {
 						.foregroundColor(AppTheme.shared.colorSet.successDefault)
 					Text("General.Online".localized)
 						.font(AppTheme.shared.fontSet.font(style: .input3))
-						.foregroundColor(foregroundText)
+						.foregroundColor(foregroundStatusText)
 					Spacer()
 				}
 			}
@@ -228,22 +239,23 @@ private extension HomeMenuView {
 						.foregroundColor(AppTheme.shared.colorSet.errorDefault)
 					Text("General.Busy".localized)
 						.font(AppTheme.shared.fontSet.font(style: .input3))
-						.foregroundColor(foregroundText)
+						.foregroundColor(foregroundStatusText)
 					Spacer()
 				}
 			}
 		}
-		.padding(.all, 10)
-		.background(.white)
-		.cornerRadius(10)
-		.shadow(color: AppTheme.shared.colorSet.grey3, radius: 10)
+		.padding(.all, Constants.spacing)
+		.background(backgroundColorMenu)
+		.cornerRadius(Constants.spacing)
+		.shadow(color: AppTheme.shared.colorSet.black.opacity(0.4), radius: Constants.spacing)
 	}
 	var listView: some View {
-		Button(action: expandAction) {
+		Button(action: profileAction) {
 			HStack {
 				AppTheme.shared.imageSet.userIcon
 					.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 					.padding(.all, Constants.padding)
+					.foregroundColor(foregroundText)
 				Text("Home.Profile".localized)
 					.font(AppTheme.shared.fontSet.font(style: .body3))
 					.foregroundColor(foregroundText)

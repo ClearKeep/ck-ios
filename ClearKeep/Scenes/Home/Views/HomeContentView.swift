@@ -7,18 +7,11 @@
 
 import SwiftUI
 private enum Constants {
-	static let radius = 40.0
 	static let spacing = 10.0
-	static let paddingTop = 50.0
-	static let paddingLeading = 100.0
 	static let padding = 20.0
 	static let sizeImage = 32.0
 	static let sizeCircle = 8.0
-	static let sizeOffset = 5.0
 	static let sizeIcon = 24.0
-	static let widthExpand = 10.0
-	static let heightExpand = 6.0
-	static let sizeDisable = 12.0
 }
 struct HomeContentView: View {
 	// MARK: - Variable
@@ -52,16 +45,16 @@ private extension HomeContentView {
 		isExpandGroup ? AppTheme.shared.imageSet.chevDownIcon : AppTheme.shared.imageSet.chevRightIcon
 	}
 	var expandMessageImage: Image {
-		isExpandGroup ? AppTheme.shared.imageSet.chevDownIcon : AppTheme.shared.imageSet.chevRightIcon
+		isExpandMessage ? AppTheme.shared.imageSet.chevDownIcon : AppTheme.shared.imageSet.chevRightIcon
 	}
 	var foregroundStatusView: Color {
 		isChangeStatus ? AppTheme.shared.colorSet.successDefault : AppTheme.shared.colorSet.errorDefault
 	}
 	var foregroundTitle: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.offWhite
+		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight2
 	}
 	var foregroundBody: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.grey5
+		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight
 	}
 }
 // MARK: - Private func
@@ -98,6 +91,7 @@ private extension HomeContentView {
 						expandGroupImage
 							.resizable()
 							.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+							.foregroundColor(foregroundTitle)
 					}
 				}
 				Spacer()
@@ -105,6 +99,7 @@ private extension HomeContentView {
 					AppTheme.shared.imageSet.plusIcon
 						.resizable()
 						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+						.foregroundColor(foregroundTitle)
 				}
 			}
 			VStack(alignment: .leading, spacing: Constants.spacing) {
@@ -134,6 +129,7 @@ private extension HomeContentView {
 						expandMessageImage
 							.resizable()
 							.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+							.foregroundColor(foregroundTitle)
 					}
 				}
 				Spacer()
@@ -141,6 +137,7 @@ private extension HomeContentView {
 					AppTheme.shared.imageSet.plusIcon
 						.resizable()
 						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+						.foregroundColor(foregroundTitle)
 				}
 			}
 			VStack(alignment: .leading, spacing: Constants.spacing) {

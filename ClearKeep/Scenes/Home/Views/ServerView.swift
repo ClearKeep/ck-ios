@@ -8,13 +8,12 @@
 import SwiftUI
 private enum Constants {
 	static let radius = 40.0
-	static let spacing = 20.0
+	static let radiusbutton = 4.0
 	static let paddingTop = 50.0
 	static let paddingTrailling = 100.0
 	static let padding = 10.0
 	static let sizeImage = 56.0
 	static let sizeButton = 22.0
-	static let sizeOffset = 30.0
 }
 struct ServerView: View {
 	// MARK: - Variables
@@ -41,13 +40,19 @@ private extension ServerView {
 // MARK: - Private Func
 private extension ServerView {
 	var foregroundButtonView: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.greyLight2
 	}
 	var backgroundView: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.primaryLight : AppTheme.shared.colorSet.grey3
+		colorScheme == .light ? AppTheme.shared.colorSet.primaryLight : AppTheme.shared.colorSet.darkgrey3
+	}
+	var backgroundButton: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.primaryDark
 	}
 	func changeServer() {
 		self.isChangeSever.toggle()
+	}
+	func addServer() {
+
 	}
 }
 // MARK: - Displaying Content
@@ -61,14 +66,18 @@ private extension ServerView {
 						.aspectRatio(contentMode: .fit)
 						.frame(width: Constants.sizeButton, height: Constants.sizeButton)
 						.foregroundColor(foregroundButtonView)
+						.background(backgroundButton)
+						.cornerRadius(Constants.radiusbutton)
 				}
 				.padding(.all, Constants.padding)
-				Button(action: changeServer) {
+				Button(action: addServer) {
 					AppTheme.shared.imageSet.plusIcon
 						.resizable()
 						.aspectRatio(contentMode: .fit)
 						.frame(width: Constants.sizeButton, height: Constants.sizeButton)
 						.foregroundColor(foregroundButtonView)
+						.background(backgroundButton)
+						.cornerRadius(Constants.radiusbutton)
 				}
 				.padding(.all, Constants.padding)
 			}

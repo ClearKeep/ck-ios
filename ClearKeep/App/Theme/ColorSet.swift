@@ -13,9 +13,12 @@ struct ColorSet: IColorSet {
 	var black: Color { Color(UIColor(hex: "#000000")) }
 	var grey1: Color { Color(UIColor(hex: "#4E4B66")) }
 	var grey2: Color { Color(UIColor(hex: "#6E7191")) }
+	var greyLight2: Color { Color(UIColor(hex: "#E0E0E0")) }
 	var grey3: Color { Color(UIColor(hex: "#A0A3BD")) }
+	var darkgrey3: Color { Color(UIColor(hex: "#424242")) }
 	var grey4: Color { Color(UIColor(hex: "#D9DBE9")) }
 	var grey5: Color { Color(UIColor(hex: "#EFF0F6")) }
+	var greyLight: Color { Color(UIColor(hex: "#C4C4C4")) }
 	var background: Color { Color(UIColor(hex: "#F7F7FC")) }
 	var offWhite: Color { Color(UIColor(hex: "#FCFCFC")) }
 	

@@ -10,16 +10,10 @@ import Common
 import CommonUI
 
 private enum Constants {
-	static let radius = 40.0
-	static let spacing = 10.0
-	static let paddingTop = 50.0
 	static let paddingLeading = 100.0
 	static let padding = 20.0
-	static let sizeImage = 56.0
-	static let sizeCircle = 12.0
 	static let sizeOffset = 30.0
 	static let sizeIcon = 24.0
-	static let sizeDisable = 12.0
 }
 struct HomeHeaderView: View {
 	// MARK: - Variables
@@ -68,6 +62,9 @@ private extension HomeHeaderView {
 	var backgroundColorGradient: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientLinear), startPoint: .leading, endPoint: .trailing)
 	}
+	var foregroundColorTitle: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight
+	}
 }
 // MARK: - Private func
 private extension HomeHeaderView {
@@ -94,11 +91,13 @@ private extension HomeHeaderView {
 			HStack {
 				Text("Home.Title".localized)
 					.font(AppTheme.shared.fontSet.font(style: .display3))
+					.foregroundColor(foregroundColorTitle)
 				Spacer()
 				Button(action: menuAction) {
 					AppTheme.shared.imageSet.menuIcon
 						.resizable()
 						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+						.foregroundColor(foregroundColorTitle)
 				}
 			}
 			SearchTextField(searchText: $searchText,
