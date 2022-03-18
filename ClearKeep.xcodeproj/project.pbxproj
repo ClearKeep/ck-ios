@@ -8,6 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		0472418227DB35550043345A /* HomeMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472418127DB35550043345A /* HomeMenuView.swift */; };
+		04E443FA27E33A010048BE3A /* LoginRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E443EE27E33A010048BE3A /* LoginRemoteStore.swift */; };
+		04E443FB27E33A010048BE3A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E443EF27E33A010048BE3A /* LoginView.swift */; };
+		04E443FC27E33A010048BE3A /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E443F027E33A010048BE3A /* LoginInteractor.swift */; };
+		04E443FD27E33A010048BE3A /* LoginInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E443F127E33A010048BE3A /* LoginInMemoryStore.swift */; };
+		04E443FE27E33A010048BE3A /* ILoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E443F327E33A010048BE3A /* ILoginModel.swift */; };
+		04E443FF27E33A010048BE3A /* FogotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E443F527E33A010048BE3A /* FogotPasswordView.swift */; };
+		04E4440027E33A010048BE3A /* AdvancedServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E443F627E33A010048BE3A /* AdvancedServerView.swift */; };
+		04E4440127E33A010048BE3A /* LoginContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E443F727E33A010048BE3A /* LoginContentView.swift */; };
+		04E4440227E33A010048BE3A /* NewPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E443F827E33A010048BE3A /* NewPasswordView.swift */; };
+		04E4440327E33A010048BE3A /* LoginWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E443F927E33A010048BE3A /* LoginWorker.swift */; };
+		04E4440E27E33A090048BE3A /* RegisterRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E4440527E33A090048BE3A /* RegisterRemoteStore.swift */; };
+		04E4440F27E33A090048BE3A /* RegisterWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E4440627E33A090048BE3A /* RegisterWorker.swift */; };
+		04E4441027E33A090048BE3A /* RegisterInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E4440727E33A090048BE3A /* RegisterInMemoryStore.swift */; };
+		04E4441127E33A090048BE3A /* IRegisterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E4440927E33A090048BE3A /* IRegisterModel.swift */; };
+		04E4441227E33A090048BE3A /* RegisterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E4440A27E33A090048BE3A /* RegisterInteractor.swift */; };
+		04E4441327E33A090048BE3A /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E4440B27E33A090048BE3A /* RegisterView.swift */; };
+		04E4441427E33A090048BE3A /* RegisterContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E4440D27E33A090048BE3A /* RegisterContentView.swift */; };
 		4420AE57DA690DE6C8C54963 /* Pods_ClearKeep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 475749C4F2F15D4A61EEB83D /* Pods_ClearKeep.framework */; };
 		B11C151A05AD567AA57FD53D /* Pods_ClearKeepUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FC5765DC2A8FA5A318B742 /* Pods_ClearKeepUITests.framework */; };
 		B691E362FF810CA0E58283D3 /* Pods_ClearKeepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 416279F50D6ADE4CF6389D01 /* Pods_ClearKeepTests.framework */; };
@@ -99,6 +116,23 @@
 
 /* Begin PBXFileReference section */
 		0472418127DB35550043345A /* HomeMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeMenuView.swift; sourceTree = "<group>"; };
+		04E443EE27E33A010048BE3A /* LoginRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRemoteStore.swift; sourceTree = "<group>"; };
+		04E443EF27E33A010048BE3A /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		04E443F027E33A010048BE3A /* LoginInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
+		04E443F127E33A010048BE3A /* LoginInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInMemoryStore.swift; sourceTree = "<group>"; };
+		04E443F327E33A010048BE3A /* ILoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ILoginModel.swift; sourceTree = "<group>"; };
+		04E443F527E33A010048BE3A /* FogotPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FogotPasswordView.swift; sourceTree = "<group>"; };
+		04E443F627E33A010048BE3A /* AdvancedServerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedServerView.swift; sourceTree = "<group>"; };
+		04E443F727E33A010048BE3A /* LoginContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginContentView.swift; sourceTree = "<group>"; };
+		04E443F827E33A010048BE3A /* NewPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPasswordView.swift; sourceTree = "<group>"; };
+		04E443F927E33A010048BE3A /* LoginWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginWorker.swift; sourceTree = "<group>"; };
+		04E4440527E33A090048BE3A /* RegisterRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterRemoteStore.swift; sourceTree = "<group>"; };
+		04E4440627E33A090048BE3A /* RegisterWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterWorker.swift; sourceTree = "<group>"; };
+		04E4440727E33A090048BE3A /* RegisterInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterInMemoryStore.swift; sourceTree = "<group>"; };
+		04E4440927E33A090048BE3A /* IRegisterModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRegisterModel.swift; sourceTree = "<group>"; };
+		04E4440A27E33A090048BE3A /* RegisterInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterInteractor.swift; sourceTree = "<group>"; };
+		04E4440B27E33A090048BE3A /* RegisterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		04E4440D27E33A090048BE3A /* RegisterContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterContentView.swift; sourceTree = "<group>"; };
 		0B4D15934D622F846F2806A1 /* Pods-ClearKeepTests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.ppe.xcconfig"; sourceTree = "<group>"; };
 		128D9595C6F7214A99944057 /* Pods-ClearKeep.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.qa.xcconfig"; sourceTree = "<group>"; };
 		328ECF9F2F3251DE45D45614 /* Pods-ClearKeep.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.production.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.production.xcconfig"; sourceTree = "<group>"; };
@@ -172,10 +206,6 @@
 		CBCF494E27D46714006D84FE /* Localize.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localize.strings; sourceTree = "<group>"; };
 		CBD0AA3B27C7484900F86EFD /* Authentication */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Authentication; path = Packages/Authentication; sourceTree = "<group>"; };
 		EE672FA0EC8A123D35608506 /* Pods-ClearKeepUITests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.ppe.xcconfig"; sourceTree = "<group>"; };
-		F51AB9EB27D6F5B300FD6303 /* ILoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ILoginModel.swift; sourceTree = "<group>"; };
-		F5D09AF727D51174001E8CC4 /* LoginContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginContentView.swift; sourceTree = "<group>"; };
-		F5D09AFD27D5E872001E8CC4 /* LoginRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRemoteStore.swift; sourceTree = "<group>"; };
-		F5D09AFF27D5E887001E8CC4 /* LoginInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInMemoryStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,12 +248,71 @@
 		044351FE27DA15180054A78F /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				F51AB9EB27D6F5B300FD6303 /* ILoginModel.swift */,
-				F5D09AF727D51174001E8CC4 /* LoginContentView.swift */,
-				F5D09AFD27D5E872001E8CC4 /* LoginRemoteStore.swift */,
-				F5D09AFF27D5E887001E8CC4 /* LoginInMemoryStore.swift */,
 			);
 			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		04E443ED27E33A010048BE3A /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				04E443EE27E33A010048BE3A /* LoginRemoteStore.swift */,
+				04E443EF27E33A010048BE3A /* LoginView.swift */,
+				04E443F027E33A010048BE3A /* LoginInteractor.swift */,
+				04E443F127E33A010048BE3A /* LoginInMemoryStore.swift */,
+				04E443F227E33A010048BE3A /* Models */,
+				04E443F427E33A010048BE3A /* Views */,
+				04E443F927E33A010048BE3A /* LoginWorker.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		04E443F227E33A010048BE3A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				04E443F327E33A010048BE3A /* ILoginModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		04E443F427E33A010048BE3A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				04E443F527E33A010048BE3A /* FogotPasswordView.swift */,
+				04E443F627E33A010048BE3A /* AdvancedServerView.swift */,
+				04E443F727E33A010048BE3A /* LoginContentView.swift */,
+				04E443F827E33A010048BE3A /* NewPasswordView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		04E4440427E33A090048BE3A /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				04E4440527E33A090048BE3A /* RegisterRemoteStore.swift */,
+				04E4440627E33A090048BE3A /* RegisterWorker.swift */,
+				04E4440727E33A090048BE3A /* RegisterInMemoryStore.swift */,
+				04E4440827E33A090048BE3A /* Models */,
+				04E4440A27E33A090048BE3A /* RegisterInteractor.swift */,
+				04E4440B27E33A090048BE3A /* RegisterView.swift */,
+				04E4440C27E33A090048BE3A /* Views */,
+			);
+			path = Register;
+			sourceTree = "<group>";
+		};
+		04E4440827E33A090048BE3A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				04E4440927E33A090048BE3A /* IRegisterModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		04E4440C27E33A090048BE3A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				04E4440D27E33A090048BE3A /* RegisterContentView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		72767F943F8717C11FDB899B /* Frameworks */ = {
@@ -317,6 +406,8 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				04E4440427E33A090048BE3A /* Register */,
+				04E443ED27E33A010048BE3A /* Login */,
 				CB117E7D27BB660D000941D9 /* Home */,
 				CB117EBB27BB7D2F000941D9 /* ContentView.swift */,
 				CB117EBD27BB7DE2000941D9 /* RootViewModifier.swift */,
@@ -766,32 +857,44 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */,
+				04E4441427E33A090048BE3A /* RegisterContentView.swift in Sources */,
 				CB117E7227BB65C7000941D9 /* APIResourceQueryAdapter.swift in Sources */,
+				04E4441327E33A090048BE3A /* RegisterView.swift in Sources */,
+				04E4440E27E33A090048BE3A /* RegisterRemoteStore.swift in Sources */,
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
 				CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */,
 				CB117E7B27BB65E2000941D9 /* LocationConfigurations.swift in Sources */,
+				04E443FA27E33A010048BE3A /* LoginRemoteStore.swift in Sources */,
 				CB117EC427BB8DB1000941D9 /* SceneDelegate.swift in Sources */,
 				CB117ECD27BBA6E5000941D9 /* HomeWorker.swift in Sources */,
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
+				04E443FE27E33A010048BE3A /* ILoginModel.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
+				04E4441127E33A090048BE3A /* IRegisterModel.swift in Sources */,
 				CB117E7727BB65C8000941D9 /* SampleResponse.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
 				CB117E7327BB65C7000941D9 /* APIResourceResponseAdapter.swift in Sources */,
 				CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */,
+				04E4440227E33A010048BE3A /* NewPasswordView.swift in Sources */,
+				04E4441227E33A090048BE3A /* RegisterInteractor.swift in Sources */,
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
 				CB117E8627BB6687000941D9 /* SampleModel.swift in Sources */,
+				04E4441027E33A090048BE3A /* RegisterInMemoryStore.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
+				04E4440127E33A010048BE3A /* LoginContentView.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
+				04E4440F27E33A090048BE3A /* RegisterWorker.swift in Sources */,
 				CB117E7127BB65C7000941D9 /* APIConfigurations.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
 				CB117E7627BB65C8000941D9 /* ServerErrorResponse.swift in Sources */,
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
+				04E443FC27E33A010048BE3A /* LoginInteractor.swift in Sources */,
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
 				0472418227DB35550043345A /* HomeMenuView.swift in Sources */,
@@ -799,8 +902,13 @@
 				CB117E7527BB65C8000941D9 /* APIService.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
+				04E443FF27E33A010048BE3A /* FogotPasswordView.swift in Sources */,
 				CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */,
+				04E4440027E33A010048BE3A /* AdvancedServerView.swift in Sources */,
+				04E443FB27E33A010048BE3A /* LoginView.swift in Sources */,
 				CB117E7427BB65C8000941D9 /* APIServiceError.swift in Sources */,
+				04E4440327E33A010048BE3A /* LoginWorker.swift in Sources */,
+				04E443FD27E33A010048BE3A /* LoginInMemoryStore.swift in Sources */,
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
