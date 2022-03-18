@@ -13,6 +13,7 @@ private enum Constants {
 	static let sizeCircle = 8.0
 	static let sizeIcon = 24.0
 }
+
 struct HomeContentView: View {
 	// MARK: - Variable
 	@Environment(\.colorScheme) var colorScheme
@@ -22,56 +23,82 @@ struct HomeContentView: View {
 	@State private(set) var isChangeStatus: Bool
 	@State private(set) var group: [String] = ["Discussion", "UI Design", "Front-end Development", "Back-end Development"]
 	@State private(set) var userName: [String] = ["Alex", "Alisa", "babara", "Jonh Doe"]
+
 	// MARK: - Body
 	var body: some View {
 		content
 	}
 }
-// MARK: - Private
+
+	// MARK: - Private
 private extension HomeContentView {
 	var content: AnyView {
 		AnyView(bodyView)
 	}
+
 	var groupChat: AnyView {
 		AnyView(groupView)
 	}
+
 	var directMessages: AnyView {
 		AnyView(directMessagesView)
 	}
 }
+
 // MARK: - Private variable
 private extension HomeContentView {
 	var expandGroupImage: Image {
 		isExpandGroup ? AppTheme.shared.imageSet.chevDownIcon : AppTheme.shared.imageSet.chevRightIcon
 	}
+
 	var expandMessageImage: Image {
 		isExpandMessage ? AppTheme.shared.imageSet.chevDownIcon : AppTheme.shared.imageSet.chevRightIcon
 	}
+
 	var foregroundStatusView: Color {
 		isChangeStatus ? AppTheme.shared.colorSet.successDefault : AppTheme.shared.colorSet.errorDefault
 	}
+
 	var foregroundTitle: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight2
 	}
+
 	var foregroundBody: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight
 	}
+	var opacityGroup: Double {
+		isExpandGroup ? 1 : 0
+	}
+	var opacityMessage: CGFloat {
+		isExpandMessage ? 1 : 0
+	}
+	var frameGroup: CGFloat? {
+		isExpandGroup ? nil : 0
+	}
+	var frameMessage: CGFloat? {
+		isExpandMessage ? nil : 0
+	}
 }
-// MARK: - Private func
+
+	// MARK: - Private func
 private extension HomeContentView {
 	func expandGroups() {
 		isExpandGroup.toggle()
 	}
+
 	func expandMessages() {
 		isExpandMessage.toggle()
 	}
+
 	func addAction() {
 		isAddAction.toggle()
 	}
+
 	func changeView() {
 		
 	}
 }
+
 // MARK: - Displaying Content
 private extension HomeContentView {
 	var bodyView: some View {
@@ -80,6 +107,7 @@ private extension HomeContentView {
 			directMessages
 		}
 	}
+
 	var groupView: some View {
 		VStack(alignment: .leading, spacing: Constants.spacing) {
 			HStack {
@@ -113,11 +141,12 @@ private extension HomeContentView {
 				.padding(.bottom, Constants.padding)
 				.padding(.leading, Constants.padding)
 			}
-			.opacity(isExpandGroup ? 1 : 0)
-			.frame(height: isExpandGroup ? nil : 0)
+			.opacity(opacityGroup)
+			.frame(height: frameGroup)
 			.padding(.leading, Constants.padding)
 		}
 	}
+
 	var directMessagesView: some View {
 		VStack(alignment: .leading, spacing: Constants.spacing) {
 			HStack {
@@ -167,12 +196,13 @@ private extension HomeContentView {
 					}
 				}
 			}
-			.opacity(isExpandMessage ? 1 : 0)
-			.frame(height: isExpandMessage ? nil : 0)
+			.opacity(opacityMessage)
+			.frame(height: frameMessage)
 			.padding(.leading, Constants.padding)
 		}
 	}
 }
+
 // MARK: - Preview
 #if DEBUG
 struct HomeContentView_Previews: PreviewProvider {

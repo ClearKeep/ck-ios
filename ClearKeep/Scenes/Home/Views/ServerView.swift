@@ -20,6 +20,12 @@ struct ServerView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@State private(set) var items: [String] = ["a", "b", "c"]
 	@State private(set) var isChangeSever: Bool
+
+	// MARK: - Init
+	init(isChangeSever: Bool) {
+		self._isChangeSever = .init(initialValue: isChangeSever)
+	}
+	
 	// MARK: - Body
 	var body: some View {
 		content

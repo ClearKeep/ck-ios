@@ -20,20 +20,33 @@ private enum Constants {
 	static let expandHeight = 10.0
 	static let sizeIcon = 24.0
 	static let sizeDisable = 24.0
+	static let opacity = 0.4
 }
 struct HomeMenuView: View {
-	// MARK: - Constants
-	
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
 	@State private(set) var userName: String
 	@State private(set) var urlString: String
-	@State private(set) var expand: Bool
-	@State private(set) var show: Bool
+	@State private(set) var isExpand: Bool
+	@State private(set) var isShow: Bool
 	@State private(set) var isChangeStatus: Bool = true
 	@Binding var isMenuAction: Bool
+	// MARK: - Init
+	init(userName: String = "",
+		 urlString: String = "",
+		 isExpand: Bool,
+		 isShow: Bool,
+		 isChangeStatus: Bool,
+		 isMenuAction: Binding<Bool>) {
+		self._userName = .init(initialValue: userName)
+		self._urlString = .init(initialValue: urlString)
+		self._isExpand = .init(initialValue: isExpand)
+		self._isShow = .init(initialValue: isShow)
+		self._isChangeStatus = .init(initialValue: isChangeStatus)
+		self._isMenuAction = isMenuAction
+	}
 
 	// MARK: - body
 	var body: some View {
@@ -66,15 +79,19 @@ private extension HomeMenuView {
 	var backgroundColorView: LinearGradient {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
 	}
+
 	var backgroundColorBlack: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
 	}
+
 	var backgroundColorGradient: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
+
 	var backgroundColorMenu: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.darkgrey3
 	}
+
 	var foregroundStatusView: Color {
 		isChangeStatus ? AppTheme.shared.colorSet.successDefault : AppTheme.shared.colorSet.errorDefault
 	}
@@ -82,26 +99,36 @@ private extension HomeMenuView {
 	var foregroundButton: Color {
 		isChangeStatus ? AppTheme.shared.colorSet.greyLight : AppTheme.shared.colorSet.grey1
 	}
+
 	var foregroundColorUserName: Color {
 		AppTheme.shared.colorSet.primaryDefault
 	}
+
 	var foregroundColorUrlString: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight
 	}
+
 	var foregroundButtonCoppy: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDark : AppTheme.shared.colorSet.primaryDefault
 	}
+
 	var foregroundText: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight
 	}
+
 	var foregroundStatusText: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.black
 	}
+
 	var changeTextStatus: Text {
 		isChangeStatus ? Text("General.Online".localized) : Text("General.Busy".localized)
 	}
+
 	var foregroundSignout: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.errorDefault : AppTheme.shared.colorSet.primaryDefault
+	}
+	var opacityAction: Double {
+		isExpand ? 1 : 0
 	}
 }
 // MARK: - Private func
@@ -109,22 +136,28 @@ private extension HomeMenuView {
 	func statusAction() {
 		isChangeStatus.toggle()
 	}
+
 	func expandAction() {
-		expand.toggle()
+		isExpand.toggle()
 	}
+
 	func copyAction() {
 
 	}
+
 	func menuAction() {
 		isMenuAction.toggle()
 	}
+
 	func signOut() {
 
 	}
+
 	func chooseAction() {
 		isChangeStatus.toggle()
-		expand.toggle()
+		isExpand.toggle()
 	}
+
 	func profileAction() {
 
 	}
@@ -168,6 +201,7 @@ private extension HomeMenuView {
 		.padding(.leading, Constants.paddingLeading)
 		.edgesIgnoringSafeArea(.all)
 	}
+
 	var profileView: some View {
 		HStack {
 			ZStack {
@@ -187,6 +221,7 @@ private extension HomeMenuView {
 				.padding()
 		}
 	}
+
 	var statusView: some View {
 		VStack(alignment: .leading, spacing: Constants.spacing) {
 			Text(userName)
@@ -215,10 +250,11 @@ private extension HomeMenuView {
 					}
 				}
 				popUp
-					.opacity(expand ? 1 : 0)
+					.opacity(opacityAction)
 			}
 		}
 	}
+
 	var popUpView: some View {
 		VStack {
 			Button(action: chooseAction) {
@@ -247,8 +283,9 @@ private extension HomeMenuView {
 		.padding(.all, Constants.spacing)
 		.background(backgroundColorMenu)
 		.cornerRadius(Constants.spacing)
-		.shadow(color: AppTheme.shared.colorSet.black.opacity(0.4), radius: Constants.spacing)
+		.shadow(color: AppTheme.shared.colorSet.black.opacity(Constants.opacity), radius: Constants.spacing)
 	}
+
 	var listView: some View {
 		Button(action: profileAction) {
 			HStack {
@@ -264,11 +301,12 @@ private extension HomeMenuView {
 		}
 	}
 }
+
 // MARK: - Preview
 #if DEBUG
 struct HomeMenuView_Previews: PreviewProvider {
 	static var previews: some View {
-		HomeMenuView(userName: "Test", urlString: "test", expand: false, show: true, isChangeStatus: true, isMenuAction: .constant(false))
+		HomeMenuView(userName: "Test", urlString: "test", isExpand: false, isShow: true, isChangeStatus: true, isMenuAction: .constant(false))
 	}
 }
 #endif

@@ -15,17 +15,21 @@ private enum Constants {
 	static let sizeOffset = 30.0
 	static let sizeIcon = 24.0
 }
+
 struct HomeHeaderView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Binding var searchText: String
 	@Binding var inputStyle: TextInputStyle
-	@State var isMenuAction: Bool
-	@State private var offset = CGFloat.zero
-	@State private var closeOffset = CGFloat.zero
-	@State private var openOffset = CGFloat.zero
+	@State private(set) var isMenuAction: Bool
 	// MARK: - Init
-	
+	init(searchText: Binding<String>,
+		 inputStyle: Binding<TextInputStyle>,
+		 isMenuAction: Bool) {
+		self._searchText = searchText
+		self._inputStyle = inputStyle
+		self._isMenuAction = .init(initialValue: isMenuAction)
+	}
 	// MARK: - Body
 	var body: some View {
 		NavigationView {
@@ -43,6 +47,7 @@ private extension HomeHeaderView {
 	var content: AnyView {
 		AnyView(contentView)
 	}
+
 	var header: AnyView {
 		AnyView(headerView)
 	}
@@ -53,25 +58,31 @@ private extension HomeHeaderView {
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.black
 	}
+
 	var backgroundColor: LinearGradient {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
 	}
+
 	var backgroundColorBlack: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
 	}
+
 	var backgroundColorGradient: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientLinear), startPoint: .leading, endPoint: .trailing)
 	}
+
 	var foregroundColorTitle: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight
 	}
 }
+
 // MARK: - Private func
 private extension HomeHeaderView {
 	func menuAction() {
 		self.isMenuAction.toggle()
 	}
 }
+
 // MARK: - Displaying Content
 private extension HomeHeaderView {
 	var contentView: some View {
@@ -79,13 +90,14 @@ private extension HomeHeaderView {
 			ZStack {
 				ServerView(isChangeSever: false)
 				header
-				HomeMenuView(userName: "Test", urlString: "test", expand: false, show: true, isChangeStatus: true, isMenuAction: $isMenuAction)
+				HomeMenuView(userName: "Test", urlString: "test", isExpand: false, isShow: true, isChangeStatus: true, isMenuAction: $isMenuAction)
 					.frame(width: geometry.size.width)
 					.offset(x: self.isMenuAction ? 0 : geometry.size.width )
 					.animation(.default)
 			}
 		}
 	}
+
 	var headerView: some View {
 		VStack {
 			HStack {
@@ -113,6 +125,7 @@ private extension HomeHeaderView {
 		.padding(.trailing, Constants.padding)
 	}
 }
+
 // MARK: - Preview
 #if DEBUG
 struct HomeHeaderView_Previews: PreviewProvider {
