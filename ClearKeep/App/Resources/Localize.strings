@@ -37,3 +37,11 @@
 // MARK: - Country Codes
 "Country.code" = "Country Codes";
 "Country.search" = "Search";
+
+// MARK: - Two-Factor Authentication
+"2fa.backButton" = "Enter your code";
+"2fa.title" = "Please input a code that has been sent to your phone number";
+"2fa.dontGetCode" = "Don't get the code?";
+"2fa.resendCode" = "Resend Code";
+"2fa.verify" = "Verify";
+
