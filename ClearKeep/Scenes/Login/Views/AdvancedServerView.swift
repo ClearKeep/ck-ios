@@ -13,6 +13,7 @@ private enum Constants {
 	static let radius = 40.0
 	static let spacing = 20.0
 	static let padding = 10.0
+	static let paddingTop = 100.0
 }
 
 struct AdvancedServerView: View {
@@ -26,11 +27,13 @@ struct AdvancedServerView: View {
 	@State private(set) var severUrl: String
 	@State private(set) var severUrlStyle: TextInputStyle
 	@State private(set) var isShowingView: Bool = false
+	// MARK: - Init
 	init(severUrl: String = "",
 		 severUrlStyle: TextInputStyle = .default) {
 		self._severUrl = .init(initialValue: severUrl)
 		self._severUrlStyle = .init(initialValue: severUrlStyle)
 	}
+
 	// MARK: - Body
 	var body: some View {
 		content
@@ -42,9 +45,9 @@ struct AdvancedServerView: View {
 			.navigationBarItems(leading: buttonBack)
 	}
 }
+
 // MARK: - Private
 private extension AdvancedServerView {
-
 	var backgroundButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
@@ -52,9 +55,11 @@ private extension AdvancedServerView {
 	var backgroundColorView: LinearGradient {
 			colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
 		}
+
 	var backgroundColorBlack: LinearGradient {
 			LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
 		}
+
 	var backgroundColorGradient: LinearGradient {
 			LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 		}
@@ -62,18 +67,23 @@ private extension AdvancedServerView {
 	var foregroundButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
 	}
+
 	var foregroundBackButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
+
 	var foregroundCheckmask: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
+
 }
+
 // MARK: - Private Func
 private extension AdvancedServerView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
+
 	var content: AnyView {
 		if isShowingView {
 			return AnyView(severUrlView)
@@ -82,12 +92,13 @@ private extension AdvancedServerView {
 		}
 	}
 }
+
 // MARK: - Loading Content
 private extension AdvancedServerView {
 	var severUrlView: some View {
 		VStack(spacing: Constants.spacing) {
 			checkMaskButton
-				.padding(.top, 100)
+				.padding(.top, Constants.paddingTop)
 				.frame(maxWidth: .infinity, alignment: .leading)
 			Text("AdvancedServer.Title".localized)
 				.font(AppTheme.shared.fontSet.font(style: .body2))
@@ -125,6 +136,7 @@ private extension AdvancedServerView {
 			.foregroundColor(foregroundBackButton)
 		}
 	}
+
 	var buttonSubmit: some View {
 		Button("AdvancedServer.Submit".localized) {
 		}
@@ -134,23 +146,25 @@ private extension AdvancedServerView {
 		.foregroundColor(foregroundButton)
 		.cornerRadius(Constants.radius)
 	}
+
 	var checkMaskButton: some View {
-		CheckBoxButtons(text: "AdvancedServer.SeverButton".localized, checked: $isShowingView)
+		CheckBoxButtons(text: "AdvancedServer.SeverButton".localized, isChecked: $isShowingView)
 			.foregroundColor(foregroundCheckmask)
 	}
+
 	var checkMarkView: some View {
 		VStack {
 			checkMaskButton
 				.frame(maxWidth: .infinity, alignment: .leading)
-				.padding(.top, 100)
+				.padding(.top, Constants.paddingTop)
 			Spacer()
 		}
 		.padding(.all, Constants.padding)
 	}
 }
+
 // MARK: - Interactor
-private extension AdvancedServerView {
-}
+
 // MARK: - Preview
 #if DEBUG
 struct AdvancedServerView_Previews: PreviewProvider {
