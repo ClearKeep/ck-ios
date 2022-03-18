@@ -65,4 +65,6 @@ public protocol IImageSet {
 	var googleIcon: Image { get }
 	var officeIcon: Image { get }
 	var facebookIcon: Image { get }
+	var checkMask: Image { get }
+	var checkMaskFill: Image { get }
 }

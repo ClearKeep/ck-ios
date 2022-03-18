@@ -15,21 +15,21 @@ private enum Constants {
 
 public struct CheckBoxButtons: View {
 	// MARK: - Variables
-	@Binding var checked: Bool
+	@Binding var isChecked: Bool
 	private let text: String
+
 	// MARK: - Init
-	public init(text: String,
-				checked: Binding<Bool>) {
+	public init(text: String, isChecked: Binding<Bool>) {
 		self.text = text
-		self._checked = checked
+		self._isChecked = isChecked
 	}
 	// MARK: - Body
 	public var body: some View {
 		Button(action: {
-			checked.toggle()
+			isChecked.toggle()
 		}, label: {
 			HStack {
-			Image(systemName: checked ? "checkmark.circle" : "checkmark.circle.fill")
+			checkMaskIcon
 				.foregroundColor(focegroundColorImage)
 			Text(text)
 				.font(font)
@@ -38,18 +38,24 @@ public struct CheckBoxButtons: View {
 		}
 	)}
 }
+
 // MARK: - Private func
 private extension CheckBoxButtons {
 	var focegroundColorImage: Color {
-		checked ? commonUIConfig.colorSet.primaryDark : commonUIConfig.colorSet.grey3
+		isChecked ? commonUIConfig.colorSet.primaryDark : commonUIConfig.colorSet.grey3
 	}
 	
 	var font: Font {
 		commonUIConfig.fontSet.font(style: .body3)
 	}
+
+	var checkMaskIcon: Image {
+		isChecked ? commonUIConfig.imageSet.checkMask : commonUIConfig.imageSet.checkMaskFill
+	}
 }
+
 struct CheckBoxButtons_Previews: PreviewProvider {
 	static var previews: some View {
-		CheckBoxButtons(text: ("Test"), checked: .constant(false))
+		CheckBoxButtons(text: ("Test"), isChecked: .constant(false))
 	}
 }
