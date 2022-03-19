@@ -62,6 +62,8 @@
 		F51AB9F927D743A500FD6303 /* SocialInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51AB9F827D743A500FD6303 /* SocialInMemoryStore.swift */; };
 		F51AB9FB27D743B000FD6303 /* SocialWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51AB9FA27D743B000FD6303 /* SocialWorker.swift */; };
 		F51AB9FD27D74C8A00FD6303 /* SocialModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51AB9FC27D74C8A00FD6303 /* SocialModel.swift */; };
+		F553F81327E492A700824BE7 /* SocialCommonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F81227E492A700824BE7 /* SocialCommonStyle.swift */; };
+		F553F81527E4D8DA00824BE7 /* SocialCommonUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F81427E4D8DA00824BE7 /* SocialCommonUI.swift */; };
 		F5F5B1EC27D8413100F282FB /* SocialConfirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F5B1EB27D8413100F282FB /* SocialConfirm.swift */; };
 		F5F5B1EE27D89EBF00F282FB /* SocialVerify.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F5B1ED27D89EBF00F282FB /* SocialVerify.swift */; };
 		F5F5B1F027D8F8F800F282FB /* LoginTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F5B1EF27D8F8F800F282FB /* LoginTest.swift */; };
@@ -185,6 +187,8 @@
 		F51AB9F827D743A500FD6303 /* SocialInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialInMemoryStore.swift; sourceTree = "<group>"; };
 		F51AB9FA27D743B000FD6303 /* SocialWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialWorker.swift; sourceTree = "<group>"; };
 		F51AB9FC27D74C8A00FD6303 /* SocialModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialModel.swift; sourceTree = "<group>"; };
+		F553F81227E492A700824BE7 /* SocialCommonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialCommonStyle.swift; sourceTree = "<group>"; };
+		F553F81427E4D8DA00824BE7 /* SocialCommonUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialCommonUI.swift; sourceTree = "<group>"; };
 		F5F5B1EB27D8413100F282FB /* SocialConfirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialConfirm.swift; sourceTree = "<group>"; };
 		F5F5B1ED27D89EBF00F282FB /* SocialVerify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialVerify.swift; sourceTree = "<group>"; };
 		F5F5B1EF27D8F8F800F282FB /* LoginTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTest.swift; sourceTree = "<group>"; };
@@ -516,11 +520,21 @@
 		F51AB9EF27D7405600FD6303 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F553F81127E4929700824BE7 /* CommonUI */,
 				F5F5B1EB27D8413100F282FB /* SocialConfirm.swift */,
 				F5F5B1ED27D89EBF00F282FB /* SocialVerify.swift */,
 				F5F5B1EF27D8F8F800F282FB /* LoginTest.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		F553F81127E4929700824BE7 /* CommonUI */ = {
+			isa = PBXGroup;
+			children = (
+				F553F81227E492A700824BE7 /* SocialCommonStyle.swift */,
+				F553F81427E4D8DA00824BE7 /* SocialCommonUI.swift */,
+			);
+			path = CommonUI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -821,6 +835,7 @@
 				CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */,
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
 				CB117E8627BB6687000941D9 /* SampleModel.swift in Sources */,
+				F553F81527E4D8DA00824BE7 /* SocialCommonUI.swift in Sources */,
 				F51AB9F927D743A500FD6303 /* SocialInMemoryStore.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
@@ -836,6 +851,7 @@
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
 				CB117E7527BB65C8000941D9 /* APIService.swift in Sources */,
+				F553F81327E492A700824BE7 /* SocialCommonStyle.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
 				CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */,
