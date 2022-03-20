@@ -8,6 +8,7 @@
 
 import UIKit
 import Combine
+import ChatSecure
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +19,15 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions
 					 launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+		
+		let clkAuthen = CLKAuthenticationService()
+		Task {
+//			await clkAuthen.register(displayName: "Test", email: "namnguyen123@gmail.com", password: "123456a@A", domain: "54.235.68.160:25000")
+//			await clkAuthen.login(userName: "namnguyen123@gmail.com", password: "123456a@A", domain: "54.235.68.160:25000")
+//			await clkAuthen.login(userName: "namnhse02061@gmail.com", password: "123456a@A", domain: "54.235.68.160:25000")
+			await clkAuthen.login(userName: "phuong@yopmail.com", password: "123456", domain: "54.235.68.160:15000")
+		}
+
 		return true
 	}
 	
