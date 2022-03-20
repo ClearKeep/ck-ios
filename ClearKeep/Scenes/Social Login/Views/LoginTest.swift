@@ -10,7 +10,7 @@ import SwiftUI
 struct LoginTest: View {
 	var body: some View {
 		NavigationView {
-			NavigationLink(destination: SocialView()) {
+			NavigationLink(destination: SocialView(security: "")) {
 				Text("sadsd")
 			}
 		}

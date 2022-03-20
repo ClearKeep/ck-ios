@@ -11,54 +11,68 @@ protocol ISocialCommonStyle {
 	var buttonBack: String { get }
 	var title: String { get }
 	var buttonNext: String { get }
+	associatedtype NextView
+	var nextView: NextView { get }
 }
 
 public enum SocialCommonStyle: ISocialCommonStyle {
+	
 	case setSecurity
 	case confirmSecurity
 	case verifySecurity
-
+	
 	public var buttonBack: String {
 		switch self {
 		case .setSecurity:
-			return "Social.setPhrase.back"
+			return "Social.SetPhrase.Back"
 		case .confirmSecurity:
-			return "Social.confirmPhrase.back"
+			return "Social.ConfirmPhrase.Back"
 		case .verifySecurity:
-			return "Social.verify.back"
+			return "Social.Verify.Back"
 		}
 	}
-
+	
 	public var title: String {
 		switch self {
 		case .setSecurity:
-			return "Social.title.set"
+			return "Social.Title.Set"
 		case .confirmSecurity:
-			return "Social.title.confirm"
+			return "Social.Title.Confirm"
 		case .verifySecurity:
-			return "Social.title.verify"
+			return "Social.Title.Verify"
 		}
 	}
-
+	
 	public var buttonNext: String {
 		switch self {
 		case .setSecurity:
-			return "Social.next"
+			return "Social.Next"
 		case .confirmSecurity:
-			return "Social.next"
+			return "Social.Next"
 		case .verifySecurity:
-			return "Social.verify.next"
+			return "Social.Verify.Next"
 		}
 	}
-
+	
 	public var textInput: String {
 		switch self {
 		case .setSecurity:
-			return "Social.security.set"
+			return "Social.Security.Set"
 		case .confirmSecurity:
-			return "Social.security.confirm"
+			return "Social.Security.Confirm"
 		case .verifySecurity:
-			return "Social.input.verify"
+			return "Social.Input.Verify"
+		}
+	}
+	
+	public var nextView: some View {
+		switch self {
+		case .setSecurity:
+			return AnyView(SocialConfirm())
+		case .confirmSecurity:
+			return AnyView(SocialVerify())
+		case .verifySecurity:
+			return AnyView(SocialVerify())
 		}
 	}
 }

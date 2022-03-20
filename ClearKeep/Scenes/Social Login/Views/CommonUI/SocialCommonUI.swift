@@ -15,19 +15,16 @@ private enum Constant {
 	static let spacerBottomView = 20.0
 	static let spacer = 25.0
 	static let spacerBottom = 45.0
-	static let widthLogo = 160.0
-	static let heightLogo = 120.0
 	static let paddingVertical = 14.0
 	static let paddingHorizontal = 24.0
 	static let paddingHorizontalSignUp = 60.0
-	static let widthIconButton = 54.0
 	static let heightButton = 40.0
-	static let radius = 40.0
-	static let heightRectangle = 1.0
-	static let lineWidthBorder = 3.0
+	static let cornerRadius = 40.0
+	static let backgroundOpacity = 0.4
 }
 
 struct SocialCommonUI: View {
+	// MARK: - Variables
 	@Environment(\.presentationMode) var presentationMode
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
@@ -39,17 +36,19 @@ struct SocialCommonUI: View {
 	@State private(set) var isNext: Bool = false
 	let inspection = ViewInspector<Self>()
 
+	// MARK: - Init
 	public init(samples: Loadable<[ISocialModel]> = .notRequested,
-		security: String = "",
-		text: Binding<String>,
-		socialStyle: Binding<SocialCommonStyle>,
-		inputStyle: TextInputStyle = .default) {
+				security: String = "",
+				text: Binding<String>,
+				socialStyle: Binding<SocialCommonStyle>,
+				inputStyle: TextInputStyle = .default) {
 		self._text = text
 		self._socialStyle = socialStyle
 		self._samples = .init(initialValue: samples)
 		self._security = .init(initialValue: security)
 	}
 
+	// MARK: - Body
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
@@ -69,20 +68,20 @@ private extension SocialCommonUI {
 // MARK: - Loading Content
 private extension SocialCommonUI {
 	var notRequestedView: some View {
-			VStack {
-				buttonBackView
-					.padding(.top, Constant.spacerTopView)
-				titleView.padding(.top, Constant.paddingVertical)
-				textInputView.padding(.top, Constant.paddingVertical)
-				buttonSocial
-				Spacer()
-			}
+		VStack {
+			buttonBackView
+				.padding(.top, Constant.spacerTopView)
+			titleView.padding(.top, Constant.paddingVertical)
+			textInputView.padding(.top, Constant.paddingVertical)
+			buttonSocial
+			Spacer()
+		}
 		.padding(.horizontal, Constant.paddingVertical)
 	}
 
 	var buttonSocial: some View {
 		NavigationLink(
-			destination: SocialVerify(),
+			destination: nextView,
 			isActive: $isNext,
 			label: {
 				Button(buttonNext.localized) {
@@ -91,9 +90,9 @@ private extension SocialCommonUI {
 				.frame(maxWidth: .infinity)
 				.frame(height: Constant.heightButton)
 				.font(AppTheme.shared.fontSet.font(style: .body3))
-				.background(backgroundColorDarkView.opacity(0.4))
+				.background(backgroundColorDarkView.opacity(Constant.backgroundOpacity))
 				.foregroundColor(foregroundColorView)
-				.cornerRadius(Constant.radius)
+				.cornerRadius(Constant.cornerRadius)
 			})
 	}
 
@@ -205,6 +204,10 @@ private extension SocialCommonUI {
 
 	var buttonNext: String {
 		socialStyle.buttonNext
+	}
+
+	var nextView: some View {
+		socialStyle.nextView
 	}
 }
 
