@@ -17,6 +17,6 @@ iOS client with end to end encryption messaging
    mkdir Protobuf
    protoc --grpc-swift_out=Protobuf/ --swift_out=proto/ *.proto
    ```
-4. Copy folder to Packages/ChatServices
+4. Copy folder to Packages/ChatSecure/ChatSecure/Classes/Protobuf
 
 
