@@ -1,14 +1,14 @@
 //
-//  IFontSet.swift
+//  FontSet.swift
 //  CommonUI
 //
 //  Created by NamNH on 01/11/2021.
 //
 
-import UIKit
+import SwiftUI
 
 public protocol IFontSet {
-	func font(style: FontStyle) -> UIFont
+	func font(style: FontStyle) -> Font
 }
 
 public enum FontStyle {

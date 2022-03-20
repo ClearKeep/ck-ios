@@ -38,7 +38,7 @@ public extension String {
 		var result = bundle.localizedString(forKey: self, value: nil, table: nil)
 		
 		if result == self {
-			result = bundle.localizedString(forKey: self, value: nil, table: "Commerce")
+			result = bundle.localizedString(forKey: self, value: nil, table: "Localize")
 		}
 		return result
 	}

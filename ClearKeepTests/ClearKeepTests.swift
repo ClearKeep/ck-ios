@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import ClearKeep
 
 class ClearKeepTests: XCTestCase {
 	
@@ -31,5 +32,4 @@ class ClearKeepTests: XCTestCase {
 			// Put the code you want to measure the time of here.
 		}
 	}
-	
 }

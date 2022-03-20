@@ -4,9 +4,10 @@ excluded:
   - vendor
   - fastlane
   - Pods
-  - ClearKeepUITests
+  - ClearKeepTests
   - ClearKeepUITests
   - ClearKeepUITestsLaunchTests
+  - Packages/ChatSecure/ChatSecure/Classes/Protobuf
 disabled_rules:
   - vertical_parameter_alignment
   - function_parameter_count
@@ -61,6 +62,8 @@ identifier_name:
     - id
     - to
     - kg
+    - on
+    - iv
 
 cyclomatic_complexity:
   ignores_case_statements: true

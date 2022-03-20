@@ -5,101 +5,122 @@
 //  Created by NamNH on 02/11/2021.
 //
 
-import UIKit
-import Foundation
+import SwiftUI
 
 private enum Constants {
-	static let cornerRadius: CGFloat = 12.0
+	static let cornerRadius: CGFloat = 16.0
 }
 
-public enum ButtonStyle {
-	case `default`
+protocol IButtonStyle {
+	var backgroundColor: [Color] { get }
+	var disabledBackgroundColor: [Color] { get }
+	var highlightedBackgroundColor: [Color] { get }
+	var borderColor: [Color] { get }
+	var disabledBorderColor: [Color] { get }
+	var borderWidth: CGFloat { get }
+	var textColor: [Color] { get }
+	var disabledTextColor: [Color] { get }
+}
+
+public enum ButtonStyle: IButtonStyle {
 	case primary
-	case cancelled
-	case selected
-	case deselected
-	case border
+	case secondary
+	case subtle
+	case text
 	
-	public var backgroundColor: UIColor {
+	public var backgroundColor: [Color] {
 		switch self {
-		case .default:
-			return commonUIConfig.colorSet.blue700
-		case .border:
-			return .white
-		case .cancelled:
-			return commonUIConfig.colorSet.white
-		default:
-			return commonUIConfig.colorSet.blue700
+		case .primary:
+			return commonUIConfig.colorSet.gradientPrimary
+		case .secondary:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite]
+		case .subtle:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite]
+		case .text:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite]
 		}
 	}
 	
-	public var disabledBackgroundColor: UIColor {
+	public var disabledBackgroundColor: [Color] {
 		switch self {
-		case .default:
-			return commonUIConfig.colorSet.blue700.withAlphaComponent(0.3)
-		case .border:
-			return .white.withAlphaComponent(0.3)
-		default:
-			return commonUIConfig.colorSet.blue700.withAlphaComponent(0.3)
+		case .primary:
+			return commonUIConfig.colorSet.gradientPrimary.compactMap({ $0.opacity(0.5) })
+		case .secondary:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
+		case .subtle:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
+		case .text:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
 		}
 	}
 	
-	public var highlightedBackgroundColor: UIColor {
+	public var highlightedBackgroundColor: [Color] {
 		switch self {
-		case .default:
-			return commonUIConfig.colorSet.blue700.withAlphaComponent(0.3)
-		case .border:
-			return .white.withAlphaComponent(0.3)
-		default:
-			return commonUIConfig.colorSet.blue700.withAlphaComponent(0.3)
+		case .primary:
+			return commonUIConfig.colorSet.gradientPrimary
+		case .secondary:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite]
+		case .subtle:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite]
+		case .text:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite]
 		}
 	}
 	
-	public var borderColor: UIColor {
+	public var borderColor: [Color] {
 		switch self {
-		case .border:
-			return commonUIConfig.colorSet.blue700
-		default:
-			return .clear
+		case .primary:
+			return commonUIConfig.colorSet.gradientPrimary
+		case .secondary:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite]
+		case .subtle:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite]
+		case .text:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite]
 		}
 	}
 	
-	public var textColor: UIColor {
+	public var disabledBorderColor: [Color] {
 		switch self {
-		case .border:
-			return commonUIConfig.colorSet.blue700
-		case .cancelled:
-			return commonUIConfig.colorSet.neutral500
-		default:
-			return commonUIConfig.colorSet.white
+		case .primary:
+			return commonUIConfig.colorSet.gradientPrimary.compactMap({ $0.opacity(0.5) })
+		case .secondary:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
+		case .subtle:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
+		case .text:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
 		}
 	}
 	
-	public var disabledTextColor: UIColor {
+	public var textColor: [Color] {
 		switch self {
-		case .border:
-			return commonUIConfig.colorSet.blue700
-		default:
-			return commonUIConfig.colorSet.white
+		case .primary:
+			return commonUIConfig.colorSet.gradientPrimary.compactMap({ $0.opacity(0.5) })
+		case .secondary:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
+		case .subtle:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
+		case .text:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
 		}
 	}
 	
-	public var highlightedTextColor: UIColor {
+	public var disabledTextColor: [Color] {
 		switch self {
-		case .border:
-			return commonUIConfig.colorSet.blue700
-		default:
-			return commonUIConfig.colorSet.white
+		case .primary:
+			return commonUIConfig.colorSet.gradientPrimary.compactMap({ $0.opacity(0.5) })
+		case .secondary:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
+		case .subtle:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
+		case .text:
+			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
 		}
 	}
 	
 	public var textStyle: TextStyle {
-		switch self {
-		case .border:
-			return .textM
-		default:
-			return .textM
-		}
+		return .textM
 	}
 	
 	public var cornerRadius: CGFloat {
@@ -108,9 +129,13 @@ public enum ButtonStyle {
 	
 	public var borderWidth: CGFloat {
 		switch self {
-		case .border:
-			return 1.0
-		default:
+		case .primary:
+			return 2.0
+		case .secondary:
+			return 2.0
+		case .subtle:
+			return 2.0
+		case .text:
 			return 0.0
 		}
 	}
