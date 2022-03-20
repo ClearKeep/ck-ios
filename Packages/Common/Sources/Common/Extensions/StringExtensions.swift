@@ -25,20 +25,10 @@ public extension String {
 	}
 	
 	var localized: String {
-		let languageCode = Locale.current.languageCode
-
-		guard let bundlePath = Bundle.main.path(forResource: languageCode, ofType: "lproj") else {
-			return self
-		}
-		
-		guard let bundle = Bundle.init(path: bundlePath) else {
-			return self
-		}
-		
-		var result = bundle.localizedString(forKey: self, value: nil, table: nil)
+		var result = Bundle.main.localizedString(forKey: self, value: nil, table: nil)
 		
 		if result == self {
-			result = bundle.localizedString(forKey: self, value: nil, table: "Localize")
+			result = Bundle.main.localizedString(forKey: self, value: nil, table: "Localize")
 		}
 		return result
 	}
