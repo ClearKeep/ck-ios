@@ -90,7 +90,6 @@ private extension HomeView {
 // MARK: - Interactors
 private extension HomeView {
 	func reloadSamples() {
-		injected.interactors.homeInteractor.worker.getSamples(samples: $samples)
 	}
 }
 

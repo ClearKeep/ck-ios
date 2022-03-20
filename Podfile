@@ -3,7 +3,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 ##################
 # App
 ##################
-workspace "iOSBase-SwiftUI"
+workspace "ClearKeep"
 platform :ios, '14.0'
 
 ##################

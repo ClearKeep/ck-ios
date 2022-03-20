@@ -34,13 +34,6 @@
 		CB117E4027BB5283000941D9 /* ClearKeepUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117E3F27BB5283000941D9 /* ClearKeepUITestsLaunchTests.swift */; };
 		CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117E6427BB64C2000941D9 /* DependencyResolver.swift */; };
 		CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117E6727BB65A3000941D9 /* AppTokenService.swift */; };
-		CB117E7127BB65C7000941D9 /* APIConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117E6927BB65C6000941D9 /* APIConfigurations.swift */; };
-		CB117E7227BB65C7000941D9 /* APIResourceQueryAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117E6A27BB65C6000941D9 /* APIResourceQueryAdapter.swift */; };
-		CB117E7327BB65C7000941D9 /* APIResourceResponseAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117E6B27BB65C7000941D9 /* APIResourceResponseAdapter.swift */; };
-		CB117E7427BB65C8000941D9 /* APIServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117E6C27BB65C7000941D9 /* APIServiceError.swift */; };
-		CB117E7527BB65C8000941D9 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117E6D27BB65C7000941D9 /* APIService.swift */; };
-		CB117E7627BB65C8000941D9 /* ServerErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117E6F27BB65C7000941D9 /* ServerErrorResponse.swift */; };
-		CB117E7727BB65C8000941D9 /* SampleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117E7027BB65C7000941D9 /* SampleResponse.swift */; };
 		CB117E7B27BB65E2000941D9 /* LocationConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117E7927BB65E2000941D9 /* LocationConfigurations.swift */; };
 		CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117E7A27BB65E2000941D9 /* LocationService.swift */; };
 		CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117E7E27BB661B000941D9 /* HomeView.swift */; };
@@ -67,7 +60,8 @@
 		CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3F78F627C4CC0000E569B0 /* FontSet.swift */; };
 		CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3F78F727C4CC0000E569B0 /* AppImageSet.swift */; };
 		CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3F78F827C4CC0000E569B0 /* ColorSet.swift */; };
-		CB73083C27CB97EA00AB0FBD /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = CB73083B27CB97EA00AB0FBD /* Networking */; };
+		CB40073027E74E1900DFBE88 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB40072F27E74E1900DFBE88 /* Configuration.swift */; };
+		CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB40073127E7514600DFBE88 /* ConfigurationProvider.swift */; };
 		CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73083D27CE644800AB0FBD /* ServerView.swift */; };
 		CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73083F27CE647E00AB0FBD /* HomeHeaderView.swift */; };
 		CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73084127CE648F00AB0FBD /* HomeContentView.swift */; };
@@ -146,7 +140,7 @@
 		63E52DC83C8AB9CADFB35E33 /* Pods-ClearKeepUITests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.ppe.xcconfig"; sourceTree = "<group>"; };
 		77F49EC91A8E29E9295EFCC8 /* Pods-ClearKeep.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.production.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.production.xcconfig"; sourceTree = "<group>"; };
 		893926E2A09EBA6056C4D11D /* Pods-ClearKeepUITests.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.qa.xcconfig"; sourceTree = "<group>"; };
-		CB117E1F27BB5281000941D9 /* ClearKeep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClearKeep.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB117E1F27BB5281000941D9 /* [DEV] ClearKeep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "[DEV] ClearKeep.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB117E2627BB5283000941D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CB117E2927BB5283000941D9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		CB117E2F27BB5283000941D9 /* ClearKeepTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClearKeepTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,13 +151,6 @@
 		CB117E5727BB6026000941D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CB117E6427BB64C2000941D9 /* DependencyResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependencyResolver.swift; sourceTree = "<group>"; };
 		CB117E6727BB65A3000941D9 /* AppTokenService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppTokenService.swift; sourceTree = "<group>"; };
-		CB117E6927BB65C6000941D9 /* APIConfigurations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConfigurations.swift; sourceTree = "<group>"; };
-		CB117E6A27BB65C6000941D9 /* APIResourceQueryAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIResourceQueryAdapter.swift; sourceTree = "<group>"; };
-		CB117E6B27BB65C7000941D9 /* APIResourceResponseAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIResourceResponseAdapter.swift; sourceTree = "<group>"; };
-		CB117E6C27BB65C7000941D9 /* APIServiceError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIServiceError.swift; sourceTree = "<group>"; };
-		CB117E6D27BB65C7000941D9 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
-		CB117E6F27BB65C7000941D9 /* ServerErrorResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerErrorResponse.swift; sourceTree = "<group>"; };
-		CB117E7027BB65C7000941D9 /* SampleResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleResponse.swift; sourceTree = "<group>"; };
 		CB117E7927BB65E2000941D9 /* LocationConfigurations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationConfigurations.swift; sourceTree = "<group>"; };
 		CB117E7A27BB65E2000941D9 /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		CB117E7E27BB661B000941D9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -193,7 +180,16 @@
 		CB3F78F627C4CC0000E569B0 /* FontSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontSet.swift; sourceTree = "<group>"; };
 		CB3F78F727C4CC0000E569B0 /* AppImageSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppImageSet.swift; sourceTree = "<group>"; };
 		CB3F78F827C4CC0000E569B0 /* ColorSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
-		CB73083A27CB968400AB0FBD /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Networking; path = Packages/Networking; sourceTree = "<group>"; };
+		CB40072627E748EF00DFBE88 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
+		CB40072727E749D800DFBE88 /* QA.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = QA.xcconfig; sourceTree = "<group>"; };
+		CB40072827E749EA00DFBE88 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
+		CB40072927E749F200DFBE88 /* PPE.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PPE.xcconfig; sourceTree = "<group>"; };
+		CB40072A27E74C7D00DFBE88 /* NotificationExtension-Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "NotificationExtension-Development.xcconfig"; sourceTree = "<group>"; };
+		CB40072B27E74CA500DFBE88 /* NotificationExtension-QA.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "NotificationExtension-QA.xcconfig"; sourceTree = "<group>"; };
+		CB40072C27E74CAD00DFBE88 /* NotificationExtension-Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "NotificationExtension-Production.xcconfig"; sourceTree = "<group>"; };
+		CB40072D27E74CB800DFBE88 /* NotificationExtension-PPE.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "NotificationExtension-PPE.xcconfig"; sourceTree = "<group>"; };
+		CB40072F27E74E1900DFBE88 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		CB40073127E7514600DFBE88 /* ConfigurationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationProvider.swift; sourceTree = "<group>"; };
 		CB73083D27CE644800AB0FBD /* ServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerView.swift; sourceTree = "<group>"; };
 		CB73083F27CE647E00AB0FBD /* HomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
 		CB73084127CE648F00AB0FBD /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
@@ -206,7 +202,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB73083C27CB97EA00AB0FBD /* Networking in Frameworks */,
 				CB3F77DF27C3549700E569B0 /* CommonUI in Frameworks */,
 				0AE9AF3959D3B8A72B1D187F /* Pods_ClearKeep.framework in Frameworks */,
 			);
@@ -319,7 +314,7 @@
 		CB117E2027BB5281000941D9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CB117E1F27BB5281000941D9 /* ClearKeep.app */,
+				CB117E1F27BB5281000941D9 /* [DEV] ClearKeep.app */,
 				CB117E2F27BB5283000941D9 /* ClearKeepTests.xctest */,
 				CB117E3927BB5283000941D9 /* ClearKeepUITests.xctest */,
 				CB3F77E927C372B000E569B0 /* NotificationServiceExtension.appex */,
@@ -330,6 +325,7 @@
 		CB117E2127BB5281000941D9 /* ClearKeep */ = {
 			isa = PBXGroup;
 			children = (
+				CB40072127E7488600DFBE88 /* Environments */,
 				CB117EC527BB8FEB000941D9 /* ClearKeep.entitlements */,
 				CB117E5927BB63E2000941D9 /* Scenes */,
 				CB117E5827BB63CD000941D9 /* App */,
@@ -367,12 +363,12 @@
 		CB117E5827BB63CD000941D9 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				CB40072E27E74E0100DFBE88 /* Configuration */,
 				CBCF495027D4671E006D84FE /* Resources */,
 				CB117EA427BB784A000941D9 /* System */,
 				CB117EAD27BB7879000941D9 /* Injected */,
 				CB117E7827BB65E2000941D9 /* Location */,
 				CB117E6627BB6568000941D9 /* Authentication */,
-				CB117E5D27BB6451000941D9 /* Networking */,
 				CB3F78F527C4CC0000E569B0 /* Theme */,
 				CB117E5A27BB6421000941D9 /* DependencyResolver */,
 			);
@@ -399,34 +395,12 @@
 			path = DependencyResolver;
 			sourceTree = "<group>";
 		};
-		CB117E5D27BB6451000941D9 /* Networking */ = {
-			isa = PBXGroup;
-			children = (
-				CB117E6927BB65C6000941D9 /* APIConfigurations.swift */,
-				CB117E6A27BB65C6000941D9 /* APIResourceQueryAdapter.swift */,
-				CB117E6B27BB65C7000941D9 /* APIResourceResponseAdapter.swift */,
-				CB117E6D27BB65C7000941D9 /* APIService.swift */,
-				CB117E6C27BB65C7000941D9 /* APIServiceError.swift */,
-				CB117E6E27BB65C7000941D9 /* Entities */,
-			);
-			path = Networking;
-			sourceTree = "<group>";
-		};
 		CB117E6627BB6568000941D9 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
 				CB117E6727BB65A3000941D9 /* AppTokenService.swift */,
 			);
 			path = Authentication;
-			sourceTree = "<group>";
-		};
-		CB117E6E27BB65C7000941D9 /* Entities */ = {
-			isa = PBXGroup;
-			children = (
-				CB117E6F27BB65C7000941D9 /* ServerErrorResponse.swift */,
-				CB117E7027BB65C7000941D9 /* SampleResponse.swift */,
-			);
-			path = Entities;
 			sourceTree = "<group>";
 		};
 		CB117E7827BB65E2000941D9 /* Location */ = {
@@ -499,7 +473,6 @@
 			children = (
 				CB3F77D927C353E300E569B0 /* Common */,
 				CB3F77DA27C353EC00E569B0 /* CommonUI */,
-				CB73083A27CB968400AB0FBD /* Networking */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -522,6 +495,62 @@
 				CB73084327CE785B00AB0FBD /* AppTheme.swift */,
 			);
 			path = Theme;
+			sourceTree = "<group>";
+		};
+		CB40072127E7488600DFBE88 /* Environments */ = {
+			isa = PBXGroup;
+			children = (
+				CB40072527E748A400DFBE88 /* PPE */,
+				CB40072427E7489A00DFBE88 /* Production */,
+				CB40072327E7489500DFBE88 /* QA */,
+				CB40072227E7489000DFBE88 /* Development */,
+			);
+			path = Environments;
+			sourceTree = "<group>";
+		};
+		CB40072227E7489000DFBE88 /* Development */ = {
+			isa = PBXGroup;
+			children = (
+				CB40072627E748EF00DFBE88 /* Development.xcconfig */,
+				CB40072A27E74C7D00DFBE88 /* NotificationExtension-Development.xcconfig */,
+			);
+			path = Development;
+			sourceTree = "<group>";
+		};
+		CB40072327E7489500DFBE88 /* QA */ = {
+			isa = PBXGroup;
+			children = (
+				CB40072727E749D800DFBE88 /* QA.xcconfig */,
+				CB40072B27E74CA500DFBE88 /* NotificationExtension-QA.xcconfig */,
+			);
+			path = QA;
+			sourceTree = "<group>";
+		};
+		CB40072427E7489A00DFBE88 /* Production */ = {
+			isa = PBXGroup;
+			children = (
+				CB40072827E749EA00DFBE88 /* Production.xcconfig */,
+				CB40072C27E74CAD00DFBE88 /* NotificationExtension-Production.xcconfig */,
+			);
+			path = Production;
+			sourceTree = "<group>";
+		};
+		CB40072527E748A400DFBE88 /* PPE */ = {
+			isa = PBXGroup;
+			children = (
+				CB40072927E749F200DFBE88 /* PPE.xcconfig */,
+				CB40072D27E74CB800DFBE88 /* NotificationExtension-PPE.xcconfig */,
+			);
+			path = PPE;
+			sourceTree = "<group>";
+		};
+		CB40072E27E74E0100DFBE88 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				CB40072F27E74E1900DFBE88 /* Configuration.swift */,
+				CB40073127E7514600DFBE88 /* ConfigurationProvider.swift */,
+			);
+			path = Configuration;
 			sourceTree = "<group>";
 		};
 		CBCF495027D4671E006D84FE /* Resources */ = {
@@ -585,10 +614,9 @@
 			name = ClearKeep;
 			packageProductDependencies = (
 				CB3F77DE27C3549700E569B0 /* CommonUI */,
-				CB73083B27CB97EA00AB0FBD /* Networking */,
 			);
 			productName = "iOSBase-SwiftUI";
-			productReference = CB117E1F27BB5281000941D9 /* ClearKeep.app */;
+			productReference = CB117E1F27BB5281000941D9 /* [DEV] ClearKeep.app */;
 			productType = "com.apple.product-type.application";
 		};
 		CB117E2E27BB5283000941D9 /* ClearKeepTests */ = {
@@ -838,7 +866,6 @@
 			files = (
 				CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */,
 				044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */,
-				CB117E7227BB65C7000941D9 /* APIResourceQueryAdapter.swift in Sources */,
 				044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */,
 				044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */,
 				044351DF27D9AFA70054A78F /* LoginInteractor.swift in Sources */,
@@ -848,6 +875,7 @@
 				CB117EC427BB8DB1000941D9 /* SceneDelegate.swift in Sources */,
 				CB117ECD27BBA6E5000941D9 /* HomeWorker.swift in Sources */,
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
+				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
 				044351E727D9AFBD0054A78F /* NewPasswordView.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				044351E927D9AFBD0054A78F /* LoginContentView.swift in Sources */,
@@ -857,12 +885,10 @@
 				044351F727D9AFCA0054A78F /* IRegisterModel.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
-				CB117E7727BB65C8000941D9 /* SampleResponse.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
 				044351DD27D9AFA70054A78F /* LoginWorker.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
 				044351F827D9AFCA0054A78F /* RegisterInteractor.swift in Sources */,
-				CB117E7327BB65C7000941D9 /* APIResourceResponseAdapter.swift in Sources */,
 				CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */,
 				044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */,
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
@@ -872,22 +898,19 @@
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
 				044351D027D758AD0054A78F /* AdvancedServerView.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
-				CB117E7127BB65C7000941D9 /* APIConfigurations.swift in Sources */,
 				044351DE27D9AFA70054A78F /* LoginRemoteStore.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
-				CB117E7627BB65C8000941D9 /* ServerErrorResponse.swift in Sources */,
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
-				CB117E7527BB65C8000941D9 /* APIService.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
+				CB40073027E74E1900DFBE88 /* Configuration.swift in Sources */,
 				044351E327D9AFAD0054A78F /* ILoginModel.swift in Sources */,
 				CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */,
 				044351DC27D9AFA70054A78F /* LoginView.swift in Sources */,
-				CB117E7427BB65C8000941D9 /* APIServiceError.swift in Sources */,
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -940,6 +963,7 @@
 /* Begin XCBuildConfiguration section */
 		CB117E4127BB5283000941D9 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB40072627E748EF00DFBE88 /* Development.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1001,6 +1025,7 @@
 		};
 		CB117E4227BB5283000941D9 /* QA */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB40072727E749D800DFBE88 /* QA.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1056,14 +1081,14 @@
 		};
 		CB117E4427BB5283000941D9 /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 22433B97DDBB41E5D872E751 /* Pods-ClearKeep.development.xcconfig */;
+			baseConfigurationReference = CB40072627E748EF00DFBE88 /* Development.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Development";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "${IOS_APP_ICON}";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ClearKeep/ClearKeep.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				DEVELOPMENT_ASSET_PATHS = "\"ClearKeep/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
@@ -1073,17 +1098,15 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.dev;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				MARKETING_VERSION = "${MARKETING_VERSION}";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(IOS_BUNDLE_ID)";
+				PRODUCT_NAME = "${IOS_APP_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1093,35 +1116,36 @@
 		};
 		CB117E4527BB5283000941D9 /* QA */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4D21E8CA7A3BDCED6C616B22 /* Pods-ClearKeep.qa.xcconfig */;
+			baseConfigurationReference = CB40072727E749D800DFBE88 /* QA.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Staging";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "${IOS_APP_ICON}";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ClearKeep/ClearKeep.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				DEVELOPMENT_ASSET_PATHS = "\"ClearKeep/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClearKeep/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.qa;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				MARKETING_VERSION = "${MARKETING_VERSION}";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(IOS_BUNDLE_ID)";
+				PRODUCT_NAME = "${IOS_APP_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1130,7 +1154,7 @@
 		};
 		CB117E4727BB5283000941D9 /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5C6EBB309189C090A0EC215F /* Pods-ClearKeepTests.development.xcconfig */;
+			baseConfigurationReference = CB40072627E748EF00DFBE88 /* Development.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1153,7 +1177,7 @@
 		};
 		CB117E4827BB5283000941D9 /* QA */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 18AD980EB2C78C4E04E85229 /* Pods-ClearKeepTests.qa.xcconfig */;
+			baseConfigurationReference = CB40072727E749D800DFBE88 /* QA.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1176,7 +1200,7 @@
 		};
 		CB117E4A27BB5283000941D9 /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0FDB768EFF8247C921BE1332 /* Pods-ClearKeepUITests.development.xcconfig */;
+			baseConfigurationReference = CB40072627E748EF00DFBE88 /* Development.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -1197,7 +1221,7 @@
 		};
 		CB117E4B27BB5283000941D9 /* QA */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 893926E2A09EBA6056C4D11D /* Pods-ClearKeepUITests.qa.xcconfig */;
+			baseConfigurationReference = CB40072727E749D800DFBE88 /* QA.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -1218,6 +1242,7 @@
 		};
 		CB117E4C27BB5409000941D9 /* Production */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB40072827E749EA00DFBE88 /* Production.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1273,34 +1298,33 @@
 		};
 		CB117E4D27BB5409000941D9 /* Production */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 77F49EC91A8E29E9295EFCC8 /* Pods-ClearKeep.production.xcconfig */;
+			baseConfigurationReference = CB40072827E749EA00DFBE88 /* Production.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "${IOS_APP_ICON}";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ClearKeep/ClearKeep.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				DEVELOPMENT_ASSET_PATHS = "\"ClearKeep/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClearKeep/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				MARKETING_VERSION = "${MARKETING_VERSION}";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(IOS_BUNDLE_ID)";
+				PRODUCT_NAME = "${IOS_APP_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1310,7 +1334,7 @@
 		};
 		CB117E4E27BB5409000941D9 /* Production */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 45BAA0EFDAE619BE1BD06FDE /* Pods-ClearKeepTests.production.xcconfig */;
+			baseConfigurationReference = CB40072827E749EA00DFBE88 /* Production.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1333,7 +1357,7 @@
 		};
 		CB117E4F27BB5409000941D9 /* Production */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3F44FCE4BAE269F2082F6614 /* Pods-ClearKeepUITests.production.xcconfig */;
+			baseConfigurationReference = CB40072827E749EA00DFBE88 /* Production.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -1354,6 +1378,7 @@
 		};
 		CB117E5027BB5430000941D9 /* PPE */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB40072927E749F200DFBE88 /* PPE.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1409,35 +1434,36 @@
 		};
 		CB117E5127BB5430000941D9 /* PPE */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 59238A0AF88DC2465622B8A3 /* Pods-ClearKeep.ppe.xcconfig */;
+			baseConfigurationReference = CB40072927E749F200DFBE88 /* PPE.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Staging";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "${IOS_APP_ICON}";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ClearKeep/ClearKeep.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				DEVELOPMENT_ASSET_PATHS = "\"ClearKeep/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClearKeep/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.ppe;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				MARKETING_VERSION = "${MARKETING_VERSION}";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(IOS_BUNDLE_ID)";
+				PRODUCT_NAME = "${IOS_APP_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1446,7 +1472,7 @@
 		};
 		CB117E5227BB5430000941D9 /* PPE */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5CC605F9C757BFD8E1311A1D /* Pods-ClearKeepTests.ppe.xcconfig */;
+			baseConfigurationReference = CB40072927E749F200DFBE88 /* PPE.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1469,7 +1495,7 @@
 		};
 		CB117E5327BB5430000941D9 /* PPE */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63E52DC83C8AB9CADFB35E33 /* Pods-ClearKeepUITests.ppe.xcconfig */;
+			baseConfigurationReference = CB40072927E749F200DFBE88 /* PPE.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -1490,6 +1516,7 @@
 		};
 		CB3F77F227C372B000E569B0 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB40072A27E74C7D00DFBE88 /* NotificationExtension-Development.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1523,7 +1550,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1552,11 +1579,11 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = "${MARKETING_VERSION}";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.dev.NotificationServiceExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = "${IOS_NOTIFICATION_EXTENSION_BUNDLE_ID}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1570,6 +1597,7 @@
 		};
 		CB3F77F327C372B000E569B0 /* QA */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB40072B27E74CA500DFBE88 /* NotificationExtension-QA.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1603,7 +1631,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1626,10 +1654,10 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = "${MARKETING_VERSION}";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.qa.NotificationServiceExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = "${IOS_NOTIFICATION_EXTENSION_BUNDLE_ID}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1644,6 +1672,7 @@
 		};
 		CB3F77F427C372B000E569B0 /* PPE */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB40072D27E74CB800DFBE88 /* NotificationExtension-PPE.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1677,7 +1706,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1700,10 +1729,10 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = "${MARKETING_VERSION}";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.ppe.NotificationServiceExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = "${IOS_NOTIFICATION_EXTENSION_BUNDLE_ID}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1718,6 +1747,7 @@
 		};
 		CB3F77F527C372B000E569B0 /* Production */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB40072C27E74CAD00DFBE88 /* NotificationExtension-Production.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1751,7 +1781,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1774,10 +1804,10 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = "${MARKETING_VERSION}";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.NotificationServiceExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = "${IOS_NOTIFICATION_EXTENSION_BUNDLE_ID}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1854,10 +1884,6 @@
 		CB3F77DE27C3549700E569B0 /* CommonUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CommonUI;
-		};
-		CB73083B27CB97EA00AB0FBD /* Networking */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Networking;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

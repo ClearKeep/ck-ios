@@ -7,17 +7,14 @@
 
 import Foundation
 import Combine
+import ChatSecure
 
 protocol IHomeRemoteStore {
-	func getSamples(completion: @escaping (Result<[ISampleModel], Error>) -> Void)
 }
 
 struct HomeRemoteStore {
-	let sampleAPIService: IAPIService
+	let channelStorage: IChannelStorage
 }
 
 extension HomeRemoteStore: IHomeRemoteStore {
-	func getSamples(completion: @escaping (Result<[ISampleModel], Error>) -> Void) {
-		sampleAPIService.getSamples(completion: completion)
-	}
 }

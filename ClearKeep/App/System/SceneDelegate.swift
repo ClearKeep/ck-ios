@@ -12,6 +12,7 @@ import UIKit
 import SwiftUI
 import Combine
 import Foundation
+import ChatSecure
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	
@@ -21,6 +22,12 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	func scene(_ scene: UIScene, willConnectTo session: UISceneSession,
 			   options connectionOptions: UIScene.ConnectionOptions) {
 		let environment = AppEnvironment.bootstrap()
+		
+		Task {
+			let clk = CLKAuthenticationService()
+			await clk.login(userName: "namnhse02061@gmail.com", password: "123456a@A", domain: "")
+		}
+		
 		let contentView = ContentView(container: environment.container)
 		if let windowScene = scene as? UIWindowScene {
 			let window = UIWindow(windowScene: windowScene)
