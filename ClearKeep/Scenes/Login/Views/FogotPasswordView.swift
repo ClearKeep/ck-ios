@@ -12,6 +12,7 @@ private enum Constants {
 	static let radius = 40.0
 	static let spacing = 20.0
 	static let padding = 10.0
+	static let paddingtop = 100.0
 }
 
 struct FogotPasswordView: View {
@@ -34,7 +35,6 @@ struct FogotPasswordView: View {
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.frame(maxWidth: .infinity, maxHeight: .infinity)
 			.background(backgroundViewColor)
 			.edgesIgnoringSafeArea(.all)
 			.navigationBarBackButtonHidden(true)
@@ -73,12 +73,11 @@ private extension FogotPasswordView {
 private extension FogotPasswordView {
 	var fogotPasswordView: some View {
 		VStack(spacing: Constants.spacing) {
-			Spacer()
 			Text("ForgotPass.Please enter your email to reset your password".localized)
 				.font(AppTheme.shared.fontSet.font(style: .body2))
 				.foregroundColor(foregroundBackButton)
 				.frame(maxWidth: .infinity, alignment: .leading)
-				.padding(.all)
+				.padding(.top, Constants.paddingtop)
 			CommonTextField(text: $email,
 							inputStyle: $emailStyle,
 							inputIcon: AppTheme.shared.imageSet.mailIcon,
@@ -86,14 +85,12 @@ private extension FogotPasswordView {
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
 				if isEditing {
-					emailStyle = .normal
+					emailStyle = .default
 				} else {
-					emailStyle = .highlighted
+					emailStyle = .normal
 				}
 			})
 			buttonResetPassword
-			Spacer()
-			Spacer()
 			Spacer()
 		}
 		.frame(maxWidth: .infinity, alignment: .center)
@@ -116,7 +113,7 @@ private extension FogotPasswordView {
 	}
 	var buttonResetPassword: some View {
 		NavigationLink(
-			destination: NewPasswordView(password: "", rePassword: "", passwordStyle: .normal, rePasswordStyle: .normal),
+			destination: NewPasswordView(password: "", rePassword: "", passwordStyle: .default, rePasswordStyle: .default),
 			isActive: $showingNewPass,
 			label: {
 				Button("ForgotPass.Resetpassword".localized) {
@@ -137,7 +134,7 @@ private extension FogotPasswordView {
 #if DEBUG
 struct FogotPasswordView_Previews: PreviewProvider {
 	static var previews: some View {
-		FogotPasswordView(email: "", emailStyle: .normal)
+		FogotPasswordView(email: "", emailStyle: .default)
 	}
 }
 #endif

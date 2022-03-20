@@ -1,8 +1,10 @@
 // MARK: - General
 "General.Search" = "Search...";
 "General.Email" = "Email";
+"General.DisplayName" = "Display Name";
 "General.Password" = "Password";
-
+"General.ConfirmPassword" = "Confirm Password";
+"General.Save" = "Save";
 // MARK: - Login
 "Login.SignInWith" = "Sign in with";
 "Login.SignIn" = "Sign in";
@@ -25,3 +27,9 @@
 "ForgotPass.NewPassword" = "Enter Your New Password";
 "ForgotPass.Resetpassword" = "Reset password";
 "ForgotPass.Save" = "Save";
+// MARK: - AdvancedServer
+"AdvancedServer.Title" = "Please enter your server URL to enter custom server";
+"AdvancedServer.SeverSetting" = "Advanced Server Settings";
+"AdvancedServer.SeverButton" = "Use Custom Server";
+"AdvancedServer.Submit" = "Submit";
+"AdvancedServer.ServerUrl" = "Server URL";
