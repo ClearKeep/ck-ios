@@ -25,7 +25,7 @@ public class ChannelStorage: IChannelStorage {
 		if channels.contains(where: { $0.key == domain }) {
 			return channels[domain] ?? APIService(domain: domain)
 		} else if domain.isEmpty {
-			return channels[config.clkDomain + config.clkPort]  ?? APIService(domain: config.clkDomain + config.clkPort)
+			return channels[config.clkDomain + config.clkPort] ?? APIService(domain: config.clkDomain + config.clkPort)
 		} else {
 			let channel = APIService(domain: domain)
 			channels[domain] = channel
