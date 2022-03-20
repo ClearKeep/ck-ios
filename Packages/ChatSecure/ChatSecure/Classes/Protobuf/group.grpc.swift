@@ -81,11 +81,6 @@ internal protocol Group_GroupClientProtocol: GRPCClient {
     _ request: Group_WorkspaceLeaveGroupRequest,
     callOptions: CallOptions?
   ) -> UnaryCall<Group_WorkspaceLeaveGroupRequest, Group_BaseResponse>
-
-  func workspace_notify_deactive_member(
-    _ request: Group_WorkspaceNotifyDeactiveMember,
-    callOptions: CallOptions?
-  ) -> UnaryCall<Group_WorkspaceNotifyDeactiveMember, Group_BaseResponse>
 }
 
 extension Group_GroupClientProtocol {
@@ -272,24 +267,6 @@ extension Group_GroupClientProtocol {
       interceptors: self.interceptors?.makeworkspace_leave_groupInterceptors() ?? []
     )
   }
-
-  /// Unary call to workspace_notify_deactive_member
-  ///
-  /// - Parameters:
-  ///   - request: Request to send to workspace_notify_deactive_member.
-  ///   - callOptions: Call options.
-  /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-  internal func workspace_notify_deactive_member(
-    _ request: Group_WorkspaceNotifyDeactiveMember,
-    callOptions: CallOptions? = nil
-  ) -> UnaryCall<Group_WorkspaceNotifyDeactiveMember, Group_BaseResponse> {
-    return self.makeUnaryCall(
-      path: "/group.Group/workspace_notify_deactive_member",
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeworkspace_notify_deactive_memberInterceptors() ?? []
-    )
-  }
 }
 
 internal protocol Group_GroupClientInterceptorFactoryProtocol {
@@ -323,9 +300,6 @@ internal protocol Group_GroupClientInterceptorFactoryProtocol {
 
   /// - Returns: Interceptors to use when invoking 'workspace_leave_group'.
   func makeworkspace_leave_groupInterceptors() -> [ClientInterceptor<Group_WorkspaceLeaveGroupRequest, Group_BaseResponse>]
-
-  /// - Returns: Interceptors to use when invoking 'workspace_notify_deactive_member'.
-  func makeworkspace_notify_deactive_memberInterceptors() -> [ClientInterceptor<Group_WorkspaceNotifyDeactiveMember, Group_BaseResponse>]
 }
 
 internal final class Group_GroupClient: Group_GroupClientProtocol {
@@ -376,8 +350,6 @@ internal protocol Group_GroupProvider: CallHandlerProvider {
   func workspace_add_member(request: Group_AddMemberWorkspaceRequest, context: StatusOnlyCallContext) -> EventLoopFuture<Group_AddMemberWorkspaceResponse>
 
   func workspace_leave_group(request: Group_WorkspaceLeaveGroupRequest, context: StatusOnlyCallContext) -> EventLoopFuture<Group_BaseResponse>
-
-  func workspace_notify_deactive_member(request: Group_WorkspaceNotifyDeactiveMember, context: StatusOnlyCallContext) -> EventLoopFuture<Group_BaseResponse>
 }
 
 extension Group_GroupProvider {
@@ -480,15 +452,6 @@ extension Group_GroupProvider {
         userFunction: self.workspace_leave_group(request:context:)
       )
 
-    case "workspace_notify_deactive_member":
-      return UnaryServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<Group_WorkspaceNotifyDeactiveMember>(),
-        responseSerializer: ProtobufSerializer<Group_BaseResponse>(),
-        interceptors: self.interceptors?.makeworkspace_notify_deactive_memberInterceptors() ?? [],
-        userFunction: self.workspace_notify_deactive_member(request:context:)
-      )
-
     default:
       return nil
     }
@@ -536,8 +499,4 @@ internal protocol Group_GroupServerInterceptorFactoryProtocol {
   /// - Returns: Interceptors to use when handling 'workspace_leave_group'.
   ///   Defaults to calling `self.makeInterceptors()`.
   func makeworkspace_leave_groupInterceptors() -> [ServerInterceptor<Group_WorkspaceLeaveGroupRequest, Group_BaseResponse>]
-
-  /// - Returns: Interceptors to use when handling 'workspace_notify_deactive_member'.
-  ///   Defaults to calling `self.makeInterceptors()`.
-  func makeworkspace_notify_deactive_memberInterceptors() -> [ServerInterceptor<Group_WorkspaceNotifyDeactiveMember, Group_BaseResponse>]
 }

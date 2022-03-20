@@ -40,11 +40,6 @@ internal protocol Signal_SignalKeyDistributionClientProtocol: GRPCClient {
     callOptions: CallOptions?
   ) -> UnaryCall<Signal_PeerGetClientKeyRequest, Signal_PeerGetClientKeyResponse>
 
-  func workspacePeerGetClientKey(
-    _ request: Signal_PeerGetClientKeyRequest,
-    callOptions: CallOptions?
-  ) -> UnaryCall<Signal_PeerGetClientKeyRequest, Signal_PeerGetClientKeyResponse>
-
   func clientUpdatePeerKey(
     _ request: Signal_PeerRegisterClientKeyRequest,
     callOptions: CallOptions?
@@ -114,24 +109,6 @@ extension Signal_SignalKeyDistributionClientProtocol {
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makePeerGetClientKeyInterceptors() ?? []
-    )
-  }
-
-  /// Unary call to WorkspacePeerGetClientKey
-  ///
-  /// - Parameters:
-  ///   - request: Request to send to WorkspacePeerGetClientKey.
-  ///   - callOptions: Call options.
-  /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-  internal func workspacePeerGetClientKey(
-    _ request: Signal_PeerGetClientKeyRequest,
-    callOptions: CallOptions? = nil
-  ) -> UnaryCall<Signal_PeerGetClientKeyRequest, Signal_PeerGetClientKeyResponse> {
-    return self.makeUnaryCall(
-      path: "/signal.SignalKeyDistribution/WorkspacePeerGetClientKey",
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeWorkspacePeerGetClientKeyInterceptors() ?? []
     )
   }
 
@@ -252,9 +229,6 @@ internal protocol Signal_SignalKeyDistributionClientInterceptorFactoryProtocol {
   /// - Returns: Interceptors to use when invoking 'peerGetClientKey'.
   func makePeerGetClientKeyInterceptors() -> [ClientInterceptor<Signal_PeerGetClientKeyRequest, Signal_PeerGetClientKeyResponse>]
 
-  /// - Returns: Interceptors to use when invoking 'workspacePeerGetClientKey'.
-  func makeWorkspacePeerGetClientKeyInterceptors() -> [ClientInterceptor<Signal_PeerGetClientKeyRequest, Signal_PeerGetClientKeyResponse>]
-
   /// - Returns: Interceptors to use when invoking 'clientUpdatePeerKey'.
   func makeClientUpdatePeerKeyInterceptors() -> [ClientInterceptor<Signal_PeerRegisterClientKeyRequest, Signal_BaseResponse>]
 
@@ -305,8 +279,6 @@ internal protocol Signal_SignalKeyDistributionProvider: CallHandlerProvider {
 
   func peerGetClientKey(request: Signal_PeerGetClientKeyRequest, context: StatusOnlyCallContext) -> EventLoopFuture<Signal_PeerGetClientKeyResponse>
 
-  func workspacePeerGetClientKey(request: Signal_PeerGetClientKeyRequest, context: StatusOnlyCallContext) -> EventLoopFuture<Signal_PeerGetClientKeyResponse>
-
   func clientUpdatePeerKey(request: Signal_PeerRegisterClientKeyRequest, context: StatusOnlyCallContext) -> EventLoopFuture<Signal_BaseResponse>
 
   ///group
@@ -348,15 +320,6 @@ extension Signal_SignalKeyDistributionProvider {
         responseSerializer: ProtobufSerializer<Signal_PeerGetClientKeyResponse>(),
         interceptors: self.interceptors?.makePeerGetClientKeyInterceptors() ?? [],
         userFunction: self.peerGetClientKey(request:context:)
-      )
-
-    case "WorkspacePeerGetClientKey":
-      return UnaryServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<Signal_PeerGetClientKeyRequest>(),
-        responseSerializer: ProtobufSerializer<Signal_PeerGetClientKeyResponse>(),
-        interceptors: self.interceptors?.makeWorkspacePeerGetClientKeyInterceptors() ?? [],
-        userFunction: self.workspacePeerGetClientKey(request:context:)
       )
 
     case "ClientUpdatePeerKey":
@@ -428,10 +391,6 @@ internal protocol Signal_SignalKeyDistributionServerInterceptorFactoryProtocol {
   /// - Returns: Interceptors to use when handling 'peerGetClientKey'.
   ///   Defaults to calling `self.makeInterceptors()`.
   func makePeerGetClientKeyInterceptors() -> [ServerInterceptor<Signal_PeerGetClientKeyRequest, Signal_PeerGetClientKeyResponse>]
-
-  /// - Returns: Interceptors to use when handling 'workspacePeerGetClientKey'.
-  ///   Defaults to calling `self.makeInterceptors()`.
-  func makeWorkspacePeerGetClientKeyInterceptors() -> [ServerInterceptor<Signal_PeerGetClientKeyRequest, Signal_PeerGetClientKeyResponse>]
 
   /// - Returns: Interceptors to use when handling 'clientUpdatePeerKey'.
   ///   Defaults to calling `self.makeInterceptors()`.
