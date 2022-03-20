@@ -43,7 +43,6 @@ class DependencyResolver {
 		persistentStoreService = PersistentStoreService()
 		appTokenService = AppTokenService(securedStoreService: securedStoreService, persistentStoreService: persistentStoreService)
 		
-		
 		// MARK: - Location
 		locationManager = CLLocationManager()
 		let locationConfiguration = LocationConfigurations()
