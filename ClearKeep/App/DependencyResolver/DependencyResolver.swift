@@ -8,7 +8,7 @@
 import CoreLocation
 import Common
 import CommonUI
-import Networking
+import ChatSecure
 
 class DependencyResolver {
 	static let shared = DependencyResolver()
@@ -24,7 +24,7 @@ class DependencyResolver {
 	let locationManager: CLLocationManager!
 	let locationService: ILocationService!
 	
-	let sampleAPIService: APIService!
+	let channelStorage: ChannelStorage!
 	
 	init() {
 		fontSet = DefaultFontSet()
@@ -34,21 +34,15 @@ class DependencyResolver {
 		// MARK: - CommonUI
 		CommonUI.DependencyResolver.shared = CommonUI.DependencyResolver(CommonUIConfig(fontSet: fontSet, colorSet: colorSet, imageSet: imageSet))
 		
+		// MARK: - Chat Secure
+		channelStorage = ChannelStorage(config: ConfigurationProvider.default)
+		ChatSecure.DependencyResolver.shared = ChatSecure.DependencyResolver(channelStorage)
+		
 		// MARK: - Services
 		securedStoreService = SecuredStoreService()
 		persistentStoreService = PersistentStoreService()
 		appTokenService = AppTokenService(securedStoreService: securedStoreService, persistentStoreService: persistentStoreService)
 		
-		let networkingService = NetworkingService(configurations: NetworkConfigurations(),
-												  httpHeaderHandler: NetworkHTTPHeaderHandler(tokenService: appTokenService),
-												  responseHandler: NetworkHTTPResponseHandler(),
-												  networkConnectionHandler: NetworkConnectionHandler())
-		
-		let apiConfig = APIConfigurations()
-		let queryAdapter = APIResourceQueryAdapter(config: apiConfig, tokenService: appTokenService)
-		let responseAdapter = APIResourceResponseAdapter(jsonHandler: JSONDataHandler())
-		
-		sampleAPIService = APIService(client: networkingService, query: queryAdapter, resourceHandler: responseAdapter)
 		
 		// MARK: - Location
 		locationManager = CLLocationManager()
