@@ -52,6 +52,9 @@ struct ColorSet: IColorSet {
 	
 	// MARK: - Gradient Accent
 	var gradientAccent: [Color] { [Color(UIColor(hex: "#E06464")), Color(UIColor(hex: "#E99191"))] }
+
+	// MARK: - Gradient Black
+	var gradientBlack: [Color] { [Color(UIColor(hex: "#000000")), Color(UIColor(hex: "#000000"))] }
 	
 	func color(of label: ColorStyle) -> Color {
 		return Color(UIColor(hex: "#"))

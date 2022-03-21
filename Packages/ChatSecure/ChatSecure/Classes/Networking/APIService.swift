@@ -13,8 +13,9 @@ import GRPC
 protocol IAPIService {
 }
 
-public class APIService {
+class APIService {
 	// MARK: - Variables
+	let domain: String!
 	let header: HPACKHeaders!
 	let group: MultiThreadedEventLoopGroup!
 	let connection: ClientConnection!
@@ -24,11 +25,13 @@ public class APIService {
 	let clientMessage: Message_MessageClient!
 	
 	// MARK: - Init & Deinit
-	public init(host: String, port: Int) {
+	init(domain: String) {
+		self.domain = domain
 		header = HPACKHeaders()
 		group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
 		
-		let configuration = ClientConnection.Configuration.default(target: .hostAndPort(host, port), eventLoopGroup: group)
+		let domainConfig = domain.components(separatedBy: ":")
+		let configuration = ClientConnection.Configuration.default(target: .hostAndPort(domainConfig.first ?? "", Int(domainConfig.last ?? "") ?? 443), eventLoopGroup: group)
 		
 		connection = ClientConnection(configuration: configuration)
 		
