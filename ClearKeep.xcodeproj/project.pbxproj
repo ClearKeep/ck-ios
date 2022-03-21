@@ -206,10 +206,6 @@
 		CBCF494E27D46714006D84FE /* Localize.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localize.strings; sourceTree = "<group>"; };
 		CBD0AA3B27C7484900F86EFD /* Authentication */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Authentication; path = Packages/Authentication; sourceTree = "<group>"; };
 		EE672FA0EC8A123D35608506 /* Pods-ClearKeepUITests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.ppe.xcconfig"; sourceTree = "<group>"; };
-		F51AB9EB27D6F5B300FD6303 /* ILoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ILoginModel.swift; sourceTree = "<group>"; };
-		F5D09AF727D51174001E8CC4 /* LoginContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginContentView.swift; sourceTree = "<group>"; };
-		F5D09AFD27D5E872001E8CC4 /* LoginRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRemoteStore.swift; sourceTree = "<group>"; };
-		F5D09AFF27D5E887001E8CC4 /* LoginInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInMemoryStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -279,17 +275,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		044351FE27DA15180054A78F /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				F51AB9EB27D6F5B300FD6303 /* ILoginModel.swift */,
-				F5D09AF727D51174001E8CC4 /* LoginContentView.swift */,
-				F5D09AFD27D5E872001E8CC4 /* LoginRemoteStore.swift */,
-				F5D09AFF27D5E887001E8CC4 /* LoginInMemoryStore.swift */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		0472419827DB3D2C0043345A /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -344,7 +329,6 @@
 				CB117E2027BB5281000941D9 /* Products */,
 				72767F943F8717C11FDB899B /* Frameworks */,
 				DD5137E11C952DD6A3E2EFC4 /* Pods */,
-				044351FE27DA15180054A78F /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
