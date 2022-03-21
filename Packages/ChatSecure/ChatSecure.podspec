@@ -14,15 +14,12 @@ Pod::Spec.new do |spec|
 	spec.source       = { :git => "https://github.com/Code4Fun-Group/ChatSecure.git", :tag => spec.version.to_s }
 	spec.source_files = 'ChatSecure/**/*.{swift,h,m,c}'
 	
+	spec.dependency 'Networking'
+	spec.dependency 'SwiftSRP'
 	spec.dependency 'SocketRocket'
 	spec.dependency 'SignalProtocolObjC'
 	spec.dependency 'GoogleWebRTC'
 	spec.dependency 'YapDatabase'
 	spec.dependency 'Mantle'
-	spec.dependency 'RealmSwift'
-	spec.dependency 'gRPC-Swift'
-	spec.dependency 'SwiftProtobuf'
-	spec.dependency 'CryptoSwift'
-	spec.dependency 'OpenSSL-Universal'
 end
 

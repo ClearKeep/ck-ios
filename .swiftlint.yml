@@ -7,7 +7,7 @@ excluded:
   - ClearKeepTests
   - ClearKeepUITests
   - ClearKeepUITestsLaunchTests
-  - Packages/ChatSecure/ChatSecure/Classes/Protobuf
+  - Packages/Networking/Networking/Classes/Protobuf
 disabled_rules:
   - vertical_parameter_alignment
   - function_parameter_count
