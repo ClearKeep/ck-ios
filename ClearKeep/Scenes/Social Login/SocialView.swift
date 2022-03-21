@@ -27,7 +27,7 @@ struct SocialView: View {
 
 // MARK: - Preview
 #if DEBUG
-struct LoginView_Previews: PreviewProvider {
+struct SocialView_Previews: PreviewProvider {
 	static var previews: some View {
 		ContentView(container: .preview)
 		

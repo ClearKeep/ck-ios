@@ -8,6 +8,7 @@
 
 import UIKit
 import Combine
+import ChatSecure
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {

@@ -16,3 +16,36 @@
 "Social.Input.Verify" = "Security phrase";
 "Social.Forgot.Verify" = "Forgot phrase?";
 "Social.Verify.Next" = "Verify";
+"General.Email" = "Email";
+"General.DisplayName" = "Display Name";
+"General.Password" = "Password";
+"General.ConfirmPassword" = "Confirm Password";
+"General.Save" = "Save";
+// MARK: - Login
+"Login.SignInWith" = "Sign in with";
+"Login.SignIn" = "Sign in";
+"Login.AdvancedServerSettings" = "Advanced Server Settings";
+"Login.ForgotPassword?" = "Forgot Password?";
+"Login.SignUp.Suggest" = "Don't have an account?";
+"Login.SignUp" = "Sign up";
+"Login.Version" = "App version: 1.1.1";
+"General.DisplayName" = "Display Name";
+"General.Password" = "Password";
+"General.ConfirmPassword" = "Confirm Password";
+// MARK: - Register
+"Register.Title" = "Please fill in the information below to complete your sign up";
+"Register.SignInInstead" = "Sign in instead";
+"Register.SignUp" = "Sign up";
+// MARK: - ForgotPassword
+"ForgotPass.TitleMail" = "Please enter your email to reset your password";
+"ForgotPass.TitleChangePassword" = "Please enter your details to change password";
+"ForgotPass.Forgotpassword" = "Forgot password";
+"ForgotPass.NewPassword" = "Enter Your New Password";
+"ForgotPass.Resetpassword" = "Reset password";
+"ForgotPass.Save" = "Save";
+// MARK: - AdvancedServer
+"AdvancedServer.Title" = "Please enter your server URL to enter custom server";
+"AdvancedServer.SeverSetting" = "Advanced Server Settings";
+"AdvancedServer.SeverButton" = "Use Custom Server";
+"AdvancedServer.Submit" = "Submit";
+"AdvancedServer.ServerUrl" = "Server URL";
