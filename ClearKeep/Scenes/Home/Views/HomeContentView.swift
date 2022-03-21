@@ -73,15 +73,19 @@ private extension HomeContentView {
 	var foregroundBody: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.grey5
 	}
+
 	var opacityGroup: Double {
 		isExpandGroup ? 1 : 0
 	}
+
 	var opacityMessage: CGFloat {
 		isExpandMessage ? 1 : 0
 	}
+
 	var frameGroup: CGFloat? {
 		isExpandGroup ? nil : 0
 	}
+	
 	var frameMessage: CGFloat? {
 		isExpandMessage ? nil : 0
 	}

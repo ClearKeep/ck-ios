@@ -22,6 +22,7 @@ struct HomeHeaderView: View {
 	@Binding var searchText: String
 	@Binding var inputStyle: TextInputStyle
 	@State private(set) var isMenuAction: Bool
+
 	// MARK: - Init
 	init(searchText: Binding<String>,
 		 inputStyle: Binding<TextInputStyle>,
@@ -30,6 +31,7 @@ struct HomeHeaderView: View {
 		self._inputStyle = inputStyle
 		self._isMenuAction = .init(initialValue: isMenuAction)
 	}
+	
 	// MARK: - Body
 	var body: some View {
 		NavigationView {

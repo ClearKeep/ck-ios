@@ -22,6 +22,7 @@ private enum Constants {
 	static let sizeDisable = 24.0
 	static let opacity = 0.4
 }
+
 struct HomeMenuView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
@@ -33,6 +34,7 @@ struct HomeMenuView: View {
 	@State private(set) var isShow: Bool
 	@State private(set) var isChangeStatus: Bool = true
 	@Binding var isMenuAction: Bool
+
 	// MARK: - Init
 	init(userName: String = "",
 		 urlString: String = "",
@@ -61,15 +63,19 @@ private extension HomeMenuView {
 	var content: AnyView {
 		AnyView(menuView)
 	}
+
 	var list: AnyView {
 		AnyView(listView)
 	}
+
 	var status: AnyView {
 		AnyView(statusView)
 	}
+
 	var popUp: AnyView {
 		AnyView(popUpView)
 	}
+
 	var profile: AnyView {
 		AnyView(profileView)
 	}
