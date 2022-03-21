@@ -110,6 +110,7 @@ private extension HomeHeaderView {
 				Button(action: menuAction) {
 					AppTheme.shared.imageSet.menuIcon
 						.resizable()
+						.renderingMode(.template)
 						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 						.foregroundColor(foregroundColorTitle)
 				}

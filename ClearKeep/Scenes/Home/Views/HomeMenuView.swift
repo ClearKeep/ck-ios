@@ -103,7 +103,7 @@ private extension HomeMenuView {
 	}
 	
 	var foregroundButton: Color {
-		isChangeStatus ? AppTheme.shared.colorSet.greyLight : AppTheme.shared.colorSet.grey1
+		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight
 	}
 
 	var foregroundColorUserName: Color {
@@ -175,6 +175,8 @@ private extension HomeMenuView {
 			Button(action: menuAction) {
 				AppTheme.shared.imageSet.crossIcon
 					.resizable()
+					.renderingMode(.template)
+					.aspectRatio(contentMode: .fit)
 					.frame(width: Constants.sizeDisable, height: Constants.sizeDisable)
 					.foregroundColor(foregroundButton)
 			}
@@ -190,6 +192,9 @@ private extension HomeMenuView {
 				HStack {
 					Spacer()
 					AppTheme.shared.imageSet.logoutIcon
+						.resizable()
+						.renderingMode(.template)
+						.aspectRatio(contentMode: .fit)
 						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 						.padding(.all, Constants.padding)
 						.foregroundColor(foregroundSignout)
@@ -240,6 +245,8 @@ private extension HomeMenuView {
 						.foregroundColor(foregroundStatusView)
 					AppTheme.shared.imageSet.chevDownIcon
 						.resizable()
+						.renderingMode(.template)
+						.aspectRatio(contentMode: .fit)
 						.frame(width: Constants.expandWidth, height: Constants.expandHeight)
 						.foregroundColor(foregroundButton)
 				}
@@ -252,6 +259,10 @@ private extension HomeMenuView {
 					Spacer()
 					Button(action: copyAction) {
 						AppTheme.shared.imageSet.copyIcon
+							.resizable()
+							.renderingMode(.template)
+							.aspectRatio(contentMode: .fit)
+							.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 							.foregroundColor(foregroundButtonCoppy)
 					}
 				}
@@ -296,6 +307,9 @@ private extension HomeMenuView {
 		Button(action: profileAction) {
 			HStack {
 				AppTheme.shared.imageSet.userIcon
+					.resizable()
+					.renderingMode(.template)
+					.aspectRatio(contentMode: .fit)
 					.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 					.padding(.all, Constants.padding)
 					.foregroundColor(foregroundText)

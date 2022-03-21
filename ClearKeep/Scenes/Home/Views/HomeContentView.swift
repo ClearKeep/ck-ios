@@ -129,6 +129,7 @@ private extension HomeContentView {
 							.foregroundColor(foregroundTitle)
 						expandGroupImage
 							.resizable()
+							.renderingMode(.template)
 							.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 					}
 				}
@@ -136,6 +137,7 @@ private extension HomeContentView {
 				Button(action: addAction) {
 					AppTheme.shared.imageSet.plusIcon
 						.resizable()
+						.renderingMode(.template)
 						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 				}
 			}
@@ -166,6 +168,8 @@ private extension HomeContentView {
 							.foregroundColor(foregroundTitle)
 						expandMessageImage
 							.resizable()
+							.renderingMode(.template)
+							.aspectRatio(contentMode: .fit)
 							.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 					}
 				}
@@ -173,6 +177,8 @@ private extension HomeContentView {
 				Button(action: addAction) {
 					AppTheme.shared.imageSet.plusIcon
 						.resizable()
+						.renderingMode(.template)
+						.aspectRatio(contentMode: .fit)
 						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 				}
 			}
