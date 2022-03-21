@@ -32,7 +32,6 @@ public func == (lhs: AppState, rhs: AppState) -> Bool {
 		lhs.system == rhs.system
 }
 
-#if DEBUG
 public extension AppState {
 	static var preview: AppState {
 		var state = AppState()
@@ -40,4 +39,3 @@ public extension AppState {
 		return state
 	}
 }
-#endif
