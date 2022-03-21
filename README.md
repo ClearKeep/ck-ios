@@ -15,8 +15,8 @@ iOS client with end to end encryption messaging
 3. Generate pb.swift and grpc.swift 
    ```
    mkdir Protobuf
-   protoc --grpc-swift_out=Protobuf/ --swift_out=proto/ *.proto
+   protoc --grpc-swift_out=Protobuf/ --swift_out=Protobuf/ *.proto --swift_opt=Visibility=Public
    ```
-4. Copy folder to Packages/ChatSecure/ChatSecure/Classes/Protobuf
+4. Copy folder to Packages/Networking/Networking/Classes/Protobuf
 
 
