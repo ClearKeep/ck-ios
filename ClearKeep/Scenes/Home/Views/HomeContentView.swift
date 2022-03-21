@@ -102,7 +102,7 @@ private extension HomeContentView {
 	}
 
 	func changeView() {
-		
+
 	}
 }
 

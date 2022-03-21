@@ -26,7 +26,7 @@ struct ServerView: View {
 	init(isChangeSever: Bool) {
 		self._isChangeSever = .init(initialValue: isChangeSever)
 	}
-	
+
 	// MARK: - Body
 	var body: some View {
 		content
@@ -95,7 +95,7 @@ struct ServerView_Previews: PreviewProvider {
 
 struct CustomShapeLeft: Shape {
 	let radius: CGFloat
-	
+
 	func path(in rect: CGRect) -> Path {
 		var path = Path()
 		let bottomleft = CGPoint(x: rect.minX, y: rect.maxY)
