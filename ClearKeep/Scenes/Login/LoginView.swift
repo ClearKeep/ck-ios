@@ -31,9 +31,9 @@ struct LoginView: View {
 	let inspection = ViewInspector<Self>()
 
 	init(samples: Loadable<[ILoginModel]> = .notRequested,
-		email: String = "",
-		password: String = "",
-		inputStyle: TextInputStyle = .default) {
+		 email: String = "",
+		 password: String = "",
+		 inputStyle: TextInputStyle = .default) {
 		self._samples = .init(initialValue: samples)
 		self._email = .init(initialValue: email)
 		self._password = .init(initialValue: password)
@@ -43,17 +43,19 @@ struct LoginView: View {
 
 	var body: some View {
 		NavigationView {
-					content
-						.onReceive(inspection.notice) { inspection.visit(self, $0) }
-				}
+			content
+				.onReceive(inspection.notice) { inspection.visit(self, $0) }
+				.navigationBarTitle("")
+				.navigationBarHidden(true)
+		}
 	}
 }
 
 // MARK: - Private
 private extension LoginView {
 	var content: AnyView {
-			AnyView(notRequestedView)
-		}
+		AnyView(notRequestedView)
+	}
 }
 
 // MARK: - Loading Content
@@ -74,7 +76,7 @@ private extension LoginView {
 			.padding(.trailing, Constants.paddingVertical)
 		}
 		.background(background)
-		.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+		.edgesIgnoringSafeArea(.all)
 	}
 }
 

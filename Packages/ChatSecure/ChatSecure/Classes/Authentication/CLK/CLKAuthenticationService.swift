@@ -86,7 +86,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		request.clientKeyPeer = peerRegisterClientKeyRequest
 		request.ivParameter = bytesConvertToHexString(bytes: pbkdf2.iv)
 		
-		let response = await ChannelStorage.shared.getChannels(domain: domain).registerSRP(request)
+		let response = await channelStorage.getChannels(domain: domain).registerSRP(request)
 		switch response {
 		case .success(let data):
 			print(data)
@@ -105,7 +105,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		request.email = userName
 		request.clientPublic = aHex
 		
-		let response = await ChannelStorage.shared.getChannels(domain: domain).login(request)
+		let response = await channelStorage.getChannels(domain: domain).login(request)
 		
 		switch response {
 		case .success(let data):
@@ -119,7 +119,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 			request.clientPublic = aHex
 			request.clientSessionKeyProof = mHex
 			
-			let response = await ChannelStorage.shared.getChannels(domain: domain).login(request)
+			let response = await channelStorage.getChannels(domain: domain).login(request)
 			switch response {
 			case .success(let data):
 				print(data)

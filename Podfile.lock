@@ -37,11 +37,11 @@ PODS:
   - Mantle/extobjc (2.2.0)
   - netfox (1.20.0)
   - OpenSSL-Universal (1.1.1400)
-  - Realm (10.24.1):
-    - Realm/Headers (= 10.24.1)
-  - Realm/Headers (10.24.1)
-  - RealmSwift (10.24.1):
-    - Realm (= 10.24.1)
+  - Realm (10.24.2):
+    - Realm/Headers (= 10.24.2)
+  - Realm/Headers (10.24.2)
+  - RealmSwift (10.24.2):
+    - Realm (= 10.24.2)
   - SignalProtocolC (2.3.2)
   - SignalProtocolObjC (1.1.0):
     - SignalProtocolC (~> 2.3.2)
@@ -263,7 +263,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   _NIODataStructures: d8175e5ca5a34ec19b7ff21de298dd2a4d30818d
   CGRPCZlib: 8b4c1074399f6ba2db3361862d4340d57d7b77f0
-  ChatSecure: f8cd79ee74a5f4934636363806a9123edc5cf299
+  ChatSecure: 65475b4154f2b026c4700f37dede0997a255c3e1
   CNIOAtomics: 00b638e1b0dac91d06d4bb089ea9126c117c6650
   CNIOBoringSSL: c99129423da079a9eb74bcfc7cfec41a6775cf94
   CNIOBoringSSLShims: 902ae35fea0b6be5eefb4fdce906751886cfa46f
@@ -278,8 +278,8 @@ SPEC CHECKSUMS:
   Mantle: c5aa8794a29a022dfbbfc9799af95f477a69b62d
   netfox: 6b5c9724304b0cd99ca8515ac732a9f710e4ea5f
   OpenSSL-Universal: cd40d7493c1e9696794f62e2a0e8c729115b7188
-  Realm: f9bc5a212a9ab084b4ed90cda1c28d835a38a06b
-  RealmSwift: 0b03bb38001bee4280dcc27709e6b33f438cfad1
+  Realm: c8421eee9ff92b16b4f91a313b5cc695c37c1921
+  RealmSwift: 10ed6fa09c36aaaff55e12afdc71802ec3ddb1c0
   SignalProtocolC: 051512e9f3abfeb4120c5e9673af9ae0ee370070
   SignalProtocolObjC: b992ed29c3b7b453510ff0102ed16ef143f7efd2
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
@@ -300,6 +300,6 @@ SPEC CHECKSUMS:
   SwiftProtobuf: 6ef3f0e422ef90d6605ca20b21a94f6c1324d6b3
   YapDatabase: 350ab72b61f9dcc32504594da1a52a93f5ef1476
 
-PODFILE CHECKSUM: 8e7f8bcf9d6e3303a7ceda8c2769276f25d90782
+PODFILE CHECKSUM: 8932933943ce3aacf13bd7e3ca9a9c413f648314
 
 COCOAPODS: 1.11.2

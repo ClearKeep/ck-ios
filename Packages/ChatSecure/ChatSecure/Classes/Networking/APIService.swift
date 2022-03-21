@@ -13,7 +13,7 @@ import GRPC
 protocol IAPIService {
 }
 
-class APIService {
+public class APIService {
 	// MARK: - Variables
 	let domain: String!
 	let header: HPACKHeaders!
