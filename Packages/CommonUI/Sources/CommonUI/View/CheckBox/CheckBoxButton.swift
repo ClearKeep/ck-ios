@@ -23,7 +23,6 @@ public struct CheckBoxButtons: View {
 		self.text = text
 		self._isChecked = isChecked
 	}
-	
 	// MARK: - Body
 	public var body: some View {
 		Button(action: {
