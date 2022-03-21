@@ -43,7 +43,7 @@ platform :ios do
   lane :dev do
     build_app(
       workspace: "ClearKeep.xcworkspace",
-      scheme: "Develoment",
+      scheme: "Development",
       skip_package_ipa: true,
       skip_archive: true,
       skip_codesigning: true,
