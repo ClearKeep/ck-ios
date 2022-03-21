@@ -51,7 +51,6 @@
 		CB117ECD27BBA6E5000941D9 /* HomeWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117ECC27BBA6E5000941D9 /* HomeWorker.swift */; };
 		CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117ED327BBB0CE000941D9 /* ActivityIndicatorView.swift */; };
 		CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117ED527BBB0DD000941D9 /* ErrorView.swift */; };
-		CB3F77DF27C3549700E569B0 /* CommonUI in Frameworks */ = {isa = PBXBuildFile; productRef = CB3F77DE27C3549700E569B0 /* CommonUI */; };
 		CB3F77EC27C372B000E569B0 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3F77EB27C372B000E569B0 /* NotificationService.swift */; };
 		CB3F77F027C372B000E569B0 /* NotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CB3F77E927C372B000E569B0 /* NotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3F78F627C4CC0000E569B0 /* FontSet.swift */; };
@@ -180,8 +179,6 @@
 		CB117ECC27BBA6E5000941D9 /* HomeWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorker.swift; sourceTree = "<group>"; };
 		CB117ED327BBB0CE000941D9 /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
 		CB117ED527BBB0DD000941D9 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
-		CB3F77D927C353E300E569B0 /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Common; path = Packages/Common; sourceTree = "<group>"; };
-		CB3F77DA27C353EC00E569B0 /* CommonUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CommonUI; path = Packages/CommonUI; sourceTree = "<group>"; };
 		CB3F77E927C372B000E569B0 /* NotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB3F77EB27C372B000E569B0 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		CB3F77ED27C372B000E569B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -224,7 +221,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB3F77DF27C3549700E569B0 /* CommonUI in Frameworks */,
 				68B04852200FE549288B41AA /* Pods_ClearKeep.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -311,7 +307,6 @@
 		CB117E1627BB5281000941D9 = {
 			isa = PBXGroup;
 			children = (
-				CB3F77D827C353E300E569B0 /* Packages */,
 				CB117E2127BB5281000941D9 /* ClearKeep */,
 				CB117E3227BB5283000941D9 /* ClearKeepTests */,
 				CB117E3C27BB5283000941D9 /* ClearKeepUITests */,
@@ -479,15 +474,6 @@
 				0472418127DB35550043345A /* HomeMenuView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		CB3F77D827C353E300E569B0 /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				CB3F77D927C353E300E569B0 /* Common */,
-				CB3F77DA27C353EC00E569B0 /* CommonUI */,
-			);
-			name = Packages;
 			sourceTree = "<group>";
 		};
 		CB3F77EA27C372B000E569B0 /* NotificationServiceExtension */ = {
@@ -669,7 +655,6 @@
 			);
 			name = ClearKeep;
 			packageProductDependencies = (
-				CB3F77DE27C3549700E569B0 /* CommonUI */,
 			);
 			productName = "iOSBase-SwiftUI";
 			productReference = CB117E1F27BB5281000941D9 /* [DEV] ClearKeep.app */;
@@ -1775,13 +1760,6 @@
 			defaultConfigurationName = Production;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		CB3F77DE27C3549700E569B0 /* CommonUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = CommonUI;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CB117E1727BB5281000941D9 /* Project object */;
 }

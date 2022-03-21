@@ -17,9 +17,12 @@ use_frameworks!
 # Pods
 ##################
 def common
+	pod 'Common', :path => './Packages/Common'
+	pod 'CommonUI', :path => './Packages/CommonUI'
 	pod 'ChatSecure', :path => './Packages/ChatSecure'
 	pod 'Networking', :path => './Packages/Networking'
 	pod 'SwiftSRP', :path => './Packages/SwiftSRP'
+	pod 'GoogleWebRTC'
 end
 
 def xctools
@@ -27,6 +30,10 @@ def xctools
 end
 
 def analytics
+end
+
+def security
+	pod 'KeychainAccess'
 end
 
 def utilities
@@ -38,6 +45,7 @@ end
 
 def shared
 	common
+	security
 	ui
 end
 
