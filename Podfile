@@ -18,6 +18,8 @@ use_frameworks!
 ##################
 def common
 	pod 'ChatSecure', :path => './Packages/ChatSecure'
+	pod 'Networking', :path => './Packages/Networking'
+	pod 'SwiftSRP', :path => './Packages/SwiftSRP'
 end
 
 def xctools

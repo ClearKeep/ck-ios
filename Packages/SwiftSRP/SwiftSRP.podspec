@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
-	spec.name         = "Networking"
+	spec.name         = "SwiftSRP"
 	spec.version      = "1.0.0"
-	spec.summary      = "Networking Framework"
+	spec.summary      = "SwiftSRP Framework"
 	spec.description  = <<-DESC
 	Networking
 	DESC
@@ -11,10 +11,10 @@ Pod::Spec.new do |spec|
 	spec.author       = { "Code4Fun" => "namnh@vmodev.com" }
 	spec.ios.deployment_target = "14.0"
 	
-	spec.source       = { :git => "https://github.com/Code4Fun-Group/Networking.git", :tag => spec.version.to_s }
-	spec.source_files = 'Networking/**/*.{swift,h,m,c}'
+	spec.source       = { :git => "https://github.com/Code4Fun-Group/SwiftSRP.git", :tag => spec.version.to_s }
+	spec.source_files = 'SwiftSRP/**/*.{swift,h,m,c}'
 	
-	spec.dependency 'gRPC-Swift'
-	spec.dependency 'SwiftProtobuf'
+	spec.dependency 'CryptoSwift'
+	spec.dependency 'OpenSSL-Universal'
 end
 

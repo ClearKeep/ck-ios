@@ -7,7 +7,6 @@
 
 import SwiftUI
 import CommonUI
-import RealmSwift
 import SwiftUIX
 
 private enum Constants {

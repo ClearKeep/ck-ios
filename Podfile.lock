@@ -2,15 +2,12 @@ PODS:
   - _NIODataStructures (2.38.0)
   - CGRPCZlib (1.7.1)
   - ChatSecure (1.0.0):
-    - CryptoSwift
     - GoogleWebRTC
-    - gRPC-Swift
     - Mantle
-    - OpenSSL-Universal
-    - RealmSwift
+    - Networking
     - SignalProtocolObjC
     - SocketRocket
-    - SwiftProtobuf
+    - SwiftSRP
     - YapDatabase
   - CNIOAtomics (2.38.0)
   - CNIOBoringSSL (2.15.1)
@@ -36,12 +33,10 @@ PODS:
     - Mantle/extobjc (= 2.2.0)
   - Mantle/extobjc (2.2.0)
   - netfox (1.20.0)
+  - Networking (1.0.0):
+    - gRPC-Swift
+    - SwiftProtobuf
   - OpenSSL-Universal (1.1.1400)
-  - Realm (10.24.2):
-    - Realm/Headers (= 10.24.2)
-  - Realm/Headers (10.24.2)
-  - RealmSwift (10.24.2):
-    - Realm (= 10.24.2)
   - SignalProtocolC (2.3.2)
   - SignalProtocolObjC (1.1.0):
     - SignalProtocolC (~> 2.3.2)
@@ -104,6 +99,9 @@ PODS:
     - SwiftNIOFoundationCompat (< 3, >= 2.32.0)
     - SwiftNIOTLS (< 3, >= 2.32.0)
   - SwiftProtobuf (1.19.0)
+  - SwiftSRP (1.0.0):
+    - CryptoSwift
+    - OpenSSL-Universal
   - YapDatabase (4.0.1):
     - YapDatabase/Standard (= 4.0.1)
   - YapDatabase/Standard (4.0.1):
@@ -214,7 +212,9 @@ PODS:
 DEPENDENCIES:
   - ChatSecure (from `./Packages/ChatSecure`)
   - netfox
+  - Networking (from `./Packages/Networking`)
   - SwiftLint
+  - SwiftSRP (from `./Packages/SwiftSRP`)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -234,8 +234,6 @@ SPEC REPOS:
     - Mantle
     - netfox
     - OpenSSL-Universal
-    - Realm
-    - RealmSwift
     - SignalProtocolC
     - SignalProtocolObjC
     - SocketRocket
@@ -259,11 +257,15 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   ChatSecure:
     :path: "./Packages/ChatSecure"
+  Networking:
+    :path: "./Packages/Networking"
+  SwiftSRP:
+    :path: "./Packages/SwiftSRP"
 
 SPEC CHECKSUMS:
   _NIODataStructures: d8175e5ca5a34ec19b7ff21de298dd2a4d30818d
   CGRPCZlib: 8b4c1074399f6ba2db3361862d4340d57d7b77f0
-  ChatSecure: 65475b4154f2b026c4700f37dede0997a255c3e1
+  ChatSecure: 6d5f5a3d2ec032c36bf92d2f01533fec7dc563b7
   CNIOAtomics: 00b638e1b0dac91d06d4bb089ea9126c117c6650
   CNIOBoringSSL: c99129423da079a9eb74bcfc7cfec41a6775cf94
   CNIOBoringSSLShims: 902ae35fea0b6be5eefb4fdce906751886cfa46f
@@ -277,9 +279,8 @@ SPEC CHECKSUMS:
   Logging: beeb016c9c80cf77042d62e83495816847ef108b
   Mantle: c5aa8794a29a022dfbbfc9799af95f477a69b62d
   netfox: 6b5c9724304b0cd99ca8515ac732a9f710e4ea5f
+  Networking: ee4c8cf8a599c79344aa9acaa34ba5c365863b32
   OpenSSL-Universal: cd40d7493c1e9696794f62e2a0e8c729115b7188
-  Realm: c8421eee9ff92b16b4f91a313b5cc695c37c1921
-  RealmSwift: 10ed6fa09c36aaaff55e12afdc71802ec3ddb1c0
   SignalProtocolC: 051512e9f3abfeb4120c5e9673af9ae0ee370070
   SignalProtocolObjC: b992ed29c3b7b453510ff0102ed16ef143f7efd2
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
@@ -298,8 +299,9 @@ SPEC CHECKSUMS:
   SwiftNIOTLS: 0182f05297af9faa8e03f63be3fed637523496d4
   SwiftNIOTransportServices: 1fbbdb58510af3c53a838a1dbea98f18132dc952
   SwiftProtobuf: 6ef3f0e422ef90d6605ca20b21a94f6c1324d6b3
+  SwiftSRP: 383b585bae7ed60f824f4959d12ee406a70466c1
   YapDatabase: 350ab72b61f9dcc32504594da1a52a93f5ef1476
 
-PODFILE CHECKSUM: 9fe9b0233a51fee835c15147d9143e4ad39c5fcf
+PODFILE CHECKSUM: f189e5b620188f06a570ac2cb3f88ba869618ff2
 
 COCOAPODS: 1.11.2

@@ -6,7 +6,7 @@
 //
 
 import Common
-import ChatSecure
+import Networking
 
 protocol IAppTokenService: ITokenService {
 }

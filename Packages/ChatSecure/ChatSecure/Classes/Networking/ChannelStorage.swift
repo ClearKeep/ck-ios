@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Networking
 
 public protocol IChannelStorage {
 	var channels: [String: APIService] { get }
