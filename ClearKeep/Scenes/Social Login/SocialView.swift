@@ -17,7 +17,7 @@ struct SocialView: View {
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@State private(set) var security: String
 	@State private(set) var securityStyle: TextInputStyle = .default
-	@State private(set) var socialCommonStyle: SocialCommonStyle = .confirmSecurity
+	@State private(set) var socialCommonStyle: SocialCommonStyle = .setSecurity
 	
 	// MARK: - Body
 	var body: some View {
@@ -30,6 +30,7 @@ struct SocialView: View {
 struct LoginView_Previews: PreviewProvider {
 	static var previews: some View {
 		ContentView(container: .preview)
+		
 	}
 }
 #endif

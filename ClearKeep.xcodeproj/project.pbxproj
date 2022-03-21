@@ -189,6 +189,7 @@
 		F51AB9FC27D74C8A00FD6303 /* SocialModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialModel.swift; sourceTree = "<group>"; };
 		F553F81227E492A700824BE7 /* SocialCommonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialCommonStyle.swift; sourceTree = "<group>"; };
 		F553F81427E4D8DA00824BE7 /* SocialCommonUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialCommonUI.swift; sourceTree = "<group>"; };
+		F553F85E27E8190300824BE7 /* ClearKeep copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ClearKeep copy-Info.plist"; path = "/Users/Dong/Documents/VMO/SwiftUI2/ck-ios/ClearKeep copy-Info.plist"; sourceTree = "<absolute>"; };
 		F5F5B1EB27D8413100F282FB /* SocialConfirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialConfirm.swift; sourceTree = "<group>"; };
 		F5F5B1ED27D89EBF00F282FB /* SocialVerify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialVerify.swift; sourceTree = "<group>"; };
 		F5F5B1EF27D8F8F800F282FB /* LoginTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTest.swift; sourceTree = "<group>"; };
@@ -252,6 +253,7 @@
 				CB117E2027BB5281000941D9 /* Products */,
 				72767F943F8717C11FDB899B /* Frameworks */,
 				DD5137E11C952DD6A3E2EFC4 /* Pods */,
+				F553F85E27E8190300824BE7 /* ClearKeep copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
