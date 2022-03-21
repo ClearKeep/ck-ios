@@ -1,0 +1,16 @@
+//
+//  CommonUI.h
+//  CommonUI
+//
+
+#import <Foundation/Foundation.h>
+
+//! Project version number for CommonUI.
+FOUNDATION_EXPORT double ChatSecureVersionNumber;
+
+//! Project version string for CommonUI.
+FOUNDATION_EXPORT const unsigned char NetworkingVersionString[];
+
+// In this header, you should import all the public headers of your framework using statements like #import <CommonUI/PublicHeader.h>
+
+

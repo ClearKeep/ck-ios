@@ -17,6 +17,10 @@ PODS:
   - CNIOHTTPParser (2.38.0)
   - CNIOLinux (2.38.0)
   - CNIOWindows (2.38.0)
+  - Common (1.0.0):
+    - KeychainAccess
+  - CommonUI (1.0.0):
+    - Common
   - CryptoSwift (1.4.3)
   - GoogleWebRTC (1.1.31999)
   - gRPC-Swift (1.7.1):
@@ -28,6 +32,7 @@ PODS:
     - SwiftNIOSSL (< 3.0.0, >= 2.14.0)
     - SwiftNIOTransportServices (< 2.0.0, >= 1.11.1)
     - SwiftProtobuf (< 2.0.0, >= 1.9.0)
+  - KeychainAccess (4.2.2)
   - Logging (1.4.0)
   - Mantle (2.2.0):
     - Mantle/extobjc (= 2.2.0)
@@ -211,6 +216,10 @@ PODS:
 
 DEPENDENCIES:
   - ChatSecure (from `./Packages/ChatSecure`)
+  - Common (from `./Packages/Common`)
+  - CommonUI (from `./Packages/CommonUI`)
+  - GoogleWebRTC
+  - KeychainAccess
   - netfox
   - Networking (from `./Packages/Networking`)
   - SwiftLint
@@ -230,6 +239,7 @@ SPEC REPOS:
     - CryptoSwift
     - GoogleWebRTC
     - gRPC-Swift
+    - KeychainAccess
     - Logging
     - Mantle
     - netfox
@@ -257,6 +267,10 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   ChatSecure:
     :path: "./Packages/ChatSecure"
+  Common:
+    :path: "./Packages/Common"
+  CommonUI:
+    :path: "./Packages/CommonUI"
   Networking:
     :path: "./Packages/Networking"
   SwiftSRP:
@@ -273,9 +287,12 @@ SPEC CHECKSUMS:
   CNIOHTTPParser: f3bd2955c9c8669ea2ae0f1f4f03df1fea2ed90d
   CNIOLinux: f8801300bb296d16dee59a82aba1613a08cfbe23
   CNIOWindows: 1cc6fb2af1d445f52f2d39cecf7069873f7d5b0d
+  Common: 9ca33d62db967fd912890469f5c1ef3b1e9bcc48
+  CommonUI: affc673083c51cd8c1942e6e810e3a29ec20f539
   CryptoSwift: a0799ee936271bd2253a006f1e4523df21845000
   GoogleWebRTC: b39a78c4f5cc6b0323415b9233db03a2faa7b0f0
   gRPC-Swift: c5541e5fed500f45d31bf1369cecec753d1007e2
+  KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
   Logging: beeb016c9c80cf77042d62e83495816847ef108b
   Mantle: c5aa8794a29a022dfbbfc9799af95f477a69b62d
   netfox: 6b5c9724304b0cd99ca8515ac732a9f710e4ea5f
@@ -302,6 +319,6 @@ SPEC CHECKSUMS:
   SwiftSRP: 383b585bae7ed60f824f4959d12ee406a70466c1
   YapDatabase: 350ab72b61f9dcc32504594da1a52a93f5ef1476
 
-PODFILE CHECKSUM: f189e5b620188f06a570ac2cb3f88ba869618ff2
+PODFILE CHECKSUM: 696ed08cf5744848e327be04fbc082cefea9c18b
 
 COCOAPODS: 1.11.2
