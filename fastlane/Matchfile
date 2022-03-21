@@ -14,11 +14,6 @@ for_lane :qa do
   app_identifier([ENV['APP_IDENTIFIER'] + ".qa"])
 end
 
-# PPE
-for_lane :ppe do
-  app_identifier([ENV['APP_IDENTIFIER'] + ".ppe"])
-end
-
 
 # PROD
 for_lane :production do
@@ -29,7 +24,6 @@ end
 for_lane :update_adhoc_profiles do
   app_identifier([
     ENV['APP_IDENTIFIER'] + ".qa",
-    ENV['APP_IDENTIFIER'] + ".ppe",
     ENV['APP_IDENTIFIER']
   ])
 end
