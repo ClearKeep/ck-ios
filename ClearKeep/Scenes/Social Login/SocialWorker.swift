@@ -12,8 +12,6 @@ import Common
 protocol ISocialWorker {
 	var remoteStore: ISocialRemoteStore { get }
 	var inMemoryStore: ISocialInMemoryStore { get }
-
-	func getSamples(samples: LoadableSubject<[ISampleModel]>)
 }
 
 struct SocialWorker {
@@ -27,28 +25,4 @@ struct SocialWorker {
 }
 
 extension SocialWorker: ISocialWorker {
-	func getSamples(samples: LoadableSubject<[ISampleModel]>) {
-		let cancelBag = CancelBag()
-		samples.wrappedValue.setIsLoading(cancelBag: cancelBag)
-
-		Just<Void>
-			.withErrorType(Error.self)
-			.flatMap {
-				return Deferred {
-					Future<[ISampleModel], Error> { promise in
-						self.remoteStore.getSamples(completion: { result in
-							switch result {
-							case .success(let sampleDatas):
-								promise(.success(sampleDatas))
-							case .failure(let error):
-								promise(.failure(error))
-							}
-						})
-					}
-				}
-				.eraseToAnyPublisher()
-			}
-			.sinkToLoadable { samples.wrappedValue = $0 }
-			.store(in: cancelBag)
-	}
 }
