@@ -66,6 +66,17 @@
 		CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73084127CE648F00AB0FBD /* HomeContentView.swift */; };
 		CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB73084327CE785B00AB0FBD /* AppTheme.swift */; };
 		CBCF494F27D46715006D84FE /* Localize.strings in Resources */ = {isa = PBXBuildFile; fileRef = CBCF494E27D46714006D84FE /* Localize.strings */; };
+		F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86027E820E600824BE7 /* SocialWorker.swift */; };
+		F553F86F27E820E600824BE7 /* SocialModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86227E820E600824BE7 /* SocialModel.swift */; };
+		F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86327E820E600824BE7 /* SocialRemoteStore.swift */; };
+		F553F87127E820E600824BE7 /* SocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86427E820E600824BE7 /* SocialView.swift */; };
+		F553F87227E820E600824BE7 /* LoginTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86627E820E600824BE7 /* LoginTest.swift */; };
+		F553F87327E820E600824BE7 /* SocialVerify.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86727E820E600824BE7 /* SocialVerify.swift */; };
+		F553F87427E820E600824BE7 /* SocialCommonUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86927E820E600824BE7 /* SocialCommonUI.swift */; };
+		F553F87527E820E600824BE7 /* SocialCommonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86A27E820E600824BE7 /* SocialCommonStyle.swift */; };
+		F553F87627E820E600824BE7 /* SocialConfirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86B27E820E600824BE7 /* SocialConfirm.swift */; };
+		F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86C27E820E600824BE7 /* SocialInMemoryStore.swift */; };
+		F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86D27E820E600824BE7 /* SocialInteractor.swift */; };
 		D8AB76DC8A0A1CA052BB690A /* Pods_ClearKeepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 505924C80AA28618058991FC /* Pods_ClearKeepTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -188,6 +199,17 @@
 		CB73084127CE648F00AB0FBD /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
 		CB73084327CE785B00AB0FBD /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		CBCF494E27D46714006D84FE /* Localize.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localize.strings; sourceTree = "<group>"; };
+		F553F86027E820E600824BE7 /* SocialWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialWorker.swift; sourceTree = "<group>"; };
+		F553F86227E820E600824BE7 /* SocialModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialModel.swift; sourceTree = "<group>"; };
+		F553F86327E820E600824BE7 /* SocialRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialRemoteStore.swift; sourceTree = "<group>"; };
+		F553F86427E820E600824BE7 /* SocialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialView.swift; sourceTree = "<group>"; };
+		F553F86627E820E600824BE7 /* LoginTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTest.swift; sourceTree = "<group>"; };
+		F553F86727E820E600824BE7 /* SocialVerify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialVerify.swift; sourceTree = "<group>"; };
+		F553F86927E820E600824BE7 /* SocialCommonUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialCommonUI.swift; sourceTree = "<group>"; };
+		F553F86A27E820E600824BE7 /* SocialCommonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialCommonStyle.swift; sourceTree = "<group>"; };
+		F553F86B27E820E600824BE7 /* SocialConfirm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialConfirm.swift; sourceTree = "<group>"; };
+		F553F86C27E820E600824BE7 /* SocialInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialInMemoryStore.swift; sourceTree = "<group>"; };
+		F553F86D27E820E600824BE7 /* SocialInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialInteractor.swift; sourceTree = "<group>"; };
 		E17A6A8CE10FEF02B2A4EC45 /* Pods-ClearKeep.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.qa.xcconfig"; sourceTree = "<group>"; };
 		EEDE9BEE21DD3413AFDE72FE /* Pods-ClearKeepUITests.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.development.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.development.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -373,6 +395,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				F553F85F27E820E600824BE7 /* Social Login */,
 				044351EA27D9AFCA0054A78F /* Register */,
 				044351CD27D7587E0054A78F /* Login */,
 				CB117E7D27BB660D000941D9 /* Home */,
@@ -571,6 +594,48 @@
 				101250A451C5F0A0690F9F2E /* Pods_ClearKeepUITests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F553F85F27E820E600824BE7 /* Social Login */ = {
+			isa = PBXGroup;
+			children = (
+				F553F86127E820E600824BE7 /* Models */,
+				F553F86527E820E600824BE7 /* Views */,
+				F553F86027E820E600824BE7 /* SocialWorker.swift */,
+				F553F86327E820E600824BE7 /* SocialRemoteStore.swift */,
+				F553F86427E820E600824BE7 /* SocialView.swift */,
+				F553F86C27E820E600824BE7 /* SocialInMemoryStore.swift */,
+				F553F86D27E820E600824BE7 /* SocialInteractor.swift */,
+			);
+			path = "Social Login";
+			sourceTree = "<group>";
+		};
+		F553F86127E820E600824BE7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F553F86227E820E600824BE7 /* SocialModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F553F86527E820E600824BE7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F553F86827E820E600824BE7 /* CommonUI */,
+				F553F86627E820E600824BE7 /* LoginTest.swift */,
+				F553F86727E820E600824BE7 /* SocialVerify.swift */,
+				F553F86B27E820E600824BE7 /* SocialConfirm.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F553F86827E820E600824BE7 /* CommonUI */ = {
+			isa = PBXGroup;
+			children = (
+				F553F86927E820E600824BE7 /* SocialCommonUI.swift */,
+				F553F86A27E820E600824BE7 /* SocialCommonStyle.swift */,
+			);
+			path = CommonUI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -867,17 +932,28 @@
 				044351F727D9AFCA0054A78F /* IRegisterModel.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
+				CB117E7727BB65C8000941D9 /* SampleResponse.swift in Sources */,
+				F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */,
+				F553F87127E820E600824BE7 /* SocialView.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
 				044351DD27D9AFA70054A78F /* LoginWorker.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
 				044351F827D9AFCA0054A78F /* RegisterInteractor.swift in Sources */,
+				F553F86F27E820E600824BE7 /* SocialModel.swift in Sources */,
+				F553F87627E820E600824BE7 /* SocialConfirm.swift in Sources */,
+				CB117E7327BB65C7000941D9 /* APIResourceResponseAdapter.swift in Sources */,
 				CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */,
 				044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */,
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
 				CB117E8627BB6687000941D9 /* SampleModel.swift in Sources */,
+				F553F87527E820E600824BE7 /* SocialCommonStyle.swift in Sources */,
 				044351E027D9AFA70054A78F /* LoginInMemoryStore.swift in Sources */,
+				F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */,
 				044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */,
+				F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */,
+				F553F87227E820E600824BE7 /* LoginTest.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
+				F553F87327E820E600824BE7 /* SocialVerify.swift in Sources */,
 				044351D027D758AD0054A78F /* AdvancedServerView.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
 				044351DE27D9AFA70054A78F /* LoginRemoteStore.swift in Sources */,
@@ -885,7 +961,9 @@
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
+				F553F87427E820E600824BE7 /* SocialCommonUI.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
+				F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
