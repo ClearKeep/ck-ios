@@ -131,6 +131,7 @@ private extension HomeContentView {
 							.resizable()
 							.renderingMode(.template)
 							.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+							.foregroundColor(foregroundTitle)
 					}
 				}
 				Spacer()
@@ -139,6 +140,7 @@ private extension HomeContentView {
 						.resizable()
 						.renderingMode(.template)
 						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+						.foregroundColor(foregroundTitle)
 				}
 			}
 			VStack(alignment: .leading, spacing: Constants.spacing) {
@@ -171,6 +173,7 @@ private extension HomeContentView {
 							.renderingMode(.template)
 							.aspectRatio(contentMode: .fit)
 							.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+							.foregroundColor(foregroundTitle)
 					}
 				}
 				Spacer()
@@ -180,6 +183,7 @@ private extension HomeContentView {
 						.renderingMode(.template)
 						.aspectRatio(contentMode: .fit)
 						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+						.foregroundColor(foregroundTitle)
 				}
 			}
 			VStack(alignment: .leading, spacing: Constants.spacing) {
