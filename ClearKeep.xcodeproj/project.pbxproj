@@ -7,16 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		044351D027D758AD0054A78F /* AdvancedServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351CF27D758AD0054A78F /* AdvancedServerView.swift */; };
-		044351DC27D9AFA70054A78F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351D727D9AFA50054A78F /* LoginView.swift */; };
-		044351DD27D9AFA70054A78F /* LoginWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351D827D9AFA60054A78F /* LoginWorker.swift */; };
-		044351DE27D9AFA70054A78F /* LoginRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351D927D9AFA60054A78F /* LoginRemoteStore.swift */; };
-		044351DF27D9AFA70054A78F /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351DA27D9AFA60054A78F /* LoginInteractor.swift */; };
-		044351E027D9AFA70054A78F /* LoginInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351DB27D9AFA70054A78F /* LoginInMemoryStore.swift */; };
-		044351E327D9AFAD0054A78F /* ILoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351E227D9AFAD0054A78F /* ILoginModel.swift */; };
-		044351E727D9AFBD0054A78F /* NewPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351E427D9AFBD0054A78F /* NewPasswordView.swift */; };
-		044351E827D9AFBD0054A78F /* FogotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351E527D9AFBD0054A78F /* FogotPasswordView.swift */; };
-		044351E927D9AFBD0054A78F /* LoginContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351E627D9AFBD0054A78F /* LoginContentView.swift */; };
 		044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351EB27D9AFCA0054A78F /* RegisterRemoteStore.swift */; };
 		044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351EC27D9AFCA0054A78F /* RegisterWorker.swift */; };
 		044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351ED27D9AFCA0054A78F /* RegisterInMemoryStore.swift */; };
@@ -24,6 +14,20 @@
 		044351F827D9AFCA0054A78F /* RegisterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F027D9AFCA0054A78F /* RegisterInteractor.swift */; };
 		044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F127D9AFCA0054A78F /* RegisterView.swift */; };
 		044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F327D9AFCA0054A78F /* RegisterContentView.swift */; };
+		0472418227DB35550043345A /* HomeMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472418127DB35550043345A /* HomeMenuView.swift */; };
+		047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419927DB3D2C0043345A /* LoginRemoteStore.swift */; };
+		047241A627DB3D2C0043345A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419A27DB3D2C0043345A /* LoginView.swift */; };
+		047241A727DB3D2C0043345A /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419B27DB3D2C0043345A /* LoginInteractor.swift */; };
+		047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419C27DB3D2C0043345A /* LoginInMemoryStore.swift */; };
+		047241A927DB3D2C0043345A /* ILoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419E27DB3D2C0043345A /* ILoginModel.swift */; };
+		047241AA27DB3D2C0043345A /* FogotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047241A027DB3D2C0043345A /* FogotPasswordView.swift */; };
+		047241AB27DB3D2C0043345A /* AdvancedServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047241A127DB3D2C0043345A /* AdvancedServerView.swift */; };
+		047241AC27DB3D2C0043345A /* LoginContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047241A227DB3D2C0043345A /* LoginContentView.swift */; };
+		047241AD27DB3D2C0043345A /* NewPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047241A327DB3D2C0043345A /* NewPasswordView.swift */; };
+		047241AE27DB3D2C0043345A /* LoginWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047241A427DB3D2C0043345A /* LoginWorker.swift */; };
+		4420AE57DA690DE6C8C54963 /* Pods_ClearKeep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 475749C4F2F15D4A61EEB83D /* Pods_ClearKeep.framework */; };
+		B11C151A05AD567AA57FD53D /* Pods_ClearKeepUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FC5765DC2A8FA5A318B742 /* Pods_ClearKeepUITests.framework */; };
+		B691E362FF810CA0E58283D3 /* Pods_ClearKeepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 416279F50D6ADE4CF6389D01 /* Pods_ClearKeepTests.framework */; };
 		68B04852200FE549288B41AA /* Pods_ClearKeep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726F45262AA71A1153B2BBF0 /* Pods_ClearKeep.framework */; };
 		B664E4414FD9CBFCDF6E7E5F /* Pods_ClearKeepUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 101250A451C5F0A0690F9F2E /* Pods_ClearKeepUITests.framework */; };
 		CB117E2727BB5283000941D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB117E2627BB5283000941D9 /* Assets.xcassets */; };
@@ -136,6 +140,36 @@
 		044351F027D9AFCA0054A78F /* RegisterInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterInteractor.swift; sourceTree = "<group>"; };
 		044351F127D9AFCA0054A78F /* RegisterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		044351F327D9AFCA0054A78F /* RegisterContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterContentView.swift; sourceTree = "<group>"; };
+		0472418127DB35550043345A /* HomeMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeMenuView.swift; sourceTree = "<group>"; };
+		0472419927DB3D2C0043345A /* LoginRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRemoteStore.swift; sourceTree = "<group>"; };
+		0472419A27DB3D2C0043345A /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		0472419B27DB3D2C0043345A /* LoginInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
+		0472419C27DB3D2C0043345A /* LoginInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInMemoryStore.swift; sourceTree = "<group>"; };
+		0472419E27DB3D2C0043345A /* ILoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ILoginModel.swift; sourceTree = "<group>"; };
+		047241A027DB3D2C0043345A /* FogotPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FogotPasswordView.swift; sourceTree = "<group>"; };
+		047241A127DB3D2C0043345A /* AdvancedServerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedServerView.swift; sourceTree = "<group>"; };
+		047241A227DB3D2C0043345A /* LoginContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginContentView.swift; sourceTree = "<group>"; };
+		047241A327DB3D2C0043345A /* NewPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPasswordView.swift; sourceTree = "<group>"; };
+		047241A427DB3D2C0043345A /* LoginWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginWorker.swift; sourceTree = "<group>"; };
+		0B4D15934D622F846F2806A1 /* Pods-ClearKeepTests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.ppe.xcconfig"; sourceTree = "<group>"; };
+		128D9595C6F7214A99944057 /* Pods-ClearKeep.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.qa.xcconfig"; sourceTree = "<group>"; };
+		328ECF9F2F3251DE45D45614 /* Pods-ClearKeep.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.production.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.production.xcconfig"; sourceTree = "<group>"; };
+		3DCE85D8FDFDB840BF0F2773 /* Pods-ClearKeepTests.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.production.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.production.xcconfig"; sourceTree = "<group>"; };
+		416279F50D6ADE4CF6389D01 /* Pods_ClearKeepTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClearKeepTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		475749C4F2F15D4A61EEB83D /* Pods_ClearKeep.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClearKeep.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		476EDE780F6B3AC2E8675835 /* Pods-ClearKeep-ClearKeepUITests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep-ClearKeepUITests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeep-ClearKeepUITests/Pods-ClearKeep-ClearKeepUITests.ppe.xcconfig"; sourceTree = "<group>"; };
+		4AA8F6E7B3A51F7767F585C3 /* Pods-ClearKeep-ClearKeepUITests.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep-ClearKeepUITests.production.xcconfig"; path = "Target Support Files/Pods-ClearKeep-ClearKeepUITests/Pods-ClearKeep-ClearKeepUITests.production.xcconfig"; sourceTree = "<group>"; };
+		8011EB02088CD699D495830F /* Pods-ClearKeep-ClearKeepUITests.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep-ClearKeepUITests.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeep-ClearKeepUITests/Pods-ClearKeep-ClearKeepUITests.qa.xcconfig"; sourceTree = "<group>"; };
+		884BDE110550DBD7D90422F0 /* Pods-ClearKeepTests.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.development.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.development.xcconfig"; sourceTree = "<group>"; };
+		8C54996FC1624FF17C60D738 /* Pods-ClearKeepUITests.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.qa.xcconfig"; sourceTree = "<group>"; };
+		8E0CC6F00DBBAC3F6A4E3932 /* Pods-ClearKeepTests.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.qa.xcconfig"; sourceTree = "<group>"; };
+		9024FC1A9C28772FF2E68B79 /* Pods-ClearKeep-ClearKeepUITests.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep-ClearKeepUITests.development.xcconfig"; path = "Target Support Files/Pods-ClearKeep-ClearKeepUITests/Pods-ClearKeep-ClearKeepUITests.development.xcconfig"; sourceTree = "<group>"; };
+		91FC5765DC2A8FA5A318B742 /* Pods_ClearKeepUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClearKeepUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB96B4C1E373F5379DA964C6 /* Pods-ClearKeep.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.development.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.development.xcconfig"; sourceTree = "<group>"; };
+		B755F40F2A6F929F5569AA10 /* Pods-ClearKeep.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.ppe.xcconfig"; sourceTree = "<group>"; };
+		BC66592A954EAE31AA31BA36 /* Pods-ClearKeepUITests.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.production.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.production.xcconfig"; sourceTree = "<group>"; };
+		BDC819C28F36E13E29F850F6 /* Pods-ClearKeepUITests.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.development.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.development.xcconfig"; sourceTree = "<group>"; };
+		CB117E1F27BB5281000941D9 /* ClearKeep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClearKeep.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		101250A451C5F0A0690F9F2E /* Pods_ClearKeepUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClearKeepUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EBC14E59AE53DA947B3D1CB /* Pods-ClearKeepUITests.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.qa.xcconfig"; sourceTree = "<group>"; };
 		35710D5B975319B70E6A82C4 /* Pods-ClearKeepTests.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.development.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.development.xcconfig"; sourceTree = "<group>"; };
@@ -199,6 +233,8 @@
 		CB73084127CE648F00AB0FBD /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
 		CB73084327CE785B00AB0FBD /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		CBCF494E27D46714006D84FE /* Localize.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localize.strings; sourceTree = "<group>"; };
+		CBD0AA3B27C7484900F86EFD /* Authentication */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Authentication; path = Packages/Authentication; sourceTree = "<group>"; };
+		EE672FA0EC8A123D35608506 /* Pods-ClearKeepUITests.ppe.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.ppe.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.ppe.xcconfig"; sourceTree = "<group>"; };
 		F553F86027E820E600824BE7 /* SocialWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialWorker.swift; sourceTree = "<group>"; };
 		F553F86227E820E600824BE7 /* SocialModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialModel.swift; sourceTree = "<group>"; };
 		F553F86327E820E600824BE7 /* SocialRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialRemoteStore.swift; sourceTree = "<group>"; };
@@ -250,40 +286,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		044351CD27D7587E0054A78F /* Login */ = {
-			isa = PBXGroup;
-			children = (
-				044351E127D9AFAD0054A78F /* Models */,
-				044351DB27D9AFA70054A78F /* LoginInMemoryStore.swift */,
-				044351DA27D9AFA60054A78F /* LoginInteractor.swift */,
-				044351D927D9AFA60054A78F /* LoginRemoteStore.swift */,
-				044351D727D9AFA50054A78F /* LoginView.swift */,
-				044351D827D9AFA60054A78F /* LoginWorker.swift */,
-				044351CE27D758880054A78F /* Views */,
-			);
-			name = Login;
-			path = ClearKeep/Scenes/Login;
-			sourceTree = SOURCE_ROOT;
-		};
-		044351CE27D758880054A78F /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				044351E527D9AFBD0054A78F /* FogotPasswordView.swift */,
-				044351E627D9AFBD0054A78F /* LoginContentView.swift */,
-				044351E427D9AFBD0054A78F /* NewPasswordView.swift */,
-				044351CF27D758AD0054A78F /* AdvancedServerView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		044351E127D9AFAD0054A78F /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				044351E227D9AFAD0054A78F /* ILoginModel.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		044351EA27D9AFCA0054A78F /* Register */ = {
 			isa = PBXGroup;
 			children = (
@@ -302,6 +304,47 @@
 			isa = PBXGroup;
 			children = (
 				044351EF27D9AFCA0054A78F /* IRegisterModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		044351F227D9AFCA0054A78F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				044351F327D9AFCA0054A78F /* RegisterContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0472419827DB3D2C0043345A /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				0472419927DB3D2C0043345A /* LoginRemoteStore.swift */,
+				0472419A27DB3D2C0043345A /* LoginView.swift */,
+				0472419B27DB3D2C0043345A /* LoginInteractor.swift */,
+				0472419C27DB3D2C0043345A /* LoginInMemoryStore.swift */,
+				0472419D27DB3D2C0043345A /* Models */,
+				0472419F27DB3D2C0043345A /* Views */,
+				047241A427DB3D2C0043345A /* LoginWorker.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		0472419D27DB3D2C0043345A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0472419E27DB3D2C0043345A /* ILoginModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0472419F27DB3D2C0043345A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				047241A027DB3D2C0043345A /* FogotPasswordView.swift */,
+				047241A127DB3D2C0043345A /* AdvancedServerView.swift */,
+				047241A227DB3D2C0043345A /* LoginContentView.swift */,
+				047241A327DB3D2C0043345A /* NewPasswordView.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -397,7 +440,7 @@
 			children = (
 				F553F85F27E820E600824BE7 /* Social Login */,
 				044351EA27D9AFCA0054A78F /* Register */,
-				044351CD27D7587E0054A78F /* Login */,
+				0472419827DB3D2C0043345A /* Login */,
 				CB117E7D27BB660D000941D9 /* Home */,
 				CB117EBB27BB7D2F000941D9 /* ContentView.swift */,
 				CB117EBD27BB7DE2000941D9 /* RootViewModifier.swift */,
@@ -482,6 +525,7 @@
 				CB73083D27CE644800AB0FBD /* ServerView.swift */,
 				CB73083F27CE647E00AB0FBD /* HomeHeaderView.swift */,
 				CB73084127CE648F00AB0FBD /* HomeContentView.swift */,
+				0472418127DB35550043345A /* HomeMenuView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -914,8 +958,8 @@
 				CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */,
 				044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */,
 				044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */,
+				047241A627DB3D2C0043345A /* LoginView.swift in Sources */,
 				044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */,
-				044351DF27D9AFA70054A78F /* LoginInteractor.swift in Sources */,
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
 				CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */,
 				CB117E7B27BB65E2000941D9 /* LocationConfigurations.swift in Sources */,
@@ -925,25 +969,27 @@
 				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
 				044351E727D9AFBD0054A78F /* NewPasswordView.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
-				044351E927D9AFBD0054A78F /* LoginContentView.swift in Sources */,
-				044351E827D9AFBD0054A78F /* FogotPasswordView.swift in Sources */,
+				047241AA27DB3D2C0043345A /* FogotPasswordView.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				044351F727D9AFCA0054A78F /* IRegisterModel.swift in Sources */,
+				047241AB27DB3D2C0043345A /* AdvancedServerView.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
 				CB117E7727BB65C8000941D9 /* SampleResponse.swift in Sources */,
 				F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */,
 				F553F87127E820E600824BE7 /* SocialView.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
-				044351DD27D9AFA70054A78F /* LoginWorker.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
+				047241AE27DB3D2C0043345A /* LoginWorker.swift in Sources */,
 				044351F827D9AFCA0054A78F /* RegisterInteractor.swift in Sources */,
+				047241AC27DB3D2C0043345A /* LoginContentView.swift in Sources */,
 				F553F86F27E820E600824BE7 /* SocialModel.swift in Sources */,
 				F553F87627E820E600824BE7 /* SocialConfirm.swift in Sources */,
 				CB117E7327BB65C7000941D9 /* APIResourceResponseAdapter.swift in Sources */,
 				CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */,
 				044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */,
+				047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */,
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
 				CB117E8627BB6687000941D9 /* SampleModel.swift in Sources */,
 				F553F87527E820E600824BE7 /* SocialCommonStyle.swift in Sources */,
@@ -956,16 +1002,22 @@
 				F553F87327E820E600824BE7 /* SocialVerify.swift in Sources */,
 				044351D027D758AD0054A78F /* AdvancedServerView.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
+				047241A727DB3D2C0043345A /* LoginInteractor.swift in Sources */,
+				CB117E7127BB65C7000941D9 /* APIConfigurations.swift in Sources */,
 				044351DE27D9AFA70054A78F /* LoginRemoteStore.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
+				047241AD27DB3D2C0043345A /* NewPasswordView.swift in Sources */,
 				F553F87427E820E600824BE7 /* SocialCommonUI.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
+				047241A927DB3D2C0043345A /* ILoginModel.swift in Sources */,
+				0472418227DB35550043345A /* HomeMenuView.swift in Sources */,
 				F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
+				047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
 				CB40073027E74E1900DFBE88 /* Configuration.swift in Sources */,
 				044351E327D9AFAD0054A78F /* ILoginModel.swift in Sources */,

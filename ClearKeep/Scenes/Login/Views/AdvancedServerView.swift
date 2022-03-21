@@ -27,6 +27,7 @@ struct AdvancedServerView: View {
 	@State private(set) var severUrl: String
 	@State private(set) var severUrlStyle: TextInputStyle
 	@State private(set) var isShowingView: Bool = false
+
 	// MARK: - Init
 	init(severUrl: String = "",
 		 severUrlStyle: TextInputStyle = .default) {

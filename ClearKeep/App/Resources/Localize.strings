@@ -21,6 +21,9 @@
 "General.Password" = "Password";
 "General.ConfirmPassword" = "Confirm Password";
 "General.Save" = "Save";
+"General.Notification" = "Notification";
+"General.Online" = "Online";
+"General.Busy" = "Busy";
 // MARK: - Login
 "Login.SignInWith" = "Sign in with";
 "Login.SignIn" = "Sign in";
@@ -49,3 +52,11 @@
 "AdvancedServer.SeverButton" = "Use Custom Server";
 "AdvancedServer.Submit" = "Submit";
 "AdvancedServer.ServerUrl" = "Server URL";
+// MARK: - Home
+"Home.Title" = "CK Development";
+"Home.Menu" = "Menu";
+"Home.Profile" = "Profile";
+"Home.Server" = "Sever";
+"Home.GroupChat" = "Group Chat";
+"Home.Message" = "Direct Messages";
+"Home.Signout" = "Sign out";
