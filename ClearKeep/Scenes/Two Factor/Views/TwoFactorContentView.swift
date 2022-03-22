@@ -81,7 +81,7 @@ private extension TwoFactorContentView {
 			destination: SocialVerify(),
 			isActive: $isNext,
 			label: {
-				Button("2fa.verify".localized) {
+				Button("2fa.Verify".localized) {
 					isNext = true
 				}
 				.frame(maxWidth: .infinity)
@@ -99,7 +99,7 @@ private extension TwoFactorContentView {
 				AppTheme.shared.imageSet.backIcon
 					.aspectRatio(contentMode: .fit)
 					.foregroundColor(foregroundColorWhite)
-				Text("2fa.backButton".localized)
+				Text("2fa.BackButton".localized)
 					.padding(.all)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 			}
@@ -127,7 +127,7 @@ private extension TwoFactorContentView {
 
 	var titleView: some View {
 		HStack {
-			Text("2fa.title")
+			Text("2fa.Title")
 				.font(AppTheme.shared.fontSet.font(style: .placeholder1))
 				.foregroundColor(foregroundMessage)
 			Spacer()
@@ -136,10 +136,10 @@ private extension TwoFactorContentView {
 
 	var resendCode: some View {
 		VStack(alignment: .center, spacing: Constant.spacerResend) {
-			Text("2fa.dontGetCode")
+			Text("2fa.DontGetCode")
 				.font(AppTheme.shared.fontSet.font(style: .input2))
 				.foregroundColor(foregroundColorWhite)
-			Text("2fa.resendCode")
+			Text("2fa.ResendCode")
 				.font(AppTheme.shared.fontSet.font(style: .body2))
 				.foregroundColor(foregroundColorMessage)
 		}

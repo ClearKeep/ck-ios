@@ -1,47 +1,92 @@
 // MARK: - General
 "General.Search" = "Search...";
+"General.Email" = "Email";
+"General.DisplayName" = "Display Name";
+"General.Password" = "Password";
+"General.ConfirmPassword" = "Confirm Password";
+"General.Save" = "Save";
+"General.Notification" = "Notification";
+"General.Online" = "Online";
+"General.Busy" = "Busy";
 
 // MARK: - Social Login
-"Social.setPhrase.back" = "Set Your Security Phrase";
-"Social.confirmPhrase.back" = "Confirm Your Security Phrase";
-"Social.title.set" = "Security Phrase keep information stored with Clearkeep encrypted so only you can access it.";
-"Social.title.confirm" = "Remember this security phrase. If you forget it, you'll need to reset your account and all data will be erased.";
-"Social.security.set" = "Security Phrase";
-"Social.security.confirm" = "Confirm Security Phrase";
-"Social.security.thanos" = "Thanos is the legend";
-"Social.message" = "Your passphrase should be at least 3 words and 15 characters in length";
-"Social.next" = "Next";
-"Social.verify.back" = "Enter Your Security Phrase";
-"Social.title.verify" = "Please enter your security phrase";
-"Social.input.verify" = "Security phrase";
-"Social.forgot.verify" = "Forgot phrase?";
-"Social.verify.next" = "Verify";
+"Social.SetPhrase.Back" = "Set Your Security Phrase";
+"Social.ConfirmPhrase.Back" = "Confirm Your Security Phrase";
+"Social.Title.Set" = "Security Phrase keep information stored with Clearkeep encrypted so only you can access it.";
+"Social.Title.Confirm" = "Remember this security phrase. If you forget it, you'll need to reset your account and all data will be erased.";
+"Social.Security.Set" = "Security Phrase";
+"Social.Security.Confirm" = "Confirm Security Phrase";
+"Social.Security.Thanos" = "Thanos is the legend";
+"Social.Message" = "Your passphrase should be at least 3 words and 15 characters in length";
+"Social.Next" = "Next";
+"Social.Verify.Back" = "Enter Your Security Phrase";
+"Social.Title.Verify" = "Please enter your security phrase";
+"Social.Input.Verify" = "Security phrase";
+"Social.Forgot.Verify" = "Forgot phrase?";
+"Social.Verify.Next" = "Verify";
 
 // MARK: - User Profile
-"UserProfile.save" = "Save";
-"UserProfile.setting" = "Profile Settings";
-"UserProfile.picture.change" = "Change profile picture";
-"UserProfile.picture.size" = "Maximum file size 5MB";
-"UserProfile.username" = "Username";
-"UserProfile.email" = "Email";
-"UserProfile.phoneNumber" = "Phone Number";
-"UserProfile.link.copy" = "Copy Profile Link";
-"UserProfile.password.change" = "Change Password";
+"UserProfile.Save" = "Save";
+"UserProfile.Setting" = "Profile Settings";
+"UserProfile.Picture.Change" = "Change profile picture";
+"UserProfile.Picture.Size" = "Maximum file size 5MB";
+"UserProfile.Username" = "Username";
+"UserProfile.Email" = "Email";
+"UserProfile.PhoneNumber" = "Phone Number";
+"UserProfile.Link.Copy" = "Copy Profile Link";
+"UserProfile.Password.Change" = "Change Password";
 "UserProfile.2FA" = "Two-factor authentication";
-"UserProfile.2FA.title" = "Give your account more protection over scam and account hacking";
-"UserProfile.enable" = "Enable";
-"UserProfile.disable" = "Disable";
-"UserProfile.code.country" = "Country Codes";
-"UserProfile.authen.2fa" = "Two-factor authentication";
+"UserProfile.2FA.Title" = "Give your account more protection over scam and account hacking";
+"UserProfile.Enable" = "Enable";
+"UserProfile.Disable" = "Disable";
+"UserProfile.Code.Country" = "Country Codes";
+"UserProfile.Authen.2fa" = "Two-factor authentication";
 
 // MARK: - Country Codes
-"Country.code" = "Country Codes";
-"Country.search" = "Search";
+"Country.Code" = "Country Codes";
+"Country.Search" = "Search";
+
+// MARK: - Login
+"Login.SignInWith" = "Sign in with";
+"Login.SignIn" = "Sign in";
+"Login.AdvancedServerSettings" = "Advanced Server Settings";
+"Login.ForgotPassword?" = "Forgot Password?";
+"Login.SignUp.Suggest" = "Don't have an account?";
+"Login.SignUp" = "Sign up";
+"Login.Version" = "App version: 1.1.1";
+"General.DisplayName" = "Display Name";
+"General.Password" = "Password";
+"General.ConfirmPassword" = "Confirm Password";
+// MARK: - Register
+"Register.Title" = "Please fill in the information below to complete your sign up";
+"Register.SignInInstead" = "Sign in instead";
+"Register.SignUp" = "Sign up";
+// MARK: - ForgotPassword
+"ForgotPass.TitleMail" = "Please enter your email to reset your password";
+"ForgotPass.TitleChangePassword" = "Please enter your details to change password";
+"ForgotPass.Forgotpassword" = "Forgot password";
+"ForgotPass.NewPassword" = "Enter Your New Password";
+"ForgotPass.Resetpassword" = "Reset password";
+"ForgotPass.Save" = "Save";
+// MARK: - AdvancedServer
+"AdvancedServer.Title" = "Please enter your server URL to enter custom server";
+"AdvancedServer.SeverSetting" = "Advanced Server Settings";
+"AdvancedServer.SeverButton" = "Use Custom Server";
+"AdvancedServer.Submit" = "Submit";
+"AdvancedServer.ServerUrl" = "Server URL";
+// MARK: - Home
+"Home.Title" = "CK Development";
+"Home.Menu" = "Menu";
+"Home.Profile" = "Profile";
+"Home.Server" = "Sever";
+"Home.GroupChat" = "Group Chat";
+"Home.Message" = "Direct Messages";
+"Home.Signout" = "Sign out";
 
 // MARK: - Two-Factor Authentication
-"2fa.backButton" = "Enter your code";
-"2fa.title" = "Please input a code that has been sent to your phone number";
-"2fa.dontGetCode" = "Don't get the code?";
-"2fa.resendCode" = "Resend Code";
-"2fa.verify" = "Verify";
+"2fa.BackButton" = "Enter your code";
+"2fa.Title" = "Please input a code that has been sent to your phone number";
+"2fa.DontGetCode" = "Don't get the code?";
+"2fa.ResendCode" = "Resend Code";
+"2fa.Verify" = "Verify";
 
