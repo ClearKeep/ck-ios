@@ -1,5 +1,5 @@
 //
-//  AdvanverSeverView.swift
+//  AdvancedSeverView.swift
 //  ClearKeep
 //
 //  Created by MinhDev on 22/03/2022.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Common
 
-struct AdvanverSeverView: View {
+struct AdvancedSeverView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
 	
@@ -25,28 +25,28 @@ struct AdvanverSeverView: View {
 }
 
 // MARK: - Private
-private extension AdvanverSeverView {
+private extension AdvancedSeverView {
 	var content: AnyView {
 		AnyView(notRequestedView)
 	}
 }
 
 // MARK: - Loading Content
-private extension AdvanverSeverView {
+private extension AdvancedSeverView {
 	var notRequestedView: some View {
-		AdvancerContentView(severUrl: "", severUrlStyle: (.default))
+		AdvancedContentView(severUrl: "", severUrlStyle: (.default))
 	}
 }
 
 // MARK: - Interactor
-private extension AdvanverSeverView {
+private extension AdvancedSeverView {
 }
 	
 // MARK: - Preview
 #if DEBUG
-struct AdvanverSeverView_Previews: PreviewProvider {
+struct AdvancedSeverView_Previews: PreviewProvider {
 	static var previews: some View {
-		AdvanverSeverView()
+		AdvancedSeverView()
 	}
 }
 #endif
