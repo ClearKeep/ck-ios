@@ -74,7 +74,7 @@ private extension UserProfileContentView {
 private extension UserProfileContentView {
 	var notRequestedView: some View {
 		VStack {
-			backgroundColorGradient
+			backgroundColorTop
 				.frame(maxWidth: .infinity, maxHeight: Constant.heightBackground)
 			ZStack {
 				VStack {
@@ -238,9 +238,9 @@ private extension UserProfileContentView {
 	var twoFactor: some View {
 		VStack(spacing: 20) {
 			HStack {
-				Text("UserProfile.Authen.2fa".localized)
+				Text("UserProfile.Authen.2FA".localized)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
-					.foregroundColor(foregroundBlack)
+					.foregroundColor(foregroundColorSetting)
 
 				Spacer()
 				Button(action: buttonSupport) {
@@ -252,7 +252,7 @@ private extension UserProfileContentView {
 			HStack {
 				Text("UserProfile.2FA.Title".localized)
 					.font(AppTheme.shared.fontSet.font(style: .input3))
-					.foregroundColor(foregroundGrey1)
+					.foregroundColor(foregroundColorStatus)
 				Spacer()
 			}
 		}
@@ -276,6 +276,14 @@ private extension UserProfileContentView {
 private extension UserProfileContentView {
 	var backgroundColorGradient: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
+	}
+
+	var backgroundColorBlack: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.darkGrey2, AppTheme.shared.colorSet.darkGrey2]), startPoint: .leading, endPoint: .trailing)
+	}
+
+	var backgroundColorTop: LinearGradient {
+		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
 	}
 
 	var foregroundPrimary: Color {
@@ -304,6 +312,10 @@ private extension UserProfileContentView {
 
 	var foregroundColorPicture: Color {
 		colorScheme == .light ? foregroundGrey3 : foregroundWhite
+	}
+
+	var foregroundColorStatus: Color {
+		colorScheme == .light ? foregroundGrey1 : foregroundWhite
 	}
 }
 

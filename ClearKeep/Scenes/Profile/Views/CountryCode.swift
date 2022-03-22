@@ -47,7 +47,7 @@ struct CountryCode: View {
 		VStack {
 			content
 		}
-		.background(Color.white)
+		.background(background)
 	}
 }
 
@@ -83,7 +83,7 @@ private extension CountryCode {
 	}
 
 	var title: some View {
-		Text("Country.code".localized)
+		Text("Country.Code".localized)
 			.frame(maxWidth: .infinity, alignment: .leading)
 			.font(AppTheme.shared.fontSet.font(style: .body1))
 	}
@@ -92,7 +92,7 @@ private extension CountryCode {
 		SearchTextField(searchText: $search,
 						inputStyle: $searchStyle,
 						inputIcon: AppTheme.shared.imageSet.searchIcon,
-						placeHolder: "Country.search".localized,
+						placeHolder: "Country.Search".localized,
 						onEditingChanged: { isEditing in
 			if isEditing {
 				searchStyle = .normal
@@ -113,6 +113,21 @@ private extension CountryCode {
 		}
 		.frame(maxWidth: .infinity, alignment: .leading)
 		.listStyle(PlainListStyle())
+		.listRowBackground(backgroundWhite)
+	}
+}
+
+private extension CountryCode {
+	var background: Color {
+		colorScheme == .light ? backgroundWhite : backgroundDark
+	}
+
+	var backgroundWhite: Color {
+		AppTheme.shared.colorSet.offWhite
+	}
+
+	var backgroundDark: Color {
+		AppTheme.shared.colorSet.black
 	}
 }
 
