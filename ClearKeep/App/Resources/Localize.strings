@@ -26,25 +26,25 @@
 "Social.Verify.Next" = "Verify";
 
 // MARK: - User Profile
-"UserProfile.save" = "Save";
-"UserProfile.setting" = "Profile Settings";
-"UserProfile.picture.change" = "Change profile picture";
-"UserProfile.picture.size" = "Maximum file size 5MB";
-"UserProfile.username" = "Username";
-"UserProfile.email" = "Email";
-"UserProfile.phoneNumber" = "Phone Number";
-"UserProfile.link.copy" = "Copy Profile Link";
-"UserProfile.password.change" = "Change Password";
+"UserProfile.Save" = "Save";
+"UserProfile.Setting" = "Profile Settings";
+"UserProfile.Picture.Change" = "Change profile picture";
+"UserProfile.Picture.Size" = "Maximum file size 5MB";
+"UserProfile.Username" = "Username";
+"UserProfile.Email" = "Email";
+"UserProfile.PhoneNumber" = "Phone Number";
+"UserProfile.Link.Copy" = "Copy Profile Link";
+"UserProfile.Password.Change" = "Change Password";
 "UserProfile.2FA" = "Two-factor authentication";
-"UserProfile.2FA.title" = "Give your account more protection over scam and account hacking";
-"UserProfile.enable" = "Enable";
-"UserProfile.disable" = "Disable";
-"UserProfile.code.country" = "Country Codes";
-"UserProfile.authen.2fa" = "Two-factor authentication";
+"UserProfile.2FA.Title" = "Give your account more protection over scam and account hacking";
+"UserProfile.Enable" = "Enable";
+"UserProfile.Disable" = "Disable";
+"UserProfile.Code.Country" = "Country Codes";
+"UserProfile.Authen.2fa" = "Two-factor authentication";
 
 // MARK: - Country Codes
-"Country.code" = "Country Codes";
-"Country.search" = "Search";
+"Country.Code" = "Country Codes";
+"Country.Search" = "Search";
 
 // MARK: - Login
 "Login.SignInWith" = "Sign in with";

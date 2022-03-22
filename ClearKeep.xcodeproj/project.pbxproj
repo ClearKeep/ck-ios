@@ -78,9 +78,9 @@
 		F553F87627E820E600824BE7 /* SocialConfirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86B27E820E600824BE7 /* SocialConfirm.swift */; };
 		F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86C27E820E600824BE7 /* SocialInMemoryStore.swift */; };
 		F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86D27E820E600824BE7 /* SocialInteractor.swift */; };
-		F5CE37E927E971940085CECE /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37E527E971940085CECE /* ProfileModel.swift */; };
-		F5CE37EA27E971940085CECE /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37E727E971940085CECE /* CountryCode.swift */; };
-		F5CE37EB27E971940085CECE /* UserProfileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37E827E971940085CECE /* UserProfileContentView.swift */; };
+		F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37EE27E97FF20085CECE /* ProfileModel.swift */; };
+		F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37F027E97FF20085CECE /* CountryCode.swift */; };
+		F5CE37F427E97FF20085CECE /* UserProfileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -217,9 +217,9 @@
 		F553F86B27E820E600824BE7 /* SocialConfirm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialConfirm.swift; sourceTree = "<group>"; };
 		F553F86C27E820E600824BE7 /* SocialInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialInMemoryStore.swift; sourceTree = "<group>"; };
 		F553F86D27E820E600824BE7 /* SocialInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialInteractor.swift; sourceTree = "<group>"; };
-		F5CE37E527E971940085CECE /* ProfileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
-		F5CE37E727E971940085CECE /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
-		F5CE37E827E971940085CECE /* UserProfileContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileContentView.swift; sourceTree = "<group>"; };
+		F5CE37EE27E97FF20085CECE /* ProfileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		F5CE37F027E97FF20085CECE /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
+		F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -390,7 +390,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				F5CE37E327E971940085CECE /* Profile */,
+				F5CE37EC27E97FF20085CECE /* Profile */,
 				F553F85F27E820E600824BE7 /* Social Login */,
 				044351EA27D9AFCA0054A78F /* Register */,
 				0472419827DB3D2C0043345A /* Login */,
@@ -640,28 +640,28 @@
 			path = CommonUI;
 			sourceTree = "<group>";
 		};
-		F5CE37E327E971940085CECE /* Profile */ = {
+		F5CE37EC27E97FF20085CECE /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				F5CE37E427E971940085CECE /* Models */,
-				F5CE37E627E971940085CECE /* Views */,
+				F5CE37ED27E97FF20085CECE /* Models */,
+				F5CE37EF27E97FF20085CECE /* Views */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
 		};
-		F5CE37E427E971940085CECE /* Models */ = {
+		F5CE37ED27E97FF20085CECE /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F5CE37E527E971940085CECE /* ProfileModel.swift */,
+				F5CE37EE27E97FF20085CECE /* ProfileModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		F5CE37E627E971940085CECE /* Views */ = {
+		F5CE37EF27E97FF20085CECE /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F5CE37E727E971940085CECE /* CountryCode.swift */,
-				F5CE37E827E971940085CECE /* UserProfileContentView.swift */,
+				F5CE37F027E97FF20085CECE /* CountryCode.swift */,
+				F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -976,7 +976,7 @@
 				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
-				F5CE37E927E971940085CECE /* ProfileModel.swift in Sources */,
+				F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				044351F727D9AFCA0054A78F /* IRegisterModel.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
@@ -1004,7 +1004,7 @@
 				F553F87327E820E600824BE7 /* SocialVerify.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
 				047241A727DB3D2C0043345A /* LoginInteractor.swift in Sources */,
-				F5CE37EB27E971940085CECE /* UserProfileContentView.swift in Sources */,
+				F5CE37F427E97FF20085CECE /* UserProfileContentView.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
@@ -1014,7 +1014,7 @@
 				047241A927DB3D2C0043345A /* ILoginModel.swift in Sources */,
 				0472418227DB35550043345A /* HomeMenuView.swift in Sources */,
 				F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */,
-				F5CE37EA27E971940085CECE /* CountryCode.swift in Sources */,
+				F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
 				047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */,
