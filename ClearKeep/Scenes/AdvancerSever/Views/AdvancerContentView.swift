@@ -1,8 +1,8 @@
 //
-//  AdvancedServerView.swift
+//  AdvancerContentView.swift
 //  ClearKeep
 //
-//  Created by MinhDev on 08/03/2022.
+//  Created by MinhDev on 22/03/2022.
 //
 
 import SwiftUI
@@ -13,10 +13,10 @@ private enum Constants {
 	static let radius = 40.0
 	static let spacing = 20.0
 	static let padding = 10.0
-	static let paddingTop = 100.0
+	static let paddingTop = 50.0
 }
 
-struct AdvancedServerView: View {
+struct AdvancerContentView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
 
@@ -38,32 +38,28 @@ struct AdvancedServerView: View {
 	// MARK: - Body
 	var body: some View {
 		content
-			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.background(backgroundColorView)
 			.edgesIgnoringSafeArea(.all)
-			.navigationBarBackButtonHidden(true)
-			.navigationBarTitleDisplayMode(.inline)
-			.navigationBarItems(leading: buttonBack)
 	}
 }
 
 // MARK: - Private
-private extension AdvancedServerView {
+private extension AdvancerContentView {
 	var backgroundButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
 
 	var backgroundColorView: LinearGradient {
-			colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
-		}
+		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
+	}
 
 	var backgroundColorBlack: LinearGradient {
-			LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
-		}
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
+	}
 
 	var backgroundColorGradient: LinearGradient {
-			LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-		}
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
+	}
 
 	var foregroundButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
@@ -80,44 +76,53 @@ private extension AdvancedServerView {
 }
 
 // MARK: - Private Func
-private extension AdvancedServerView {
+private extension AdvancerContentView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
 
+	func showAction() {
+		isShowingView.toggle()
+	}
+
 	var content: AnyView {
-		if isShowingView {
-			return AnyView(severUrlView)
-		} else {
-			return AnyView(checkMarkView)
-		}
+		return AnyView(severUrlView)
+	}
+
+	var checkMark: AnyView {
+		return AnyView(checkMarkView)
 	}
 }
 
 // MARK: - Loading Content
-private extension AdvancedServerView {
+private extension AdvancerContentView {
 	var severUrlView: some View {
 		VStack(spacing: Constants.spacing) {
-			checkMaskButton
+			buttonBack
 				.padding(.top, Constants.paddingTop)
 				.frame(maxWidth: .infinity, alignment: .leading)
-			Text("AdvancedServer.Title".localized)
-				.font(AppTheme.shared.fontSet.font(style: .body2))
-				.foregroundColor(foregroundBackButton)
+			checkMaskButton
 				.frame(maxWidth: .infinity, alignment: .leading)
-			CommonTextField(text: $severUrl,
-							inputStyle: $severUrlStyle,
-							inputIcon: AppTheme.shared.imageSet.mailIcon,
-							placeHolder: "AdvancedServer.ServerUrl".localized,
-							keyboardType: .default,
-							onEditingChanged: { isEditing in
-				if isEditing {
-					severUrlStyle = .normal
-				} else {
-					severUrlStyle = .highlighted
-				}
-			})
-			buttonSubmit
+			if isShowingView {
+				Text("AdvancedServer.Title".localized)
+					.font(AppTheme.shared.fontSet.font(style: .body2))
+					.foregroundColor(foregroundBackButton)
+					.frame(maxWidth: .infinity, alignment: .leading)
+				CommonTextField(text: $severUrl,
+								inputStyle: $severUrlStyle,
+								inputIcon: AppTheme.shared.imageSet.mailIcon,
+								placeHolder: "AdvancedServer.ServerUrl".localized,
+								keyboardType: .default,
+								onEditingChanged: { isEditing in
+					if isEditing {
+						severUrlStyle = .default
+					} else {
+						severUrlStyle = .highlighted
+					}
+				})
+				buttonSubmit
+				Spacer()
+			}
 			Spacer()
 		}
 		.padding(.all, Constants.padding)
@@ -125,11 +130,11 @@ private extension AdvancedServerView {
 
 	var buttonBack : some View {
 		Button(action: customBack) {
-			HStack {
+			HStack(spacing: Constants.spacing) {
 				AppTheme.shared.imageSet.backIcon
+					.renderingMode(.template)
 					.aspectRatio(contentMode: .fit)
 					.foregroundColor(foregroundBackButton)
-				Spacer()
 				Text("AdvancedServer.SeverSetting".localized)
 					.padding(.all)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
@@ -168,9 +173,9 @@ private extension AdvancedServerView {
 
 // MARK: - Preview
 #if DEBUG
-struct AdvancedServerView_Previews: PreviewProvider {
+struct AdvancerContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		AdvancedServerView(severUrl: "", severUrlStyle: (.normal))
+		AdvancerContentView(severUrl: "", severUrlStyle: (.default))
 	}
 }
 #endif

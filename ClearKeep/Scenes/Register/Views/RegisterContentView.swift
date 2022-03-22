@@ -25,6 +25,7 @@ struct RegisterContentView: View {
 	@Binding var nameStyle: TextInputStyle
 	@Binding var passwordStyle: TextInputStyle
 	@Binding var rePasswordStyle: TextInputStyle
+
 	// MARK: - Body
 	var body: some View {
 		GroupBox(label:
@@ -48,6 +49,7 @@ private extension RegisterContentView {
 	var backgroundColorView: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: backgroundColorButton), startPoint: .leading, endPoint: .trailing)
 	}
+	
 	var backgroundColorButton: [Color] {
 		AppTheme.shared.colorSet.gradientPrimary
 	}
@@ -60,19 +62,23 @@ private extension RegisterContentView {
 		AppTheme.shared.colorSet.primaryDefault
 	}
 }
+
 // MARK: - Private
 private extension RegisterContentView {
 	
 	var button: AnyView {
 		AnyView(buttonView)
 	}
+
 	var secureTexfield: AnyView {
 		AnyView(secureView)
 	}
+
 	var nomalTextfield: AnyView {
 		AnyView(nomalTextfieldView)
 	}
 }
+
 // MARK: - Loading Content
 private extension RegisterContentView {
 	var buttonView: some View {
@@ -135,6 +141,7 @@ private extension RegisterContentView {
 		}
 	}
 }
+
 // MARK: - Preview
 #if DEBUG
 struct RegisterContentView_Previews: PreviewProvider {

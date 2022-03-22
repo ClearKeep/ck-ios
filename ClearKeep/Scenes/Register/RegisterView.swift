@@ -21,6 +21,7 @@ private enum Constants {
 struct RegisterView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
+
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
@@ -33,7 +34,8 @@ struct RegisterView: View {
 	@State private(set) var nameStyle: TextInputStyle = .default
 	@State private(set) var passwordStyle: TextInputStyle = .default
 	@State private(set) var rePasswordStyle: TextInputStyle = .default
-	
+
+	// MARK: - Init
 	init(samples: Loadable<[IRegisterModel]> = .notRequested,
 		 email: String = "",
 		 username: String = "",
@@ -54,6 +56,7 @@ struct RegisterView: View {
 	self._passwordStyle = .init(initialValue: passwordStyle)
 	self._rePasswordStyle = .init(initialValue: rePasswordStyle)
 }
+
 	// MARK: - Body
 	var body: some View {
 			content
@@ -63,24 +66,29 @@ struct RegisterView: View {
 				.navigationBarBackButtonHidden(true)
 	}
 }
+
 // MARK: - Private variable
 private extension RegisterView {
 	var backgroundColorView: LinearGradient {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
 	}
+
 	var backgroundColorBlack: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
 	}
+
 	var backgroundColorGradient: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
 }
+
 // MARK: - Private
 private extension RegisterView {
 	var content: AnyView {
 		AnyView(notRequestedView)
 	}
 }
+
 // MARK: - Loading Content
 private extension RegisterView {
 	var notRequestedView: some View {
@@ -96,9 +104,8 @@ private extension RegisterView {
 		.padding(.horizontal, Constants.padding)
 	}
 }
+
 // MARK: - Interactors
-private extension RegisterView {
-}
 
 // MARK: - Preview
 #if DEBUG
