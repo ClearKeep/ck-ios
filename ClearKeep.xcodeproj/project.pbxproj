@@ -27,12 +27,7 @@
 		0499340F27E96DD7003BD4C4 /* FogotPasswordInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340A27E96DD7003BD4C4 /* FogotPasswordInteractor.swift */; };
 		0499341027E96DD7003BD4C4 /* FogotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340B27E96DD7003BD4C4 /* FogotPasswordView.swift */; };
 		0499341427E96E2F003BD4C4 /* FogotContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499341327E96E2F003BD4C4 /* FogotContentView.swift */; };
-		0499342627E96ED5003BD4C4 /* AdvanverSeverInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499342127E96ED5003BD4C4 /* AdvanverSeverInMemoryStore.swift */; };
-		0499342727E96ED5003BD4C4 /* AdvanverSeverWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499342227E96ED5003BD4C4 /* AdvanverSeverWorker.swift */; };
-		0499342827E96ED5003BD4C4 /* AdvanverSeverRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499342327E96ED5003BD4C4 /* AdvanverSeverRemoteStore.swift */; };
-		0499342927E96ED5003BD4C4 /* AdvanverSeverInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499342427E96ED5003BD4C4 /* AdvanverSeverInteractor.swift */; };
-		0499342A27E96ED5003BD4C4 /* AdvanverSeverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499342527E96ED5003BD4C4 /* AdvanverSeverView.swift */; };
-		0499342E27E96F09003BD4C4 /* AdvancerContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499342D27E96F09003BD4C4 /* AdvancerContentView.swift */; };
+		0499342E27E96F09003BD4C4 /* AdvancedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499342D27E96F09003BD4C4 /* AdvancedContentView.swift */; };
 		0499343527E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499343027E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift */; };
 		0499343627E96F8A003BD4C4 /* NewPasswordWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499343127E96F8A003BD4C4 /* NewPasswordWorker.swift */; };
 		0499343727E96F8A003BD4C4 /* NewPasswordRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499343227E96F8A003BD4C4 /* NewPasswordRemoteStore.swift */; };
@@ -45,6 +40,11 @@
 		0499344727E97035003BD4C4 /* ChangePasswordInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499344227E97035003BD4C4 /* ChangePasswordInteractor.swift */; };
 		0499344827E97035003BD4C4 /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499344327E97035003BD4C4 /* ChangePasswordView.swift */; };
 		0499344D27E97100003BD4C4 /* ChangePasswordContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499344C27E97100003BD4C4 /* ChangePasswordContentView.swift */; };
+		0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499344E27E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift */; };
+		0499345427E9A8BE003BD4C4 /* AdvancedSeverWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499344F27E9A8BE003BD4C4 /* AdvancedSeverWorker.swift */; };
+		0499345527E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499345027E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift */; };
+		0499345627E9A8BE003BD4C4 /* AdvancedSeverInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499345127E9A8BE003BD4C4 /* AdvancedSeverInteractor.swift */; };
+		0499345727E9A8BE003BD4C4 /* AdvancedSeverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499345227E9A8BE003BD4C4 /* AdvancedSeverView.swift */; };
 		68B04852200FE549288B41AA /* Pods_ClearKeep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726F45262AA71A1153B2BBF0 /* Pods_ClearKeep.framework */; };
 		9DA2BA0D69577B1EFA31611B /* Pods_NotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45CE63042B45F0DD53E1DE9F /* Pods_NotificationServiceExtension.framework */; };
 		B664E4414FD9CBFCDF6E7E5F /* Pods_ClearKeepUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 101250A451C5F0A0690F9F2E /* Pods_ClearKeepUITests.framework */; };
@@ -160,12 +160,7 @@
 		0499340A27E96DD7003BD4C4 /* FogotPasswordInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordInteractor.swift; sourceTree = "<group>"; };
 		0499340B27E96DD7003BD4C4 /* FogotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordView.swift; sourceTree = "<group>"; };
 		0499341327E96E2F003BD4C4 /* FogotContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotContentView.swift; sourceTree = "<group>"; };
-		0499342127E96ED5003BD4C4 /* AdvanverSeverInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvanverSeverInMemoryStore.swift; sourceTree = "<group>"; };
-		0499342227E96ED5003BD4C4 /* AdvanverSeverWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvanverSeverWorker.swift; sourceTree = "<group>"; };
-		0499342327E96ED5003BD4C4 /* AdvanverSeverRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvanverSeverRemoteStore.swift; sourceTree = "<group>"; };
-		0499342427E96ED5003BD4C4 /* AdvanverSeverInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvanverSeverInteractor.swift; sourceTree = "<group>"; };
-		0499342527E96ED5003BD4C4 /* AdvanverSeverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvanverSeverView.swift; sourceTree = "<group>"; };
-		0499342D27E96F09003BD4C4 /* AdvancerContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancerContentView.swift; sourceTree = "<group>"; };
+		0499342D27E96F09003BD4C4 /* AdvancedContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedContentView.swift; sourceTree = "<group>"; };
 		0499343027E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordInMemoryStore.swift; sourceTree = "<group>"; };
 		0499343127E96F8A003BD4C4 /* NewPasswordWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordWorker.swift; sourceTree = "<group>"; };
 		0499343227E96F8A003BD4C4 /* NewPasswordRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordRemoteStore.swift; sourceTree = "<group>"; };
@@ -178,6 +173,11 @@
 		0499344227E97035003BD4C4 /* ChangePasswordInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordInteractor.swift; sourceTree = "<group>"; };
 		0499344327E97035003BD4C4 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
 		0499344C27E97100003BD4C4 /* ChangePasswordContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordContentView.swift; sourceTree = "<group>"; };
+		0499344E27E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSeverInMemoryStore.swift; sourceTree = "<group>"; };
+		0499344F27E9A8BE003BD4C4 /* AdvancedSeverWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSeverWorker.swift; sourceTree = "<group>"; };
+		0499345027E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSeverRemoteStore.swift; sourceTree = "<group>"; };
+		0499345127E9A8BE003BD4C4 /* AdvancedSeverInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSeverInteractor.swift; sourceTree = "<group>"; };
+		0499345227E9A8BE003BD4C4 /* AdvancedSeverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSeverView.swift; sourceTree = "<group>"; };
 		101250A451C5F0A0690F9F2E /* Pods_ClearKeepUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClearKeepUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1516A55B0B481AAAEB3D95A3 /* Pods-NotificationServiceExtension.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationServiceExtension.production.xcconfig"; path = "Target Support Files/Pods-NotificationServiceExtension/Pods-NotificationServiceExtension.production.xcconfig"; sourceTree = "<group>"; };
 		1EB9790DAAC9857E42A9B145 /* Pods-NotificationServiceExtension.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationServiceExtension.qa.xcconfig"; path = "Target Support Files/Pods-NotificationServiceExtension/Pods-NotificationServiceExtension.qa.xcconfig"; sourceTree = "<group>"; };
@@ -375,24 +375,24 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		0499342027E96EBB003BD4C4 /* AdvancerSever */ = {
+		0499342027E96EBB003BD4C4 /* AdvancedServer */ = {
 			isa = PBXGroup;
 			children = (
 				0499342C27E96EE9003BD4C4 /* Models */,
 				0499342B27E96EE1003BD4C4 /* Views */,
-				0499342127E96ED5003BD4C4 /* AdvanverSeverInMemoryStore.swift */,
-				0499342227E96ED5003BD4C4 /* AdvanverSeverWorker.swift */,
-				0499342327E96ED5003BD4C4 /* AdvanverSeverRemoteStore.swift */,
-				0499342427E96ED5003BD4C4 /* AdvanverSeverInteractor.swift */,
-				0499342527E96ED5003BD4C4 /* AdvanverSeverView.swift */,
+				0499344E27E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift */,
+				0499344F27E9A8BE003BD4C4 /* AdvancedSeverWorker.swift */,
+				0499345027E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift */,
+				0499345127E9A8BE003BD4C4 /* AdvancedSeverInteractor.swift */,
+				0499345227E9A8BE003BD4C4 /* AdvancedSeverView.swift */,
 			);
-			path = AdvancerSever;
+			path = AdvancedServer;
 			sourceTree = "<group>";
 		};
 		0499342B27E96EE1003BD4C4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				0499342D27E96F09003BD4C4 /* AdvancerContentView.swift */,
+				0499342D27E96F09003BD4C4 /* AdvancedContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -543,7 +543,7 @@
 			isa = PBXGroup;
 			children = (
 				0499343E27E97015003BD4C4 /* ChangePassword */,
-				0499342027E96EBB003BD4C4 /* AdvancerSever */,
+				0499342027E96EBB003BD4C4 /* AdvancedServer */,
 				0499342F27E96F70003BD4C4 /* NewPassword */,
 				0499340627E96D9B003BD4C4 /* FogotPassWord */,
 				F553F85F27E820E600824BE7 /* Social Login */,
@@ -1103,7 +1103,6 @@
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				0499343527E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
-				0499342A27E96ED5003BD4C4 /* AdvanverSeverView.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				044351F727D9AFCA0054A78F /* IRegisterModel.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
@@ -1112,14 +1111,16 @@
 				F553F87127E820E600824BE7 /* SocialView.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
 				0499344527E97035003BD4C4 /* ChangePasswordWorker.swift in Sources */,
+				0499345727E9A8BE003BD4C4 /* AdvancedSeverView.swift in Sources */,
 				0499344D27E97100003BD4C4 /* ChangePasswordContentView.swift in Sources */,
+				0499345527E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift in Sources */,
 				CB40074727E8CCC800DFBE88 /* LoginContentView.swift in Sources */,
+				0499345427E9A8BE003BD4C4 /* AdvancedSeverWorker.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
 				047241AE27DB3D2C0043345A /* LoginWorker.swift in Sources */,
 				0499343927E96F8A003BD4C4 /* NewPasswordView.swift in Sources */,
 				044351F827D9AFCA0054A78F /* RegisterInteractor.swift in Sources */,
 				F553F86F27E820E600824BE7 /* SocialModel.swift in Sources */,
-				0499342827E96ED5003BD4C4 /* AdvanverSeverRemoteStore.swift in Sources */,
 				F553F87627E820E600824BE7 /* SocialConfirm.swift in Sources */,
 				CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */,
 				044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */,
@@ -1128,14 +1129,15 @@
 				0499344427E97035003BD4C4 /* ChangePasswordInMemoryStore.swift in Sources */,
 				047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */,
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
+				0499345627E9A8BE003BD4C4 /* AdvancedSeverInteractor.swift in Sources */,
 				CB117E8627BB6687000941D9 /* SampleModel.swift in Sources */,
 				0499343D27E96FC5003BD4C4 /* NewPasswordContenView.swift in Sources */,
 				F553F87527E820E600824BE7 /* SocialCommonStyle.swift in Sources */,
 				0499340F27E96DD7003BD4C4 /* FogotPasswordInteractor.swift in Sources */,
 				F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */,
 				0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */,
-				0499342727E96ED5003BD4C4 /* AdvanverSeverWorker.swift in Sources */,
 				044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */,
+				0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */,
 				F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
 				F553F87327E820E600824BE7 /* SocialVerify.swift in Sources */,
@@ -1145,7 +1147,6 @@
 				0499344827E97035003BD4C4 /* ChangePasswordView.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
-				0499342927E96ED5003BD4C4 /* AdvanverSeverInteractor.swift in Sources */,
 				0499343727E96F8A003BD4C4 /* NewPasswordRemoteStore.swift in Sources */,
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
 				0499344627E97035003BD4C4 /* ChangePasswordRemoteStore.swift in Sources */,
@@ -1158,8 +1159,7 @@
 				0472418227DB35550043345A /* HomeMenuView.swift in Sources */,
 				F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
-				0499342627E96ED5003BD4C4 /* AdvanverSeverInMemoryStore.swift in Sources */,
-				0499342E27E96F09003BD4C4 /* AdvancerContentView.swift in Sources */,
+				0499342E27E96F09003BD4C4 /* AdvancedContentView.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
 				047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,

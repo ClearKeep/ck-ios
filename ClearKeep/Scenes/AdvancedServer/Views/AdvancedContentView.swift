@@ -16,7 +16,7 @@ private enum Constants {
 	static let paddingTop = 50.0
 }
 
-struct AdvancerContentView: View {
+struct AdvancedContentView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
 
@@ -44,7 +44,7 @@ struct AdvancerContentView: View {
 }
 
 // MARK: - Private
-private extension AdvancerContentView {
+private extension AdvancedContentView {
 	var backgroundButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
@@ -76,7 +76,7 @@ private extension AdvancerContentView {
 }
 
 // MARK: - Private Func
-private extension AdvancerContentView {
+private extension AdvancedContentView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
@@ -95,7 +95,7 @@ private extension AdvancerContentView {
 }
 
 // MARK: - Loading Content
-private extension AdvancerContentView {
+private extension AdvancedContentView {
 	var severUrlView: some View {
 		VStack(spacing: Constants.spacing) {
 			buttonBack
@@ -173,9 +173,9 @@ private extension AdvancerContentView {
 
 // MARK: - Preview
 #if DEBUG
-struct AdvancerContentView_Previews: PreviewProvider {
+struct AdvancedContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		AdvancerContentView(severUrl: "", severUrlStyle: (.default))
+		AdvancedContentView(severUrl: "", severUrlStyle: (.default))
 	}
 }
 #endif
