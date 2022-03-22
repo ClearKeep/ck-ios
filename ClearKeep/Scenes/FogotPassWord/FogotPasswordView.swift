@@ -34,7 +34,7 @@ private extension FogotPasswordView {
 // MARK: - Loading Content
 private extension FogotPasswordView {
 	var notRequestedView: some View {
-		FogotContentView(email: "", emailStyle: .default)
+		FogotPasswordContentView(email: "", emailStyle: .default)
 	}
 }
 

@@ -1,5 +1,5 @@
 //
-//  FogotContentView.swift
+//  FogotPasswordContentView.swift
 //  ClearKeep
 //
 //  Created by MinhDev on 22/03/2022.
@@ -16,7 +16,7 @@ private enum Constants {
 	static let paddingtop = 50.0
 }
 
-struct FogotContentView: View {
+struct FogotPasswordContentView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
 
@@ -44,7 +44,7 @@ struct FogotContentView: View {
 }
 
 // MARK: - Private
-private extension FogotContentView {
+private extension FogotPasswordContentView {
 
 	var backgroundButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
@@ -65,7 +65,7 @@ private extension FogotContentView {
 }
 
 // MARK: - Private Func
-private extension FogotContentView {
+private extension FogotPasswordContentView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
@@ -76,7 +76,7 @@ private extension FogotContentView {
 }
 
 // MARK: - Loading Content
-private extension FogotContentView {
+private extension FogotPasswordContentView {
 	var fogotPasswordView: some View {
 		VStack(spacing: Constants.spacing) {
 			buttonBack
@@ -142,9 +142,9 @@ private extension FogotContentView {
 
 // MARK: - Preview
 #if DEBUG
-struct FogotContentView_Previews: PreviewProvider {
+struct FogotPasswordContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		FogotContentView(email: "", emailStyle: .default)
+		FogotPasswordContentView(email: "", emailStyle: .default)
 	}
 }
 #endif
