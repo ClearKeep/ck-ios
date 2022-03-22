@@ -17,7 +17,7 @@ private enum Constant {
 }
 
 struct CountryCode: View {
-	// MARK: Variables
+	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) private var colorScheme
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
@@ -29,10 +29,8 @@ struct CountryCode: View {
 	@State private(set) var isShowUserProfile = false
 	@Binding private(set) var selectedNum: String
 
-	// MARK: Init
-	init(selectedNum: Binding<String>, isShowing: Binding<Bool>, samples: Loadable<[IProfileModel]> = .notRequested,
-		 search: String = "",
-		 inputStyle: TextInputStyle = .default) {
+	// MARK: - Init
+	init(selectedNum: Binding<String>, isShowing: Binding<Bool>, samples: Loadable<[IProfileModel]> = .notRequested, search: String = "", inputStyle: TextInputStyle = .default) {
 		self._selectedNum = selectedNum
 		self._isShowing = isShowing
 		self._samples = .init(initialValue: samples)

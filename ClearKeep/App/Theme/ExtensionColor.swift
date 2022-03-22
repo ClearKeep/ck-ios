@@ -62,7 +62,7 @@ extension Color {
 }
 
 extension Binding {
-	func safeBinding<T>(defaultValue: T) -> Binding<T> where Value == Optional<T> {
+	func safeBinding<T>(defaultValue: T) -> Binding<T> where Value == T {
 		.init {
 			self.wrappedValue ?? defaultValue
 		} set: { newValue in
