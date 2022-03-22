@@ -104,7 +104,7 @@ private extension UserProfileContentView {
 			})
 			Spacer()
 			Button(action: { }, label: {
-				Text("UserProfile.save")
+				Text("UserProfile.Save".localized)
 					.foregroundColor(foregroundPrimary)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 			})
@@ -115,7 +115,7 @@ private extension UserProfileContentView {
 	var profileSettings: some View {
 		VStack(alignment: .leading, spacing: Constant.spacer) {
 			HStack {
-				Text("UserProfile.setting".localized)
+				Text("UserProfile.Setting".localized)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundColorSetting)
 				Spacer()
@@ -127,11 +127,11 @@ private extension UserProfileContentView {
 						.fill(backgroundColorGradient)
 						.frame(width: Constant.heightBackground, height: Constant.heightBackground)
 					VStack(spacing: Constant.spacerSetting) {
-						Text("UserProfile.picture.change".localized)
+						Text("UserProfile.Picture.Change".localized)
 							.font(AppTheme.shared.fontSet.font(style: .body3))
 							.foregroundColor(foregroundPrimary)
 							.frame(maxWidth: .infinity, alignment: .leading)
-						Text("UserProfile.picture.size".localized)
+						Text("UserProfile.Picture.Size".localized)
 							.font(AppTheme.shared.fontSet.font(style: .placeholder3))
 							.foregroundColor(foregroundColorSetting)
 							.padding(.bottom, Constant.spacerSettingBottom)
@@ -145,14 +145,14 @@ private extension UserProfileContentView {
 
 	var textInput: some View {
 		VStack(alignment: .leading, spacing: Constant.spacer) {
-			Text("UserProfile.username".localized)
+			Text("UserProfile.Username".localized)
 				.font(AppTheme.shared.fontSet.font(style: .input3))
 				.foregroundColor(foregroundGrey1)
 
 			CommonTextField(text: $username,
 							inputStyle: $usernameStyle,
 							inputIcon: Image(""),
-							placeHolder: "UserProfile.username".localized,
+							placeHolder: "UserProfile.Username".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
 				if isEditing {
@@ -162,14 +162,14 @@ private extension UserProfileContentView {
 				}
 			})
 
-			Text("UserProfile.email".localized)
+			Text("UserProfile.Email".localized)
 				.font(AppTheme.shared.fontSet.font(style: .input3))
 				.foregroundColor(foregroundGrey1)
 
 			CommonTextField(text: $email,
 							inputStyle: $emailStyle,
 							inputIcon: Image(""),
-							placeHolder: "UserProfile.email".localized,
+							placeHolder: "UserProfile.Email".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
 				if isEditing {
@@ -179,7 +179,7 @@ private extension UserProfileContentView {
 				}
 			})
 
-			Text("UserProfile.phoneNumber".localized)
+			Text("UserProfile.PhoneNumber".localized)
 				.font(AppTheme.shared.fontSet.font(style: .input3))
 				.foregroundColor(foregroundGrey1)
 
@@ -199,7 +199,7 @@ private extension UserProfileContentView {
 				CommonTextField(text: $phone,
 								inputStyle: $phoneStyle,
 								inputIcon: Image(""),
-								placeHolder: "UserProfile.phoneNumber".localized,
+								placeHolder: "UserProfile.PhoneNumber".localized,
 								keyboardType: .default,
 								onEditingChanged: { isEditing in
 					if isEditing {
@@ -211,7 +211,7 @@ private extension UserProfileContentView {
 			}
 			Button(action: buttonSupport) {
 				HStack {
-					Text("UserProfile.link.copy".localized)
+					Text("UserProfile.Link.Copy".localized)
 						.font(AppTheme.shared.fontSet.font(style: .body3))
 						.foregroundColor(foregroundPrimary)
 
@@ -223,7 +223,7 @@ private extension UserProfileContentView {
 
 			Button(action: buttonSupport) {
 				HStack {
-					Text("UserProfile.password.change".localized)
+					Text("UserProfile.Password.Change".localized)
 						.font(AppTheme.shared.fontSet.font(style: .body3))
 						.foregroundColor(foregroundPrimary)
 
@@ -238,19 +238,19 @@ private extension UserProfileContentView {
 	var twoFactor: some View {
 		VStack(spacing: 20) {
 			HStack {
-				Text("UserProfile.authen.2fa".localized)
+				Text("UserProfile.Authen.2fa".localized)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundBlack)
 
 				Spacer()
 				Button(action: buttonSupport) {
-					Text("Disable")
+					Text("UserProfile.Disable".localized)
 						.font(AppTheme.shared.fontSet.font(style: .body3))
 						.foregroundColor(foregroundPrimary)
 				}
 			}
 			HStack {
-				Text("UserProfile.2FA.title".localized)
+				Text("UserProfile.2FA.Title".localized)
 					.font(AppTheme.shared.fontSet.font(style: .input3))
 					.foregroundColor(foregroundGrey1)
 				Spacer()
