@@ -12,19 +12,12 @@ import CommonUI
 
 private enum Constant {
 	static let spacerResend = 10.0
-	static let spacerBottomView = 20.0
-	static let spacer = 25.0
-	static let spacerBottom = 45.0
-	static let widthLogo = 160.0
-	static let heightLogo = 120.0
+	static let spacerTopView = 90.0
+	static let spacer = 20.0
 	static let paddingVertical = 14.0
 	static let paddingHorizontal = 24.0
-	static let paddingHorizontalSignUp = 60.0
-	static let widthIconButton = 54.0
 	static let heightButton = 40.0
-	static let radius = 40.0
-	static let heightRectangle = 1.0
-	static let lineWidthBorder = 3.0
+	static let cornerRadius = 40.0
 }
 
 struct TwoFactorContentView: View {
@@ -66,7 +59,7 @@ private extension TwoFactorContentView {
 	var notRequestedView: some View {
 		VStack(spacing: Constant.spacer) {
 				buttonBack
-					.padding(.top, 90)
+				.padding(.top, Constant.spacerTopView)
 				titleView.padding(.top, Constant.paddingVertical)
 				textInputView.padding(.top, Constant.paddingVertical)
 				resendCode
@@ -89,7 +82,7 @@ private extension TwoFactorContentView {
 				.font(AppTheme.shared.fontSet.font(style: .body3))
 				.background(backgroundColorView)
 				.foregroundColor(foregroundColorView)
-				.cornerRadius(Constant.radius)
+				.cornerRadius(Constant.cornerRadius)
 			})
 	}
 
@@ -120,14 +113,13 @@ private extension TwoFactorContentView {
 						  inputStyle: $passcodeStyle)
 		}
 		.frame(maxWidth: .infinity, alignment: .center)
-//		.background(Color.red)
-		.padding(.horizontal, 40)
+		.padding(.horizontal, Constant.cornerRadius)
 
 	}
 
 	var titleView: some View {
 		HStack {
-			Text("2fa.Title")
+			Text("2fa.Title".localized)
 				.font(AppTheme.shared.fontSet.font(style: .placeholder1))
 				.foregroundColor(foregroundMessage)
 			Spacer()
@@ -136,10 +128,10 @@ private extension TwoFactorContentView {
 
 	var resendCode: some View {
 		VStack(alignment: .center, spacing: Constant.spacerResend) {
-			Text("2fa.DontGetCode")
+			Text("2fa.DontGetCode".localized)
 				.font(AppTheme.shared.fontSet.font(style: .input2))
 				.foregroundColor(foregroundColorWhite)
-			Text("2fa.ResendCode")
+			Text("2fa.ResendCode".localized)
 				.font(AppTheme.shared.fontSet.font(style: .body2))
 				.foregroundColor(foregroundColorMessage)
 		}

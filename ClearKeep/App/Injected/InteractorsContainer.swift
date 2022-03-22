@@ -11,7 +11,7 @@ extension DIContainer {
 		let homeInteractor: IHomeInteractor
 		
 		static var stub: Self {
-			.init(homeInteractor: StubHomeInteractor(sampleAPIService: DependencyResolver.shared.sampleAPIService))
+			.init(homeInteractor: StubHomeInteractor(channelStorage: DependencyResolver.shared.channelStorage))
 		}
 	}
 }

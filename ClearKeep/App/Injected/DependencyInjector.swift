@@ -9,6 +9,7 @@
 import SwiftUI
 import Combine
 import Common
+import ChatSecure
 
 // MARK: - DIContainer
 

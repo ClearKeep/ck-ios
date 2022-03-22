@@ -6,6 +6,7 @@
 //
 
 import Common
+import ChatSecure
 
 protocol IHomeInteractor {
 	var worker: IHomeWorker { get }
@@ -13,22 +14,22 @@ protocol IHomeInteractor {
 
 struct HomeInteractor {
 	let appState: Store<AppState>
-	let sampleAPIService: IAPIService
+	let channelStorage: IChannelStorage
 }
 
 extension HomeInteractor: IHomeInteractor {
 	var worker: IHomeWorker {
-		let remoteStore = HomeRemoteStore(sampleAPIService: sampleAPIService)
+		let remoteStore = HomeRemoteStore(channelStorage: channelStorage)
 		let inMemoryStore = HomeInMemoryStore()
 		return HomeWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 }
 
 struct StubHomeInteractor: IHomeInteractor {
-	let sampleAPIService: IAPIService
+	let channelStorage: IChannelStorage
 	
 	var worker: IHomeWorker {
-		let remoteStore = HomeRemoteStore(sampleAPIService: sampleAPIService)
+		let remoteStore = HomeRemoteStore(channelStorage: channelStorage)
 		let inMemoryStore = HomeInMemoryStore()
 		return HomeWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}

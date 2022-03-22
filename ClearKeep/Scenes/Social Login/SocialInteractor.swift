@@ -13,22 +13,19 @@ protocol ISocialInteractor {
 
 struct SocialInteractor {
 	let appState: Store<AppState>
-	let sampleAPIService: IAPIService
 }
 
 extension SocialInteractor: ISocialInteractor {
 	var worker: ISocialWorker {
-		let remoteStore = SocialRemoteStore(sampleAPIService: sampleAPIService)
+		let remoteStore = SocialRemoteStore()
 		let inMemoryStore = SocialInMemoryStore()
 		return SocialWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 }
 
 struct StubSocialInteractor: ISocialInteractor {
-	let sampleAPIService: IAPIService
-
 	var worker: ISocialWorker {
-		let remoteStore = SocialRemoteStore(sampleAPIService: sampleAPIService)
+		let remoteStore = SocialRemoteStore()
 		let inMemoryStore = SocialInMemoryStore()
 		return SocialWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
