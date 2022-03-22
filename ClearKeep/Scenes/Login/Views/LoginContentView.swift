@@ -141,7 +141,7 @@ private extension LoginContentView {
 	
 	var socialLoginButtonView: some View {
 		HStack(spacing: Constant.spacerBottom) {
-			NavigationLink(destination: SocialView(security: "")) {
+			NavigationLink(destination: ChangePasswordView()) {
 				AppTheme.shared.imageSet.googleIcon
 			}
 			
