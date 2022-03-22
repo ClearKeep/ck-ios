@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Foundation
 
 protocol ISocialModel {
 	var id: Int { get }

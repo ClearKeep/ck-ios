@@ -3,7 +3,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 ##################
 # App
 ##################
-workspace "iOSBase-SwiftUI"
+workspace "ClearKeep"
 platform :ios, '14.0'
 
 ##################
@@ -17,7 +17,12 @@ use_frameworks!
 # Pods
 ##################
 def common
+	pod 'Common', :path => './Packages/Common'
+	pod 'CommonUI', :path => './Packages/CommonUI'
 	pod 'ChatSecure', :path => './Packages/ChatSecure'
+	pod 'Networking', :path => './Packages/Networking'
+	pod 'SwiftSRP', :path => './Packages/SwiftSRP'
+	pod 'GoogleWebRTC'
 end
 
 def xctools
@@ -25,6 +30,10 @@ def xctools
 end
 
 def analytics
+end
+
+def security
+	pod 'KeychainAccess'
 end
 
 def utilities
@@ -36,6 +45,7 @@ end
 
 def shared
 	common
+	security
 	ui
 end
 
@@ -57,6 +67,10 @@ end
 
 target 'ClearKeepUITests' do
 	# Pods for testing
+end
+
+target 'NotificationServiceExtension' do
+	# Pods for notification extension
 end
 
 post_install do |installer|

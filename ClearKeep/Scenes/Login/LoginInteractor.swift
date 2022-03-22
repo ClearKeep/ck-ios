@@ -13,22 +13,19 @@ protocol ILoginInteractor {
 
 struct LoginInteractor {
 	let appState: Store<AppState>
-	let sampleAPIService: IAPIService
 }
 
 extension LoginInteractor: ILoginInteractor {
 	var worker: ILoginWorker {
-		let remoteStore = LoginRemoteStore(sampleAPIService: sampleAPIService)
+		let remoteStore = LoginRemoteStore()
 		let inMemoryStore = LoginInMemoryStore()
 		return LoginWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 }
 
 struct StubLoginInteractor: ILoginInteractor {
-	let sampleAPIService: IAPIService
-
 	var worker: ILoginWorker {
-		let remoteStore = LoginRemoteStore(sampleAPIService: sampleAPIService)
+		let remoteStore = LoginRemoteStore()
 		let inMemoryStore = LoginInMemoryStore()
 		return LoginWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}

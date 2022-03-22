@@ -1,5 +1,5 @@
 for_platform :ios do
-    workspace("ClearKeep.xcodeproj")
+    workspace("ClearKeep.xcworkspace")
     include_bitcode(true)
     clean(true)
     output_name("ClearKeep")

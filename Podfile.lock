@@ -2,15 +2,12 @@ PODS:
   - _NIODataStructures (2.38.0)
   - CGRPCZlib (1.7.1)
   - ChatSecure (1.0.0):
-    - CryptoSwift
     - GoogleWebRTC
-    - gRPC-Swift
     - Mantle
-    - OpenSSL-Universal
-    - RealmSwift
+    - Networking
     - SignalProtocolObjC
     - SocketRocket
-    - SwiftProtobuf
+    - SwiftSRP
     - YapDatabase
   - CNIOAtomics (2.38.0)
   - CNIOBoringSSL (2.15.1)
@@ -20,6 +17,10 @@ PODS:
   - CNIOHTTPParser (2.38.0)
   - CNIOLinux (2.38.0)
   - CNIOWindows (2.38.0)
+  - Common (1.0.0):
+    - KeychainAccess
+  - CommonUI (1.0.0):
+    - Common
   - CryptoSwift (1.4.3)
   - GoogleWebRTC (1.1.31999)
   - gRPC-Swift (1.7.1):
@@ -31,17 +32,16 @@ PODS:
     - SwiftNIOSSL (< 3.0.0, >= 2.14.0)
     - SwiftNIOTransportServices (< 2.0.0, >= 1.11.1)
     - SwiftProtobuf (< 2.0.0, >= 1.9.0)
+  - KeychainAccess (4.2.2)
   - Logging (1.4.0)
   - Mantle (2.2.0):
     - Mantle/extobjc (= 2.2.0)
   - Mantle/extobjc (2.2.0)
   - netfox (1.20.0)
+  - Networking (1.0.0):
+    - gRPC-Swift
+    - SwiftProtobuf
   - OpenSSL-Universal (1.1.1400)
-  - Realm (10.24.1):
-    - Realm/Headers (= 10.24.1)
-  - Realm/Headers (10.24.1)
-  - RealmSwift (10.24.1):
-    - Realm (= 10.24.1)
   - SignalProtocolC (2.3.2)
   - SignalProtocolObjC (1.1.0):
     - SignalProtocolC (~> 2.3.2)
@@ -104,6 +104,9 @@ PODS:
     - SwiftNIOFoundationCompat (< 3, >= 2.32.0)
     - SwiftNIOTLS (< 3, >= 2.32.0)
   - SwiftProtobuf (1.19.0)
+  - SwiftSRP (1.0.0):
+    - CryptoSwift
+    - OpenSSL-Universal
   - YapDatabase (4.0.1):
     - YapDatabase/Standard (= 4.0.1)
   - YapDatabase/Standard (4.0.1):
@@ -213,8 +216,14 @@ PODS:
 
 DEPENDENCIES:
   - ChatSecure (from `./Packages/ChatSecure`)
+  - Common (from `./Packages/Common`)
+  - CommonUI (from `./Packages/CommonUI`)
+  - GoogleWebRTC
+  - KeychainAccess
   - netfox
+  - Networking (from `./Packages/Networking`)
   - SwiftLint
+  - SwiftSRP (from `./Packages/SwiftSRP`)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -230,12 +239,11 @@ SPEC REPOS:
     - CryptoSwift
     - GoogleWebRTC
     - gRPC-Swift
+    - KeychainAccess
     - Logging
     - Mantle
     - netfox
     - OpenSSL-Universal
-    - Realm
-    - RealmSwift
     - SignalProtocolC
     - SignalProtocolObjC
     - SocketRocket
@@ -259,11 +267,19 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   ChatSecure:
     :path: "./Packages/ChatSecure"
+  Common:
+    :path: "./Packages/Common"
+  CommonUI:
+    :path: "./Packages/CommonUI"
+  Networking:
+    :path: "./Packages/Networking"
+  SwiftSRP:
+    :path: "./Packages/SwiftSRP"
 
 SPEC CHECKSUMS:
   _NIODataStructures: d8175e5ca5a34ec19b7ff21de298dd2a4d30818d
   CGRPCZlib: 8b4c1074399f6ba2db3361862d4340d57d7b77f0
-  ChatSecure: f8cd79ee74a5f4934636363806a9123edc5cf299
+  ChatSecure: 6d5f5a3d2ec032c36bf92d2f01533fec7dc563b7
   CNIOAtomics: 00b638e1b0dac91d06d4bb089ea9126c117c6650
   CNIOBoringSSL: c99129423da079a9eb74bcfc7cfec41a6775cf94
   CNIOBoringSSLShims: 902ae35fea0b6be5eefb4fdce906751886cfa46f
@@ -271,15 +287,17 @@ SPEC CHECKSUMS:
   CNIOHTTPParser: f3bd2955c9c8669ea2ae0f1f4f03df1fea2ed90d
   CNIOLinux: f8801300bb296d16dee59a82aba1613a08cfbe23
   CNIOWindows: 1cc6fb2af1d445f52f2d39cecf7069873f7d5b0d
+  Common: 9ca33d62db967fd912890469f5c1ef3b1e9bcc48
+  CommonUI: affc673083c51cd8c1942e6e810e3a29ec20f539
   CryptoSwift: a0799ee936271bd2253a006f1e4523df21845000
   GoogleWebRTC: b39a78c4f5cc6b0323415b9233db03a2faa7b0f0
   gRPC-Swift: c5541e5fed500f45d31bf1369cecec753d1007e2
+  KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
   Logging: beeb016c9c80cf77042d62e83495816847ef108b
   Mantle: c5aa8794a29a022dfbbfc9799af95f477a69b62d
   netfox: 6b5c9724304b0cd99ca8515ac732a9f710e4ea5f
+  Networking: ee4c8cf8a599c79344aa9acaa34ba5c365863b32
   OpenSSL-Universal: cd40d7493c1e9696794f62e2a0e8c729115b7188
-  Realm: f9bc5a212a9ab084b4ed90cda1c28d835a38a06b
-  RealmSwift: 0b03bb38001bee4280dcc27709e6b33f438cfad1
   SignalProtocolC: 051512e9f3abfeb4120c5e9673af9ae0ee370070
   SignalProtocolObjC: b992ed29c3b7b453510ff0102ed16ef143f7efd2
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
@@ -298,8 +316,9 @@ SPEC CHECKSUMS:
   SwiftNIOTLS: 0182f05297af9faa8e03f63be3fed637523496d4
   SwiftNIOTransportServices: 1fbbdb58510af3c53a838a1dbea98f18132dc952
   SwiftProtobuf: 6ef3f0e422ef90d6605ca20b21a94f6c1324d6b3
+  SwiftSRP: 383b585bae7ed60f824f4959d12ee406a70466c1
   YapDatabase: 350ab72b61f9dcc32504594da1a52a93f5ef1476
 
-PODFILE CHECKSUM: 8e7f8bcf9d6e3303a7ceda8c2769276f25d90782
+PODFILE CHECKSUM: 696ed08cf5744848e327be04fbc082cefea9c18b
 
 COCOAPODS: 1.11.2

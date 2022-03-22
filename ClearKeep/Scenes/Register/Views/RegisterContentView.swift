@@ -7,8 +7,6 @@
 
 import SwiftUI
 import CommonUI
-import RealmSwift
-import SwiftUIX
 
 private enum Constants {
 	static let radius = 20.0

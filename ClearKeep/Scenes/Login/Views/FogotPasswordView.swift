@@ -101,6 +101,7 @@ private extension FogotPasswordView {
 		Button(action: customBack) {
 			HStack {
 				AppTheme.shared.imageSet.backIcon
+					.renderingMode(.template)
 					.aspectRatio(contentMode: .fit)
 					.foregroundColor(foregroundBackButton)
 				Spacer()

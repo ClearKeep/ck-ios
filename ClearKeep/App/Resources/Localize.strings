@@ -1,21 +1,29 @@
 // MARK: - General
 "General.Search" = "Search...";
+"General.Email" = "Email";
+"General.DisplayName" = "Display Name";
+"General.Password" = "Password";
+"General.ConfirmPassword" = "Confirm Password";
+"General.Save" = "Save";
+"General.Notification" = "Notification";
+"General.Online" = "Online";
+"General.Busy" = "Busy";
 
 // MARK: - Social Login
-"Social.setPhrase.back" = "Set Your Security Phrase";
-"Social.confirmPhrase.back" = "Confirm Your Security Phrase";
-"Social.title.set" = "Security Phrase keep information stored with Clearkeep encrypted so only you can access it.";
-"Social.title.confirm" = "Remember this security phrase. If you forget it, you'll need to reset your account and all data will be erased.";
-"Social.security.set" = "Security Phrase";
-"Social.security.confirm" = "Confirm Security Phrase";
-"Social.security.thanos" = "Thanos is the legend";
-"Social.message" = "Your passphrase should be at least 3 words and 15 characters in length";
-"Social.next" = "Next";
-"Social.verify.back" = "Enter Your Security Phrase";
-"Social.title.verify" = "Please enter your security phrase";
-"Social.input.verify" = "Security phrase";
-"Social.forgot.verify" = "Forgot phrase?";
-"Social.verify.next" = "Verify";
+"Social.SetPhrase.Back" = "Set Your Security Phrase";
+"Social.ConfirmPhrase.Back" = "Confirm Your Security Phrase";
+"Social.Title.Set" = "Security Phrase keep information stored with Clearkeep encrypted so only you can access it.";
+"Social.Title.Confirm" = "Remember this security phrase. If you forget it, you'll need to reset your account and all data will be erased.";
+"Social.Security.Set" = "Security Phrase";
+"Social.Security.Confirm" = "Confirm Security Phrase";
+"Social.Security.Thanos" = "Thanos is the legend";
+"Social.Message" = "Your passphrase should be at least 3 words and 15 characters in length";
+"Social.Next" = "Next";
+"Social.Verify.Back" = "Enter Your Security Phrase";
+"Social.Title.Verify" = "Please enter your security phrase";
+"Social.Input.Verify" = "Security phrase";
+"Social.Forgot.Verify" = "Forgot phrase?";
+"Social.Verify.Next" = "Verify";
 
 // MARK: - User Profile
 "UserProfile.save" = "Save";
@@ -37,11 +45,7 @@
 // MARK: - Country Codes
 "Country.code" = "Country Codes";
 "Country.search" = "Search";
-"General.Email" = "Email";
-"General.DisplayName" = "Display Name";
-"General.Password" = "Password";
-"General.ConfirmPassword" = "Confirm Password";
-"General.Save" = "Save";
+
 // MARK: - Login
 "Login.SignInWith" = "Sign in with";
 "Login.SignIn" = "Sign in";
@@ -70,3 +74,11 @@
 "AdvancedServer.SeverButton" = "Use Custom Server";
 "AdvancedServer.Submit" = "Submit";
 "AdvancedServer.ServerUrl" = "Server URL";
+// MARK: - Home
+"Home.Title" = "CK Development";
+"Home.Menu" = "Menu";
+"Home.Profile" = "Profile";
+"Home.Server" = "Sever";
+"Home.GroupChat" = "Group Chat";
+"Home.Message" = "Direct Messages";
+"Home.Signout" = "Sign out";
