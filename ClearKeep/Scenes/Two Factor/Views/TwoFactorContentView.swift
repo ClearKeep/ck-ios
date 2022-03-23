@@ -189,7 +189,7 @@ private extension TwoFactorContentView {
 	}
 
 	var foregroundMessage: Color {
-		colorScheme == .light ? foregroundColorBackground : foregroundColorGrey
+		colorScheme == .light ? foregroundColorBackground : foregroundColorWhite
 	}
 }
 
