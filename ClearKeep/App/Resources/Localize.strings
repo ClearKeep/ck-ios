@@ -1,5 +1,13 @@
 // MARK: - General
 "General.Search" = "Search...";
+"General.Email" = "Email";
+"General.DisplayName" = "Display Name";
+"General.Password" = "Password";
+"General.ConfirmPassword" = "Confirm Password";
+"General.Save" = "Save";
+"General.Notification" = "Notification";
+"General.Online" = "Online";
+"General.Busy" = "Busy";
 
 // MARK: - Social Login
 "Social.SetPhrase.Back" = "Set Your Security Phrase";
@@ -16,14 +24,28 @@
 "Social.Input.Verify" = "Security phrase";
 "Social.Forgot.Verify" = "Forgot phrase?";
 "Social.Verify.Next" = "Verify";
-"General.Email" = "Email";
-"General.DisplayName" = "Display Name";
-"General.Password" = "Password";
-"General.ConfirmPassword" = "Confirm Password";
-"General.Save" = "Save";
-"General.Notification" = "Notification";
-"General.Online" = "Online";
-"General.Busy" = "Busy";
+
+// MARK: - User Profile
+"UserProfile.Save" = "Save";
+"UserProfile.Setting" = "Profile Settings";
+"UserProfile.Picture.Change" = "Change profile picture";
+"UserProfile.Picture.Size" = "Maximum file size 5MB";
+"UserProfile.Username" = "Username";
+"UserProfile.Email" = "Email";
+"UserProfile.PhoneNumber" = "Phone Number";
+"UserProfile.Link.Copy" = "Copy Profile Link";
+"UserProfile.Password.Change" = "Change Password";
+"UserProfile.2FA" = "Two-factor authentication";
+"UserProfile.2FA.Title" = "Give your account more protection over scam and account hacking";
+"UserProfile.Enable" = "Enable";
+"UserProfile.Disable" = "Disable";
+"UserProfile.Code.Country" = "Country Codes";
+"UserProfile.Authen.2FA" = "Two-factor authentication";
+
+// MARK: - Country Codes
+"Country.Code" = "Country Codes";
+"Country.Search" = "Search";
+
 // MARK: - Login
 "Login.SignInWith" = "Sign in with";
 "Login.SignIn" = "Sign in";

@@ -9,6 +9,7 @@ import SwiftUI
 
 private enum Constants {
 	static let cornerRadius: CGFloat = 16.0
+	static let cornerRadiusPasscode: CGFloat = 8.0
 }
 
 protocol ITextInputStyle {
@@ -107,6 +108,10 @@ public enum TextInputStyle: ITextInputStyle {
 	
 	public var cornerRadius: CGFloat {
 		return Constants.cornerRadius
+	}
+
+	public var cornerRadiusPasscode: CGFloat {
+		return Constants.cornerRadiusPasscode
 	}
 	
 	public var borderWidth: CGFloat {
