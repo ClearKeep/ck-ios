@@ -63,7 +63,7 @@ private extension TwoFactorContentView {
 // MARK: - Loading Content
 private extension TwoFactorContentView {
 	var notRequestedView: some View {
-		VStack() {
+		VStack {
 			buttonBackView
 				.padding(.top, Constant.spacerTopView)
 			titleView.padding(.top, Constant.paddingVertical)
@@ -204,12 +204,12 @@ private extension TwoFactorContentView {
 	}
 
 	var foregroundMessage: Color {
-		colorScheme == .light ? foregroundColorBackground : foregroundColorGrey
+		colorScheme == .light ? foregroundColorBackground : foregroundColorWhite
 	}
 }
 
 struct TwoFactorContentView_Previews: PreviewProvider {
-    static var previews: some View {
+	static var previews: some View {
 		TwoFactorContentView()
     }
 }

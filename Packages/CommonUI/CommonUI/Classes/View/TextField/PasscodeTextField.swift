@@ -83,7 +83,7 @@ private extension PasscodeTextField {
 }
 
 struct PasscodeTextField_Previews: PreviewProvider {
-    static var previews: some View {
+	static var previews: some View {
 		PasscodeTextField(text: .constant("Test"), inputStyle: .constant(.error(message: "Error")))
     }
 }
