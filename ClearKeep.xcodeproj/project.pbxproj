@@ -102,6 +102,8 @@
 		F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37EE27E97FF20085CECE /* ProfileModel.swift */; };
 		F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37F027E97FF20085CECE /* CountryCode.swift */; };
 		F5CE37F427E97FF20085CECE /* UserProfileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */; };
+		F5E01A0527EB202500FDACE2 /* TwoFactorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A0427EB202500FDACE2 /* TwoFactorModel.swift */; };
+		F5E01A0727EB205700FDACE2 /* TwoFactorContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A0627EB205700FDACE2 /* TwoFactorContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -262,6 +264,8 @@
 		F5CE37EE27E97FF20085CECE /* ProfileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		F5CE37F027E97FF20085CECE /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileContentView.swift; sourceTree = "<group>"; };
+		F5E01A0427EB202500FDACE2 /* TwoFactorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorModel.swift; sourceTree = "<group>"; };
+		F5E01A0627EB205700FDACE2 /* TwoFactorContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -548,6 +552,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				F5E01A0127EB1FC700FDACE2 /* TwoFactor */,
 				F5CE37EC27E97FF20085CECE /* Profile */,
 				0499343E27E97015003BD4C4 /* ChangePassword */,
 				0499342027E96EBB003BD4C4 /* AdvancedServer */,
@@ -821,6 +826,31 @@
 			children = (
 				F5CE37F027E97FF20085CECE /* CountryCode.swift */,
 				F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F5E01A0127EB1FC700FDACE2 /* TwoFactor */ = {
+			isa = PBXGroup;
+			children = (
+				F5E01A0327EB1FE100FDACE2 /* Views */,
+				F5E01A0227EB1FDA00FDACE2 /* Models */,
+			);
+			path = TwoFactor;
+			sourceTree = "<group>";
+		};
+		F5E01A0227EB1FDA00FDACE2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F5E01A0427EB202500FDACE2 /* TwoFactorModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F5E01A0327EB1FE100FDACE2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F5E01A0627EB205700FDACE2 /* TwoFactorContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1181,6 +1211,7 @@
 				0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */,
 				0499344827E97035003BD4C4 /* ChangePasswordView.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
+				F5E01A0527EB202500FDACE2 /* TwoFactorModel.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
 				0499343727E96F8A003BD4C4 /* NewPasswordRemoteStore.swift in Sources */,
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
@@ -1197,6 +1228,7 @@
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
 				0499342E27E96F09003BD4C4 /* AdvancedContentView.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
+				F5E01A0727EB205700FDACE2 /* TwoFactorContentView.swift in Sources */,
 				047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
 				CB40073027E74E1900DFBE88 /* Configuration.swift in Sources */,
