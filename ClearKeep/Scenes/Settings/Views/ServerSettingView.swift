@@ -14,6 +14,7 @@ private enum Constant {
 	static let spacer = 25.0
 	static let paddingVertical = 14.0
 	static let paddingHorizontal = 24.0
+	static let heightBackground = 60.0
 }
 
 struct ServerSettingView: View {
@@ -26,23 +27,30 @@ struct ServerSettingView: View {
 //	@Binding var isShowing: Bool
 	@State private(set) var samples: Loadable<[IServerSettingModel]>
 	@State private(set) var serverName: String
+	@State private(set) var serverUrl: String
 	@State private(set) var serverStyle: TextInputStyle = .default
+	@State private(set) var serverUrlStyle: TextInputStyle = .default
 	@State private(set) var isShowUserProfile = false
 
 	// MARK: - Init
-	init(samples: Loadable<[IServerSettingModel]> = .notRequested, serverName: String = "", inputStyle: TextInputStyle = .default) {
+	init(samples: Loadable<[IServerSettingModel]> = .notRequested,
+		 serverName: String = "",
+		 inputStyle: TextInputStyle = .default,
+		 serverUrl: String = "") {
 //		self._isShowing = isShowing
 		self._samples = .init(initialValue: samples)
 		self._serverName = .init(initialValue: serverName)
 		self._serverStyle = .init(initialValue: inputStyle)
+		self._serverUrl = .init(initialValue: serverUrl)
+		self._serverUrlStyle = .init(initialValue: inputStyle)
 	}
 
 	// MARK: Body
-    var body: some View {
+	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.navigationBarBackButtonHidden(true)
-    }
+	}
 }
 
 // MARK: - Private
@@ -56,11 +64,18 @@ private extension ServerSettingView {
 private extension ServerSettingView {
 	var notRequestedView: some View {
 		VStack(spacing: Constant.spacer) {
-			buttonTop
-			title
-			searchInput
+			backgroundColorTop
+				.frame(maxWidth: .infinity, maxHeight: Constant.heightBackground)
+			VStack(spacing: Constant.spacer) {
+				buttonTop
+				title
+				serverNameInput
+				serverUrlInput
+				Spacer()
+			}
+			.padding(.horizontal, Constant.paddingHorizontal)
 		}
-		.padding(.horizontal, Constant.paddingHorizontal)
+		.edgesIgnoringSafeArea(.all)
 	}
 
 	var buttonTop: some View {
@@ -76,28 +91,17 @@ private extension ServerSettingView {
 	}
 
 	var title: some View {
-		Text("Country.Code".localized)
+		Text("Server.Title".localized)
 			.frame(maxWidth: .infinity, alignment: .leading)
 			.font(AppTheme.shared.fontSet.font(style: .body1))
 	}
 
-	var searchInput: some View {
-//		SearchTextField(searchText: $search,
-//						inputStyle: $searchStyle,
-//						inputIcon: AppTheme.shared.imageSet.searchIcon,
-//						placeHolder: "Country.Search".localized,
-//						onEditingChanged: { isEditing in
-//			if isEditing {
-//				searchStyle = .normal
-//			} else {
-//				searchStyle = .highlighted
-//			}
-//		})
-		VStack {
-			Text("Server name")
+	var serverNameInput: some View {
+		VStack(alignment: .leading) {
+			Text("Server.Name".localized)
 			CommonTextField(text: $serverName,
 							inputStyle: $serverStyle,
-							placeHolder: "",
+							placeHolder: "Server.Placeholder".localized,
 							onEditingChanged: { isEditting in
 				if isEditting {
 					serverStyle = .normal
@@ -106,7 +110,35 @@ private extension ServerSettingView {
 				}
 			})
 		}
+	}
 
+	var serverUrlInput: some View {
+		VStack(alignment: .leading) {
+			Text("Server.Url".localized)
+			HStack {
+				CommonTextField(text: $serverUrl,
+								inputStyle: $serverUrlStyle,
+								placeHolder: "Server.Placeholder".localized,
+								onEditingChanged: { isEditting in
+					if isEditting {
+						serverStyle = .normal
+					} else {
+						serverStyle = .highlighted
+					}
+				})
+				ZStack {
+					Circle()
+						.strokeBorder(AppTheme.shared.colorSet.primaryDefault, lineWidth: 2)
+						.background(Circle().foregroundColor(AppTheme.shared.colorSet.offWhite))
+						.frame(width: 52, height: 52)
+					Button(action: {
+		//				isShowing = false
+					}, label: {
+						AppTheme.shared.imageSet.linkIcon
+					})
+				}
+			}
+		}
 	}
 }
 
@@ -126,7 +158,7 @@ private extension ServerSettingView {
 }
 
 struct ServerSettingView_Previews: PreviewProvider {
-    static var previews: some View {
+	static var previews: some View {
 		ServerSettingView()
     }
 }
