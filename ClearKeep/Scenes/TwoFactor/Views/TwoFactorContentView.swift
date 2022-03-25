@@ -211,5 +211,5 @@ private extension TwoFactorContentView {
 struct TwoFactorContentView_Previews: PreviewProvider {
 	static var previews: some View {
 		TwoFactorContentView()
-    }
+	}
 }
