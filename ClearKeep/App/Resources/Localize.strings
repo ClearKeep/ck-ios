@@ -82,3 +82,12 @@
 "Home.GroupChat" = "Group Chat";
 "Home.Message" = "Direct Messages";
 "Home.Signout" = "Sign out";
+// MARK: - Search
+"Search.Title" = "CK Development";
+"Search.Placehodel" = "Search people, groups & messages";
+"Search.All" = "All";
+"Search.People" = "People";
+"Search.Server" = "Sever";
+"Search.Group" = "Groups";
+"Search.Message" = "Messages";
+"Search.GroupChat" = "Group Chat";

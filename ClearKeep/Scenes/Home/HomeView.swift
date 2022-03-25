@@ -82,7 +82,7 @@ private extension HomeView {
 				Text(sample.name)
 			}
 			.id(samples.count)
-			HomeHeaderView(searchText: $searchKeyword, inputStyle: $searchInputStyle, isMenuAction: false)
+			HomeHeaderView(searchText: $searchKeyword, inputStyle: $searchInputStyle, isMenuAction: false, isSearchAction: false)
 		}.padding(.bottom, 0)
 	}
 }

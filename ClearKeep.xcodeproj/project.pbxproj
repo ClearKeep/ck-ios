@@ -21,6 +21,16 @@
 		047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419C27DB3D2C0043345A /* LoginInMemoryStore.swift */; };
 		047241A927DB3D2C0043345A /* ILoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419E27DB3D2C0043345A /* ILoginModel.swift */; };
 		047241AE27DB3D2C0043345A /* LoginWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047241A427DB3D2C0043345A /* LoginWorker.swift */; };
+		047370E227EDDD2C003F784E /* SearchInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047370D627EDDD2C003F784E /* SearchInMemoryStore.swift */; };
+		047370E327EDDD2C003F784E /* SearchWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047370D727EDDD2C003F784E /* SearchWorker.swift */; };
+		047370E427EDDD2C003F784E /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047370D827EDDD2C003F784E /* SearchView.swift */; };
+		047370E527EDDD2C003F784E /* SearchContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047370DA27EDDD2C003F784E /* SearchContentView.swift */; };
+		047370E627EDDD2C003F784E /* SearchMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047370DB27EDDD2C003F784E /* SearchMessageView.swift */; };
+		047370E727EDDD2C003F784E /* SearchUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047370DC27EDDD2C003F784E /* SearchUserView.swift */; };
+		047370E827EDDD2C003F784E /* SearchGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047370DD27EDDD2C003F784E /* SearchGroupView.swift */; };
+		047370E927EDDD2C003F784E /* SearchCatalogy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047370DF27EDDD2C003F784E /* SearchCatalogy.swift */; };
+		047370EA27EDDD2C003F784E /* SearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047370E027EDDD2C003F784E /* SearchInteractor.swift */; };
+		047370EB27EDDD2C003F784E /* SearchRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047370E127EDDD2C003F784E /* SearchRemoteStore.swift */; };
 		0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340727E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift */; };
 		0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340827E96DD7003BD4C4 /* FogotPasswordWorker.swift */; };
 		0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340927E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift */; };
@@ -157,6 +167,16 @@
 		0472419C27DB3D2C0043345A /* LoginInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInMemoryStore.swift; sourceTree = "<group>"; };
 		0472419E27DB3D2C0043345A /* ILoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ILoginModel.swift; sourceTree = "<group>"; };
 		047241A427DB3D2C0043345A /* LoginWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginWorker.swift; sourceTree = "<group>"; };
+		047370D627EDDD2C003F784E /* SearchInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchInMemoryStore.swift; sourceTree = "<group>"; };
+		047370D727EDDD2C003F784E /* SearchWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchWorker.swift; sourceTree = "<group>"; };
+		047370D827EDDD2C003F784E /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		047370DA27EDDD2C003F784E /* SearchContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchContentView.swift; sourceTree = "<group>"; };
+		047370DB27EDDD2C003F784E /* SearchMessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchMessageView.swift; sourceTree = "<group>"; };
+		047370DC27EDDD2C003F784E /* SearchUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchUserView.swift; sourceTree = "<group>"; };
+		047370DD27EDDD2C003F784E /* SearchGroupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchGroupView.swift; sourceTree = "<group>"; };
+		047370DF27EDDD2C003F784E /* SearchCatalogy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCatalogy.swift; sourceTree = "<group>"; };
+		047370E027EDDD2C003F784E /* SearchInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchInteractor.swift; sourceTree = "<group>"; };
+		047370E127EDDD2C003F784E /* SearchRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRemoteStore.swift; sourceTree = "<group>"; };
 		0499340727E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordInMemoryStore.swift; sourceTree = "<group>"; };
 		0499340827E96DD7003BD4C4 /* FogotPasswordWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordWorker.swift; sourceTree = "<group>"; };
 		0499340927E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordRemoteStore.swift; sourceTree = "<group>"; };
@@ -348,6 +368,39 @@
 			isa = PBXGroup;
 			children = (
 				0472419E27DB3D2C0043345A /* ILoginModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		047370D527EDDCDB003F784E /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				047370DE27EDDD2C003F784E /* Models */,
+				047370D627EDDD2C003F784E /* SearchInMemoryStore.swift */,
+				047370E027EDDD2C003F784E /* SearchInteractor.swift */,
+				047370E127EDDD2C003F784E /* SearchRemoteStore.swift */,
+				047370D827EDDD2C003F784E /* SearchView.swift */,
+				047370D727EDDD2C003F784E /* SearchWorker.swift */,
+				047370D927EDDD2C003F784E /* Views */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		047370D927EDDD2C003F784E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				047370DA27EDDD2C003F784E /* SearchContentView.swift */,
+				047370DB27EDDD2C003F784E /* SearchMessageView.swift */,
+				047370DC27EDDD2C003F784E /* SearchUserView.swift */,
+				047370DD27EDDD2C003F784E /* SearchGroupView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		047370DE27EDDD2C003F784E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				047370DF27EDDD2C003F784E /* SearchCatalogy.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -548,6 +601,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				047370D527EDDCDB003F784E /* Search */,
 				F5CE37EC27E97FF20085CECE /* Profile */,
 				0499343E27E97015003BD4C4 /* ChangePassword */,
 				0499342027E96EBB003BD4C4 /* AdvancedServer */,
@@ -1134,6 +1188,7 @@
 				0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */,
 				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
+				047370E427EDDD2C003F784E /* SearchView.swift in Sources */,
 				0499343527E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
 				F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */,
@@ -1141,13 +1196,16 @@
 				044351F727D9AFCA0054A78F /* IRegisterModel.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
+				047370EA27EDDD2C003F784E /* SearchInteractor.swift in Sources */,
 				F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */,
 				F553F87127E820E600824BE7 /* SocialView.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
 				0499344527E97035003BD4C4 /* ChangePasswordWorker.swift in Sources */,
+				047370E727EDDD2C003F784E /* SearchUserView.swift in Sources */,
 				0499345727E9A8BE003BD4C4 /* AdvancedSeverView.swift in Sources */,
 				0499344D27E97100003BD4C4 /* ChangePasswordContentView.swift in Sources */,
 				0499345527E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift in Sources */,
+				047370EB27EDDD2C003F784E /* SearchRemoteStore.swift in Sources */,
 				CB40074727E8CCC800DFBE88 /* LoginContentView.swift in Sources */,
 				0499345427E9A8BE003BD4C4 /* AdvancedSeverWorker.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
@@ -1167,6 +1225,7 @@
 				CB117E8627BB6687000941D9 /* SampleModel.swift in Sources */,
 				0499343D27E96FC5003BD4C4 /* NewPasswordContenView.swift in Sources */,
 				F553F87527E820E600824BE7 /* SocialCommonStyle.swift in Sources */,
+				047370E527EDDD2C003F784E /* SearchContentView.swift in Sources */,
 				0499340F27E96DD7003BD4C4 /* FogotPasswordInteractor.swift in Sources */,
 				F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */,
 				0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */,
@@ -1174,12 +1233,15 @@
 				0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */,
 				F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
+				047370E627EDDD2C003F784E /* SearchMessageView.swift in Sources */,
 				F553F87327E820E600824BE7 /* SocialVerify.swift in Sources */,
+				047370E227EDDD2C003F784E /* SearchInMemoryStore.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
 				047241A727DB3D2C0043345A /* LoginInteractor.swift in Sources */,
 				F5CE37F427E97FF20085CECE /* UserProfileContentView.swift in Sources */,
 				0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */,
 				0499344827E97035003BD4C4 /* ChangePasswordView.swift in Sources */,
+				047370E327EDDD2C003F784E /* SearchWorker.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
 				0499343727E96F8A003BD4C4 /* NewPasswordRemoteStore.swift in Sources */,
@@ -1192,10 +1254,12 @@
 				047241A927DB3D2C0043345A /* ILoginModel.swift in Sources */,
 				0499343827E96F8A003BD4C4 /* NewPasswordInteractor.swift in Sources */,
 				0472418227DB35550043345A /* HomeMenuView.swift in Sources */,
+				047370E927EDDD2C003F784E /* SearchCatalogy.swift in Sources */,
 				F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */,
 				F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
 				0499342E27E96F09003BD4C4 /* AdvancedContentView.swift in Sources */,
+				047370E827EDDD2C003F784E /* SearchGroupView.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
 				047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
