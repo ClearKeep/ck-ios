@@ -19,15 +19,14 @@ struct ContentView: View {
 	}
 	
 	var body: some View {
-//		Group {
-//			if isRunningTests {
-//				Text("Running unit tests")
-//			} else {
-//				UserProfileContentView()
-//					.inject(container)
-//			}
-//		}
-		HomeHeaderView(searchText: .constant(""), inputStyle: .constant(.default), isMenuAction: false, isSearchAction: false)
+		Group {
+			if isRunningTests {
+				Text("Running unit tests")
+			} else {
+				UserProfileContentView()
+					.inject(container)
+			}
+		}
 	}
 }
 
