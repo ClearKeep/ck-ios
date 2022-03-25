@@ -104,6 +104,8 @@
 		F5CE37F427E97FF20085CECE /* UserProfileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */; };
 		F5E01A0527EB202500FDACE2 /* TwoFactorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A0427EB202500FDACE2 /* TwoFactorModel.swift */; };
 		F5E01A0727EB205700FDACE2 /* TwoFactorContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A0627EB205700FDACE2 /* TwoFactorContentView.swift */; };
+		F5E01A0C27ECD00F00FDACE2 /* ServerSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A0B27ECD00F00FDACE2 /* ServerSettingView.swift */; };
+		F5E01A0E27ECD37900FDACE2 /* ServerSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A0D27ECD37900FDACE2 /* ServerSettingModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -266,6 +268,8 @@
 		F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileContentView.swift; sourceTree = "<group>"; };
 		F5E01A0427EB202500FDACE2 /* TwoFactorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorModel.swift; sourceTree = "<group>"; };
 		F5E01A0627EB205700FDACE2 /* TwoFactorContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorContentView.swift; sourceTree = "<group>"; };
+		F5E01A0B27ECD00F00FDACE2 /* ServerSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSettingView.swift; sourceTree = "<group>"; };
+		F5E01A0D27ECD37900FDACE2 /* ServerSettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSettingModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -552,6 +556,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				F5E01A0827EC70F100FDACE2 /* Settings */,
 				F5E01A0127EB1FC700FDACE2 /* TwoFactor */,
 				F5CE37EC27E97FF20085CECE /* Profile */,
 				0499343E27E97015003BD4C4 /* ChangePassword */,
@@ -851,6 +856,31 @@
 			isa = PBXGroup;
 			children = (
 				F5E01A0627EB205700FDACE2 /* TwoFactorContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F5E01A0827EC70F100FDACE2 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				F5E01A0A27EC70FE00FDACE2 /* Views */,
+				F5E01A0927EC70F800FDACE2 /* Models */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		F5E01A0927EC70F800FDACE2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F5E01A0D27ECD37900FDACE2 /* ServerSettingModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F5E01A0A27EC70FE00FDACE2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F5E01A0B27ECD00F00FDACE2 /* ServerSettingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1167,6 +1197,7 @@
 				0499343527E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
 				F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */,
+				F5E01A0E27ECD37900FDACE2 /* ServerSettingModel.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				044351F727D9AFCA0054A78F /* IRegisterModel.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
@@ -1234,6 +1265,7 @@
 				CB40073027E74E1900DFBE88 /* Configuration.swift in Sources */,
 				CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */,
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
+				F5E01A0C27ECD00F00FDACE2 /* ServerSettingView.swift in Sources */,
 				0499341427E96E2F003BD4C4 /* FogotPasswordContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
