@@ -101,6 +101,8 @@ private extension UserProfileContentView {
 		HStack {
 			Button(action: { }, label: {
 				AppTheme.shared.imageSet.crossIcon
+					.renderingMode(.template)
+					.foregroundColor(foregroundCrossButton)
 			})
 			Spacer()
 			Button(action: { }, label: {
@@ -217,6 +219,7 @@ private extension UserProfileContentView {
 
 					Spacer()
 					AppTheme.shared.imageSet.copyIcon
+						.renderingMode(.template)
 						.foregroundColor(foregroundPrimary)
 				}
 			}
@@ -229,6 +232,7 @@ private extension UserProfileContentView {
 
 					Spacer()
 					AppTheme.shared.imageSet.arrowRightIcon
+						.renderingMode(.template)
 						.foregroundColor(foregroundPrimary)
 				}
 			}
@@ -304,6 +308,14 @@ private extension UserProfileContentView {
 
 	var foregroundGrey1: Color {
 		AppTheme.shared.colorSet.grey1
+	}
+
+	var foregroundGreyLight: Color {
+		AppTheme.shared.colorSet.greyLight
+	}
+
+	var foregroundCrossButton: Color {
+		colorScheme == .light ? foregroundGrey1 : foregroundGreyLight
 	}
 
 	var foregroundColorSetting: Color {

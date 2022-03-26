@@ -10,11 +10,14 @@ import Combine
 import Common
 import CommonUI
 
+// MARK: - Constant
 private enum Constant {
 	static let spacer = 25.0
 	static let paddingVertical = 14.0
 	static let paddingHorizontal = 24.0
 	static let heightBackground = 60.0
+	static let borderLineWidth = 2.0
+	static let sizeCircle = 52.0
 }
 
 struct ServerSettingView: View {
@@ -84,6 +87,8 @@ private extension ServerSettingView {
 //				isShowing = false
 			}, label: {
 				AppTheme.shared.imageSet.crossIcon
+					.renderingMode(.template)
+					.foregroundColor(foregroundCrossButton)
 			})
 			Spacer()
 		}
@@ -91,7 +96,7 @@ private extension ServerSettingView {
 	}
 
 	var title: some View {
-		Text("Server.Title".localized)
+		Text("Notification.Title".localized)
 			.frame(maxWidth: .infinity, alignment: .leading)
 			.font(AppTheme.shared.fontSet.font(style: .body1))
 	}
@@ -128,13 +133,15 @@ private extension ServerSettingView {
 				})
 				ZStack {
 					Circle()
-						.strokeBorder(AppTheme.shared.colorSet.primaryDefault, lineWidth: 2)
-						.background(Circle().foregroundColor(AppTheme.shared.colorSet.offWhite))
-						.frame(width: 52, height: 52)
+						.strokeBorder(AppTheme.shared.colorSet.primaryDefault, lineWidth: Constant.borderLineWidth)
+						.background(Circle().foregroundColor(foregroundCircle))
+						.frame(width: Constant.sizeCircle, height: Constant.sizeCircle)
 					Button(action: {
 		//				isShowing = false
 					}, label: {
 						AppTheme.shared.imageSet.linkIcon
+							.renderingMode(.template)
+							.foregroundColor(foregroundButtonLink)
 					})
 				}
 			}
@@ -152,13 +159,33 @@ private extension ServerSettingView {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.darkGrey2, AppTheme.shared.colorSet.darkGrey2]), startPoint: .leading, endPoint: .trailing)
 	}
 
+	var foregroundColorWhite: Color {
+		AppTheme.shared.colorSet.offWhite
+	}
+
+	var foregroundColorBlack: Color {
+		AppTheme.shared.colorSet.black
+	}
+
+	var foregroundCircle: Color {
+		colorScheme == .light ? foregroundColorWhite : foregroundColorBlack
+	}
+
+	var foregroundCrossButton: Color {
+		colorScheme == .light ? foregroundColorBlack : foregroundColorWhite
+	}
+
 	var backgroundColorTop: LinearGradient {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
+	}
+
+	var foregroundButtonLink: Color {
+		AppTheme.shared.colorSet.primaryDefault
 	}
 }
 
 struct ServerSettingView_Previews: PreviewProvider {
 	static var previews: some View {
 		ServerSettingView()
-    }
+	}
 }

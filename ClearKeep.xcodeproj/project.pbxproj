@@ -106,6 +106,7 @@
 		F5E01A0727EB205700FDACE2 /* TwoFactorContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A0627EB205700FDACE2 /* TwoFactorContentView.swift */; };
 		F5E01A0C27ECD00F00FDACE2 /* ServerSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A0B27ECD00F00FDACE2 /* ServerSettingView.swift */; };
 		F5E01A0E27ECD37900FDACE2 /* ServerSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A0D27ECD37900FDACE2 /* ServerSettingModel.swift */; };
+		F5E01A1027EE199A00FDACE2 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A0F27EE199A00FDACE2 /* NotificationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -270,6 +271,7 @@
 		F5E01A0627EB205700FDACE2 /* TwoFactorContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorContentView.swift; sourceTree = "<group>"; };
 		F5E01A0B27ECD00F00FDACE2 /* ServerSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSettingView.swift; sourceTree = "<group>"; };
 		F5E01A0D27ECD37900FDACE2 /* ServerSettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSettingModel.swift; sourceTree = "<group>"; };
+		F5E01A0F27EE199A00FDACE2 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -881,6 +883,7 @@
 			isa = PBXGroup;
 			children = (
 				F5E01A0B27ECD00F00FDACE2 /* ServerSettingView.swift */,
+				F5E01A0F27EE199A00FDACE2 /* NotificationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1183,6 +1186,7 @@
 				CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */,
 				044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */,
 				044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */,
+				F5E01A1027EE199A00FDACE2 /* NotificationView.swift in Sources */,
 				047241A627DB3D2C0043345A /* LoginView.swift in Sources */,
 				044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */,
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
