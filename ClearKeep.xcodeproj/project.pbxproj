@@ -1240,6 +1240,7 @@
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
 				047D6B1A27F154A60098B104 /* AddMemberView.swift in Sources */,
 				CB8C3E3427F57FBA0034B3A9 /* AppVersion.swift in Sources */,
+				047D6B1A27F154A60098B104 /* AddMemberView.swift in Sources */,
 				CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */,
 				CB117E7B27BB65E2000941D9 /* LocationConfigurations.swift in Sources */,
 				CB117EC427BB8DB1000941D9 /* SceneDelegate.swift in Sources */,

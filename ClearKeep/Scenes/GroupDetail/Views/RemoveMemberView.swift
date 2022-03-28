@@ -46,8 +46,8 @@ struct RemoveMemberView: View {
 			.padding(.horizontal, Constants.padding)
 			.navigationBarTitle("")
 			.navigationBarHidden(true)
-			.background(backgroundColorView)
 			.edgesIgnoringSafeArea(.all)
+			.background(backgroundColorView)
 	}
 }
 
