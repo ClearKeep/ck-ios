@@ -19,15 +19,14 @@ struct ContentView: View {
 	}
 	
 	var body: some View {
-//		Group {
-//			if isRunningTests {
-//				Text("Running unit tests")
-//			} else {
-//				HomeView()
-//					.inject(container)
-//			}
-//		}
-		GroupDetailView(imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", groupText: "CK Development")
+		Group {
+			if isRunningTests {
+				Text("Running unit tests")
+			} else {
+				HomeView()
+					.inject(container)
+			}
+		}
 	}
 }
 
