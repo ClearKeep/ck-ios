@@ -68,7 +68,7 @@ struct AppImageSet: IAppImageSet {
 	var googleIcon: Image { Image("ic_google") }
 	var officeIcon: Image { Image("ic_office") }
 	var facebookIcon: Image { Image("ic_faceBook") }
-	var checkMask: Image { Image(systemName: "checkmark.circle") }
+	var checkMask: Image { Image(systemName: "circle.fill") }
 	var checkMaskFill: Image { Image(systemName: "checkmark.circle.fill") }
 }
 
