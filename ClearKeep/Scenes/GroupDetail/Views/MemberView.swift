@@ -36,11 +36,11 @@ struct MemberView: View {
 	// MARK: - Body
 	var body: some View {
 		content
-			.padding(.leading, Constants.padding)
+			.padding(.horizontal, Constants.padding)
 			.navigationBarTitle("")
 			.navigationBarHidden(true)
-			.edgesIgnoringSafeArea(.all)
 			.background(backgroundColorView)
+			.edgesIgnoringSafeArea(.all)
 	}
 }
 
