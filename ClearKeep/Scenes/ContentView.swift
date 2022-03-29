@@ -19,15 +19,14 @@ struct ContentView: View {
 	}
 	
 	var body: some View {
-//		Group {
-//			if isRunningTests {
-//				Text("Running unit tests")
-//			} else {
-//				UserProfileContentView()
-//					.inject(container)
-//			}
-//		}
-		DirectMessagesView(imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes")
+		Group {
+			if isRunningTests {
+				Text("Running unit tests")
+			} else {
+				UserProfileContentView()
+					.inject(container)
+			}
+		}
 	}
 }
 

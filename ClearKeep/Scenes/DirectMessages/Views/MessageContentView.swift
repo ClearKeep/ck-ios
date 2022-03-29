@@ -86,6 +86,10 @@ private extension MessageContentView {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
 	}
 
+	var backgroundButtonImage: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
+	}
+
 	var foregroundColorUserName: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight
 	}
@@ -94,9 +98,10 @@ private extension MessageContentView {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
 	}
 
-	var backgroundNextButton: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.primaryLight
+	var backgroundNextButton: LinearGradient {
+		colorScheme == .light ? backgroundButtonImage : backgroundButtonImage
 	}
+
 	var foregroundCheckmask: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
 	}
