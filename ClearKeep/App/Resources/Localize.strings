@@ -82,3 +82,10 @@
 "Home.GroupChat" = "Group Chat";
 "Home.Message" = "Direct Messages";
 "Home.Signout" = "Sign out";
+// MARK: - DirectMessages
+"DirectMessages.AddUserTitle" = "Add user from other server";
+"DirectMessages.TitleButton" = "Create direct message";
+"DirectMessages.Placeholder" = "Type Something Here";
+"DirectMessages.Next" = "Next";
+"DirectMessages.Search" = "Search people ";
+"DirectMessages.LinkTitle" = "Paste your friend's link";
