@@ -107,6 +107,9 @@
 		F5E01A0C27ECD00F00FDACE2 /* ServerSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A0B27ECD00F00FDACE2 /* ServerSettingView.swift */; };
 		F5E01A0E27ECD37900FDACE2 /* ServerSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A0D27ECD37900FDACE2 /* ServerSettingModel.swift */; };
 		F5E01A1027EE199A00FDACE2 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A0F27EE199A00FDACE2 /* NotificationView.swift */; };
+		F5E01A1527F15C4600FDACE2 /* ChatGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A1427F15C4600FDACE2 /* ChatGroupModel.swift */; };
+		F5E01A1727F15D4700FDACE2 /* GroupChatContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A1627F15D4700FDACE2 /* GroupChatContentView.swift */; };
+		F5E01A6427F3F5EC00FDACE2 /* ListUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A6327F3F5EC00FDACE2 /* ListUser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -272,6 +275,9 @@
 		F5E01A0B27ECD00F00FDACE2 /* ServerSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSettingView.swift; sourceTree = "<group>"; };
 		F5E01A0D27ECD37900FDACE2 /* ServerSettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSettingModel.swift; sourceTree = "<group>"; };
 		F5E01A0F27EE199A00FDACE2 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		F5E01A1427F15C4600FDACE2 /* ChatGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGroupModel.swift; sourceTree = "<group>"; };
+		F5E01A1627F15D4700FDACE2 /* GroupChatContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChatContentView.swift; sourceTree = "<group>"; };
+		F5E01A6327F3F5EC00FDACE2 /* ListUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListUser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -558,6 +564,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				F5E01A1127F15BF600FDACE2 /* ChatGroup */,
 				F5E01A0827EC70F100FDACE2 /* Settings */,
 				F5E01A0127EB1FC700FDACE2 /* TwoFactor */,
 				F5CE37EC27E97FF20085CECE /* Profile */,
@@ -886,6 +893,40 @@
 				F5E01A0F27EE199A00FDACE2 /* NotificationView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		F5E01A1127F15BF600FDACE2 /* ChatGroup */ = {
+			isa = PBXGroup;
+			children = (
+				F5E01A1327F15C2200FDACE2 /* Views */,
+				F5E01A1227F15C1C00FDACE2 /* Models */,
+			);
+			path = ChatGroup;
+			sourceTree = "<group>";
+		};
+		F5E01A1227F15C1C00FDACE2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F5E01A1427F15C4600FDACE2 /* ChatGroupModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F5E01A1327F15C2200FDACE2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F5E01A6227F3F5D900FDACE2 /* CommonUI */,
+				F5E01A1627F15D4700FDACE2 /* GroupChatContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F5E01A6227F3F5D900FDACE2 /* CommonUI */ = {
+			isa = PBXGroup;
+			children = (
+				F5E01A6327F3F5EC00FDACE2 /* ListUser.swift */,
+			);
+			path = CommonUI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1224,6 +1265,7 @@
 				CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */,
 				044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */,
 				0499344727E97035003BD4C4 /* ChangePasswordInteractor.swift in Sources */,
+				F5E01A1527F15C4600FDACE2 /* ChatGroupModel.swift in Sources */,
 				0499341027E96DD7003BD4C4 /* FogotPasswordView.swift in Sources */,
 				0499344427E97035003BD4C4 /* ChangePasswordInMemoryStore.swift in Sources */,
 				047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */,
@@ -1237,6 +1279,7 @@
 				0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */,
 				044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */,
 				0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */,
+				F5E01A6427F3F5EC00FDACE2 /* ListUser.swift in Sources */,
 				F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
 				F553F87327E820E600824BE7 /* SocialVerify.swift in Sources */,
@@ -1262,6 +1305,7 @@
 				F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
 				0499342E27E96F09003BD4C4 /* AdvancedContentView.swift in Sources */,
+				F5E01A1727F15D4700FDACE2 /* GroupChatContentView.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
 				F5E01A0727EB205700FDACE2 /* TwoFactorContentView.swift in Sources */,
 				047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */,

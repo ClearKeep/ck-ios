@@ -99,3 +99,15 @@
 "Notification.Preview" = "Show previews";
 "Notification.Preview.Title" = "Tips: Show message previews in alerts and banners when you are not using app";
 "Notification.Disturb" = "Do not disturb";
+
+// MARK: - Group Chat
+"GroupChat.Back.Button" = "Create group";
+"GroupChat.Search.Placeholder" = "Search users in this server";
+"GroupChat.User.Add.Title" = "Add user from other server";
+"GroupChat.User.Add.Placeholder" = "Paste your friend's link";
+"GroupChat.Group.Name" = "Group Name";
+"GroupChat.User.List" = "Users in this group";
+"GroupChat.Add" = "Add";
+"GroupChat.Next" = "Next";
+"GroupChat.Create" = "Create";
+
