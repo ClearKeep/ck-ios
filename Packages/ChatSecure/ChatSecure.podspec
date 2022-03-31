@@ -13,6 +13,7 @@ Pod::Spec.new do |spec|
 	
 	spec.source       = { :git => "https://github.com/Code4Fun-Group/ChatSecure.git", :tag => spec.version.to_s }
 	spec.source_files = 'ChatSecure/**/*.{swift,h,m,c}'
+	spec.pod_target_xcconfig = { 'ENABLE_BITCODE' => 'NO' }
 	
 	spec.dependency 'Networking'
 	spec.dependency 'SwiftSRP'
@@ -21,5 +22,7 @@ Pod::Spec.new do |spec|
 	spec.dependency 'GoogleWebRTC'
 	spec.dependency 'YapDatabase'
 	spec.dependency 'Mantle'
+	spec.dependency 'GoogleSignIn'
+	spec.dependency 'MSAL'
+	spec.dependency 'FBSDKLoginKit'
 end
-
