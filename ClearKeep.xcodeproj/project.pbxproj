@@ -110,6 +110,8 @@
 		F5E01A1527F15C4600FDACE2 /* ChatGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A1427F15C4600FDACE2 /* ChatGroupModel.swift */; };
 		F5E01A1727F15D4700FDACE2 /* GroupChatContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A1627F15D4700FDACE2 /* GroupChatContentView.swift */; };
 		F5E01A6427F3F5EC00FDACE2 /* ListUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A6327F3F5EC00FDACE2 /* ListUser.swift */; };
+		F5E1C65327F55A8900B94685 /* CallModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E1C65227F55A8900B94685 /* CallModel.swift */; };
+		F5E1C65A27F5682C00B94685 /* IncomingCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E1C65927F5682C00B94685 /* IncomingCallView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -278,6 +280,8 @@
 		F5E01A1427F15C4600FDACE2 /* ChatGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGroupModel.swift; sourceTree = "<group>"; };
 		F5E01A1627F15D4700FDACE2 /* GroupChatContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChatContentView.swift; sourceTree = "<group>"; };
 		F5E01A6327F3F5EC00FDACE2 /* ListUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListUser.swift; sourceTree = "<group>"; };
+		F5E1C65227F55A8900B94685 /* CallModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallModel.swift; sourceTree = "<group>"; };
+		F5E1C65927F5682C00B94685 /* IncomingCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingCallView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -564,6 +568,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				F5E1C64F27F55A5800B94685 /* Call */,
 				F5E01A1127F15BF600FDACE2 /* ChatGroup */,
 				F5E01A0827EC70F100FDACE2 /* Settings */,
 				F5E01A0127EB1FC700FDACE2 /* TwoFactor */,
@@ -929,6 +934,31 @@
 			path = CommonUI;
 			sourceTree = "<group>";
 		};
+		F5E1C64F27F55A5800B94685 /* Call */ = {
+			isa = PBXGroup;
+			children = (
+				F5E1C65127F55A6900B94685 /* Views */,
+				F5E1C65027F55A6100B94685 /* Models */,
+			);
+			path = Call;
+			sourceTree = "<group>";
+		};
+		F5E1C65027F55A6100B94685 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F5E1C65227F55A8900B94685 /* CallModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F5E1C65127F55A6900B94685 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F5E1C65927F5682C00B94685 /* IncomingCallView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1229,6 +1259,7 @@
 				044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */,
 				F5E01A1027EE199A00FDACE2 /* NotificationView.swift in Sources */,
 				047241A627DB3D2C0043345A /* LoginView.swift in Sources */,
+				F5E1C65A27F5682C00B94685 /* IncomingCallView.swift in Sources */,
 				044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */,
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
 				CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */,
@@ -1295,6 +1326,7 @@
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
 				0499344627E97035003BD4C4 /* ChangePasswordRemoteStore.swift in Sources */,
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
+				F5E1C65327F55A8900B94685 /* CallModel.swift in Sources */,
 				0499343627E96F8A003BD4C4 /* NewPasswordWorker.swift in Sources */,
 				F553F87427E820E600824BE7 /* SocialCommonUI.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
