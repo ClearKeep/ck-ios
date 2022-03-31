@@ -25,7 +25,8 @@ class DependencyResolver {
 	let locationService: ILocationService!
 	
 	let channelStorage: ChannelStorage!
-	let socialLoginService: SocialLoginService!
+	let authenticationService: IAuthenticationService!
+	let socialAuthenticationService: ISocialAuthenticationService!
 	
 	init() {
 		fontSet = DefaultFontSet()
@@ -43,11 +44,12 @@ class DependencyResolver {
 		securedStoreService = SecuredStoreService()
 		persistentStoreService = PersistentStoreService()
 		appTokenService = AppTokenService(securedStoreService: securedStoreService, persistentStoreService: persistentStoreService)
-		socialLoginService = SocialLoginService([.facebook,
-												 .google(clientId: ConfigurationProvider.default.googleClientId),
-												 .office(clientId: ConfigurationProvider.default.officeClientId,
-														 redirectUri: ConfigurationProvider.default.officeRedirectUri)
-		])
+		authenticationService = CLKAuthenticationService()
+		socialAuthenticationService = SocialAuthenticationService([.facebook,
+																   .google(clientId: ConfigurationProvider.default.googleClientId),
+																   .office(clientId: ConfigurationProvider.default.officeClientId,
+																		   redirectUri: ConfigurationProvider.default.officeRedirectUri)
+																  ])
 		
 		// MARK: - Location
 		locationManager = CLLocationManager()

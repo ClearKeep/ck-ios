@@ -14,6 +14,7 @@ Pod::Spec.new do |spec|
 	spec.source       = { :git => "https://github.com/Code4Fun-Group/Networking.git", :tag => spec.version.to_s }
 	spec.source_files = 'Networking/**/*.{swift,h,m,c}'
 	
+	spec.dependency 'Common'
 	spec.dependency 'gRPC-Swift'
 	spec.dependency 'SwiftProtobuf'
 end
