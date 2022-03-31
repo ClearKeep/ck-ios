@@ -29,7 +29,7 @@ struct ListUser: View {
 				.frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
 			CheckBoxButtons(text: "", isChecked: $isSelectedUser)
 		}
-    }
+	}
 }
 
 struct ListUser_Previews: PreviewProvider {
