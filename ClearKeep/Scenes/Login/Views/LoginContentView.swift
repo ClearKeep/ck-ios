@@ -141,15 +141,21 @@ private extension LoginContentView {
 	
 	var socialLoginButtonView: some View {
 		HStack(spacing: Constant.spacerBottom) {
-			NavigationLink(destination: SocialView(security: "")) {
+			Button {
+				DependencyResolver.shared.socialLoginService.loginWithGoogle(domain: "54.235.68.160:25000")
+			} label: {
 				AppTheme.shared.imageSet.googleIcon
 			}
 			
-			NavigationLink(destination: SocialView(security: "")) {
+			Button {
+				DependencyResolver.shared.socialLoginService.loginWithOffice(domain: "54.235.68.160:25000")
+			} label: {
 				AppTheme.shared.imageSet.officeIcon
 			}
 			
-			NavigationLink(destination: SocialView(security: "")) {
+			Button {
+				DependencyResolver.shared.socialLoginService.loginWithFB(domain: "54.235.68.160:25000")
+			} label: {
 				AppTheme.shared.imageSet.facebookIcon
 			}
 		}
