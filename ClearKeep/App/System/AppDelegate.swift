@@ -28,7 +28,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Facebook
 		ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
 
-		
 		// Office365
 		MSALGlobalConfig.loggerConfig.setLogCallback { _, message, containsPII in
 			
