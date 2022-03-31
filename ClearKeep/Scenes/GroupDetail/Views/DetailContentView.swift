@@ -250,7 +250,7 @@ private extension DetailContentView {
 					}
 				})
 			NavigationLink(
-				destination: AddMemberView(imageUser: $imageUser, userName: $userName, searchText: .constant(""), inputStyle: .constant(.default)),
+				destination: AddMemberView(imageUser: $imageUser, userName: $userName, searchText: .constant(""), severText: .constant(""), inputStyle: .constant(.default)),
 				isActive: $isChangeAddMemberView,
 				label: {
 					Button(action: addMemberAction) {

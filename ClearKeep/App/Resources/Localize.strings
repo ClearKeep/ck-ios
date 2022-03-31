@@ -12,6 +12,7 @@
 "General.Audio" = "Audio";
 "General.Version" = "App version: %@";
 "Unknow.Message" = "Unknow message";
+"General.Next" = "Next";
 // MARK: - Social Login
 "Social.SetPhrase.Back" = "Set Your Security Phrase";
 "Social.ConfirmPhrase.Back" = "Confirm Your Security Phrase";
@@ -101,3 +102,4 @@
 "GroupDetail.Search" = "Search people ";
 "GroupDetail.TitleCheckbox" = "Add user from other server";
 "GroupDetail.UserInitTitle" = "Users int his Group chat";
+"GroupDetail.Title.PlaceHoder" = "Paste your friend's link";
