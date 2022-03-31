@@ -83,8 +83,9 @@ private extension GroupChatContentView {
 						searchStyle = .highlighted
 					}
 				})
-			}
-			else {
+					.frame(maxHeight: .infinity, alignment: .top)
+				Spacer()
+			} else {
 				listUser
 			}
 			buttonNext

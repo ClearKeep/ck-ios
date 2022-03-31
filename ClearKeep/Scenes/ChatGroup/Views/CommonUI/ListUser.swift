@@ -16,7 +16,7 @@ private enum Constant {
 struct ListUser: View {
 	@State private(set) var isSelectedUser: Bool = false
 
-    var body: some View {
+	var body: some View {
 		HStack {
 			ZStack {
 				AppTheme.shared.imageSet.splashLogo
