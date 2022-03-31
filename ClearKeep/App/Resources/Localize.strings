@@ -11,6 +11,7 @@
 "General.Video" = "Video";
 "General.Audio" = "Audio";
 "General.Version" = "App version: %@";
+"Unknow.Message" = "Unknow message";
 // MARK: - Social Login
 "Social.SetPhrase.Back" = "Set Your Security Phrase";
 "Social.ConfirmPhrase.Back" = "Confirm Your Security Phrase";
