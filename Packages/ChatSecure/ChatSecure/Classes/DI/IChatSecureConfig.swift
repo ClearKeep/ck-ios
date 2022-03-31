@@ -12,4 +12,7 @@ public protocol IChatSecureConfig {
 	var clkPort: String { get }
 	var senderDeviceId: Int { get }
 	var receiverDeviceId: Int { get }
+	var googleClientId: String { get }
+	var officeClientId: String { get }
+	var officeRedirectUri: String { get }
 }

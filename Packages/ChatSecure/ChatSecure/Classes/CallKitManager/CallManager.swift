@@ -17,7 +17,7 @@ enum CallType: String {
 	case video
 }
 
-final class CallManager: NSObject {
+final public class CallManager: NSObject {
 	enum Call: String {
 		case start = "startCall"
 		case end = "endCall"
@@ -263,7 +263,7 @@ extension CallManager {
 }
 
 extension CallManager: CXProviderDelegate {
-	func providerDidReset(_ provider: CXProvider) {
+	public func providerDidReset(_ provider: CXProvider) {
 		print("Provider did reset")
 		/*
 		 End any ongoing calls if the provider resets, and remove them from the app's list of calls,
@@ -271,7 +271,7 @@ extension CallManager: CXProviderDelegate {
 		 */
 	}
 	
-	func provider(_ provider: CXProvider, perform action: CXStartCallAction) {
+	public func provider(_ provider: CXProvider, perform action: CXStartCallAction) {
 		/*
 		 Configure the audio session, but do not start call audio here, since it must be done once
 		 the audio session has been activated by the system after having its priority elevated.
@@ -289,7 +289,7 @@ extension CallManager: CXProviderDelegate {
 		action.fulfill()
 	}
 	
-	func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
+	public func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
 		// Retrieve the SpeakerboxCall instance corresponding to the action's call UUID
 		guard let call = callWithUUID(uuid: action.callUUID) else {
 			action.fail()
@@ -313,7 +313,7 @@ extension CallManager: CXProviderDelegate {
 		action.fulfill()
 	}
 	
-	func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
+	public func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
 		// Retrieve the SpeakerboxCall instance corresponding to the action's call UUID
 		guard let call = callWithUUID(uuid: action.callUUID) else {
 			action.fail()
@@ -330,7 +330,7 @@ extension CallManager: CXProviderDelegate {
 		removeCall(call)
 	}
 	
-	func provider(_ provider: CXProvider, perform action: CXSetHeldCallAction) {
+	public func provider(_ provider: CXProvider, perform action: CXSetHeldCallAction) {
 		// Retrieve the SpeakerboxCall instance corresponding to the action's call UUID
 		guard let call = callWithUUID(uuid: action.callUUID) else {
 			action.fail()
@@ -346,7 +346,7 @@ extension CallManager: CXProviderDelegate {
 		action.fulfill()
 	}
 	
-	func provider(_ provider: CXProvider, perform action: CXSetMutedCallAction) {
+	public func provider(_ provider: CXProvider, perform action: CXSetMutedCallAction) {
 		// Retrieve the SpeakerboxCall instance corresponding to the action's call UUID
 		guard let call = callWithUUID(uuid: action.callUUID) else {
 			action.fail()
@@ -358,12 +358,12 @@ extension CallManager: CXProviderDelegate {
 		action.fulfill()
 	}
 	
-	func provider(_ provider: CXProvider, timedOutPerforming action: CXAction) {
+	public func provider(_ provider: CXProvider, timedOutPerforming action: CXAction) {
 		print("Timed out \(#function)")
 		// React to the action timeout if necessary, such as showing an error UI.
 	}
 	
-	func provider(_ provider: CXProvider, didActivate audioSession: AVAudioSession) {
+	public func provider(_ provider: CXProvider, didActivate audioSession: AVAudioSession) {
 		print("Received \(#function)")
 		// If we are returning from a hold state
 		if answerCall?.hasConnected ?? false {
@@ -402,7 +402,7 @@ extension CallManager: CXProviderDelegate {
 		}
 	}
 	
-	func provider(_ provider: CXProvider, didDeactivate audioSession: AVAudioSession) {
+	public func provider(_ provider: CXProvider, didDeactivate audioSession: AVAudioSession) {
 		print("Received \(#function)")
 		
 		/*
