@@ -12,13 +12,22 @@ import FBSDKLoginKit
 import MSAL
 import Networking
 
+public protocol ISocialAuthenticationService {
+	func signInWithFB(domain: String)
+	func signInWithGoogle(domain: String)
+	func signInWithOffice(domain: String)
+	func signOutFacebookAccount()
+	func signOutGoogleAccount()
+	func signOutO365()
+}
+
 public enum SocialLoginType {
 	case facebook
 	case google(clientId: String)
 	case office(clientId: String, redirectUri: String)
 }
 
-public class SocialLoginService {
+public class SocialAuthenticationService {
 	private var googleSignInConfiguration: GIDConfiguration?
 	private var applicationContext: MSALPublicClientApplication?
 	private var webViewParamaters: MSALWebviewParameters?
@@ -41,8 +50,11 @@ public class SocialLoginService {
 			}
 		}
 	}
-	
-	public func loginWithFB(domain: String) {
+}
+
+// MARK: - ISocialAuthenticationService
+extension SocialAuthenticationService: ISocialAuthenticationService {
+	public func signInWithFB(domain: String) {
 		let fbLoginManager = LoginManager()
 		fbLoginManager.logOut()
 		fbLoginManager.logIn(permissions: [.publicProfile, .email], viewController: nil) { (result) in
@@ -70,7 +82,7 @@ public class SocialLoginService {
 		}
 	}
 	
-	public func loginWithGoogle(domain: String) {
+	public func signInWithGoogle(domain: String) {
 		guard let topViewController = UIApplication.shared.topMostViewController(),
 			  let googleSignInConfiguration = googleSignInConfiguration else { return }
 		GIDSignIn.sharedInstance.signIn(with: googleSignInConfiguration, presenting: topViewController) { user, error in
@@ -93,7 +105,7 @@ public class SocialLoginService {
 		}
 	}
 	
-	public func loginWithOffice(domain: String) {
+	public func signInWithOffice(domain: String) {
 		guard let topViewController = UIApplication.shared.topMostViewController() else { return }
 		webViewParamaters = MSALWebviewParameters(authPresentationViewController: topViewController)
 		
@@ -104,20 +116,17 @@ public class SocialLoginService {
 		
 		self.acquireTokenSilently(account, domain: domain)
 	}
-}
-
-// MARK: - Signout
-extension SocialLoginService {
-	func signOutFacebookAccount() {
+	
+	public func signOutFacebookAccount() {
 		let loginManager = LoginManager()
 		loginManager.logOut()
 	}
 	
-	func signOutGoogleAccount() {
+	public func signOutGoogleAccount() {
 		GIDSignIn.sharedInstance.signOut()
 	}
 	
-	func signOutO365() {
+	public func signOutO365() {
 		guard let applicationContext = self.applicationContext else { return }
 		
 		let accounts = try? applicationContext.allAccounts()
@@ -128,7 +137,7 @@ extension SocialLoginService {
 }
 
 // MARK: - Private
-private extension SocialLoginService {
+private extension SocialAuthenticationService {
 	func initGoogleSignIn(clientId: String) {
 		googleSignInConfiguration = GIDConfiguration(clientID: clientId)
 	}

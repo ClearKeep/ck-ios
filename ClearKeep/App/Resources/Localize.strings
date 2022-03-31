@@ -8,6 +8,7 @@
 "General.Notification" = "Notification";
 "General.Online" = "Online";
 "General.Busy" = "Busy";
+"General.Version" = "App version: %@";
 
 // MARK: - Social Login
 "Social.SetPhrase.Back" = "Set Your Security Phrase";
@@ -53,7 +54,6 @@
 "Login.ForgotPassword?" = "Forgot Password?";
 "Login.SignUp.Suggest" = "Don't have an account?";
 "Login.SignUp" = "Sign up";
-"Login.Version" = "App version: 1.1.1";
 "General.DisplayName" = "Display Name";
 "General.Password" = "Password";
 "General.ConfirmPassword" = "Confirm Password";

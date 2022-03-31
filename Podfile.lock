@@ -154,6 +154,7 @@ PODS:
   - nanopb/encode (2.30908.0)
   - netfox (1.20.0)
   - Networking (1.0.0):
+    - Common
     - gRPC-Swift
     - SwiftProtobuf
   - OpenSSL-Universal (1.1.1400)
@@ -454,7 +455,7 @@ SPEC CHECKSUMS:
   MSAL: fea0f2eaf1ecc1b67a1466ad9dc133871b901784
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   netfox: 6b5c9724304b0cd99ca8515ac732a9f710e4ea5f
-  Networking: ee4c8cf8a599c79344aa9acaa34ba5c365863b32
+  Networking: f07737ae773259bebf6ac5ba99b1ae27baa5a7f4
   OpenSSL-Universal: cd40d7493c1e9696794f62e2a0e8c729115b7188
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   SignalProtocolC: 051512e9f3abfeb4120c5e9673af9ae0ee370070
