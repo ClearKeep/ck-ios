@@ -9,16 +9,17 @@ import Foundation
 import SignalProtocolObjC
 import Networking
 import SwiftSRP
+import Common
 
 public enum SocialType {
 	case google
 	case facebook
-	case mircosoft
+	case office
 }
 
-protocol IAuthenticationService {
+public protocol IAuthenticationService {
 	func register(displayName: String, email: String, password: String, domain: String) async
-	func login(userName: String, password: String, domain: String) async
+	func login(userName: String, password: String, domain: String) async -> Result<Auth_AuthRes, Error>
 	func login(by socicalType: SocialType, token: String, domain: String)
 	func registerSocialPin(rawPin: String, userId: String, domain: String)
 	func verifySocialPin(rawPin: String, userId: String, domain: String)
@@ -97,10 +98,10 @@ extension CLKAuthenticationService: IAuthenticationService {
 		}
 	}
 	
-	public func login(userName: String, password: String, domain: String) async {
+	public func login(userName: String, password: String, domain: String) async -> Result<Auth_AuthRes, Error> {
 		let srp = SwiftSRP.shared
 		
-		guard let aValue = srp.getA(userName: userName, rawPassword: password, usr: &usr) else { return }
+		guard let aValue = srp.getA(userName: userName, rawPassword: password, usr: &usr) else { return .failure(ServerError.unknown) }
 		let aHex = bytesConvertToHexString(bytes: aValue)
 		
 		var request = Auth_AuthChallengeReq()
@@ -111,7 +112,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		
 		switch response {
 		case .success(let data):
-			guard let mValue = await srp.getM(salt: data.salt.decodeHex, byte: data.publicChallengeB.decodeHex, usr: usr) else { return }
+			guard let mValue = await srp.getM(salt: data.salt.decodeHex, byte: data.publicChallengeB.decodeHex, usr: usr) else { return .failure(ServerError.unknown) }
 			let mHex = bytesConvertToHexString(bytes: mValue)
 			
 			srp.freeMemoryAuthenticate(usr: &usr)
@@ -121,43 +122,37 @@ extension CLKAuthenticationService: IAuthenticationService {
 			request.clientPublic = aHex
 			request.clientSessionKeyProof = mHex
 			
-			let response = await channelStorage.getChannels(domain: domain).login(request)
-			switch response {
-			case .success(let data):
-				print(data)
-			case .failure(let error):
-				print(error)
-			}
+			return await channelStorage.getChannels(domain: domain).login(request)
 		case .failure(let error):
-			print(error)
+			return .failure(error)
 		}
 	}
 	
-	func login(by socicalType: SocialType, token: String, domain: String) {
+	public func login(by socicalType: SocialType, token: String, domain: String) {
 	}
 	
-	func registerSocialPin(rawPin: String, userId: String, domain: String) {
+	public func registerSocialPin(rawPin: String, userId: String, domain: String) {
 	}
 	
-	func verifySocialPin(rawPin: String, userId: String, domain: String) {
+	public func verifySocialPin(rawPin: String, userId: String, domain: String) {
 	}
 	
-	func resetSocialPin(rawPin: String, userId: String, domain: String) {
+	public func resetSocialPin(rawPin: String, userId: String, domain: String) {
 	}
 	
-	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) {
+	public func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) {
 	}
 	
-	func recoverPassword(email: String, domain: String) {
+	public func recoverPassword(email: String, domain: String) {
 	}
 	
-	func logoutFromAPI(server: IServer) {
+	public func logoutFromAPI(server: IServer) {
 	}
 	
-	func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) {
+	public func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) {
 	}
 	
-	func mfaResendOTP(userId: String, otpHash: String, domain: String) {
+	public func mfaResendOTP(userId: String, otpHash: String, domain: String) {
 	}
 }
 
