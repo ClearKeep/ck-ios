@@ -102,10 +102,6 @@ private extension MessageContentView {
 		colorScheme == .light ? backgroundButtonImage : backgroundButtonImage
 	}
 
-	var backgroundNextButton: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.primaryLight
-	}
-
 	var foregroundCheckmask: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
 	}
