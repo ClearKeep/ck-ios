@@ -9,6 +9,7 @@
 "General.Online" = "Online";
 "General.Busy" = "Busy";
 "General.Version" = "App version: %@";
+"Unknow.Message" = "Unknow message";
 
 // MARK: - Social Login
 "Social.SetPhrase.Back" = "Set Your Security Phrase";
