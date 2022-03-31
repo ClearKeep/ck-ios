@@ -39,8 +39,8 @@ struct MemberView: View {
 			.padding(.leading, Constants.padding)
 			.navigationBarTitle("")
 			.navigationBarHidden(true)
-			.edgesIgnoringSafeArea(.all)
 			.background(backgroundColorView)
+			.edgesIgnoringSafeArea(.all)
 	}
 }
 
