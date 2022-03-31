@@ -190,6 +190,7 @@ private extension MessageContentView {
 						.padding(.horizontal, Constants.paddingHorizontal)
 						.font(AppTheme.shared.fontSet.font(style: .body2))
 						.foregroundColor(AppTheme.shared.colorSet.offWhite)
+						.cornerRadius(Constants.radius)
 				}
 			}
 			.background(backgroundNextButton)
