@@ -1,15 +1,15 @@
 //
-//  DirectMessagesView.swift
+//  CreateDirectMessageView.swift
 //  ClearKeep
 //
-//  Created by MinhDev on 29/03/2022.
+//  Created by MinhDev on 01/04/2022.
 //
 
 import SwiftUI
 import Common
 import CommonUI
 
-struct DirectMessagesView: View {
+struct CreateDirectMessageView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
 
@@ -41,35 +41,35 @@ struct DirectMessagesView: View {
 }
 
 // MARK: - Private
-private extension DirectMessagesView {
+private extension CreateDirectMessageView {
 	var content: AnyView {
 		AnyView(notRequestedView)
 	}
 }
 
 // MARK: - Private Variables
-private extension DirectMessagesView {
+private extension CreateDirectMessageView {
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
 	}
 }
 
 // MARK: - Loading Content
-private extension DirectMessagesView {
+private extension CreateDirectMessageView {
 	var notRequestedView: some View {
-		MessageContentView(imageUser: $imageUser, userName: $userName, searchText: .constant(""), severText: .constant(""), inputStyle: .constant(.default))
+		DirectMessageContentView(imageUser: $imageUser, userName: $userName, searchText: .constant(""), severText: .constant(""), inputStyle: .constant(.default))
 	}
 }
 
 // MARK: - Interactor
-private extension DirectMessagesView {
+private extension CreateDirectMessageView {
 }
 
 // MARK: - Preview
 #if DEBUG
-struct DirectMessagesView_Previews: PreviewProvider {
+struct CreateDirectMessageView_Previews: PreviewProvider {
 	static var previews: some View {
-		DirectMessagesView(imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes")
+		CreateDirectMessageView(imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes")
 	}
 }
 #endif

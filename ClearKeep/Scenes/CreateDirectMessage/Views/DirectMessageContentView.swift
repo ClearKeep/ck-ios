@@ -1,8 +1,8 @@
 //
-//  MessageContentView.swift
+//  DirectMessageContentView.swift
 //  ClearKeep
 //
-//  Created by MinhDev on 29/03/2022.
+//  Created by MinhDev on 01/04/2022.
 //
 
 import SwiftUI
@@ -20,7 +20,7 @@ private enum Constants {
 	static let paddingButton = 12.0
 }
 
-struct MessageContentView: View {
+struct DirectMessageContentView: View {
 	// MARK: - Constants
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -58,7 +58,7 @@ struct MessageContentView: View {
 }
 
 // MARK: - Private
-private extension MessageContentView {
+private extension DirectMessageContentView {
 	var content: AnyView {
 		AnyView(contentView)
 	}
@@ -81,7 +81,7 @@ private extension MessageContentView {
 }
 
 // MARK: - Private Variables
-private extension MessageContentView {
+private extension DirectMessageContentView {
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
 	}
@@ -108,7 +108,7 @@ private extension MessageContentView {
 }
 
 // MARK: - Private func
-private extension MessageContentView {
+private extension DirectMessageContentView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
@@ -123,7 +123,7 @@ private extension MessageContentView {
 }
 
 // MARK: - Loading Content
-private extension MessageContentView {
+private extension DirectMessageContentView {
 	var contentView: some View {
 		VStack(alignment: .leading, spacing: Constants.spacing) {
 			buttonBack
@@ -211,14 +211,14 @@ private extension MessageContentView {
 }
 
 // MARK: - Interactor
-private extension MessageContentView {
+private extension DirectMessageContentView {
 }
 
 // MARK: - Preview
 #if DEBUG
-struct MessageContentView_Previews: PreviewProvider {
+struct DirectMessageContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		MessageContentView(imageUser: .constant(Image("")), userName: .constant(""), searchText: .constant(""), severText: .constant(""), inputStyle: .constant(.default))
+		DirectMessageContentView(imageUser: .constant(Image("")), userName: .constant(""), searchText: .constant(""), severText: .constant(""), inputStyle: .constant(.default))
 	}
 }
 #endif
