@@ -18,6 +18,9 @@ enum ConfigurationProvider: IConfiguration {
 		static let clkPort = "CLK_PORT"
 		static let senderDeviceId = "SENDER_DEVICE_ID"
 		static let receiverDeviceId = "RECEIVER_DEVICE_ID"
+		static let googleClientId = "GOOGLE_CLIENT_ID"
+		static let officeClientId = "OFFICE_CLIENT_ID"
+		static let officeRedirectUri = "OFFICE_REDIRECT_URI"
 	}
 	
 	var clkDomain: String {
@@ -31,8 +34,20 @@ enum ConfigurationProvider: IConfiguration {
 	var senderDeviceId: Int {
 		Configuration.value(for: Keys.senderDeviceId)
 	}
+	
 	var receiverDeviceId: Int {
 		Configuration.value(for: Keys.receiverDeviceId)
 	}
 
+	var googleClientId: String {
+		Configuration.value(for: Keys.googleClientId)
+	}
+	
+	var officeClientId: String {
+		Configuration.value(for: Keys.officeClientId)
+	}
+	
+	var officeRedirectUri: String {
+		Configuration.value(for: Keys.officeRedirectUri)
+	}
 }

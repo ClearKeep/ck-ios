@@ -22,7 +22,6 @@ def common
 	pod 'ChatSecure', :path => './Packages/ChatSecure'
 	pod 'Networking', :path => './Packages/Networking'
 	pod 'SwiftSRP', :path => './Packages/SwiftSRP'
-	pod 'GoogleWebRTC'
 end
 
 def xctools
@@ -30,10 +29,22 @@ def xctools
 end
 
 def analytics
+	pod 'Firebase/Analytics'
+end
+
+def socialLogin
+	pod 'GoogleSignIn'
+	pod 'MSAL'
+	pod 'FBSDKLoginKit'
 end
 
 def security
 	pod 'KeychainAccess'
+end
+
+def callmanager
+	pod 'GoogleWebRTC'
+	pod 'SocketRocket'
 end
 
 def utilities
@@ -47,6 +58,8 @@ def shared
 	common
 	security
 	ui
+	socialLogin
+	callmanager
 end
 
 ##################
@@ -67,10 +80,6 @@ end
 
 target 'ClearKeepUITests' do
 	# Pods for testing
-end
-
-target 'NotificationServiceExtension' do
-	# Pods for notification extension
 end
 
 post_install do |installer|
