@@ -22,7 +22,6 @@ private enum Constant {
 	static let cornerRadiusTagUser = 80.0
 	static let sizeImage = 64.0
 	static let paddingButtonNext = 60.0
-
 }
 
 struct GroupChatContentView: View {
@@ -83,8 +82,7 @@ private extension GroupChatContentView {
 						searchStyle = .highlighted
 					}
 				})
-			}
-			else {
+			} else {
 				listUser
 			}
 			buttonNext
