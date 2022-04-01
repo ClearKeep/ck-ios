@@ -152,10 +152,14 @@ private extension GroupChatContentView {
 			Button(action: {
 
 			}, label: {
-				AppTheme.shared.imageSet.crossIcon
-					.renderingMode(.template)
-					.foregroundColor(foregroundCrossIcon)
-					.padding(.trailing, Constant.paddingTagUser)
+				Button {
+
+				} label: {
+					AppTheme.shared.imageSet.crossIcon
+						.renderingMode(.template)
+						.foregroundColor(foregroundCrossIcon)
+						.padding(.trailing, Constant.paddingTagUser)
+				}
 			})
 		}
 		.background(backgroundTagUser)
