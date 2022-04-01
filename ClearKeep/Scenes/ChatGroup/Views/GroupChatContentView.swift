@@ -22,7 +22,8 @@ private enum Constant {
 	static let cornerRadiusTagUser = 80.0
 	static let sizeImage = 64.0
 	static let paddingButtonNext = 60.0
-
+	static let heightTagUser = 40.0
+	static let paddingTagUser = 8.0
 }
 
 struct GroupChatContentView: View {
@@ -49,7 +50,6 @@ struct GroupChatContentView: View {
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		//			.background(background)
 			.edgesIgnoringSafeArea(.all)
 			.navigationBarBackButtonHidden(true)
 	}
@@ -65,7 +65,7 @@ private extension GroupChatContentView {
 // MARK: - Loading Content
 private extension GroupChatContentView {
 	var notRequestedView: some View {
-		VStack {
+		VStack(spacing: Constant.paddingVertical) {
 			buttonBackView
 				.padding(.top, Constant.spacerTopView)
 			searchInput.padding(.top, Constant.paddingVertical)
@@ -148,17 +148,20 @@ private extension GroupChatContentView {
 			Text("Alissa Baker".localized)
 				.font(AppTheme.shared.fontSet.font(style: .body3))
 				.foregroundColor(foregroundTagUser)
+				.padding([.leading, .top, .bottom], Constant.paddingTagUser)
 			Button(action: {
 
 			}, label: {
 				AppTheme.shared.imageSet.crossIcon
 					.renderingMode(.template)
 					.foregroundColor(foregroundCrossIcon)
+					.padding(.trailing, Constant.paddingTagUser)
 			})
 		}
 		.background(backgroundTagUser)
 		.cornerRadius(Constant.cornerRadiusTagUser)
 		.frame(maxWidth: .infinity, alignment: .leading)
+		.frame(height: Constant.heightTagUser)
 	}
 
 	var addAnotherUserButton: some View {
@@ -169,9 +172,12 @@ private extension GroupChatContentView {
 	var listUser: some View {
 		VStack {
 			HStack {
-				AppTheme.shared.imageSet.userIcon
-					.frame(width: Constant.sizeImage, height: Constant.sizeImage)
-					.clipShape(Circle())
+				ZStack {
+					Circle()
+						.fill(backgroundGradientPrimary)
+						.frame(width: Constant.sizeImage, height: Constant.sizeImage)
+					AppTheme.shared.imageSet.userIcon
+				}
 				Text("Alissa Baker".localized)
 					.frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
 					.font(AppTheme.shared.fontSet.font(style: .input2))
