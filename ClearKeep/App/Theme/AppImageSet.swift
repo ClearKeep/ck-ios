@@ -29,7 +29,7 @@ struct AppImageSet: IAppImageSet {
 	var downloadIcon: Image { Image("ic_file_download") }
 	var messagePlusIcon: Image { Image("ic_message_plus") }
 	var phoneIncommingIcon: Image { Image("ic_phone_incomming") }
-	var phoneOffIcon: Image { Image("ic_phone-off") }
+	var phoneOffIcon: Image { Image("ic_phone_off") }
 	var microphoneOffIcon: Image { Image("ic_microphone_off") }
 	var messageCricleIcon: Image { Image("ic_message_circle") }
 	var crossIcon: Image { Image("ic_cross") }
