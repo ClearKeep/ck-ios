@@ -68,8 +68,8 @@ struct AppImageSet: IAppImageSet {
 	var googleIcon: Image { Image("ic_google") }
 	var officeIcon: Image { Image("ic_office") }
 	var facebookIcon: Image { Image("ic_faceBook") }
-	var checkMask: Image { Image("ic_ellipse") }
-	var checkMaskFill: Image { Image("ic_checkbox") }
+	var unCheckIcon: Image { Image("ic_uncheck") }
+	var checkedIcon: Image { Image("ic_checked") }
 }
 
 extension AppImageSet: ICommonUIImageSet {
