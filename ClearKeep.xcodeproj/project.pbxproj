@@ -110,6 +110,7 @@
 		F554DF1D27FA03AD00D5BCF7 /* InComingVoiceCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554DF1B27FA03AC00D5BCF7 /* InComingVoiceCallView.swift */; };
 		F554DF1E27FA03AD00D5BCF7 /* CallingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554DF1C27FA03AC00D5BCF7 /* CallingView.swift */; };
 		F554DF2227FA040F00D5BCF7 /* CallModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554DF2127FA040F00D5BCF7 /* CallModel.swift */; };
+		F554DF2427FA918B00D5BCF7 /* VoiceCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554DF2327FA918B00D5BCF7 /* VoiceCall.swift */; };
 		F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37EE27E97FF20085CECE /* ProfileModel.swift */; };
 		F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37F027E97FF20085CECE /* CountryCode.swift */; };
 		F5CE37F427E97FF20085CECE /* UserProfileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */; };
@@ -291,6 +292,7 @@
 		F554DF1B27FA03AC00D5BCF7 /* InComingVoiceCallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InComingVoiceCallView.swift; sourceTree = "<group>"; };
 		F554DF1C27FA03AC00D5BCF7 /* CallingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallingView.swift; sourceTree = "<group>"; };
 		F554DF2127FA040F00D5BCF7 /* CallModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallModel.swift; sourceTree = "<group>"; };
+		F554DF2327FA918B00D5BCF7 /* VoiceCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceCall.swift; sourceTree = "<group>"; };
 		F5CE37EE27E97FF20085CECE /* ProfileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		F5CE37F027E97FF20085CECE /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileContentView.swift; sourceTree = "<group>"; };
@@ -1001,6 +1003,7 @@
 			children = (
 				F554DF1C27FA03AC00D5BCF7 /* CallingView.swift */,
 				F554DF1B27FA03AC00D5BCF7 /* InComingVoiceCallView.swift */,
+				F554DF2327FA918B00D5BCF7 /* VoiceCall.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1325,6 +1328,7 @@
 				044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */,
 				0499344727E97035003BD4C4 /* ChangePasswordInteractor.swift in Sources */,
 				F5E01A1527F15C4600FDACE2 /* ChatGroupModel.swift in Sources */,
+				F554DF2427FA918B00D5BCF7 /* VoiceCall.swift in Sources */,
 				0499341027E96DD7003BD4C4 /* FogotPasswordView.swift in Sources */,
 				0499344427E97035003BD4C4 /* ChangePasswordInMemoryStore.swift in Sources */,
 				047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */,

@@ -1,8 +1,8 @@
 //
-//  IncomingCallView.swift
+//  VoiceCall.swift
 //  ClearKeep
 //
-//  Created by đông on 31/03/2022.
+//  Created by đông on 04/04/2022.
 //
 
 import SwiftUI
@@ -20,7 +20,7 @@ private enum Constant {
 	static let borderLineWidth = 2.0
 }
 
-struct CallingView: View {
+struct VoiceCall: View {
 	// MARK: - Variables
 	let inspection = ViewInspector<Self>()
 	@Environment(\.injected) private var injected: DIContainer
@@ -47,17 +47,17 @@ struct CallingView: View {
 }
 
 // MARK: - Private
-private extension CallingView {
+private extension VoiceCall {
 	var content: AnyView {
 		AnyView(notRequestedView)
 	}
 }
 
 // MARK: - Loading Content
-private extension CallingView {
+private extension VoiceCall {
 	var notRequestedView: some View {
 		VStack(spacing: Constant.spacer) {
-			statusCalling
+			buttonBackView
 				.padding(.top, Constant.spacerTopView)
 			userPicture
 			userName
@@ -69,6 +69,19 @@ private extension CallingView {
 		}
 		.background(foregroundColorGreyLight)
 		.padding(.horizontal, Constant.paddingVertical)
+	}
+
+	var buttonBackView: some View {
+		Button(action: customBack) {
+			HStack(spacing: Constant.spacer) {
+				AppTheme.shared.imageSet.backIcon
+					.renderingMode(.template)
+					.aspectRatio(contentMode: .fit)
+					.foregroundColor(foregroundBackButton)
+			}
+			.frame(maxWidth: .infinity, alignment: .leading)
+			.foregroundColor(foregroundColorWhite)
+		}
 	}
 
 	var statusCalling: some View {
@@ -168,7 +181,7 @@ private extension CallingView {
 }
 
 // MARK: - Color func
-private extension CallingView {
+private extension VoiceCall {
 	var foregroundColorWhite: Color {
 		AppTheme.shared.colorSet.offWhite
 	}
@@ -187,6 +200,10 @@ private extension CallingView {
 
 	var foregroundCrossIcon: Color {
 		colorScheme == .light ? foregroundColorBlack : foregroundColorGreyLight
+	}
+
+	var foregroundBackButton: Color {
+		colorScheme == .light ? foregroundColorWhite : foregroundColorGreyLight
 	}
 
 	var backgroundGradientPrimary: LinearGradient {
@@ -222,8 +239,8 @@ private extension CallingView {
 	}
 }
 
-struct CallingView_Previews: PreviewProvider {
-	static var previews: some View {
-		CallingView()
-	}
+struct VoiceCall_Previews: PreviewProvider {
+    static var previews: some View {
+        VoiceCall()
+    }
 }
