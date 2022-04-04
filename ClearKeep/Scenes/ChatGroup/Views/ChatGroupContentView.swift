@@ -26,7 +26,7 @@ private enum Constant {
 	static let paddingTagUser = 8.0
 }
 
-struct GroupChatContentView: View {
+struct ChatGroupContentView: View {
 	// MARK: - Variables
 	let inspection = ViewInspector<Self>()
 	@Environment(\.injected) private var injected: DIContainer
@@ -56,14 +56,14 @@ struct GroupChatContentView: View {
 }
 
 // MARK: - Private
-private extension GroupChatContentView {
+private extension ChatGroupContentView {
 	var content: AnyView {
 		AnyView(notRequestedView)
 	}
 }
 
 // MARK: - Loading Content
-private extension GroupChatContentView {
+private extension ChatGroupContentView {
 	var notRequestedView: some View {
 		VStack(spacing: Constant.paddingVertical) {
 			buttonBackView
@@ -193,14 +193,14 @@ private extension GroupChatContentView {
 	}
 }
 
-private extension GroupChatContentView {
+private extension ChatGroupContentView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
 }
 
 // MARK: - Color func
-private extension GroupChatContentView {
+private extension ChatGroupContentView {
 	var foregroundColorWhite: Color {
 		AppTheme.shared.colorSet.offWhite
 	}
@@ -246,8 +246,8 @@ private extension GroupChatContentView {
 	}
 }
 
-struct GroupChatContentView_Previews: PreviewProvider {
+struct ChatGroupContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		GroupChatContentView()
+		ChatGroupContentView()
 	}
 }

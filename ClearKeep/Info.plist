@@ -16,6 +16,39 @@
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Facebook</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(FACEBOOK_URL_SCHEME)</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Google</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(GOOGLE_URL_SCHEME)</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Office365</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(OFFICE_URL_SCHEME)</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>CLK_DOMAIN</key>
@@ -24,8 +57,12 @@
 	<string>$(CLK_PORT)</string>
 	<key>FacebookAppID</key>
 	<string>$(FACEBOOK_APP_ID)</string>
+	<key>FacebookClientToken</key>
+	<string>$(FACEBOOK_CLIENT_TOKEN)</string>
 	<key>FacebookDisplayName</key>
 	<string>$(FACEBOOK_DISPLAY_NAME)</string>
+	<key>GOOGLE_CLIENT_ID</key>
+	<string>$(GOOGLE_CLIENT_ID)</string>
 	<key>GOOGLE_SERVICE_INFO_PLIST</key>
 	<string>$(GOOGLE_SERVICE_INFO_PLIST)</string>
 	<key>IOS_APP_NAME</key>
@@ -34,8 +71,20 @@
 	<string>$(IOS_BUNDLE_ID)</string>
 	<key>IOS_NOTIFICATION_EXTENSION_BUNDLE_ID</key>
 	<string>$(IOS_NOTIFICATION_EXTENSION_BUNDLE_ID)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>msauth</string>
+		<string>msauthv2</string>
+		<string>msauthv3</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>OFFICE_CLIENT_ID</key>
+	<string>$(OFFICE_CLIENT_ID)</string>
+	<key>OFFICE_REDIRECT_URI</key>
+	<string>$(OFFICE_REDIRECT_URI)</string>
 	<key>RECEIVER_DEVICE_ID</key>
 	<string>${RECEIVER_DEVICE_ID}</string>
 	<key>SENDER_DEVICE_ID</key>

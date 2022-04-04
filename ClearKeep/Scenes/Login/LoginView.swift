@@ -20,7 +20,7 @@ private enum Constants {
 }
 
 struct LoginView: View {
-
+	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@State private(set) var samples: Loadable<[ILoginModel]>
@@ -30,6 +30,7 @@ struct LoginView: View {
 	@State private(set) var passwordStyle: TextInputStyle = .default
 	let inspection = ViewInspector<Self>()
 
+	// MARK: - Init
 	init(samples: Loadable<[ILoginModel]> = .notRequested,
 		 email: String = "",
 		 password: String = "",
@@ -40,7 +41,8 @@ struct LoginView: View {
 		self._emailStyle = .init(initialValue: inputStyle)
 		self._passwordStyle = .init(initialValue: inputStyle)
 	}
-
+	
+	// MARK: - Body
 	var body: some View {
 		NavigationView {
 			content
