@@ -33,9 +33,10 @@ extension APIService: IAuthenticationAPIService {
 							continuation.resume(returning: result)
 						}
 					} else {
-						continuation.resume(returning: .failure(status))
+						continuation.resume(returning: .failure(ServerError(status)))
 					}
-				case .failure(let error): print(error)
+				case .failure(let error):
+					continuation.resume(returning: .failure(ServerError(error)))
 				}
 			})
 		})
@@ -53,9 +54,10 @@ extension APIService: IAuthenticationAPIService {
 							continuation.resume(returning: result)
 						}
 					} else {
-						continuation.resume(returning: .failure(status))
+						continuation.resume(returning: .failure(ServerError(status)))
 					}
-				case .failure(let error): print(error)
+				case .failure(let error):
+					continuation.resume(returning: .failure(ServerError(error)))
 				}
 			})
 		})
@@ -73,9 +75,10 @@ extension APIService: IAuthenticationAPIService {
 							continuation.resume(returning: result)
 						}
 					} else {
-						continuation.resume(returning: .failure(status))
+						continuation.resume(returning: .failure(ServerError(status)))
 					}
-				case .failure(let error): print(error)
+				case .failure(let error):
+					continuation.resume(returning: .failure(ServerError(error)))
 				}
 			})
 		})
@@ -93,9 +96,10 @@ extension APIService: IAuthenticationAPIService {
 							continuation.resume(returning: result)
 						}
 					} else {
-						continuation.resume(returning: .failure(status))
+						continuation.resume(returning: .failure(ServerError(status)))
 					}
-				case .failure(let error): print(error)
+				case .failure(let error):
+					continuation.resume(returning: .failure(ServerError(error)))
 				}
 			})
 		})
@@ -113,9 +117,10 @@ extension APIService: IAuthenticationAPIService {
 							continuation.resume(returning: result)
 						}
 					} else {
-						continuation.resume(returning: .failure(status))
+						continuation.resume(returning: .failure(ServerError(status)))
 					}
-				case .failure(let error): print(error)
+				case .failure(let error):
+					continuation.resume(returning: .failure(ServerError(error)))
 				}
 			})
 		})
@@ -133,9 +138,10 @@ extension APIService: IAuthenticationAPIService {
 							continuation.resume(returning: result)
 						}
 					} else {
-						continuation.resume(returning: .failure(status))
+						continuation.resume(returning: .failure(ServerError(status)))
 					}
-				case .failure(let error): print(error)
+				case .failure(let error):
+					continuation.resume(returning: .failure(ServerError(error)))
 				}
 			})
 		})
@@ -153,9 +159,10 @@ extension APIService: IAuthenticationAPIService {
 							continuation.resume(returning: result)
 						}
 					} else {
-						continuation.resume(returning: .failure(status))
+						continuation.resume(returning: .failure(ServerError(status)))
 					}
-				case .failure(let error): print(error)
+				case .failure(let error):
+					continuation.resume(returning: .failure(ServerError(error)))
 				}
 			})
 		})
@@ -173,9 +180,10 @@ extension APIService: IAuthenticationAPIService {
 							continuation.resume(returning: result)
 						}
 					} else {
-						continuation.resume(returning: .failure(status))
+						continuation.resume(returning: .failure(ServerError(status)))
 					}
-				case .failure(let error): print(error)
+				case .failure(let error):
+					continuation.resume(returning: .failure(ServerError(error)))
 				}
 			})
 		})
@@ -193,9 +201,10 @@ extension APIService: IAuthenticationAPIService {
 							continuation.resume(returning: result)
 						}
 					} else {
-						continuation.resume(returning: .failure(status))
+						continuation.resume(returning: .failure(ServerError(status)))
 					}
-				case .failure(let error): print(error)
+				case .failure(let error):
+					continuation.resume(returning: .failure(ServerError(error)))
 				}
 			})
 		})
@@ -213,9 +222,10 @@ extension APIService: IAuthenticationAPIService {
 							continuation.resume(returning: result)
 						}
 					} else {
-						continuation.resume(returning: .failure(status))
+						continuation.resume(returning: .failure(ServerError(status)))
 					}
-				case .failure(let error): print(error)
+				case .failure(let error):
+					continuation.resume(returning: .failure(ServerError(error)))
 				}
 			})
 		})

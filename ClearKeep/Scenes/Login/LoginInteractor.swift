@@ -6,27 +6,69 @@
 //
 
 import Common
+import ChatSecure
+import GRPC
 
 protocol ILoginInteractor {
-	var worker: ILoginWorker { get }
+	func signIn(email: String, password: String) async
+	func signInSocial(_ socialType: SocialType)
+	func getAppVersion() -> String
 }
 
 struct LoginInteractor {
 	let appState: Store<AppState>
+	let channelStorage: IChannelStorage
+	let socialAuthenticationService: ISocialAuthenticationService
+	let authenticationService: IAuthenticationService
 }
 
 extension LoginInteractor: ILoginInteractor {
 	var worker: ILoginWorker {
-		let remoteStore = LoginRemoteStore()
+		let remoteStore = LoginRemoteStore(socialAuthenticationService: socialAuthenticationService, authenticationService: authenticationService)
 		let inMemoryStore = LoginInMemoryStore()
-		return LoginWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+		return LoginWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+	}
+	
+	func signIn(email: String, password: String) async {
+		let result = await worker.signIn(email: email, password: password)
+		
+		switch result {
+		case .success(let data):
+			print(data)
+		case .failure(let error):
+			print(error)
+		}
+	}
+	
+	func signInSocial(_ socialType: SocialType) {
+		worker.signInSocial(socialType)
+	}
+	
+	func getAppVersion() -> String {
+		return worker.appVersion
 	}
 }
 
 struct StubLoginInteractor: ILoginInteractor {
+	let channelStorage: IChannelStorage
+	let socialAuthenticationService: ISocialAuthenticationService
+	let authenticationService: IAuthenticationService
+	
 	var worker: ILoginWorker {
-		let remoteStore = LoginRemoteStore()
+		let remoteStore = LoginRemoteStore(socialAuthenticationService: socialAuthenticationService, authenticationService: authenticationService)
 		let inMemoryStore = LoginInMemoryStore()
-		return LoginWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+		return LoginWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+	}
+	
+	func signIn(email: String, password: String) async {
+		
+	}
+	
+	func signInSocial(_ socialType: SocialType) {
+		worker.signInSocial(socialType)
+	}
+	
+	func getAppVersion() -> String {
+		return worker.appVersion
 	}
 }

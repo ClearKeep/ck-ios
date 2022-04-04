@@ -25,14 +25,18 @@ private enum Constant {
 }
 
 struct LoginContentView: View {
+	// MARK: - Variables
+	@Environment(\.injected) private var injected: DIContainer
+	@Environment(\.colorScheme) var colorScheme
 	@Binding var email: String
 	@Binding var password: String
 	@Binding var emailStyle: TextInputStyle
 	@Binding var passwordStyle: TextInputStyle
+	@State private var appVersion: String = "General.Version".localized
 	@State private var editingEmail = false
 	@State private var editingPassword = false
-	@Environment(\.colorScheme) var colorScheme
 	
+	// MARK: - Body
 	var body: some View {
 		VStack(alignment: .center, spacing: Constant.spacer) {
 			textInput
@@ -48,7 +52,6 @@ struct LoginContentView: View {
 
 // MARK: - Private
 private extension LoginContentView {
-	
 	var button: AnyView {
 		AnyView(buttonSignIn)
 	}
@@ -81,7 +84,9 @@ private extension LoginContentView {
 // MARK: - Loading Content
 private extension LoginContentView {
 	var buttonSignIn: some View {
-		Button("Login.SignIn".localized) {}
+		Button("Login.SignIn".localized) {
+			doLogin()
+		}
 		.frame(maxWidth: .infinity)
 		.frame(height: Constant.heightButton)
 		.font(fontSignIn)
@@ -141,15 +146,21 @@ private extension LoginContentView {
 	
 	var socialLoginButtonView: some View {
 		HStack(spacing: Constant.spacerBottom) {
-			NavigationLink(destination: SocialView(security: "")) {
+			Button {
+				injected.interactors.loginInteractor.signInSocial(.google)
+			} label: {
 				AppTheme.shared.imageSet.googleIcon
 			}
 			
-			NavigationLink(destination: SocialView(security: "")) {
+			Button {
+				injected.interactors.loginInteractor.signInSocial(.office)
+			} label: {
 				AppTheme.shared.imageSet.officeIcon
 			}
 			
-			NavigationLink(destination: SocialView(security: "")) {
+			Button {
+				injected.interactors.loginInteractor.signInSocial(.facebook)
+			} label: {
 				AppTheme.shared.imageSet.facebookIcon
 			}
 		}
@@ -177,9 +188,12 @@ private extension LoginContentView {
 			
 			Spacer(minLength: Constant.spacerBottomView)
 			
-			Text("Login.Version".localized)
+			Text(appVersion)
 				.font(AppTheme.shared.fontSet.font(style: .placeholder3))
 				.foregroundColor(foregroundColorWhite)
+				.onAppear(perform: {
+					getAppVersion()
+				})
 		}
 		.padding(.leading, Constant.paddingHorizontalSignUp)
 		.padding(.trailing, Constant.paddingHorizontalSignUp)
@@ -230,6 +244,19 @@ private extension LoginContentView {
 	
 	var fontSignIn: Font {
 		AppTheme.shared.fontSet.font(style: .body3)
+	}
+}
+
+// MARK: - Interactors
+private extension LoginContentView {
+	func getAppVersion() {
+		appVersion = injected.interactors.loginInteractor.getAppVersion()
+	}
+	
+	func doLogin() {
+		Task {
+			await injected.interactors.loginInteractor.signIn(email: email, password: password)
+		}
 	}
 }
 
