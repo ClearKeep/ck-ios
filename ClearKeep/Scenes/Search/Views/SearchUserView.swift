@@ -69,8 +69,7 @@ private extension SearchUserView {
 }
 
 // MARK: - Interactor
-private extension SearchUserView {
-}
+
 
 // MARK: - Preview
 #if DEBUG
