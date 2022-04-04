@@ -20,7 +20,7 @@ private enum Constant {
 	static let sizeCircle = 52.0
 }
 
-struct ServerSettingView: View {
+struct ServerSettingContentView: View {
 	// MARK: - Variables
 	let inspection = ViewInspector<Self>()
 	@Environment(\.injected) private var injected: DIContainer
@@ -57,14 +57,14 @@ struct ServerSettingView: View {
 }
 
 // MARK: - Private
-private extension ServerSettingView {
+private extension ServerSettingContentView {
 	var content: AnyView {
 		AnyView(notRequestedView)
 	}
 }
 
 // MARK: - Loading Content
-private extension ServerSettingView {
+private extension ServerSettingContentView {
 	var notRequestedView: some View {
 		VStack(spacing: Constant.spacer) {
 			backgroundColorTop
@@ -96,7 +96,7 @@ private extension ServerSettingView {
 	}
 
 	var title: some View {
-		Text("Notification.Title".localized)
+		Text("Server.Title".localized)
 			.frame(maxWidth: .infinity, alignment: .leading)
 			.font(AppTheme.shared.fontSet.font(style: .body1))
 	}
@@ -150,7 +150,7 @@ private extension ServerSettingView {
 }
 
 // MARK: - Color func
-private extension ServerSettingView {
+private extension ServerSettingContentView {
 	var backgroundColorGradient: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
@@ -184,8 +184,8 @@ private extension ServerSettingView {
 	}
 }
 
-struct ServerSettingView_Previews: PreviewProvider {
+struct ServerSettingContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		ServerSettingView()
+		ServerSettingContentView()
 	}
 }
