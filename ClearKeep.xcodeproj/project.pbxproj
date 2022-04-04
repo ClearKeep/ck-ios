@@ -21,6 +21,15 @@
 		047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419C27DB3D2C0043345A /* LoginInMemoryStore.swift */; };
 		047241A927DB3D2C0043345A /* ILoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419E27DB3D2C0043345A /* ILoginModel.swift */; };
 		047241AE27DB3D2C0043345A /* LoginWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047241A427DB3D2C0043345A /* LoginWorker.swift */; };
+		047D6B0E27F1544D0098B104 /* GroupDetailInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B0927F1544C0098B104 /* GroupDetailInMemoryStore.swift */; };
+		047D6B0F27F1544D0098B104 /* GroupDetailWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B0A27F1544C0098B104 /* GroupDetailWorker.swift */; };
+		047D6B1027F1544D0098B104 /* GroupDetailRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B0B27F1544D0098B104 /* GroupDetailRemoteStore.swift */; };
+		047D6B1127F1544D0098B104 /* GroupDetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B0C27F1544D0098B104 /* GroupDetailInteractor.swift */; };
+		047D6B1227F1544D0098B104 /* GroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B0D27F1544D0098B104 /* GroupDetailView.swift */; };
+		047D6B1827F154970098B104 /* MemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B1727F154970098B104 /* MemberView.swift */; };
+		047D6B1A27F154A60098B104 /* AddMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B1927F154A60098B104 /* AddMemberView.swift */; };
+		047D6B1C27F154B70098B104 /* RemoveMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B1B27F154B70098B104 /* RemoveMemberView.swift */; };
+		047D6B1E27F158520098B104 /* DetailContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B1D27F158520098B104 /* DetailContentView.swift */; };
 		0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340727E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift */; };
 		0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340827E96DD7003BD4C4 /* FogotPasswordWorker.swift */; };
 		0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340927E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift */; };
@@ -160,6 +169,15 @@
 		0472419C27DB3D2C0043345A /* LoginInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInMemoryStore.swift; sourceTree = "<group>"; };
 		0472419E27DB3D2C0043345A /* ILoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ILoginModel.swift; sourceTree = "<group>"; };
 		047241A427DB3D2C0043345A /* LoginWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginWorker.swift; sourceTree = "<group>"; };
+		047D6B0927F1544C0098B104 /* GroupDetailInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailInMemoryStore.swift; sourceTree = "<group>"; };
+		047D6B0A27F1544C0098B104 /* GroupDetailWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailWorker.swift; sourceTree = "<group>"; };
+		047D6B0B27F1544D0098B104 /* GroupDetailRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailRemoteStore.swift; sourceTree = "<group>"; };
+		047D6B0C27F1544D0098B104 /* GroupDetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailInteractor.swift; sourceTree = "<group>"; };
+		047D6B0D27F1544D0098B104 /* GroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailView.swift; sourceTree = "<group>"; };
+		047D6B1727F154970098B104 /* MemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberView.swift; sourceTree = "<group>"; };
+		047D6B1927F154A60098B104 /* AddMemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberView.swift; sourceTree = "<group>"; };
+		047D6B1B27F154B70098B104 /* RemoveMemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveMemberView.swift; sourceTree = "<group>"; };
+		047D6B1D27F158520098B104 /* DetailContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContentView.swift; sourceTree = "<group>"; };
 		0499340727E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordInMemoryStore.swift; sourceTree = "<group>"; };
 		0499340827E96DD7003BD4C4 /* FogotPasswordWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordWorker.swift; sourceTree = "<group>"; };
 		0499340927E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordRemoteStore.swift; sourceTree = "<group>"; };
@@ -355,6 +373,38 @@
 			isa = PBXGroup;
 			children = (
 				0472419E27DB3D2C0043345A /* ILoginModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		047D6B0827F14D3E0098B104 /* GroupDetail */ = {
+			isa = PBXGroup;
+			children = (
+				047D6B1427F154580098B104 /* Models */,
+				047D6B1327F154510098B104 /* Views */,
+				047D6B0927F1544C0098B104 /* GroupDetailInMemoryStore.swift */,
+				047D6B0A27F1544C0098B104 /* GroupDetailWorker.swift */,
+				047D6B0B27F1544D0098B104 /* GroupDetailRemoteStore.swift */,
+				047D6B0C27F1544D0098B104 /* GroupDetailInteractor.swift */,
+				047D6B0D27F1544D0098B104 /* GroupDetailView.swift */,
+			);
+			path = GroupDetail;
+			sourceTree = "<group>";
+		};
+		047D6B1327F154510098B104 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				047D6B1D27F158520098B104 /* DetailContentView.swift */,
+				047D6B1727F154970098B104 /* MemberView.swift */,
+				047D6B1927F154A60098B104 /* AddMemberView.swift */,
+				047D6B1B27F154B70098B104 /* RemoveMemberView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		047D6B1427F154580098B104 /* Models */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -557,6 +607,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				047D6B0827F14D3E0098B104 /* GroupDetail */,
 				F5CE37EC27E97FF20085CECE /* Profile */,
 				0499343E27E97015003BD4C4 /* ChangePassword */,
 				0499342027E96EBB003BD4C4 /* AdvancedServer */,
@@ -1129,10 +1180,13 @@
 				CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */,
 				044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */,
 				044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */,
+				047D6B1227F1544D0098B104 /* GroupDetailView.swift in Sources */,
 				047241A627DB3D2C0043345A /* LoginView.swift in Sources */,
 				044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */,
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
+				047D6B1A27F154A60098B104 /* AddMemberView.swift in Sources */,
 				CB8C3E3427F57FBA0034B3A9 /* AppVersion.swift in Sources */,
+				047D6B1A27F154A60098B104 /* AddMemberView.swift in Sources */,
 				CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */,
 				CB117E7B27BB65E2000941D9 /* LocationConfigurations.swift in Sources */,
 				CB117EC427BB8DB1000941D9 /* SceneDelegate.swift in Sources */,
@@ -1146,7 +1200,9 @@
 				F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				044351F727D9AFCA0054A78F /* IRegisterModel.swift in Sources */,
+				047D6B1127F1544D0098B104 /* GroupDetailInteractor.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
+				047D6B0F27F1544D0098B104 /* GroupDetailWorker.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
 				F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */,
 				F553F87127E820E600824BE7 /* SocialView.swift in Sources */,
@@ -1159,6 +1215,7 @@
 				0499345427E9A8BE003BD4C4 /* AdvancedSeverWorker.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
 				047241AE27DB3D2C0043345A /* LoginWorker.swift in Sources */,
+				047D6B1E27F158520098B104 /* DetailContentView.swift in Sources */,
 				0499343927E96F8A003BD4C4 /* NewPasswordView.swift in Sources */,
 				044351F827D9AFCA0054A78F /* RegisterInteractor.swift in Sources */,
 				F553F86F27E820E600824BE7 /* SocialModel.swift in Sources */,
@@ -1170,6 +1227,7 @@
 				0499344427E97035003BD4C4 /* ChangePasswordInMemoryStore.swift in Sources */,
 				047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */,
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
+				047D6B1027F1544D0098B104 /* GroupDetailRemoteStore.swift in Sources */,
 				0499345627E9A8BE003BD4C4 /* AdvancedSeverInteractor.swift in Sources */,
 				CB117E8627BB6687000941D9 /* SampleModel.swift in Sources */,
 				0499343D27E96FC5003BD4C4 /* NewPasswordContenView.swift in Sources */,
@@ -1181,6 +1239,7 @@
 				0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */,
 				F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
+				047D6B0E27F1544D0098B104 /* GroupDetailInMemoryStore.swift in Sources */,
 				F553F87327E820E600824BE7 /* SocialVerify.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
 				047241A727DB3D2C0043345A /* LoginInteractor.swift in Sources */,
@@ -1195,6 +1254,8 @@
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
 				0499343627E96F8A003BD4C4 /* NewPasswordWorker.swift in Sources */,
 				F553F87427E820E600824BE7 /* SocialCommonUI.swift in Sources */,
+				047D6B1827F154970098B104 /* MemberView.swift in Sources */,
+				047D6B1C27F154B70098B104 /* RemoveMemberView.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
 				047241A927DB3D2C0043345A /* ILoginModel.swift in Sources */,
 				0499343827E96F8A003BD4C4 /* NewPasswordInteractor.swift in Sources */,

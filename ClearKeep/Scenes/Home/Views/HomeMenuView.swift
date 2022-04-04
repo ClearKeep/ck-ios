@@ -80,6 +80,7 @@ private extension HomeMenuView {
 		AnyView(profileView)
 	}
 }
+
 // MARK: - Private variable
 private extension HomeMenuView {
 	var backgroundColorView: LinearGradient {
@@ -101,7 +102,7 @@ private extension HomeMenuView {
 	var foregroundStatusView: Color {
 		isChangeStatus ? AppTheme.shared.colorSet.successDefault : AppTheme.shared.colorSet.errorDefault
 	}
-	
+
 	var foregroundButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight
 	}
@@ -133,10 +134,12 @@ private extension HomeMenuView {
 	var foregroundSignout: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.errorDefault : AppTheme.shared.colorSet.primaryDefault
 	}
+
 	var opacityAction: Double {
 		isExpand ? 1 : 0
 	}
 }
+
 // MARK: - Private func
 private extension HomeMenuView {
 	func statusAction() {
@@ -167,7 +170,16 @@ private extension HomeMenuView {
 	func profileAction() {
 
 	}
+
+	func severAction() {
+
+	}
+
+	func notificationAction() {
+
+	}
 }
+
 // MARK: - Displaying Content
 private extension HomeMenuView {
 	var menuView: some View {
@@ -185,7 +197,6 @@ private extension HomeMenuView {
 			profile
 			Divider()
 			list
-				.padding(.trailing, Constants.padding)
 				.padding(.top, Constants.padding)
 			Spacer()
 			Button(action: signOut) {
@@ -304,19 +315,51 @@ private extension HomeMenuView {
 	}
 
 	var listView: some View {
-		Button(action: profileAction) {
-			HStack {
-				AppTheme.shared.imageSet.userIcon
-					.resizable()
-					.renderingMode(.template)
-					.aspectRatio(contentMode: .fit)
-					.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
-					.padding(.all, Constants.padding)
-					.foregroundColor(foregroundText)
-				Text("Home.Profile".localized)
-					.font(AppTheme.shared.fontSet.font(style: .body3))
-					.foregroundColor(foregroundText)
-				Spacer()
+		VStack {
+			Button(action: profileAction) {
+				HStack {
+					AppTheme.shared.imageSet.userIcon
+						.resizable()
+						.renderingMode(.template)
+						.aspectRatio(contentMode: .fit)
+						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+						.padding(.all, Constants.padding)
+						.foregroundColor(foregroundText)
+					Text("Home.Profile".localized)
+						.font(AppTheme.shared.fontSet.font(style: .body3))
+						.foregroundColor(foregroundText)
+					Spacer()
+				}
+			}
+			Button(action: severAction) {
+				HStack {
+					AppTheme.shared.imageSet.adjustmentIcon
+						.resizable()
+						.renderingMode(.template)
+						.aspectRatio(contentMode: .fit)
+						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+						.padding(.all, Constants.padding)
+						.foregroundColor(foregroundText)
+					Text("Home.Sever".localized)
+						.font(AppTheme.shared.fontSet.font(style: .body3))
+						.foregroundColor(foregroundText)
+					Spacer()
+				}
+			}
+			Button(action: notificationAction) {
+				HStack {
+					AppTheme.shared.imageSet.notificationIcon
+						.resizable()
+						.renderingMode(.template)
+						.aspectRatio(contentMode: .fit)
+						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+						.padding(.all, Constants.padding)
+						.foregroundColor(foregroundText)
+					Text("General.Notification".localized)
+						.font(AppTheme.shared.fontSet.font(style: .body3))
+						.foregroundColor(foregroundText)
+					Spacer()
+				}
 			}
 		}
 	}

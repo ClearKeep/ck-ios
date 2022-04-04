@@ -8,9 +8,11 @@
 "General.Notification" = "Notification";
 "General.Online" = "Online";
 "General.Busy" = "Busy";
+"General.Video" = "Video";
+"General.Audio" = "Audio";
 "General.Version" = "App version: %@";
 "Unknow.Message" = "Unknow message";
-
+"General.Next" = "Next";
 // MARK: - Social Login
 "Social.SetPhrase.Back" = "Set Your Security Phrase";
 "Social.ConfirmPhrase.Back" = "Confirm Your Security Phrase";
@@ -83,3 +85,21 @@
 "Home.GroupChat" = "Group Chat";
 "Home.Message" = "Direct Messages";
 "Home.Signout" = "Sign out";
+// MARK: - Search
+"Search.Title" = "CK Development";
+"Search.Placehodel" = "Search people, groups & messages";
+"Search.All" = "All";
+"Search.People" = "People";
+"Search.Server" = "Sever";
+"Search.Group" = "Groups";
+"Search.Message" = "Messages";
+"Search.GroupChat" = "Group Chat";
+// MARK: - GroupDetail
+"GroupDetail.SeeMembers" = "See Members";
+"GroupDetail.AddMember" = "Add Member";
+"GroupDetail.RemoveMember" = "Remove Member";
+"GroupDetail.LeaveGroup" = "Leave Group";
+"GroupDetail.Search" = "Search people ";
+"GroupDetail.TitleCheckbox" = "Add user from other server";
+"GroupDetail.UserInitTitle" = "Users int his Group chat";
+"GroupDetail.Title.PlaceHoder" = "Paste your friend's link";
