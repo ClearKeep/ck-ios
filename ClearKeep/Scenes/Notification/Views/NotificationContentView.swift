@@ -34,7 +34,6 @@ struct NotificationContentView: View {
 
 	// MARK: - Init
 	init(samples: Loadable<[IServerSettingModel]> = .notRequested) {
-//		self._isShowing = isShowing
 		self._samples = .init(initialValue: samples)
 	}
 
@@ -74,7 +73,6 @@ private extension NotificationContentView {
 	var buttonTop: some View {
 		HStack {
 			Button(action: {
-//				isShowing = false
 			}, label: {
 				AppTheme.shared.imageSet.crossIcon
 					.renderingMode(.template)

@@ -27,7 +27,6 @@ struct ServerSettingContentView: View {
 	@Environment(\.colorScheme) private var colorScheme
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 
-//	@Binding var isShowing: Bool
 	@State private(set) var samples: Loadable<[IServerSettingModel]>
 	@State private(set) var serverName: String
 	@State private(set) var serverUrl: String
@@ -40,7 +39,6 @@ struct ServerSettingContentView: View {
 		 serverName: String = "",
 		 inputStyle: TextInputStyle = .default,
 		 serverUrl: String = "") {
-//		self._isShowing = isShowing
 		self._samples = .init(initialValue: samples)
 		self._serverName = .init(initialValue: serverName)
 		self._serverStyle = .init(initialValue: inputStyle)
@@ -84,7 +82,6 @@ private extension ServerSettingContentView {
 	var buttonTop: some View {
 		HStack {
 			Button(action: {
-//				isShowing = false
 			}, label: {
 				AppTheme.shared.imageSet.crossIcon
 					.renderingMode(.template)
@@ -137,7 +134,6 @@ private extension ServerSettingContentView {
 						.background(Circle().foregroundColor(foregroundCircle))
 						.frame(width: Constant.sizeCircle, height: Constant.sizeCircle)
 					Button(action: {
-		//				isShowing = false
 					}, label: {
 						AppTheme.shared.imageSet.linkIcon
 							.renderingMode(.template)
