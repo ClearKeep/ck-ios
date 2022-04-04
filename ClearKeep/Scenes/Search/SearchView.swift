@@ -77,7 +77,7 @@ private extension SearchView {
 private extension SearchView {
 	var contentView: some View {
 		VStack {
-			SearchContentView(imageUser: $imageUser, userName: $userName, message: $message, groupText: $groupText, dateMessage: $dateMessage, isAll: false, isPeople: false, isGroup: false, isMessage: false)
+			SearchContentView(imageUser: $imageUser, userName: $userName, message: $message, groupText: $groupText, dateMessage: $dateMessage)
 			Spacer()
 		}
 	}

@@ -31,10 +31,6 @@ struct SearchContentView: View {
 	@Binding var message: String
 	@Binding var groupText: String
 	@Binding var dateMessage: String
-	@State private var isAll: Bool
-	@State private var isPeople: Bool
-	@State private var isGroup: Bool
-	@State private var isMessage: Bool
 
 	// MARK: - Init
 	init(searchCatalogy: SearchCatalogy = .all,
@@ -42,21 +38,13 @@ struct SearchContentView: View {
 		 userName: Binding<String>,
 		 message: Binding<String>,
 		 groupText: Binding<String>,
-		 dateMessage: Binding<String>,
-		 isAll: Bool,
-		 isPeople: Bool,
-		 isGroup: Bool,
-		 isMessage: Bool) {
+		 dateMessage: Binding<String>) {
 		self._searchCatalogy = .init(initialValue: searchCatalogy)
 		self._imageUser = imageUser
 		self._userName = userName
 		self._message = message
 		self._groupText = groupText
 		self._dateMessage = dateMessage
-		self._isAll = .init(initialValue: isAll)
-		self._isPeople = .init(initialValue: isPeople)
-		self._isGroup = .init(initialValue: isGroup)
-		self._isMessage = .init(initialValue: isMessage)
 	}
 	
 	// MARK: - Body
@@ -125,22 +113,22 @@ private extension SearchContentView {
 private extension SearchContentView {
 	func allAction() {
 		self.searchCatalogy = .all
-		self.isAll.toggle()
+
 	}
 
 	func peopleAction() {
 		self.searchCatalogy = .people
-		self.isPeople.toggle()
+
 	}
 
 	func groupAction() {
 		self.searchCatalogy = .group
-		self.isGroup.toggle()
+
 	}
 
 	func messageAction() {
 		self.searchCatalogy = .message
-		self.isMessage.toggle()
+
 	}
 }
 
@@ -260,7 +248,7 @@ private extension SearchContentView {
 #if DEBUG
 struct SearchContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchContentView(imageUser: .constant(Image("")), userName: .constant(""), message: .constant(""), groupText: .constant(""), dateMessage: .constant(""), isAll: false, isPeople: false, isGroup: false, isMessage: false)
+		SearchContentView(imageUser: .constant(Image("")), userName: .constant(""), message: .constant(""), groupText: .constant(""), dateMessage: .constant(""))
 	}
 }
 #endif
