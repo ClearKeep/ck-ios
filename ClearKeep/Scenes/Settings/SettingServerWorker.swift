@@ -2,12 +2,10 @@
 //  SettingServerWorker.swift
 //  ClearKeep
 //
-//  Created by đông on 02/04/2022.
+//  Created by đông on 04/04/2022.
 //
 
-import UIKit
-import Combine
-import Common
+import Foundation
 
 protocol ISettingServerWorker {
 	var remoteStore: ISettingServerRemoteStore { get }
@@ -17,8 +15,9 @@ protocol ISettingServerWorker {
 struct SettingServerWorker {
 	let remoteStore: ISettingServerRemoteStore
 	let inMemoryStore: ISettingServerInMemoryStore
-
-	init(remoteStore: ISettingServerRemoteStore, inMemoryStore: ISettingServerInMemoryStore) {
+	
+	init(remoteStore: ISettingServerRemoteStore,
+		 inMemoryStore: ISettingServerInMemoryStore) {
 		self.remoteStore = remoteStore
 		self.inMemoryStore = inMemoryStore
 	}

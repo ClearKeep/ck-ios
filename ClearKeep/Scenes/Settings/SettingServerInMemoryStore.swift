@@ -2,13 +2,16 @@
 //  SettingServerInMemoryStore.swift
 //  ClearKeep
 //
-//  Created by đông on 02/04/2022.
+//  Created by đông on 04/04/2022.
 //
 
 import Foundation
 
-protocol ISettingServerInMemoryStore {}
+protocol ISettingServerInMemoryStore {
+}
 
-struct SettingServerInMemoryStore { }
+struct SettingServerInMemoryStore {
+}
 
-extension SettingServerInMemoryStore: ISettingServerInMemoryStore {}
+extension SettingServerInMemoryStore: ISettingServerInMemoryStore {
+}

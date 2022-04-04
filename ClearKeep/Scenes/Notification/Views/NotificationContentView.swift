@@ -21,7 +21,7 @@ private enum Constant {
 	static let paddingTitlePreview = 40.0
 }
 
-struct NotificationView: View {
+struct NotificationContentView: View {
 	// MARK: - Variables
 	let inspection = ViewInspector<Self>()
 	@Environment(\.injected) private var injected: DIContainer
@@ -47,14 +47,14 @@ struct NotificationView: View {
 }
 
 // MARK: - Private
-private extension NotificationView {
+private extension NotificationContentView {
 	var content: AnyView {
 		AnyView(notRequestedView)
 	}
 }
 
 // MARK: - Loading Content
-private extension NotificationView {
+private extension NotificationContentView {
 	var notRequestedView: some View {
 		VStack(spacing: Constant.spacer) {
 			backgroundColorTop
@@ -119,7 +119,7 @@ private extension NotificationView {
 }
 
 // MARK: - Color func
-private extension NotificationView {
+private extension NotificationContentView {
 	var backgroundColorGradient: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
@@ -173,8 +173,8 @@ private extension NotificationView {
 	}
 }
 
-struct NotificationView_Previews: PreviewProvider {
+struct NotificationContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		NotificationView()
+		NotificationContentView()
 	}
 }

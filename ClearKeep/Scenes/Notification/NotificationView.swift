@@ -1,5 +1,5 @@
 //
-//  SettingServerView.swift
+//  NotificationView.swift
 //  ClearKeep
 //
 //  Created by đông on 04/04/2022.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Common
 
-struct SettingServerView: View {
+struct NotificationView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
 	
@@ -23,28 +23,28 @@ struct SettingServerView: View {
 }
 
 // MARK: - Private
-private extension SettingServerView {
+private extension NotificationView {
 	var content: AnyView {
 		AnyView(notRequestedView)
 	}
 }
 
 // MARK: - Loading Content
-private extension SettingServerView {
+private extension NotificationView {
 	var notRequestedView: some View {
-		ServerSettingContentView()
+		NotificationContentView()
 	}
 }
 
 // MARK: - Interactor
-private extension SettingServerView {
+private extension NotificationView {
 }
 	
 // MARK: - Preview
 #if DEBUG
-struct SettingServerView_Previews: PreviewProvider {
+struct NotificationView_Previews: PreviewProvider {
 	static var previews: some View {
-		SettingServerView()
+		NotificationView()
 	}
 }
 #endif
