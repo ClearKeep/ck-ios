@@ -21,6 +21,15 @@
 		047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419C27DB3D2C0043345A /* LoginInMemoryStore.swift */; };
 		047241A927DB3D2C0043345A /* ILoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419E27DB3D2C0043345A /* ILoginModel.swift */; };
 		047241AE27DB3D2C0043345A /* LoginWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047241A427DB3D2C0043345A /* LoginWorker.swift */; };
+		047D6B0E27F1544D0098B104 /* GroupDetailInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B0927F1544C0098B104 /* GroupDetailInMemoryStore.swift */; };
+		047D6B0F27F1544D0098B104 /* GroupDetailWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B0A27F1544C0098B104 /* GroupDetailWorker.swift */; };
+		047D6B1027F1544D0098B104 /* GroupDetailRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B0B27F1544D0098B104 /* GroupDetailRemoteStore.swift */; };
+		047D6B1127F1544D0098B104 /* GroupDetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B0C27F1544D0098B104 /* GroupDetailInteractor.swift */; };
+		047D6B1227F1544D0098B104 /* GroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B0D27F1544D0098B104 /* GroupDetailView.swift */; };
+		047D6B1827F154970098B104 /* MemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B1727F154970098B104 /* MemberView.swift */; };
+		047D6B1A27F154A60098B104 /* AddMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B1927F154A60098B104 /* AddMemberView.swift */; };
+		047D6B1C27F154B70098B104 /* RemoveMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B1B27F154B70098B104 /* RemoveMemberView.swift */; };
+		047D6B1E27F158520098B104 /* DetailContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B1D27F158520098B104 /* DetailContentView.swift */; };
 		0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340727E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift */; };
 		0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340827E96DD7003BD4C4 /* FogotPasswordWorker.swift */; };
 		0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340927E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift */; };
@@ -92,6 +101,13 @@
 		CBF3351A27EEBCB400F8EE63 /* GoogleService-Info-QA.plist in Resources */ = {isa = PBXBuildFile; fileRef = CBF3351927EEBCB400F8EE63 /* GoogleService-Info-QA.plist */; };
 		CBF3351C27EEBCE200F8EE63 /* GoogleService-Info-Production.plist in Resources */ = {isa = PBXBuildFile; fileRef = CBF3351B27EEBCE200F8EE63 /* GoogleService-Info-Production.plist */; };
 		D8AB76DC8A0A1CA052BB690A /* Pods_ClearKeepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 505924C80AA28618058991FC /* Pods_ClearKeepTests.framework */; };
+		F5350E1027FAD57500F54E32 /* TwoFactorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E0827FAD57500F54E32 /* TwoFactorModel.swift */; };
+		F5350E1527FAD57500F54E32 /* TwoFactorContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E0E27FAD57500F54E32 /* TwoFactorContentView.swift */; };
+		F5350E1C27FAD58F00F54E32 /* TwoFactorInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1727FAD58F00F54E32 /* TwoFactorInMemoryStore.swift */; };
+		F5350E1D27FAD58F00F54E32 /* TwoFactorWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1827FAD58F00F54E32 /* TwoFactorWorker.swift */; };
+		F5350E1E27FAD58F00F54E32 /* TwoFactorRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1927FAD58F00F54E32 /* TwoFactorRemoteStore.swift */; };
+		F5350E1F27FAD58F00F54E32 /* TwoFactorInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1A27FAD58F00F54E32 /* TwoFactorInteractor.swift */; };
+		F5350E2027FAD58F00F54E32 /* TwoFactorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1B27FAD58F00F54E32 /* TwoFactorView.swift */; };
 		F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86027E820E600824BE7 /* SocialWorker.swift */; };
 		F553F86F27E820E600824BE7 /* SocialModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86227E820E600824BE7 /* SocialModel.swift */; };
 		F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86327E820E600824BE7 /* SocialRemoteStore.swift */; };
@@ -102,16 +118,9 @@
 		F553F87627E820E600824BE7 /* SocialConfirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86B27E820E600824BE7 /* SocialConfirm.swift */; };
 		F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86C27E820E600824BE7 /* SocialInMemoryStore.swift */; };
 		F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86D27E820E600824BE7 /* SocialInteractor.swift */; };
-		F5A0FA4827F7129E00F7CE17 /* TwoFactorWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A0FA4727F7129E00F7CE17 /* TwoFactorWorker.swift */; };
-		F5A0FA4A27F712AA00F7CE17 /* TwoFactorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A0FA4927F712AA00F7CE17 /* TwoFactorView.swift */; };
-		F5A0FA4C27F712BB00F7CE17 /* TwoFactorRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A0FA4B27F712BB00F7CE17 /* TwoFactorRemoteStore.swift */; };
-		F5A0FA4E27F712CA00F7CE17 /* TwoFactorInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A0FA4D27F712CA00F7CE17 /* TwoFactorInMemoryStore.swift */; };
-		F5A0FA5027F712DF00F7CE17 /* TwoFactorInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A0FA4F27F712DF00F7CE17 /* TwoFactorInteractor.swift */; };
 		F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37EE27E97FF20085CECE /* ProfileModel.swift */; };
 		F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37F027E97FF20085CECE /* CountryCode.swift */; };
 		F5CE37F427E97FF20085CECE /* UserProfileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */; };
-		F5E01A0527EB202500FDACE2 /* TwoFactorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A0427EB202500FDACE2 /* TwoFactorModel.swift */; };
-		F5E01A0727EB205700FDACE2 /* TwoFactorContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E01A0627EB205700FDACE2 /* TwoFactorContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -167,6 +176,15 @@
 		0472419C27DB3D2C0043345A /* LoginInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInMemoryStore.swift; sourceTree = "<group>"; };
 		0472419E27DB3D2C0043345A /* ILoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ILoginModel.swift; sourceTree = "<group>"; };
 		047241A427DB3D2C0043345A /* LoginWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginWorker.swift; sourceTree = "<group>"; };
+		047D6B0927F1544C0098B104 /* GroupDetailInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailInMemoryStore.swift; sourceTree = "<group>"; };
+		047D6B0A27F1544C0098B104 /* GroupDetailWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailWorker.swift; sourceTree = "<group>"; };
+		047D6B0B27F1544D0098B104 /* GroupDetailRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailRemoteStore.swift; sourceTree = "<group>"; };
+		047D6B0C27F1544D0098B104 /* GroupDetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailInteractor.swift; sourceTree = "<group>"; };
+		047D6B0D27F1544D0098B104 /* GroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailView.swift; sourceTree = "<group>"; };
+		047D6B1727F154970098B104 /* MemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberView.swift; sourceTree = "<group>"; };
+		047D6B1927F154A60098B104 /* AddMemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberView.swift; sourceTree = "<group>"; };
+		047D6B1B27F154B70098B104 /* RemoveMemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveMemberView.swift; sourceTree = "<group>"; };
+		047D6B1D27F158520098B104 /* DetailContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContentView.swift; sourceTree = "<group>"; };
 		0499340727E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordInMemoryStore.swift; sourceTree = "<group>"; };
 		0499340827E96DD7003BD4C4 /* FogotPasswordWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordWorker.swift; sourceTree = "<group>"; };
 		0499340927E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordRemoteStore.swift; sourceTree = "<group>"; };
@@ -264,6 +282,13 @@
 		CBF3351B27EEBCE200F8EE63 /* GoogleService-Info-Production.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Production.plist"; sourceTree = "<group>"; };
 		E17A6A8CE10FEF02B2A4EC45 /* Pods-ClearKeep.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.qa.xcconfig"; sourceTree = "<group>"; };
 		EEDE9BEE21DD3413AFDE72FE /* Pods-ClearKeepUITests.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.development.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.development.xcconfig"; sourceTree = "<group>"; };
+		F5350E0827FAD57500F54E32 /* TwoFactorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoFactorModel.swift; sourceTree = "<group>"; };
+		F5350E0E27FAD57500F54E32 /* TwoFactorContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoFactorContentView.swift; sourceTree = "<group>"; };
+		F5350E1727FAD58F00F54E32 /* TwoFactorInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInMemoryStore.swift; sourceTree = "<group>"; };
+		F5350E1827FAD58F00F54E32 /* TwoFactorWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorWorker.swift; sourceTree = "<group>"; };
+		F5350E1927FAD58F00F54E32 /* TwoFactorRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorRemoteStore.swift; sourceTree = "<group>"; };
+		F5350E1A27FAD58F00F54E32 /* TwoFactorInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInteractor.swift; sourceTree = "<group>"; };
+		F5350E1B27FAD58F00F54E32 /* TwoFactorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorView.swift; sourceTree = "<group>"; };
 		F553F86027E820E600824BE7 /* SocialWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialWorker.swift; sourceTree = "<group>"; };
 		F553F86227E820E600824BE7 /* SocialModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialModel.swift; sourceTree = "<group>"; };
 		F553F86327E820E600824BE7 /* SocialRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialRemoteStore.swift; sourceTree = "<group>"; };
@@ -274,16 +299,9 @@
 		F553F86B27E820E600824BE7 /* SocialConfirm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialConfirm.swift; sourceTree = "<group>"; };
 		F553F86C27E820E600824BE7 /* SocialInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialInMemoryStore.swift; sourceTree = "<group>"; };
 		F553F86D27E820E600824BE7 /* SocialInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialInteractor.swift; sourceTree = "<group>"; };
-		F5A0FA4727F7129E00F7CE17 /* TwoFactorWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorWorker.swift; sourceTree = "<group>"; };
-		F5A0FA4927F712AA00F7CE17 /* TwoFactorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorView.swift; sourceTree = "<group>"; };
-		F5A0FA4B27F712BB00F7CE17 /* TwoFactorRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorRemoteStore.swift; sourceTree = "<group>"; };
-		F5A0FA4D27F712CA00F7CE17 /* TwoFactorInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInMemoryStore.swift; sourceTree = "<group>"; };
-		F5A0FA4F27F712DF00F7CE17 /* TwoFactorInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInteractor.swift; sourceTree = "<group>"; };
 		F5CE37EE27E97FF20085CECE /* ProfileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		F5CE37F027E97FF20085CECE /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileContentView.swift; sourceTree = "<group>"; };
-		F5E01A0427EB202500FDACE2 /* TwoFactorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorModel.swift; sourceTree = "<group>"; };
-		F5E01A0627EB205700FDACE2 /* TwoFactorContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -369,6 +387,38 @@
 			isa = PBXGroup;
 			children = (
 				0472419E27DB3D2C0043345A /* ILoginModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		047D6B0827F14D3E0098B104 /* GroupDetail */ = {
+			isa = PBXGroup;
+			children = (
+				047D6B1427F154580098B104 /* Models */,
+				047D6B1327F154510098B104 /* Views */,
+				047D6B0927F1544C0098B104 /* GroupDetailInMemoryStore.swift */,
+				047D6B0A27F1544C0098B104 /* GroupDetailWorker.swift */,
+				047D6B0B27F1544D0098B104 /* GroupDetailRemoteStore.swift */,
+				047D6B0C27F1544D0098B104 /* GroupDetailInteractor.swift */,
+				047D6B0D27F1544D0098B104 /* GroupDetailView.swift */,
+			);
+			path = GroupDetail;
+			sourceTree = "<group>";
+		};
+		047D6B1327F154510098B104 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				047D6B1D27F158520098B104 /* DetailContentView.swift */,
+				047D6B1727F154970098B104 /* MemberView.swift */,
+				047D6B1927F154A60098B104 /* AddMemberView.swift */,
+				047D6B1B27F154B70098B104 /* RemoveMemberView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		047D6B1427F154580098B104 /* Models */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -571,7 +621,8 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				F5E01A0127EB1FC700FDACE2 /* TwoFactor */,
+				F5350E0627FAD57500F54E32 /* TwoFactor */,
+				047D6B0827F14D3E0098B104 /* GroupDetail */,
 				F5CE37EC27E97FF20085CECE /* Profile */,
 				0499343E27E97015003BD4C4 /* ChangePassword */,
 				0499342027E96EBB003BD4C4 /* AdvancedServer */,
@@ -801,6 +852,36 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F5350E0627FAD57500F54E32 /* TwoFactor */ = {
+			isa = PBXGroup;
+			children = (
+				F5350E0727FAD57500F54E32 /* Models */,
+				F5350E0D27FAD57500F54E32 /* Views */,
+				F5350E1727FAD58F00F54E32 /* TwoFactorInMemoryStore.swift */,
+				F5350E1827FAD58F00F54E32 /* TwoFactorWorker.swift */,
+				F5350E1927FAD58F00F54E32 /* TwoFactorRemoteStore.swift */,
+				F5350E1A27FAD58F00F54E32 /* TwoFactorInteractor.swift */,
+				F5350E1B27FAD58F00F54E32 /* TwoFactorView.swift */,
+			);
+			path = TwoFactor;
+			sourceTree = "<group>";
+		};
+		F5350E0727FAD57500F54E32 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F5350E0827FAD57500F54E32 /* TwoFactorModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F5350E0D27FAD57500F54E32 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F5350E0E27FAD57500F54E32 /* TwoFactorContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		F553F85F27E820E600824BE7 /* Social Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -864,36 +945,6 @@
 			children = (
 				F5CE37F027E97FF20085CECE /* CountryCode.swift */,
 				F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		F5E01A0127EB1FC700FDACE2 /* TwoFactor */ = {
-			isa = PBXGroup;
-			children = (
-				F5E01A0327EB1FE100FDACE2 /* Views */,
-				F5E01A0227EB1FDA00FDACE2 /* Models */,
-				F5A0FA4727F7129E00F7CE17 /* TwoFactorWorker.swift */,
-				F5A0FA4927F712AA00F7CE17 /* TwoFactorView.swift */,
-				F5A0FA4B27F712BB00F7CE17 /* TwoFactorRemoteStore.swift */,
-				F5A0FA4D27F712CA00F7CE17 /* TwoFactorInMemoryStore.swift */,
-				F5A0FA4F27F712DF00F7CE17 /* TwoFactorInteractor.swift */,
-			);
-			path = TwoFactor;
-			sourceTree = "<group>";
-		};
-		F5E01A0227EB1FDA00FDACE2 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				F5E01A0427EB202500FDACE2 /* TwoFactorModel.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		F5E01A0327EB1FE100FDACE2 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				F5E01A0627EB205700FDACE2 /* TwoFactorContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1174,13 +1225,17 @@
 				CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */,
 				044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */,
 				044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */,
+				047D6B1227F1544D0098B104 /* GroupDetailView.swift in Sources */,
 				047241A627DB3D2C0043345A /* LoginView.swift in Sources */,
 				044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */,
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
+				047D6B1A27F154A60098B104 /* AddMemberView.swift in Sources */,
 				CB8C3E3427F57FBA0034B3A9 /* AppVersion.swift in Sources */,
+				047D6B1A27F154A60098B104 /* AddMemberView.swift in Sources */,
 				CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */,
 				CB117E7B27BB65E2000941D9 /* LocationConfigurations.swift in Sources */,
 				CB117EC427BB8DB1000941D9 /* SceneDelegate.swift in Sources */,
+				F5350E1D27FAD58F00F54E32 /* TwoFactorWorker.swift in Sources */,
 				CB117ECD27BBA6E5000941D9 /* HomeWorker.swift in Sources */,
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
 				0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */,
@@ -1191,45 +1246,51 @@
 				F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				044351F727D9AFCA0054A78F /* IRegisterModel.swift in Sources */,
+				047D6B1127F1544D0098B104 /* GroupDetailInteractor.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
+				047D6B0F27F1544D0098B104 /* GroupDetailWorker.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
+				F5350E1527FAD57500F54E32 /* TwoFactorContentView.swift in Sources */,
 				F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */,
 				F553F87127E820E600824BE7 /* SocialView.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
 				0499344527E97035003BD4C4 /* ChangePasswordWorker.swift in Sources */,
-				F5A0FA5027F712DF00F7CE17 /* TwoFactorInteractor.swift in Sources */,
 				0499345727E9A8BE003BD4C4 /* AdvancedSeverView.swift in Sources */,
 				0499344D27E97100003BD4C4 /* ChangePasswordContentView.swift in Sources */,
 				0499345527E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift in Sources */,
 				CB40074727E8CCC800DFBE88 /* LoginContentView.swift in Sources */,
+				F5350E1027FAD57500F54E32 /* TwoFactorModel.swift in Sources */,
 				0499345427E9A8BE003BD4C4 /* AdvancedSeverWorker.swift in Sources */,
+				F5350E2027FAD58F00F54E32 /* TwoFactorView.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
+				F5350E1F27FAD58F00F54E32 /* TwoFactorInteractor.swift in Sources */,
 				047241AE27DB3D2C0043345A /* LoginWorker.swift in Sources */,
+				047D6B1E27F158520098B104 /* DetailContentView.swift in Sources */,
 				0499343927E96F8A003BD4C4 /* NewPasswordView.swift in Sources */,
 				044351F827D9AFCA0054A78F /* RegisterInteractor.swift in Sources */,
 				F553F86F27E820E600824BE7 /* SocialModel.swift in Sources */,
 				F553F87627E820E600824BE7 /* SocialConfirm.swift in Sources */,
-				F5A0FA4E27F712CA00F7CE17 /* TwoFactorInMemoryStore.swift in Sources */,
 				CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */,
 				044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */,
+				F5350E1C27FAD58F00F54E32 /* TwoFactorInMemoryStore.swift in Sources */,
 				0499344727E97035003BD4C4 /* ChangePasswordInteractor.swift in Sources */,
 				0499341027E96DD7003BD4C4 /* FogotPasswordView.swift in Sources */,
 				0499344427E97035003BD4C4 /* ChangePasswordInMemoryStore.swift in Sources */,
 				047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */,
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
+				047D6B1027F1544D0098B104 /* GroupDetailRemoteStore.swift in Sources */,
 				0499345627E9A8BE003BD4C4 /* AdvancedSeverInteractor.swift in Sources */,
 				CB117E8627BB6687000941D9 /* SampleModel.swift in Sources */,
 				0499343D27E96FC5003BD4C4 /* NewPasswordContenView.swift in Sources */,
 				F553F87527E820E600824BE7 /* SocialCommonStyle.swift in Sources */,
 				0499340F27E96DD7003BD4C4 /* FogotPasswordInteractor.swift in Sources */,
 				F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */,
-				F5A0FA4A27F712AA00F7CE17 /* TwoFactorView.swift in Sources */,
 				0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */,
 				044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */,
 				0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */,
 				F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */,
-				F5A0FA4827F7129E00F7CE17 /* TwoFactorWorker.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
+				047D6B0E27F1544D0098B104 /* GroupDetailInMemoryStore.swift in Sources */,
 				F553F87327E820E600824BE7 /* SocialVerify.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
 				047241A727DB3D2C0043345A /* LoginInteractor.swift in Sources */,
@@ -1237,7 +1298,6 @@
 				0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */,
 				0499344827E97035003BD4C4 /* ChangePasswordView.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
-				F5E01A0527EB202500FDACE2 /* TwoFactorModel.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
 				0499343727E96F8A003BD4C4 /* NewPasswordRemoteStore.swift in Sources */,
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
@@ -1245,22 +1305,23 @@
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
 				0499343627E96F8A003BD4C4 /* NewPasswordWorker.swift in Sources */,
 				F553F87427E820E600824BE7 /* SocialCommonUI.swift in Sources */,
+				047D6B1827F154970098B104 /* MemberView.swift in Sources */,
+				047D6B1C27F154B70098B104 /* RemoveMemberView.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
 				047241A927DB3D2C0043345A /* ILoginModel.swift in Sources */,
 				0499343827E96F8A003BD4C4 /* NewPasswordInteractor.swift in Sources */,
 				0472418227DB35550043345A /* HomeMenuView.swift in Sources */,
+				F5350E1E27FAD58F00F54E32 /* TwoFactorRemoteStore.swift in Sources */,
 				F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */,
 				F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
 				0499342E27E96F09003BD4C4 /* AdvancedContentView.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
-				F5E01A0727EB205700FDACE2 /* TwoFactorContentView.swift in Sources */,
 				047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
 				CB40073027E74E1900DFBE88 /* Configuration.swift in Sources */,
 				CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */,
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
-				F5A0FA4C27F712BB00F7CE17 /* TwoFactorRemoteStore.swift in Sources */,
 				0499341427E96E2F003BD4C4 /* FogotPasswordContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

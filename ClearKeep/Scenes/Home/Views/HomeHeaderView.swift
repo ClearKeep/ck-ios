@@ -4,7 +4,6 @@
 //
 //  Created by NamNH on 01/03/2022.
 //
-
 import SwiftUI
 import Common
 import CommonUI
@@ -31,7 +30,7 @@ struct HomeHeaderView: View {
 		self._inputStyle = inputStyle
 		self._isMenuAction = .init(initialValue: isMenuAction)
 	}
-	
+
 	// MARK: - Body
 	var body: some View {
 		NavigationView {

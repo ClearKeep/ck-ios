@@ -2,7 +2,7 @@
 //  TwoFactorWorker.swift
 //  ClearKeep
 //
-//  Created by đông on 01/04/2022.
+//  Created by đông on 04/04/2022.
 //
 
 import Foundation
@@ -15,7 +15,7 @@ protocol ITwoFactorWorker {
 struct TwoFactorWorker {
 	let remoteStore: ITwoFactorRemoteStore
 	let inMemoryStore: ITwoFactorInMemoryStore
-
+	
 	init(remoteStore: ITwoFactorRemoteStore,
 		 inMemoryStore: ITwoFactorInMemoryStore) {
 		self.remoteStore = remoteStore

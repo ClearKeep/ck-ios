@@ -50,7 +50,7 @@ private extension CheckBoxButtons {
 	}
 
 	var checkMaskIcon: Image {
-		isChecked ? commonUIConfig.imageSet.checkMask : commonUIConfig.imageSet.checkMaskFill
+		isChecked ? commonUIConfig.imageSet.checkedIcon : commonUIConfig.imageSet.unCheckIcon
 	}
 }
 
