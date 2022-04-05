@@ -11,11 +11,9 @@ import Common
 import CommonUI
 
 private enum Constants {
-	static let paddingLeading = 100.0
-	static let spacing = 10.0
+	static let spacing = 20.0
 	static let padding = 20.0
 	static let spacingContent = 20.0
-	static let paddingCatalog = 5.0
 	static let radius = 8.0
 	static let heightCatalog = 28.0
 }
@@ -138,7 +136,7 @@ private extension SearchContentView {
 
 	var searchCatalogView: some View {
 		ScrollView(.horizontal, showsIndicators: false) {
-			HStack(spacing: 20) {
+			HStack(spacing: Constants.spacing) {
 				ForEach(0..<categories.count, id: \.self) { data in
 					Button {
 						withAnimation {
