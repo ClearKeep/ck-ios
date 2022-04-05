@@ -5,7 +5,7 @@
 //  Created by đông on 23/03/2022.
 //
 
-import UIKit
+import Foundation
 
 protocol ITwoFactorModel {
 	var id: Int { get }

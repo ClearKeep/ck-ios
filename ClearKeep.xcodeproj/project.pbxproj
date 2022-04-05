@@ -101,20 +101,27 @@
 		CBF3351A27EEBCB400F8EE63 /* GoogleService-Info-QA.plist in Resources */ = {isa = PBXBuildFile; fileRef = CBF3351927EEBCB400F8EE63 /* GoogleService-Info-QA.plist */; };
 		CBF3351C27EEBCE200F8EE63 /* GoogleService-Info-Production.plist in Resources */ = {isa = PBXBuildFile; fileRef = CBF3351B27EEBCE200F8EE63 /* GoogleService-Info-Production.plist */; };
 		D8AB76DC8A0A1CA052BB690A /* Pods_ClearKeepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 505924C80AA28618058991FC /* Pods_ClearKeepTests.framework */; };
-		F5350DD027FACA1F00F54E32 /* SettingServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350DC727FACA1F00F54E32 /* SettingServerView.swift */; };
-		F5350DD127FACA1F00F54E32 /* ServerSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350DC927FACA1F00F54E32 /* ServerSettingModel.swift */; };
-		F5350DD227FACA1F00F54E32 /* SettingServerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350DCA27FACA1F00F54E32 /* SettingServerInteractor.swift */; };
-		F5350DD327FACA1F00F54E32 /* SettingServerWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350DCB27FACA1F00F54E32 /* SettingServerWorker.swift */; };
-		F5350DD427FACA1F00F54E32 /* SettingServerRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350DCC27FACA1F00F54E32 /* SettingServerRemoteStore.swift */; };
-		F5350DD527FACA1F00F54E32 /* ServerSettingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350DCE27FACA1F00F54E32 /* ServerSettingContentView.swift */; };
-		F5350DD627FACA1F00F54E32 /* SettingServerInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350DCF27FACA1F00F54E32 /* SettingServerInMemoryStore.swift */; };
-		F5350DE127FACA5200F54E32 /* NotificationRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350DD827FACA5200F54E32 /* NotificationRemoteStore.swift */; };
-		F5350DE227FACA5200F54E32 /* NotificationInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350DD927FACA5200F54E32 /* NotificationInteractor.swift */; };
-		F5350DE327FACA5200F54E32 /* NotificationInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350DDA27FACA5200F54E32 /* NotificationInMemoryStore.swift */; };
-		F5350DE427FACA5200F54E32 /* NotificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350DDC27FACA5200F54E32 /* NotificationModel.swift */; };
-		F5350DE527FACA5200F54E32 /* NotificationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350DDD27FACA5200F54E32 /* NotificationWorker.swift */; };
-		F5350DE627FACA5200F54E32 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350DDE27FACA5200F54E32 /* NotificationView.swift */; };
-		F5350DE727FACA5200F54E32 /* NotificationContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350DE027FACA5200F54E32 /* NotificationContentView.swift */; };
+		F5350E1027FAD57500F54E32 /* TwoFactorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E0827FAD57500F54E32 /* TwoFactorModel.swift */; };
+		F5350E1527FAD57500F54E32 /* TwoFactorContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E0E27FAD57500F54E32 /* TwoFactorContentView.swift */; };
+		F5350E1C27FAD58F00F54E32 /* TwoFactorInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1727FAD58F00F54E32 /* TwoFactorInMemoryStore.swift */; };
+		F5350E1D27FAD58F00F54E32 /* TwoFactorWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1827FAD58F00F54E32 /* TwoFactorWorker.swift */; };
+		F5350E1E27FAD58F00F54E32 /* TwoFactorRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1927FAD58F00F54E32 /* TwoFactorRemoteStore.swift */; };
+		F5350E1F27FAD58F00F54E32 /* TwoFactorInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1A27FAD58F00F54E32 /* TwoFactorInteractor.swift */; };
+		F5350E2027FAD58F00F54E32 /* TwoFactorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1B27FAD58F00F54E32 /* TwoFactorView.swift */; };
+		F5350E3927FCA70A00F54E32 /* SettingServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E3027FCA70A00F54E32 /* SettingServerView.swift */; };
+		F5350E3A27FCA70A00F54E32 /* ServerSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E3227FCA70A00F54E32 /* ServerSettingModel.swift */; };
+		F5350E3B27FCA70A00F54E32 /* SettingServerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E3327FCA70A00F54E32 /* SettingServerInteractor.swift */; };
+		F5350E3C27FCA70A00F54E32 /* SettingServerWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E3427FCA70A00F54E32 /* SettingServerWorker.swift */; };
+		F5350E3D27FCA70A00F54E32 /* SettingServerRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E3527FCA70A00F54E32 /* SettingServerRemoteStore.swift */; };
+		F5350E3E27FCA70A00F54E32 /* ServerSettingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E3727FCA70A00F54E32 /* ServerSettingContentView.swift */; };
+		F5350E3F27FCA70A00F54E32 /* SettingServerInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E3827FCA70A00F54E32 /* SettingServerInMemoryStore.swift */; };
+		F5350E4A27FCA73C00F54E32 /* NotificationRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E4127FCA73C00F54E32 /* NotificationRemoteStore.swift */; };
+		F5350E4B27FCA73C00F54E32 /* NotificationInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E4227FCA73C00F54E32 /* NotificationInteractor.swift */; };
+		F5350E4C27FCA73C00F54E32 /* NotificationInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E4327FCA73C00F54E32 /* NotificationInMemoryStore.swift */; };
+		F5350E4D27FCA73C00F54E32 /* NotificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E4527FCA73C00F54E32 /* NotificationModel.swift */; };
+		F5350E4E27FCA73C00F54E32 /* NotificationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E4627FCA73C00F54E32 /* NotificationWorker.swift */; };
+		F5350E4F27FCA73C00F54E32 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E4727FCA73C00F54E32 /* NotificationView.swift */; };
+		F5350E5027FCA73C00F54E32 /* NotificationContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E4927FCA73C00F54E32 /* NotificationContentView.swift */; };
 		F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86027E820E600824BE7 /* SocialWorker.swift */; };
 		F553F86F27E820E600824BE7 /* SocialModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86227E820E600824BE7 /* SocialModel.swift */; };
 		F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86327E820E600824BE7 /* SocialRemoteStore.swift */; };
@@ -289,20 +296,27 @@
 		CBF3351B27EEBCE200F8EE63 /* GoogleService-Info-Production.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Production.plist"; sourceTree = "<group>"; };
 		E17A6A8CE10FEF02B2A4EC45 /* Pods-ClearKeep.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.qa.xcconfig"; sourceTree = "<group>"; };
 		EEDE9BEE21DD3413AFDE72FE /* Pods-ClearKeepUITests.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.development.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.development.xcconfig"; sourceTree = "<group>"; };
-		F5350DC727FACA1F00F54E32 /* SettingServerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerView.swift; sourceTree = "<group>"; };
-		F5350DC927FACA1F00F54E32 /* ServerSettingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerSettingModel.swift; sourceTree = "<group>"; };
-		F5350DCA27FACA1F00F54E32 /* SettingServerInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerInteractor.swift; sourceTree = "<group>"; };
-		F5350DCB27FACA1F00F54E32 /* SettingServerWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerWorker.swift; sourceTree = "<group>"; };
-		F5350DCC27FACA1F00F54E32 /* SettingServerRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerRemoteStore.swift; sourceTree = "<group>"; };
-		F5350DCE27FACA1F00F54E32 /* ServerSettingContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerSettingContentView.swift; sourceTree = "<group>"; };
-		F5350DCF27FACA1F00F54E32 /* SettingServerInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerInMemoryStore.swift; sourceTree = "<group>"; };
-		F5350DD827FACA5200F54E32 /* NotificationRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationRemoteStore.swift; sourceTree = "<group>"; };
-		F5350DD927FACA5200F54E32 /* NotificationInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationInteractor.swift; sourceTree = "<group>"; };
-		F5350DDA27FACA5200F54E32 /* NotificationInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationInMemoryStore.swift; sourceTree = "<group>"; };
-		F5350DDC27FACA5200F54E32 /* NotificationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationModel.swift; sourceTree = "<group>"; };
-		F5350DDD27FACA5200F54E32 /* NotificationWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationWorker.swift; sourceTree = "<group>"; };
-		F5350DDE27FACA5200F54E32 /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
-		F5350DE027FACA5200F54E32 /* NotificationContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationContentView.swift; sourceTree = "<group>"; };
+		F5350E0827FAD57500F54E32 /* TwoFactorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoFactorModel.swift; sourceTree = "<group>"; };
+		F5350E0E27FAD57500F54E32 /* TwoFactorContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoFactorContentView.swift; sourceTree = "<group>"; };
+		F5350E1727FAD58F00F54E32 /* TwoFactorInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInMemoryStore.swift; sourceTree = "<group>"; };
+		F5350E1827FAD58F00F54E32 /* TwoFactorWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorWorker.swift; sourceTree = "<group>"; };
+		F5350E1927FAD58F00F54E32 /* TwoFactorRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorRemoteStore.swift; sourceTree = "<group>"; };
+		F5350E1A27FAD58F00F54E32 /* TwoFactorInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInteractor.swift; sourceTree = "<group>"; };
+		F5350E1B27FAD58F00F54E32 /* TwoFactorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorView.swift; sourceTree = "<group>"; };
+		F5350E3027FCA70A00F54E32 /* SettingServerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerView.swift; sourceTree = "<group>"; };
+		F5350E3227FCA70A00F54E32 /* ServerSettingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerSettingModel.swift; sourceTree = "<group>"; };
+		F5350E3327FCA70A00F54E32 /* SettingServerInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerInteractor.swift; sourceTree = "<group>"; };
+		F5350E3427FCA70A00F54E32 /* SettingServerWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerWorker.swift; sourceTree = "<group>"; };
+		F5350E3527FCA70A00F54E32 /* SettingServerRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerRemoteStore.swift; sourceTree = "<group>"; };
+		F5350E3727FCA70A00F54E32 /* ServerSettingContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerSettingContentView.swift; sourceTree = "<group>"; };
+		F5350E3827FCA70A00F54E32 /* SettingServerInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerInMemoryStore.swift; sourceTree = "<group>"; };
+		F5350E4127FCA73C00F54E32 /* NotificationRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationRemoteStore.swift; sourceTree = "<group>"; };
+		F5350E4227FCA73C00F54E32 /* NotificationInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationInteractor.swift; sourceTree = "<group>"; };
+		F5350E4327FCA73C00F54E32 /* NotificationInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationInMemoryStore.swift; sourceTree = "<group>"; };
+		F5350E4527FCA73C00F54E32 /* NotificationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationModel.swift; sourceTree = "<group>"; };
+		F5350E4627FCA73C00F54E32 /* NotificationWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationWorker.swift; sourceTree = "<group>"; };
+		F5350E4727FCA73C00F54E32 /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		F5350E4927FCA73C00F54E32 /* NotificationContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationContentView.swift; sourceTree = "<group>"; };
 		F553F86027E820E600824BE7 /* SocialWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialWorker.swift; sourceTree = "<group>"; };
 		F553F86227E820E600824BE7 /* SocialModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialModel.swift; sourceTree = "<group>"; };
 		F553F86327E820E600824BE7 /* SocialRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialRemoteStore.swift; sourceTree = "<group>"; };
@@ -635,8 +649,9 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				F5350DD727FACA5200F54E32 /* Notification */,
-				F5350DC627FACA1F00F54E32 /* Settings */,
+				F5350E4027FCA73C00F54E32 /* Notification */,
+				F5350E2F27FCA70A00F54E32 /* Settings */,
+				F5350E0627FAD57500F54E32 /* TwoFactor */,
 				047D6B0827F14D3E0098B104 /* GroupDetail */,
 				F5CE37EC27E97FF20085CECE /* Profile */,
 				0499343E27E97015003BD4C4 /* ChangePassword */,
@@ -867,62 +882,92 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F5350DC627FACA1F00F54E32 /* Settings */ = {
+		F5350E0627FAD57500F54E32 /* TwoFactor */ = {
 			isa = PBXGroup;
 			children = (
-				F5350DC727FACA1F00F54E32 /* SettingServerView.swift */,
-				F5350DC827FACA1F00F54E32 /* Models */,
-				F5350DCA27FACA1F00F54E32 /* SettingServerInteractor.swift */,
-				F5350DCB27FACA1F00F54E32 /* SettingServerWorker.swift */,
-				F5350DCC27FACA1F00F54E32 /* SettingServerRemoteStore.swift */,
-				F5350DCD27FACA1F00F54E32 /* Views */,
-				F5350DCF27FACA1F00F54E32 /* SettingServerInMemoryStore.swift */,
+				F5350E0727FAD57500F54E32 /* Models */,
+				F5350E0D27FAD57500F54E32 /* Views */,
+				F5350E1727FAD58F00F54E32 /* TwoFactorInMemoryStore.swift */,
+				F5350E1827FAD58F00F54E32 /* TwoFactorWorker.swift */,
+				F5350E1927FAD58F00F54E32 /* TwoFactorRemoteStore.swift */,
+				F5350E1A27FAD58F00F54E32 /* TwoFactorInteractor.swift */,
+				F5350E1B27FAD58F00F54E32 /* TwoFactorView.swift */,
 			);
-			path = Settings;
+			path = TwoFactor;
 			sourceTree = "<group>";
 		};
-		F5350DC827FACA1F00F54E32 /* Models */ = {
+		F5350E0727FAD57500F54E32 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F5350DC927FACA1F00F54E32 /* ServerSettingModel.swift */,
+				F5350E0827FAD57500F54E32 /* TwoFactorModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		F5350DCD27FACA1F00F54E32 /* Views */ = {
+		F5350E0D27FAD57500F54E32 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F5350DCE27FACA1F00F54E32 /* ServerSettingContentView.swift */,
+				F5350E0E27FAD57500F54E32 /* TwoFactorContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		F5350DD727FACA5200F54E32 /* Notification */ = {
+		F5350E2F27FCA70A00F54E32 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				F5350DD827FACA5200F54E32 /* NotificationRemoteStore.swift */,
-				F5350DD927FACA5200F54E32 /* NotificationInteractor.swift */,
-				F5350DDA27FACA5200F54E32 /* NotificationInMemoryStore.swift */,
-				F5350DDB27FACA5200F54E32 /* Models */,
-				F5350DDD27FACA5200F54E32 /* NotificationWorker.swift */,
-				F5350DDE27FACA5200F54E32 /* NotificationView.swift */,
-				F5350DDF27FACA5200F54E32 /* Views */,
+				F5350E3027FCA70A00F54E32 /* SettingServerView.swift */,
+				F5350E3127FCA70A00F54E32 /* Models */,
+				F5350E3327FCA70A00F54E32 /* SettingServerInteractor.swift */,
+				F5350E3427FCA70A00F54E32 /* SettingServerWorker.swift */,
+				F5350E3527FCA70A00F54E32 /* SettingServerRemoteStore.swift */,
+				F5350E3627FCA70A00F54E32 /* Views */,
+				F5350E3827FCA70A00F54E32 /* SettingServerInMemoryStore.swift */,
 			);
-			path = Notification;
+			path = Settings;
 			sourceTree = "<group>";
 		};
-		F5350DDB27FACA5200F54E32 /* Models */ = {
+		F5350E3127FCA70A00F54E32 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F5350DDC27FACA5200F54E32 /* NotificationModel.swift */,
+				F5350E3227FCA70A00F54E32 /* ServerSettingModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		F5350DDF27FACA5200F54E32 /* Views */ = {
+		F5350E3627FCA70A00F54E32 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F5350DE027FACA5200F54E32 /* NotificationContentView.swift */,
+				F5350E3727FCA70A00F54E32 /* ServerSettingContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F5350E4027FCA73C00F54E32 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				F5350E4127FCA73C00F54E32 /* NotificationRemoteStore.swift */,
+				F5350E4227FCA73C00F54E32 /* NotificationInteractor.swift */,
+				F5350E4327FCA73C00F54E32 /* NotificationInMemoryStore.swift */,
+				F5350E4427FCA73C00F54E32 /* Models */,
+				F5350E4627FCA73C00F54E32 /* NotificationWorker.swift */,
+				F5350E4727FCA73C00F54E32 /* NotificationView.swift */,
+				F5350E4827FCA73C00F54E32 /* Views */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
+		F5350E4427FCA73C00F54E32 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F5350E4527FCA73C00F54E32 /* NotificationModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F5350E4827FCA73C00F54E32 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F5350E4927FCA73C00F54E32 /* NotificationContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1269,6 +1314,7 @@
 			files = (
 				CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */,
 				044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */,
+				F5350E3E27FCA70A00F54E32 /* ServerSettingContentView.swift in Sources */,
 				044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */,
 				047D6B1227F1544D0098B104 /* GroupDetailView.swift in Sources */,
 				047241A627DB3D2C0043345A /* LoginView.swift in Sources */,
@@ -1276,14 +1322,16 @@
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
 				047D6B1A27F154A60098B104 /* AddMemberView.swift in Sources */,
 				CB8C3E3427F57FBA0034B3A9 /* AppVersion.swift in Sources */,
+				F5350E5027FCA73C00F54E32 /* NotificationContentView.swift in Sources */,
 				047D6B1A27F154A60098B104 /* AddMemberView.swift in Sources */,
 				CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */,
 				CB117E7B27BB65E2000941D9 /* LocationConfigurations.swift in Sources */,
 				CB117EC427BB8DB1000941D9 /* SceneDelegate.swift in Sources */,
+				F5350E1D27FAD58F00F54E32 /* TwoFactorWorker.swift in Sources */,
 				CB117ECD27BBA6E5000941D9 /* HomeWorker.swift in Sources */,
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
+				F5350E4F27FCA73C00F54E32 /* NotificationView.swift in Sources */,
 				0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */,
-				F5350DD527FACA1F00F54E32 /* ServerSettingContentView.swift in Sources */,
 				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				0499343527E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift in Sources */,
@@ -1295,33 +1343,41 @@
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				047D6B0F27F1544D0098B104 /* GroupDetailWorker.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
+				F5350E1527FAD57500F54E32 /* TwoFactorContentView.swift in Sources */,
 				F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */,
 				F553F87127E820E600824BE7 /* SocialView.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
+				F5350E3927FCA70A00F54E32 /* SettingServerView.swift in Sources */,
+				F5350E3F27FCA70A00F54E32 /* SettingServerInMemoryStore.swift in Sources */,
 				0499344527E97035003BD4C4 /* ChangePasswordWorker.swift in Sources */,
 				0499345727E9A8BE003BD4C4 /* AdvancedSeverView.swift in Sources */,
 				0499344D27E97100003BD4C4 /* ChangePasswordContentView.swift in Sources */,
 				0499345527E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift in Sources */,
-				F5350DD427FACA1F00F54E32 /* SettingServerRemoteStore.swift in Sources */,
 				CB40074727E8CCC800DFBE88 /* LoginContentView.swift in Sources */,
+				F5350E4A27FCA73C00F54E32 /* NotificationRemoteStore.swift in Sources */,
+				F5350E1027FAD57500F54E32 /* TwoFactorModel.swift in Sources */,
+				F5350E4D27FCA73C00F54E32 /* NotificationModel.swift in Sources */,
 				0499345427E9A8BE003BD4C4 /* AdvancedSeverWorker.swift in Sources */,
+				F5350E3B27FCA70A00F54E32 /* SettingServerInteractor.swift in Sources */,
+				F5350E2027FAD58F00F54E32 /* TwoFactorView.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
-				F5350DD327FACA1F00F54E32 /* SettingServerWorker.swift in Sources */,
+				F5350E1F27FAD58F00F54E32 /* TwoFactorInteractor.swift in Sources */,
+				F5350E4B27FCA73C00F54E32 /* NotificationInteractor.swift in Sources */,
 				047241AE27DB3D2C0043345A /* LoginWorker.swift in Sources */,
-				F5350DD227FACA1F00F54E32 /* SettingServerInteractor.swift in Sources */,
 				047D6B1E27F158520098B104 /* DetailContentView.swift in Sources */,
-				F5350DE627FACA5200F54E32 /* NotificationView.swift in Sources */,
 				0499343927E96F8A003BD4C4 /* NewPasswordView.swift in Sources */,
-				F5350DE127FACA5200F54E32 /* NotificationRemoteStore.swift in Sources */,
 				044351F827D9AFCA0054A78F /* RegisterInteractor.swift in Sources */,
 				F553F86F27E820E600824BE7 /* SocialModel.swift in Sources */,
 				F553F87627E820E600824BE7 /* SocialConfirm.swift in Sources */,
 				CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */,
+				F5350E3D27FCA70A00F54E32 /* SettingServerRemoteStore.swift in Sources */,
 				044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */,
+				F5350E1C27FAD58F00F54E32 /* TwoFactorInMemoryStore.swift in Sources */,
 				0499344727E97035003BD4C4 /* ChangePasswordInteractor.swift in Sources */,
 				0499341027E96DD7003BD4C4 /* FogotPasswordView.swift in Sources */,
 				0499344427E97035003BD4C4 /* ChangePasswordInMemoryStore.swift in Sources */,
 				047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */,
+				F5350E3A27FCA70A00F54E32 /* ServerSettingModel.swift in Sources */,
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
 				047D6B1027F1544D0098B104 /* GroupDetailRemoteStore.swift in Sources */,
 				0499345627E9A8BE003BD4C4 /* AdvancedSeverInteractor.swift in Sources */,
@@ -1331,7 +1387,6 @@
 				0499340F27E96DD7003BD4C4 /* FogotPasswordInteractor.swift in Sources */,
 				F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */,
 				0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */,
-				F5350DE427FACA5200F54E32 /* NotificationModel.swift in Sources */,
 				044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */,
 				0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */,
 				F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */,
@@ -1344,31 +1399,28 @@
 				0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */,
 				0499344827E97035003BD4C4 /* ChangePasswordView.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
-				F5350DD027FACA1F00F54E32 /* SettingServerView.swift in Sources */,
+				F5350E4C27FCA73C00F54E32 /* NotificationInMemoryStore.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
 				0499343727E96F8A003BD4C4 /* NewPasswordRemoteStore.swift in Sources */,
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
 				0499344627E97035003BD4C4 /* ChangePasswordRemoteStore.swift in Sources */,
+				F5350E4E27FCA73C00F54E32 /* NotificationWorker.swift in Sources */,
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
 				0499343627E96F8A003BD4C4 /* NewPasswordWorker.swift in Sources */,
 				F553F87427E820E600824BE7 /* SocialCommonUI.swift in Sources */,
+				F5350E3C27FCA70A00F54E32 /* SettingServerWorker.swift in Sources */,
 				047D6B1827F154970098B104 /* MemberView.swift in Sources */,
 				047D6B1C27F154B70098B104 /* RemoveMemberView.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
 				047241A927DB3D2C0043345A /* ILoginModel.swift in Sources */,
-				F5350DE727FACA5200F54E32 /* NotificationContentView.swift in Sources */,
 				0499343827E96F8A003BD4C4 /* NewPasswordInteractor.swift in Sources */,
 				0472418227DB35550043345A /* HomeMenuView.swift in Sources */,
+				F5350E1E27FAD58F00F54E32 /* TwoFactorRemoteStore.swift in Sources */,
 				F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */,
-				F5350DD627FACA1F00F54E32 /* SettingServerInMemoryStore.swift in Sources */,
-				F5350DE227FACA5200F54E32 /* NotificationInteractor.swift in Sources */,
 				F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
-				F5350DE327FACA5200F54E32 /* NotificationInMemoryStore.swift in Sources */,
 				0499342E27E96F09003BD4C4 /* AdvancedContentView.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
-				F5350DE527FACA5200F54E32 /* NotificationWorker.swift in Sources */,
-				F5350DD127FACA1F00F54E32 /* ServerSettingModel.swift in Sources */,
 				047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
 				CB40073027E74E1900DFBE88 /* Configuration.swift in Sources */,
