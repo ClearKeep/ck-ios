@@ -18,6 +18,7 @@ private enum Constant {
 	static let sizeImage = 120.0
 	static let paddingButtonNext = 60.0
 	static let borderLineWidth = 2.0
+	static let opacity = 0.2
 }
 
 struct VoiceCall: View {
@@ -31,7 +32,7 @@ struct VoiceCall: View {
 	@State private(set) var isTappedCamera: Bool = false
 	@State private(set) var isTappedSpeaker: Bool = false
 	@State private(set) var isTappedEndCall: Bool = false
-	@State private var timeCalled = 0
+	@State private var timeCalled = 1
 
 	let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
@@ -71,7 +72,7 @@ private extension VoiceCall {
 				.padding(.bottom, Constant.paddingButtonNext)
 			Spacer()
 		}
-		.background(foregroundColorGreyLight)
+		.background(foregroundColorGreyLight.opacity(Constant.opacity))
 		.padding(.horizontal, Constant.paddingVertical)
 	}
 
@@ -175,7 +176,7 @@ private extension VoiceCall {
 	var buttonCancel: some View {
 		VStack {
 			Button {
-				isTappedEndCall.toggle()
+				timeCalled = 0
 			} label: {
 				ZStack {
 					Circle()
@@ -245,11 +246,11 @@ private extension VoiceCall {
 	}
 
 	var cameraIcon: Image {
-		isTappedMute ? AppTheme.shared.imageSet.videoIcon : AppTheme.shared.imageSet.videoIcon
+		isTappedCamera ? AppTheme.shared.imageSet.videoOffIcon : AppTheme.shared.imageSet.videoIcon
 	}
 
 	var speakerIcon: Image {
-		isTappedSpeaker ? AppTheme.shared.imageSet.speakerIcon : AppTheme.shared.imageSet.speakerIcon
+		isTappedSpeaker ? AppTheme.shared.imageSet.speakerOffIcon : AppTheme.shared.imageSet.speakerIcon
 	}
 }
 
@@ -259,15 +260,15 @@ private extension VoiceCall {
 		self.presentationMode.wrappedValue.dismiss()
 	}
 
-	func getTimer() -> String{
+	func getTimer() -> String {
 		let minutes = Int(timeCalled) / 60 % 60
 		let seconds = Int(timeCalled) % 60
-		return String(format:"%02i:%02i", minutes, seconds)
+		return String(format : "%02i:%02i", minutes, seconds)
 	}
 }
 
 struct VoiceCall_Previews: PreviewProvider {
-    static var previews: some View {
+	static var previews: some View {
         VoiceCall()
     }
 }
