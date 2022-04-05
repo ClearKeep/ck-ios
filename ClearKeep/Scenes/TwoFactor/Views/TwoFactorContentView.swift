@@ -127,6 +127,7 @@ private extension TwoFactorContentView {
 						.frame(width: Constant.sizePasscodeInput, height: Constant.sizePasscodeInput)
 					Text(self.getDigits(at: index))
 						.font(AppTheme.shared.fontSet.font(style: .heading3))
+						.foregroundColor(foregroundColorBlack)
 					Spacer()
 				}
 			}
@@ -215,6 +216,10 @@ private extension TwoFactorContentView {
 
 	var foregroundColorWhite: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite
+	}
+
+	var foregroundColorBlack: Color {
+		AppTheme.shared.colorSet.black
 	}
 
 	var foregroundColorPrimary: Color {
