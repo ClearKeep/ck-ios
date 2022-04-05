@@ -35,9 +35,11 @@ public protocol IImageSet {
 	var emoticonIcon: Image { get }
 	var straitFaceIcon: Image { get }
 	var speakerIcon: Image { get }
+	var speakerOffIcon: Image { get }
 	var cameraRolateIcon: Image { get }
 	var backIcon: Image { get }
 	var videosIcon: Image { get }
+	var videoOffIcon: Image { get }
 	var menuIcon: Image { get }
 	var adjustmentIcon: Image { get }
 	var userPlusIcon: Image { get }

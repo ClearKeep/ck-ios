@@ -2,7 +2,7 @@
 //  CallInteractor.swift
 //  ClearKeep
 //
-//  Created by đông on 02/04/2022.
+//  Created by đông on 05/04/2022.
 //
 
 import Common
@@ -16,14 +16,6 @@ struct CallInteractor {
 }
 
 extension CallInteractor: ICallInteractor {
-	var worker: ICallWorker {
-		let remoteStore = CallRemoteStore()
-		let inMemoryStore = CallInMemoryStore()
-		return CallWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
-	}
-}
-
-struct StubCallInteractor: ICallInteractor {
 	var worker: ICallWorker {
 		let remoteStore = CallRemoteStore()
 		let inMemoryStore = CallInMemoryStore()

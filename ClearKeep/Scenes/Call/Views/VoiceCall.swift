@@ -31,6 +31,9 @@ struct VoiceCall: View {
 	@State private(set) var isTappedCamera: Bool = false
 	@State private(set) var isTappedSpeaker: Bool = false
 	@State private(set) var isTappedEndCall: Bool = false
+	@State private var timeCalled = 300
+
+	let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
 	// MARK: - Init
 	public init(samples: Loadable<[ICallModel]> = .notRequested) {
@@ -236,6 +239,19 @@ private extension VoiceCall {
 
 	var speakerIcon: Image {
 		isTappedSpeaker ? AppTheme.shared.imageSet.speakerIcon : AppTheme.shared.imageSet.speakerIcon
+	}
+}
+
+// MARK: - Private Func
+private extension VoiceCall {
+	func customBack() {
+		self.presentationMode.wrappedValue.dismiss()
+	}
+
+	func getTimer() -> String{
+		let minutes = Int(timeCalled) / 60 % 60
+		let seconds = Int(timeCalled) % 60
+		return String(format:"%02i:%02i", minutes, seconds)
 	}
 }
 

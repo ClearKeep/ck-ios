@@ -2,13 +2,16 @@
 //  CallInMemoryStore.swift
 //  ClearKeep
 //
-//  Created by đông on 02/04/2022.
+//  Created by đông on 05/04/2022.
 //
 
 import Foundation
 
-protocol ICallInMemoryStore {}
+protocol ICallInMemoryStore {
+}
 
-struct CallInMemoryStore { }
+struct CallInMemoryStore {
+}
 
-extension CallInMemoryStore: ICallInMemoryStore {}
+extension CallInMemoryStore: ICallInMemoryStore {
+}

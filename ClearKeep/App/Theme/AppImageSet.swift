@@ -38,9 +38,11 @@ struct AppImageSet: IAppImageSet {
 	var emoticonIcon: Image { Image("ic_emoticon") }
 	var straitFaceIcon: Image { Image("ic_straight_face") }
 	var speakerIcon: Image { Image("ic_speaker") }
+	var speakerOffIcon: Image { Image("ic_speaker_off") }
 	var cameraRolateIcon: Image { Image("ic_camera_rotate") }
 	var backIcon: Image { Image("ic_arrow_left") }
 	var videosIcon: Image { Image("ic_video") }
+	var videoOffIcon: Image { Image("ic_video_off") }
 	var menuIcon: Image { Image("ic_hamburger") }
 	var adjustmentIcon: Image { Image("ic_adjustment") }
 	var userPlusIcon: Image { Image("ic_user_plus") }

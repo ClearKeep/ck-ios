@@ -92,6 +92,11 @@
 		CBF3351A27EEBCB400F8EE63 /* GoogleService-Info-QA.plist in Resources */ = {isa = PBXBuildFile; fileRef = CBF3351927EEBCB400F8EE63 /* GoogleService-Info-QA.plist */; };
 		CBF3351C27EEBCE200F8EE63 /* GoogleService-Info-Production.plist in Resources */ = {isa = PBXBuildFile; fileRef = CBF3351B27EEBCE200F8EE63 /* GoogleService-Info-Production.plist */; };
 		D8AB76DC8A0A1CA052BB690A /* Pods_ClearKeepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 505924C80AA28618058991FC /* Pods_ClearKeepTests.framework */; };
+		F5350E2A27FC3AC100F54E32 /* CallInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E2527FC3AC100F54E32 /* CallInMemoryStore.swift */; };
+		F5350E2B27FC3AC100F54E32 /* CallWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E2627FC3AC100F54E32 /* CallWorker.swift */; };
+		F5350E2C27FC3AC100F54E32 /* CallRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E2727FC3AC100F54E32 /* CallRemoteStore.swift */; };
+		F5350E2D27FC3AC100F54E32 /* CallInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E2827FC3AC100F54E32 /* CallInteractor.swift */; };
+		F5350E2E27FC3AC100F54E32 /* CallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E2927FC3AC100F54E32 /* CallView.swift */; };
 		F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86027E820E600824BE7 /* SocialWorker.swift */; };
 		F553F86F27E820E600824BE7 /* SocialModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86227E820E600824BE7 /* SocialModel.swift */; };
 		F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86327E820E600824BE7 /* SocialRemoteStore.swift */; };
@@ -102,11 +107,6 @@
 		F553F87627E820E600824BE7 /* SocialConfirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86B27E820E600824BE7 /* SocialConfirm.swift */; };
 		F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86C27E820E600824BE7 /* SocialInMemoryStore.swift */; };
 		F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86D27E820E600824BE7 /* SocialInteractor.swift */; };
-		F554DF1627FA039D00D5BCF7 /* CallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554DF1127FA039D00D5BCF7 /* CallView.swift */; };
-		F554DF1727FA039D00D5BCF7 /* CallWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554DF1227FA039D00D5BCF7 /* CallWorker.swift */; };
-		F554DF1827FA039D00D5BCF7 /* CallInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554DF1327FA039D00D5BCF7 /* CallInteractor.swift */; };
-		F554DF1927FA039D00D5BCF7 /* CallRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554DF1427FA039D00D5BCF7 /* CallRemoteStore.swift */; };
-		F554DF1A27FA039D00D5BCF7 /* CallInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554DF1527FA039D00D5BCF7 /* CallInMemoryStore.swift */; };
 		F554DF1D27FA03AD00D5BCF7 /* InComingVoiceCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554DF1B27FA03AC00D5BCF7 /* InComingVoiceCallView.swift */; };
 		F554DF1E27FA03AD00D5BCF7 /* CallingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554DF1C27FA03AC00D5BCF7 /* CallingView.swift */; };
 		F554DF2227FA040F00D5BCF7 /* CallModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554DF2127FA040F00D5BCF7 /* CallModel.swift */; };
@@ -274,6 +274,11 @@
 		CBF3351B27EEBCE200F8EE63 /* GoogleService-Info-Production.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Production.plist"; sourceTree = "<group>"; };
 		E17A6A8CE10FEF02B2A4EC45 /* Pods-ClearKeep.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.qa.xcconfig"; sourceTree = "<group>"; };
 		EEDE9BEE21DD3413AFDE72FE /* Pods-ClearKeepUITests.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.development.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.development.xcconfig"; sourceTree = "<group>"; };
+		F5350E2527FC3AC100F54E32 /* CallInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallInMemoryStore.swift; sourceTree = "<group>"; };
+		F5350E2627FC3AC100F54E32 /* CallWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallWorker.swift; sourceTree = "<group>"; };
+		F5350E2727FC3AC100F54E32 /* CallRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallRemoteStore.swift; sourceTree = "<group>"; };
+		F5350E2827FC3AC100F54E32 /* CallInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallInteractor.swift; sourceTree = "<group>"; };
+		F5350E2927FC3AC100F54E32 /* CallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallView.swift; sourceTree = "<group>"; };
 		F553F86027E820E600824BE7 /* SocialWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialWorker.swift; sourceTree = "<group>"; };
 		F553F86227E820E600824BE7 /* SocialModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialModel.swift; sourceTree = "<group>"; };
 		F553F86327E820E600824BE7 /* SocialRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialRemoteStore.swift; sourceTree = "<group>"; };
@@ -284,11 +289,6 @@
 		F553F86B27E820E600824BE7 /* SocialConfirm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialConfirm.swift; sourceTree = "<group>"; };
 		F553F86C27E820E600824BE7 /* SocialInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialInMemoryStore.swift; sourceTree = "<group>"; };
 		F553F86D27E820E600824BE7 /* SocialInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialInteractor.swift; sourceTree = "<group>"; };
-		F554DF1127FA039D00D5BCF7 /* CallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallView.swift; sourceTree = "<group>"; };
-		F554DF1227FA039D00D5BCF7 /* CallWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallWorker.swift; sourceTree = "<group>"; };
-		F554DF1327FA039D00D5BCF7 /* CallInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallInteractor.swift; sourceTree = "<group>"; };
-		F554DF1427FA039D00D5BCF7 /* CallRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallRemoteStore.swift; sourceTree = "<group>"; };
-		F554DF1527FA039D00D5BCF7 /* CallInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallInMemoryStore.swift; sourceTree = "<group>"; };
 		F554DF1B27FA03AC00D5BCF7 /* InComingVoiceCallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InComingVoiceCallView.swift; sourceTree = "<group>"; };
 		F554DF1C27FA03AC00D5BCF7 /* CallingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallingView.swift; sourceTree = "<group>"; };
 		F554DF2127FA040F00D5BCF7 /* CallModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallModel.swift; sourceTree = "<group>"; };
@@ -979,13 +979,13 @@
 		F5E1C64F27F55A5800B94685 /* Call */ = {
 			isa = PBXGroup;
 			children = (
-				F554DF1527FA039D00D5BCF7 /* CallInMemoryStore.swift */,
-				F554DF1327FA039D00D5BCF7 /* CallInteractor.swift */,
-				F554DF1427FA039D00D5BCF7 /* CallRemoteStore.swift */,
-				F554DF1127FA039D00D5BCF7 /* CallView.swift */,
-				F554DF1227FA039D00D5BCF7 /* CallWorker.swift */,
 				F5E1C65127F55A6900B94685 /* Views */,
 				F5E1C65027F55A6100B94685 /* Models */,
+				F5350E2527FC3AC100F54E32 /* CallInMemoryStore.swift */,
+				F5350E2627FC3AC100F54E32 /* CallWorker.swift */,
+				F5350E2727FC3AC100F54E32 /* CallRemoteStore.swift */,
+				F5350E2827FC3AC100F54E32 /* CallInteractor.swift */,
+				F5350E2927FC3AC100F54E32 /* CallView.swift */,
 			);
 			path = Call;
 			sourceTree = "<group>";
@@ -1297,12 +1297,10 @@
 				0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */,
 				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
-				F554DF1927FA039D00D5BCF7 /* CallRemoteStore.swift in Sources */,
 				0499343527E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
 				F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */,
 				F5E01A0E27ECD37900FDACE2 /* ServerSettingModel.swift in Sources */,
-				F554DF1827FA039D00D5BCF7 /* CallInteractor.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				044351F727D9AFCA0054A78F /* IRegisterModel.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
@@ -1312,7 +1310,9 @@
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
 				0499344527E97035003BD4C4 /* ChangePasswordWorker.swift in Sources */,
 				F554DF1D27FA03AD00D5BCF7 /* InComingVoiceCallView.swift in Sources */,
+				F5350E2E27FC3AC100F54E32 /* CallView.swift in Sources */,
 				0499345727E9A8BE003BD4C4 /* AdvancedSeverView.swift in Sources */,
+				F5350E2D27FC3AC100F54E32 /* CallInteractor.swift in Sources */,
 				0499344D27E97100003BD4C4 /* ChangePasswordContentView.swift in Sources */,
 				0499345527E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift in Sources */,
 				CB40074727E8CCC800DFBE88 /* LoginContentView.swift in Sources */,
@@ -1337,6 +1337,8 @@
 				CB117E8627BB6687000941D9 /* SampleModel.swift in Sources */,
 				0499343D27E96FC5003BD4C4 /* NewPasswordContenView.swift in Sources */,
 				F553F87527E820E600824BE7 /* SocialCommonStyle.swift in Sources */,
+				F5350E2A27FC3AC100F54E32 /* CallInMemoryStore.swift in Sources */,
+				F5350E2B27FC3AC100F54E32 /* CallWorker.swift in Sources */,
 				0499340F27E96DD7003BD4C4 /* FogotPasswordInteractor.swift in Sources */,
 				F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */,
 				0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */,
@@ -1351,18 +1353,17 @@
 				047241A727DB3D2C0043345A /* LoginInteractor.swift in Sources */,
 				F5CE37F427E97FF20085CECE /* UserProfileContentView.swift in Sources */,
 				0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */,
-				F554DF1727FA039D00D5BCF7 /* CallWorker.swift in Sources */,
 				0499344827E97035003BD4C4 /* ChangePasswordView.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
 				F5E01A0527EB202500FDACE2 /* TwoFactorModel.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
 				0499343727E96F8A003BD4C4 /* NewPasswordRemoteStore.swift in Sources */,
-				F554DF1A27FA039D00D5BCF7 /* CallInMemoryStore.swift in Sources */,
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
 				0499344627E97035003BD4C4 /* ChangePasswordRemoteStore.swift in Sources */,
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
 				0499343627E96F8A003BD4C4 /* NewPasswordWorker.swift in Sources */,
 				F553F87427E820E600824BE7 /* SocialCommonUI.swift in Sources */,
+				F5350E2C27FC3AC100F54E32 /* CallRemoteStore.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
 				047241A927DB3D2C0043345A /* ILoginModel.swift in Sources */,
 				0499343827E96F8A003BD4C4 /* NewPasswordInteractor.swift in Sources */,
@@ -1380,7 +1381,6 @@
 				CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */,
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
 				F5E01A0C27ECD00F00FDACE2 /* ServerSettingView.swift in Sources */,
-				F554DF1627FA039D00D5BCF7 /* CallView.swift in Sources */,
 				0499341427E96E2F003BD4C4 /* FogotPasswordContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
