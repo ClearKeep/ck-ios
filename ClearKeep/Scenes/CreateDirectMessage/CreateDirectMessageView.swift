@@ -18,15 +18,12 @@ struct CreateDirectMessageView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@State private(set) var imageUser: Image
 	@State private(set) var userName: String
-	@State private(set) var message: String
 
 	// MARK: - Init
 	init(imageUser: Image,
-		 userName: String = "",
-		 message: String = "") {
+		 userName: String = "") {
 		self._imageUser = .init(initialValue: imageUser)
 		self._userName = .init(initialValue: userName)
-		self._message = .init(initialValue: message)
 	}
 
 	// MARK: - Body

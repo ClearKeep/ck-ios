@@ -34,6 +34,7 @@ struct DirectMessageContentView: View {
 	@Binding var inputStyle: TextInputStyle
 	@State private(set) var isShowingLinkUser: Bool = false
 	@State private(set) var isShowingUser: Bool = false
+	
 	// MARK: - Init
 	init(imageUser: Binding<Image>,
 		 userName: Binding<String>,
