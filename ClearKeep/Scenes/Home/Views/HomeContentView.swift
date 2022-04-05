@@ -85,7 +85,7 @@ private extension HomeContentView {
 	var frameGroup: CGFloat? {
 		isExpandGroup ? nil : 0
 	}
-	
+
 	var frameMessage: CGFloat? {
 		isExpandMessage ? nil : 0
 	}
