@@ -20,7 +20,9 @@ private enum Constant {
 	static let paddingHorizontalSignUp = 60.0
 	static let heightButton = 40.0
 	static let cornerRadius = 40.0
-	static let backgroundOpacity = 0.4
+	static let cornerRadiusPasscode = 8.0
+	static let paddingTrailing = -24.0
+	static let sizePasscodeInput = 90.0
 }
 
 struct TwoFactorContentView: View {
@@ -29,18 +31,22 @@ struct TwoFactorContentView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@State private(set) var samples: Loadable<[ITwoFactorModel]>
-	@State private(set) var security: String
-	@State private(set) var securityStyle: TextInputStyle = .default
+	@State private(set) var pin: String
+	@State var showPin = true
+	@State private(set) var pinStyle: TextInputStyle = .default
 	@State private(set) var isNext: Bool = false
+	@State private(set) var maxDigits: Int
 	let inspection = ViewInspector<Self>()
 
 	// MARK: - Init
 	public init(samples: Loadable<[ITwoFactorModel]> = .notRequested,
-				security: String = "",
-				securityStyle: TextInputStyle = .default,
+				pin: String = "",
+				maxDigits: Int = 4,
+				pinStyle: TextInputStyle = .default,
 				keyboardType: UIKeyboardType = .numberPad) {
 		self._samples = .init(initialValue: samples)
-		self._security = .init(initialValue: security)
+		self._pin = .init(initialValue: pin)
+		self._maxDigits = .init(initialValue: maxDigits)
 	}
 
 	// MARK: - Body
@@ -67,7 +73,10 @@ private extension TwoFactorContentView {
 			buttonBackView
 				.padding(.top, Constant.spacerTopView)
 			titleView.padding(.top, Constant.paddingVertical)
-			textInputView.padding(.top, Constant.paddingVertical)
+			ZStack {
+				pinDots
+				backgroundField
+			}
 			resendCodeTitle.padding(.top, Constant.paddingVertical)
 			buttonResend.padding(.bottom, Constant.paddingVertical)
 			buttonSocial
@@ -108,14 +117,34 @@ private extension TwoFactorContentView {
 		}
 	}
 
-	var textInputView: some View {
-		HStack(spacing: Constant.spacer) {
-			PasscodeTextField(text: $security, inputStyle: $securityStyle)
-			PasscodeTextField(text: $security, inputStyle: $securityStyle)
-			PasscodeTextField(text: $security, inputStyle: $securityStyle)
-			PasscodeTextField(text: $security, inputStyle: $securityStyle)
+	var pinDots: some View {
+		HStack {
+			ForEach(0..<maxDigits) { index in
+				ZStack {
+					Spacer()
+					RoundedRectangle(cornerRadius: Constant.cornerRadiusPasscode)
+						.foregroundColor(foregroundColorWhite)
+						.padding()
+						.frame(width: Constant.sizePasscodeInput, height: Constant.sizePasscodeInput)
+					Text(self.getDigits(at: index))
+						.font(AppTheme.shared.fontSet.font(style: .heading3))
+						.foregroundColor(foregroundColorBlack)
+					Spacer()
+				}
+			}
+			.frame(minWidth: 0, maxWidth: .infinity)
 		}
-		.frame(maxWidth: .infinity)
+		.padding(.horizontal, Constant.paddingVertical)
+	}
+
+	var backgroundField: some View {
+		return TextField("", text: $pin)
+			.onChange(of: self.pin, perform: { value in
+				self.pin = String(value.prefix(maxDigits))
+			})
+			.accentColor(.clear)
+			.foregroundColor(.clear)
+			.keyboardType(.numberPad)
 	}
 
 	var titleView: some View {
@@ -151,6 +180,13 @@ private extension TwoFactorContentView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
+
+	private func getDigits(at index: Int) -> String {
+		if index >= self.pin.count {
+			return ""
+		}
+		return self.pin.digits[index].numberString
+	}
 }
 
 // MARK: - Support Variables
@@ -183,6 +219,10 @@ private extension TwoFactorContentView {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite
 	}
 
+	var foregroundColorBlack: Color {
+		AppTheme.shared.colorSet.black
+	}
+
 	var foregroundColorPrimary: Color {
 		AppTheme.shared.colorSet.primaryDefault
 	}
@@ -199,12 +239,53 @@ private extension TwoFactorContentView {
 		AppTheme.shared.colorSet.background
 	}
 
-	var foregroundColorGrey: Color {
+	var foregroundColorGrey1: Color {
 		AppTheme.shared.colorSet.grey1
+	}
+
+	var foregroundColorGreyLight: Color {
+		AppTheme.shared.colorSet.greyLight
 	}
 
 	var foregroundMessage: Color {
 		colorScheme == .light ? foregroundColorBackground : foregroundColorWhite
+	}
+}
+
+private extension String {
+	var digits: [Int] {
+		var result = [Int]()
+		for char in self {
+			if let number = Int(String(char)) {
+				result.append(number)
+			}
+		}
+		return result
+	}
+}
+
+private extension Int {
+	var numberString: String {
+		guard self < 10 else { return "0" }
+		return String(self)
+	}
+}
+
+private extension View {
+	func limitInputLength(value: Binding<String>, length: Int) -> some View {
+		self.modifier(TextFieldLimitModifer(value: value, length: length))
+	}
+}
+
+struct TextFieldLimitModifer: ViewModifier {
+	@Binding var value: String
+	var length: Int
+
+	func body(content: Content) -> some View {
+		content
+			.onReceive(value.publisher.collect()) {
+				value = String($0.prefix(length))
+			}
 	}
 }
 
