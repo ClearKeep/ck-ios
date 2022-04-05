@@ -263,12 +263,12 @@ private extension VoiceCall {
 	func getTimer() -> String {
 		let minutes = Int(timeCalled) / 60 % 60
 		let seconds = Int(timeCalled) % 60
-		return String(format : "%02i:%02i", minutes, seconds)
+		return String(format: "%02i:%02i", minutes, seconds)
 	}
 }
 
 struct VoiceCall_Previews: PreviewProvider {
 	static var previews: some View {
-        VoiceCall()
-    }
+		VoiceCall()
+	}
 }
