@@ -31,7 +31,7 @@ struct VoiceCall: View {
 	@State private(set) var isTappedCamera: Bool = false
 	@State private(set) var isTappedSpeaker: Bool = false
 	@State private(set) var isTappedEndCall: Bool = false
-	@State private var timeCalled = 300
+	@State private var timeCalled = 0
 
 	let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
@@ -64,6 +64,7 @@ private extension VoiceCall {
 				.padding(.top, Constant.spacerTopView)
 			userPicture
 			userName
+			timeCalling
 			supportCalling
 				.padding(.top, Constant.spacerBottom)
 			buttonCancel
@@ -109,6 +110,16 @@ private extension VoiceCall {
 			.frame(maxWidth: .infinity, alignment: .center)
 			.font(AppTheme.shared.fontSet.font(style: .display2))
 			.foregroundColor(foregroundColorWhite)
+	}
+
+	var timeCalling: some View {
+		Text(getTimer())
+			.padding()
+			.onReceive(timer) { _ in
+				if timeCalled > 0 {
+					timeCalled += 1
+				}
+			}
 	}
 
 	var supportCalling: some View {

@@ -67,7 +67,6 @@ private extension TwoFactorContentView {
 			buttonBackView
 				.padding(.top, Constant.spacerTopView)
 			titleView.padding(.top, Constant.paddingVertical)
-			textInputView.padding(.top, Constant.paddingVertical)
 			resendCodeTitle.padding(.top, Constant.paddingVertical)
 			buttonResend.padding(.bottom, Constant.paddingVertical)
 			buttonSocial
@@ -106,16 +105,6 @@ private extension TwoFactorContentView {
 			.frame(maxWidth: .infinity, alignment: .leading)
 			.foregroundColor(foregroundColorWhite)
 		}
-	}
-
-	var textInputView: some View {
-		HStack(spacing: Constant.spacer) {
-			PasscodeTextField(text: $security, inputStyle: $securityStyle)
-			PasscodeTextField(text: $security, inputStyle: $securityStyle)
-			PasscodeTextField(text: $security, inputStyle: $securityStyle)
-			PasscodeTextField(text: $security, inputStyle: $securityStyle)
-		}
-		.frame(maxWidth: .infinity)
 	}
 
 	var titleView: some View {
