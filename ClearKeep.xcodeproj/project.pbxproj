@@ -111,6 +111,13 @@
 		CBF3351A27EEBCB400F8EE63 /* GoogleService-Info-QA.plist in Resources */ = {isa = PBXBuildFile; fileRef = CBF3351927EEBCB400F8EE63 /* GoogleService-Info-QA.plist */; };
 		CBF3351C27EEBCE200F8EE63 /* GoogleService-Info-Production.plist in Resources */ = {isa = PBXBuildFile; fileRef = CBF3351B27EEBCE200F8EE63 /* GoogleService-Info-Production.plist */; };
 		D8AB76DC8A0A1CA052BB690A /* Pods_ClearKeepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 505924C80AA28618058991FC /* Pods_ClearKeepTests.framework */; };
+		F5350E1027FAD57500F54E32 /* TwoFactorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E0827FAD57500F54E32 /* TwoFactorModel.swift */; };
+		F5350E1527FAD57500F54E32 /* TwoFactorContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E0E27FAD57500F54E32 /* TwoFactorContentView.swift */; };
+		F5350E1C27FAD58F00F54E32 /* TwoFactorInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1727FAD58F00F54E32 /* TwoFactorInMemoryStore.swift */; };
+		F5350E1D27FAD58F00F54E32 /* TwoFactorWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1827FAD58F00F54E32 /* TwoFactorWorker.swift */; };
+		F5350E1E27FAD58F00F54E32 /* TwoFactorRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1927FAD58F00F54E32 /* TwoFactorRemoteStore.swift */; };
+		F5350E1F27FAD58F00F54E32 /* TwoFactorInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1A27FAD58F00F54E32 /* TwoFactorInteractor.swift */; };
+		F5350E2027FAD58F00F54E32 /* TwoFactorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1B27FAD58F00F54E32 /* TwoFactorView.swift */; };
 		F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86027E820E600824BE7 /* SocialWorker.swift */; };
 		F553F86F27E820E600824BE7 /* SocialModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86227E820E600824BE7 /* SocialModel.swift */; };
 		F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86327E820E600824BE7 /* SocialRemoteStore.swift */; };
@@ -295,6 +302,13 @@
 		CBF3351B27EEBCE200F8EE63 /* GoogleService-Info-Production.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Production.plist"; sourceTree = "<group>"; };
 		E17A6A8CE10FEF02B2A4EC45 /* Pods-ClearKeep.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.qa.xcconfig"; sourceTree = "<group>"; };
 		EEDE9BEE21DD3413AFDE72FE /* Pods-ClearKeepUITests.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.development.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.development.xcconfig"; sourceTree = "<group>"; };
+		F5350E0827FAD57500F54E32 /* TwoFactorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoFactorModel.swift; sourceTree = "<group>"; };
+		F5350E0E27FAD57500F54E32 /* TwoFactorContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoFactorContentView.swift; sourceTree = "<group>"; };
+		F5350E1727FAD58F00F54E32 /* TwoFactorInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInMemoryStore.swift; sourceTree = "<group>"; };
+		F5350E1827FAD58F00F54E32 /* TwoFactorWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorWorker.swift; sourceTree = "<group>"; };
+		F5350E1927FAD58F00F54E32 /* TwoFactorRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorRemoteStore.swift; sourceTree = "<group>"; };
+		F5350E1A27FAD58F00F54E32 /* TwoFactorInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInteractor.swift; sourceTree = "<group>"; };
+		F5350E1B27FAD58F00F54E32 /* TwoFactorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorView.swift; sourceTree = "<group>"; };
 		F553F86027E820E600824BE7 /* SocialWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialWorker.swift; sourceTree = "<group>"; };
 		F553F86227E820E600824BE7 /* SocialModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialModel.swift; sourceTree = "<group>"; };
 		F553F86327E820E600824BE7 /* SocialRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialRemoteStore.swift; sourceTree = "<group>"; };
@@ -661,6 +675,7 @@
 			isa = PBXGroup;
 			children = (
 				04F933C927FC3B85001D6C6F /* Search */,
+				F5350E0627FAD57500F54E32 /* TwoFactor */,
 				047D6B0827F14D3E0098B104 /* GroupDetail */,
 				F5CE37EC27E97FF20085CECE /* Profile */,
 				0499343E27E97015003BD4C4 /* ChangePassword */,
@@ -889,6 +904,36 @@
 				101250A451C5F0A0690F9F2E /* Pods_ClearKeepUITests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F5350E0627FAD57500F54E32 /* TwoFactor */ = {
+			isa = PBXGroup;
+			children = (
+				F5350E0727FAD57500F54E32 /* Models */,
+				F5350E0D27FAD57500F54E32 /* Views */,
+				F5350E1727FAD58F00F54E32 /* TwoFactorInMemoryStore.swift */,
+				F5350E1827FAD58F00F54E32 /* TwoFactorWorker.swift */,
+				F5350E1927FAD58F00F54E32 /* TwoFactorRemoteStore.swift */,
+				F5350E1A27FAD58F00F54E32 /* TwoFactorInteractor.swift */,
+				F5350E1B27FAD58F00F54E32 /* TwoFactorView.swift */,
+			);
+			path = TwoFactor;
+			sourceTree = "<group>";
+		};
+		F5350E0727FAD57500F54E32 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F5350E0827FAD57500F54E32 /* TwoFactorModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F5350E0D27FAD57500F54E32 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F5350E0E27FAD57500F54E32 /* TwoFactorContentView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		F553F85F27E820E600824BE7 /* Social Login */ = {
@@ -1244,6 +1289,7 @@
 				CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */,
 				CB117E7B27BB65E2000941D9 /* LocationConfigurations.swift in Sources */,
 				CB117EC427BB8DB1000941D9 /* SceneDelegate.swift in Sources */,
+				F5350E1D27FAD58F00F54E32 /* TwoFactorWorker.swift in Sources */,
 				CB117ECD27BBA6E5000941D9 /* HomeWorker.swift in Sources */,
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
 				0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */,
@@ -1260,6 +1306,7 @@
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				047D6B0F27F1544D0098B104 /* GroupDetailWorker.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
+				F5350E1527FAD57500F54E32 /* TwoFactorContentView.swift in Sources */,
 				F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */,
 				F553F87127E820E600824BE7 /* SocialView.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
@@ -1270,8 +1317,11 @@
 				04F933D327FC3B9E001D6C6F /* SearchAllView.swift in Sources */,
 				0499345527E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift in Sources */,
 				CB40074727E8CCC800DFBE88 /* LoginContentView.swift in Sources */,
+				F5350E1027FAD57500F54E32 /* TwoFactorModel.swift in Sources */,
 				0499345427E9A8BE003BD4C4 /* AdvancedSeverWorker.swift in Sources */,
+				F5350E2027FAD58F00F54E32 /* TwoFactorView.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
+				F5350E1F27FAD58F00F54E32 /* TwoFactorInteractor.swift in Sources */,
 				047241AE27DB3D2C0043345A /* LoginWorker.swift in Sources */,
 				047D6B1E27F158520098B104 /* DetailContentView.swift in Sources */,
 				04F933D427FC3B9E001D6C6F /* SearchGroupView.swift in Sources */,
@@ -1282,6 +1332,7 @@
 				F553F87627E820E600824BE7 /* SocialConfirm.swift in Sources */,
 				CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */,
 				044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */,
+				F5350E1C27FAD58F00F54E32 /* TwoFactorInMemoryStore.swift in Sources */,
 				0499344727E97035003BD4C4 /* ChangePasswordInteractor.swift in Sources */,
 				0499341027E96DD7003BD4C4 /* FogotPasswordView.swift in Sources */,
 				0499344427E97035003BD4C4 /* ChangePasswordInMemoryStore.swift in Sources */,
@@ -1324,6 +1375,7 @@
 				047241A927DB3D2C0043345A /* ILoginModel.swift in Sources */,
 				0499343827E96F8A003BD4C4 /* NewPasswordInteractor.swift in Sources */,
 				0472418227DB35550043345A /* HomeMenuView.swift in Sources */,
+				F5350E1E27FAD58F00F54E32 /* TwoFactorRemoteStore.swift in Sources */,
 				F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */,
 				F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
