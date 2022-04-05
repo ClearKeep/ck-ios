@@ -35,17 +35,18 @@ struct TwoFactorContentView: View {
 	@State var showPin = true
 	@State private(set) var pinStyle: TextInputStyle = .default
 	@State private(set) var isNext: Bool = false
-	
-	let maxDigits: Int = 4
+	@State private(set) var maxDigits: Int
 	let inspection = ViewInspector<Self>()
 
 	// MARK: - Init
 	public init(samples: Loadable<[ITwoFactorModel]> = .notRequested,
 				pin: String = "",
+				maxDigits: Int = 4,
 				pinStyle: TextInputStyle = .default,
 				keyboardType: UIKeyboardType = .numberPad) {
 		self._samples = .init(initialValue: samples)
 		self._pin = .init(initialValue: pin)
+		self._maxDigits = .init(initialValue: maxDigits)
 	}
 
 	// MARK: - Body
@@ -251,7 +252,7 @@ private extension TwoFactorContentView {
 	}
 }
 
-extension String {
+private extension String {
 	var digits: [Int] {
 		var result = [Int]()
 		for char in self {
@@ -263,14 +264,14 @@ extension String {
 	}
 }
 
-extension Int {
+private extension Int {
 	var numberString: String {
 		guard self < 10 else { return "0" }
 		return String(self)
 	}
 }
 
-extension View {
+private extension View {
 	func limitInputLength(value: Binding<String>, length: Int) -> some View {
 		self.modifier(TextFieldLimitModifer(value: value, length: length))
 	}
