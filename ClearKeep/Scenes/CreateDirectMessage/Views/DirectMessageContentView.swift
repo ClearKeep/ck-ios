@@ -29,8 +29,8 @@ struct DirectMessageContentView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Binding var imageUser: Image
 	@Binding var userName: String
-	@Binding var searchText: String
-	@Binding var severText: String
+	@State private(set) var searchText: String = ""
+	@State private(set) var severText: String = ""
 	@Binding var inputStyle: TextInputStyle
 	@State private(set) var isShowingLinkUser: Bool = false
 	@State private(set) var isShowingUser: Bool = false
@@ -38,13 +38,9 @@ struct DirectMessageContentView: View {
 	// MARK: - Init
 	init(imageUser: Binding<Image>,
 		 userName: Binding<String>,
-		 searchText: Binding<String>,
-		 severText: Binding<String>,
 		 inputStyle: Binding<TextInputStyle>) {
 		self._imageUser = imageUser
 		self._userName = userName
-		self._searchText = searchText
-		self._severText = severText
 		self._inputStyle = inputStyle
 	}
 
@@ -151,18 +147,20 @@ private extension DirectMessageContentView {
 	}
 
 	var userView: some View {
-		Button(action: chooseUser) {
-			VStack(alignment: .leading, spacing: Constants.spacing) {
-				HStack {
-					imageUser
-						.resizable()
-						.aspectRatio(contentMode: .fit)
-						.frame(width: Constants.sizeImage, height: Constants.sizeImage)
-						.clipShape(Circle())
-					Text(userName)
-						.font(AppTheme.shared.fontSet.font(style: .body2))
-						.foregroundColor(foregroundColorUserName)
-					Spacer()
+		ScrollView(showsIndicators: false) {
+			Button(action: chooseUser) {
+				VStack(alignment: .leading, spacing: Constants.spacing) {
+					HStack {
+						imageUser
+							.resizable()
+							.aspectRatio(contentMode: .fit)
+							.frame(width: Constants.sizeImage, height: Constants.sizeImage)
+							.clipShape(Circle())
+						Text(userName)
+							.font(AppTheme.shared.fontSet.font(style: .body2))
+							.foregroundColor(foregroundColorUserName)
+						Spacer()
+					}
 				}
 			}
 		}
@@ -219,7 +217,7 @@ private extension DirectMessageContentView {
 #if DEBUG
 struct DirectMessageContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		DirectMessageContentView(imageUser: .constant(Image("")), userName: .constant(""), searchText: .constant(""), severText: .constant(""), inputStyle: .constant(.default))
+		DirectMessageContentView(imageUser: .constant(AppTheme.shared.imageSet.faceIcon), userName: .constant("Test"), inputStyle: .constant(.default))
 	}
 }
 #endif

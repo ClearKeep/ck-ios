@@ -54,7 +54,7 @@ private extension CreateDirectMessageView {
 // MARK: - Loading Content
 private extension CreateDirectMessageView {
 	var notRequestedView: some View {
-		DirectMessageContentView(imageUser: $imageUser, userName: $userName, searchText: .constant(""), severText: .constant(""), inputStyle: .constant(.default))
+		DirectMessageContentView(imageUser: $imageUser, userName: $userName, inputStyle: .constant(.default))
 	}
 }
 
