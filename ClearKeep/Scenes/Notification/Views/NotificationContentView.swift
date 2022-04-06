@@ -48,13 +48,13 @@ struct NotificationContentView: View {
 // MARK: - Private
 private extension NotificationContentView {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		AnyView(contentView)
 	}
 }
 
 // MARK: - Loading Content
 private extension NotificationContentView {
-	var notRequestedView: some View {
+	var contentView: some View {
 		VStack(spacing: Constant.spacer) {
 			backgroundColorTop
 				.frame(maxWidth: .infinity, maxHeight: Constant.heightBackground)

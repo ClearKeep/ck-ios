@@ -57,13 +57,13 @@ struct ServerSettingContentView: View {
 // MARK: - Private
 private extension ServerSettingContentView {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		AnyView(contentView)
 	}
 }
 
 // MARK: - Loading Content
 private extension ServerSettingContentView {
-	var notRequestedView: some View {
+	var contentView: some View {
 		VStack(spacing: Constant.spacer) {
 			backgroundColorTop
 				.frame(maxWidth: .infinity, maxHeight: Constant.heightBackground)
