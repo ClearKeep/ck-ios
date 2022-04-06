@@ -16,6 +16,7 @@ struct SecondaryAlert: View {
 	@Binding var isPresented: Bool
 	private let onPrimary: () -> Void
 	private let onSecondary: () -> Void
+	
 	// MARK: - Init
 	public init(titleMessage: Binding<String>,
 				bodyMessage: Binding<String>,

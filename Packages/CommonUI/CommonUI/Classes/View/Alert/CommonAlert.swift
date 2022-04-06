@@ -14,6 +14,7 @@ public struct CommonAlert: View {
 	private let primaryTitle: String
 	@Binding var isPresented: Bool
 	private let onAction: () -> Void
+	
 	// MARK: - Init
 	public init(titleMessage: String,
 				bodyMessage: String,
