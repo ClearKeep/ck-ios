@@ -152,7 +152,6 @@ extension APIService: IAuthenticationAPIService {
 		})
 	}
 	
-	
 	public func verifyPinCode(_ request: Auth_VerifyPinCodeReq) async -> (Result<Auth_AuthRes, Error>) {
 		return await withCheckedContinuation({ continuation in
 			let response = clientAuth.verify_pincode(request).response
