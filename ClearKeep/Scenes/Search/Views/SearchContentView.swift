@@ -28,15 +28,17 @@ struct SearchContentView: View {
 	@Binding var message: String
 	@Binding var groupText: String
 	@Binding var dateMessage: String
-	var categories = ["All", "People", "Group", "Message"]
+	private var categories = ["SearchAll".localized, "Search.People".localized, "Search.Group".localized, "Search.Message".localized]
 	@State private var selectedTab: Int = 0
 
 	// MARK: - Init
-	init(imageUser: Binding<Image>,
+	init(searchCatalogy: SearchCatalogy = .all,
+		 imageUser: Binding<Image>,
 		 userName: Binding<String>,
 		 message: Binding<String>,
 		 groupText: Binding<String>,
 		 dateMessage: Binding<String>) {
+		self._searchCatalogy = .init(initialValue: searchCatalogy)
 		self._imageUser = imageUser
 		self._userName = userName
 		self._message = message

@@ -64,6 +64,8 @@
 		04F933DF27FC3BCD001D6C6F /* SearchRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F933DA27FC3BCD001D6C6F /* SearchRemoteStore.swift */; };
 		04F933E027FC3BCD001D6C6F /* SearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F933DB27FC3BCD001D6C6F /* SearchInteractor.swift */; };
 		04F933E127FC3BCD001D6C6F /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F933DC27FC3BCD001D6C6F /* SearchView.swift */; };
+		04F933F027FD3404001D6C6F /* SearchCatalogy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F933EF27FD3404001D6C6F /* SearchCatalogy.swift */; };
+		04F933F427FD4A30001D6C6F /* CatalogyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F933F327FD4A30001D6C6F /* CatalogyView.swift */; };
 		68B04852200FE549288B41AA /* Pods_ClearKeep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726F45262AA71A1153B2BBF0 /* Pods_ClearKeep.framework */; };
 		B664E4414FD9CBFCDF6E7E5F /* Pods_ClearKeepUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 101250A451C5F0A0690F9F2E /* Pods_ClearKeepUITests.framework */; };
 		CB117E2727BB5283000941D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB117E2627BB5283000941D9 /* Assets.xcassets */; };
@@ -229,6 +231,8 @@
 		04F933DA27FC3BCD001D6C6F /* SearchRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRemoteStore.swift; sourceTree = "<group>"; };
 		04F933DB27FC3BCD001D6C6F /* SearchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInteractor.swift; sourceTree = "<group>"; };
 		04F933DC27FC3BCD001D6C6F /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		04F933EF27FD3404001D6C6F /* SearchCatalogy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCatalogy.swift; sourceTree = "<group>"; };
+		04F933F327FD4A30001D6C6F /* CatalogyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogyView.swift; sourceTree = "<group>"; };
 		101250A451C5F0A0690F9F2E /* Pods_ClearKeepUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClearKeepUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1516A55B0B481AAAEB3D95A3 /* Pods-NotificationServiceExtension.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationServiceExtension.production.xcconfig"; path = "Target Support Files/Pods-NotificationServiceExtension/Pods-NotificationServiceExtension.production.xcconfig"; sourceTree = "<group>"; };
 		1EB9790DAAC9857E42A9B145 /* Pods-NotificationServiceExtension.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationServiceExtension.qa.xcconfig"; path = "Target Support Files/Pods-NotificationServiceExtension/Pods-NotificationServiceExtension.qa.xcconfig"; sourceTree = "<group>"; };
@@ -576,11 +580,12 @@
 		04F933CA27FC3B8B001D6C6F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				04F933CE27FC3B9E001D6C6F /* SearchAllView.swift */,
 				04F933D027FC3B9E001D6C6F /* SearchContentView.swift */,
+				04F933CE27FC3B9E001D6C6F /* SearchAllView.swift */,
 				04F933CF27FC3B9E001D6C6F /* SearchGroupView.swift */,
 				04F933CC27FC3B9D001D6C6F /* SearchMessageView.swift */,
 				04F933CD27FC3B9D001D6C6F /* SearchUserView.swift */,
+				04F933F327FD4A30001D6C6F /* CatalogyView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -588,6 +593,7 @@
 		04F933CB27FC3B92001D6C6F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				04F933EF27FD3404001D6C6F /* SearchCatalogy.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1333,6 +1339,7 @@
 				CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */,
 				044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */,
 				F5350E1C27FAD58F00F54E32 /* TwoFactorInMemoryStore.swift in Sources */,
+				04F933F027FD3404001D6C6F /* SearchCatalogy.swift in Sources */,
 				0499344727E97035003BD4C4 /* ChangePasswordInteractor.swift in Sources */,
 				0499341027E96DD7003BD4C4 /* FogotPasswordView.swift in Sources */,
 				0499344427E97035003BD4C4 /* ChangePasswordInMemoryStore.swift in Sources */,
@@ -1369,6 +1376,7 @@
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
 				0499343627E96F8A003BD4C4 /* NewPasswordWorker.swift in Sources */,
 				F553F87427E820E600824BE7 /* SocialCommonUI.swift in Sources */,
+				04F933F427FD4A30001D6C6F /* CatalogyView.swift in Sources */,
 				047D6B1827F154970098B104 /* MemberView.swift in Sources */,
 				047D6B1C27F154B70098B104 /* RemoveMemberView.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
