@@ -18,6 +18,7 @@ private enum Constant {
 	static let sizeImage = 120.0
 	static let paddingButtonNext = 60.0
 	static let borderLineWidth = 2.0
+	static let opacity = 0.2
 }
 
 struct CallingView: View {
@@ -67,7 +68,7 @@ private extension CallingView {
 				.padding(.bottom, Constant.paddingButtonNext)
 			Spacer()
 		}
-		.background(foregroundColorGreyLight)
+		.background(foregroundColorGreyLight.opacity(Constant.opacity))
 		.padding(.horizontal, Constant.paddingVertical)
 	}
 
@@ -214,11 +215,11 @@ private extension CallingView {
 	}
 
 	var cameraIcon: Image {
-		isTappedMute ? AppTheme.shared.imageSet.videoIcon : AppTheme.shared.imageSet.videoIcon
+		isTappedMute ? AppTheme.shared.imageSet.videoOffIcon : AppTheme.shared.imageSet.videoIcon
 	}
 
 	var speakerIcon: Image {
-		isTappedSpeaker ? AppTheme.shared.imageSet.speakerIcon : AppTheme.shared.imageSet.speakerIcon
+		isTappedSpeaker ? AppTheme.shared.imageSet.speakerOffIcon : AppTheme.shared.imageSet.speakerIcon
 	}
 }
 

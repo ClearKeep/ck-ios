@@ -23,6 +23,7 @@ private enum Constant {
 	static let sizeImage = 120.0
 	static let paddingButtonNext = 60.0
 	static let borderLineWidth = 2.0
+	static let opacity = 0.2
 }
 
 struct InComingVoiceCallView: View {
@@ -68,7 +69,7 @@ private extension InComingVoiceCallView {
 				.padding(.bottom, Constant.paddingButtonNext)
 			Spacer()
 		}
-		.background(foregroundColorGreyLight)
+		.background(foregroundColorGreyLight.opacity(Constant.opacity))
 		.padding(.horizontal, Constant.paddingVertical)
 	}
 
