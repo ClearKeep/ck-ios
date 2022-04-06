@@ -10,6 +10,9 @@ import SignalProtocolObjC
 import Networking
 import SwiftSRP
 import Common
+import GRPC
+import NIO
+import NIOHPACK
 
 public enum SocialType {
 	case google
@@ -20,22 +23,24 @@ public enum SocialType {
 public protocol IAuthenticationService {
 	func register(displayName: String, email: String, password: String, domain: String) async
 	func login(userName: String, password: String, domain: String) async -> Result<Auth_AuthRes, Error>
-	func login(by socicalType: SocialType, token: String, domain: String)
-	func registerSocialPin(rawPin: String, userId: String, domain: String)
-	func verifySocialPin(rawPin: String, userId: String, domain: String)
-	func resetSocialPin(rawPin: String, userId: String, domain: String)
-	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String)
-	func recoverPassword(email: String, domain: String)
-	func logoutFromAPI(server: IServer)
-	func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String)
-	func mfaResendOTP(userId: String, otpHash: String, domain: String)
+	func registerSocialPin(rawPin: String, userId: String, domain: String) async
+	func verifySocialPin(rawPin: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error>
+	func resetSocialPin(rawPin: String, userId: String, domain: String) async
+	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async
+	func recoverPassword(email: String, domain: String) async
+	func logoutFromAPI(server: IServer) async
+	func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async
+	func mfaResendOTP(userId: String, otpHash: String, domain: String) async
 }
 
 public class CLKAuthenticationService {
 	var byteV: UnsafePointer<CUnsignedChar>?
 	var usr: OpaquePointer?
+	var clientStore: ClientStore
 	
-	public init() {}
+	public init() {
+		clientStore = ClientStore()
+	}
 }
 
 // MARK: - Public
@@ -128,31 +133,255 @@ extension CLKAuthenticationService: IAuthenticationService {
 		}
 	}
 	
-	public func login(by socicalType: SocialType, token: String, domain: String) {
+	public func registerSocialPin(rawPin: String, userId: String, domain: String) async {
+		let srp = SwiftSRP.shared
+		
+		guard let salt = srp.getSalt(userName: userId, rawPassword: rawPin, byteV: &byteV),
+			  let verificator = srp.getVerificator(byteV: byteV) else { return }
+		let saltHex = bytesConvertToHexString(bytes: salt)
+		let verificatorHex = bytesConvertToHexString(bytes: verificator)
+		
+		srp.freeMemoryCreateAccount(byteV: &byteV)
+		
+		let pbkdf2 = PBKDF2(passPharse: rawPin)
+		let inMemoryStore: SignalInMemoryStore = SignalInMemoryStore()
+		let storage = SignalStorage(signalStore: inMemoryStore)
+		let context = SignalContext(storage: storage)
+		guard let keyHelper = SignalKeyHelper(context: context ?? SignalContext()),
+			  let key = keyHelper.generateIdentityKeyPair() else { return }
+		
+		let preKeys = keyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
+		
+		guard let preKey = preKeys.first,
+			  let preKeyData = preKey.serializedData(),
+			  let signedPreKey = keyHelper.generateSignedPreKey(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (userId + domain).hashCode())),
+			  let signedPreKeyData = signedPreKey.serializedData() else { return }
+		
+		var transitionId = keyHelper.generateRegistrationId()
+		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
+		peerRegisterClientKeyRequest.deviceID = Int32(Constants.senderDeviceId)
+		peerRegisterClientKeyRequest.registrationID = Int32(bitPattern: transitionId)
+		peerRegisterClientKeyRequest.identityKeyPublic = key.publicKey
+		peerRegisterClientKeyRequest.preKey = preKeyData
+		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.preKeyId)
+		peerRegisterClientKeyRequest.signedPreKey = signedPreKeyData
+		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKey.preKeyId)
+		let encrypt = pbkdf2.encrypt(data: [UInt8](key.privateKey), saltHex: saltHex)
+		peerRegisterClientKeyRequest.identityKeyEncrypted = bytesConvertToHexString(bytes: encrypt ?? [])
+		peerRegisterClientKeyRequest.signedPreKeySignature = signedPreKey.signature
+		
+		var request = Auth_RegisterPinCodeReq()
+		request.userName = userId
+		request.hashPincode = verificatorHex
+		request.salt = saltHex
+		request.clientKeyPeer = peerRegisterClientKeyRequest
+		request.ivParameter = bytesConvertToHexString(bytes: pbkdf2.iv)
+		
+		let response = await channelStorage.getChannels(domain: domain).registerPinCode(request)
+		switch response {
+		case .success(let data):
+			print(data)
+		case .failure(let error):
+			print(error)
+		}
 	}
 	
-	public func registerSocialPin(rawPin: String, userId: String, domain: String) {
+	public func verifySocialPin(rawPin: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error> {
+		let srp = SwiftSRP.shared
+		
+		guard let aValue = srp.getA(userName: userId, rawPassword: rawPin, usr: &usr) else { return .failure(ServerError.unknown) }
+		let aHex = bytesConvertToHexString(bytes: aValue)
+		
+		var request = Auth_AuthSocialChallengeReq()
+		request.userName = userId
+		request.clientPublic = aHex
+		
+		let response = await channelStorage.getChannels(domain: domain).login(request)
+		
+		switch response {
+		case .success(let data):
+			guard let mValue = await srp.getM(salt: data.salt.decodeHex, byte: data.publicChallengeB.decodeHex, usr: usr) else { return .failure(ServerError.unknown) }
+			let mHex = bytesConvertToHexString(bytes: mValue)
+			
+			srp.freeMemoryAuthenticate(usr: &usr)
+			
+			var request = Auth_VerifyPinCodeReq()
+			request.userName = userId
+			request.clientPublic = aHex
+			request.clientSessionKeyProof = mHex
+			
+			return await channelStorage.getChannels(domain: domain).verifyPinCode(request)
+		case .failure(let error):
+			return .failure(error)
+		}
 	}
 	
-	public func verifySocialPin(rawPin: String, userId: String, domain: String) {
+	public func resetSocialPin(rawPin: String, userId: String, domain: String) async {
+		let srp = SwiftSRP.shared
+		
+		guard let salt = srp.getSalt(userName: userId, rawPassword: rawPin, byteV: &byteV),
+			  let verificator = srp.getVerificator(byteV: byteV) else { return }
+		let saltHex = bytesConvertToHexString(bytes: salt)
+		let verificatorHex = bytesConvertToHexString(bytes: verificator)
+		
+		srp.freeMemoryCreateAccount(byteV: &byteV)
+		
+		let pbkdf2 = PBKDF2(passPharse: rawPin)
+		let inMemoryStore: SignalInMemoryStore = SignalInMemoryStore()
+		let storage = SignalStorage(signalStore: inMemoryStore)
+		let context = SignalContext(storage: storage)
+		guard let keyHelper = SignalKeyHelper(context: context ?? SignalContext()),
+			  let key = keyHelper.generateIdentityKeyPair() else { return }
+		
+		let preKeys = keyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
+		
+		guard let preKey = preKeys.first,
+			  let preKeyData = preKey.serializedData(),
+			  let signedPreKey = keyHelper.generateSignedPreKey(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (userId + domain).hashCode())),
+			  let signedPreKeyData = signedPreKey.serializedData() else { return }
+		
+		var transitionId = keyHelper.generateRegistrationId()
+		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
+		peerRegisterClientKeyRequest.deviceID = Int32(Constants.senderDeviceId)
+		peerRegisterClientKeyRequest.registrationID = Int32(bitPattern: transitionId)
+		peerRegisterClientKeyRequest.identityKeyPublic = key.publicKey
+		peerRegisterClientKeyRequest.preKey = preKeyData
+		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.preKeyId)
+		peerRegisterClientKeyRequest.signedPreKey = signedPreKeyData
+		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKey.preKeyId)
+		let encrypt = pbkdf2.encrypt(data: [UInt8](key.privateKey), saltHex: saltHex)
+		peerRegisterClientKeyRequest.identityKeyEncrypted = bytesConvertToHexString(bytes: encrypt ?? [])
+		peerRegisterClientKeyRequest.signedPreKeySignature = signedPreKey.signature
+		
+		var request = Auth_RegisterPinCodeReq()
+		request.userName = userId
+		request.hashPincode = verificatorHex
+		request.salt = saltHex
+		request.clientKeyPeer = peerRegisterClientKeyRequest
+		request.ivParameter = bytesConvertToHexString(bytes: pbkdf2.iv)
+		
+		let response = await channelStorage.getChannels(domain: domain).registerPinCode(request)
+		switch response {
+		case .success(let data):
+			print(data)
+		case .failure(let error):
+			print(error)
+		}
 	}
 	
-	public func resetSocialPin(rawPin: String, userId: String, domain: String) {
+	public func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async {
+		let srp = SwiftSRP.shared
+		
+		guard let salt = srp.getSalt(userName: email, rawPassword: rawNewPassword, byteV: &byteV),
+			  let verificator = srp.getVerificator(byteV: byteV) else { return }
+		let saltHex = bytesConvertToHexString(bytes: salt)
+		let verificatorHex = bytesConvertToHexString(bytes: verificator)
+		
+		srp.freeMemoryCreateAccount(byteV: &byteV)
+		
+		let pbkdf2 = PBKDF2(passPharse: rawNewPassword)
+		let inMemoryStore: SignalInMemoryStore = SignalInMemoryStore()
+		let storage = SignalStorage(signalStore: inMemoryStore)
+		let context = SignalContext(storage: storage)
+		guard let keyHelper = SignalKeyHelper(context: context ?? SignalContext()),
+			  let key = keyHelper.generateIdentityKeyPair() else { return }
+		
+		let preKeys = keyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
+		
+		guard let preKey = preKeys.first,
+			  let preKeyData = preKey.serializedData(),
+			  let signedPreKey = keyHelper.generateSignedPreKey(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (email + domain).hashCode())),
+			  let signedPreKeyData = signedPreKey.serializedData() else { return }
+		
+		var transitionId = keyHelper.generateRegistrationId()
+		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
+		peerRegisterClientKeyRequest.deviceID = Int32(Constants.senderDeviceId)
+		peerRegisterClientKeyRequest.registrationID = Int32(bitPattern: transitionId)
+		peerRegisterClientKeyRequest.identityKeyPublic = key.publicKey
+		peerRegisterClientKeyRequest.preKey = preKeyData
+		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.preKeyId)
+		peerRegisterClientKeyRequest.signedPreKey = signedPreKeyData
+		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKey.preKeyId)
+		let encrypt = pbkdf2.encrypt(data: [UInt8](key.privateKey), saltHex: saltHex)
+		peerRegisterClientKeyRequest.identityKeyEncrypted = bytesConvertToHexString(bytes: encrypt ?? [])
+		peerRegisterClientKeyRequest.signedPreKeySignature = signedPreKey.signature
+		
+		var request = Auth_ForgotPasswordUpdateReq()
+		request.preAccessToken = domain
+		request.email = email
+		request.passwordVerifier = verificatorHex
+		request.salt = saltHex
+		request.clientKeyPeer = peerRegisterClientKeyRequest
+		request.ivParameter = bytesConvertToHexString(bytes: pbkdf2.iv)
+		
+		let response = await channelStorage.getChannels(domain: domain).forgotPasswordUpdate(request)
+		switch response {
+		case .success(let data):
+			print(data)
+		case .failure(let error):
+			print(error)
+		}
 	}
 	
-	public func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) {
+	public func recoverPassword(email: String, domain: String) async {
+		var request = Auth_ForgotPasswordReq()
+		request.email = email
+		
+		let callOptions = CallOptions(timeLimit: .deadline(NIODeadline.uptimeNanoseconds(30 * 1000 * 1000)))
+		let response = await channelStorage.getChannels(domain: domain).forgotPassword(request, callOptions: callOptions)
+		switch response {
+		case .success(let data):
+			print(data)
+		case .failure(let error):
+			print(error)
+		}
 	}
 	
-	public func recoverPassword(email: String, domain: String) {
+	public func logoutFromAPI(server: IServer) async {
+		var request = Auth_LogoutReq()
+		request.deviceID = clientStore.getUniqueDeviceId()
+		request.refreshToken = server.refreshToken
+		
+		let customMetadata: HPACKHeaders = ["access_token": server.accessKey,
+											"hash_key": server.hashKey,
+											"domain": "localhost",
+											"ip_address": "0.0.0.0"]
+		let callOptions = CallOptions(customMetadata: customMetadata, timeLimit: .deadline(NIODeadline.uptimeNanoseconds(10 * 1000 * 1000)))
+		let response = await channelStorage.getChannels(domain: server.serverDomain).logout(request, callOptions: callOptions)
+		switch response {
+		case .success(let data):
+			print(data)
+		case .failure(let error):
+			print(error)
+		}
 	}
 	
-	public func logoutFromAPI(server: IServer) {
+	public func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async {
+		var request = Auth_MfaValidateOtpRequest()
+		request.preAccessToken = otpHash
+		request.userID = userId
+		
+		let response = await channelStorage.getChannels(domain: domain).validateOTP(request)
+		switch response {
+		case .success(let data):
+			print(data)
+		case .failure(let error):
+			print(error)
+		}
 	}
 	
-	public func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) {
-	}
-	
-	public func mfaResendOTP(userId: String, otpHash: String, domain: String) {
+	public func mfaResendOTP(userId: String, otpHash: String, domain: String) async {
+		var request = Auth_MfaResendOtpReq()
+		request.preAccessToken = otpHash
+		request.userID = userId
+		
+		let response = await channelStorage.getChannels(domain: domain).mfaResendOTP(request)
+		switch response {
+		case .success(let data):
+			print(data)
+		case .failure(let error):
+			print(error)
+		}
 	}
 }
 
