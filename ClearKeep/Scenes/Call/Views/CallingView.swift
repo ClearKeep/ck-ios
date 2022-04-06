@@ -215,7 +215,7 @@ private extension CallingView {
 	}
 
 	var cameraIcon: Image {
-		isTappedMute ? AppTheme.shared.imageSet.videoOffIcon : AppTheme.shared.imageSet.videoIcon
+		isTappedCamera ? AppTheme.shared.imageSet.videoOffIcon : AppTheme.shared.imageSet.videoIcon
 	}
 
 	var speakerIcon: Image {
