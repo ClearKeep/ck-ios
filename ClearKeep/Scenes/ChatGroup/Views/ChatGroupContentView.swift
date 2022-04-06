@@ -58,13 +58,13 @@ struct ChatGroupContentView: View {
 // MARK: - Private
 private extension ChatGroupContentView {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		AnyView(contentView)
 	}
 }
 
 // MARK: - Loading Content
 private extension ChatGroupContentView {
-	var notRequestedView: some View {
+	var contentView: some View {
 		VStack(spacing: Constant.paddingVertical) {
 			buttonBackView
 				.padding(.top, Constant.spacerTopView)
