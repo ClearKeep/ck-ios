@@ -50,13 +50,13 @@ struct CallingView: View {
 // MARK: - Private
 private extension CallingView {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		AnyView(contentView)
 	}
 }
 
 // MARK: - Loading Content
 private extension CallingView {
-	var notRequestedView: some View {
+	var contentView: some View {
 		VStack(spacing: Constant.spacer) {
 			statusCalling
 				.padding(.top, Constant.spacerTopView)

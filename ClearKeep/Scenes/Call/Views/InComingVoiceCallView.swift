@@ -53,13 +53,13 @@ struct InComingVoiceCallView: View {
 // MARK: - Private
 private extension InComingVoiceCallView {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		AnyView(contentView)
 	}
 }
 
 // MARK: - Loading Content
 private extension InComingVoiceCallView {
-	var notRequestedView: some View {
+	var contentView: some View {
 		VStack(spacing: Constant.spacer) {
 			statusCalling
 				.padding(.top, Constant.spacerTopView)

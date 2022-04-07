@@ -53,13 +53,13 @@ struct VoiceCall: View {
 // MARK: - Private
 private extension VoiceCall {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		AnyView(contentView)
 	}
 }
 
 // MARK: - Loading Content
 private extension VoiceCall {
-	var notRequestedView: some View {
+	var contentView: some View {
 		VStack(spacing: Constant.spacer) {
 			buttonBackView
 				.padding(.top, Constant.spacerTopView)
