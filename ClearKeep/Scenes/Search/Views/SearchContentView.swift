@@ -23,17 +23,18 @@ struct SearchContentView: View {
 	@Environment(\.colorScheme) var colorScheme
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
+	@State private(set) var searchCatalogy: SearchCatalogy = .all
 	@Binding var imageUser: Image
 	@Binding var userName: String
 	@Binding var message: String
 	@Binding var groupText: String
 	@Binding var dateMessage: String
-	private var categories = ["SearchAll".localized, "Search.People".localized, "Search.Group".localized, "Search.Message".localized]
 	@State private var selectedTab: Int = 0
+	@State private var isSelected: Bool = false
 
 	// MARK: - Init
 	init(searchCatalogy: SearchCatalogy = .all,
-		 imageUser: Binding<Image>,
+		imageUser: Binding<Image>,
 		 userName: Binding<String>,
 		 message: Binding<String>,
 		 groupText: Binding<String>,
@@ -109,6 +110,21 @@ private extension SearchContentView {
 
 // MARK: - Private
 private extension SearchContentView {
+	func allAction() {
+		searchCatalogy = .all
+	}
+
+	func peopleAction() {
+		searchCatalogy = .people
+	}
+
+	func groupAction() {
+		searchCatalogy = .group
+	}
+
+	func messageAction() {
+		searchCatalogy = .message
+	}
 }
 
 // MARK: - Loading Content
@@ -116,47 +132,31 @@ private extension SearchContentView {
 	var contentView: some View {
 		VStack(spacing: Constants.spacingContent) {
 			searchCatalogContent
-			tabView
+			catalogView
 			Spacer()
 		}
 	}
 
-	var tabView: some View {
-		TabView(selection: $selectedTab,
-				content: {
-			allContent
-				.tag(0)
-			peopleContent
-				.tag(1)
-			groupContent
-				.tag(2)
-			messageContent
-				.tag(3)
-		})
-			.tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+	var catalogView: some View {
+		Group {
+			switch searchCatalogy {
+			case .all:
+				allContent
+			case .people:
+				peopleContent
+			case .group:
+				groupContent
+			case .message:
+				messageContent
+			}
+		}
 	}
 
 	var searchCatalogView: some View {
-		ScrollView(.horizontal, showsIndicators: false) {
-			HStack(spacing: Constants.spacing) {
-				ForEach(0..<categories.count, id: \.self) { data in
-					Button {
-						withAnimation {
-							selectedTab = data
-						}
-					} label: {
-						Text(categories[data])
-							.font(AppTheme.shared.fontSet.font(style: .body3))
-							.foregroundColor(foregroundColorButton)
-							.padding(.horizontal)
-							.animation(.spring())
-							.frame(height: Constants.heightCatalog)
-							.background(backgroundButton)
-							.cornerRadius(Constants.radius)
-					}
-				}
-			}
-		}
+		CatalogyView(catalog: [CatalogySelection(title: "Search.All".localized, action: allAction),
+							   CatalogySelection(title: "Search.People".localized, action: peopleAction),
+							   CatalogySelection(title: "Search.Group".localized, action: groupAction),
+							   CatalogySelection(title: "Search.Message".localized, action: messageAction)])
 	}
 
 	var allView: some View {
