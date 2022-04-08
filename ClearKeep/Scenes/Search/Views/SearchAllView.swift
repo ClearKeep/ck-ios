@@ -30,8 +30,6 @@ struct SearchAllView: View {
 	@Binding var message: String
 	@Binding var groupText: String
 	@Binding var dateMessage: String
-	var categories = ["All", "PeoPle", "Group", "Message"]
-	@State private var selectedTab: Int = 0
 
 	// MARK: - Init
 	init(imageUser: Binding<Image>,
