@@ -134,6 +134,18 @@
 "Call.Incomming.Video" = "Incomming Video Call";
 "Call.Incomming.Voice" = "Incomming Voice Call";
 
+// MARK: - Call Group
+"CallGroup.Calling" = "Calling Group";
+"CallGroup.Mute" = "Mute";
+"CallGroup.Camera" = "Camera";
+"CallGroup.Speaker" = "Speaker";
+"CallGroup.Cancel" = "Cancel";
+"CallGroup.Decline" = "Decline";
+"CallGroup.Answer" = "Answer";
+"CallGroup.End" = "End Call";
+"CallGroup.Incomming.Video" = "Incomming Video Group Call";
+"CallGroup.Incomming.Voice" = "Incomming Voice Group Call";
+
 // MARK: - Search
 "Search.Title" = "CK Development";
 "Search.Placehodel" = "Search people, groups & messages";
