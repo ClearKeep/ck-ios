@@ -108,7 +108,7 @@ private extension CallingView {
 						.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
 					muteIcon
 						.renderingMode(.template)
-						.foregroundColor(foregroundCrossIcon)
+						.foregroundColor(foregroundButtonMute)
 				}
 				.frame(maxWidth: .infinity)
 			}
@@ -123,7 +123,7 @@ private extension CallingView {
 						.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
 					cameraIcon
 						.renderingMode(.template)
-						.foregroundColor(foregroundCrossIcon)
+						.foregroundColor(foregroundButtonCamera)
 				}
 				.frame(maxWidth: .infinity)
 			}
@@ -138,7 +138,7 @@ private extension CallingView {
 						.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
 					speakerIcon
 						.renderingMode(.template)
-						.foregroundColor(foregroundCrossIcon)
+						.foregroundColor(foregroundButtonSpeaker)
 				}
 			}
 			.frame(maxWidth: .infinity)
@@ -202,12 +202,24 @@ private extension CallingView {
 		isTappedMute == true ? foregroundColorWhite : foregroundColorWhite.opacity(0)
 	}
 
+	var foregroundButtonMute: Color {
+		isTappedMute == true ? foregroundColorBlack : foregroundColorWhite
+	}
+	
 	var backgroundButtonCamera: Color {
 		isTappedCamera == true ? foregroundColorWhite : foregroundColorWhite.opacity(0)
 	}
 
+	var foregroundButtonCamera: Color {
+		isTappedCamera == true ? foregroundColorBlack : foregroundColorWhite
+	}
+
 	var backgroundButtonSpeaker: Color {
 		isTappedSpeaker == true ? foregroundColorWhite : foregroundColorWhite.opacity(0)
+	}
+
+	var foregroundButtonSpeaker: Color {
+		isTappedSpeaker == true ? foregroundColorBlack : foregroundColorWhite
 	}
 
 	var muteIcon: Image {

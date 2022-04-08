@@ -233,12 +233,24 @@ private extension VoiceCall {
 		isTappedMute == true ? foregroundColorWhite : foregroundColorWhite.opacity(0)
 	}
 
+	var foregroundButtonMute: Color {
+		isTappedMute == true ? foregroundColorBlack : foregroundColorWhite
+	}
+
 	var backgroundButtonCamera: Color {
 		isTappedCamera == true ? foregroundColorWhite : foregroundColorWhite.opacity(0)
 	}
 
+	var foregroundButtonCamera: Color {
+		isTappedCamera == true ? foregroundColorBlack : foregroundColorWhite
+	}
+
 	var backgroundButtonSpeaker: Color {
 		isTappedSpeaker == true ? foregroundColorWhite : foregroundColorWhite.opacity(0)
+	}
+
+	var foregroundButtonSpeaker: Color {
+		isTappedSpeaker == true ? foregroundColorBlack : foregroundColorWhite
 	}
 
 	var muteIcon: Image {
