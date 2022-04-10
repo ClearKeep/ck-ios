@@ -23,7 +23,7 @@ struct ContentView: View {
 			if isRunningTests {
 				Text("Running unit tests")
 			} else {
-				CallingGroup()
+				LoginView()
 					.inject(container)
 			}
 		}

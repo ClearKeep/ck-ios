@@ -1,5 +1,5 @@
 //
-//  CallingGroup.swift
+//  VoiceGroupCalled.swift
 //  ClearKeep
 //
 //  Created by đông on 08/04/2022.
@@ -11,17 +11,17 @@ import Common
 import CommonUI
 
 private enum Constant {
-	static let spacerTopView = 90.0
+	static let sizeButtonCalled = 60.0
 	static let spacer = 25.0
 	static let spacerBottom = 45.0
 	static let paddingVertical = 14.0
 	static let sizeImage = 120.0
-	static let paddingButtonNext = 60.0
+	static let paddingButtonNext = 90.0
 	static let borderLineWidth = 2.0
-	static let opacity = 0.2
+	static let opacity = 0.6
 }
 
-struct CallingGroup: View {
+struct VoiceGroupCalled: View {
 	// MARK: - Variables
 	let inspection = ViewInspector<Self>()
 	@Environment(\.injected) private var injected: DIContainer
@@ -31,7 +31,10 @@ struct CallingGroup: View {
 	@State private(set) var isTappedMute: Bool = false
 	@State private(set) var isTappedCamera: Bool = false
 	@State private(set) var isTappedSpeaker: Bool = false
-	@State private(set) var isTappedCancel: Bool = false
+	@State private(set) var isTappedEndCall: Bool = false
+	@State private var timeCalled = 1
+
+	let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
 	// MARK: - Init
 	public init(samples: Loadable<[ICallModel]> = .notRequested) {
@@ -42,48 +45,72 @@ struct CallingGroup: View {
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.background(backgroundGradientPrimary)
+			.background(background)
 			.edgesIgnoringSafeArea(.all)
 			.navigationBarBackButtonHidden(true)
 	}
 }
 
 // MARK: - Private
-private extension CallingGroup {
+private extension VoiceGroupCalled {
 	var content: AnyView {
 		AnyView(contentView)
 	}
 }
 
 // MARK: - Loading Content
-private extension CallingGroup {
+private extension VoiceGroupCalled {
 	var contentView: some View {
-		VStack(spacing: Constant.spacer) {
-			statusCalling
-				.padding(.top, Constant.spacerTopView)
-			userName
-			supportCalling
-				.padding(.top, Constant.spacerBottom)
-			buttonCancel
-				.padding(.bottom, Constant.paddingButtonNext)
-			Spacer()
+		VStack {
+			ZStack {
+				backgroundGradientPrimaryTop.opacity(Constant.opacity)
+					.frame(maxWidth: .infinity)
+					.frame(height: Constant.paddingButtonNext)
+				buttonBackView
+					.padding(.top, Constant.spacerBottom)
+			}
+			VStack {
+				Spacer()
+				Spacer()
+				supportCalling
+					.padding(.top, Constant.spacerBottom)
+				Spacer()
+				buttonCancel
+					.padding(.bottom, Constant.paddingButtonNext)
+			}
+			.padding(.horizontal, Constant.paddingVertical)
 		}
-		.padding(.horizontal, Constant.paddingVertical)
+		.edgesIgnoringSafeArea(.all)
 	}
 
-	var statusCalling: some View {
-		Text("Call.Calling".localized)
-			.padding(.all)
-			.font(AppTheme.shared.fontSet.font(style: .input2))
-			.foregroundColor(foregroundColorGrey5)
-			.frame(maxWidth: .infinity, alignment: .center)
+	var buttonBackView: some View {
+		HStack {
+			Button(action: customBack) {
+				AppTheme.shared.imageSet.chevleftIcon
+					.renderingMode(.template)
+					.aspectRatio(contentMode: .fit)
+					.foregroundColor(foregroundBackButton)
+					.frame(alignment: .leading)
+					.padding(.leading, Constant.spacer)
+			}
+			Text("UI Designs".localized)
+				.font(AppTheme.shared.fontSet.font(style: .display3))
+				.frame(maxWidth: .infinity, alignment: .leading)
+				.padding(.leading, Constant.spacer)
+				.foregroundColor(foregroundColorWhite)
+			timeCalling
+		}
 	}
 
-	var userName: some View {
-		Text("UI Designs".localized)
-			.frame(maxWidth: .infinity, alignment: .center)
-			.font(AppTheme.shared.fontSet.font(style: .display2))
+	var timeCalling: some View {
+		Text(getTimer())
 			.foregroundColor(foregroundColorWhite)
+			.padding()
+			.onReceive(timer) { _ in
+				if timeCalled > 0 {
+					timeCalled += 1
+				}
+			}
 	}
 
 	var supportCalling: some View {
@@ -95,7 +122,7 @@ private extension CallingGroup {
 					Circle()
 						.strokeBorder(foregroundColorWhite, lineWidth: Constant.borderLineWidth)
 						.background(Circle().foregroundColor(backgroundButtonMute))
-						.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
+						.frame(width: Constant.sizeButtonCalled, height: Constant.sizeButtonCalled)
 					muteIcon
 						.renderingMode(.template)
 						.foregroundColor(foregroundButtonMute)
@@ -110,7 +137,7 @@ private extension CallingGroup {
 					Circle()
 						.strokeBorder(foregroundColorWhite, lineWidth: Constant.borderLineWidth)
 						.background(Circle().foregroundColor(backgroundButtonCamera))
-						.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
+						.frame(width: Constant.sizeButtonCalled, height: Constant.sizeButtonCalled)
 					cameraIcon
 						.renderingMode(.template)
 						.foregroundColor(foregroundButtonCamera)
@@ -125,7 +152,7 @@ private extension CallingGroup {
 					Circle()
 						.strokeBorder(foregroundColorWhite, lineWidth: Constant.borderLineWidth)
 						.background(Circle().foregroundColor(backgroundButtonSpeaker))
-						.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
+						.frame(width: Constant.sizeButtonCalled, height: Constant.sizeButtonCalled)
 					speakerIcon
 						.renderingMode(.template)
 						.foregroundColor(foregroundButtonSpeaker)
@@ -133,26 +160,25 @@ private extension CallingGroup {
 			}
 			.frame(maxWidth: .infinity)
 		}
-		.frame(maxWidth: .infinity, alignment: .top)
-		.frame(minHeight: 0, maxHeight: .infinity)
+		.frame(maxWidth: .infinity)
 	}
 
 	var buttonCancel: some View {
 		VStack {
 			Button {
-				isTappedCancel.toggle()
+				timeCalled = 0
 			} label: {
 				ZStack {
 					Circle()
 						.strokeBorder(backgroundEndCall, lineWidth: Constant.borderLineWidth)
 						.background(Circle().foregroundColor(backgroundEndCall))
-						.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
+						.frame(width: Constant.sizeButtonCalled, height: Constant.sizeButtonCalled)
 					AppTheme.shared.imageSet.phoneOffIcon
 						.renderingMode(.template)
 						.foregroundColor(foregroundColorWhite)
 				}
-		}
-			Text("Call.Cancel".localized)
+			}
+			Text("CallGroup.End".localized)
 				.font(AppTheme.shared.fontSet.font(style: .body2))
 				.foregroundColor(foregroundColorWhite)
 		}
@@ -160,7 +186,7 @@ private extension CallingGroup {
 }
 
 // MARK: - Color func
-private extension CallingGroup {
+private extension VoiceGroupCalled {
 	var foregroundColorWhite: Color {
 		AppTheme.shared.colorSet.offWhite
 	}
@@ -177,12 +203,28 @@ private extension CallingGroup {
 		AppTheme.shared.colorSet.greyLight
 	}
 
+	var backgroundDarkGrey2: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.darkGrey2, AppTheme.shared.colorSet.darkGrey2]), startPoint: .leading, endPoint: .trailing)
+	}
+
+	var background: LinearGradient {
+		colorScheme == .light ? backgroundGradientPrimary : backgroundDarkGrey2
+	}
+
 	var foregroundCrossIcon: Color {
 		colorScheme == .light ? foregroundColorBlack : foregroundColorGreyLight
 	}
 
+	var foregroundBackButton: Color {
+		colorScheme == .light ? foregroundColorWhite : foregroundColorGreyLight
+	}
+
 	var backgroundGradientPrimary: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
+	}
+
+	var backgroundGradientPrimaryTop: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .top, endPoint: .bottom)
 	}
 
 	var backgroundEndCall: Color {
@@ -226,8 +268,21 @@ private extension CallingGroup {
 	}
 }
 
-struct CallingGroup_Previews: PreviewProvider {
+// MARK: - Private Func
+private extension VoiceGroupCalled {
+	func customBack() {
+		self.presentationMode.wrappedValue.dismiss()
+	}
+
+	func getTimer() -> String {
+		let minutes = Int(timeCalled) / 60 % 60
+		let seconds = Int(timeCalled) % 60
+		return String(format: "%02i:%02i", minutes, seconds)
+	}
+}
+
+struct VoiceGroupCalled_Previews: PreviewProvider {
 	static var previews: some View {
-        CallingGroup()
-    }
+		VoiceGroupCalled()
+	}
 }

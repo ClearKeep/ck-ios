@@ -140,6 +140,8 @@
 		F568DC5727FED84200EE9DF0 /* GroupCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC5227FED84200EE9DF0 /* GroupCallView.swift */; };
 		F568DC5B27FED99900EE9DF0 /* GroupCallModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC5A27FED99900EE9DF0 /* GroupCallModel.swift */; };
 		F568DC5D27FFD72600EE9DF0 /* CallingGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC5C27FFD72600EE9DF0 /* CallingGroup.swift */; };
+		F568DC5F28001AB600EE9DF0 /* InComingVoiceGroupCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC5E28001AB600EE9DF0 /* InComingVoiceGroupCall.swift */; };
+		F568DC6128001EC600EE9DF0 /* VoiceGroupCalled.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC6028001EC600EE9DF0 /* VoiceGroupCalled.swift */; };
 		F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37EE27E97FF20085CECE /* ProfileModel.swift */; };
 		F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37F027E97FF20085CECE /* CountryCode.swift */; };
 		F5CE37F427E97FF20085CECE /* UserProfileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */; };
@@ -343,6 +345,8 @@
 		F568DC5227FED84200EE9DF0 /* GroupCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallView.swift; sourceTree = "<group>"; };
 		F568DC5A27FED99900EE9DF0 /* GroupCallModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallModel.swift; sourceTree = "<group>"; };
 		F568DC5C27FFD72600EE9DF0 /* CallingGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallingGroup.swift; sourceTree = "<group>"; };
+		F568DC5E28001AB600EE9DF0 /* InComingVoiceGroupCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InComingVoiceGroupCall.swift; sourceTree = "<group>"; };
+		F568DC6028001EC600EE9DF0 /* VoiceGroupCalled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceGroupCalled.swift; sourceTree = "<group>"; };
 		F5CE37EE27E97FF20085CECE /* ProfileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		F5CE37F027E97FF20085CECE /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileContentView.swift; sourceTree = "<group>"; };
@@ -1057,6 +1061,8 @@
 			isa = PBXGroup;
 			children = (
 				F568DC5C27FFD72600EE9DF0 /* CallingGroup.swift */,
+				F568DC5E28001AB600EE9DF0 /* InComingVoiceGroupCall.swift */,
+				F568DC6028001EC600EE9DF0 /* VoiceGroupCalled.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1469,6 +1475,7 @@
 				047241A927DB3D2C0043345A /* ILoginModel.swift in Sources */,
 				0499343827E96F8A003BD4C4 /* NewPasswordInteractor.swift in Sources */,
 				F568DC5D27FFD72600EE9DF0 /* CallingGroup.swift in Sources */,
+				F568DC6128001EC600EE9DF0 /* VoiceGroupCalled.swift in Sources */,
 				0472418227DB35550043345A /* HomeMenuView.swift in Sources */,
 				F5350E1E27FAD58F00F54E32 /* TwoFactorRemoteStore.swift in Sources */,
 				F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */,
@@ -1482,6 +1489,7 @@
 				CB40073027E74E1900DFBE88 /* Configuration.swift in Sources */,
 				CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */,
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
+				F568DC5F28001AB600EE9DF0 /* InComingVoiceGroupCall.swift in Sources */,
 				0499341427E96E2F003BD4C4 /* FogotPasswordContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
