@@ -42,7 +42,7 @@ struct CallingGroup: View {
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.background(backgroundGradientPrimary)
+			.background(background)
 			.edgesIgnoringSafeArea(.all)
 			.navigationBarBackButtonHidden(true)
 	}
@@ -185,6 +185,14 @@ private extension CallingGroup {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
 
+	var backgroundDarkGrey2: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.darkGrey2, AppTheme.shared.colorSet.darkGrey2]), startPoint: .leading, endPoint: .trailing)
+	}
+
+	var background: LinearGradient {
+		colorScheme == .light ? backgroundGradientPrimary : backgroundDarkGrey2
+	}
+
 	var backgroundEndCall: Color {
 		AppTheme.shared.colorSet.errorDefault
 	}
@@ -228,6 +236,6 @@ private extension CallingGroup {
 
 struct CallingGroup_Previews: PreviewProvider {
 	static var previews: some View {
-        CallingGroup()
-    }
+		CallingGroup()
+	}
 }
