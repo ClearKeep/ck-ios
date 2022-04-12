@@ -85,14 +85,19 @@
 "Home.GroupChat" = "Group Chat";
 "Home.Message" = "Direct Messages";
 "Home.Signout" = "Sign out";
-
+// MARK: - DirectMessages
+"DirectMessages.AddUserTitle" = "Add user from other server";
+"DirectMessages.TitleButton" = "Create direct message";
+"DirectMessages.Placeholder" = "Type Something Here";
+"DirectMessages.Next" = "Next";
+"DirectMessages.Search" = "Search people ";
+"DirectMessages.LinkTitle" = "Paste your friend's link";
 // MARK: - Two Factor Login
 "2FA.Title.Back" = "Enter your code";
 "2FA.Title" = "Please input a code that has been sent to your phone";
 "2FA.DontGetCode" = "Don't get the code?";
 "2FA.Resend" = "Resend Code";
 "2FA.Verify" = "Verify";
-
 // MARK: - Search
 "Search.Title" = "CK Development";
 "Search.Placehodel" = "Search people, groups & messages";
@@ -111,4 +116,3 @@
 "GroupDetail.TitleCheckbox" = "Add user from other server";
 "GroupDetail.UserInitTitle" = "Users int his Group chat";
 "GroupDetail.Title.PlaceHoder" = "Paste your friend's link";
->>>>>>> develop
