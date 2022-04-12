@@ -18,7 +18,7 @@ private enum Constant {
 	static let sizeImage = 120.0
 	static let paddingButtonNext = 60.0
 	static let borderLineWidth = 2.0
-	static let opacity = 0.2
+	static let opacity = 0.8
 }
 
 struct CallingView: View {
@@ -68,7 +68,7 @@ private extension CallingView {
 				.padding(.bottom, Constant.paddingButtonNext)
 			Spacer()
 		}
-		.background(foregroundColorGreyLight.opacity(Constant.opacity))
+		.background(foregroundWarning.opacity(Constant.opacity))
 		.padding(.horizontal, Constant.paddingVertical)
 	}
 
@@ -184,6 +184,10 @@ private extension CallingView {
 
 	var foregroundColorGreyLight: Color {
 		AppTheme.shared.colorSet.greyLight
+	}
+
+	var foregroundWarning: Color {
+		AppTheme.shared.colorSet.warningDefault
 	}
 
 	var foregroundCrossIcon: Color {
