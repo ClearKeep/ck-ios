@@ -17,22 +17,8 @@ struct ChatGroupView: View {
 	
 	// MARK: - Body
 	var body: some View {
-		content
-		.onReceive(inspection.notice) { inspection.visit(self, $0) }
-	}
-}
-
-// MARK: - Private
-private extension ChatGroupView {
-	var content: AnyView {
-		AnyView(notRequestedView)
-	}
-}
-
-// MARK: - Loading Content
-private extension ChatGroupView {
-	var notRequestedView: some View {
 		ChatGroupContentView()
+			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 	}
 }
 

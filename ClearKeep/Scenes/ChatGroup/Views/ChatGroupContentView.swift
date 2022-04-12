@@ -48,29 +48,61 @@ struct ChatGroupContentView: View {
 
 	// MARK: - Body
 	var body: some View {
-		content
-			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.edgesIgnoringSafeArea(.all)
-			.navigationBarBackButtonHidden(true)
-	}
-}
-
-// MARK: - Private
-private extension ChatGroupContentView {
-	var content: AnyView {
-		AnyView(contentView)
-	}
-}
-
-// MARK: - Loading Content
-private extension ChatGroupContentView {
-	var contentView: some View {
 		VStack(spacing: Constant.paddingVertical) {
-			buttonBackView
-				.padding(.top, Constant.spacerTopView)
-			searchInput.padding(.top, Constant.paddingVertical)
-			tagUsers
-			addAnotherUserButton
+			Button(action: customBack) {
+				HStack(spacing: Constant.spacer) {
+					AppTheme.shared.imageSet.chevleftIcon
+						.renderingMode(.template)
+						.aspectRatio(contentMode: .fit)
+						.foregroundColor(foregroundButtonBack)
+					Text("GroupChat.Back.Button".localized)
+						.padding(.all)
+						.font(AppTheme.shared.fontSet.font(style: .body1))
+						.foregroundColor(foregroundButtonBack)
+				}
+				.frame(maxWidth: .infinity, alignment: .leading)
+			}
+			.padding(.top, Constant.spacerTopView)
+
+			SearchTextField(searchText: $searchText,
+							inputStyle: $searchStyle,
+							inputIcon: AppTheme.shared.imageSet.searchIcon,
+							placeHolder: "GroupChat.Search.Placeholder".localized,
+							onEditingChanged: { isEditing in
+				if isEditing {
+					searchStyle = .normal
+				} else {
+					searchStyle = .highlighted
+				}
+			})
+				.padding(.top, Constant.paddingVertical)
+
+			HStack {
+				Text("Alissa Baker".localized)
+					.font(AppTheme.shared.fontSet.font(style: .body3))
+					.foregroundColor(foregroundTagUser)
+					.padding([.leading, .top, .bottom], Constant.paddingTagUser)
+				Button(action: {
+
+				}, label: {
+					Button {
+
+					} label: {
+						AppTheme.shared.imageSet.crossIcon
+							.renderingMode(.template)
+							.foregroundColor(foregroundCrossIcon)
+							.padding(.trailing, Constant.paddingTagUser)
+					}
+				})
+			}
+			.background(backgroundTagUser)
+			.cornerRadius(Constant.cornerRadiusTagUser)
+			.frame(maxWidth: .infinity, alignment: .leading)
+			.frame(height: Constant.heightTagUser)
+
+			CheckBoxButtons(text: "GroupChat.User.Add.Title".localized, isChecked: $isShowingView)
+				.frame(maxWidth: .infinity, alignment: .leading)
+
 			if isShowingView {
 				CommonTextField(text: $searchText,
 								inputStyle: $searchStyle,
@@ -86,110 +118,46 @@ private extension ChatGroupContentView {
 					.frame(maxHeight: .infinity, alignment: .top)
 				Spacer()
 			} else {
-				listUser
+				VStack {
+					HStack {
+						ZStack {
+							Circle()
+								.fill(backgroundGradientPrimary)
+								.frame(width: Constant.sizeImage, height: Constant.sizeImage)
+							AppTheme.shared.imageSet.userIcon
+						}
+						Text("Alissa Baker".localized)
+							.frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+							.font(AppTheme.shared.fontSet.font(style: .input2))
+							.foregroundColor(foregroundTagUser)
+						CheckBoxButtons(text: "", isChecked: $isSelectedUser)
+					}
+					Spacer()
+				}
 			}
-			buttonNext
+
+			NavigationLink(
+				destination: EmptyView(),
+				label: {
+					Button(action: { },
+						   label: {
+						Text("GroupChat.Next".localized)
+					})
+						.frame(maxWidth: .infinity)
+						.frame(height: Constant.heightButton)
+						.font(AppTheme.shared.fontSet.font(style: .body3))
+						.background(backgroundGradientPrimary)
+						.foregroundColor(foregroundColorWhite)
+						.cornerRadius(Constant.cornerRadiusButtonNext)
+						.padding(.horizontal, Constant.spacerTopView)
+				})
 				.padding(.bottom, Constant.paddingButtonNext)
 			Spacer()
 		}
-		.padding(.horizontal, Constant.paddingVertical)
-	}
-
-	var buttonNext: some View {
-		NavigationLink(
-			destination: EmptyView(),
-			label: {
-				Button(action: { },
-					   label: {
-					Text("GroupChat.Next".localized)
-				})
-					.frame(maxWidth: .infinity)
-					.frame(height: Constant.heightButton)
-					.font(AppTheme.shared.fontSet.font(style: .body3))
-					.background(backgroundGradientPrimary)
-					.foregroundColor(foregroundColorWhite)
-					.cornerRadius(Constant.cornerRadiusButtonNext)
-					.padding(.horizontal, Constant.spacerTopView)
-			})
-	}
-
-	var buttonBackView: some View {
-		Button(action: customBack) {
-			HStack(spacing: Constant.spacer) {
-				AppTheme.shared.imageSet.chevleftIcon
-					.renderingMode(.template)
-					.aspectRatio(contentMode: .fit)
-					.foregroundColor(foregroundButtonBack)
-				Text("GroupChat.Back.Button".localized)
-					.padding(.all)
-					.font(AppTheme.shared.fontSet.font(style: .body1))
-					.foregroundColor(foregroundButtonBack)
-			}
-			.frame(maxWidth: .infinity, alignment: .leading)
-		}
-	}
-
-	var searchInput: some View {
-		SearchTextField(searchText: $searchText,
-						inputStyle: $searchStyle,
-						inputIcon: AppTheme.shared.imageSet.searchIcon,
-						placeHolder: "GroupChat.Search.Placeholder".localized,
-						onEditingChanged: { isEditing in
-			if isEditing {
-				searchStyle = .normal
-			} else {
-				searchStyle = .highlighted
-			}
-		})
-	}
-
-	var tagUsers: some View {
-		HStack {
-			Text("Alissa Baker".localized)
-				.font(AppTheme.shared.fontSet.font(style: .body3))
-				.foregroundColor(foregroundTagUser)
-				.padding([.leading, .top, .bottom], Constant.paddingTagUser)
-			Button(action: {
-
-			}, label: {
-				Button {
-
-				} label: {
-					AppTheme.shared.imageSet.crossIcon
-						.renderingMode(.template)
-						.foregroundColor(foregroundCrossIcon)
-						.padding(.trailing, Constant.paddingTagUser)
-				}
-			})
-		}
-		.background(backgroundTagUser)
-		.cornerRadius(Constant.cornerRadiusTagUser)
-		.frame(maxWidth: .infinity, alignment: .leading)
-		.frame(height: Constant.heightTagUser)
-	}
-
-	var addAnotherUserButton: some View {
-		CheckBoxButtons(text: "GroupChat.User.Add.Title".localized, isChecked: $isShowingView)
-			.frame(maxWidth: .infinity, alignment: .leading)
-	}
-
-	var listUser: some View {
-		VStack {
-			HStack {
-				ZStack {
-					Circle()
-						.fill(backgroundGradientPrimary)
-						.frame(width: Constant.sizeImage, height: Constant.sizeImage)
-					AppTheme.shared.imageSet.userIcon
-				}
-				Text("Alissa Baker".localized)
-					.frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-					.font(AppTheme.shared.fontSet.font(style: .input2))
-					.foregroundColor(foregroundTagUser)
-				CheckBoxButtons(text: "", isChecked: $isSelectedUser)
-			}
-			Spacer()
-		}
+			.padding(.horizontal, Constant.paddingVertical)
+			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.edgesIgnoringSafeArea(.all)
+			.navigationBarBackButtonHidden(true)
 	}
 }
 
