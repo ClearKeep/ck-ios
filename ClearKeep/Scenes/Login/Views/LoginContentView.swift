@@ -141,7 +141,7 @@ private extension LoginContentView {
 						   label: {
 				Button(action: forgotPassword,
 					   label: {
-					Text("Login.ForgotPassword?".localized)
+					Text("Login.ForgotPassword".localized)
 				})
 					.padding()
 					.font(fontSignIn)

@@ -54,7 +54,7 @@
 "Login.SignInWith" = "Sign in with";
 "Login.SignIn" = "Sign in";
 "Login.AdvancedServerSettings" = "Advanced Server Settings";
-"Login.ForgotPassword?" = "Forgot Password?";
+"Login.ForgotPassword" = "Forgot Password?";
 "Login.SignUp.Suggest" = "Don't have an account?";
 "Login.SignUp" = "Sign up";
 "General.DisplayName" = "Display Name";

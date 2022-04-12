@@ -17,7 +17,7 @@ struct NotificationView: View {
 	
 	// MARK: - Body
 	var body: some View {
-		content
+		NotificationContentView()
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 	}
 }
