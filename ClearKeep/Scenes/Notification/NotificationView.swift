@@ -22,20 +22,6 @@ struct NotificationView: View {
 	}
 }
 
-// MARK: - Private
-private extension NotificationView {
-	var content: AnyView {
-		AnyView(notRequestedView)
-	}
-}
-
-// MARK: - Loading Content
-private extension NotificationView {
-	var notRequestedView: some View {
-		NotificationContentView()
-	}
-}
-
 // MARK: - Interactor
 private extension NotificationView {
 }
