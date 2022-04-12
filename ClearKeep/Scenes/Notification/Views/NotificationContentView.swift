@@ -39,80 +39,53 @@ struct NotificationContentView: View {
 
 	// MARK: - Body
 	var body: some View {
-		content
-			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.navigationBarBackButtonHidden(true)
-	}
-}
-
-// MARK: - Private
-private extension NotificationContentView {
-	var content: AnyView {
-		AnyView(contentView)
-	}
-}
-
-// MARK: - Loading Content
-private extension NotificationContentView {
-	var contentView: some View {
 		VStack(spacing: Constant.spacer) {
 			backgroundColorTop
 				.frame(maxWidth: .infinity, maxHeight: Constant.heightBackground)
 			VStack(spacing: Constant.spacer) {
-				buttonTop
-				title
-				showPreview
-				doNotDisturb
+				HStack {
+					Button(action: {
+					}, label: {
+						AppTheme.shared.imageSet.crossIcon
+							.renderingMode(.template)
+							.foregroundColor(foregroundCrossButton)
+					})
+					Spacer()
+				}
+				.frame(maxWidth: .infinity)
+
+				Text("Notification.Title".localized)
+					.frame(maxWidth: .infinity, alignment: .leading)
+					.font(AppTheme.shared.fontSet.font(style: .body1))
+
+				VStack {
+					HStack {
+						Text("Notification.Preview".localized)
+							.font(AppTheme.shared.fontSet.font(style: .placeholder1))
+							.foregroundColor(foregroundNotificationTitle)
+						Toggle("", isOn: $isShowPreview)
+							.toggleStyle(SwitchToggleStyle(tint: backgroundColorPrimary))
+					}
+					Text("Notification.Preview.Title".localized)
+						.font(AppTheme.shared.fontSet.font(style: .placeholder3))
+						.foregroundColor(foregroundShowPreviewTitle)
+						.padding(.trailing, Constant.paddingTitlePreview)
+				}
+
+				HStack {
+					Text("Notification.Disturb".localized)
+						.font(AppTheme.shared.fontSet.font(style: .placeholder1))
+						.foregroundColor(foregroundNotificationTitle)
+					Toggle("", isOn: $isShowDisturb)
+						.toggleStyle(SwitchToggleStyle(tint: backgroundColorPrimary))
+				}
 				Spacer()
 			}
 			.padding(.horizontal, Constant.paddingHorizontal)
 		}
+		.onReceive(inspection.notice) { inspection.visit(self, $0) }
+		.navigationBarBackButtonHidden(true)
 		.edgesIgnoringSafeArea(.all)
-	}
-
-	var buttonTop: some View {
-		HStack {
-			Button(action: {
-			}, label: {
-				AppTheme.shared.imageSet.crossIcon
-					.renderingMode(.template)
-					.foregroundColor(foregroundCrossButton)
-			})
-			Spacer()
-		}
-		.frame(maxWidth: .infinity)
-	}
-
-	var title: some View {
-		Text("Notification.Title".localized)
-			.frame(maxWidth: .infinity, alignment: .leading)
-			.font(AppTheme.shared.fontSet.font(style: .body1))
-	}
-
-	var showPreview: some View {
-		VStack {
-			HStack {
-				Text("Notification.Preview".localized)
-					.font(AppTheme.shared.fontSet.font(style: .placeholder1))
-					.foregroundColor(foregroundNotificationTitle)
-				Toggle("", isOn: $isShowPreview)
-					.toggleStyle(SwitchToggleStyle(tint: backgroundColorPrimary))
-			}
-			Text("Notification.Preview.Title".localized)
-				.font(AppTheme.shared.fontSet.font(style: .placeholder3))
-				.foregroundColor(foregroundShowPreviewTitle)
-				.padding(.trailing, Constant.paddingTitlePreview)
-		}
-	}
-
-	var doNotDisturb: some View {
-		HStack {
-			Text("Notification.Disturb".localized)
-				.font(AppTheme.shared.fontSet.font(style: .placeholder1))
-				.foregroundColor(foregroundNotificationTitle)
-			Toggle("", isOn: $isShowDisturb)
-				.toggleStyle(SwitchToggleStyle(tint: backgroundColorPrimary))
-		}
 	}
 }
 
