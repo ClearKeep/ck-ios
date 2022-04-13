@@ -25,7 +25,7 @@ struct ChatGroupView: View {
 // MARK: - Interactor
 private extension ChatGroupView {
 }
-	
+
 // MARK: - Preview
 #if DEBUG
 struct ChatGroupView_Previews: PreviewProvider {
