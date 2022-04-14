@@ -15,6 +15,7 @@ protocol IAPIService {}
 public class APIService {
 	// MARK: - Variables
 	public let domain: String!
+	public var owner: IUser?
 	let header: HPACKHeaders!
 	let group: MultiThreadedEventLoopGroup!
 	let connection: ClientConnection!
