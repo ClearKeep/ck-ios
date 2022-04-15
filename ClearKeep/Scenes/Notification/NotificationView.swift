@@ -133,7 +133,7 @@ private extension NotificationView {
 	var foregroundColorPrimary: Color {
 		AppTheme.shared.colorSet.primaryDefault
 	}
-
+	
 	var foregroundShowPreviewTitle: Color {
 		colorScheme == .light ? foregroundColorGrey3 : foregroundColorPrimary
 	}
@@ -146,7 +146,7 @@ private extension NotificationView {
 		colorScheme == .light ? foregroundColorBlack : foregroundColorWhite
 	}
 }
-	
+
 // MARK: - Preview
 #if DEBUG
 struct NotificationView_Previews: PreviewProvider {
