@@ -101,11 +101,12 @@ private extension UserProfileContentView {
 		HStack {
 			Button(action: { }, label: {
 				AppTheme.shared.imageSet.crossIcon
+					.foregroundColor(foregroundCrossButton)
 			})
 			Spacer()
 			Button(action: { }, label: {
 				Text("UserProfile.Save".localized)
-					.foregroundColor(foregroundPrimary)
+					.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 			})
 		}
@@ -129,7 +130,7 @@ private extension UserProfileContentView {
 					VStack(spacing: Constant.spacerSetting) {
 						Text("UserProfile.Picture.Change".localized)
 							.font(AppTheme.shared.fontSet.font(style: .body3))
-							.foregroundColor(foregroundPrimary)
+							.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 							.frame(maxWidth: .infinity, alignment: .leading)
 						Text("UserProfile.Picture.Size".localized)
 							.font(AppTheme.shared.fontSet.font(style: .placeholder3))
@@ -147,7 +148,7 @@ private extension UserProfileContentView {
 		VStack(alignment: .leading, spacing: Constant.spacer) {
 			Text("UserProfile.Username".localized)
 				.font(AppTheme.shared.fontSet.font(style: .input3))
-				.foregroundColor(foregroundGrey1)
+				.foregroundColor(AppTheme.shared.colorSet.grey1)
 
 			CommonTextField(text: $username,
 							inputStyle: $usernameStyle,
@@ -164,7 +165,7 @@ private extension UserProfileContentView {
 
 			Text("UserProfile.Email".localized)
 				.font(AppTheme.shared.fontSet.font(style: .input3))
-				.foregroundColor(foregroundGrey1)
+				.foregroundColor(AppTheme.shared.colorSet.grey1)
 
 			CommonTextField(text: $email,
 							inputStyle: $emailStyle,
@@ -181,7 +182,7 @@ private extension UserProfileContentView {
 
 			Text("UserProfile.PhoneNumber".localized)
 				.font(AppTheme.shared.fontSet.font(style: .input3))
-				.foregroundColor(foregroundGrey1)
+				.foregroundColor(AppTheme.shared.colorSet.grey1)
 
 			HStack {
 				Button("+\(countryCode)") {
@@ -213,11 +214,11 @@ private extension UserProfileContentView {
 				HStack {
 					Text("UserProfile.Link.Copy".localized)
 						.font(AppTheme.shared.fontSet.font(style: .body3))
-						.foregroundColor(foregroundPrimary)
+						.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 
 					Spacer()
 					AppTheme.shared.imageSet.copyIcon
-						.foregroundColor(foregroundPrimary)
+						.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 				}
 			}
 
@@ -225,11 +226,11 @@ private extension UserProfileContentView {
 				HStack {
 					Text("UserProfile.Password.Change".localized)
 						.font(AppTheme.shared.fontSet.font(style: .body3))
-						.foregroundColor(foregroundPrimary)
+						.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 
 					Spacer()
 					AppTheme.shared.imageSet.arrowRightIcon
-						.foregroundColor(foregroundPrimary)
+						.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 				}
 			}
 		}
@@ -246,7 +247,7 @@ private extension UserProfileContentView {
 				Button(action: buttonSupport) {
 					Text("UserProfile.Disable".localized)
 						.font(AppTheme.shared.fontSet.font(style: .body3))
-						.foregroundColor(foregroundPrimary)
+						.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 				}
 			}
 			HStack {
@@ -286,36 +287,20 @@ private extension UserProfileContentView {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
 	}
 
-	var foregroundPrimary: Color {
-		AppTheme.shared.colorSet.primaryDefault
-	}
-
-	var foregroundWhite: Color {
-		AppTheme.shared.colorSet.offWhite
-	}
-
-	var foregroundBlack: Color {
-		AppTheme.shared.colorSet.black
-	}
-
-	var foregroundGrey3: Color {
-		AppTheme.shared.colorSet.grey3
-	}
-
-	var foregroundGrey1: Color {
-		AppTheme.shared.colorSet.grey1
+	var foregroundCrossButton: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight
 	}
 
 	var foregroundColorSetting: Color {
-		colorScheme == .light ? foregroundBlack : foregroundWhite
+		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
 	}
 
 	var foregroundColorPicture: Color {
-		colorScheme == .light ? foregroundGrey3 : foregroundWhite
+		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.offWhite
 	}
 
 	var foregroundColorStatus: Color {
-		colorScheme == .light ? foregroundGrey1 : foregroundWhite
+		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.offWhite
 	}
 }
 

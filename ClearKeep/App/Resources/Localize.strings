@@ -54,7 +54,7 @@
 "Login.SignInWith" = "Sign in with";
 "Login.SignIn" = "Sign in";
 "Login.AdvancedServerSettings" = "Advanced Server Settings";
-"Login.ForgotPassword?" = "Forgot Password?";
+"Login.ForgotPassword" = "Forgot Password?";
 "Login.SignUp.Suggest" = "Don't have an account?";
 "Login.SignUp" = "Sign up";
 "General.DisplayName" = "Display Name";
@@ -98,6 +98,19 @@
 "2FA.DontGetCode" = "Don't get the code?";
 "2FA.Resend" = "Resend Code";
 "2FA.Verify" = "Verify";
+
+// MARK: - Server Settings
+"Server.Title" = "Server Settings";
+"Server.Name" = "Server Name";
+"Server.Url" = "Server URL";
+"Server.Placeholder" = "CK Development";
+
+// MARK: - Notification
+"Notification.Title" = "Notification";
+"Notification.Preview" = "Show previews";
+"Notification.Preview.Title" = "Tips: Show message previews in alerts and banners when you are not using app";
+"Notification.Disturb" = "Do not disturb";
+
 // MARK: - Search
 "Search.Title" = "CK Development";
 "Search.Placehodel" = "Search people, groups & messages";
