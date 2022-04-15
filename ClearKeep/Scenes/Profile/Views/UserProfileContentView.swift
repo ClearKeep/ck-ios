@@ -230,7 +230,6 @@ private extension UserProfileContentView {
 
 					Spacer()
 					AppTheme.shared.imageSet.arrowRightIcon
-						.renderingMode(.template)
 						.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 				}
 			}
