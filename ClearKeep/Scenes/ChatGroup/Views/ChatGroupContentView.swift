@@ -10,7 +10,7 @@ import Combine
 import Common
 import CommonUI
 
-private enum Constant {
+private enum Constants {
 	static let spacerTopView = 90.0
 	static let spacerBottomView = 20.0
 	static let spacer = 25.0
@@ -48,11 +48,10 @@ struct ChatGroupContentView: View {
 	
 	// MARK: - Body
 	var body: some View {
-		VStack(spacing: Constant.paddingVertical) {
+		VStack(spacing: Constants.paddingVertical) {
 			Button(action: customBack) {
-				HStack(spacing: Constant.spacer) {
+				HStack(spacing: Constants.spacer) {
 					AppTheme.shared.imageSet.chevleftIcon
-						.renderingMode(.template)
 						.aspectRatio(contentMode: .fit)
 						.foregroundColor(foregroundButtonBack)
 					Text("GroupChat.Back.Button".localized)
@@ -62,7 +61,7 @@ struct ChatGroupContentView: View {
 				}
 				.frame(maxWidth: .infinity, alignment: .leading)
 			}
-			.padding(.top, Constant.spacerTopView)
+			.padding(.top, Constants.spacerTopView)
 			
 			SearchTextField(searchText: $searchText,
 							inputStyle: $searchStyle,
@@ -75,13 +74,13 @@ struct ChatGroupContentView: View {
 					searchStyle = .highlighted
 				}
 			})
-				.padding(.top, Constant.paddingVertical)
+				.padding(.top, Constants.paddingVertical)
 			
 			HStack {
 				Text("Alissa Baker".localized)
 					.font(AppTheme.shared.fontSet.font(style: .body3))
 					.foregroundColor(foregroundTagUser)
-					.padding([.leading, .top, .bottom], Constant.paddingTagUser)
+					.padding([.leading, .top, .bottom], Constants.paddingTagUser)
 				Button(action: {
 					
 				}, label: {
@@ -89,16 +88,15 @@ struct ChatGroupContentView: View {
 						
 					} label: {
 						AppTheme.shared.imageSet.crossIcon
-							.renderingMode(.template)
 							.foregroundColor(foregroundCrossIcon)
-							.padding(.trailing, Constant.paddingTagUser)
+							.padding(.trailing, Constants.paddingTagUser)
 					}
 				})
 			}
 			.background(backgroundTagUser)
-			.cornerRadius(Constant.cornerRadiusTagUser)
+			.cornerRadius(Constants.cornerRadiusTagUser)
 			.frame(maxWidth: .infinity, alignment: .leading)
-			.frame(height: Constant.heightTagUser)
+			.frame(height: Constants.heightTagUser)
 			
 			CheckBoxButtons(text: "GroupChat.User.Add.Title".localized, isChecked: $isShowingView)
 				.frame(maxWidth: .infinity, alignment: .leading)
@@ -123,7 +121,7 @@ struct ChatGroupContentView: View {
 						ZStack {
 							Circle()
 								.fill(backgroundGradientPrimary)
-								.frame(width: Constant.sizeImage, height: Constant.sizeImage)
+								.frame(width: Constants.sizeImage, height: Constants.sizeImage)
 							AppTheme.shared.imageSet.userIcon
 						}
 						Text("Alissa Baker".localized)
@@ -144,17 +142,17 @@ struct ChatGroupContentView: View {
 						Text("GroupChat.Next".localized)
 					})
 						.frame(maxWidth: .infinity)
-						.frame(height: Constant.heightButton)
+						.frame(height: Constants.heightButton)
 						.font(AppTheme.shared.fontSet.font(style: .body3))
 						.background(backgroundGradientPrimary)
-						.foregroundColor(foregroundColorWhite)
-						.cornerRadius(Constant.cornerRadiusButtonNext)
-						.padding(.horizontal, Constant.spacerTopView)
+						.foregroundColor(AppTheme.shared.colorSet.offWhite)
+						.cornerRadius(Constants.cornerRadiusButtonNext)
+						.padding(.horizontal, Constants.spacerTopView)
 				})
-				.padding(.bottom, Constant.paddingButtonNext)
+				.padding(.bottom, Constants.paddingButtonNext)
 			Spacer()
 		}
-		.padding(.horizontal, Constant.paddingVertical)
+		.padding(.horizontal, Constants.paddingVertical)
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 		.edgesIgnoringSafeArea(.all)
 		.navigationBarTitle("")
@@ -170,44 +168,21 @@ private extension ChatGroupContentView {
 
 // MARK: - Color func
 private extension ChatGroupContentView {
-	var foregroundColorWhite: Color {
-		AppTheme.shared.colorSet.offWhite
-	}
-	
-	var foregroundColorBlack: Color {
-		AppTheme.shared.colorSet.black
-	}
-	
-	var foregroundColorPrimary: Color {
-		AppTheme.shared.colorSet.primaryDefault
-	}
-	
-	var foregroundColorGrey5: Color {
-		AppTheme.shared.colorSet.grey5
-	}
-	
-	var foregroundColorGrey1: Color {
-		AppTheme.shared.colorSet.grey1
-	}
-	
-	var foregroundColorGreyLight: Color {
-		AppTheme.shared.colorSet.greyLight
-	}
 	
 	var foregroundCrossIcon: Color {
-		colorScheme == .light ? foregroundColorBlack : foregroundColorGreyLight
+		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight
 	}
 	
 	var foregroundButtonBack: Color {
-		colorScheme == .light ? foregroundColorBlack : foregroundColorWhite
+		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
 	}
 	
 	var foregroundTagUser: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : foregroundColorGreyLight
+		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight
 	}
 	
 	var backgroundTagUser: Color {
-		colorScheme == .light ? foregroundColorGrey5 : foregroundColorPrimary
+		colorScheme == .light ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.primaryDefault
 	}
 	
 	var backgroundGradientPrimary: LinearGradient {

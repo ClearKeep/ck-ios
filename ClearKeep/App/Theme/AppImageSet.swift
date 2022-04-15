@@ -20,7 +20,7 @@ struct AppImageSet: IAppImageSet {
 	var logoutIcon: Image { Image("ic_logout") }
 	var chevUpIcon: Image { Image("ic_chev_up") }
 	var chevRightIcon: Image { Image("ic_chev_right") }
-	var chevleftIcon: Image { Image("ic_chev_left") }
+	var chevleftIcon: Image { Image("ic_chev_left").renderingMode(.template) }
 	var chevDownIcon: Image { Image("ic_chev_down") }
 	var microPhoneIcon: Image { Image("ic_microphone") }
 	var phoneCallIcon: Image { Image("ic_phone_call") }
@@ -32,7 +32,7 @@ struct AppImageSet: IAppImageSet {
 	var phoneOffIcon: Image { Image("ic_phone-off") }
 	var microphoneOffIcon: Image { Image("ic_microphone_off") }
 	var messageCricleIcon: Image { Image("ic_message_circle") }
-	var crossIcon: Image { Image("ic_cross") }
+	var crossIcon: Image { Image("ic_cross").renderingMode(.template) }
 	var dotVerticalIcon: Image { Image("ic_dots_vertical") }
 	var dotIcon: Image { Image("ic_dots") }
 	var emoticonIcon: Image { Image("ic_emoticon") }
@@ -61,9 +61,9 @@ struct AppImageSet: IAppImageSet {
 	var quoteIcon: Image { Image("ic_quote") }
 	var forwardIcon: Image { Image("ic_forward") }
 	var uploadIcon: Image { Image("ic_upload") }
-	var linkIcon: Image { Image("ic_link") }
+	var linkIcon: Image { Image("ic_link").renderingMode(.template) }
 	var loadingIcon: Image { Image("ic_loading") }
-	var arrowRightIcon: Image { Image("ic_arrow_right") }
+	var arrowRightIcon: Image { Image("ic_arrow_right").renderingMode(.template) }
 	var forderPlusIcon: Image { Image("ic_chev_left") }
 	var googleIcon: Image { Image("ic_google") }
 	var officeIcon: Image { Image("ic_office") }
