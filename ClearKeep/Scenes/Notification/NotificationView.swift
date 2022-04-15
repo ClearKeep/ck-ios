@@ -62,7 +62,7 @@ struct NotificationView: View {
 							.font(AppTheme.shared.fontSet.font(style: .placeholder1))
 							.foregroundColor(foregroundNotificationTitle)
 						Toggle("", isOn: $isShowPreview)
-							.toggleStyle(SwitchToggleStyle(tint: backgroundColorPrimary))
+							.toggleStyle(SwitchToggleStyle(tint: AppTheme.shared.colorSet.primaryDefault))
 					}
 					Text("Notification.Preview.Title".localized)
 						.font(AppTheme.shared.fontSet.font(style: .placeholder3))
@@ -75,7 +75,7 @@ struct NotificationView: View {
 						.font(AppTheme.shared.fontSet.font(style: .placeholder1))
 						.foregroundColor(foregroundNotificationTitle)
 					Toggle("", isOn: $isShowDisturb)
-						.toggleStyle(SwitchToggleStyle(tint: backgroundColorPrimary))
+						.toggleStyle(SwitchToggleStyle(tint: AppTheme.shared.colorSet.primaryDefault))
 				}
 				Spacer()
 			}
@@ -106,44 +106,20 @@ private extension NotificationView {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
 	}
 
-	var backgroundColorGrey4: Color {
-		AppTheme.shared.colorSet.grey4
-	}
-
-	var backgroundColorPrimary: Color {
-		AppTheme.shared.colorSet.primaryDefault
-	}
-
 	var backgroundToggle: Color {
-		colorScheme == .light ? backgroundColorPrimary : backgroundColorGrey4
-	}
-
-	var foregroundColorWhite: Color {
-		AppTheme.shared.colorSet.offWhite
-	}
-
-	var foregroundColorBlack: Color {
-		AppTheme.shared.colorSet.black
-	}
-
-	var foregroundColorGrey3: Color {
-		AppTheme.shared.colorSet.grey3
-	}
-
-	var foregroundColorPrimary: Color {
-		AppTheme.shared.colorSet.primaryDefault
+		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.grey4
 	}
 
 	var foregroundShowPreviewTitle: Color {
-		colorScheme == .light ? foregroundColorGrey3 : foregroundColorPrimary
+		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.primaryDefault
 	}
 
 	var foregroundNotificationTitle: Color {
-		colorScheme == .light ? foregroundColorBlack : foregroundColorGrey3
+		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.grey3
 	}
 
 	var foregroundCrossButton: Color {
-		colorScheme == .light ? foregroundColorBlack : foregroundColorWhite
+		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
 	}
 }
 	
