@@ -102,7 +102,7 @@ struct SettingServerView: View {
 							Button(action: {
 							}, label: {
 								AppTheme.shared.imageSet.linkIcon
-									.foregroundColor(foregroundButtonLink)
+									.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 							})
 						}
 					}
@@ -132,28 +132,16 @@ private extension SettingServerView {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.darkGrey2, AppTheme.shared.colorSet.darkGrey2]), startPoint: .leading, endPoint: .trailing)
 	}
 	
-	var foregroundColorWhite: Color {
-		AppTheme.shared.colorSet.offWhite
-	}
-	
-	var foregroundColorBlack: Color {
-		AppTheme.shared.colorSet.black
-	}
-	
 	var foregroundCircle: Color {
-		colorScheme == .light ? foregroundColorWhite : foregroundColorBlack
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.black
 	}
 	
 	var foregroundCrossButton: Color {
-		colorScheme == .light ? foregroundColorBlack : foregroundColorWhite
+		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
 	}
 	
 	var backgroundColorTop: LinearGradient {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
-	}
-	
-	var foregroundButtonLink: Color {
-		AppTheme.shared.colorSet.primaryDefault
 	}
 }
 

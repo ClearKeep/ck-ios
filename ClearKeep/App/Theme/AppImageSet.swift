@@ -11,8 +11,8 @@ import CommonUI
 protocol IAppImageSet: IImageSet & ICommonUIImageSet {}
 
 struct AppImageSet: IAppImageSet {
-	var splashLogo: Image { Image("logo_Clearkeep").renderingMode(.template) }
-	var logo: Image { Image("logo_Clearkeep2").renderingMode(.template) }
+	var splashLogo: Image { Image("logo_Clearkeep") }
+	var logo: Image { Image("logo_Clearkeep2") }
 	var homeIcon: Image { Image("ic_home").renderingMode(.template) }
 	var plusIcon: Image { Image("ic_plus").renderingMode(.template) }
 	var noteIcon: Image { Image("ic_notes").renderingMode(.template) }
@@ -65,9 +65,9 @@ struct AppImageSet: IAppImageSet {
 	var loadingIcon: Image { Image("ic_loading").renderingMode(.template) }
 	var arrowRightIcon: Image { Image("ic_arrow_right").renderingMode(.template) }
 	var forderPlusIcon: Image { Image("ic_chev_left").renderingMode(.template) }
-	var googleIcon: Image { Image("ic_google").renderingMode(.template) }
-	var officeIcon: Image { Image("ic_office").renderingMode(.template) }
-	var facebookIcon: Image { Image("ic_faceBook").renderingMode(.template) }
+	var googleIcon: Image { Image("ic_google") }
+	var officeIcon: Image { Image("ic_office") }
+	var facebookIcon: Image { Image("ic_faceBook") }
 	var unCheckIcon: Image { Image("ic_uncheck").renderingMode(.template) }
 	var checkedIcon: Image { Image("ic_checked").renderingMode(.template) }
 }
