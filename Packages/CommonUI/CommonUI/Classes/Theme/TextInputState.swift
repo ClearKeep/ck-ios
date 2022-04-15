@@ -52,11 +52,11 @@ public enum TextInputStyle: ITextInputStyle {
 		case .default:
 			return commonUIConfig.colorSet.grey5
 		case .normal:
-			return commonUIConfig.colorSet.black
+			return commonUIConfig.colorSet.offWhite
 		case .disabled:
 			return commonUIConfig.colorSet.grey5.opacity(0.5)
 		case .highlighted:
-			return commonUIConfig.colorSet.black
+			return commonUIConfig.colorSet.offWhite
 		case .error:
 			return commonUIConfig.colorSet.errorLight
 		case .success:
