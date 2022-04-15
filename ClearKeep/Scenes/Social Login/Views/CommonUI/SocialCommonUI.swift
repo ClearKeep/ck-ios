@@ -100,7 +100,6 @@ private extension SocialCommonUI {
 		Button(action: customBack) {
 			HStack(spacing: Constant.spacer) {
 				AppTheme.shared.imageSet.backIcon
-					.renderingMode(.template)
 					.aspectRatio(contentMode: .fit)
 					.foregroundColor(foregroundBackButton)
 				Text(buttonBack.localized)
