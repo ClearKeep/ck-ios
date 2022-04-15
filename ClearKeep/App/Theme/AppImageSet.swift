@@ -63,7 +63,7 @@ struct AppImageSet: IAppImageSet {
 	var uploadIcon: Image { Image("ic_upload") }
 	var linkIcon: Image { Image("ic_link") }
 	var loadingIcon: Image { Image("ic_loading") }
-	var arrowRightIcon: Image { Image("ic_arrow_right") }
+	var arrowRightIcon: Image { Image("ic_arrow_right").renderingMode(.template) }
 	var forderPlusIcon: Image { Image("ic_chev_left") }
 	var googleIcon: Image { Image("ic_google") }
 	var officeIcon: Image { Image("ic_office") }
