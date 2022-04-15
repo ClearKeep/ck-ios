@@ -73,11 +73,11 @@ struct AppImageSet: IAppImageSet {
 }
 
 extension AppImageSet: ICommonUIImageSet {
-	var searchIcon: Image { Image("ic_search").renderingMode(.template) }
-	var closeIcon: Image { Image("ic_cross").renderingMode(.template) }
-	var eyeOn: Image { Image("ic_eye_on").renderingMode(.template) }
-	var eyeOff: Image { Image("ic_eye_off").renderingMode(.template) }
-	var userIcon: Image { Image("ic_user").renderingMode(.template) }
-	var mailIcon: Image { Image("ic_mail").renderingMode(.template) }
-	var lockIcon: Image { Image("ic_lock").renderingMode(.template) }
+	var searchIcon: Image { Image("ic_search") }
+	var closeIcon: Image { Image("ic_cross") }
+	var eyeOn: Image { Image("ic_eye_on") }
+	var eyeOff: Image { Image("ic_eye_off") }
+	var userIcon: Image { Image("ic_user") }
+	var mailIcon: Image { Image("ic_mail") }
+	var lockIcon: Image { Image("ic_lock") }
 }
