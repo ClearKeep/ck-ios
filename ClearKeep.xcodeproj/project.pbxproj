@@ -134,7 +134,6 @@
 		F568DC2027FD882600EE9DF0 /* NotificationRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC1727FD882600EE9DF0 /* NotificationRemoteStore.swift */; };
 		F568DC2127FD882600EE9DF0 /* NotificationInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC1827FD882600EE9DF0 /* NotificationInteractor.swift */; };
 		F568DC2227FD882600EE9DF0 /* NotificationInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC1927FD882600EE9DF0 /* NotificationInMemoryStore.swift */; };
-		F568DC2327FD882600EE9DF0 /* NotificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC1B27FD882600EE9DF0 /* NotificationModel.swift */; };
 		F568DC2427FD882600EE9DF0 /* NotificationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC1C27FD882600EE9DF0 /* NotificationWorker.swift */; };
 		F568DC2527FD882600EE9DF0 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC1D27FD882600EE9DF0 /* NotificationView.swift */; };
 		F568DC2627FD882600EE9DF0 /* NotificationContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC1F27FD882600EE9DF0 /* NotificationContentView.swift */; };
@@ -335,7 +334,6 @@
 		F568DC1727FD882600EE9DF0 /* NotificationRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationRemoteStore.swift; sourceTree = "<group>"; };
 		F568DC1827FD882600EE9DF0 /* NotificationInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationInteractor.swift; sourceTree = "<group>"; };
 		F568DC1927FD882600EE9DF0 /* NotificationInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationInMemoryStore.swift; sourceTree = "<group>"; };
-		F568DC1B27FD882600EE9DF0 /* NotificationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationModel.swift; sourceTree = "<group>"; };
 		F568DC1C27FD882600EE9DF0 /* NotificationWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationWorker.swift; sourceTree = "<group>"; };
 		F568DC1D27FD882600EE9DF0 /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		F568DC1F27FD882600EE9DF0 /* NotificationContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationContentView.swift; sourceTree = "<group>"; };
@@ -1042,7 +1040,6 @@
 		F568DC1A27FD882600EE9DF0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F568DC1B27FD882600EE9DF0 /* NotificationModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1390,7 +1387,6 @@
 				F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */,
 				F553F87127E820E600824BE7 /* SocialView.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
-				F568DC2327FD882600EE9DF0 /* NotificationModel.swift in Sources */,
 				0499344527E97035003BD4C4 /* ChangePasswordWorker.swift in Sources */,
 				0499345727E9A8BE003BD4C4 /* AdvancedSeverView.swift in Sources */,
 				0499344D27E97100003BD4C4 /* ChangePasswordContentView.swift in Sources */,
