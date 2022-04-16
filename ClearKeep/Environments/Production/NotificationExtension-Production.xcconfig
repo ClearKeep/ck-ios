@@ -8,6 +8,8 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 
+#include "Pods/Target Support Files/Pods-notificationextension/Pods-notificationextension.production.xcconfig"
+
 IOS_NOTIFICATION_EXTENSION_BUNDLE_ID = com.telred.clearkeep.notificationextension
 MARKETING_VERSION = 3.0.0
 CURRENT_PROJECT_VERSION = 1

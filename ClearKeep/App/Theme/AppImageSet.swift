@@ -20,12 +20,12 @@ struct AppImageSet: IAppImageSet {
 	var logoutIcon: Image { Image("ic_logout") }
 	var chevUpIcon: Image { Image("ic_chev_up") }
 	var chevRightIcon: Image { Image("ic_chev_right") }
-	var chevleftIcon: Image { Image("ic_chev_left") }
+	var chevleftIcon: Image { Image("ic_chev_left").renderingMode(.template) }
 	var chevDownIcon: Image { Image("ic_chev_down") }
 	var microPhoneIcon: Image { Image("ic_microphone") }
-	var phoneCallIcon: Image { Image("ic_phone_call") }
-	var videoIcon: Image { Image("ic_video") }
-	var sendIcon: Image { Image("ic_send_plane") }
+	var phoneCallIcon: Image { Image("ic_phone_call").renderingMode(.template) }
+	var videoIcon: Image { Image("ic_video").renderingMode(.template) }
+	var sendIcon: Image { Image("ic_send_plane").renderingMode(.template) }
 	var downloadIcon: Image { Image("ic_file_download") }
 	var messagePlusIcon: Image { Image("ic_message_plus") }
 	var phoneIncommingIcon: Image { Image("ic_phone_incomming") }
@@ -53,7 +53,7 @@ struct AppImageSet: IAppImageSet {
 	var trashIcon: Image { Image("ic_trash") }
 	var userCheckIcon: Image { Image("ic_user_check") }
 	var faceIcon: Image { Image("ic_straight_face") }
-	var photoIcon: Image { Image("ic_photos") }
+	var photoIcon: Image { Image("ic_photos").renderingMode(.template) }
 	var atIcon: Image { Image("ic_at") }
 	var archireIcon: Image { Image("ic_archive") }
 	var shareIcon: Image { Image("ic_share") }
@@ -63,9 +63,9 @@ struct AppImageSet: IAppImageSet {
 	var quoteIcon: Image { Image("ic_quote") }
 	var forwardIcon: Image { Image("ic_forward") }
 	var uploadIcon: Image { Image("ic_upload") }
-	var linkIcon: Image { Image("ic_link") }
+	var linkIcon: Image { Image("ic_link").renderingMode(.template) }
 	var loadingIcon: Image { Image("ic_loading") }
-	var arrowRightIcon: Image { Image("ic_arrow_right") }
+	var arrowRightIcon: Image { Image("ic_arrow_right").renderingMode(.template) }
 	var forderPlusIcon: Image { Image("ic_chev_left") }
 	var googleIcon: Image { Image("ic_google") }
 	var officeIcon: Image { Image("ic_office") }

@@ -100,7 +100,6 @@ private extension SocialCommonUI {
 		Button(action: customBack) {
 			HStack(spacing: Constant.spacer) {
 				AppTheme.shared.imageSet.backIcon
-					.renderingMode(.template)
 					.aspectRatio(contentMode: .fit)
 					.foregroundColor(foregroundBackButton)
 				Text(buttonBack.localized)
@@ -108,7 +107,7 @@ private extension SocialCommonUI {
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
-			.foregroundColor(foregroundColorWhite)
+			.foregroundColor(AppTheme.shared.colorSet.offWhite)
 		}
 	}
 
@@ -156,40 +155,20 @@ private extension SocialCommonUI {
 		colorScheme == .light ? backgroundColorWhite : backgroundColorGradient
 	}
 
-	var foregroundColorWhite: Color {
-		AppTheme.shared.colorSet.offWhite
-	}
-
-	var foregroundColorPrimary: Color {
-		AppTheme.shared.colorSet.primaryDefault
-	}
-
 	var foregroundColorView: Color {
-		colorScheme == .light ? foregroundColorPrimary : foregroundColorWhite
+		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
 	}
 
 	var foregroundBackButton: Color {
-		colorScheme == .light ? foregroundColorWhite : foregroundColorGreyLight
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.greyLight
 	}
 
 	var foregroundColorMessage: Color {
-		colorScheme == .light ? foregroundColorWhite : foregroundColorPrimary
-	}
-
-	var foregroundColorBackground: Color {
-		AppTheme.shared.colorSet.background
-	}
-
-	var foregroundColorGrey: Color {
-		AppTheme.shared.colorSet.grey1
-	}
-
-	var foregroundColorGreyLight: Color {
-		AppTheme.shared.colorSet.greyLight
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
 
 	var foregroundMessage: Color {
-		colorScheme == .light ? foregroundColorBackground : foregroundColorGrey
+		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.grey1
 	}
 }
 

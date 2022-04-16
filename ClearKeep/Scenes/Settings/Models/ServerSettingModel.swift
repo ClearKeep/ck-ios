@@ -5,7 +5,7 @@
 //  Created by đông on 24/03/2022.
 //
 
-import UIKit
+import Foundation
 
 protocol IServerSettingModel {
 	var id: Int { get }
