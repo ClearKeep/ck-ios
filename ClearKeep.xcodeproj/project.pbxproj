@@ -139,6 +139,17 @@
 		F553F87627E820E600824BE7 /* SocialConfirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86B27E820E600824BE7 /* SocialConfirm.swift */; };
 		F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86C27E820E600824BE7 /* SocialInMemoryStore.swift */; };
 		F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86D27E820E600824BE7 /* SocialInteractor.swift */; };
+		F568DC0F27FD7CC000EE9DF0 /* SettingServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC0627FD7CC000EE9DF0 /* SettingServerView.swift */; };
+		F568DC1027FD7CC000EE9DF0 /* ServerSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC0827FD7CC000EE9DF0 /* ServerSettingModel.swift */; };
+		F568DC1127FD7CC000EE9DF0 /* SettingServerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC0927FD7CC000EE9DF0 /* SettingServerInteractor.swift */; };
+		F568DC1227FD7CC000EE9DF0 /* SettingServerWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC0A27FD7CC000EE9DF0 /* SettingServerWorker.swift */; };
+		F568DC1327FD7CC000EE9DF0 /* SettingServerRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC0B27FD7CC000EE9DF0 /* SettingServerRemoteStore.swift */; };
+		F568DC1527FD7CC000EE9DF0 /* SettingServerInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC0E27FD7CC000EE9DF0 /* SettingServerInMemoryStore.swift */; };
+		F568DC2027FD882600EE9DF0 /* NotificationRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC1727FD882600EE9DF0 /* NotificationRemoteStore.swift */; };
+		F568DC2127FD882600EE9DF0 /* NotificationInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC1827FD882600EE9DF0 /* NotificationInteractor.swift */; };
+		F568DC2227FD882600EE9DF0 /* NotificationInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC1927FD882600EE9DF0 /* NotificationInMemoryStore.swift */; };
+		F568DC2427FD882600EE9DF0 /* NotificationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC1C27FD882600EE9DF0 /* NotificationWorker.swift */; };
+		F568DC2527FD882600EE9DF0 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC1D27FD882600EE9DF0 /* NotificationView.swift */; };
 		F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37EE27E97FF20085CECE /* ProfileModel.swift */; };
 		F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37F027E97FF20085CECE /* CountryCode.swift */; };
 		F5CE37F427E97FF20085CECE /* UserProfileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */; };
@@ -250,20 +261,6 @@
 		04F933EF27FD3404001D6C6F /* SearchCatalogy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCatalogy.swift; sourceTree = "<group>"; };
 		04F933F327FD4A30001D6C6F /* CatalogyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogyView.swift; sourceTree = "<group>"; };
 		04F9340227FED64A001D6C6F /* CatalogySelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogySelection.swift; sourceTree = "<group>"; };
-		101250A451C5F0A0690F9F2E /* Pods_ClearKeepUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClearKeepUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1E40DA15675E8D41EA8CE136 /* Pods-notificationextension.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notificationextension.qa.xcconfig"; path = "Target Support Files/Pods-notificationextension/Pods-notificationextension.qa.xcconfig"; sourceTree = "<group>"; };
-		2EBC14E59AE53DA947B3D1CB /* Pods-ClearKeepUITests.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.qa.xcconfig"; sourceTree = "<group>"; };
-		35710D5B975319B70E6A82C4 /* Pods-ClearKeepTests.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.development.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.development.xcconfig"; sourceTree = "<group>"; };
-		38E7B37422395768AA1E0B32 /* Pods-ClearKeep.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.production.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.production.xcconfig"; sourceTree = "<group>"; };
-		505924C80AA28618058991FC /* Pods_ClearKeepTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClearKeepTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		726F45262AA71A1153B2BBF0 /* Pods_ClearKeep.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClearKeep.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7B380F8D3A27CFB44B6384EF /* Pods-ClearKeepTests.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.qa.xcconfig"; sourceTree = "<group>"; };
-		82E66168E7AA06197F0D40BD /* Pods-ClearKeepUITests.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.production.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.production.xcconfig"; sourceTree = "<group>"; };
-		8C881C0D63A43A64B7A9E285 /* Pods-ClearKeepTests.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.production.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.production.xcconfig"; sourceTree = "<group>"; };
-		912EC0479A2BFD3C277E043F /* Pods_notificationextension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_notificationextension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		986A2215B7F90EEBC21195E2 /* Pods-notificationextension.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notificationextension.production.xcconfig"; path = "Target Support Files/Pods-notificationextension/Pods-notificationextension.production.xcconfig"; sourceTree = "<group>"; };
-		9DF0922D1A5E5C38C277E461 /* Pods-notificationextension.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notificationextension.development.xcconfig"; path = "Target Support Files/Pods-notificationextension/Pods-notificationextension.development.xcconfig"; sourceTree = "<group>"; };
-		BB43780E32660F11FE470B03 /* Pods-ClearKeep.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.development.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.development.xcconfig"; sourceTree = "<group>"; };
 		0779F188A2C97027C9FAABAB /* Pods-ClearKeepUITests.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.production.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.production.xcconfig"; sourceTree = "<group>"; };
 		0A71E024DABDDCEE0A6B83B5 /* Pods-ClearKeep.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.qa.xcconfig"; sourceTree = "<group>"; };
 		14374F80FF390E62D5812F57 /* Pods-notificationextension.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notificationextension.qa.xcconfig"; path = "Target Support Files/Pods-notificationextension/Pods-notificationextension.qa.xcconfig"; sourceTree = "<group>"; };
@@ -355,6 +352,17 @@
 		F553F86B27E820E600824BE7 /* SocialConfirm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialConfirm.swift; sourceTree = "<group>"; };
 		F553F86C27E820E600824BE7 /* SocialInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialInMemoryStore.swift; sourceTree = "<group>"; };
 		F553F86D27E820E600824BE7 /* SocialInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialInteractor.swift; sourceTree = "<group>"; };
+		F568DC0627FD7CC000EE9DF0 /* SettingServerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerView.swift; sourceTree = "<group>"; };
+		F568DC0827FD7CC000EE9DF0 /* ServerSettingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerSettingModel.swift; sourceTree = "<group>"; };
+		F568DC0927FD7CC000EE9DF0 /* SettingServerInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerInteractor.swift; sourceTree = "<group>"; };
+		F568DC0A27FD7CC000EE9DF0 /* SettingServerWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerWorker.swift; sourceTree = "<group>"; };
+		F568DC0B27FD7CC000EE9DF0 /* SettingServerRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerRemoteStore.swift; sourceTree = "<group>"; };
+		F568DC0E27FD7CC000EE9DF0 /* SettingServerInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerInMemoryStore.swift; sourceTree = "<group>"; };
+		F568DC1727FD882600EE9DF0 /* NotificationRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationRemoteStore.swift; sourceTree = "<group>"; };
+		F568DC1827FD882600EE9DF0 /* NotificationInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationInteractor.swift; sourceTree = "<group>"; };
+		F568DC1927FD882600EE9DF0 /* NotificationInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationInMemoryStore.swift; sourceTree = "<group>"; };
+		F568DC1C27FD882600EE9DF0 /* NotificationWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationWorker.swift; sourceTree = "<group>"; };
+		F568DC1D27FD882600EE9DF0 /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		F5CE37EE27E97FF20085CECE /* ProfileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		F5CE37F027E97FF20085CECE /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileContentView.swift; sourceTree = "<group>"; };
@@ -743,6 +751,8 @@
 			isa = PBXGroup;
 			children = (
 				04F933C927FC3B85001D6C6F /* Search */,
+				F568DC1627FD882600EE9DF0 /* Notification */,
+				F568DC0527FD7CC000EE9DF0 /* Settings */,
 				047D6B5627F6A3240098B104 /* CreateDirectMessage */,
 				F5350E0627FAD57500F54E32 /* TwoFactor */,
 				047D6B0827F14D3E0098B104 /* GroupDetail */,
@@ -1038,6 +1048,63 @@
 				F553F86A27E820E600824BE7 /* SocialCommonStyle.swift */,
 			);
 			path = CommonUI;
+			sourceTree = "<group>";
+		};
+		F568DC0527FD7CC000EE9DF0 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				F568DC0627FD7CC000EE9DF0 /* SettingServerView.swift */,
+				F568DC0727FD7CC000EE9DF0 /* Models */,
+				F568DC0927FD7CC000EE9DF0 /* SettingServerInteractor.swift */,
+				F568DC0A27FD7CC000EE9DF0 /* SettingServerWorker.swift */,
+				F568DC0B27FD7CC000EE9DF0 /* SettingServerRemoteStore.swift */,
+				F568DC0C27FD7CC000EE9DF0 /* Views */,
+				F568DC0E27FD7CC000EE9DF0 /* SettingServerInMemoryStore.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		F568DC0727FD7CC000EE9DF0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F568DC0827FD7CC000EE9DF0 /* ServerSettingModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F568DC0C27FD7CC000EE9DF0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F568DC1627FD882600EE9DF0 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				F568DC1727FD882600EE9DF0 /* NotificationRemoteStore.swift */,
+				F568DC1827FD882600EE9DF0 /* NotificationInteractor.swift */,
+				F568DC1927FD882600EE9DF0 /* NotificationInMemoryStore.swift */,
+				F568DC1A27FD882600EE9DF0 /* Models */,
+				F568DC1C27FD882600EE9DF0 /* NotificationWorker.swift */,
+				F568DC1D27FD882600EE9DF0 /* NotificationView.swift */,
+				F568DC1E27FD882600EE9DF0 /* Views */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
+		F568DC1A27FD882600EE9DF0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F568DC1E27FD882600EE9DF0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		F5CE37EC27E97FF20085CECE /* Profile */ = {
@@ -1366,6 +1433,7 @@
 				CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */,
 				044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */,
 				044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */,
+				F568DC2227FD882600EE9DF0 /* NotificationInMemoryStore.swift in Sources */,
 				047D6B1227F1544D0098B104 /* GroupDetailView.swift in Sources */,
 				047241A627DB3D2C0043345A /* LoginView.swift in Sources */,
 				044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */,
@@ -1376,6 +1444,9 @@
 				CB117EC427BB8DB1000941D9 /* SceneDelegate.swift in Sources */,
 				F5350E1D27FAD58F00F54E32 /* TwoFactorWorker.swift in Sources */,
 				CB117ECD27BBA6E5000941D9 /* HomeWorker.swift in Sources */,
+				F568DC1027FD7CC000EE9DF0 /* ServerSettingModel.swift in Sources */,
+				F568DC1127FD7CC000EE9DF0 /* SettingServerInteractor.swift in Sources */,
+				F568DC1227FD7CC000EE9DF0 /* SettingServerWorker.swift in Sources */,
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
 				0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */,
 				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
@@ -1416,8 +1487,13 @@
 				F553F86F27E820E600824BE7 /* SocialModel.swift in Sources */,
 				F553F87627E820E600824BE7 /* SocialConfirm.swift in Sources */,
 				047D6B6127F6A3750098B104 /* CreateDirectMessageInteractor.swift in Sources */,
+				F568DC1527FD7CC000EE9DF0 /* SettingServerInMemoryStore.swift in Sources */,
 				CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */,
+				F568DC0F27FD7CC000EE9DF0 /* SettingServerView.swift in Sources */,
+				F568DC2027FD882600EE9DF0 /* NotificationRemoteStore.swift in Sources */,
 				044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */,
+				F568DC2527FD882600EE9DF0 /* NotificationView.swift in Sources */,
+				F568DC1327FD7CC000EE9DF0 /* SettingServerRemoteStore.swift in Sources */,
 				F5350E1C27FAD58F00F54E32 /* TwoFactorInMemoryStore.swift in Sources */,
 				04F933F027FD3404001D6C6F /* SearchCatalogy.swift in Sources */,
 				0499344727E97035003BD4C4 /* ChangePasswordInteractor.swift in Sources */,
@@ -1442,6 +1518,7 @@
 				044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */,
 				0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */,
 				F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */,
+				F568DC2127FD882600EE9DF0 /* NotificationInteractor.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
 				047D6B0E27F1544D0098B104 /* GroupDetailInMemoryStore.swift in Sources */,
 				04F933D227FC3B9E001D6C6F /* SearchUserView.swift in Sources */,
@@ -1477,6 +1554,7 @@
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
 				047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
+				F568DC2427FD882600EE9DF0 /* NotificationWorker.swift in Sources */,
 				CB40073027E74E1900DFBE88 /* Configuration.swift in Sources */,
 				CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */,
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
