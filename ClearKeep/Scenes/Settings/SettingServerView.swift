@@ -5,9 +5,8 @@
 //  Created by đông on 04/04/2022.
 //
 
-import Combine
+import SwiftUI
 import Common
-import CommonUI
 
 // MARK: - Constant
 private enum Constants {
@@ -25,22 +24,13 @@ struct SettingServerView: View {
 	@Environment(\.colorScheme) private var colorScheme
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	@State private(set) var samples: Loadable<[IServerSettingModel]>
-	@State private(set) var serverName: String
-	@State private(set) var serverUrl: String
-	@State private(set) var serverStyle: TextInputStyle = .default
-	@State private(set) var serverUrlStyle: TextInputStyle = .default
 	@State private(set) var isShowUserProfile = false
-	
+	@State private(set) var isShowPreview = true
+	@State private(set) var isShowDisturb = true
+
 	// MARK: - Init
-	init(samples: Loadable<[IServerSettingModel]> = .notRequested,
-		 serverName: String = "",
-		 inputStyle: TextInputStyle = .default,
-		 serverUrl: String = "") {
+	init(samples: Loadable<[IServerSettingModel]> = .notRequested) {
 		self._samples = .init(initialValue: samples)
-		self._serverName = .init(initialValue: serverName)
-		self._serverStyle = .init(initialValue: inputStyle)
-		self._serverUrl = .init(initialValue: serverUrl)
-		self._serverUrlStyle = .init(initialValue: inputStyle)
 	}
 	
 	// MARK: - Variables
@@ -48,29 +38,62 @@ struct SettingServerView: View {
 	
 	// MARK: - Body
 	var body: some View {
-		VStack(spacing: Constants.spacer) {
-			backgroundColorTop
-				.frame(maxWidth: .infinity, maxHeight: Constants.heightBackground)
-			VStack(spacing: Constants.spacer) {
-				HStack {
-					Button(action: {
-            	self.presentationMode.wrappedValue.dismiss()
-					}, label: {
-						AppTheme.shared.imageSet.crossIcon
-							.foregroundColor(foregroundCrossButton)
-					})
+		var contentView: some View {
+			VStack(spacing: Constant.spacer) {
+				backgroundColorTop
+					.frame(maxWidth: .infinity, maxHeight: Constants.heightBackground)
+				VStack(spacing: Constant.spacer) {
+					buttonTop
+					title
+					serverNameInput
+					serverUrlInput
 					Spacer()
 				}
-				.frame(maxWidth: .infinity)
-				
-				Text("Server.Title".localized)
-					.frame(maxWidth: .infinity, alignment: .leading)
-					.font(AppTheme.shared.fontSet.font(style: .body1))
-				
-				VStack(alignment: .leading) {
-					Text("Server.Name".localized)
-					CommonTextField(text: $serverName,
-									inputStyle: $serverStyle,
+				.padding(.horizontal, Constants.paddingHorizontal)
+			}
+			.edgesIgnoringSafeArea(.all)
+		}
+
+		var buttonTop: some View {
+			HStack {
+				Button(action: {
+				}, label: {
+					AppTheme.shared.imageSet.crossIcon
+						.foregroundColor(foregroundCrossButton)
+				})
+				Spacer()
+			}
+			.frame(maxWidth: .infinity)
+		}
+
+		var title: some View {
+			Text("Server.Title".localized)
+				.frame(maxWidth: .infinity, alignment: .leading)
+				.font(AppTheme.shared.fontSet.font(style: .body1))
+		}
+
+		var serverNameInput: some View {
+			VStack(alignment: .leading) {
+				Text("Server.Name".localized)
+				CommonTextField(text: $serverName,
+								inputStyle: $serverStyle,
+								placeHolder: "Server.Placeholder".localized,
+								onEditingChanged: { isEditting in
+					if isEditting {
+						serverStyle = .normal
+					} else {
+						serverStyle = .highlighted
+					}
+				})
+			}
+		}
+
+		var serverUrlInput: some View {
+			VStack(alignment: .leading) {
+				Text("Server.Url".localized)
+				HStack {
+					CommonTextField(text: $serverUrl,
+									inputStyle: $serverUrlStyle,
 									placeHolder: "Server.Placeholder".localized,
 									onEditingChanged: { isEditting in
 						if isEditting {
@@ -79,40 +102,21 @@ struct SettingServerView: View {
 							serverStyle = .highlighted
 						}
 					})
-				}
-				VStack(alignment: .leading) {
-					Text("Server.Url".localized)
-					HStack {
-						CommonTextField(text: $serverUrl,
-										inputStyle: $serverUrlStyle,
-										placeHolder: "Server.Placeholder".localized,
-										onEditingChanged: { isEditting in
-							if isEditting {
-								serverStyle = .normal
-							} else {
-								serverStyle = .highlighted
-							}
+					ZStack {
+						Circle()
+							.strokeBorder(AppTheme.shared.colorSet.primaryDefault, lineWidth: Constants.borderLineWidth)
+							.background(Circle().foregroundColor(foregroundCircle))
+							.frame(width: Constants.sizeCircle, height: Constant.sizeCircle)
+						Button(action: {
+						}, label: {
+							AppTheme.shared.imageSet.linkIcon
+								.foregroundColor(foregroundButtonLink)
 						})
-						ZStack {
-							Circle()
-								.strokeBorder(AppTheme.shared.colorSet.primaryDefault, lineWidth: Constants.borderLineWidth)
-								.background(Circle().foregroundColor(foregroundCircle))
-								.frame(width: Constants.sizeCircle, height: Constants.sizeCircle)
-							Button(action: {
-							}, label: {
-								AppTheme.shared.imageSet.linkIcon
-									.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
-							})
-						}
 					}
 				}
-				Spacer()
 			}
-			.padding(.horizontal, Constants.paddingHorizontal)
 		}
-    .navigationBarTitle("")
-		.navigationBarHidden(true)
-		.edgesIgnoringSafeArea(.all)
+		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 	}
 }
 
@@ -128,24 +132,36 @@ private extension SettingServerView {
 	var backgroundColorGradient: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
-	
+
 	var backgroundColorBlack: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.darkGrey2, AppTheme.shared.colorSet.darkGrey2]), startPoint: .leading, endPoint: .trailing)
 	}
-	
+
+	var foregroundColorWhite: Color {
+		AppTheme.shared.colorSet.offWhite
+	}
+
+	var foregroundColorBlack: Color {
+		AppTheme.shared.colorSet.black
+	}
+
 	var foregroundCircle: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.black
+		colorScheme == .light ? foregroundColorWhite : foregroundColorBlack
 	}
-	
+
 	var foregroundCrossButton: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
+		colorScheme == .light ? foregroundColorBlack : foregroundColorWhite
 	}
-	
+
 	var backgroundColorTop: LinearGradient {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
 	}
-}
 
+	var foregroundButtonLink: Color {
+		AppTheme.shared.colorSet.primaryDefault
+	}
+}
+	
 // MARK: - Preview
 #if DEBUG
 struct SettingServerView_Previews: PreviewProvider {
