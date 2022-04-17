@@ -38,6 +38,7 @@ struct LoginContentView: View {
 	@State private var isAdvanceServer: Bool = false
 	@State private var isForgotPassword: Bool = false
 	@State private var isRegister: Bool = false
+	@State private var isLogin: Bool = false
 	
 	// MARK: - Body
 	var body: some View {
@@ -87,15 +88,20 @@ private extension LoginContentView {
 // MARK: - Loading Content
 private extension LoginContentView {
 	var buttonSignIn: some View {
-		Button("Login.SignIn".localized) {
-			doLogin()
-		}
-		.frame(maxWidth: .infinity)
-		.frame(height: Constant.heightButton)
-		.font(fontSignIn)
-		.background(backgroundSignInButton)
-		.foregroundColor(foregroundColorView)
-		.cornerRadius(Constant.radius)
+		NavigationLink(
+			destination: HomeView(),
+			isActive: $isLogin,
+			label: {
+				Button("Login.SignIn".localized) {
+					doLogin()
+				}
+				.frame(maxWidth: .infinity)
+				.frame(height: Constant.heightButton)
+				.font(fontSignIn)
+				.background(backgroundSignInButton)
+				.foregroundColor(foregroundColorView)
+				.cornerRadius(Constant.radius)
+			})
 	}
 	
 	var textInputView: some View {
@@ -282,15 +288,15 @@ private extension LoginContentView {
 			await injected.interactors.loginInteractor.signIn(email: email, password: password)
 		}
 	}
-
+	
 	func advancedServer() {
 		isAdvanceServer = true
 	}
-
+	
 	func forgotPassword() {
 		isForgotPassword = true
 	}
-
+	
 	func register() {
 		isRegister = true
 	}

@@ -192,7 +192,6 @@ private extension DetailContentView {
 			VStack {
 				ZStack {
 					AppTheme.shared.imageSet.phoneCallIcon
-						.renderingMode(.template)
 						.aspectRatio(contentMode: .fit)
 						.foregroundColor(foregroundButton)
 						.frame(width: Constants.sizeIconCall, height: Constants.sizeIconCall)
@@ -212,7 +211,6 @@ private extension DetailContentView {
 			VStack {
 				ZStack {
 					AppTheme.shared.imageSet.videoIcon
-						.renderingMode(.template)
 						.aspectRatio(contentMode: .fit)
 						.foregroundColor(foregroundButton)
 						.frame(width: Constants.sizeIconCall, height: Constants.sizeIconCall)
@@ -237,7 +235,6 @@ private extension DetailContentView {
 						HStack {
 							AppTheme.shared.imageSet.userIcon
 								.resizable()
-								.renderingMode(.template)
 								.aspectRatio(contentMode: .fit)
 								.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 								.padding(.all, Constants.padding)
@@ -257,7 +254,6 @@ private extension DetailContentView {
 						HStack {
 							AppTheme.shared.imageSet.usersPlusIcon
 								.resizable()
-								.renderingMode(.template)
 								.aspectRatio(contentMode: .fit)
 								.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 								.padding(.all, Constants.padding)
@@ -277,7 +273,6 @@ private extension DetailContentView {
 						HStack {
 							AppTheme.shared.imageSet.userOfflineIcon
 								.resizable()
-								.renderingMode(.template)
 								.aspectRatio(contentMode: .fit)
 								.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 								.padding(.all, Constants.padding)
@@ -293,7 +288,6 @@ private extension DetailContentView {
 				HStack {
 					AppTheme.shared.imageSet.logoutIcon
 						.resizable()
-						.renderingMode(.template)
 						.aspectRatio(contentMode: .fit)
 						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 						.padding(.all, Constants.padding)
@@ -311,7 +305,6 @@ private extension DetailContentView {
 		Button(action: customBack) {
 			HStack(spacing: Constants.spacing) {
 				AppTheme.shared.imageSet.chevleftIcon
-					.renderingMode(.template)
 					.aspectRatio(contentMode: .fit)
 					.foregroundColor(foregroundBackButton)
 				Text(groupText)

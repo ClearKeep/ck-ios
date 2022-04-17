@@ -113,7 +113,6 @@ private extension MemberView {
 		Button(action: customBack) {
 			HStack(spacing: Constants.spacing) {
 				AppTheme.shared.imageSet.chevleftIcon
-					.renderingMode(.template)
 					.aspectRatio(contentMode: .fit)
 					.foregroundColor(foregroundBackButton)
 				Text("GroupDetail.SeeMembers".localized)

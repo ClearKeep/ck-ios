@@ -14,17 +14,17 @@ struct AppImageSet: IAppImageSet {
 	var splashLogo: Image { Image("logo_Clearkeep") }
 	var logo: Image { Image("logo_Clearkeep2") }
 	var homeIcon: Image { Image("ic_home") }
-	var plusIcon: Image { Image("ic_plus") }
+	var plusIcon: Image { Image("ic_plus").renderingMode(.template) }
 	var noteIcon: Image { Image("ic_notes") }
 	var gearIcon: Image { Image("ic_gear") }
-	var logoutIcon: Image { Image("ic_logout") }
+	var logoutIcon: Image { Image("ic_logout").renderingMode(.template) }
 	var chevUpIcon: Image { Image("ic_chev_up") }
-	var chevRightIcon: Image { Image("ic_chev_right") }
-	var chevleftIcon: Image { Image("ic_chev_left") }
-	var chevDownIcon: Image { Image("ic_chev_down") }
+	var chevRightIcon: Image { Image("ic_chev_right").renderingMode(.template) }
+	var chevleftIcon: Image { Image("ic_chev_left")	.renderingMode(.template) }
+	var chevDownIcon: Image { Image("ic_chev_down").renderingMode(.template) }
 	var microPhoneIcon: Image { Image("ic_microphone") }
-	var phoneCallIcon: Image { Image("ic_phone_call") }
-	var videoIcon: Image { Image("ic_video") }
+	var phoneCallIcon: Image { Image("ic_phone_call").renderingMode(.template) }
+	var videoIcon: Image { Image("ic_video").renderingMode(.template) }
 	var sendIcon: Image { Image("ic_send_plane") }
 	var downloadIcon: Image { Image("ic_file_download") }
 	var messagePlusIcon: Image { Image("ic_message_plus") }
@@ -32,21 +32,21 @@ struct AppImageSet: IAppImageSet {
 	var phoneOffIcon: Image { Image("ic_phone-off") }
 	var microphoneOffIcon: Image { Image("ic_microphone_off") }
 	var messageCricleIcon: Image { Image("ic_message_circle") }
-	var crossIcon: Image { Image("ic_cross") }
+	var crossIcon: Image { Image("ic_cross").renderingMode(.template) }
 	var dotVerticalIcon: Image { Image("ic_dots_vertical") }
 	var dotIcon: Image { Image("ic_dots") }
 	var emoticonIcon: Image { Image("ic_emoticon") }
 	var straitFaceIcon: Image { Image("ic_straight_face") }
 	var speakerIcon: Image { Image("ic_speaker") }
 	var cameraRolateIcon: Image { Image("ic_camera_rotate") }
-	var backIcon: Image { Image("ic_arrow_left") }
+	var backIcon: Image { Image("ic_arrow_left").renderingMode(.template) }
 	var videosIcon: Image { Image("ic_video") }
-	var menuIcon: Image { Image("ic_hamburger") }
-	var adjustmentIcon: Image { Image("ic_adjustment") }
-	var userPlusIcon: Image { Image("ic_user_plus") }
+	var menuIcon: Image { Image("ic_hamburger").renderingMode(.template) }
+	var adjustmentIcon: Image { Image("ic_adjustment").renderingMode(.template) }
+	var userPlusIcon: Image { Image("ic_user_plus").renderingMode(.template) }
 	var pencilIcon: Image { Image("ic_pencil") }
-	var notificationIcon: Image { Image("ic_notification") }
-	var userOfflineIcon: Image { Image("ic_user_off") }
+	var notificationIcon: Image { Image("ic_notification").renderingMode(.template) }
+	var userOfflineIcon: Image { Image("ic_user_off").renderingMode(.template) }
 	var usersPlusIcon: Image { Image("ic_user_plus") }
 	var trashIcon: Image { Image("ic_trash") }
 	var userCheckIcon: Image { Image("ic_user_check") }
@@ -57,14 +57,14 @@ struct AppImageSet: IAppImageSet {
 	var shareIcon: Image { Image("ic_share") }
 	var bellIcon: Image { Image("ic_bell") }
 	var alertIcon: Image { Image("ic_alert") }
-	var copyIcon: Image { Image("ic_copy") }
+	var copyIcon: Image { Image("ic_copy").renderingMode(.template) }
 	var quoteIcon: Image { Image("ic_quote") }
 	var forwardIcon: Image { Image("ic_forward") }
 	var uploadIcon: Image { Image("ic_upload") }
 	var linkIcon: Image { Image("ic_link") }
 	var loadingIcon: Image { Image("ic_loading") }
 	var arrowRightIcon: Image { Image("ic_arrow_right").renderingMode(.template) }
-	var forderPlusIcon: Image { Image("ic_chev_left") }
+	var forderPlusIcon: Image { Image("ic_file_plus") }
 	var googleIcon: Image { Image("ic_google") }
 	var officeIcon: Image { Image("ic_office") }
 	var facebookIcon: Image { Image("ic_faceBook") }
@@ -77,7 +77,7 @@ extension AppImageSet: ICommonUIImageSet {
 	var closeIcon: Image { Image("ic_cross") }
 	var eyeOn: Image { Image("ic_eye_on") }
 	var eyeOff: Image { Image("ic_eye_off") }
-	var userIcon: Image { Image("ic_user") }
+	var userIcon: Image { Image("ic_user").renderingMode(.template) }
 	var mailIcon: Image { Image("ic_mail") }
 	var lockIcon: Image { Image("ic_lock") }
 }

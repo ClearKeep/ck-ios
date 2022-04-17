@@ -63,7 +63,7 @@ private extension LoginView {
 // MARK: - Loading Content
 private extension LoginView {
 	var notRequestedView: some View {
-		ScrollView {
+		ScrollView(showsIndicators: false) {
 			background
 			VStack(spacing: Constants.spacing) {
 				Spacer(minLength: Constants.minSpacer)

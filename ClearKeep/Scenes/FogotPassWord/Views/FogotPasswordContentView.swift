@@ -110,7 +110,6 @@ private extension FogotPasswordContentView {
 		Button(action: customBack) {
 			HStack(spacing: Constants.spacing) {
 				AppTheme.shared.imageSet.backIcon
-					.renderingMode(.template)
 					.aspectRatio(contentMode: .fit)
 					.foregroundColor(foregroundBackButton)
 				Text("ForgotPass.Forgotpassword".localized)

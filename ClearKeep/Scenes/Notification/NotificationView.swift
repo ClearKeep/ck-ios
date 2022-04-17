@@ -30,7 +30,7 @@ struct NotificationView: View {
 	@State private(set) var isShowUserProfile = false
 	@State private(set) var isShowPreview = true
 	@State private(set) var isShowDisturb = true
-
+	
 	// MARK: - Init
 	init(samples: Loadable<[IServerSettingModel]> = .notRequested) {
 		self._samples = .init(initialValue: samples)
@@ -44,6 +44,7 @@ struct NotificationView: View {
 			VStack(spacing: Constants.spacer) {
 				HStack {
 					Button(action: {
+						self.presentationMode.wrappedValue.dismiss()
 					}, label: {
 						AppTheme.shared.imageSet.crossIcon
 							.foregroundColor(foregroundCrossButton)
@@ -51,11 +52,11 @@ struct NotificationView: View {
 					Spacer()
 				}
 				.frame(maxWidth: .infinity)
-
+				
 				Text("Notification.Title".localized)
 					.frame(maxWidth: .infinity, alignment: .leading)
 					.font(AppTheme.shared.fontSet.font(style: .body1))
-
+				
 				VStack {
 					HStack {
 						Text("Notification.Preview".localized)
@@ -69,7 +70,7 @@ struct NotificationView: View {
 						.foregroundColor(foregroundShowPreviewTitle)
 						.padding(.trailing, Constants.paddingTitlePreview)
 				}
-
+				
 				HStack {
 					Text("Notification.Disturb".localized)
 						.font(AppTheme.shared.fontSet.font(style: .placeholder1))
@@ -83,6 +84,8 @@ struct NotificationView: View {
 		}
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 		.navigationBarBackButtonHidden(true)
+		.navigationBarTitle("")
+		.navigationBarHidden(true)
 		.edgesIgnoringSafeArea(.all)
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 	}
@@ -97,15 +100,15 @@ private extension NotificationView {
 	var backgroundColorGradient: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundColorBlack: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.darkGrey2, AppTheme.shared.colorSet.darkGrey2]), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundColorTop: LinearGradient {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
 	}
-
+	
 	var backgroundToggle: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.grey4
 	}
@@ -113,11 +116,11 @@ private extension NotificationView {
 	var foregroundShowPreviewTitle: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.primaryDefault
 	}
-
+	
 	var foregroundNotificationTitle: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.grey3
 	}
-
+	
 	var foregroundCrossButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
 	}

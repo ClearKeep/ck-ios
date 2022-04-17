@@ -17,6 +17,7 @@ private enum Constants {
 struct RegisterContentView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
+	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Binding var email: String
 	@Binding var password: String
 	@Binding var displayname: String
@@ -25,7 +26,7 @@ struct RegisterContentView: View {
 	@Binding var nameStyle: TextInputStyle
 	@Binding var passwordStyle: TextInputStyle
 	@Binding var rePasswordStyle: TextInputStyle
-
+	
 	// MARK: - Body
 	var body: some View {
 		GroupBox(label:
@@ -69,11 +70,11 @@ private extension RegisterContentView {
 	var button: AnyView {
 		AnyView(buttonView)
 	}
-
+	
 	var secureTexfield: AnyView {
 		AnyView(secureView)
 	}
-
+	
 	var nomalTextfield: AnyView {
 		AnyView(nomalTextfieldView)
 	}
@@ -84,6 +85,7 @@ private extension RegisterContentView {
 	var buttonView: some View {
 		HStack {
 			Button("Register.SignInInstead".localized) {
+				self.presentationMode.wrappedValue.dismiss()
 			}
 			.foregroundColor(foregroundColorPrimary)
 			Spacer()

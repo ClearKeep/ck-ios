@@ -121,7 +121,6 @@ private extension ChangePasswordContentView {
 		Button(action: customBack) {
 			HStack(spacing: Constants.spacing) {
 				AppTheme.shared.imageSet.backIcon
-					.renderingMode(.template)
 					.aspectRatio(contentMode: .fit)
 					.foregroundColor(foregroundBackButton)
 				Text("ChangePassword.TitleButton".localized)

@@ -24,10 +24,11 @@ private enum Constants {
 struct HomeContentView: View {
 	// MARK: - Variable
 	@Environment(\.colorScheme) var colorScheme
-	@State private(set) var isExpandGroup: Bool
-	@State private(set) var isExpandMessage: Bool
-	@State private(set) var isAddAction: Bool
-	@State private(set) var isChangeStatus: Bool
+	@State private(set) var isExpandGroup: Bool = false
+	@State private(set) var isExpandMessage: Bool = false
+	@State private(set) var isAddGroup: Bool = false
+	@State private(set) var isAddMessage: Bool = false
+	@State private(set) var isChangeStatus: Bool = false
 	@State private(set) var group: [String] = ["Discussion", "UI Design", "Front-end Development", "Back-end Development"]
 	@State private(set) var userName: [String] = ["Alex", "Alisa", "babara", "Jonh Doe"]
 
@@ -37,7 +38,7 @@ struct HomeContentView: View {
 	}
 }
 
-	// MARK: - Private
+// MARK: - Private
 private extension HomeContentView {
 	var content: AnyView {
 		AnyView(bodyView)
@@ -59,7 +60,7 @@ private extension HomeContentView {
 	}
 
 	var expandMessageImage: Image {
-		isExpandGroup ? AppTheme.shared.imageSet.chevDownIcon : AppTheme.shared.imageSet.chevRightIcon
+		isExpandMessage ? AppTheme.shared.imageSet.chevDownIcon : AppTheme.shared.imageSet.chevRightIcon
 	}
 
 	var foregroundStatusView: Color {
@@ -91,7 +92,7 @@ private extension HomeContentView {
 	}
 }
 
-	// MARK: - Private func
+// MARK: - Private func
 private extension HomeContentView {
 	func expandGroups() {
 		isExpandGroup.toggle()
@@ -99,10 +100,6 @@ private extension HomeContentView {
 
 	func expandMessages() {
 		isExpandMessage.toggle()
-	}
-
-	func addAction() {
-		isAddAction.toggle()
 	}
 
 	func changeView() {
@@ -129,19 +126,20 @@ private extension HomeContentView {
 							.foregroundColor(foregroundTitle)
 						expandGroupImage
 							.resizable()
-							.renderingMode(.template)
 							.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 							.foregroundColor(foregroundTitle)
 					}
 				}
 				Spacer()
-				Button(action: addAction) {
-					AppTheme.shared.imageSet.plusIcon
-						.resizable()
-						.renderingMode(.template)
-						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
-						.foregroundColor(foregroundTitle)
-				}
+				NavigationLink(
+					destination: CreateDirectMessageView(imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes"),
+					isActive: $isAddGroup,
+					label: {
+						AppTheme.shared.imageSet.plusIcon
+							.resizable()
+							.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+							.foregroundColor(foregroundTitle)
+					})
 			}
 			VStack(alignment: .leading, spacing: Constants.spacing) {
 				ForEach(group, id: \.self) { groups in
@@ -170,21 +168,22 @@ private extension HomeContentView {
 							.foregroundColor(foregroundTitle)
 						expandMessageImage
 							.resizable()
-							.renderingMode(.template)
 							.aspectRatio(contentMode: .fit)
 							.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 							.foregroundColor(foregroundTitle)
 					}
 				}
 				Spacer()
-				Button(action: addAction) {
-					AppTheme.shared.imageSet.plusIcon
-						.resizable()
-						.renderingMode(.template)
-						.aspectRatio(contentMode: .fit)
-						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
-						.foregroundColor(foregroundTitle)
-				}
+				NavigationLink(
+					destination: CreateDirectMessageView(imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes"),
+					isActive: $isAddMessage,
+					label: {
+						AppTheme.shared.imageSet.plusIcon
+							.resizable()
+							.aspectRatio(contentMode: .fit)
+							.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+							.foregroundColor(foregroundTitle)
+					})
 			}
 			VStack(alignment: .leading, spacing: Constants.spacing) {
 				ForEach(userName, id: \.self) { name in
@@ -224,7 +223,7 @@ private extension HomeContentView {
 #if DEBUG
 struct HomeContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		HomeContentView(isExpandGroup: false, isExpandMessage: false, isAddAction: false, isChangeStatus: false)
+		HomeContentView()
 	}
 }
 #endif

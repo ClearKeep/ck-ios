@@ -21,28 +21,22 @@ struct HomeHeaderView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Binding var searchText: String
 	@Binding var inputStyle: TextInputStyle
-	@State private(set) var isMenuAction: Bool
-	@State private(set) var isSearchAction: Bool
+	@State private(set) var isMenuAction: Bool = false
+	@State private(set) var isSearchAction: Bool = false
 	// MARK: - Init
 	init(searchText: Binding<String>,
-		 inputStyle: Binding<TextInputStyle>,
-		 isMenuAction: Bool,
-		 isSearchAction: Bool) {
+		 inputStyle: Binding<TextInputStyle>) {
 		self._searchText = searchText
 		self._inputStyle = inputStyle
-		self._isMenuAction = .init(initialValue: isMenuAction)
-		self._isSearchAction = .init(initialValue: isSearchAction)
 	}
-
+	
 	// MARK: - Body
 	var body: some View {
-		NavigationView {
-			content
-				.background(backgroundColorView)
-				.edgesIgnoringSafeArea(.all)
-				.navigationBarTitle("")
-				.navigationBarHidden(true)
-		}
+		content
+			.background(backgroundColorView)
+			.edgesIgnoringSafeArea(.all)
+			.navigationBarTitle("")
+			.navigationBarHidden(true)
 	}
 }
 
@@ -51,15 +45,15 @@ private extension HomeHeaderView {
 	var content: AnyView {
 		AnyView(contentView)
 	}
-
+	
 	var header: AnyView {
 		AnyView(headerView)
 	}
-
+	
 	var homeContent: AnyView {
 		isSearchAction ? AnyView(searchContentView) : AnyView(homeContentView)
 	}
-
+	
 	var searchContent: AnyView {
 		AnyView(searchContentView)
 	}
@@ -70,31 +64,31 @@ private extension HomeHeaderView {
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
 	}
-
+	
 	var backgroundColor: LinearGradient {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
 	}
-
+	
 	var backgroundColorBlack: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundColorGradient: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientLinear), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var foregroundColorTitle: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight
 	}
-
+	
 	var leaddingPadding: CGFloat {
 		isSearchAction ? Constants.padding : Constants.paddingTop
 	}
-
+	
 	var iconSeachChange: Image {
 		isSearchAction ? AppTheme.shared.imageSet.crossIcon : AppTheme.shared.imageSet.menuIcon
 	}
-
+	
 	var placeHolderText: String {
 		isSearchAction ? "Search.Placehodel".localized : "General.Search".localized
 	}
@@ -109,7 +103,7 @@ private extension HomeHeaderView {
 			self.isMenuAction.toggle()
 		}
 	}
-
+	
 	func searchAction() {
 		self.isSearchAction.toggle()
 	}
@@ -125,14 +119,14 @@ private extension HomeHeaderView {
 					.offset(x: self.isSearchAction ? -geometry.size.width : 0 )
 					.animation(.default)
 				header
-				HomeMenuView(userName: "Test", urlString: "test", isExpand: false, isShow: true, isChangeStatus: true, isMenuAction: $isMenuAction)
+				HomeMenuView(isMenuAction: $isMenuAction)
 					.frame(width: geometry.size.width)
 					.offset(x: self.isMenuAction ? 0 : geometry.size.width )
 					.animation(.default)
 			}
 		}
 	}
-
+	
 	var headerView: some View {
 		VStack {
 			HStack {
@@ -143,7 +137,6 @@ private extension HomeHeaderView {
 				Button(action: menuAction) {
 					iconSeachChange
 						.resizable()
-						.renderingMode(.template)
 						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 						.foregroundColor(foregroundColorTitle)
 				}
@@ -166,13 +159,13 @@ private extension HomeHeaderView {
 		}
 		.padding(.top, Constants.paddingTop)
 	}
-
+	
 	var homeContentView: some View {
-		HomeContentView(isExpandGroup: false, isExpandMessage: false, isAddAction: false, isChangeStatus: false)
+		HomeContentView()
 			.padding(.leading, leaddingPadding)
 			.padding(.trailing, Constants.padding)
 	}
-
+	
 	var searchContentView: some View {
 		SearchView(imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "this CLK is ready for test this CLK is ready for test this CLK is ready for test", groupText: " CLK Group", dateMessage: "5/5/2021", isSearchAction: $isSearchAction)
 	}
@@ -182,7 +175,7 @@ private extension HomeHeaderView {
 #if DEBUG
 struct HomeHeaderView_Previews: PreviewProvider {
 	static var previews: some View {
-		HomeHeaderView(searchText: .constant(""), inputStyle: .constant(.default), isMenuAction: false, isSearchAction: false)
+		HomeHeaderView(searchText: .constant(""), inputStyle: .constant(.default))
 	}
 }
 #endif

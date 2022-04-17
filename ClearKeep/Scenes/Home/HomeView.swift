@@ -28,11 +28,10 @@ struct HomeView: View {
 	
 	var body: some View {
 		GeometryReader { _ in
-			NavigationView {
-				self.content
-					.navigationBarTitle("Home")
-			}
-			.navigationViewStyle(DoubleColumnNavigationViewStyle())
+			self.content
+				.navigationBarTitle("")
+				.navigationBarHidden(true)
+				.navigationBarBackButtonHidden(true)
 		}
 		.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
 	}
@@ -53,7 +52,7 @@ private extension HomeView {
 // MARK: - Loading Content
 private extension HomeView {
 	var notRequestedView: some View {
-		Text("").onAppear(perform: reloadSamples)
+		HomeHeaderView(searchText: $searchKeyword, inputStyle: $searchInputStyle)
 	}
 	
 	func loadingView(_ previouslyLoaded: [ISampleModel]?) -> some View {
@@ -82,7 +81,7 @@ private extension HomeView {
 				Text(sample.name)
 			}
 			.id(samples.count)
-			HomeHeaderView(searchText: $searchKeyword, inputStyle: $searchInputStyle, isMenuAction: false, isSearchAction: false)
+			HomeHeaderView(searchText: $searchKeyword, inputStyle: $searchInputStyle)
 		}.padding(.bottom, 0)
 	}
 }

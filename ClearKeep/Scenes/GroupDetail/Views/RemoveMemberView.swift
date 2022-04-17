@@ -138,7 +138,6 @@ private extension RemoveMemberView {
 				Spacer()
 				AppTheme.shared.imageSet.crossIcon
 					.resizable()
-					.renderingMode(.template)
 					.aspectRatio(contentMode: .fit)
 					.frame(width: Constants.sizeIcon)
 					.foregroundColor(foregroundDelete)
@@ -150,7 +149,6 @@ private extension RemoveMemberView {
 		Button(action: deleteUser) {
 			AppTheme.shared.imageSet.crossIcon
 				.resizable()
-				.renderingMode(.template)
 				.aspectRatio(contentMode: .fit)
 				.frame(width: Constants.sizeIcon)
 				.foregroundColor(foregroundDelete)
@@ -161,7 +159,6 @@ private extension RemoveMemberView {
 		Button(action: customBack) {
 			HStack(spacing: Constants.spacing) {
 				AppTheme.shared.imageSet.chevleftIcon
-					.renderingMode(.template)
 					.aspectRatio(contentMode: .fit)
 					.foregroundColor(foregroundBackButton)
 				Text("GroupDetail.RemoveMember".localized)

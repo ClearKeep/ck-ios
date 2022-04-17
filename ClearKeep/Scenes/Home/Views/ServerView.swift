@@ -75,7 +75,6 @@ private extension ServerView {
 				Button(action: changeServer) {
 					AppTheme.shared.imageSet.logo
 						.resizable()
-						.renderingMode(.template)
 						.aspectRatio(contentMode: .fit)
 						.frame(width: Constants.sizeButton, height: Constants.sizeButton)
 						.foregroundColor(foregroundButtonView)
@@ -86,7 +85,6 @@ private extension ServerView {
 				Button(action: addServer) {
 					AppTheme.shared.imageSet.plusIcon
 						.resizable()
-						.renderingMode(.template)
 						.aspectRatio(contentMode: .fit)
 						.frame(width: Constants.sizeButton, height: Constants.sizeButton)
 						.foregroundColor(foregroundButtonView)
