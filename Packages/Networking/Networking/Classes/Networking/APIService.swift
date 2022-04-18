@@ -23,6 +23,8 @@ public class APIService {
 	let clientUser: User_UserClient!
 	let clientGroup: Group_GroupClient!
 	let clientMessage: Message_MessageClient!
+	let clientNotify: Notification_NotifyClient!
+	let clientSignal: Signal_SignalKeyDistributionClient!
 	
 	// MARK: - Init & Deinit
 	public init(domain: String) {
@@ -39,6 +41,8 @@ public class APIService {
 		clientUser = User_UserClient(channel: connection)
 		clientGroup = Group_GroupClient(channel: connection)
 		clientMessage = Message_MessageClient(channel: connection)
+		clientNotify = Notification_NotifyClient(channel: connection)
+		clientSignal = Signal_SignalKeyDistributionClient(channel: connection)
 	}
 	
 	deinit {
