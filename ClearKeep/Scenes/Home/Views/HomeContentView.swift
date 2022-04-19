@@ -136,7 +136,7 @@ private extension HomeContentView {
 					}
 				}
 				Spacer()
-				NavigationLink(destination: ChatGroupView(),
+				NavigationLink(destination: ChatGroupView(model: []),
 							   isActive: $isGroup,
 							   label: {
 					AppTheme.shared.imageSet.plusIcon

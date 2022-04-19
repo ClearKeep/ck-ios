@@ -130,6 +130,8 @@
 		F556C24028097F6E00D2B149 /* ChatGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F556C23828097F6E00D2B149 /* ChatGroupView.swift */; };
 		F556C24228097F6E00D2B149 /* ChatGroupRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F556C23B28097F6E00D2B149 /* ChatGroupRemoteStore.swift */; };
 		F556C24328097F6E00D2B149 /* ChatGroupInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F556C23C28097F6E00D2B149 /* ChatGroupInteractor.swift */; };
+		F556C277280E502500D2B149 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F556C276280E502500D2B149 /* TagView.swift */; };
+		F556C27B280E961E00D2B149 /* ListUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F556C27A280E961E00D2B149 /* ListUser.swift */; };
 		F568DC0F27FD7CC000EE9DF0 /* SettingServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC0627FD7CC000EE9DF0 /* SettingServerView.swift */; };
 		F568DC1027FD7CC000EE9DF0 /* ServerSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC0827FD7CC000EE9DF0 /* ServerSettingModel.swift */; };
 		F568DC1127FD7CC000EE9DF0 /* SettingServerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC0927FD7CC000EE9DF0 /* SettingServerInteractor.swift */; };
@@ -336,6 +338,8 @@
 		F556C23828097F6E00D2B149 /* ChatGroupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatGroupView.swift; sourceTree = "<group>"; };
 		F556C23B28097F6E00D2B149 /* ChatGroupRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatGroupRemoteStore.swift; sourceTree = "<group>"; };
 		F556C23C28097F6E00D2B149 /* ChatGroupInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatGroupInteractor.swift; sourceTree = "<group>"; };
+		F556C276280E502500D2B149 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
+		F556C27A280E961E00D2B149 /* ListUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListUser.swift; sourceTree = "<group>"; };
 		F568DC0627FD7CC000EE9DF0 /* SettingServerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerView.swift; sourceTree = "<group>"; };
 		F568DC0827FD7CC000EE9DF0 /* ServerSettingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerSettingModel.swift; sourceTree = "<group>"; };
 		F568DC0927FD7CC000EE9DF0 /* SettingServerInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerInteractor.swift; sourceTree = "<group>"; };
@@ -1023,6 +1027,8 @@
 		F556C23928097F6E00D2B149 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F556C276280E502500D2B149 /* TagView.swift */,
+				F556C27A280E961E00D2B149 /* ListUser.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1489,6 +1495,7 @@
 				047D6B5F27F6A3750098B104 /* CreateDirectMessageWorker.swift in Sources */,
 				F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */,
 				0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */,
+				F556C277280E502500D2B149 /* TagView.swift in Sources */,
 				044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */,
 				0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */,
 				F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */,
@@ -1499,6 +1506,7 @@
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
 				047241A727DB3D2C0043345A /* LoginInteractor.swift in Sources */,
 				F556C23D28097F6E00D2B149 /* ChatGroupWorker.swift in Sources */,
+				F556C27B280E961E00D2B149 /* ListUser.swift in Sources */,
 				F5CE37F427E97FF20085CECE /* UserProfileContentView.swift in Sources */,
 				0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */,
 				0499344827E97035003BD4C4 /* ChangePasswordView.swift in Sources */,
