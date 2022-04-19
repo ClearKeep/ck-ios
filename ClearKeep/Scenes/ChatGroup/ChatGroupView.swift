@@ -51,18 +51,6 @@ struct ChatGroupView: View {
 		self._searchText = .init(initialValue: searchText)
 		self._model = .init(initialValue: model)
 	}
-
-	let user: [GroupChatModel] = [
-		GroupChatModel(name: "absbd"),
-		GroupChatModel(name: "mvxcvmkdfkgdf"),
-		GroupChatModel(name: "kdrgjkerkter"),
-		GroupChatModel(name: "absbd"),
-		GroupChatModel(name: "kkjgkegjrktekrtert"),
-		GroupChatModel(name: "sdkfskfksdf"),
-		GroupChatModel(name: "sldfksldfklwelr"),
-		GroupChatModel(name: "ewrlwkrlewkr"),
-		GroupChatModel(name: "dfgdfgdfg")
-	]
 	
 	// MARK: - Body
 	var body: some View {
@@ -200,7 +188,6 @@ private extension ChatGroupView {
 					.padding(.horizontal, Constants.spacerTopView)
 			})
 			.padding(.bottom, Constants.paddingButtonNext)
-//		Spacer()
 	}
 }
 
