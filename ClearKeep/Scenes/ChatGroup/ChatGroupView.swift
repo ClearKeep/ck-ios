@@ -45,7 +45,7 @@ struct ChatGroupView: View {
 	// MARK: - Init
 	public init(samples: Loadable<[IGroupChatModel]> = .notRequested,
 				searchText: String = "",
-				model: [GroupChatModel],
+				model: [GroupChatModel] = [],
 				inputStyle: TextInputStyle = .default) {
 		self._samples = .init(initialValue: samples)
 		self._searchText = .init(initialValue: searchText)
