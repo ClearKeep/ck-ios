@@ -14,7 +14,7 @@ protocol ITwoFactorWorker {
 	var inMemoryStore: ITwoFactorInMemoryStore { get }
 	var currentDomain: String { get }
 
-	func signIn(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async -> Result<String, Error>
+	func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async
 }
 
 struct TwoFactorWorker {
@@ -31,7 +31,7 @@ struct TwoFactorWorker {
 }
 
 extension TwoFactorWorker: ITwoFactorWorker {
-	func signIn(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async -> Result<String, Error> {
+	func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async {
 		<#code#>
 	}
 

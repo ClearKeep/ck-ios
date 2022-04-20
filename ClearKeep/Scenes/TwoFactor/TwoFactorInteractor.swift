@@ -10,7 +10,7 @@ import ChatSecure
 
 protocol ITwoFactorInteractor {
 	var worker: ITwoFactorWorker { get }
-	func signIn(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async
+	func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async
 }
 
 struct TwoFactorInteractor {
@@ -21,12 +21,27 @@ struct TwoFactorInteractor {
 
 extension TwoFactorInteractor: ITwoFactorInteractor {
 	var worker: ITwoFactorWorker {
-		let remoteStore = TwoFactorRemoteStore(authenticationService: <#IAuthenticationService#>)
+		let remoteStore = TwoFactorRemoteStore(authenticationService: authenticationService)
 		let inMemoryStore = TwoFactorInMemoryStore()
 		return TwoFactorWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
-	func signIn(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async {
+	func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async {
+		let result = await worker.validateOTP(userId: userId, otp: otp, otpHash: otpHash, haskKey: haskKey, domain: domain)
+	}
+}
+
+struct StubTwoFactorInteractor: ITwoFactorInteractor {
+	let channelStorage: IChannelStorage
+	let authenticationService: IAuthenticationService
+
+	var worker: ITwoFactorWorker {
+		let remoteStore = TwoFactorRemoteStore(authenticationService: authenticationService)
+		let inMemoryStore = TwoFactorInMemoryStore()
+		return TwoFactorWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+	}
+
+	func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async {
 		
 	}
 }
