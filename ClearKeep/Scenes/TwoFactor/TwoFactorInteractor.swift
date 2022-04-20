@@ -10,24 +10,23 @@ import ChatSecure
 
 protocol ITwoFactorInteractor {
 	var worker: ITwoFactorWorker { get }
-	func signIn(passcode: String) async
+	func signIn(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async
 }
 
 struct TwoFactorInteractor {
 	let appState: Store<AppState>
 	let channelStorage: IChannelStorage
-	let socialAuthenticationService: ISocialAuthenticationService
 	let authenticationService: IAuthenticationService
 }
 
 extension TwoFactorInteractor: ITwoFactorInteractor {
 	var worker: ITwoFactorWorker {
-		let remoteStore = TwoFactorRemoteStore()
+		let remoteStore = TwoFactorRemoteStore(authenticationService: <#IAuthenticationService#>)
 		let inMemoryStore = TwoFactorInMemoryStore()
-		return TwoFactorWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+		return TwoFactorWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
-	func signIn(passcode: String) async {
+	func signIn(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async {
 		
 	}
 }
