@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol INoteAPIService {
+public protocol INoteAPIService {
 	func createNote(_ request: Note_CreateNoteRequest) async -> Result<Note_UserNoteResponse, Error>
 	func editNote(_ request: Note_EditNoteRequest) async -> Result<Note_BaseResponse, Error>
 	func deleteNote(_ request: Note_DeleteNoteRequest) async -> Result<Note_BaseResponse, Error>
@@ -15,7 +15,7 @@ protocol INoteAPIService {
 }
 
 extension APIService: INoteAPIService {
-	func createNote(_ request: Note_CreateNoteRequest) async -> Result<Note_UserNoteResponse, Error> {
+    public func createNote(_ request: Note_CreateNoteRequest) async -> Result<Note_UserNoteResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			let response = clientNote.create_note(request).response
 			let status = clientNote.create_note(request).status
@@ -36,7 +36,7 @@ extension APIService: INoteAPIService {
 		})
 	}
 	
-	func editNote(_ request: Note_EditNoteRequest) async -> Result<Note_BaseResponse, Error> {
+    public func editNote(_ request: Note_EditNoteRequest) async -> Result<Note_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			let response = clientNote.edit_note(request).response
 			let status = clientNote.edit_note(request).status
@@ -57,7 +57,7 @@ extension APIService: INoteAPIService {
 		})
 	}
 	
-	func deleteNote(_ request: Note_DeleteNoteRequest) async -> Result<Note_BaseResponse, Error> {
+    public func deleteNote(_ request: Note_DeleteNoteRequest) async -> Result<Note_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			let response = clientNote.delete_note(request).response
 			let status = clientNote.delete_note(request).status
@@ -78,7 +78,7 @@ extension APIService: INoteAPIService {
 		})
 	}
 	
-	func getUserNotes(_ request: Note_GetUserNotesRequest) async -> Result<Note_GetUserNotesResponse, Error> {
+    public func getUserNotes(_ request: Note_GetUserNotesRequest) async -> Result<Note_GetUserNotesResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			let response = clientNote.get_user_notes(request).response
 			let status = clientNote.get_user_notes(request).status

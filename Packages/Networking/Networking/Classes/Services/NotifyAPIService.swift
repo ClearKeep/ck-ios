@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol INotifyAPIService {
+public protocol INotifyAPIService {
 	func readNotify(_ request: Notification_ReadNotifyRequest) async -> Result<Notification_BaseResponse, Error>
 	func getUnreadNotifies(_ request: Notification_Empty) async -> Result<Notification_GetNotifiesResponse, Error>
 	func subscribe(_ request: Notification_SubscribeRequest) async -> Result<Notification_BaseResponse, Error>
@@ -16,7 +16,7 @@ protocol INotifyAPIService {
 }
 
 extension APIService: INotifyAPIService {
-	func readNotify(_ request: Notification_ReadNotifyRequest) async -> Result<Notification_BaseResponse, Error> {
+    public func readNotify(_ request: Notification_ReadNotifyRequest) async -> Result<Notification_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			let status = clientNotify.read_notify(request).status
 			let response = clientNotify.read_notify(request).response
@@ -38,7 +38,7 @@ extension APIService: INotifyAPIService {
 		})
 	}
 	
-	func getUnreadNotifies(_ request: Notification_Empty) async -> Result<Notification_GetNotifiesResponse, Error> {
+    public func getUnreadNotifies(_ request: Notification_Empty) async -> Result<Notification_GetNotifiesResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			let status = clientNotify.get_unread_notifies(request).status
 			let response = clientNotify.get_unread_notifies(request).response
@@ -60,7 +60,7 @@ extension APIService: INotifyAPIService {
 		})
 	}
 	
-	func subscribe(_ request: Notification_SubscribeRequest) async -> Result<Notification_BaseResponse, Error> {
+    public func subscribe(_ request: Notification_SubscribeRequest) async -> Result<Notification_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			let status = clientNotify.subscribe(request).status
 			let response = clientNotify.subscribe(request).response
@@ -82,7 +82,7 @@ extension APIService: INotifyAPIService {
 		})
 	}
 	
-	func unSubscribe(_ request: Notification_UnSubscribeRequest) async -> Result<Notification_BaseResponse, Error> {
+    public func unSubscribe(_ request: Notification_UnSubscribeRequest) async -> Result<Notification_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			let status = clientNotify.un_subscribe(request).status
 			let response = clientNotify.un_subscribe(request).response
@@ -104,7 +104,7 @@ extension APIService: INotifyAPIService {
 		})
 	}
 	
-	func listen(_ request: Notification_ListenRequest) async -> Result<Notification_NotifyObjectResponse, Error> {
+    public func listen(_ request: Notification_ListenRequest) async -> Result<Notification_NotifyObjectResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			do {
 				try clientNotify.listen(request) { publication in
