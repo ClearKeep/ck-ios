@@ -39,17 +39,14 @@ struct ChatGroupView: View {
 	@State private(set) var searchStyle: TextInputStyle = .default
 	@State private(set) var isShowingView: Bool = false
 	@State private(set) var isSelectedUser: Bool = false
-	@State private(set) var model: [GroupChatModel]
+	@State private(set) var model: [GroupChatModel] = []
 	@State private(set) var name: String = ""
 	
 	// MARK: - Init
 	public init(samples: Loadable<[IGroupChatModel]> = .notRequested,
-				searchText: String = "",
-				model: [GroupChatModel] = [],
-				inputStyle: TextInputStyle = .default) {
+				searchText: String = "") {
 		self._samples = .init(initialValue: samples)
 		self._searchText = .init(initialValue: searchText)
-		self._model = .init(initialValue: model)
 	}
 	
 	// MARK: - Body
@@ -229,7 +226,7 @@ private extension ChatGroupView {
 #if DEBUG
 struct ChatGroupView_Previews: PreviewProvider {
 	static var previews: some View {
-		ChatGroupView(model: [])
+		ChatGroupView()
 	}
 }
 #endif

@@ -35,7 +35,7 @@ struct TagView: View {
 	// MARK: - Body
 	var body: some View {
 		ScrollView(.horizontal, showsIndicators: false) {
-			HStack(spacing: 10) {
+			HStack {
 				ForEach(0..<groupChatModel.count, id: \.self) { index in
 					tagView(for: groupChatModel[index].name)
 				}
@@ -64,7 +64,7 @@ struct TagView: View {
 		}
 		.background(backgroundTagUser)
 		.cornerRadius(Constants.cornerRadiusTagUser)
-		.frame(maxWidth: .infinity, alignment: .leading)
+		.frame(alignment: .leading)
 		.frame(height: Constants.heightTagUser)
 	}
 }
