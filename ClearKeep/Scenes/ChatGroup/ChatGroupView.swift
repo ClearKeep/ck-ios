@@ -12,18 +12,11 @@ import CommonUI
 
 private enum Constants {
 	static let spacerTopView = 90.0
-	static let spacerBottomView = 20.0
 	static let spacer = 25.0
-	static let spacerBottom = 45.0
 	static let paddingVertical = 14.0
-	static let paddingHorizontal = 24.0
 	static let heightButton = 40.0
 	static let cornerRadiusButtonNext = 40.0
-	static let cornerRadiusTagUser = 80.0
-	static let sizeImage = 64.0
 	static let paddingButtonNext = 60.0
-	static let heightTagUser = 40.0
-	static let paddingTagUser = 8.0
 }
 
 struct ChatGroupView: View {
@@ -201,20 +194,8 @@ private extension ChatGroupView {
 
 // MARK: - Color func
 private extension ChatGroupView {
-	var foregroundCrossIcon: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight
-	}
-	
 	var foregroundButtonBack: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
-	}
-	
-	var foregroundTagUser: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight
-	}
-	
-	var backgroundTagUser: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.primaryDefault
 	}
 	
 	var backgroundGradientPrimary: LinearGradient {

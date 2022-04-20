@@ -10,12 +10,6 @@ import Common
 import CommonUI
 
 private enum Constants {
-	static let spacing = 10.0
-	static let padding = 20.0
-	static let sizeImage = 64.0
-	static let radius = 8.0
-	static let heightButton = 30.0
-	static let boder = 2.0
 	static let paddingTagUser = 8.0
 	static let cornerRadiusTagUser = 80.0
 	static let heightTagUser = 40.0
@@ -71,28 +65,8 @@ struct TagView: View {
 
 // MARK: - Private Variables
 private extension TagView {
-	var foregroundColorText: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight
-	}
-
-	var foregroundColorSelect: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.greyLight2
-	}
-
-	var backgroundButton: LinearGradient {
-		colorScheme == .light ? backgroundButtonLight : backgroundButtonDark
-	}
-
-	var backgroundButtonDark: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-	}
-
 	var backgroundTagUser: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.primaryDefault
-	}
-
-	var backgroundButtonLight: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
 	}
 
 	var foregroundTagUser: Color {
