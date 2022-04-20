@@ -19,15 +19,14 @@ struct ContentView: View {
 	}
 	
 	var body: some View {
-//		Group {
-//			if isRunningTests {
-//				Text("Running unit tests")
-//			} else {
-//				LoginView()
-//					.inject(container)
-//			}
-//		}
-		ChatGroupView()
+		Group {
+			if isRunningTests {
+				Text("Running unit tests")
+			} else {
+				LoginView()
+					.inject(container)
+			}
+		}
 	}
 }
 
