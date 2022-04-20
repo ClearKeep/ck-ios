@@ -14,7 +14,6 @@ FOUNDATION_EXPORT const unsigned char NetworkingVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <ChatSecure/PublicHeader.h>
 
 //#import "SignalStoreInMemoryStorage.h"
-#import "CKSignalObject.h"
 #import "CKSignalSession.h"
 #import "CKSignalSignedPreKey.h"
 #import "CKAccountSignalIdentity.h"

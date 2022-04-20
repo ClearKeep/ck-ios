@@ -21,7 +21,7 @@ extension YapDatabaseSecondaryIndexOptions {
 
 extension YapDatabaseSecondaryIndex {
     @objc public static var buddyIndex: YapDatabaseSecondaryIndex {
-        let columns: [String:YapDatabaseSecondaryIndexType] = [
+        let columns: [String: YapDatabaseSecondaryIndexType] = [
             BuddyIndexColumnName.accountKey: .text,
             BuddyIndexColumnName.username: .text
         ]
@@ -29,7 +29,7 @@ extension YapDatabaseSecondaryIndex {
         columns.forEach { (key, value) in
             setup.addColumn(key, with: value)
         }
-        let handler = YapDatabaseSecondaryIndexHandler.withObjectBlock { transaction, dict, collection, key, object in
+        let handler = YapDatabaseSecondaryIndexHandler.withObjectBlock { _, dict, _, _, object in
             guard let buddy = object as? CKBuddy else {
                 return
             }
@@ -53,7 +53,7 @@ extension YapDatabaseSecondaryIndex {
             setup.addColumn(key, with: value)
         }
         
-        let handler = YapDatabaseSecondaryIndexHandler.withObjectBlock { transaction, dict, collection, key, object in
+        let handler = YapDatabaseSecondaryIndexHandler.withObjectBlock { _, dict, _, _, object in
             if let session = object as? CKSignalSession {
                 if session.name.count > 0 {
                     dict[SignalIndexColumnName.session] = session.sessionKey
@@ -78,12 +78,12 @@ extension CKBuddy {
                                    transaction: YapDatabaseReadTransaction) -> CKBuddy? {
         NSLog("WARN: Using slow O(n) lookup for CKBuddy: \(username)")
         var buddy: CKBuddy?
-//        transaction.iterateKeysAndObjects(inCollection: CKBuddy.collection) { _, potentialMatch: CKBuddy, stop in
-//            if potentialMatch.username == username {
-//                buddy = potentialMatch
-//                stop = true
-//            }
-//        }
+        //        transaction.iterateKeysAndObjects(inCollection: CKBuddy.collection) { _, potentialMatch: CKBuddy, stop in
+        //            if potentialMatch.username == username {
+        //                buddy = potentialMatch
+        //                stop = true
+        //            }
+        //        }
         return buddy
     }
     

@@ -6,16 +6,18 @@
 //  Copyright © 2020 Luan Nguyen. All rights reserved.
 //
 
+//swiftlint:disable inclusive_language
+
 import Foundation
 import YapDatabase
 
 @objc public extension CKDatabaseManager {
-    @objc var connections: DatabaseConnections? {
+    var connections: DatabaseConnections? {
         guard let ui = uiConnection,
-        let read = readConnection,
-        let write = writeConnection,
-            let long = longLivedReadOnlyConnection else {
-                return nil
+              let read = readConnection,
+              let write = writeConnection,
+              let long = longLivedReadOnlyConnection else {
+            return nil
         }
         return DatabaseConnections(ui: ui, read: read, write: write, longLivedRead: long)
     }
@@ -35,9 +37,9 @@ public class DatabaseConnections: NSObject {
     public let longLivedRead: YapDatabaseConnection
     
     init(ui: YapDatabaseConnection,
-    read: YapDatabaseConnection,
-    write: YapDatabaseConnection,
-    longLivedRead: YapDatabaseConnection) {
+         read: YapDatabaseConnection,
+         write: YapDatabaseConnection,
+         longLivedRead: YapDatabaseConnection) {
         self.ui = ui
         self.read = read
         self.write = write
@@ -46,15 +48,16 @@ public class DatabaseConnections: NSObject {
 }
 
 extension YapDatabase {
-    
-     @objc func asyncRegisterView(_ grouping:YapDatabaseViewGrouping,
-                                  sorting:YapDatabaseViewSorting,
-                                  version:String, whiteList:Set<String>,
-                                  name:DatabaseExtensionName,
-                                  completionQueue:DispatchQueue?, completionBlock:((Bool) ->Void)?) {
+    @objc func asyncRegisterView(_ grouping: YapDatabaseViewGrouping,
+                                 sorting: YapDatabaseViewSorting,
+                                 version: String,
+                                 whiteList: Set<String>,
+                                 name: DatabaseExtensionName,
+                                 completionQueue: DispatchQueue?,
+                                 completionBlock: ((Bool) -> Void)?) {
         
-        if (self.registeredExtension(name.name()) != nil ) {
-            let queue:DispatchQueue = completionQueue ?? DispatchQueue.main
+        if self.registeredExtension(name.name()) != nil {
+            let queue: DispatchQueue = completionQueue ?? DispatchQueue.main
             if let block = completionBlock {
                 queue.async(execute: { () -> Void in
                     block(true)

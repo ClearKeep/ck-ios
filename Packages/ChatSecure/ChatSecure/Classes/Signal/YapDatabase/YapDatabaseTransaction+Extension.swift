@@ -37,14 +37,13 @@ extension YapDatabaseReadWriteTransaction {
 }
 
 extension YapDatabaseReadTransaction {
-    
-    public func enumerateSessions(accountKey:String, signalAddressName:String, block:@escaping (_ session:CKSignalSession,_ stop: inout Bool) -> Void) {
+    public func enumerateSessions(accountKey: String, signalAddressName: String, block: @escaping (_ session: CKSignalSession, _ stop: inout Bool) -> Void) {
         guard let secondaryIndexTransaction = self.ext(SecondaryIndexName.signal) as? YapDatabaseSecondaryIndexTransaction else {
             return
         }
         let queryString = "Where \(SignalIndexColumnName.session) = ?"
         let query = YapDatabaseQuery(string: queryString, parameters: [CKSignalSession.sessionKey(accountKey: accountKey, name: signalAddressName)])
-        let _ = secondaryIndexTransaction.iterateKeys(matching: query) { (collection, key, stop) -> Void in
+        secondaryIndexTransaction.iterateKeys(matching: query) { collection, key, stop -> Void in
             if let session = self.object(forKey: key, inCollection: collection) as? CKSignalSession {
                 block(session, &stop)
             }
