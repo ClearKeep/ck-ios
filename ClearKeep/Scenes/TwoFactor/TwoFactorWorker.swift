@@ -32,7 +32,7 @@ struct TwoFactorWorker {
 
 extension TwoFactorWorker: ITwoFactorWorker {
 	func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async {
-		<#code#>
+		return await remoteStore.validateOTP(userId: userId, otp: otp, otpHash: otpHash, haskKey: haskKey, domain: currentDomain)
 	}
 
 	var currentDomain: String {

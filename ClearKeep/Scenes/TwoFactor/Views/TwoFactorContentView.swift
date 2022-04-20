@@ -30,24 +30,17 @@ struct TwoFactorContentView: View {
 	@Environment(\.presentationMode) var presentationMode
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
-	@State private(set) var samples: Loadable<[ITwoFactorModel]>
-	@State private(set) var pin: String
+	@State private var pin: String = ""
+	@State private var pinStyle: TextInputStyle = .default
+	@State private var isNext: Bool = false
+	@State private var maxDigits: Int = 4
 	@State var showPin = true
-	@State private(set) var pinStyle: TextInputStyle = .default
-	@State private(set) var isNext: Bool = false
-	@State private(set) var maxDigits: Int
+	@Binding var userId: String
+	@Binding var otp: String
+	@Binding var otpHash: String
+	@Binding var hashKey: String
+	@Binding var domain: String
 	let inspection = ViewInspector<Self>()
-
-	// MARK: - Init
-	public init(samples: Loadable<[ITwoFactorModel]> = .notRequested,
-				pin: String = "",
-				maxDigits: Int = 4,
-				pinStyle: TextInputStyle = .default,
-				keyboardType: UIKeyboardType = .numberPad) {
-		self._samples = .init(initialValue: samples)
-		self._pin = .init(initialValue: pin)
-		self._maxDigits = .init(initialValue: maxDigits)
-	}
 
 	// MARK: - Body
 	var body: some View {
@@ -79,19 +72,20 @@ private extension TwoFactorContentView {
 			}
 			resendCodeTitle.padding(.top, Constant.paddingVertical)
 			buttonResend.padding(.bottom, Constant.paddingVertical)
-			buttonSocial
+			buttonVerify
 			Spacer()
 		}
 		.padding(.horizontal, Constant.paddingVertical)
 	}
 
-	var buttonSocial: some View {
+	var buttonVerify: some View {
 		NavigationLink(
 			destination: LoginView(),
 			isActive: $isNext,
 			label: {
 				Button("2FA.Verify".localized) {
 					isNext = true
+					doTwoFactor()
 				}
 				.frame(maxWidth: .infinity)
 				.frame(height: Constant.heightButton)
@@ -186,6 +180,12 @@ private extension TwoFactorContentView {
 			return ""
 		}
 		return self.pin.digits[index].numberString
+	}
+
+	func doTwoFactor() {
+		Task {
+			await injected.interactors.twoFactorInteractor.validateOTP(userId: userId, otp: otp, otpHash: otpHash, haskKey: hashKey, domain: domain)
+		}
 	}
 }
 
@@ -291,6 +291,6 @@ struct TextFieldLimitModifer: ViewModifier {
 
 struct TwoFactorContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		TwoFactorContentView()
+		TwoFactorContentView(userId: .constant("Test"), otp: .constant("Test"), otpHash: .constant("Test"), hashKey: .constant("Test"), domain: .constant("Test"))
 	}
 }
