@@ -37,7 +37,7 @@ type_body_length:
   error: 800
 
 file_length:
-  warning: 400
+  warning: 500
   error: 800
 
 function_body_length:
@@ -64,6 +64,7 @@ identifier_name:
     - kg
     - on
     - iv
+    - ui
 
 cyclomatic_complexity:
   ignores_case_statements: true

@@ -35,6 +35,9 @@ struct LoginContentView: View {
 	@State private var appVersion: String = "General.Version".localized
 	@State private var editingEmail = false
 	@State private var editingPassword = false
+	@State private var isAdvanceServer: Bool = false
+	@State private var isForgotPassword: Bool = false
+	@State private var isRegister: Bool = false
 	
 	// MARK: - Body
 	var body: some View {
@@ -119,17 +122,31 @@ private extension LoginContentView {
 	
 	var extraButtonView: some View {
 		HStack {
-			Button("Login.AdvancedServerSettings".localized) {}
-			.padding()
-			.font(fontSignIn)
-			.foregroundColor(foregroundColorViewButton)
+			NavigationLink(destination: AdvancedSeverView(),
+						   isActive: $isAdvanceServer,
+						   label: {
+				Button(action: advancedServer,
+					   label: {
+					Text("Login.AdvancedServerSettings".localized)
+				})
+					.padding()
+					.font(fontSignIn)
+					.foregroundColor(foregroundColorViewButton)
+			})
 			
 			Spacer()
 			
-			Button("Login.ForgotPassword?".localized) {}
-			.padding()
-			.font(fontSignIn)
-			.foregroundColor(foregroundColorViewButton)
+			NavigationLink(destination: FogotPasswordView(),
+						   isActive: $isForgotPassword,
+						   label: {
+				Button(action: forgotPassword,
+					   label: {
+					Text("Login.ForgotPassword".localized)
+				})
+					.padding()
+					.font(fontSignIn)
+					.foregroundColor(foregroundColorViewButton)
+			})
 		}
 	}
 	
@@ -177,14 +194,21 @@ private extension LoginContentView {
 			
 			Spacer(minLength: Constant.spacer)
 			
-			Button("Login.SignUp".localized) {}
-			.frame(maxWidth: .infinity)
-			.frame(height: Constant.heightButton)
-			.font(fontSignIn)
-			.foregroundColor(foregroundColorViewButton)
-			.overlay(
-				RoundedRectangle(cornerRadius: Constant.radius)
-					.stroke(foregroundColorViewButton, lineWidth: Constant.lineWidthBorder))
+			NavigationLink(destination: RegisterView(),
+						   isActive: $isRegister,
+						   label: {
+				Button(action: register,
+					   label: {
+					Text("Login.SignUp".localized)
+				})
+					.frame(maxWidth: .infinity)
+					.frame(height: Constant.heightButton)
+					.font(fontSignIn)
+					.foregroundColor(foregroundColorViewButton)
+					.overlay(
+						RoundedRectangle(cornerRadius: Constant.radius)
+							.stroke(foregroundColorViewButton, lineWidth: Constant.lineWidthBorder))
+			})
 			
 			Spacer(minLength: Constant.spacerBottomView)
 			
@@ -257,6 +281,18 @@ private extension LoginContentView {
 		Task {
 			await injected.interactors.loginInteractor.signIn(email: email, password: password)
 		}
+	}
+
+	func advancedServer() {
+		isAdvanceServer = true
+	}
+
+	func forgotPassword() {
+		isForgotPassword = true
+	}
+
+	func register() {
+		isRegister = true
 	}
 }
 
