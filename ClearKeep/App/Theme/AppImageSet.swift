@@ -32,7 +32,7 @@ struct AppImageSet: IAppImageSet {
 	var phoneOffIcon: Image { Image("ic_phone_off") }
 	var microphoneOffIcon: Image { Image("ic_microphone_off") }
 	var messageCricleIcon: Image { Image("ic_message_circle") }
-	var crossIcon: Image { Image("ic_cross") }
+	var crossIcon: Image { Image("ic_cross").renderingMode(.template) }
 	var dotVerticalIcon: Image { Image("ic_dots_vertical") }
 	var dotIcon: Image { Image("ic_dots") }
 	var emoticonIcon: Image { Image("ic_emoticon") }

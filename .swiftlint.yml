@@ -64,6 +64,7 @@ identifier_name:
     - kg
     - on
     - iv
+    - ui
 
 cyclomatic_complexity:
   ignores_case_statements: true

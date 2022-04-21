@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol IVideoCallAPIService {
+public protocol IVideoCallAPIService {
 	func videoCall(_ request: VideoCall_VideoCallRequest) async -> Result<VideoCall_ServerResponse, Error>
 	func updateCall(_ request: VideoCall_UpdateCallRequest) async -> Result<VideoCall_BaseResponse, Error>
 	func workspaceVideoCall(_ request: VideoCall_WorkspaceVideoCallRequest) async -> Result<VideoCall_ServerResponse, Error>
@@ -15,7 +15,7 @@ protocol IVideoCallAPIService {
 }
 
 extension APIService: IVideoCallAPIService {
-	func videoCall(_ request: VideoCall_VideoCallRequest) async -> Result<VideoCall_ServerResponse, Error> {
+	public func videoCall(_ request: VideoCall_VideoCallRequest) async -> Result<VideoCall_ServerResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			let status = clientVideoCall.video_call(request).status
 			let response = clientVideoCall.video_call(request).response
@@ -37,7 +37,7 @@ extension APIService: IVideoCallAPIService {
 		})
 	}
 	
-	func updateCall(_ request: VideoCall_UpdateCallRequest) async -> Result<VideoCall_BaseResponse, Error> {
+	public func updateCall(_ request: VideoCall_UpdateCallRequest) async -> Result<VideoCall_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			let status = clientVideoCall.update_call(request).status
 			let response = clientVideoCall.update_call(request).response
@@ -59,7 +59,7 @@ extension APIService: IVideoCallAPIService {
 		})
 	}
 	
-	func workspaceVideoCall(_ request: VideoCall_WorkspaceVideoCallRequest) async -> Result<VideoCall_ServerResponse, Error> {
+	public func workspaceVideoCall(_ request: VideoCall_WorkspaceVideoCallRequest) async -> Result<VideoCall_ServerResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			let status = clientVideoCall.workspace_video_call(request).status
 			let response = clientVideoCall.workspace_video_call(request).response
@@ -81,7 +81,7 @@ extension APIService: IVideoCallAPIService {
 		})
 	}
 	
-	func workspaceUpdateCall(_ request: VideoCall_WorkspaceUpdateCallRequest) async -> Result<VideoCall_BaseResponse, Error> {
+	public func workspaceUpdateCall(_ request: VideoCall_WorkspaceUpdateCallRequest) async -> Result<VideoCall_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			let status = clientVideoCall.workspace_update_call(request).status
 			let response = clientVideoCall.workspace_update_call(request).response

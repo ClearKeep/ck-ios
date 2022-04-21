@@ -7,14 +7,14 @@
 
 import Foundation
 
-protocol INotifyPushAPIService {
+public protocol INotifyPushAPIService {
 	func registerToken(_ request: NotifyPush_RegisterTokenRequest) async -> Result<NotifyPush_BaseResponse, Error>
 	func pushText(_ request: NotifyPush_PushTextRequest) async -> Result<NotifyPush_BaseResponse, Error>
 	func pushVoip(_ request: NotifyPush_PushVoipRequest) async -> Result<NotifyPush_BaseResponse, Error>
 }
 
 extension APIService: INotifyPushAPIService {
-	func registerToken(_ request: NotifyPush_RegisterTokenRequest) async -> Result<NotifyPush_BaseResponse, Error> {
+	public func registerToken(_ request: NotifyPush_RegisterTokenRequest) async -> Result<NotifyPush_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			let response = clientNotifyPush.register_token(request).response
 			let status = clientNotifyPush.register_token(request).status
@@ -35,7 +35,7 @@ extension APIService: INotifyPushAPIService {
 		})
 	}
 	
-	func pushText(_ request: NotifyPush_PushTextRequest) async -> Result<NotifyPush_BaseResponse, Error> {
+	public func pushText(_ request: NotifyPush_PushTextRequest) async -> Result<NotifyPush_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			let response = clientNotifyPush.push_text(request).response
 			let status = clientNotifyPush.push_text(request).status
@@ -56,7 +56,7 @@ extension APIService: INotifyPushAPIService {
 		})
 	}
 	
-	func pushVoip(_ request: NotifyPush_PushVoipRequest) async -> Result<NotifyPush_BaseResponse, Error> {
+	public func pushVoip(_ request: NotifyPush_PushVoipRequest) async -> Result<NotifyPush_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			let response = clientNotifyPush.push_voip(request).response
 			let status = clientNotifyPush.push_voip(request).status
