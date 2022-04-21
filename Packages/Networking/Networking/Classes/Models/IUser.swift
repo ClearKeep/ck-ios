@@ -14,6 +14,5 @@ public protocol IUser {
 
 public protocol IOwner {
 	var clientId: String { get }
-	var clientUserName: String { get }
 	var domain: String { get }
 }

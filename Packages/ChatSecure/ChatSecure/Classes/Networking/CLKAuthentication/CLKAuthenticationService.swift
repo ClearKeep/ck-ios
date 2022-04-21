@@ -71,7 +71,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		
 		var transitionId = keyHelper.generateRegistrationId()
 		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
-		peerRegisterClientKeyRequest.deviceID = Int32(Constants.senderDeviceId)
+		peerRegisterClientKeyRequest.deviceID = Int32(channelStorage.config.senderDeviceId)
 		peerRegisterClientKeyRequest.registrationID = Int32(bitPattern: transitionId)
 		peerRegisterClientKeyRequest.identityKeyPublic = key.publicKey
 		peerRegisterClientKeyRequest.preKey = preKeyData
@@ -159,7 +159,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		
 		var transitionId = keyHelper.generateRegistrationId()
 		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
-		peerRegisterClientKeyRequest.deviceID = Int32(Constants.senderDeviceId)
+		peerRegisterClientKeyRequest.deviceID = Int32(channelStorage.config.senderDeviceId)
 		peerRegisterClientKeyRequest.registrationID = Int32(bitPattern: transitionId)
 		peerRegisterClientKeyRequest.identityKeyPublic = key.publicKey
 		peerRegisterClientKeyRequest.preKey = preKeyData
@@ -242,7 +242,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		
 		var transitionId = keyHelper.generateRegistrationId()
 		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
-		peerRegisterClientKeyRequest.deviceID = Int32(Constants.senderDeviceId)
+		peerRegisterClientKeyRequest.deviceID = Int32(channelStorage.config.senderDeviceId)
 		peerRegisterClientKeyRequest.registrationID = Int32(bitPattern: transitionId)
 		peerRegisterClientKeyRequest.identityKeyPublic = key.publicKey
 		peerRegisterClientKeyRequest.preKey = preKeyData
@@ -295,7 +295,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		
 		var transitionId = keyHelper.generateRegistrationId()
 		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
-		peerRegisterClientKeyRequest.deviceID = Int32(Constants.senderDeviceId)
+		peerRegisterClientKeyRequest.deviceID = Int32(channelStorage.config.senderDeviceId)
 		peerRegisterClientKeyRequest.registrationID = Int32(bitPattern: transitionId)
 		peerRegisterClientKeyRequest.identityKeyPublic = key.publicKey
 		peerRegisterClientKeyRequest.preKey = preKeyData

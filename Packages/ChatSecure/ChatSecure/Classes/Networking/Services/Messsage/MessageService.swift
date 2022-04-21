@@ -13,16 +13,16 @@ import YapDatabase
 
 protocol IMessageService {
 	func sendMessageInPeer(senderId: String,
-						   ownerWorkspace: String,
+						   senderWorkspace: String,
 						   receiverId: String,
-						   receiverWorkSpaceDomain: String,
+						   receiverWorkSpace: String,
 						   groupId: Int64,
 						   plainMessage: String,
 						   isForceProcessKey: Bool,
 						   cachedMessageId: Int) async
 	
 	func sendMessageInGroup(senderId: String,
-							ownerWorkspace: String,
+							senderWorkspace: String,
 							receiverId: String,
 							groupId: Int64,
 							plainMessage: String,
@@ -32,6 +32,7 @@ protocol IMessageService {
 class MessageService {
 	var clientStore: ClientStore
 	var connectionDb: YapDatabaseConnection?
+	private(set) var isLatestPeerSignalKeyProcessed: Bool = false
 	
 	public init() {
 		clientStore = ClientStore()
@@ -40,28 +41,88 @@ class MessageService {
 }
 
 extension MessageService: IMessageService {
-	func sendMessageInPeer(senderId: String, ownerWorkspace: String, receiverId: String, receiverWorkSpaceDomain: String, groupId: Int64, plainMessage: String, isForceProcessKey: Bool, cachedMessageId: Int) async {
+	func sendMessageInPeer(senderId: String, senderWorkspace: String, receiverId: String, receiverWorkSpace: String, groupId: Int64, plainMessage: String, isForceProcessKey: Bool, cachedMessageId: Int) async {
 		if isForceProcessKey {
-			let isSuccess = await requestKeyPeer(byClientId: receiverId, workspaceDomain: receiverWorkSpaceDomain)
-			
+			let isSuccess = await requestKeyPeer(by: receiverId, workspaceDomain: receiverWorkSpace)
 			if isSuccess {
-				await sendMessageInPeer(senderId: senderId, ownerWorkspace: ownerWorkspace, receiverId: receiverId, receiverWorkSpaceDomain: receiverWorkSpaceDomain, groupId: groupId, plainMessage: plainMessage, isForceProcessKey: false, cachedMessageId: cachedMessageId)
+				await sendMessageInPeer(senderId: senderId, senderWorkspace: senderWorkspace, receiverId: receiverId, receiverWorkSpace: receiverWorkSpace, groupId: groupId, plainMessage: plainMessage, isForceProcessKey: false, cachedMessageId: cachedMessageId)
 			} else {
 				Debug.DLog("Send message fail - Can't request key peer")
 				return
 			}
-			
 			return
+		}
+		
+		let plainMessage = plainMessage.trimmingCharacters(in: .whitespacesAndNewlines)
+		
+		guard !plainMessage.isEmpty, let payload = plainMessage.data(using: .utf8) else {
+			return
+		}
+		
+		let receiverSignalAddress = CKSignalProtocolAddress(owner: Owner(clientId: receiverId, domain: receiverWorkSpace), deviceId: channelStorage.config.senderDeviceId)
+		let senderSignalAddress = CKSignalProtocolAddress(owner: Owner(clientId: senderId, domain: senderWorkspace), deviceId: channelStorage.config.senderDeviceId)
+		
+		do {
+			guard
+				let receiverSessionCipher = try CKSignalCoordinate.shared.ourEncryptionManager?.encryptToAddress(payload,
+																												 address: receiverSignalAddress),
+				let senderSessionCipher = try CKSignalCoordinate.shared.ourEncryptionManager?.encryptToAddress(payload,
+																											   address: senderSignalAddress) else
+			{ return }
+			
+			var request = Message_PublishRequest()
+			request.clientID = receiverId
+			request.fromClientDeviceID = clientStore.getUniqueDeviceId()
+			request.groupID = groupId
+			request.message = receiverSessionCipher.data
+			request.senderMessage = senderSessionCipher.data
+			
+			let response = await channelStorage.getChannels(domain: senderWorkspace).sendMessage(request)
+			switch response {
+			case .success(let message):
+				print(message)
+			case .failure(let error):
+				Debug.DLog("Send message fail - \(error.localizedDescription)")
+			}
+		} catch {
+			Debug.DLog("Send message fail - \(error.localizedDescription)")
 		}
 	}
 	
-	func sendMessageInGroup(senderId: String, ownerWorkspace: String, receiverId: String, groupId: Int64, plainMessage: String, cachedMessageId: Int) async {
+	func sendMessageInGroup(senderId: String, senderWorkspace: String, receiverId: String, groupId: Int64, plainMessage: String, cachedMessageId: Int) async {
+		let plainMessage = plainMessage.trimmingCharacters(in: .whitespacesAndNewlines)
 		
+		guard !plainMessage.isEmpty, let payload = plainMessage.data(using: .utf8) else {
+			return
+		}
+		
+		let senderSignalAddress = CKSignalProtocolAddress(owner: Owner(clientId: senderId, domain: senderWorkspace), deviceId: channelStorage.config.senderDeviceId)
+		
+		do {
+			guard let senderSessionCipher = try CKSignalCoordinate.shared.ourEncryptionManager?.encryptToGroup(payload,
+																										 groupId: groupId,
+																										 address: senderSignalAddress) else { return }
+			var request = Message_PublishRequest()
+			request.fromClientDeviceID = clientStore.getUniqueDeviceId()
+			request.groupID = groupId
+			request.message = senderSessionCipher.data
+			request.senderMessage = senderSessionCipher.data
+			
+			let response = await channelStorage.getChannels(domain: senderWorkspace).sendMessage(request)
+			switch response {
+			case .success(let message):
+				print(message)
+			case .failure(let error):
+				Debug.DLog("Send message fail - \(error.localizedDescription)")
+			}
+		} catch {
+			Debug.DLog("Send message error: \(error) to group \(groupId)")
+		}
 	}
 }
 
 private extension MessageService {
-	func requestKeyPeer(byClientId clientId: String, workspaceDomain: String) async -> Bool {
+	func requestKeyPeer(by clientId: String, workspaceDomain: String) async -> Bool {
 		var request = Signal_PeerGetClientKeyRequest()
 		request.clientID = clientId
 		request.workspaceDomain = workspaceDomain

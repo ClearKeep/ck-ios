@@ -122,18 +122,15 @@ extension CKAccountSignalEncryptionManager {
 		return nil
 	}
 	
-	public func sessionRecordExistsForUsername(_ username: String, deviceId: Int32) -> Bool {
-		let address = SignalAddress(name: username.lowercased(), deviceId: deviceId)
+	public func sessionRecordExistsForUsername(_ address: SignalAddress) -> Bool {
 		return self.storage.sessionRecordExists(for: address)
 	}
 	
-	public func removeSessionRecordForUsername(_ username: String, deviceId: Int32) -> Bool {
-		let address = SignalAddress(name: username.lowercased(), deviceId: deviceId)
+	public func removeSessionRecordForUsername(_ address: SignalAddress) -> Bool {
 		return self.storage.deleteSessionRecord(for: address)
 	}
 	
-	public func senderKeyExistsForUsername(_ username: String, deviceId: Int32, groupId: Int64) -> Bool {
-		let address = SignalAddress(name: username.lowercased(), deviceId: deviceId)
+	public func senderKeyExistsForUsername(_ address: SignalAddress, groupId: Int64) -> Bool {
 		let senderKeyName = SignalSenderKeyName(groupId: String(groupId), address: address)
 		return self.storage.senderKeyExists(for: senderKeyName)
 	}
@@ -149,14 +146,12 @@ extension CKAccountSignalEncryptionManager {
 		return try sessionBuilder.processPreKeyBundle(signalPreKeyBundle)
 	}
 	
-	public func encryptToAddress(_ data: Data, name: String, deviceId: Int32) throws -> SignalCiphertext {
-		let address = SignalAddress(name: name.lowercased(), deviceId: deviceId)
+	public func encryptToAddress(_ data: Data, address: SignalAddress) throws -> SignalCiphertext {
 		let sessionCipher = SignalSessionCipher(address: address, context: self.signalContext)
 		return try sessionCipher.encryptData(data)
 	}
 	
-	public func decryptFromAddress(_ data: Data, name: String, deviceId: Int32) throws -> Data {
-		let address = SignalAddress(name: name.lowercased(), deviceId: deviceId)
+	public func decryptFromAddress(_ data: Data, address: SignalAddress) throws -> Data {
 		let sessionCipher = SignalSessionCipher(address: address, context: self.signalContext)
 		let cipherText = SignalCiphertext(data: data, type: .preKeyMessage)
 		return try sessionCipher.decryptCiphertext(cipherText)
@@ -175,15 +170,13 @@ extension CKAccountSignalEncryptionManager {
 		return try sessionBuilder.processSession(with: senderKeyName, skdm: signalSKDM)
 	}
 	
-	public func encryptToGroup(_ data: Data, groupId: Int64, name: String, deviceId: Int32) throws -> SignalCiphertext {
-		let address = SignalAddress(name: name.lowercased(), deviceId: deviceId)
+	public func encryptToGroup(_ data: Data, groupId: Int64, address: SignalAddress) throws -> SignalCiphertext {
 		let senderKeyName = SignalSenderKeyName(groupId: String(groupId), address: address)
 		let groupCipher = SignalGroupCipher(senderKeyName: senderKeyName, context: self.signalContext)
 		return try groupCipher.encryptData(data)
 	}
 	
-	public func decryptFromGroup(_ data: Data, groupId: Int64, name: String, deviceId: Int32) throws -> Data {
-		let address = SignalAddress(name: name.lowercased(), deviceId: deviceId)
+	public func decryptFromGroup(_ data: Data, groupId: Int64, address: SignalAddress) throws -> Data {
 		let senderKeyName = SignalSenderKeyName(groupId: String(groupId), address: address)
 		
 		let groupCipher = SignalGroupCipher(senderKeyName: senderKeyName, context: self.signalContext)
