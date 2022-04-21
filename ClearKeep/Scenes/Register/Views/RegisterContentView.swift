@@ -9,7 +9,8 @@ import SwiftUI
 import CommonUI
 
 private enum Constants {
-	static let radius = 20.0
+	static let radius = 16.0
+	static let radiusButton = 20.0
 	static let sapcing = 20.0
 	static let padding = 10.0
 }
@@ -17,6 +18,7 @@ private enum Constants {
 struct RegisterContentView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
+	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Binding var email: String
 	@Binding var password: String
 	@Binding var displayname: String
@@ -28,44 +30,53 @@ struct RegisterContentView: View {
 
 	// MARK: - Body
 	var body: some View {
-		GroupBox(label:
-					Text("Register.Title".localized)
-					.font(AppTheme.shared.fontSet.font(style: .body1))
-					.frame(maxWidth: .infinity, alignment: .leading)
-					.padding(.all, Constants.padding)) {
-			VStack(alignment: .center, spacing: Constants.sapcing) {
-				nomalTextfield
-				secureTexfield
-				button
-			}
-			.frame(maxWidth: .infinity, alignment: .center)
+		VStack(alignment: .center, spacing: Constants.sapcing) {
+			Text("Register.Title".localized)
+			.font(AppTheme.shared.fontSet.font(style: .body1))
+			.frame(maxWidth: .infinity, alignment: .leading)
 			.padding(.all, Constants.padding)
+			nomalTextfield
+			secureTexfield
+			button
 		}
+		.padding(.all, Constants.padding)
+		.background(RoundedRectangle(cornerRadius: Constants.radius).fill(backgroundColorView))
+		.frame(maxWidth: .infinity, alignment: .center)
 	}
 }
 
 // MARK: - Private variables
 private extension RegisterContentView {
-	var backgroundColorView: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: backgroundColorButton), startPoint: .leading, endPoint: .trailing)
+	var backgroundColorButton: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
-	
-	var backgroundColorButton: [Color] {
-		AppTheme.shared.colorSet.gradientPrimary
+
+	var backgroundColorView: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey6
 	}
-	
+
 	var foregroundColorWhite: Color {
 		AppTheme.shared.colorSet.offWhite
 	}
-	
+
 	var foregroundColorPrimary: Color {
 		AppTheme.shared.colorSet.primaryDefault
 	}
 }
 
+// MARK: - Private func
+private extension RegisterContentView {
+	func customBack() {
+		self.presentationMode.wrappedValue.dismiss()
+	}
+
+	func register() {
+
+	}
+}
 // MARK: - Private
 private extension RegisterContentView {
-	
+
 	var button: AnyView {
 		AnyView(buttonView)
 	}
@@ -83,27 +94,31 @@ private extension RegisterContentView {
 private extension RegisterContentView {
 	var buttonView: some View {
 		HStack {
-			Button("Register.SignInInstead".localized) {
+			Button(action: customBack) {
+				Text("Register.SignInInstead".localized)
+					.padding(.all)
+					.font(AppTheme.shared.fontSet.font(style: .body4))
+					.foregroundColor(foregroundColorPrimary)
 			}
-			.foregroundColor(foregroundColorPrimary)
 			Spacer()
-			Button("Register.SignUp".localized) {
+			Button(action: register) {
+				Text("Register.SignUp".localized)
+					.padding(.vertical, Constants.padding)
+					.padding(.horizontal, 40)
+					.background(backgroundColorButton)
+					.foregroundColor(foregroundColorWhite)
+
 			}
-			.frame(maxWidth: .infinity, alignment: .center)
-			.padding(.all, Constants.padding)
-			.background(backgroundColorView)
-			.foregroundColor(foregroundColorWhite)
-			.cornerRadius(Constants.radius)
+			.cornerRadius(Constants.radiusButton)
 		}
 	}
-	
 	var secureView: some View {
 		VStack(spacing: Constants.sapcing) {
 			SecureTextField(secureText: $password,
 							inputStyle: $passwordStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "General.Password".localized,
-							keyboardType: .default )
+							keyboardType: .default)
 			SecureTextField(secureText: $rePassword,
 							inputStyle: $rePasswordStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
@@ -111,7 +126,7 @@ private extension RegisterContentView {
 							keyboardType: .default )
 		}
 	}
-	
+
 	var nomalTextfieldView: some View {
 		VStack(spacing: Constants.sapcing) {
 			CommonTextField(text: $email,
@@ -121,15 +136,15 @@ private extension RegisterContentView {
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
 				if isEditing {
-					emailStyle = .default
+					emailStyle = .highlighted
 				} else {
 					emailStyle = .normal
 				}
 			})
 			CommonTextField(text: $displayname,
 							inputStyle: $nameStyle,
-							inputIcon: AppTheme.shared.imageSet.userIcon,
-							placeHolder: "General.Displayname".localized,
+							inputIcon: AppTheme.shared.imageSet.userCheckIcon,
+							placeHolder: "General.DisplayName".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
 				if isEditing {

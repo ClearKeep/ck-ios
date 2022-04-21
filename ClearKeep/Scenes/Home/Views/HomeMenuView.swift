@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Common
+import CommonUI
 
 private enum Constants {
 	static let radius = 40.0
@@ -28,25 +30,18 @@ struct HomeMenuView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
-	@State private(set) var userName: String
-	@State private(set) var urlString: String
-	@State private(set) var isExpand: Bool
-	@State private(set) var isShow: Bool
+	@State private(set) var userName: String = "Test"
+	@State private(set) var urlString: String = "Test"
+	@State private(set) var isExpand: Bool = false
+	@State private(set) var isShow: Bool = false
 	@State private(set) var isChangeStatus: Bool = true
 	@Binding var isMenuAction: Bool
+	@State private(set) var isUserProfile: Bool = false
+	@State private(set) var isSever: Bool = false
+	@State private(set) var isNotification: Bool = false
 
 	// MARK: - Init
-	init(userName: String = "",
-		 urlString: String = "",
-		 isExpand: Bool,
-		 isShow: Bool,
-		 isChangeStatus: Bool,
-		 isMenuAction: Binding<Bool>) {
-		self._userName = .init(initialValue: userName)
-		self._urlString = .init(initialValue: urlString)
-		self._isExpand = .init(initialValue: isExpand)
-		self._isShow = .init(initialValue: isShow)
-		self._isChangeStatus = .init(initialValue: isChangeStatus)
+	init(isMenuAction: Binding<Bool>) {
 		self._isMenuAction = isMenuAction
 	}
 
@@ -55,6 +50,7 @@ struct HomeMenuView: View {
 		content
 			.background(backgroundColorView.opacity(0.9))
 			.edgesIgnoringSafeArea(.all)
+			.modifier(NavigationModifier())
 	}
 }
 
@@ -159,7 +155,7 @@ private extension HomeMenuView {
 	}
 
 	func signOut() {
-
+		self.presentationMode.wrappedValue.dismiss()
 	}
 
 	func chooseAction() {
@@ -168,15 +164,15 @@ private extension HomeMenuView {
 	}
 
 	func profileAction() {
-
+		isUserProfile = true
 	}
 
 	func severAction() {
-
+		isSever = true
 	}
 
 	func notificationAction() {
-
+		isNotification = true
 	}
 }
 
@@ -187,7 +183,6 @@ private extension HomeMenuView {
 			Button(action: menuAction) {
 				AppTheme.shared.imageSet.crossIcon
 					.resizable()
-					.renderingMode(.template)
 					.aspectRatio(contentMode: .fit)
 					.frame(width: Constants.sizeDisable, height: Constants.sizeDisable)
 					.foregroundColor(foregroundButton)
@@ -196,15 +191,14 @@ private extension HomeMenuView {
 			.padding(.trailing, Constants.padding)
 			profile
 			Divider()
+				.background(foregroundButton)
 			list
-				.padding(.top, Constants.padding)
 			Spacer()
 			Button(action: signOut) {
 				HStack {
 					Spacer()
 					AppTheme.shared.imageSet.logoutIcon
 						.resizable()
-						.renderingMode(.template)
 						.aspectRatio(contentMode: .fit)
 						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 						.padding(.all, Constants.padding)
@@ -240,7 +234,7 @@ private extension HomeMenuView {
 					.foregroundColor(foregroundStatusView)
 			}
 			status
-				.padding()
+				.padding(.horizontal)
 		}
 	}
 
@@ -256,7 +250,6 @@ private extension HomeMenuView {
 						.foregroundColor(foregroundStatusView)
 					AppTheme.shared.imageSet.chevDownIcon
 						.resizable()
-						.renderingMode(.template)
 						.aspectRatio(contentMode: .fit)
 						.frame(width: Constants.expandWidth, height: Constants.expandHeight)
 						.foregroundColor(foregroundButton)
@@ -271,7 +264,6 @@ private extension HomeMenuView {
 					Button(action: copyAction) {
 						AppTheme.shared.imageSet.copyIcon
 							.resizable()
-							.renderingMode(.template)
 							.aspectRatio(contentMode: .fit)
 							.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 							.foregroundColor(foregroundButtonCoppy)
@@ -316,51 +308,63 @@ private extension HomeMenuView {
 
 	var listView: some View {
 		VStack {
-			Button(action: profileAction) {
-				HStack {
-					AppTheme.shared.imageSet.userIcon
-						.resizable()
-						.renderingMode(.template)
-						.aspectRatio(contentMode: .fit)
-						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
-						.padding(.all, Constants.padding)
-						.foregroundColor(foregroundText)
-					Text("Home.Profile".localized)
-						.font(AppTheme.shared.fontSet.font(style: .body3))
-						.foregroundColor(foregroundText)
-					Spacer()
-				}
-			}
-			Button(action: severAction) {
-				HStack {
-					AppTheme.shared.imageSet.adjustmentIcon
-						.resizable()
-						.renderingMode(.template)
-						.aspectRatio(contentMode: .fit)
-						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
-						.padding(.all, Constants.padding)
-						.foregroundColor(foregroundText)
-					Text("Home.Sever".localized)
-						.font(AppTheme.shared.fontSet.font(style: .body3))
-						.foregroundColor(foregroundText)
-					Spacer()
-				}
-			}
-			Button(action: notificationAction) {
-				HStack {
-					AppTheme.shared.imageSet.notificationIcon
-						.resizable()
-						.renderingMode(.template)
-						.aspectRatio(contentMode: .fit)
-						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
-						.padding(.all, Constants.padding)
-						.foregroundColor(foregroundText)
-					Text("General.Notification".localized)
-						.font(AppTheme.shared.fontSet.font(style: .body3))
-						.foregroundColor(foregroundText)
-					Spacer()
-				}
-			}
+			NavigationLink(
+				destination: UserProfileContentView(),
+				isActive: $isUserProfile,
+				label: {
+					Button(action: profileAction) {
+						HStack {
+							AppTheme.shared.imageSet.userIcon
+								.resizable()
+								.aspectRatio(contentMode: .fit)
+								.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+								.padding(.all, Constants.padding)
+								.foregroundColor(foregroundText)
+							Text("Home.Profile".localized)
+								.font(AppTheme.shared.fontSet.font(style: .body3))
+								.foregroundColor(foregroundText)
+							Spacer()
+						}
+					}
+				})
+			NavigationLink(
+				destination: SettingServerView(),
+				isActive: $isSever,
+				label: {
+					Button(action: severAction) {
+						HStack {
+							AppTheme.shared.imageSet.adjustmentIcon
+								.resizable()
+								.aspectRatio(contentMode: .fit)
+								.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+								.padding(.all, Constants.padding)
+								.foregroundColor(foregroundText)
+							Text("Home.Server".localized)
+								.font(AppTheme.shared.fontSet.font(style: .body3))
+								.foregroundColor(foregroundText)
+							Spacer()
+						}
+					}
+				})
+			NavigationLink(
+				destination: NotificationView(),
+				isActive: $isNotification,
+				label: {
+					Button(action: notificationAction) {
+						HStack {
+							AppTheme.shared.imageSet.notificationIcon
+								.resizable()
+								.aspectRatio(contentMode: .fit)
+								.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+								.padding(.all, Constants.padding)
+								.foregroundColor(foregroundText)
+							Text("General.Notification".localized)
+								.font(AppTheme.shared.fontSet.font(style: .body3))
+								.foregroundColor(foregroundText)
+							Spacer()
+						}
+					}
+				})
 		}
 	}
 }
@@ -369,7 +373,7 @@ private extension HomeMenuView {
 #if DEBUG
 struct HomeMenuView_Previews: PreviewProvider {
 	static var previews: some View {
-		HomeMenuView(userName: "Test", urlString: "test", isExpand: false, isShow: true, isChangeStatus: true, isMenuAction: .constant(false))
+		HomeMenuView(isMenuAction: .constant(false))
 	}
 }
 #endif
