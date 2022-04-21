@@ -215,18 +215,17 @@ extension SignalInMemoryStore {
 	 * Store a serialized sender key record for a given
 	 * (groupId + senderId + deviceId) tuple.
 	 */
-	func storeSenderKey(_ senderKey: Data, address: SignalAddress, groupId: String) -> Bool {
-		let key = key(for: address, groupId: groupId)
+	func storeSenderKey(_ senderKey: Data, senderKeyName: SignalSenderKeyName) -> Bool {
+		let key = key(for: senderKeyName.address, groupId: senderKeyName.groupId)
 		senderKeyStore[key] = senderKey
 		return true
 	}
 	
 	/**
 	 * Returns a copy of the sender key record corresponding to the
-	 * (groupId + senderId + deviceId) tuple.
 	 */
-	func loadSenderKey(for address: SignalAddress, groupId: String) -> Data? {
-		let key = key(for: address, groupId: groupId)
+	func loadSenderKey(for senderKeyName: SignalSenderKeyName) -> Data? {
+		let key = key(for: senderKeyName.address, groupId: senderKeyName.groupId)
 		return senderKeyStore[key]
 	}
 }

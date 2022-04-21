@@ -7,13 +7,13 @@
 
 import Foundation
 
-protocol IServerInfoAPIService {
+public protocol IServerInfoAPIService {
 	func updateNts(_ request: ServerInfo_UpdateNTSReq) async -> Result<ServerInfo_BaseResponse, Error>
 	func totalThread(_ request: ServerInfo_Empty) async -> Result<ServerInfo_GetThreadResponse, Error>
 }
 
 extension APIService: IServerInfoAPIService {
-	func updateNts(_ request: ServerInfo_UpdateNTSReq) async -> Result<ServerInfo_BaseResponse, Error> {
+	public func updateNts(_ request: ServerInfo_UpdateNTSReq) async -> Result<ServerInfo_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			let response = clientServerInfo.update_nts(request).response
 			let status = clientServerInfo.update_nts(request).status
@@ -34,7 +34,7 @@ extension APIService: IServerInfoAPIService {
 		})
 	}
 	
-	func totalThread(_ request: ServerInfo_Empty) async -> Result<ServerInfo_GetThreadResponse, Error> {
+	public func totalThread(_ request: ServerInfo_Empty) async -> Result<ServerInfo_GetThreadResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			let response = clientServerInfo.total_thread(request).response
 			let status = clientServerInfo.total_thread(request).status
