@@ -47,8 +47,7 @@ struct DirectMessageContentView: View {
 	// MARK: - Body
 	var body: some View {
 		content
-			.navigationBarTitle("")
-			.navigationBarHidden(true)
+			.modifier(NavigationModifier())
 			.background(backgroundColorView)
 			.edgesIgnoringSafeArea(.all)
 	}

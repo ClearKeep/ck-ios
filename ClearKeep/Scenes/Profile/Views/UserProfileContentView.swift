@@ -57,6 +57,7 @@ struct UserProfileContentView: View {
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.modifier(NavigationModifier())
 			.navigationBarBackButtonHidden(true)
 	}
 }
@@ -99,7 +100,9 @@ private extension UserProfileContentView {
 
 	var buttonTop: some View {
 		HStack {
-			Button(action: { }, label: {
+			Button(action: {
+				self.presentationMode.wrappedValue.dismiss()
+			}, label: {
 				AppTheme.shared.imageSet.crossIcon
 					.foregroundColor(foregroundCrossButton)
 			})

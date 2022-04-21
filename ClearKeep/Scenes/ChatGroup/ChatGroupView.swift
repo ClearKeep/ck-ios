@@ -73,6 +73,7 @@ struct ChatGroupView: View {
 			.padding(.horizontal, Constants.paddingVertical)
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.edgesIgnoringSafeArea(.all)
+			.modifier(NavigationModifier())
 		}
 	}
 }

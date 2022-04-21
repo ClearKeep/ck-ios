@@ -52,8 +52,7 @@ struct AddMemberView: View {
 	var body: some View {
 		content
 			.padding(.horizontal, Constants.padding)
-			.navigationBarTitle("")
-			.navigationBarHidden(true)
+			.modifier(NavigationModifier())
 			.background(backgroundColorView)
 			.edgesIgnoringSafeArea(.all)
 	}

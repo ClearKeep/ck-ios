@@ -24,14 +24,14 @@ private enum Constants {
 struct HomeContentView: View {
 	// MARK: - Variable
 	@Environment(\.colorScheme) var colorScheme
-	@State private(set) var isExpandGroup: Bool
-	@State private(set) var isExpandMessage: Bool
-	@State private(set) var isAddAction: Bool
-	@State private(set) var isChangeStatus: Bool
+	@State private(set) var isExpandGroup: Bool = false
+	@State private(set) var isExpandMessage: Bool = false
+	@State private(set) var isAddGroup: Bool = false
+	@State private(set) var isAddMessage: Bool = false
+	@State private(set) var isChangeStatus: Bool = false
 	@State private(set) var group: [String] = ["Discussion", "UI Design", "Front-end Development", "Back-end Development"]
 	@State private(set) var userName: [String] = ["Alex", "Alisa", "babara", "Jonh Doe"]
-	@State private(set) var isGroup: Bool = false
-	
+
 	// MARK: - Body
 	var body: some View {
 		content
@@ -43,11 +43,11 @@ private extension HomeContentView {
 	var content: AnyView {
 		AnyView(bodyView)
 	}
-	
+
 	var groupChat: AnyView {
 		AnyView(groupView)
 	}
-	
+
 	var directMessages: AnyView {
 		AnyView(directMessagesView)
 	}
@@ -58,35 +58,35 @@ private extension HomeContentView {
 	var expandGroupImage: Image {
 		isExpandGroup ? AppTheme.shared.imageSet.chevDownIcon : AppTheme.shared.imageSet.chevRightIcon
 	}
-	
+
 	var expandMessageImage: Image {
-		isExpandGroup ? AppTheme.shared.imageSet.chevDownIcon : AppTheme.shared.imageSet.chevRightIcon
+		isExpandMessage ? AppTheme.shared.imageSet.chevDownIcon : AppTheme.shared.imageSet.chevRightIcon
 	}
-	
+
 	var foregroundStatusView: Color {
 		isChangeStatus ? AppTheme.shared.colorSet.successDefault : AppTheme.shared.colorSet.errorDefault
 	}
-	
+
 	var foregroundTitle: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.offWhite
 	}
-	
+
 	var foregroundBody: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.grey5
 	}
-	
+
 	var opacityGroup: Double {
 		isExpandGroup ? 1 : 0
 	}
-	
+
 	var opacityMessage: CGFloat {
 		isExpandMessage ? 1 : 0
 	}
-	
+
 	var frameGroup: CGFloat? {
 		isExpandGroup ? nil : 0
 	}
-	
+
 	var frameMessage: CGFloat? {
 		isExpandMessage ? nil : 0
 	}
@@ -97,17 +97,13 @@ private extension HomeContentView {
 	func expandGroups() {
 		isExpandGroup.toggle()
 	}
-	
+
 	func expandMessages() {
 		isExpandMessage.toggle()
 	}
-	
-	func addAction() {
-		isAddAction.toggle()
-	}
-	
+
 	func changeView() {
-		
+
 	}
 }
 
@@ -119,7 +115,7 @@ private extension HomeContentView {
 			directMessages
 		}
 	}
-	
+
 	var groupView: some View {
 		VStack(alignment: .leading, spacing: Constants.spacing) {
 			HStack {
@@ -130,21 +126,20 @@ private extension HomeContentView {
 							.foregroundColor(foregroundTitle)
 						expandGroupImage
 							.resizable()
-							.renderingMode(.template)
 							.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 							.foregroundColor(foregroundTitle)
 					}
 				}
 				Spacer()
-				NavigationLink(destination: ChatGroupView(),
-							   isActive: $isGroup,
-							   label: {
-					AppTheme.shared.imageSet.plusIcon
-						.resizable()
-						.renderingMode(.template)
-						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
-						.foregroundColor(foregroundTitle)
-				})
+				NavigationLink(
+					destination: ChatGroupView(searchText: ""),
+					isActive: $isAddGroup,
+					label: {
+						AppTheme.shared.imageSet.plusIcon
+							.resizable()
+							.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+							.foregroundColor(foregroundTitle)
+					})
 			}
 			VStack(alignment: .leading, spacing: Constants.spacing) {
 				ForEach(group, id: \.self) { groups in
@@ -162,7 +157,7 @@ private extension HomeContentView {
 			.padding(.leading, Constants.padding)
 		}
 	}
-	
+
 	var directMessagesView: some View {
 		VStack(alignment: .leading, spacing: Constants.spacing) {
 			HStack {
@@ -173,21 +168,22 @@ private extension HomeContentView {
 							.foregroundColor(foregroundTitle)
 						expandMessageImage
 							.resizable()
-							.renderingMode(.template)
 							.aspectRatio(contentMode: .fit)
 							.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 							.foregroundColor(foregroundTitle)
 					}
 				}
 				Spacer()
-				Button(action: addAction) {
-					AppTheme.shared.imageSet.plusIcon
-						.resizable()
-						.renderingMode(.template)
-						.aspectRatio(contentMode: .fit)
-						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
-						.foregroundColor(foregroundTitle)
-				}
+				NavigationLink(
+					destination: CreateDirectMessageView(imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes"),
+					isActive: $isAddMessage,
+					label: {
+						AppTheme.shared.imageSet.plusIcon
+							.resizable()
+							.aspectRatio(contentMode: .fit)
+							.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+							.foregroundColor(foregroundTitle)
+					})
 			}
 			VStack(alignment: .leading, spacing: Constants.spacing) {
 				ForEach(userName, id: \.self) { name in
@@ -227,7 +223,7 @@ private extension HomeContentView {
 #if DEBUG
 struct HomeContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		HomeContentView(isExpandGroup: false, isExpandMessage: false, isAddAction: false, isChangeStatus: false)
+		HomeContentView()
 	}
 }
 #endif

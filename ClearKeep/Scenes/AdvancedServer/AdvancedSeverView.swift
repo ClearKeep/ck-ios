@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Common
+import CommonUI
 
 struct AdvancedSeverView: View {
 	// MARK: - Constants
@@ -19,8 +20,7 @@ struct AdvancedSeverView: View {
 	var body: some View {
 		content
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		.navigationBarTitle("")
-		.navigationBarHidden(true)
+		.modifier(NavigationModifier())
 	}
 }
 
