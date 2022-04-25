@@ -57,7 +57,9 @@ struct SearchMessageView: View {
 							Spacer()
 						}
 					})
-			}.background(backgroundColorView)
+			}
+			.background(backgroundColorView)
+			.padding(.horizontal, Constants.spacing)
 		}
 	}
 }
