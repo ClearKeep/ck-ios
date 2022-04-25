@@ -25,14 +25,14 @@ struct GroupCallView: View {
 // MARK: - Private
 private extension GroupCallView {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		AnyView(contentView)
 	}
 }
 
 // MARK: - Loading Content
 private extension GroupCallView {
-	var notRequestedView: some View {
-		Text("")
+	var contentView: some View {
+		CallingGroup()
 	}
 }
 

@@ -25,14 +25,14 @@ struct CallView: View {
 // MARK: - Private
 private extension CallView {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		AnyView(contentView)
 	}
 }
 
 // MARK: - Loading Content
 private extension CallView {
-	var notRequestedView: some View {
-		Text("")
+	var contentView: some View {
+		CallingView()
 	}
 }
 
