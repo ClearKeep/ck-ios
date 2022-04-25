@@ -35,7 +35,6 @@ struct HomeHeaderView: View {
 		content
 			.background(backgroundColorView)
 			.edgesIgnoringSafeArea(.all)
-			.modifier(NavigationModifier())
 	}
 }
 
@@ -118,7 +117,7 @@ private extension HomeHeaderView {
 					.offset(x: self.isSearchAction ? -geometry.size.width : 0 )
 					.animation(.default)
 				header
-				HomeMenuView(isMenuAction: $isMenuAction)
+				HomeMenuView(isExpand: false, isShow: false, isChangeStatus: false, isMenuAction: $isMenuAction)
 					.frame(width: geometry.size.width)
 					.offset(x: self.isMenuAction ? 0 : geometry.size.width )
 					.animation(.default)
@@ -160,13 +159,13 @@ private extension HomeHeaderView {
 	}
 
 	var homeContentView: some View {
-		HomeContentView()
+		HomeContentView(isExpandGroup: false, isExpandMessage: false, isAddAction: false, isChangeStatus: false)
 			.padding(.leading, leaddingPadding)
 			.padding(.trailing, Constants.padding)
 	}
 
 	var searchContentView: some View {
-		SearchView(imageUser: AppTheme.shared.imageSet.faceIcon, isSearchAction: $isSearchAction)
+		SearchView(isSearchAction: $isSearchAction)
 	}
 }
 

@@ -37,7 +37,8 @@ struct GroupDetailView: View {
 		NavigationView {
 			content
 				.onReceive(inspection.notice) { inspection.visit(self, $0) }
-				.modifier(NavigationModifier())
+				.navigationBarTitle("")
+				.navigationBarHidden(true)
 				.background(backgroundColorView)
 				.edgesIgnoringSafeArea(.all)
 		}

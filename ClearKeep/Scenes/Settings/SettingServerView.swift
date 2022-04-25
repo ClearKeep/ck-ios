@@ -55,10 +55,11 @@ struct SettingServerView: View {
 				.frame(maxWidth: .infinity, maxHeight: Constants.heightBackground)
 			VStack(spacing: Constants.spacer) {
 				HStack {
-					Button(action: customBack) {
+					Button(action: {
+					}, label: {
 						AppTheme.shared.imageSet.crossIcon
 							.foregroundColor(foregroundCrossButton)
-					}
+					})
 					Spacer()
 				}
 				.frame(maxWidth: .infinity)
@@ -111,7 +112,6 @@ struct SettingServerView: View {
 			.padding(.horizontal, Constants.paddingHorizontal)
 		}
 		.edgesIgnoringSafeArea(.all)
-		.modifier(NavigationModifier())
 	}
 }
 
@@ -142,13 +142,6 @@ private extension SettingServerView {
 	
 	var backgroundColorTop: LinearGradient {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
-	}
-}
-
-// MARK: - Private Func
-private extension SettingServerView {
-	func customBack() {
-		self.presentationMode.wrappedValue.dismiss()
 	}
 }
 

@@ -11,44 +11,56 @@ import CommonUI
 
 private enum Constants {
 	static let spacing = 10.0
-	static let padding = 20.0
-	static let sizeImage = 64.0
+	static let spacingHstack = 2.0
+	static let paddingHorizontal = 20.0
 	static let radius = 8.0
-	static let heightButton = 30.0
-	static let boder = 2.0
+	static let heightButton = 28.0
 }
 
-struct CatalogyView: View {
+struct CatalogyView<T: ISearchCatalogy>: View {
 	// MARK: - Constants
 	@Environment(\.colorScheme) var colorScheme
-	
+
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
-	@State private(set) var catalog: [CatalogySelection] = []
-	
+	let states: [T]
+	@Binding var selectedState: T
+	@State private(set) var selected: String?
+
 	// MARK: - Body
 	var body: some View {
 		ScrollView(.horizontal, showsIndicators: false) {
-			HStack(spacing: 10) {
-				ForEach(0..<catalog.count, id: \.self) { index in
-					Button(action: catalog[index].action, label: {
-						Text(catalog[index].title)
+			HStack(spacing: Constants.spacingHstack) {
+				ForEach(0..<states.count, id: \.self) { index in
+					Button {
+						selectedState = states[index]
+						self.selected = states[index].title
+					} label: {
+						Text(states[index].title)
 							.font(AppTheme.shared.fontSet.font(style: .body3))
-							.foregroundColor(foregroundColorText)
-					})
-						.padding(.horizontal)
-						.frame(height: Constants.heightButton)
-						.background(backgroundButton)
-						.cornerRadius(Constants.radius)
+							.foregroundColor(colorScheme == .light ? (self.selected == states[index].title ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.grey2) : AppTheme.shared.colorSet.background)
+					}
+					.padding(.horizontal, Constants.paddingHorizontal)
+					.frame(height: Constants.heightButton)
+					.background(backgroundButton)
+					.cornerRadius(Constants.radius)
+					.overlay(
+						RoundedRectangle(cornerRadius: Constants.radius)
+							.stroke(self.selected == states[index].title ?  AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault, lineWidth: colorScheme == .light ? 0 : 2)
+					)
 				}
 			}
 		}
+		.background(backgroundColorView)
 		.padding(.horizontal, Constants.spacing)
 	}
 }
 
-// MARK: - Private Variables
+	// MARK: - Private Variables
 private extension CatalogyView {
+	var backgroundColorView: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
+	}
 	
 	var foregroundColorText: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight
@@ -69,8 +81,4 @@ private extension CatalogyView {
 	var backgroundButtonLight: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
 	}
-}
-
-// MARK: - Interactor
-private extension CatalogyView {
 }

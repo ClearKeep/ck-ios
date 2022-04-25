@@ -44,7 +44,8 @@ struct RemoveMemberView: View {
 	var body: some View {
 		content
 			.padding(.horizontal, Constants.padding)
-			.modifier(NavigationModifier())
+			.navigationBarTitle("")
+			.navigationBarHidden(true)
 			.background(backgroundColorView)
 			.edgesIgnoringSafeArea(.all)
 	}

@@ -25,25 +25,18 @@ struct SearchView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@State private(set) var searchText: String = ""
 	@State private(set) var inputStyle: TextInputStyle = .default
-	@State private(set) var imageUser: Image
-	@State private(set) var userName: String = "Alex Mendes"
-	@State private(set) var message: String = "this CLK is ready for test this CLK is ready for test this CLK is ready for test"
-	@State private(set) var groupText: String = "CLK Group"
-	@State private(set) var dateMessage: String = "5/5/2021"
 	@Binding var isSearchAction: Bool
 
 	// MARK: - Init
 	init(inputStyle: TextInputStyle = .default,
-		 imageUser: Image,
 		 isSearchAction: Binding<Bool>) {
 		self._inputStyle = .init(initialValue: inputStyle)
-		self._imageUser = .init(initialValue: imageUser)
 		self._isSearchAction = isSearchAction
 	}
 
 	// MARK: - Body
 	var body: some View {
-		SearchContentView(imageUser: $imageUser, userName: $userName, message: $message, groupText: $groupText, dateMessage: $dateMessage)
+		SearchContentView()
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.modifier(NavigationModifier())
 			.edgesIgnoringSafeArea(.all)
@@ -62,7 +55,7 @@ private extension SearchView {
 #if DEBUG
 struct SearchView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchView(imageUser: AppTheme.shared.imageSet.faceIcon, isSearchAction: .constant(false))
+		SearchView(isSearchAction: .constant(false))
 	}
 }
 #endif

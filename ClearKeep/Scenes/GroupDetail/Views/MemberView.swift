@@ -37,7 +37,8 @@ struct MemberView: View {
 	var body: some View {
 		content
 			.padding(.leading, Constants.padding)
-			.modifier(NavigationModifier())
+			.navigationBarTitle("")
+			.navigationBarHidden(true)
 			.background(backgroundColorView)
 			.edgesIgnoringSafeArea(.all)
 	}

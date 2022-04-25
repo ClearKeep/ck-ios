@@ -12,10 +12,6 @@ import CommonUI
 
 private enum Constants {
 	static let spacing = 20.0
-	static let padding = 20.0
-	static let spacingContent = 20.0
-	static let radius = 8.0
-	static let heightCatalog = 28.0
 }
 
 struct SearchContentView: View {
@@ -24,27 +20,15 @@ struct SearchContentView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@State private(set) var searchCatalogy: SearchCatalogy = .all
-	@Binding var imageUser: Image
-	@Binding var userName: String
-	@Binding var message: String
-	@Binding var groupText: String
-	@Binding var dateMessage: String
 	@State private var selectedTab: Int = 0
 	@State private var isSelected: Bool = false
-
+	@State private var model: [SearchModels] = [SearchModels(id: 1, imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group"),
+												SearchModels(id: 2, imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group"),
+												SearchModels(id: 3, imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group")]
+	
 	// MARK: - Init
-	init(searchCatalogy: SearchCatalogy = .all,
-		imageUser: Binding<Image>,
-		 userName: Binding<String>,
-		 message: Binding<String>,
-		 groupText: Binding<String>,
-		 dateMessage: Binding<String>) {
+	init(searchCatalogy: SearchCatalogy = .all) {
 		self._searchCatalogy = .init(initialValue: searchCatalogy)
-		self._imageUser = imageUser
-		self._userName = userName
-		self._message = message
-		self._groupText = groupText
-		self._dateMessage = dateMessage
 	}
 	
 	// MARK: - Body
@@ -54,34 +38,34 @@ struct SearchContentView: View {
 	}
 }
 
-// MARK: - Private
+	// MARK: - Private
 private extension SearchContentView {
 	var content: AnyView {
 		AnyView(contentView)
 	}
-
+	
 	var searchCatalogContent: AnyView {
 		AnyView(searchCatalogView)
 	}
-
+	
 	var allContent: AnyView {
 		AnyView(allView)
 	}
-
+	
 	var peopleContent: AnyView {
 		AnyView((peopleView))
 	}
-
+	
 	var groupContent: AnyView {
 		AnyView(groupView)
 	}
-
+	
 	var messageContent: AnyView {
 		AnyView(messageView)
 	}
 }
 
-// MARK: - Private variable
+	// MARK: - Private variable
 private extension SearchContentView {
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
@@ -90,53 +74,34 @@ private extension SearchContentView {
 	var foregroundColorButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
 	}
-
+	
 	var foregroundColorTitle: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight
 	}
-
+	
 	var backgroundButton: LinearGradient {
 		colorScheme == .light ? backgroundButtonLight : backgroundButtonDark
 	}
-
+	
 	var backgroundButtonDark: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundButtonLight: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
 	}
 }
 
-// MARK: - Private
-private extension SearchContentView {
-	func allAction() {
-		searchCatalogy = .all
-	}
-
-	func peopleAction() {
-		searchCatalogy = .people
-	}
-
-	func groupAction() {
-		searchCatalogy = .group
-	}
-
-	func messageAction() {
-		searchCatalogy = .message
-	}
-}
-
-// MARK: - Loading Content
+	// MARK: - Loading Content
 private extension SearchContentView {
 	var contentView: some View {
-		VStack(spacing: Constants.spacingContent) {
+		VStack(spacing: Constants.spacing) {
 			searchCatalogContent
 			catalogView
 			Spacer()
 		}
 	}
-
+	
 	var catalogView: some View {
 		Group {
 			switch searchCatalogy {
@@ -151,38 +116,31 @@ private extension SearchContentView {
 			}
 		}
 	}
-
+	
 	var searchCatalogView: some View {
-		CatalogyView(catalog: [CatalogySelection(title: "Search.All".localized, action: allAction),
-							   CatalogySelection(title: "Search.People".localized, action: peopleAction),
-							   CatalogySelection(title: "Search.Group".localized, action: groupAction),
-							   CatalogySelection(title: "Search.Message".localized, action: messageAction)])
+		CatalogyView(states: SearchCatalogy.allCases, selectedState: $searchCatalogy)
 	}
 
 	var allView: some View {
-		SearchAllView(imageUser: $imageUser, userName: $userName, message: $message, groupText: $groupText, dateMessage: $dateMessage)
-			.background(backgroundColorView)
+		SearchAllView()
 	}
-
+	
 	var peopleView: some View {
 		ScrollView(showsIndicators: false) {
-			SearchUserView(imageUser: $imageUser, userName: $userName)
+			SearchUserView()
 		}
-		.background(backgroundColorView)
 	}
-
+	
 	var groupView: some View {
 		ScrollView(showsIndicators: false) {
-			SearchGroupView(groupText: $groupText)
+			SearchGroupView()
 		}
-		.background(backgroundColorView)
 	}
-
+	
 	var messageView: some View {
 		ScrollView(showsIndicators: false) {
-			SearchMessageView(imageUser: $imageUser, userName: $userName, message: $message, groupText: $groupText, dateMessage: $dateMessage)
+			SearchMessageView()
 		}
-		.background(backgroundColorView)
 	}
 }
 
@@ -194,7 +152,7 @@ private extension SearchContentView {
 #if DEBUG
 struct SearchContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchContentView(imageUser: .constant(Image("")), userName: .constant(""), message: .constant(""), groupText: .constant(""), dateMessage: .constant(""))
+		SearchContentView()
 	}
 }
 #endif

@@ -7,26 +7,19 @@
 
 import SwiftUI
 
-protocol ISearchCatalogy {
+protocol ISearchCatalogy: CaseIterable {
 	var title: String { get }
 }
 
-enum SearchCatalogy: ISearchCatalogy {
-	case all
-	case people
-	case group
-	case message
-
+extension ISearchCatalogy where Self: RawRepresentable, RawValue == String {
 	var title: String {
-		switch self {
-		case .all:
-			return "Search.All".localized.uppercased()
-		case .people:
-			return "Search.People".localized.uppercased()
-		case .group:
-			return "Search.GroupChat".localized.uppercased()
-		case .message:
-			return "Search.Message".localized.uppercased()
-		}
+		self.rawValue
 	}
+}
+
+enum SearchCatalogy: String, ISearchCatalogy {
+	case all = "All"
+	case people = "People"
+	case group = "Group"
+	case message = "Message"
 }
