@@ -11,7 +11,6 @@ import CommonUI
 
 private enum Constants {
 	static let spacing = 10.0
-	static let padding = 20.0
 	static let sizeImage = 64.0
 }
 
@@ -20,24 +19,40 @@ struct SearchGroupView: View {
 	@Environment(\.colorScheme) var colorScheme
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
-	@Binding var groupText: String
+	@State private var isGroupChat: Bool = false
+	@State private var model: [SearchModels] = [SearchModels(id: 1, imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group"),
+												SearchModels(id: 2, imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group"),
+												SearchModels(id: 3, imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group")]
 	
 	// MARK: - Body
 	var body: some View {
-		content
+		ForEach(0..<model.count, id: \.self) { index in
+			VStack(alignment: .leading) {
+				NavigationLink(
+					destination: EmptyView(),
+					isActive: $isGroupChat,
+					label: {
+						Button(action: action) {
+							Text(model[index].groupText)
+								.font(AppTheme.shared.fontSet.font(style: .body3))
+								.foregroundColor(foregroundColorText)
+								.frame(maxWidth: .infinity, alignment: .leading)
+								.padding(.all, Constants.spacing)
+						}
+					})
+			}
+			.background(backgroundColorView)
 			.padding(.horizontal, Constants.spacing)
+		}
 	}
 }
 
-// MARK: - Private
+	// MARK: - Private Variables
 private extension SearchGroupView {
-	var content: AnyView {
-		AnyView(groupView)
+	var backgroundColorView: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
 	}
-}
-
-// MARK: - Private Variables
-private extension SearchGroupView {
+	
 	var foregroundColorUserName: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight
 	}
@@ -47,38 +62,19 @@ private extension SearchGroupView {
 	}
 }
 
-// MARK: - Private func
+	// MARK: - Private func
 private extension SearchGroupView {
 	func action() {
 		
 	}
 }
 
-// MARK: - Loading Content
-private extension SearchGroupView {
-	var groupView: some View {
-		VStack(alignment: .leading) {
-			Button(action: action) {
-				Text(groupText)
-					.font(AppTheme.shared.fontSet.font(style: .body3))
-					.foregroundColor(foregroundColorText)
-					.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-					.padding(.all, Constants.spacing)
-			}
-		}
-	}
-}
-
-// MARK: - Interactor
-private extension SearchGroupView {
-}
-
-// MARK: - Preview
+	// MARK: - Preview
 #if DEBUG
 
 struct SearchGroupView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchGroupView(groupText: .constant(""))
+		SearchGroupView()
 	}
 }
 #endif

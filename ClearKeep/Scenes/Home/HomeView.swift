@@ -11,13 +11,13 @@ import Common
 import CommonUI
 
 struct HomeView: View {
-
+	
 	@Environment(\.injected) private var injected: DIContainer
 	@State private(set) var samples: Loadable<[ISampleModel]>
 	@State private(set) var searchKeyword: String = ""
 	@State private(set) var searchInputStyle: TextInputStyle = .default
 	let inspection = ViewInspector<Self>()
-
+	
 	init(samples: Loadable<[ISampleModel]> = .notRequested,
 		 searchKeyword: String = "",
 		 searchInputStyle: TextInputStyle = .default) {
@@ -25,12 +25,14 @@ struct HomeView: View {
 		self._searchKeyword = .init(initialValue: searchKeyword)
 		self._searchInputStyle = .init(initialValue: searchInputStyle)
 	}
-
+	
 	var body: some View {
 		GeometryReader { _ in
-			self.content
-				.modifier(NavigationModifier())
-				.navigationBarBackButtonHidden(true)
+			NavigationView {
+				self.content
+					.navigationBarTitle("Home")
+			}
+			.navigationViewStyle(DoubleColumnNavigationViewStyle())
 		}
 		.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
 	}
@@ -51,9 +53,9 @@ private extension HomeView {
 // MARK: - Loading Content
 private extension HomeView {
 	var notRequestedView: some View {
-		HomeHeaderView(searchText: $searchKeyword, inputStyle: $searchInputStyle)
+		Text("").onAppear(perform: reloadSamples)
 	}
-
+	
 	func loadingView(_ previouslyLoaded: [ISampleModel]?) -> some View {
 		if let samples = previouslyLoaded {
 			return AnyView(loadedView(samples, showSearch: true, showLoading: true))
@@ -61,7 +63,7 @@ private extension HomeView {
 			return AnyView(ActivityIndicatorView().padding())
 		}
 	}
-
+	
 	func failedView(_ error: Error) -> some View {
 		ErrorView(error: error, retryAction: {
 			self.reloadSamples()

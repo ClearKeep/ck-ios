@@ -7,19 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		042F427728112D250094C5B0 /* SearchRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F426828112D250094C5B0 /* SearchRemoteStore.swift */; };
-		042F427828112D250094C5B0 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F426928112D250094C5B0 /* SearchView.swift */; };
-		042F427928112D250094C5B0 /* SearchInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F426A28112D250094C5B0 /* SearchInMemoryStore.swift */; };
-		042F427A28112D250094C5B0 /* SearchCatalogy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F426C28112D250094C5B0 /* SearchCatalogy.swift */; };
-		042F427B28112D250094C5B0 /* CatalogySelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F426D28112D250094C5B0 /* CatalogySelection.swift */; };
-		042F427C28112D250094C5B0 /* SearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F426E28112D250094C5B0 /* SearchInteractor.swift */; };
-		042F427D28112D250094C5B0 /* SearchWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F426F28112D250094C5B0 /* SearchWorker.swift */; };
-		042F427E28112D250094C5B0 /* SearchAllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F427128112D250094C5B0 /* SearchAllView.swift */; };
-		042F427F28112D250094C5B0 /* SearchContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F427228112D250094C5B0 /* SearchContentView.swift */; };
-		042F428028112D250094C5B0 /* SearchMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F427328112D250094C5B0 /* SearchMessageView.swift */; };
-		042F428128112D250094C5B0 /* SearchUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F427428112D250094C5B0 /* SearchUserView.swift */; };
-		042F428228112D250094C5B0 /* CatalogyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F427528112D250094C5B0 /* CatalogyView.swift */; };
-		042F428328112D250094C5B0 /* SearchGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F427628112D250094C5B0 /* SearchGroupView.swift */; };
 		044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351EB27D9AFCA0054A78F /* RegisterRemoteStore.swift */; };
 		044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351EC27D9AFCA0054A78F /* RegisterWorker.swift */; };
 		044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351ED27D9AFCA0054A78F /* RegisterInMemoryStore.swift */; };
@@ -27,6 +14,19 @@
 		044351F827D9AFCA0054A78F /* RegisterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F027D9AFCA0054A78F /* RegisterInteractor.swift */; };
 		044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F127D9AFCA0054A78F /* RegisterView.swift */; };
 		044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F327D9AFCA0054A78F /* RegisterContentView.swift */; };
+		0462C6C12816535C00A9EABB /* SearchRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B22816535C00A9EABB /* SearchRemoteStore.swift */; };
+		0462C6C22816535C00A9EABB /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B32816535C00A9EABB /* SearchView.swift */; };
+		0462C6C32816535C00A9EABB /* SearchInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B42816535C00A9EABB /* SearchInMemoryStore.swift */; };
+		0462C6C42816535C00A9EABB /* SearchModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B62816535C00A9EABB /* SearchModels.swift */; };
+		0462C6C52816535C00A9EABB /* SearchCatalogy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B72816535C00A9EABB /* SearchCatalogy.swift */; };
+		0462C6C62816535C00A9EABB /* SearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B82816535C00A9EABB /* SearchInteractor.swift */; };
+		0462C6C72816535C00A9EABB /* SearchWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B92816535C00A9EABB /* SearchWorker.swift */; };
+		0462C6C82816535C00A9EABB /* SearchAllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6BB2816535C00A9EABB /* SearchAllView.swift */; };
+		0462C6C92816535C00A9EABB /* SearchContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6BC2816535C00A9EABB /* SearchContentView.swift */; };
+		0462C6CA2816535C00A9EABB /* SearchMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6BD2816535C00A9EABB /* SearchMessageView.swift */; };
+		0462C6CB2816535C00A9EABB /* SearchUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6BE2816535C00A9EABB /* SearchUserView.swift */; };
+		0462C6CC2816535C00A9EABB /* CatalogyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6BF2816535C00A9EABB /* CatalogyView.swift */; };
+		0462C6CD2816535C00A9EABB /* SearchGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6C02816535C00A9EABB /* SearchGroupView.swift */; };
 		0472418227DB35550043345A /* HomeMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472418127DB35550043345A /* HomeMenuView.swift */; };
 		047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419927DB3D2C0043345A /* LoginRemoteStore.swift */; };
 		047241A627DB3D2C0043345A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419A27DB3D2C0043345A /* LoginView.swift */; };
@@ -201,19 +201,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		042F426828112D250094C5B0 /* SearchRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRemoteStore.swift; sourceTree = "<group>"; };
-		042F426928112D250094C5B0 /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
-		042F426A28112D250094C5B0 /* SearchInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchInMemoryStore.swift; sourceTree = "<group>"; };
-		042F426C28112D250094C5B0 /* SearchCatalogy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCatalogy.swift; sourceTree = "<group>"; };
-		042F426D28112D250094C5B0 /* CatalogySelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogySelection.swift; sourceTree = "<group>"; };
-		042F426E28112D250094C5B0 /* SearchInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchInteractor.swift; sourceTree = "<group>"; };
-		042F426F28112D250094C5B0 /* SearchWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchWorker.swift; sourceTree = "<group>"; };
-		042F427128112D250094C5B0 /* SearchAllView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchAllView.swift; sourceTree = "<group>"; };
-		042F427228112D250094C5B0 /* SearchContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchContentView.swift; sourceTree = "<group>"; };
-		042F427328112D250094C5B0 /* SearchMessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchMessageView.swift; sourceTree = "<group>"; };
-		042F427428112D250094C5B0 /* SearchUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchUserView.swift; sourceTree = "<group>"; };
-		042F427528112D250094C5B0 /* CatalogyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogyView.swift; sourceTree = "<group>"; };
-		042F427628112D250094C5B0 /* SearchGroupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchGroupView.swift; sourceTree = "<group>"; };
 		044351EB27D9AFCA0054A78F /* RegisterRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterRemoteStore.swift; sourceTree = "<group>"; };
 		044351EC27D9AFCA0054A78F /* RegisterWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterWorker.swift; sourceTree = "<group>"; };
 		044351ED27D9AFCA0054A78F /* RegisterInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterInMemoryStore.swift; sourceTree = "<group>"; };
@@ -221,6 +208,19 @@
 		044351F027D9AFCA0054A78F /* RegisterInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterInteractor.swift; sourceTree = "<group>"; };
 		044351F127D9AFCA0054A78F /* RegisterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		044351F327D9AFCA0054A78F /* RegisterContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterContentView.swift; sourceTree = "<group>"; };
+		0462C6B22816535C00A9EABB /* SearchRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRemoteStore.swift; sourceTree = "<group>"; };
+		0462C6B32816535C00A9EABB /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		0462C6B42816535C00A9EABB /* SearchInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchInMemoryStore.swift; sourceTree = "<group>"; };
+		0462C6B62816535C00A9EABB /* SearchModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchModels.swift; sourceTree = "<group>"; };
+		0462C6B72816535C00A9EABB /* SearchCatalogy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCatalogy.swift; sourceTree = "<group>"; };
+		0462C6B82816535C00A9EABB /* SearchInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchInteractor.swift; sourceTree = "<group>"; };
+		0462C6B92816535C00A9EABB /* SearchWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchWorker.swift; sourceTree = "<group>"; };
+		0462C6BB2816535C00A9EABB /* SearchAllView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchAllView.swift; sourceTree = "<group>"; };
+		0462C6BC2816535C00A9EABB /* SearchContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchContentView.swift; sourceTree = "<group>"; };
+		0462C6BD2816535C00A9EABB /* SearchMessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchMessageView.swift; sourceTree = "<group>"; };
+		0462C6BE2816535C00A9EABB /* SearchUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchUserView.swift; sourceTree = "<group>"; };
+		0462C6BF2816535C00A9EABB /* CatalogyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogyView.swift; sourceTree = "<group>"; };
+		0462C6C02816535C00A9EABB /* SearchGroupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchGroupView.swift; sourceTree = "<group>"; };
 		0472418127DB35550043345A /* HomeMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeMenuView.swift; sourceTree = "<group>"; };
 		0472419927DB3D2C0043345A /* LoginRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRemoteStore.swift; sourceTree = "<group>"; };
 		0472419A27DB3D2C0043345A /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -418,42 +418,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		042F426728112D250094C5B0 /* Search */ = {
-			isa = PBXGroup;
-			children = (
-				042F426828112D250094C5B0 /* SearchRemoteStore.swift */,
-				042F426928112D250094C5B0 /* SearchView.swift */,
-				042F426A28112D250094C5B0 /* SearchInMemoryStore.swift */,
-				042F426B28112D250094C5B0 /* Models */,
-				042F426E28112D250094C5B0 /* SearchInteractor.swift */,
-				042F426F28112D250094C5B0 /* SearchWorker.swift */,
-				042F427028112D250094C5B0 /* Views */,
-			);
-			path = Search;
-			sourceTree = "<group>";
-		};
-		042F426B28112D250094C5B0 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				042F426C28112D250094C5B0 /* SearchCatalogy.swift */,
-				042F426D28112D250094C5B0 /* CatalogySelection.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		042F427028112D250094C5B0 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				042F427128112D250094C5B0 /* SearchAllView.swift */,
-				042F427228112D250094C5B0 /* SearchContentView.swift */,
-				042F427328112D250094C5B0 /* SearchMessageView.swift */,
-				042F427428112D250094C5B0 /* SearchUserView.swift */,
-				042F427528112D250094C5B0 /* CatalogyView.swift */,
-				042F427628112D250094C5B0 /* SearchGroupView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		044351EA27D9AFCA0054A78F /* Register */ = {
 			isa = PBXGroup;
 			children = (
@@ -480,6 +444,42 @@
 			isa = PBXGroup;
 			children = (
 				044351F327D9AFCA0054A78F /* RegisterContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0462C6B12816535C00A9EABB /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				0462C6B22816535C00A9EABB /* SearchRemoteStore.swift */,
+				0462C6B32816535C00A9EABB /* SearchView.swift */,
+				0462C6B42816535C00A9EABB /* SearchInMemoryStore.swift */,
+				0462C6B52816535C00A9EABB /* Models */,
+				0462C6B82816535C00A9EABB /* SearchInteractor.swift */,
+				0462C6B92816535C00A9EABB /* SearchWorker.swift */,
+				0462C6BA2816535C00A9EABB /* Views */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		0462C6B52816535C00A9EABB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0462C6B62816535C00A9EABB /* SearchModels.swift */,
+				0462C6B72816535C00A9EABB /* SearchCatalogy.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0462C6BA2816535C00A9EABB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0462C6BB2816535C00A9EABB /* SearchAllView.swift */,
+				0462C6BC2816535C00A9EABB /* SearchContentView.swift */,
+				0462C6BD2816535C00A9EABB /* SearchMessageView.swift */,
+				0462C6BE2816535C00A9EABB /* SearchUserView.swift */,
+				0462C6BF2816535C00A9EABB /* CatalogyView.swift */,
+				0462C6C02816535C00A9EABB /* SearchGroupView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -764,7 +764,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				042F426728112D250094C5B0 /* Search */,
+				0462C6B12816535C00A9EABB /* Search */,
 				F556C23328097F6E00D2B149 /* ChatGroup */,
 				F568DC1627FD882600EE9DF0 /* Notification */,
 				F568DC0527FD7CC000EE9DF0 /* Settings */,
@@ -1476,14 +1476,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB8C3EAB2805D2D60034B3A9 /* AddMemberView.swift in Sources */,
-				042F427C28112D250094C5B0 /* SearchInteractor.swift in Sources */,
+				0462C6C62816535C00A9EABB /* SearchInteractor.swift in Sources */,
 				CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */,
 				044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */,
 				044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */,
 				F568DC2227FD882600EE9DF0 /* NotificationInMemoryStore.swift in Sources */,
 				F556C23F28097F6E00D2B149 /* ChatGroupModel.swift in Sources */,
-				042F427828112D250094C5B0 /* SearchView.swift in Sources */,
-				042F427928112D250094C5B0 /* SearchInMemoryStore.swift in Sources */,
+				0462C6C22816535C00A9EABB /* SearchView.swift in Sources */,
+				0462C6C32816535C00A9EABB /* SearchInMemoryStore.swift in Sources */,
 				047D6B1227F1544D0098B104 /* GroupDetailView.swift in Sources */,
 				047241A627DB3D2C0043345A /* LoginView.swift in Sources */,
 				044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */,
@@ -1503,9 +1503,10 @@
 				0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */,
 				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
-				042F428228112D250094C5B0 /* CatalogyView.swift in Sources */,
+				0462C6CC2816535C00A9EABB /* CatalogyView.swift in Sources */,
 				0499343527E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
+				0462C6C42816535C00A9EABB /* SearchModels.swift in Sources */,
 				F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				044351F727D9AFCA0054A78F /* IRegisterModel.swift in Sources */,
@@ -1514,11 +1515,11 @@
 				047D6B0F27F1544D0098B104 /* GroupDetailWorker.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
 				F5350E1527FAD57500F54E32 /* TwoFactorContentView.swift in Sources */,
+				0462C6CB2816535C00A9EABB /* SearchUserView.swift in Sources */,
 				F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */,
-				042F428128112D250094C5B0 /* SearchUserView.swift in Sources */,
 				F553F87127E820E600824BE7 /* SocialView.swift in Sources */,
+				0462C6C72816535C00A9EABB /* SearchWorker.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
-				042F427D28112D250094C5B0 /* SearchWorker.swift in Sources */,
 				0499344527E97035003BD4C4 /* ChangePasswordWorker.swift in Sources */,
 				0499345727E9A8BE003BD4C4 /* AdvancedSeverView.swift in Sources */,
 				0499344D27E97100003BD4C4 /* ChangePasswordContentView.swift in Sources */,
@@ -1538,8 +1539,8 @@
 				047D6B6127F6A3750098B104 /* CreateDirectMessageInteractor.swift in Sources */,
 				F568DC1527FD7CC000EE9DF0 /* SettingServerInMemoryStore.swift in Sources */,
 				CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */,
+				0462C6C92816535C00A9EABB /* SearchContentView.swift in Sources */,
 				F568DC0F27FD7CC000EE9DF0 /* SettingServerView.swift in Sources */,
-				042F427F28112D250094C5B0 /* SearchContentView.swift in Sources */,
 				F568DC2027FD882600EE9DF0 /* NotificationRemoteStore.swift in Sources */,
 				044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */,
 				F568DC2527FD882600EE9DF0 /* NotificationView.swift in Sources */,
@@ -1550,8 +1551,8 @@
 				047D6B5E27F6A3750098B104 /* CreateDirectMessageInMemoryStore.swift in Sources */,
 				0499341027E96DD7003BD4C4 /* FogotPasswordView.swift in Sources */,
 				0499344427E97035003BD4C4 /* ChangePasswordInMemoryStore.swift in Sources */,
+				0462C6CD2816535C00A9EABB /* SearchGroupView.swift in Sources */,
 				047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */,
-				042F428328112D250094C5B0 /* SearchGroupView.swift in Sources */,
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
 				047D6B1027F1544D0098B104 /* GroupDetailRemoteStore.swift in Sources */,
 				0499345627E9A8BE003BD4C4 /* AdvancedSeverInteractor.swift in Sources */,
@@ -1564,12 +1565,11 @@
 				047D6B6227F6A3750098B104 /* CreateDirectMessageView.swift in Sources */,
 				0499340F27E96DD7003BD4C4 /* FogotPasswordInteractor.swift in Sources */,
 				047D6B5F27F6A3750098B104 /* CreateDirectMessageWorker.swift in Sources */,
-				042F427A28112D250094C5B0 /* SearchCatalogy.swift in Sources */,
 				F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */,
 				0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */,
 				F556C277280E502500D2B149 /* TagView.swift in Sources */,
 				044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */,
-				042F427728112D250094C5B0 /* SearchRemoteStore.swift in Sources */,
+				0462C6C12816535C00A9EABB /* SearchRemoteStore.swift in Sources */,
 				0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */,
 				F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */,
 				F568DC2127FD882600EE9DF0 /* NotificationInteractor.swift in Sources */,
@@ -1581,7 +1581,6 @@
 				F556C23D28097F6E00D2B149 /* ChatGroupWorker.swift in Sources */,
 				F556C27B280E961E00D2B149 /* ListUser.swift in Sources */,
 				F5CE37F427E97FF20085CECE /* UserProfileContentView.swift in Sources */,
-				042F427B28112D250094C5B0 /* CatalogySelection.swift in Sources */,
 				0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */,
 				0499344827E97035003BD4C4 /* ChangePasswordView.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
@@ -1589,8 +1588,8 @@
 				0499343727E96F8A003BD4C4 /* NewPasswordRemoteStore.swift in Sources */,
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
 				0499344627E97035003BD4C4 /* ChangePasswordRemoteStore.swift in Sources */,
-				042F427E28112D250094C5B0 /* SearchAllView.swift in Sources */,
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
+				0462C6C82816535C00A9EABB /* SearchAllView.swift in Sources */,
 				0499343627E96F8A003BD4C4 /* NewPasswordWorker.swift in Sources */,
 				F553F87427E820E600824BE7 /* SocialCommonUI.swift in Sources */,
 				047D6B1827F154970098B104 /* MemberView.swift in Sources */,
@@ -1600,6 +1599,7 @@
 				0499343827E96F8A003BD4C4 /* NewPasswordInteractor.swift in Sources */,
 				0472418227DB35550043345A /* HomeMenuView.swift in Sources */,
 				F5350E1E27FAD58F00F54E32 /* TwoFactorRemoteStore.swift in Sources */,
+				0462C6C52816535C00A9EABB /* SearchCatalogy.swift in Sources */,
 				F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */,
 				F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
@@ -1611,7 +1611,7 @@
 				CB40073027E74E1900DFBE88 /* Configuration.swift in Sources */,
 				CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */,
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
-				042F428028112D250094C5B0 /* SearchMessageView.swift in Sources */,
+				0462C6CA2816535C00A9EABB /* SearchMessageView.swift in Sources */,
 				0499341427E96E2F003BD4C4 /* FogotPasswordContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Common
-import CommonUI
 
 struct FogotPasswordView: View {
 	// MARK: - Constants
@@ -20,7 +19,8 @@ struct FogotPasswordView: View {
 	var body: some View {
 		content
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		.modifier(NavigationModifier())
+		.navigationBarTitle("")
+		.navigationBarHidden(true)
 	}
 }
 

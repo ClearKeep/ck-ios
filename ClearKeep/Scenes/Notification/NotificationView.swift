@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Common
-import CommonUI
 
 private enum Constants {
 	static let spacer = 25.0
@@ -44,10 +43,11 @@ struct NotificationView: View {
 				.frame(maxWidth: .infinity, maxHeight: Constants.heightBackground)
 			VStack(spacing: Constants.spacer) {
 				HStack {
-					Button(action: customBack) {
+					Button(action: {
+					}, label: {
 						AppTheme.shared.imageSet.crossIcon
 							.foregroundColor(foregroundCrossButton)
-					}
+					})
 					Spacer()
 				}
 				.frame(maxWidth: .infinity)
@@ -82,7 +82,7 @@ struct NotificationView: View {
 			.padding(.horizontal, Constants.paddingHorizontal)
 		}
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		.modifier(NavigationModifier())
+		.navigationBarBackButtonHidden(true)
 		.edgesIgnoringSafeArea(.all)
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 	}
@@ -123,12 +123,6 @@ private extension NotificationView {
 	}
 }
 
-// MARK: - Private Func
-private extension NotificationView {
-	func customBack() {
-		self.presentationMode.wrappedValue.dismiss()
-	}
-}
 // MARK: - Preview
 #if DEBUG
 struct NotificationView_Previews: PreviewProvider {

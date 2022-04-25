@@ -18,7 +18,6 @@ public protocol IColorSet {
 	var darkgrey3: Color { get }
 	var grey4: Color { get }
 	var grey5: Color { get }
-	var grey6: Color { get }
 	var greyLight: Color { get }
 	var background: Color { get }
 	var offWhite: Color { get }

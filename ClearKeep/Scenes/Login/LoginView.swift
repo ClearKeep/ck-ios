@@ -47,8 +47,9 @@ struct LoginView: View {
 		NavigationView {
 			content
 				.onReceive(inspection.notice) { inspection.visit(self, $0) }
+				.navigationBarTitle("")
+				.navigationBarHidden(true)
 		}
-		.modifier(NavigationModifier())
 	}
 }
 
