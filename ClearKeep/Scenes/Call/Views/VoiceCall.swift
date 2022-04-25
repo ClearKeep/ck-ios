@@ -176,8 +176,8 @@ private extension VoiceCall {
 			} label: {
 				ZStack {
 					Circle()
-						.strokeBorder(backgroundEndCall, lineWidth: Constant.borderLineWidth)
-						.background(Circle().foregroundColor(backgroundEndCall))
+						.strokeBorder(AppTheme.shared.colorSet.errorDefault, lineWidth: Constant.borderLineWidth)
+						.background(Circle().foregroundColor(AppTheme.shared.colorSet.errorDefault))
 						.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
 					AppTheme.shared.imageSet.phoneOffIcon
 						.foregroundColor(AppTheme.shared.colorSet.offWhite)
@@ -200,32 +200,28 @@ private extension VoiceCall {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
 
-	var backgroundEndCall: Color {
-		AppTheme.shared.colorSet.errorDefault
-	}
-
 	var backgroundButtonMute: Color {
-		isTappedMute == true ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite.opacity(0)
+		isTappedMute ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite.opacity(0)
 	}
 
 	var foregroundButtonMute: Color {
-		isTappedMute == true ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
+		isTappedMute ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
 	}
 
 	var backgroundButtonCamera: Color {
-		isTappedCamera == true ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite.opacity(0)
+		isTappedCamera ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite.opacity(0)
 	}
 
 	var foregroundButtonCamera: Color {
-		isTappedCamera == true ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
+		isTappedCamera ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
 	}
 
 	var backgroundButtonSpeaker: Color {
-		isTappedSpeaker == true ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite.opacity(0)
+		isTappedSpeaker ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite.opacity(0)
 	}
 
 	var foregroundButtonSpeaker: Color {
-		isTappedSpeaker == true ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
+		isTappedSpeaker ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
 	}
 
 	var muteIcon: Image {
