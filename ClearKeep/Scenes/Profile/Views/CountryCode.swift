@@ -79,7 +79,6 @@ private extension CountryCode {
 			})
 			Spacer()
 		}
-//		.frame(maxWidth: .infinity)
 	}
 
 	var title: some View {
@@ -113,21 +112,13 @@ private extension CountryCode {
 		}
 		.frame(maxWidth: .infinity, alignment: .leading)
 		.listStyle(PlainListStyle())
-		.listRowBackground(backgroundWhite)
+		.listRowBackground(AppTheme.shared.colorSet.offWhite)
 	}
 }
 
 private extension CountryCode {
 	var background: Color {
-		colorScheme == .light ? backgroundWhite : backgroundDark
-	}
-
-	var backgroundWhite: Color {
-		AppTheme.shared.colorSet.offWhite
-	}
-
-	var backgroundDark: Color {
-		AppTheme.shared.colorSet.black
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.black
 	}
 }
 

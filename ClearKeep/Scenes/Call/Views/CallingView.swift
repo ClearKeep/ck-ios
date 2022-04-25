@@ -18,7 +18,7 @@ private enum Constant {
 	static let sizeImage = 120.0
 	static let paddingButtonNext = 60.0
 	static let borderLineWidth = 2.0
-	static let opacity = 0.2
+	static let opacity = 0.8
 }
 
 struct CallingView: View {
@@ -50,13 +50,13 @@ struct CallingView: View {
 // MARK: - Private
 private extension CallingView {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		AnyView(contentView)
 	}
 }
 
 // MARK: - Loading Content
 private extension CallingView {
-	var notRequestedView: some View {
+	var contentView: some View {
 		VStack(spacing: Constant.spacer) {
 			statusCalling
 				.padding(.top, Constant.spacerTopView)
@@ -68,7 +68,7 @@ private extension CallingView {
 				.padding(.bottom, Constant.paddingButtonNext)
 			Spacer()
 		}
-		.background(foregroundColorGreyLight.opacity(Constant.opacity))
+		.background(AppTheme.shared.colorSet.warningDefault.opacity(Constant.opacity))
 		.padding(.horizontal, Constant.paddingVertical)
 	}
 
@@ -76,7 +76,7 @@ private extension CallingView {
 		Text("Call.Calling".localized)
 			.padding(.all)
 			.font(AppTheme.shared.fontSet.font(style: .input2))
-			.foregroundColor(foregroundColorGrey5)
+			.foregroundColor(AppTheme.shared.colorSet.grey5)
 			.frame(maxWidth: .infinity, alignment: .center)
 	}
 
@@ -93,7 +93,7 @@ private extension CallingView {
 		Text("Alex".localized)
 			.frame(maxWidth: .infinity, alignment: .center)
 			.font(AppTheme.shared.fontSet.font(style: .display2))
-			.foregroundColor(foregroundColorWhite)
+			.foregroundColor(AppTheme.shared.colorSet.offWhite)
 	}
 
 	var supportCalling: some View {
@@ -103,12 +103,11 @@ private extension CallingView {
 			} label: {
 				ZStack {
 					Circle()
-						.strokeBorder(foregroundColorWhite, lineWidth: Constant.borderLineWidth)
+						.strokeBorder(AppTheme.shared.colorSet.offWhite, lineWidth: Constant.borderLineWidth)
 						.background(Circle().foregroundColor(backgroundButtonMute))
 						.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
 					muteIcon
-						.renderingMode(.template)
-						.foregroundColor(foregroundCrossIcon)
+						.foregroundColor(foregroundButtonMute)
 				}
 				.frame(maxWidth: .infinity)
 			}
@@ -118,12 +117,11 @@ private extension CallingView {
 			} label: {
 				ZStack {
 					Circle()
-						.strokeBorder(foregroundColorWhite, lineWidth: Constant.borderLineWidth)
+						.strokeBorder(AppTheme.shared.colorSet.offWhite, lineWidth: Constant.borderLineWidth)
 						.background(Circle().foregroundColor(backgroundButtonCamera))
 						.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
 					cameraIcon
-						.renderingMode(.template)
-						.foregroundColor(foregroundCrossIcon)
+						.foregroundColor(foregroundButtonCamera)
 				}
 				.frame(maxWidth: .infinity)
 			}
@@ -133,12 +131,11 @@ private extension CallingView {
 			} label: {
 				ZStack {
 					Circle()
-						.strokeBorder(foregroundColorWhite, lineWidth: Constant.borderLineWidth)
+						.strokeBorder(AppTheme.shared.colorSet.offWhite, lineWidth: Constant.borderLineWidth)
 						.background(Circle().foregroundColor(backgroundButtonSpeaker))
 						.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
 					speakerIcon
-						.renderingMode(.template)
-						.foregroundColor(foregroundCrossIcon)
+						.foregroundColor(foregroundButtonSpeaker)
 				}
 			}
 			.frame(maxWidth: .infinity)
@@ -157,57 +154,49 @@ private extension CallingView {
 						.background(Circle().foregroundColor(backgroundEndCall))
 						.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
 					AppTheme.shared.imageSet.phoneOffIcon
-						.renderingMode(.template)
-						.foregroundColor(foregroundColorWhite)
+						.foregroundColor(AppTheme.shared.colorSet.offWhite)
 				}
 		}
 			Text("Call.Cancel".localized)
 				.font(AppTheme.shared.fontSet.font(style: .body2))
-				.foregroundColor(foregroundColorWhite)
+				.foregroundColor(AppTheme.shared.colorSet.offWhite)
 		}
 	}
 }
 
 // MARK: - Color func
 private extension CallingView {
-	var foregroundColorWhite: Color {
-		AppTheme.shared.colorSet.offWhite
-	}
 
-	var foregroundColorBlack: Color {
-		AppTheme.shared.colorSet.black
-	}
-
-	var foregroundColorGrey5: Color {
-		AppTheme.shared.colorSet.grey5
-	}
-
-	var foregroundColorGreyLight: Color {
-		AppTheme.shared.colorSet.greyLight
-	}
-
-	var foregroundCrossIcon: Color {
-		colorScheme == .light ? foregroundColorBlack : foregroundColorGreyLight
+	var backgroundEndCall: Color {
+		AppTheme.shared.colorSet.errorDefault
 	}
 
 	var backgroundGradientPrimary: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
 
-	var backgroundEndCall: Color {
-		AppTheme.shared.colorSet.errorDefault
+	var backgroundButtonMute: Color {
+		isTappedMute ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite.opacity(0)
 	}
 
-	var backgroundButtonMute: Color {
-		isTappedMute == true ? foregroundColorWhite : foregroundColorWhite.opacity(0)
+	var foregroundButtonMute: Color {
+		isTappedMute ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
 	}
 
 	var backgroundButtonCamera: Color {
-		isTappedCamera == true ? foregroundColorWhite : foregroundColorWhite.opacity(0)
+		isTappedCamera ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite.opacity(0)
+	}
+
+	var foregroundButtonCamera: Color {
+		isTappedCamera ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
 	}
 
 	var backgroundButtonSpeaker: Color {
-		isTappedSpeaker == true ? foregroundColorWhite : foregroundColorWhite.opacity(0)
+		isTappedSpeaker ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite.opacity(0)
+	}
+
+	var foregroundButtonSpeaker: Color {
+		isTappedSpeaker ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
 	}
 
 	var muteIcon: Image {

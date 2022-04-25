@@ -87,7 +87,6 @@ private extension VoiceGroupCalled {
 		HStack {
 			Button(action: customBack) {
 				AppTheme.shared.imageSet.chevleftIcon
-					.renderingMode(.template)
 					.aspectRatio(contentMode: .fit)
 					.foregroundColor(foregroundBackButton)
 					.frame(alignment: .leading)
@@ -97,14 +96,14 @@ private extension VoiceGroupCalled {
 				.font(AppTheme.shared.fontSet.font(style: .display3))
 				.frame(maxWidth: .infinity, alignment: .leading)
 				.padding(.leading, Constant.spacer)
-				.foregroundColor(foregroundColorWhite)
+				.foregroundColor(AppTheme.shared.colorSet.offWhite)
 			timeCalling
 		}
 	}
 
 	var timeCalling: some View {
 		Text(getTimer())
-			.foregroundColor(foregroundColorWhite)
+			.foregroundColor(AppTheme.shared.colorSet.offWhite)
 			.padding()
 			.onReceive(timer) { _ in
 				if timeCalled > 0 {
@@ -120,11 +119,10 @@ private extension VoiceGroupCalled {
 			} label: {
 				ZStack {
 					Circle()
-						.strokeBorder(foregroundColorWhite, lineWidth: Constant.borderLineWidth)
+						.strokeBorder(AppTheme.shared.colorSet.offWhite, lineWidth: Constant.borderLineWidth)
 						.background(Circle().foregroundColor(backgroundButtonMute))
 						.frame(width: Constant.sizeButtonCalled, height: Constant.sizeButtonCalled)
 					muteIcon
-						.renderingMode(.template)
 						.foregroundColor(foregroundButtonMute)
 				}
 				.frame(maxWidth: .infinity)
@@ -135,11 +133,10 @@ private extension VoiceGroupCalled {
 			} label: {
 				ZStack {
 					Circle()
-						.strokeBorder(foregroundColorWhite, lineWidth: Constant.borderLineWidth)
+						.strokeBorder(AppTheme.shared.colorSet.offWhite, lineWidth: Constant.borderLineWidth)
 						.background(Circle().foregroundColor(backgroundButtonCamera))
 						.frame(width: Constant.sizeButtonCalled, height: Constant.sizeButtonCalled)
 					cameraIcon
-						.renderingMode(.template)
 						.foregroundColor(foregroundButtonCamera)
 				}
 				.frame(maxWidth: .infinity)
@@ -150,11 +147,10 @@ private extension VoiceGroupCalled {
 			} label: {
 				ZStack {
 					Circle()
-						.strokeBorder(foregroundColorWhite, lineWidth: Constant.borderLineWidth)
+						.strokeBorder(AppTheme.shared.colorSet.offWhite, lineWidth: Constant.borderLineWidth)
 						.background(Circle().foregroundColor(backgroundButtonSpeaker))
 						.frame(width: Constant.sizeButtonCalled, height: Constant.sizeButtonCalled)
 					speakerIcon
-						.renderingMode(.template)
 						.foregroundColor(foregroundButtonSpeaker)
 				}
 			}
@@ -170,39 +166,22 @@ private extension VoiceGroupCalled {
 			} label: {
 				ZStack {
 					Circle()
-						.strokeBorder(backgroundEndCall, lineWidth: Constant.borderLineWidth)
-						.background(Circle().foregroundColor(backgroundEndCall))
+						.strokeBorder(AppTheme.shared.colorSet.errorDefault, lineWidth: Constant.borderLineWidth)
+						.background(Circle().foregroundColor(AppTheme.shared.colorSet.errorDefault))
 						.frame(width: Constant.sizeButtonCalled, height: Constant.sizeButtonCalled)
 					AppTheme.shared.imageSet.phoneOffIcon
-						.renderingMode(.template)
-						.foregroundColor(foregroundColorWhite)
+						.foregroundColor(AppTheme.shared.colorSet.offWhite)
 				}
 			}
 			Text("CallGroup.End".localized)
 				.font(AppTheme.shared.fontSet.font(style: .body2))
-				.foregroundColor(foregroundColorWhite)
+				.foregroundColor(AppTheme.shared.colorSet.offWhite)
 		}
 	}
 }
 
 // MARK: - Color func
 private extension VoiceGroupCalled {
-	var foregroundColorWhite: Color {
-		AppTheme.shared.colorSet.offWhite
-	}
-
-	var foregroundColorBlack: Color {
-		AppTheme.shared.colorSet.black
-	}
-
-	var foregroundColorGrey5: Color {
-		AppTheme.shared.colorSet.grey5
-	}
-
-	var foregroundColorGreyLight: Color {
-		AppTheme.shared.colorSet.greyLight
-	}
-
 	var backgroundDarkGrey2: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.darkGrey2, AppTheme.shared.colorSet.darkGrey2]), startPoint: .leading, endPoint: .trailing)
 	}
@@ -211,12 +190,8 @@ private extension VoiceGroupCalled {
 		colorScheme == .light ? backgroundGradientPrimary : backgroundDarkGrey2
 	}
 
-	var foregroundCrossIcon: Color {
-		colorScheme == .light ? foregroundColorBlack : foregroundColorGreyLight
-	}
-
 	var foregroundBackButton: Color {
-		colorScheme == .light ? foregroundColorWhite : foregroundColorGreyLight
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.greyLight
 	}
 
 	var backgroundGradientPrimary: LinearGradient {
@@ -227,32 +202,28 @@ private extension VoiceGroupCalled {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .top, endPoint: .bottom)
 	}
 
-	var backgroundEndCall: Color {
-		AppTheme.shared.colorSet.errorDefault
-	}
-
 	var backgroundButtonMute: Color {
-		isTappedMute == true ? foregroundColorWhite : foregroundColorWhite.opacity(0)
+		isTappedMute ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite.opacity(0)
 	}
 
 	var foregroundButtonMute: Color {
-		isTappedMute == true ? foregroundColorBlack : foregroundColorWhite
+		isTappedMute ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
 	}
 
 	var backgroundButtonCamera: Color {
-		isTappedCamera == true ? foregroundColorWhite : foregroundColorWhite.opacity(0)
+		isTappedCamera ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite.opacity(0)
 	}
 
 	var foregroundButtonCamera: Color {
-		isTappedCamera == true ? foregroundColorBlack : foregroundColorWhite
+		isTappedCamera ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
 	}
 
 	var backgroundButtonSpeaker: Color {
-		isTappedSpeaker == true ? foregroundColorWhite : foregroundColorWhite.opacity(0)
+		isTappedSpeaker ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite.opacity(0)
 	}
 
 	var foregroundButtonSpeaker: Color {
-		isTappedSpeaker == true ? foregroundColorBlack : foregroundColorWhite
+		isTappedSpeaker ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
 	}
 
 	var muteIcon: Image {

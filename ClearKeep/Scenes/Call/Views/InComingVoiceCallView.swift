@@ -12,18 +12,12 @@ import CommonUI
 
 private enum Constant {
 	static let spacerTopView = 90.0
-	static let spacerBottomView = 20.0
 	static let spacer = 25.0
-	static let spacerBottom = 45.0
 	static let paddingVertical = 14.0
-	static let paddingHorizontal = 24.0
-	static let heightButton = 40.0
-	static let cornerRadiusButtonNext = 40.0
-	static let cornerRadiusTagUser = 80.0
 	static let sizeImage = 120.0
 	static let paddingButtonNext = 60.0
 	static let borderLineWidth = 2.0
-	static let opacity = 0.2
+	static let opacity = 0.8
 }
 
 struct InComingVoiceCallView: View {
@@ -53,13 +47,13 @@ struct InComingVoiceCallView: View {
 // MARK: - Private
 private extension InComingVoiceCallView {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		AnyView(contentView)
 	}
 }
 
 // MARK: - Loading Content
 private extension InComingVoiceCallView {
-	var notRequestedView: some View {
+	var contentView: some View {
 		VStack(spacing: Constant.spacer) {
 			statusCalling
 				.padding(.top, Constant.spacerTopView)
@@ -69,7 +63,7 @@ private extension InComingVoiceCallView {
 				.padding(.bottom, Constant.paddingButtonNext)
 			Spacer()
 		}
-		.background(foregroundColorGreyLight.opacity(Constant.opacity))
+		.background(AppTheme.shared.colorSet.warningDefault.opacity(Constant.opacity))
 		.padding(.horizontal, Constant.paddingVertical)
 	}
 
@@ -77,7 +71,7 @@ private extension InComingVoiceCallView {
 		Text("Call.Incomming.Voice".localized)
 			.padding(.all)
 			.font(AppTheme.shared.fontSet.font(style: .input2))
-			.foregroundColor(foregroundColorGrey5)
+			.foregroundColor(AppTheme.shared.colorSet.grey5)
 			.frame(maxWidth: .infinity, alignment: .center)
 	}
 
@@ -94,7 +88,7 @@ private extension InComingVoiceCallView {
 		Text("Alex".localized)
 			.frame(maxWidth: .infinity, alignment: .center)
 			.font(AppTheme.shared.fontSet.font(style: .display2))
-			.foregroundColor(foregroundColorWhite)
+			.foregroundColor(AppTheme.shared.colorSet.offWhite)
 			.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
 	}
 
@@ -110,13 +104,12 @@ private extension InComingVoiceCallView {
 							.background(Circle().foregroundColor(backgroundDecline))
 							.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
 						AppTheme.shared.imageSet.phoneOffIcon
-							.renderingMode(.template)
-							.foregroundColor(foregroundColorWhite)
+							.foregroundColor(AppTheme.shared.colorSet.offWhite)
 					}
 			}
 				Text("Call.Decline".localized)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
-					.foregroundColor(foregroundColorWhite)
+					.foregroundColor(AppTheme.shared.colorSet.offWhite)
 			}
 			.frame(maxWidth: .infinity)
 
@@ -130,13 +123,12 @@ private extension InComingVoiceCallView {
 							.background(Circle().foregroundColor(backgroundAnswer))
 							.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
 						AppTheme.shared.imageSet.phoneCallIcon
-							.renderingMode(.template)
-							.foregroundColor(foregroundColorWhite)
+							.foregroundColor(AppTheme.shared.colorSet.offWhite)
 					}
 			}
 				Text("Call.Decline".localized)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
-					.foregroundColor(foregroundColorWhite)
+					.foregroundColor(AppTheme.shared.colorSet.offWhite)
 			}
 			.frame(maxWidth: .infinity)
 		}
@@ -146,30 +138,6 @@ private extension InComingVoiceCallView {
 
 // MARK: - Color func
 private extension InComingVoiceCallView {
-	var foregroundColorWhite: Color {
-		AppTheme.shared.colorSet.offWhite
-	}
-
-	var foregroundColorBlack: Color {
-		AppTheme.shared.colorSet.black
-	}
-
-	var foregroundColorPrimary: Color {
-		AppTheme.shared.colorSet.primaryDefault
-	}
-
-	var foregroundColorGrey5: Color {
-		AppTheme.shared.colorSet.grey5
-	}
-
-	var foregroundColorGreyLight: Color {
-		AppTheme.shared.colorSet.greyLight
-	}
-
-	var foregroundCrossIcon: Color {
-		colorScheme == .light ? foregroundColorBlack : foregroundColorGreyLight
-	}
-
 	var backgroundGradientPrimary: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
