@@ -13,14 +13,18 @@ Pod::Spec.new do |spec|
 	
 	spec.source       = { :git => "https://github.com/Code4Fun-Group/ChatSecure.git", :tag => spec.version.to_s }
 	spec.source_files = 'ChatSecure/**/*.{swift,h,m,c}'
-	spec.pod_target_xcconfig = { 'ENABLE_BITCODE' => 'NO' }
-	
+  spec.pod_target_xcconfig = {
+    'ENABLE_BITCODE' => 'NO',
+    'OTHER_CFLAGS' => '-DSQLITE_HAS_CODEC',
+    'GCC_PREPROCESSOR_DEFINITIONS' => 'SQLITE_HAS_CODEC=1'
+  }
+  
 	spec.dependency 'Networking'
 	spec.dependency 'SwiftSRP'
 	spec.dependency 'SocketRocket'
 	spec.dependency 'SignalProtocolObjC'
 	spec.dependency 'GoogleWebRTC'
-	spec.dependency 'YapDatabase'
+	spec.dependency 'YapDatabase/SQLCipher'
 	spec.dependency 'Mantle'
 	spec.dependency 'GoogleSignIn'
 	spec.dependency 'MSAL'

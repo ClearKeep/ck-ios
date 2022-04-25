@@ -8,12 +8,12 @@
 import UIKit
 
 protocol IGroupChatModel {
-	var id: Int { get }
-	var name: String { get }
+//	var id: Int { get }
+//	var title: String { get }
 }
 
-struct GroupChatModel {
-	var id: Int
+struct GroupChatModel: Identifiable {
+	var id = UUID()
 	var name: String
 }
 

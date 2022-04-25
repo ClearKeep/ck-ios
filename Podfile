@@ -22,6 +22,7 @@ def common
 	pod 'ChatSecure', :path => './Packages/ChatSecure'
 	pod 'Networking', :path => './Packages/Networking'
 	pod 'SwiftSRP', :path => './Packages/SwiftSRP'
+	pod 'SignalProtocolObjC', :git =>'https://github.com/nohtbook/SignalProtocol-ObjC.git'
 end
 
 def xctools
@@ -80,6 +81,9 @@ end
 
 target 'ClearKeepUITests' do
 	# Pods for testing
+end
+
+target 'notificationextension' do
 end
 
 post_install do |installer|

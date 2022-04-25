@@ -150,8 +150,8 @@ private extension CallingView {
 			} label: {
 				ZStack {
 					Circle()
-						.strokeBorder(backgroundEndCall, lineWidth: Constant.borderLineWidth)
-						.background(Circle().foregroundColor(backgroundEndCall))
+						.strokeBorder(AppTheme.shared.colorSet.errorDefault, lineWidth: Constant.borderLineWidth)
+						.background(Circle().foregroundColor(AppTheme.shared.colorSet.errorDefault))
 						.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
 					AppTheme.shared.imageSet.phoneOffIcon
 						.foregroundColor(AppTheme.shared.colorSet.offWhite)
@@ -166,11 +166,6 @@ private extension CallingView {
 
 // MARK: - Color func
 private extension CallingView {
-
-	var backgroundEndCall: Color {
-		AppTheme.shared.colorSet.errorDefault
-	}
-
 	var backgroundGradientPrimary: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}

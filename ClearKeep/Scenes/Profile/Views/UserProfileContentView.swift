@@ -295,6 +295,10 @@ private extension UserProfileContentView {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
 	}
 
+	var foregroundColorPicture: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.offWhite
+	}
+
 	var foregroundColorStatus: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.offWhite
 	}
