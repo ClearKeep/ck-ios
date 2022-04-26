@@ -11,8 +11,14 @@ import Common
 import CommonUI
 
 private enum Constants {
-	static let spacing = 10.0
+	static let paddingTop = 13.0
+	static let paddingBottom = 63.0
+	static let paddingLeading = 17.0
 	static let heightCatalog = 28.0
+	static let paddingTopGroup = 10.0
+	static let leadingPeople = 16.0
+	static let leading = 22.0
+	static let leadingGroup = 25.0
 }
 
 struct SearchAllView: View {
@@ -24,19 +30,21 @@ struct SearchAllView: View {
 	// MARK: - Body
 	var body: some View {
 		ScrollView(showsIndicators: false) {
-			VStack(alignment: .leading, spacing: Constants.spacing) {
+			VStack(alignment: .leading) {
 				Text("Search.People".localized.uppercased())
-					.padding(.all)
+					.padding(.leading, Constants.leadingPeople)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundColorTitle)
 				SearchUserView()
 				Text("Search.GroupChat".localized.uppercased())
-					.padding(.all)
+					.padding(.leading, Constants.leading)
+					.padding(.top, Constants.paddingTopGroup)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundColorTitle)
 				SearchGroupView()
+					.padding(.leading, Constants.leadingGroup)
 				Text("Search.Message".localized.uppercased())
-					.padding(.all)
+					.padding(.leading, Constants.leading)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundColorTitle)
 				SearchMessageView()
@@ -44,11 +52,11 @@ struct SearchAllView: View {
 			}
 		}
 		.background(backgroundColorView)
-		.padding(.horizontal, Constants.spacing)
+		.padding(.top, Constants.paddingTop)
 	}
 }
 
-	// MARK: - Private variable
+// MARK: - Private variable
 private extension SearchAllView {
 	
 	var backgroundColorView: Color {
@@ -68,7 +76,7 @@ private extension SearchAllView {
 	}
 }
 
-	// MARK: - Preview
+// MARK: - Preview
 #if DEBUG
 struct SearchAllView_Previews: PreviewProvider {
 	static var previews: some View {

@@ -12,6 +12,9 @@ import CommonUI
 private enum Constants {
 	static let spacing = 10.0
 	static let sizeImage = 64.0
+	static let spacingVstack = 18.0
+	static let paddingTop = 17.0
+	static let paddingLeading = 16.0
 }
 
 struct SearchGroupView: View {
@@ -27,7 +30,7 @@ struct SearchGroupView: View {
 	// MARK: - Body
 	var body: some View {
 		ForEach(0..<model.count, id: \.self) { index in
-			VStack(alignment: .leading) {
+			VStack(alignment: .leading, spacing: Constants.spacingVstack) {
 				NavigationLink(
 					destination: EmptyView(),
 					isActive: $isGroupChat,
@@ -37,17 +40,18 @@ struct SearchGroupView: View {
 								.font(AppTheme.shared.fontSet.font(style: .body3))
 								.foregroundColor(foregroundColorText)
 								.frame(maxWidth: .infinity, alignment: .leading)
-								.padding(.all, Constants.spacing)
 						}
 					})
+				Spacer()
 			}
 			.background(backgroundColorView)
-			.padding(.horizontal, Constants.spacing)
 		}
+		.padding(.leading, Constants.paddingLeading)
+		.padding(.top, Constants.paddingTop)
 	}
 }
 
-	// MARK: - Private Variables
+// MARK: - Private Variables
 private extension SearchGroupView {
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
@@ -62,14 +66,14 @@ private extension SearchGroupView {
 	}
 }
 
-	// MARK: - Private func
+// MARK: - Private func
 private extension SearchGroupView {
 	func action() {
 		
 	}
 }
 
-	// MARK: - Preview
+// MARK: - Preview
 #if DEBUG
 
 struct SearchGroupView_Previews: PreviewProvider {

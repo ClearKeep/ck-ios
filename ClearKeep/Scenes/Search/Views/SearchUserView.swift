@@ -10,8 +10,11 @@ import Common
 import CommonUI
 
 private enum Constants {
-	static let spacing = 10.0
+	static let spacing = 16.0
 	static let sizeImage = 64.0
+	static let spacingHstack = 16.0
+	static let paddingTop = 17.0
+	static let paddingLeading = 17.0
 }
 
 struct SearchUserView: View {
@@ -20,9 +23,9 @@ struct SearchUserView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@State private var isUserChat: Bool = false
-	@State private var model: [SearchModels] = [SearchModels(id: 1, imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group"),
-												SearchModels(id: 2, imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group"),
-												SearchModels(id: 3, imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group")]
+	@State private var model: [SearchModels] = [SearchModels(id: 1, imageUser: AppTheme.shared.imageSet.userImage, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group"),
+												SearchModels(id: 2, imageUser: AppTheme.shared.imageSet.userImage, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group"),
+												SearchModels(id: 3, imageUser: AppTheme.shared.imageSet.userImage, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group")]
 	
 	// MARK: - Body
 	var body: some View {
@@ -32,7 +35,7 @@ struct SearchUserView: View {
 					destination: EmptyView(),
 					isActive: $isUserChat,
 					label: {
-						HStack {
+						HStack(spacing: Constants.spacingHstack) {
 							model[index].imageUser
 								.resizable()
 								.aspectRatio(contentMode: .fit)
@@ -46,27 +49,28 @@ struct SearchUserView: View {
 					})
 			}
 			.background(backgroundColorView)
-			.padding(.horizontal, Constants.spacing)
 		}
+		.padding(.leading, Constants.paddingLeading)
+		.padding(.top, Constants.paddingTop)
 	}
 }
 
-	// MARK: - Private Variables
+// MARK: - Private Variables
 private extension SearchUserView {
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
 	}
 	
 	var foregroundColorUserName: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight
+		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight
 	}
 }
 
-	// MARK: - Preview
+// MARK: - Preview
 #if DEBUG
 struct SearchUserView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchUserView()
+		SearchUserView(model: )
 	}
 }
 #endif

@@ -10,23 +10,25 @@ import Common
 import CommonUI
 
 private enum Constants {
-	static let spacing = 10.0
+	static let spacing = 9.0
 	static let spacingHstack = 2.0
-	static let paddingHorizontal = 20.0
+	static let paddingHorizontal = 19.0
+	static let paddingVertical = 2.0
 	static let radius = 8.0
 	static let heightButton = 28.0
+	static let widthButton = 98.0
 }
 
 struct CatalogyView<T: ISearchCatalogy>: View {
 	// MARK: - Constants
 	@Environment(\.colorScheme) var colorScheme
-
+	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	let states: [T]
 	@Binding var selectedState: T
 	@State private(set) var selected: String?
-
+	
 	// MARK: - Body
 	var body: some View {
 		ScrollView(.horizontal, showsIndicators: false) {
@@ -40,23 +42,25 @@ struct CatalogyView<T: ISearchCatalogy>: View {
 							.font(AppTheme.shared.fontSet.font(style: .body3))
 							.foregroundColor(colorScheme == .light ? (self.selected == states[index].title ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.grey2) : AppTheme.shared.colorSet.background)
 					}
-					.padding(.horizontal, Constants.paddingHorizontal)
-					.frame(height: Constants.heightButton)
+					.frame(width: Constants.widthButton, height: Constants.heightButton)
 					.background(backgroundButton)
 					.cornerRadius(Constants.radius)
 					.overlay(
 						RoundedRectangle(cornerRadius: Constants.radius)
-							.stroke(self.selected == states[index].title ?  AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault, lineWidth: colorScheme == .light ? 0 : 2)
+							.stroke(self.selected == states[index].title ?  AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault, lineWidth: lineWidth)
 					)
+					Spacer(minLength: Constants.spacingHstack)
 				}
 			}
+			.fixedSize()
+			.padding(.horizontal, Constants.spacing)
 		}
 		.background(backgroundColorView)
-		.padding(.horizontal, Constants.spacing)
+		.frame(maxWidth: .infinity)
 	}
 }
 
-	// MARK: - Private Variables
+// MARK: - Private Variables
 private extension CatalogyView {
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
@@ -80,5 +84,9 @@ private extension CatalogyView {
 	
 	var backgroundButtonLight: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
+	}
+	
+	var lineWidth: CGFloat {
+		colorScheme == .light ? 0 : 1
 	}
 }

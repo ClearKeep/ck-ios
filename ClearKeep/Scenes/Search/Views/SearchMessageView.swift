@@ -10,8 +10,12 @@ import Common
 import CommonUI
 
 private enum Constants {
-	static let spacing = 10.0
+	static let spacing = 5.0
+	static let spacingHstack = 16.0
 	static let sizeImage = 64.0
+	static let paddingTop = 28.0
+	static let leading = 16.0
+	static let paddingVstack = 22.0
 }
 
 struct SearchMessageView: View {
@@ -20,18 +24,18 @@ struct SearchMessageView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@State private var isMessageChat: Bool = false
-	@State private var model: [SearchModels] = [SearchModels(id: 1, imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group"),
-												SearchModels(id: 2, imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group"),
-												SearchModels(id: 3, imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group")]
+	@State private var model: [SearchModels] = [SearchModels(id: 1, imageUser: AppTheme.shared.imageSet.userImage, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "5/5/2021"),
+												SearchModels(id: 2, imageUser: AppTheme.shared.imageSet.userImage, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "5/5/2021"),
+												SearchModels(id: 3, imageUser: AppTheme.shared.imageSet.userImage, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "5/5/2021")]
 	// MARK: - Body
 	var body: some View {
 		ForEach(0..<model.count, id: \.self) { index in
-			VStack(alignment: .leading, spacing: Constants.spacing) {
+			VStack(alignment: .leading, spacing: Constants.paddingVstack) {
 				NavigationLink(
 					destination: EmptyView(),
 					isActive: $isMessageChat,
 					label: {
-						HStack(spacing: Constants.spacing) {
+						HStack(spacing: Constants.spacingHstack) {
 							model[index].imageUser
 								.resizable()
 								.aspectRatio(contentMode: .fit)
@@ -59,22 +63,19 @@ struct SearchMessageView: View {
 					})
 			}
 			.background(backgroundColorView)
-			.padding(.horizontal, Constants.spacing)
+			.padding(.top, Constants.paddingTop)
+			.padding(.leading, Constants.leading)
 		}
 	}
 }
-	// MARK: - Private Variables
+// MARK: - Private Variables
 private extension SearchMessageView {
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
 	}
 	
 	var foregroundColorUserName: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight
-	}
-	
-	var userImage: Image {
-		AppTheme.shared.imageSet.faceIcon
+		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight
 	}
 	
 	var foregroundColorText: Color {
@@ -82,7 +83,7 @@ private extension SearchMessageView {
 	}
 }
 
-	// MARK: - Preview
+// MARK: - Preview
 #if DEBUG
 struct SearchMessageView_Previews: PreviewProvider {
 	static var previews: some View {

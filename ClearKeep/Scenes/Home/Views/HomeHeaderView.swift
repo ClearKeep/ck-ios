@@ -10,8 +10,9 @@ import Common
 import CommonUI
 
 private enum Constants {
-	static let paddingTop = 100.0
-	static let padding = 20.0
+	static let paddingTop = 76.0
+	static let paddingLeading = 90.0
+	static let padding = 16.0
 	static let sizeOffset = 30.0
 	static let sizeIcon = 24.0
 }
@@ -80,7 +81,7 @@ private extension HomeHeaderView {
 	}
 
 	var leaddingPadding: CGFloat {
-		isSearchAction ? Constants.padding : Constants.paddingTop
+		isSearchAction ? Constants.padding : Constants.paddingLeading
 	}
 
 	var iconSeachChange: Image {
@@ -126,7 +127,7 @@ private extension HomeHeaderView {
 	}
 
 	var headerView: some View {
-		VStack {
+		VStack(alignment: .center) {
 			HStack {
 				Text("Home.Title".localized)
 					.font(AppTheme.shared.fontSet.font(style: .display3))

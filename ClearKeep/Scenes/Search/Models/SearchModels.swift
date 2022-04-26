@@ -26,4 +26,5 @@ struct SearchModels {
 	var dateMessage: String
 }
 
-extension SearchModels: ISearchModels {}
+extension SearchModels: ISearchModels {
+}

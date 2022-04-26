@@ -131,6 +131,7 @@
 "Search.Group" = "Groups";
 "Search.Message" = "Messages";
 "Search.GroupChat" = "Group Chat";
+"Search.Title.Error" = "There is no result for your search";
 // MARK: - GroupDetail
 "GroupDetail.SeeMembers" = "See Members";
 "GroupDetail.AddMember" = "Add Member";
