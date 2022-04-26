@@ -25,17 +25,22 @@ struct SearchView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@State private(set) var samples: Loadable<[ISearchModels]>
-	@State private(set) var searchText: String = ""
+	@Binding var searchText: String
 	@State private(set) var inputStyle: TextInputStyle = .default
 	@Binding var isSearchAction: Bool
+	@State private var searchModel: [SearchModels] = [SearchModels(id: 1, imageUser: AppTheme.shared.imageSet.userImage, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "5/5/2021"),
+												SearchModels(id: 2, imageUser: AppTheme.shared.imageSet.userImage, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "5/5/2021"),
+												SearchModels(id: 3, imageUser: AppTheme.shared.imageSet.userImage, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "5/5/2021 ")]
 
 	// MARK: - Init
 	init(samples: Loadable<[ISearchModels]> = .notRequested,
 		 inputStyle: TextInputStyle = .default,
-		 isSearchAction: Binding<Bool>) {
+		 isSearchAction: Binding<Bool>,
+		 searchText: Binding<String>) {
 		self._samples = .init(initialValue: samples)
 		self._inputStyle = .init(initialValue: inputStyle)
 		self._isSearchAction = isSearchAction
+		self._searchText = searchText
 	}
 
 	// MARK: - Body
@@ -53,25 +58,19 @@ struct SearchView: View {
 // MARK: - Private
 private extension SearchView {
 	var content: AnyView {
-		switch samples {
-		case .notRequested: return AnyView(notRequestedView)
-		case let .isLoading(last, _): return AnyView(loadingView(last))
-		case let .loaded(countries): return AnyView(loadedView(countries, showSearch: true, showLoading: false))
-		case let .failed(error): return AnyView(failedView(error))
-		}
+		searchText == "" ? AnyView(notSearchView) : AnyView(searchView)
 	}
 }
 
-// MARK: - Loading Content
+// MARK: - Displaying Content
 private extension SearchView {
-	var notRequestedView: some View {
+	var notSearchView: some View {
 		VStack(alignment: .center) {
 			Spacer()
 			HStack {
 				Spacer()
 			Text("Search.Title.Error".localized)
 				.foregroundColor(forceColorTitle)
-				.onAppear(perform: reloadSamples)
 				.frame(width: .infinity, height: .infinity, alignment: .center)
 				Spacer()
 			}
@@ -80,30 +79,8 @@ private extension SearchView {
 		}
 	}
 
-	func loadingView(_ previouslyLoaded: [ISearchModels]?) -> some View {
-		if let samples = previouslyLoaded {
-			return AnyView(loadedView(samples, showSearch: true, showLoading: true))
-		} else {
-			return AnyView(ActivityIndicatorView().padding())
-		}
-	}
-
-	func failedView(_ error: Error) -> some View {
-		ErrorView(error: error, retryAction: {
-			self.reloadSamples()
-		})
-	}
-}
-
-// MARK: - Displaying Content
-private extension SearchView {
-	func loadedView(_ samples: [ISearchModels], showSearch: Bool, showLoading: Bool) -> some View {
-		VStack {
-			if showLoading {
-				ActivityIndicatorView().padding()
-			}
-			SearchContentView()
-		}.padding(.bottom, 0)
+	var searchView: some View {
+		SearchContentView(searchModel: $searchModel)
 	}
 }
 
@@ -116,11 +93,9 @@ private extension SearchView {
 	var forceColorTitle: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight
 	}
-}
+	
+	func search() {
 
-// MARK: - Interactors
-private extension SearchView {
-	func reloadSamples() {
 	}
 }
 
@@ -128,7 +103,7 @@ private extension SearchView {
 #if DEBUG
 struct SearchView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchView(isSearchAction: .constant(false))
+		SearchView(isSearchAction: .constant(false), searchText: .constant(""))
 	}
 }
 #endif

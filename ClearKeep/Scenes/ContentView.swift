@@ -27,7 +27,7 @@ struct ContentView: View {
 //					.inject(container)
 //			}
 //		}
-		HomeHeaderView(searchText: .constant(""), inputStyle: .constant(.default))
+		HomeHeaderView(inputStyle: .constant(.default))
 	}
 }
 

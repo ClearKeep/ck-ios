@@ -27,7 +27,13 @@ struct SearchAllView: View {
 	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
-	
+	@Binding var searchModel: [SearchModels]
+
+	// MARK: - Init
+	init(searchModel: Binding<[SearchModels]>) {
+		self._searchModel = searchModel
+	}
+
 	// MARK: - Body
 	var body: some View {
 		ScrollView(showsIndicators: false) {
@@ -36,19 +42,19 @@ struct SearchAllView: View {
 					.padding(.leading, Constants.leadingPeople)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundColorTitle)
-				SearchUserView()
+				SearchUserView(searchModel: $searchModel)
 				Text("Search.GroupChat".localized.uppercased())
 					.padding(.leading, Constants.leading)
 					.padding(.top, Constants.paddingTopGroup)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundColorTitle)
-				SearchGroupView()
+				SearchGroupView(searchModel: $searchModel)
 					.padding(.leading, Constants.leadingGroup)
 				Text("Search.Message".localized.uppercased())
 					.padding(.leading, Constants.leading)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundColorTitle)
-				SearchMessageView()
+				SearchMessageView(searchModel: $searchModel)
 				Spacer()
 			}
 		}
@@ -81,7 +87,7 @@ private extension SearchAllView {
 #if DEBUG
 struct SearchAllView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchAllView()
+		SearchAllView(searchModel: .constant([]))
 	}
 }
 #endif
