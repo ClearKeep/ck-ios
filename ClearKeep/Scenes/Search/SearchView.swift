@@ -93,6 +93,7 @@ private extension SearchView {
 	var forceColorTitle: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight
 	}
+	
 }
 
 // MARK: - Preview
