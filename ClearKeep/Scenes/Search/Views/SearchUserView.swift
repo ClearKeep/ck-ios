@@ -69,7 +69,7 @@ private extension SearchUserView {
 #if DEBUG
 struct SearchUserView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchUserView(model: )
+		SearchUserView()
 	}
 }
 #endif
