@@ -178,7 +178,7 @@ struct HomeHeaderView_Previews: PreviewProvider {
 }
 #endif
 
-	// MARK: - extension
+// MARK: - extension
 #if canImport(UIKit)
 extension View {
 	func hideKeyboard() {
