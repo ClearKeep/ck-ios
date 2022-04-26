@@ -9,14 +9,15 @@ import SwiftUI
 import Combine
 import Common
 import CommonUI
+import _NIODataStructures
 
 private enum Constant {
 	static let spacerTopView = 90.0
 	static let spacer = 25.0
 	static let spacerBottom = 45.0
 	static let paddingVertical = 14.0
-	static let sizeImage = 120.0
-	static let paddingButtonNext = 60.0
+	static let sizeImage = 140.0
+	static let sizeIcon = 64.0
 	static let borderLineWidth = 2.0
 	static let opacity = 0.8
 }
@@ -42,6 +43,7 @@ struct CallingView: View {
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.background(AppTheme.shared.colorSet.warningDefault.opacity(Constant.opacity))
 			.edgesIgnoringSafeArea(.all)
 			.navigationBarBackButtonHidden(true)
 	}
@@ -65,10 +67,9 @@ private extension CallingView {
 			supportCalling
 				.padding(.top, Constant.spacerBottom)
 			buttonCancel
-				.padding(.bottom, Constant.paddingButtonNext)
+				.padding(.bottom, Constant.sizeIcon)
 			Spacer()
 		}
-		.background(AppTheme.shared.colorSet.warningDefault.opacity(Constant.opacity))
 		.padding(.horizontal, Constant.paddingVertical)
 	}
 
@@ -98,45 +99,27 @@ private extension CallingView {
 
 	var supportCalling: some View {
 		HStack {
-			Button {
-				isTappedMute.toggle()
-			} label: {
-				ZStack {
-					Circle()
-						.strokeBorder(AppTheme.shared.colorSet.offWhite, lineWidth: Constant.borderLineWidth)
-						.background(Circle().foregroundColor(backgroundButtonMute))
-						.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
-					muteIcon
-						.foregroundColor(foregroundButtonMute)
-				}
-				.frame(maxWidth: .infinity)
+			VStack {
+				ImageButtonCall(image: muteIcon, isChecked: $isTappedMute)
+				Text("Call.Mute".localized)
+					.font(AppTheme.shared.fontSet.font(style: .body2))
+					.foregroundColor(AppTheme.shared.colorSet.offWhite)
 			}
+			.frame(maxWidth: .infinity)
 
-			Button {
-				isTappedCamera.toggle()
-			} label: {
-				ZStack {
-					Circle()
-						.strokeBorder(AppTheme.shared.colorSet.offWhite, lineWidth: Constant.borderLineWidth)
-						.background(Circle().foregroundColor(backgroundButtonCamera))
-						.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
-					cameraIcon
-						.foregroundColor(foregroundButtonCamera)
-				}
-				.frame(maxWidth: .infinity)
+			VStack {
+				ImageButtonCall(image: cameraIcon, isChecked: $isTappedCamera)
+				Text("Call.Camera".localized)
+					.font(AppTheme.shared.fontSet.font(style: .body2))
+					.foregroundColor(AppTheme.shared.colorSet.offWhite)
 			}
+			.frame(maxWidth: .infinity)
 
-			Button {
-				isTappedSpeaker.toggle()
-			} label: {
-				ZStack {
-					Circle()
-						.strokeBorder(AppTheme.shared.colorSet.offWhite, lineWidth: Constant.borderLineWidth)
-						.background(Circle().foregroundColor(backgroundButtonSpeaker))
-						.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
-					speakerIcon
-						.foregroundColor(foregroundButtonSpeaker)
-				}
+			VStack {
+				ImageButtonCall(image: speakerIcon, isChecked: $isTappedSpeaker)
+				Text("Call.Speaker".localized)
+					.font(AppTheme.shared.fontSet.font(style: .body2))
+					.foregroundColor(AppTheme.shared.colorSet.offWhite)
 			}
 			.frame(maxWidth: .infinity)
 		}
@@ -152,11 +135,11 @@ private extension CallingView {
 					Circle()
 						.strokeBorder(AppTheme.shared.colorSet.errorDefault, lineWidth: Constant.borderLineWidth)
 						.background(Circle().foregroundColor(AppTheme.shared.colorSet.errorDefault))
-						.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
+						.frame(width: Constant.sizeIcon, height: Constant.sizeIcon)
 					AppTheme.shared.imageSet.phoneOffIcon
 						.foregroundColor(AppTheme.shared.colorSet.offWhite)
 				}
-		}
+			}
 			Text("Call.Cancel".localized)
 				.font(AppTheme.shared.fontSet.font(style: .body2))
 				.foregroundColor(AppTheme.shared.colorSet.offWhite)
@@ -170,40 +153,16 @@ private extension CallingView {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
 
-	var backgroundButtonMute: Color {
-		isTappedMute ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite.opacity(0)
-	}
-
-	var foregroundButtonMute: Color {
-		isTappedMute ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
-	}
-
-	var backgroundButtonCamera: Color {
-		isTappedCamera ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite.opacity(0)
-	}
-
-	var foregroundButtonCamera: Color {
-		isTappedCamera ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
-	}
-
-	var backgroundButtonSpeaker: Color {
-		isTappedSpeaker ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite.opacity(0)
-	}
-
-	var foregroundButtonSpeaker: Color {
-		isTappedSpeaker ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
-	}
-
 	var muteIcon: Image {
-		isTappedMute ? AppTheme.shared.imageSet.microphoneOffIcon : AppTheme.shared.imageSet.microPhoneIcon
+		isTappedMute ? AppTheme.shared.imageSet.muteOffIcon : AppTheme.shared.imageSet.muteIcon
 	}
 
 	var cameraIcon: Image {
-		isTappedCamera ? AppTheme.shared.imageSet.videoOffIcon : AppTheme.shared.imageSet.videoIcon
+		isTappedCamera ? AppTheme.shared.imageSet.cameraOffIcon : AppTheme.shared.imageSet.cameraIcon
 	}
 
 	var speakerIcon: Image {
-		isTappedSpeaker ? AppTheme.shared.imageSet.speakerOffIcon : AppTheme.shared.imageSet.speakerIcon
+		isTappedSpeaker ? AppTheme.shared.imageSet.speakerOffIcon2 : AppTheme.shared.imageSet.speakerIcon2
 	}
 }
 

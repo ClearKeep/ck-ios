@@ -39,6 +39,7 @@ struct InComingVoiceCallView: View {
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.background(AppTheme.shared.colorSet.warningDefault.opacity(Constant.opacity))
 			.edgesIgnoringSafeArea(.all)
 			.navigationBarBackButtonHidden(true)
 	}
@@ -63,7 +64,6 @@ private extension InComingVoiceCallView {
 				.padding(.bottom, Constant.paddingButtonNext)
 			Spacer()
 		}
-		.background(AppTheme.shared.colorSet.warningDefault.opacity(Constant.opacity))
 		.padding(.horizontal, Constant.paddingVertical)
 	}
 
@@ -126,7 +126,7 @@ private extension InComingVoiceCallView {
 							.foregroundColor(AppTheme.shared.colorSet.offWhite)
 					}
 			}
-				Text("Call.Decline".localized)
+				Text("Call.Answer".localized)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(AppTheme.shared.colorSet.offWhite)
 			}
