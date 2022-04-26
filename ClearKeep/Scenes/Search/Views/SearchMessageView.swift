@@ -24,9 +24,7 @@ struct SearchMessageView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@State private var isMessageChat: Bool = false
-	@State private var model: [SearchModels] = [SearchModels(id: 1, imageUser: AppTheme.shared.imageSet.userImage, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "5/5/2021"),
-												SearchModels(id: 2, imageUser: AppTheme.shared.imageSet.userImage, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "5/5/2021"),
-												SearchModels(id: 3, imageUser: AppTheme.shared.imageSet.userImage, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "5/5/2021")]
+	@State private var model: [SearchModels] = []
 	// MARK: - Body
 	var body: some View {
 		ForEach(0..<model.count, id: \.self) { index in

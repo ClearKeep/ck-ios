@@ -23,9 +23,7 @@ struct SearchGroupView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@State private var isGroupChat: Bool = false
-	@State private var model: [SearchModels] = [SearchModels(id: 1, imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group"),
-												SearchModels(id: 2, imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group"),
-												SearchModels(id: 3, imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group")]
+	@State private var model: [SearchModels] = []
 	
 	// MARK: - Body
 	var body: some View {
