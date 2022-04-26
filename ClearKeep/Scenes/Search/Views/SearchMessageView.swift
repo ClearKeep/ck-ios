@@ -24,34 +24,40 @@ struct SearchMessageView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@State private var isMessageChat: Bool = false
-	@State private var model: [SearchModels] = []
+	@Binding var searchModel: [SearchModels]
+
+	// MARK: - Init
+	init(searchModel: Binding<[SearchModels]>) {
+		self._searchModel = searchModel
+	}
+	
 	// MARK: - Body
 	var body: some View {
-		ForEach(0..<model.count, id: \.self) { index in
+		ForEach(0..<searchModel.count, id: \.self) { index in
 			VStack(alignment: .leading, spacing: Constants.paddingVstack) {
 				NavigationLink(
 					destination: EmptyView(),
 					isActive: $isMessageChat,
 					label: {
 						HStack(spacing: Constants.spacingHstack) {
-							model[index].imageUser
+							searchModel[index].imageUser
 								.resizable()
 								.aspectRatio(contentMode: .fit)
 								.frame(width: Constants.sizeImage, height: Constants.sizeImage)
 								.clipShape(Circle())
 							VStack(alignment: .leading, spacing: Constants.spacing) {
-								Text(model[index].userName)
+								Text(searchModel[index].userName)
 									.font(AppTheme.shared.fontSet.font(style: .body2))
 									.foregroundColor(foregroundColorUserName)
-								Text(model[index].message)
+								Text(searchModel[index].message)
 									.font(AppTheme.shared.fontSet.font(style: .input3))
 									.foregroundColor(foregroundColorUserName)
 									.frame(alignment: .center)
 								HStack {
-									Text(model[index].dateMessage)
+									Text(searchModel[index].dateMessage)
 										.font(AppTheme.shared.fontSet.font(style: .input3))
 										.foregroundColor(foregroundColorUserName)
-									Text(model[index].groupText)
+									Text(searchModel[index].groupText)
 										.font(AppTheme.shared.fontSet.font(style: .input3))
 										.foregroundColor(foregroundColorUserName)
 								}
@@ -85,7 +91,7 @@ private extension SearchMessageView {
 #if DEBUG
 struct SearchMessageView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchMessageView()
+		SearchMessageView(searchModel: .constant([]))
 	}
 }
 #endif

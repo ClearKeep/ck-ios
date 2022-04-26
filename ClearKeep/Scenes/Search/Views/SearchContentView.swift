@@ -23,11 +23,13 @@ struct SearchContentView: View {
 	@State private(set) var searchCatalogy: SearchCatalogy = .all
 	@State private var selectedTab: Int = 0
 	@State private var isSelected: Bool = false
-	@State private var model: [SearchModels] = []
+	@Binding var searchModel: [SearchModels]
 	
 	// MARK: - Init
-	init(searchCatalogy: SearchCatalogy = .all) {
+	init(searchCatalogy: SearchCatalogy = .all,
+		 searchModel: Binding<[SearchModels]>) {
 		self._searchCatalogy = .init(initialValue: searchCatalogy)
+		self._searchModel = searchModel
 	}
 	
 	// MARK: - Body
@@ -121,24 +123,24 @@ private extension SearchContentView {
 	}
 	
 	var allView: some View {
-		SearchAllView()
+		SearchAllView(searchModel: $searchModel)
 	}
 	
 	var peopleView: some View {
 		ScrollView(showsIndicators: false) {
-			SearchUserView()
+			SearchUserView(searchModel: $searchModel)
 		}
 	}
 	
 	var groupView: some View {
 		ScrollView(showsIndicators: false) {
-			SearchGroupView()
+			SearchGroupView(searchModel: $searchModel)
 		}
 	}
 	
 	var messageView: some View {
 		ScrollView(showsIndicators: false) {
-			SearchMessageView()
+			SearchMessageView(searchModel: $searchModel)
 		}
 	}
 }
@@ -151,7 +153,7 @@ private extension SearchContentView {
 #if DEBUG
 struct SearchContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchContentView()
+		SearchContentView(searchModel: .constant([]))
 	}
 }
 #endif

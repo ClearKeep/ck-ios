@@ -24,18 +24,23 @@ struct SearchGroupView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@State private var isGroupChat: Bool = false
-	@State private var model: [SearchModels] = []
+	@Binding var searchModel: [SearchModels]
+
+	// MARK: - Init
+	init(searchModel: Binding<[SearchModels]>) {
+		self._searchModel = searchModel
+	}
 	
 	// MARK: - Body
 	var body: some View {
-		ForEach(0..<model.count, id: \.self) { index in
+		ForEach(0..<searchModel.count, id: \.self) { index in
 			VStack(alignment: .leading, spacing: Constants.spacingVstack) {
 				NavigationLink(
 					destination: EmptyView(),
 					isActive: $isGroupChat,
 					label: {
 						Button(action: action) {
-							Text(model[index].groupText)
+							Text(searchModel[index].groupText)
 								.font(AppTheme.shared.fontSet.font(style: .body3))
 								.foregroundColor(foregroundColorText)
 								.frame(maxWidth: .infinity, alignment: .leading)
@@ -77,7 +82,7 @@ private extension SearchGroupView {
 
 struct SearchGroupView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchGroupView()
+		SearchGroupView(searchModel: .constant([]))
 	}
 }
 #endif

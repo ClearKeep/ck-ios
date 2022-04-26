@@ -20,14 +20,12 @@ private enum Constants {
 struct HomeHeaderView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
-	@Binding var searchText: String
+	@State private(set) var searchText: String = ""
 	@Binding var inputStyle: TextInputStyle
 	@State private(set) var isMenuAction: Bool = false
 	@State private(set) var isSearchAction: Bool = false
 	// MARK: - Init
-	init(searchText: Binding<String>,
-		 inputStyle: Binding<TextInputStyle>) {
-		self._searchText = searchText
+	init(inputStyle: Binding<TextInputStyle>) {
 		self._inputStyle = inputStyle
 	}
 
@@ -98,6 +96,7 @@ private extension HomeHeaderView {
 	func menuAction() {
 		if isSearchAction == true {
 			self.isSearchAction.toggle()
+			hideKeyboard()
 		} else {
 			self.isMenuAction.toggle()
 		}
@@ -166,15 +165,24 @@ private extension HomeHeaderView {
 	}
 
 	var searchContentView: some View {
-		SearchView(isSearchAction: $isSearchAction)
+		SearchView(isSearchAction: $isSearchAction, searchText: $searchText)
 	}
 }
 
-// MARK: - Preview
+	// MARK: - Preview
 #if DEBUG
 struct HomeHeaderView_Previews: PreviewProvider {
 	static var previews: some View {
-		HomeHeaderView(searchText: .constant(""), inputStyle: .constant(.default))
+		HomeHeaderView(inputStyle: .constant(.default))
+	}
+}
+#endif
+
+	// MARK: - extension
+#if canImport(UIKit)
+extension View {
+	func hideKeyboard() {
+		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 	}
 }
 #endif

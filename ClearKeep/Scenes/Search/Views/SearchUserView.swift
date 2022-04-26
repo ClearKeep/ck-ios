@@ -24,23 +24,28 @@ struct SearchUserView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@State private var isUserChat: Bool = false
-	@State private var model: [SearchModels] = []
+	@Binding var searchModel: [SearchModels]
+
+	// MARK: - Init
+	init(searchModel: Binding<[SearchModels]>) {
+		self._searchModel = searchModel
+	}
 	
 	// MARK: - Body
 	var body: some View {
-		ForEach(0..<model.count, id: \.self) { index in
+		ForEach(0..<searchModel.count, id: \.self) { index in
 			VStack(alignment: .leading, spacing: Constants.spacing) {
 				NavigationLink(
 					destination: EmptyView(),
 					isActive: $isUserChat,
 					label: {
 						HStack(spacing: Constants.spacingHstack) {
-							model[index].imageUser
+							searchModel[index].imageUser
 								.resizable()
 								.aspectRatio(contentMode: .fit)
 								.frame(width: Constants.sizeImage, height: Constants.sizeImage)
 								.clipShape(Circle())
-							Text(model[index].userName)
+							Text(searchModel[index].userName)
 								.font(AppTheme.shared.fontSet.font(style: .body2))
 								.foregroundColor(foregroundColorUserName)
 							Spacer()
@@ -69,7 +74,7 @@ private extension SearchUserView {
 #if DEBUG
 struct SearchUserView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchUserView()
+		SearchUserView(searchModel: .constant([]))
 	}
 }
 #endif
