@@ -20,6 +20,7 @@ private enum Constants {
 struct SearchUserView: View {
 	// MARK: - Constants
 	@Environment(\.colorScheme) var colorScheme
+	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@State private var isUserChat: Bool = false

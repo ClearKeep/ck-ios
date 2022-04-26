@@ -24,6 +24,7 @@ private enum Constants {
 struct SearchAllView: View {
 	// MARK: - Constants
 	@Environment(\.colorScheme) var colorScheme
+	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	
