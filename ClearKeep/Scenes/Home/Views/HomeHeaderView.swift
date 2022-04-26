@@ -4,13 +4,15 @@
 //
 //  Created by NamNH on 01/03/2022.
 //
+
 import SwiftUI
 import Common
 import CommonUI
 
 private enum Constants {
-	static let paddingLeading = 100.0
-	static let padding = 20.0
+	static let paddingTop = 76.0
+	static let paddingLeading = 90.0
+	static let padding = 16.0
 	static let sizeOffset = 30.0
 	static let sizeIcon = 24.0
 }
@@ -18,28 +20,20 @@ private enum Constants {
 struct HomeHeaderView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
-	@Binding var searchText: String
+	@State private(set) var searchText: String = ""
 	@Binding var inputStyle: TextInputStyle
-	@State private(set) var isMenuAction: Bool
-
+	@State private(set) var isMenuAction: Bool = false
+	@State private(set) var isSearchAction: Bool = false
 	// MARK: - Init
-	init(searchText: Binding<String>,
-		 inputStyle: Binding<TextInputStyle>,
-		 isMenuAction: Bool) {
-		self._searchText = searchText
+	init(inputStyle: Binding<TextInputStyle>) {
 		self._inputStyle = inputStyle
-		self._isMenuAction = .init(initialValue: isMenuAction)
 	}
 
 	// MARK: - Body
 	var body: some View {
-		NavigationView {
-			content
-				.background(backgroundColorView)
-				.edgesIgnoringSafeArea(.all)
-				.navigationBarTitle("")
-				.navigationBarHidden(true)
-		}
+		content
+			.background(backgroundColorView)
+			.edgesIgnoringSafeArea(.all)
 	}
 }
 
@@ -52,12 +46,20 @@ private extension HomeHeaderView {
 	var header: AnyView {
 		AnyView(headerView)
 	}
+
+	var homeContent: AnyView {
+		isSearchAction ? AnyView(searchContentView) : AnyView(homeContentView)
+	}
+
+	var searchContent: AnyView {
+		AnyView(searchContentView)
+	}
 }
 
 // MARK: - Private variable
 private extension HomeHeaderView {
 	var backgroundColorView: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.black
+		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
 	}
 
 	var backgroundColor: LinearGradient {
@@ -75,12 +77,33 @@ private extension HomeHeaderView {
 	var foregroundColorTitle: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight
 	}
+
+	var leaddingPadding: CGFloat {
+		isSearchAction ? Constants.padding : Constants.paddingLeading
+	}
+
+	var iconSeachChange: Image {
+		isSearchAction ? AppTheme.shared.imageSet.crossIcon : AppTheme.shared.imageSet.menuIcon
+	}
+
+	var placeHolderText: String {
+		isSearchAction ? "Search.Placehodel".localized : "General.Search".localized
+	}
 }
 
 // MARK: - Private func
 private extension HomeHeaderView {
 	func menuAction() {
-		self.isMenuAction.toggle()
+		if isSearchAction == true {
+			self.isSearchAction.toggle()
+			hideKeyboard()
+		} else {
+			self.isMenuAction.toggle()
+		}
+	}
+
+	func searchAction() {
+		self.isSearchAction.toggle()
 	}
 }
 
@@ -90,8 +113,11 @@ private extension HomeHeaderView {
 		GeometryReader { geometry in
 			ZStack {
 				ServerView(isChangeSever: false)
+					.frame(width: geometry.size.width)
+					.offset(x: self.isSearchAction ? -geometry.size.width : 0 )
+					.animation(.default)
 				header
-				HomeMenuView(userName: "Test", urlString: "test", isExpand: false, isShow: true, isChangeStatus: true, isMenuAction: $isMenuAction)
+				HomeMenuView(isExpand: false, isShow: false, isChangeStatus: false, isMenuAction: $isMenuAction)
 					.frame(width: geometry.size.width)
 					.offset(x: self.isMenuAction ? 0 : geometry.size.width )
 					.animation(.default)
@@ -100,39 +126,54 @@ private extension HomeHeaderView {
 	}
 
 	var headerView: some View {
-		VStack {
+		VStack(alignment: .center) {
 			HStack {
 				Text("Home.Title".localized)
 					.font(AppTheme.shared.fontSet.font(style: .display3))
 					.foregroundColor(foregroundColorTitle)
 				Spacer()
 				Button(action: menuAction) {
-					AppTheme.shared.imageSet.menuIcon
+					iconSeachChange
 						.resizable()
-						.renderingMode(.template)
 						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 						.foregroundColor(foregroundColorTitle)
 				}
 			}
+			.padding(.leading, leaddingPadding)
+			.padding(.trailing, Constants.padding)
 			SearchTextField(searchText: $searchText,
 							inputStyle: $inputStyle,
 							inputIcon: AppTheme.shared.imageSet.searchIcon,
-							placeHolder: "General.Search".localized,
-							onEditingChanged: { _ in })
-			HomeContentView(isExpandGroup: false, isExpandMessage: false, isAddAction: false, isChangeStatus: false)
+							placeHolder: placeHolderText,
+							onEditingChanged: { isEditing in
+				if isEditing {
+					isSearchAction = true
+				}
+			})
+				.padding(.leading, leaddingPadding)
+				.padding(.trailing, Constants.padding)
+			homeContent
 			Spacer()
 		}
-		.padding(.top, Constants.paddingLeading)
-		.padding(.leading, Constants.paddingLeading)
-		.padding(.trailing, Constants.padding)
+		.padding(.top, Constants.paddingTop)
+	}
+
+	var homeContentView: some View {
+		HomeContentView(isExpandGroup: false, isExpandMessage: false, isAddAction: false, isChangeStatus: false)
+			.padding(.leading, leaddingPadding)
+			.padding(.trailing, Constants.padding)
+	}
+
+	var searchContentView: some View {
+		SearchView(isSearchAction: $isSearchAction, searchText: $searchText)
 	}
 }
 
-// MARK: - Preview
+	// MARK: - Preview
 #if DEBUG
 struct HomeHeaderView_Previews: PreviewProvider {
 	static var previews: some View {
-		HomeHeaderView(searchText: .constant("Test"), inputStyle: .constant(.default), isMenuAction: false)
+		HomeHeaderView(inputStyle: .constant(.default))
 	}
 }
 #endif
