@@ -20,6 +20,6 @@ extension ISearchCatalogy where Self: RawRepresentable, RawValue == String {
 enum SearchCatalogy: String, ISearchCatalogy {
 	case all = "All"
 	case people = "People"
-	case group = "Group"
+	case group = "Groups"
 	case message = "Message"
 }

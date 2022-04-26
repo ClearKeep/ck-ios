@@ -67,4 +67,5 @@ public protocol IImageSet {
 	var facebookIcon: Image { get }
 	var unCheckIcon: Image { get }
 	var checkedIcon: Image { get }
+	var userImage: Image { get }
 }

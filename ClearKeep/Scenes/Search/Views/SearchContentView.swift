@@ -22,9 +22,7 @@ struct SearchContentView: View {
 	@State private(set) var searchCatalogy: SearchCatalogy = .all
 	@State private var selectedTab: Int = 0
 	@State private var isSelected: Bool = false
-	@State private var model: [SearchModels] = [SearchModels(id: 1, imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group"),
-												SearchModels(id: 2, imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group"),
-												SearchModels(id: 3, imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "Today at 1:55 PM CLK Group")]
+	@State private var model: [SearchModels] = []
 	
 	// MARK: - Init
 	init(searchCatalogy: SearchCatalogy = .all) {
@@ -38,7 +36,7 @@ struct SearchContentView: View {
 	}
 }
 
-	// MARK: - Private
+// MARK: - Private
 private extension SearchContentView {
 	var content: AnyView {
 		AnyView(contentView)
@@ -65,7 +63,7 @@ private extension SearchContentView {
 	}
 }
 
-	// MARK: - Private variable
+// MARK: - Private variable
 private extension SearchContentView {
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
@@ -92,10 +90,10 @@ private extension SearchContentView {
 	}
 }
 
-	// MARK: - Loading Content
+// MARK: - Loading Content
 private extension SearchContentView {
 	var contentView: some View {
-		VStack(spacing: Constants.spacing) {
+		VStack {
 			searchCatalogContent
 			catalogView
 			Spacer()
@@ -120,7 +118,7 @@ private extension SearchContentView {
 	var searchCatalogView: some View {
 		CatalogyView(states: SearchCatalogy.allCases, selectedState: $searchCatalogy)
 	}
-
+	
 	var allView: some View {
 		SearchAllView()
 	}

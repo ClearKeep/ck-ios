@@ -70,6 +70,7 @@ struct AppImageSet: IAppImageSet {
 	var facebookIcon: Image { Image("ic_faceBook") }
 	var unCheckIcon: Image { Image("ic_uncheck") }
 	var checkedIcon: Image { Image("ic_checked") }
+	var userImage: Image { Image("ic_user_image") }
 }
 
 extension AppImageSet: ICommonUIImageSet {
