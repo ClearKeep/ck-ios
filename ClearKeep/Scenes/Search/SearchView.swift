@@ -21,6 +21,7 @@ struct SearchView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
 	@Environment(\.colorScheme) var colorScheme
+	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@State private(set) var samples: Loadable<[ISearchModels]>
@@ -48,6 +49,7 @@ struct SearchView: View {
 		}
 	}
 }
+
 // MARK: - Private
 private extension SearchView {
 	var content: AnyView {
@@ -104,6 +106,7 @@ private extension SearchView {
 		}.padding(.bottom, 0)
 	}
 }
+
 // MARK: - Private
 private extension SearchView {
 	var backgroundColorView: Color {
@@ -120,6 +123,7 @@ private extension SearchView {
 	func reloadSamples() {
 	}
 }
+
 // MARK: - Preview
 #if DEBUG
 struct SearchView_Previews: PreviewProvider {
