@@ -12,6 +12,7 @@ import SwiftUI
 
 private enum Constant {
 	static let spacer = 20.0
+	static let spacerTop = 50.0
 	static let spacerSetting = 5.0
 	static let spacerSettingBottom = 10.0
 	static let paddingVertical = 14.0
@@ -24,11 +25,11 @@ private enum Constant {
 }
 
 struct UserProfileContentView: View {
+	// MARK: - Variables
 	let inspection = ViewInspector<Self>()
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
 	@State var countryCode = ""
 	@State private(set) var samples: Loadable<[IProfileModel]>
 	@State private(set) var username: String
@@ -39,7 +40,10 @@ struct UserProfileContentView: View {
 	@State private(set) var phoneStyle: TextInputStyle = .default
 	@State private(set) var isExpand = false
 	@State private(set) var isShowCountryCode: Bool = false
+	@State private var isEnable2FA: Bool = false
+	@State private var twoFAStatus: String = ""
 
+	// MARK: - Init
 	init(samples: Loadable<[IProfileModel]> = .notRequested,
 		 username: String = "",
 		 email: String = "",
@@ -54,6 +58,7 @@ struct UserProfileContentView: View {
 		_phoneStyle = .init(initialValue: phoneStyle)
 	}
 
+	// MARK: - Body
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
@@ -62,7 +67,6 @@ struct UserProfileContentView: View {
 }
 
 // MARK: - Private
-
 private extension UserProfileContentView {
 	var content: AnyView {
 		AnyView(notRequestedView)
@@ -70,15 +74,13 @@ private extension UserProfileContentView {
 }
 
 // MARK: - Loading Content
-
 private extension UserProfileContentView {
 	var notRequestedView: some View {
-		VStack {
-			backgroundColorTop
-				.frame(maxWidth: .infinity, maxHeight: Constant.heightBackground)
+		ScrollView {
 			ZStack {
 				VStack {
 					buttonTop
+						.padding(.top, Constant.spacerTop)
 					profileSettings
 						.padding(.top, Constant.spacer)
 					textInput
@@ -185,17 +187,29 @@ private extension UserProfileContentView {
 				.foregroundColor(AppTheme.shared.colorSet.grey1)
 
 			HStack {
-				Button("+\(countryCode)") {
+				Button {
 					isShowCountryCode = true
+				} label: {
+					HStack {
+						Text(countryCode)
+							.font(AppTheme.shared.fontSet.font(style: .input3))
+							.foregroundColor(foregroundCrossButton)
+							.padding(.leading, Constant.paddingVertical)
+						Spacer()
+						AppTheme.shared.imageSet.chevDownIcon
+							.font(AppTheme.shared.fontSet.font(style: .input3))
+							.foregroundColor(foregroundCrossButton)
+							.padding(.trailing, 5)
 
+					}
+					.frame(width: Constant.widthButtonPhone, height: Constant.heightButtonPhone)
+					.background(AppTheme.shared.colorSet.grey5)
+					.cornerRadius(Constant.radius)
+					.overlay(
+						RoundedRectangle(cornerRadius: Constant.radius)
+							.stroke(AppTheme.shared.colorSet.grey5, lineWidth: Constant.lineWidth)
+					)
 				}
-				.frame(width: Constant.widthButtonPhone, height: Constant.heightButtonPhone)
-				.background(AppTheme.shared.colorSet.grey5)
-				.cornerRadius(Constant.radius)
-				.overlay(
-					RoundedRectangle(cornerRadius: Constant.radius)
-						.stroke(AppTheme.shared.colorSet.grey5, lineWidth: Constant.lineWidth)
-				)
 
 				CommonTextField(text: $phone,
 								inputStyle: $phoneStyle,
@@ -210,7 +224,7 @@ private extension UserProfileContentView {
 					}
 				})
 			}
-			Button(action: buttonSupport) {
+			Button(action: customBack) {
 				HStack {
 					Text("UserProfile.Link.Copy".localized)
 						.font(AppTheme.shared.fontSet.font(style: .body3))
@@ -222,7 +236,7 @@ private extension UserProfileContentView {
 				}
 			}
 
-			Button(action: buttonSupport) {
+			Button(action: customBack) {
 				HStack {
 					Text("UserProfile.Password.Change".localized)
 						.font(AppTheme.shared.fontSet.font(style: .body3))
@@ -244,8 +258,8 @@ private extension UserProfileContentView {
 					.foregroundColor(foregroundColorSetting)
 
 				Spacer()
-				Button(action: buttonSupport) {
-					Text("UserProfile.Disable".localized)
+				Button(action: enable2FA) {
+					Text(statusTwoFA)
 						.font(AppTheme.shared.fontSet.font(style: .body3))
 						.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 				}
@@ -267,8 +281,12 @@ private extension UserProfileContentView {
 		presentationMode.wrappedValue.dismiss()
 	}
 
-	func buttonSupport() {
-		print("Button pressed")
+	func enable2FA() {
+		isEnable2FA.toggle()
+	}
+
+	var statusTwoFA: String {
+		isEnable2FA ? "Disable" : "Enable"
 	}
 }
 

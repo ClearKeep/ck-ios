@@ -12,6 +12,7 @@ import CommonUI
 
 private enum Constant {
 	static let spacer = 25.0
+	static let spacerTop = 50.0
 	static let paddingVertical = 14.0
 	static let paddingHorizontal = 24.0
 }
@@ -27,7 +28,7 @@ struct CountryCode: View {
 	@State private(set) var search: String
 	@State private(set) var searchStyle: TextInputStyle = .default
 	@State private(set) var isShowUserProfile = false
-	@Binding private(set) var selectedNum: String
+	@Binding var selectedNum: String
 
 	// MARK: - Init
 	init(selectedNum: Binding<String>, isShowing: Binding<Bool>, samples: Loadable<[IProfileModel]> = .notRequested, search: String = "", inputStyle: TextInputStyle = .default) {
@@ -44,9 +45,7 @@ struct CountryCode: View {
 
 	// MARK: Body
 	var body: some View {
-		VStack {
 			content
-		}
 		.background(background)
 	}
 }
@@ -54,15 +53,16 @@ struct CountryCode: View {
 // MARK: - Private
 private extension CountryCode {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		AnyView(contentView)
 	}
 }
 
 // MARK: - Loading Content
 private extension CountryCode {
-	var notRequestedView: some View {
+	var contentView: some View {
 		VStack(spacing: Constant.spacer) {
 			buttonTop
+				.padding(.top, Constant.spacerTop)
 			title
 			searchInput
 			listCountryCode
@@ -76,6 +76,7 @@ private extension CountryCode {
 				isShowing = false
 			}, label: {
 				AppTheme.shared.imageSet.crossIcon
+					.foregroundColor(foregroundCrossButton)
 			})
 			Spacer()
 		}
@@ -104,7 +105,7 @@ private extension CountryCode {
 	var listCountryCode: some View {
 		List(values, id: \.self) { value in
 			Button {
-				self.selectedNum = value
+				self.selectedNum = "+\(value)"
 				isShowing = false
 			} label: {
 				Text("\(value)")
@@ -119,6 +120,10 @@ private extension CountryCode {
 private extension CountryCode {
 	var background: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.black
+	}
+
+	var foregroundCrossButton: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight
 	}
 }
 

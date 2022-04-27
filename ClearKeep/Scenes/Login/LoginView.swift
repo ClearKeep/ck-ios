@@ -64,7 +64,6 @@ private extension LoginView {
 private extension LoginView {
 	var notRequestedView: some View {
 		ScrollView {
-			background
 			VStack(spacing: Constants.spacing) {
 				Spacer(minLength: Constants.minSpacer)
 				AppTheme.shared.imageSet.logo
