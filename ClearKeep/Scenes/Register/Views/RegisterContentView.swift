@@ -16,7 +16,10 @@ private enum Constants {
 
 struct RegisterContentView: View {
 	// MARK: - Variables
+	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
+	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+	@State private(set) var domain: String = ""
 	@Binding var email: String
 	@Binding var password: String
 	@Binding var displayname: String
@@ -78,16 +81,32 @@ private extension RegisterContentView {
 		AnyView(nomalTextfieldView)
 	}
 }
+// MARK: - private func
+private extension RegisterContentView {
+	func doRegister() {
+		Task {
+			await injected.interactors.registerInteractor.register(displayName: displayname, email: email, password: password, domain: domain)
+		}
+	}
+
+	func customBack() {
+		self.presentationMode.wrappedValue.dismiss()
+	}
+
+}
 
 // MARK: - Loading Content
 private extension RegisterContentView {
 	var buttonView: some View {
 		HStack {
 			Button("Register.SignInInstead".localized) {
+				customBack()
 			}
 			.foregroundColor(foregroundColorPrimary)
 			Spacer()
 			Button("Register.SignUp".localized) {
+
+					doRegister()
 			}
 			.frame(maxWidth: .infinity, alignment: .center)
 			.padding(.all, Constants.padding)
