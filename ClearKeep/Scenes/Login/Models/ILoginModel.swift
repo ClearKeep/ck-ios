@@ -12,9 +12,9 @@ protocol ILoginModel {
 	var password: String { get }
 }
 
-struct LoginModel {
+struct LoginModel: ILoginModel {
 	var id: Int
-	var name: String
+	var email: String
 	var password: String
 }
 

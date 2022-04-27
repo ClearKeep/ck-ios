@@ -28,6 +28,7 @@ extension LoginRemoteStore: ILoginRemoteStore {
 			print(data)
 			return .success("")
 		case .failure(let error):
+			print(error)
 			return .failure(error)
 		}
 	}

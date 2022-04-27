@@ -28,13 +28,12 @@ public protocol IAuthenticationAPIService {
 extension APIService: IAuthenticationAPIService {
 	public func login(_ request: Auth_AuthChallengeReq) async -> (Result<Auth_AuthChallengeRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let response = clientAuth.login_challenge(request).response
-			let status = clientAuth.login_challenge(request).status
-			status.whenComplete({ result in
+			let caller = clientAuth.login_challenge(request)
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -49,13 +48,12 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func login(_ request: Auth_AuthenticateReq) async -> (Result<Auth_AuthRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let response = clientAuth.login_authenticate(request).response
-			let status = clientAuth.login_authenticate(request).status
-			status.whenComplete({ result in
+			let caller = clientAuth.login_authenticate(request)
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -70,13 +68,12 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func login(_ request: Auth_GoogleLoginReq) async -> (Result<Auth_SocialLoginRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let response = clientAuth.login_google(request).response
-			let status = clientAuth.login_google(request).status
-			status.whenComplete({ result in
+			let caller = clientAuth.login_google(request)
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -91,13 +88,12 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func login(_ request: Auth_OfficeLoginReq) async -> (Result<Auth_SocialLoginRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let response = clientAuth.login_office(request).response
-			let status = clientAuth.login_office(request).status
-			status.whenComplete({ result in
+			let caller = clientAuth.login_office(request)
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -112,13 +108,12 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func login(_ request: Auth_FacebookLoginReq) async -> (Result<Auth_SocialLoginRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let response = clientAuth.login_facebook(request).response
-			let status = clientAuth.login_facebook(request).status
-			status.whenComplete({ result in
+			let caller = clientAuth.login_facebook(request)
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -133,13 +128,12 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func login(_ request: Auth_AuthSocialChallengeReq) async -> (Result<Auth_AuthChallengeRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let response = clientAuth.login_social_challange(request).response
-			let status = clientAuth.login_social_challange(request).status
-			status.whenComplete({ result in
+			let caller = clientAuth.login_social_challange(request)
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -154,13 +148,12 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func verifyPinCode(_ request: Auth_VerifyPinCodeReq) async -> (Result<Auth_AuthRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let response = clientAuth.verify_pincode(request).response
-			let status = clientAuth.verify_pincode(request).status
-			status.whenComplete({ result in
+			let caller = clientAuth.verify_pincode(request)
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -175,13 +168,12 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func registerSRP(_ request: Auth_RegisterSRPReq) async -> (Result<Auth_RegisterSRPRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let response = clientAuth.register_srp(request).response
-			let status = clientAuth.register_srp(request).status
-			status.whenComplete({ result in
+			let caller = clientAuth.register_srp(request)
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -196,13 +188,12 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func registerPinCode(_ request: Auth_RegisterPinCodeReq) async -> (Result<Auth_AuthRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let response = clientAuth.register_pincode(request).response
-			let status = clientAuth.register_pincode(request).status
-			status.whenComplete({ result in
+			let caller = clientAuth.register_pincode(request)
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -217,13 +208,12 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func forgotPassword(_ request: Auth_ForgotPasswordReq, callOptions: CallOptions) async -> (Result<Auth_BaseResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let response = clientAuth.forgot_password(request, callOptions: callOptions).response
-			let status = clientAuth.forgot_password(request, callOptions: callOptions).status
-			status.whenComplete({ result in
+			let caller = clientAuth.forgot_password(request, callOptions: callOptions)
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -238,13 +228,12 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func forgotPasswordUpdate(_ request: Auth_ForgotPasswordUpdateReq) async -> (Result<Auth_AuthRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let response = clientAuth.forgot_password_update(request).response
-			let status = clientAuth.forgot_password_update(request).status
-			status.whenComplete({ result in
+			let caller = clientAuth.forgot_password_update(request)
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -259,13 +248,12 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func logout(_ request: Auth_LogoutReq, callOptions: CallOptions) async -> (Result<Auth_BaseResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let response = clientAuth.logout(request, callOptions: callOptions).response
-			let status = clientAuth.logout(request).status
-			status.whenComplete({ result in
+			let caller = clientAuth.logout(request, callOptions: callOptions)
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -280,13 +268,12 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func validateOTP(_ request: Auth_MfaValidateOtpRequest) async -> (Result<Auth_AuthRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let response = clientAuth.validate_otp(request).response
-			let status = clientAuth.validate_otp(request).status
-			status.whenComplete({ result in
+			let caller = clientAuth.validate_otp(request)
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -301,13 +288,12 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func mfaResendOTP(_ request: Auth_MfaResendOtpReq) async -> (Result<Auth_MfaResendOtpRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let response = clientAuth.resend_otp(request).response
-			let status = clientAuth.resend_otp(request).status
-			status.whenComplete({ result in
+			let caller = clientAuth.resend_otp(request)
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
