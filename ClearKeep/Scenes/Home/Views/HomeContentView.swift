@@ -8,11 +8,13 @@
 import SwiftUI
 private enum Constants {
 	static let spacing = 20.0
+	static let spacingVstack = 22.0
 	static let spacingLeading = 10.0
 	static let paddingTop = 50.0
 	static let paddingLeading = 100.0
 	static let padding = 20.0
-	static let sizeImage = 32.0
+	static let paddingOffset = 8.0
+	static let sizeImage = 24.0
 	static let sizeCircle = 8.0
 	static let sizeOffset = 5.0
 	static let sizeIcon = 24.0
@@ -111,7 +113,7 @@ private extension HomeContentView {
 // MARK: - Displaying Content
 private extension HomeContentView {
 	var bodyView: some View {
-		VStack(spacing: 22) {
+		VStack(spacing: Constants.spacingVstack) {
 			groupChat
 			directMessages
 		}
@@ -187,18 +189,16 @@ private extension HomeContentView {
 			}
 			VStack(alignment: .leading, spacing: Constants.spacing) {
 				ForEach(userName, id: \.self) { name in
-					HStack {
+					HStack(alignment: .center) {
 						ZStack {
 							AppTheme.shared.imageSet.facebookIcon
 								.resizable()
 								.aspectRatio(contentMode: .fit)
 								.frame(width: Constants.sizeImage, height: Constants.sizeImage)
 								.clipShape(Circle())
-								.padding(.leading, Constants.padding)
-								.padding(.bottom, Constants.padding)
 							Circle()
 								.frame(width: Constants.sizeCircle, height: Constants.sizeCircle)
-								.offset(x: Constants.padding)
+								.offset(x: Constants.paddingOffset, y: Constants.paddingOffset)
 								.foregroundColor(foregroundStatusView)
 						}
 						Button(action: changeView) {
@@ -207,7 +207,7 @@ private extension HomeContentView {
 								.foregroundColor(foregroundBody)
 						}
 						.padding(.leading, Constants.spacingLeading)
-						Spacer()
+
 					}
 				}
 			}

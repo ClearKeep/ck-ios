@@ -38,6 +38,7 @@ struct HomeHeaderView: View {
 		content
 			.background(backgroundColorView)
 			.edgesIgnoringSafeArea(.all)
+			.modifier(NavigationModifier())
 	}
 }
 
