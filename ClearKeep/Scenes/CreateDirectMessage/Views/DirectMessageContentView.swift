@@ -34,6 +34,7 @@ struct DirectMessageContentView: View {
 	@Binding var inputStyle: TextInputStyle
 	@State private(set) var isShowingLinkUser: Bool = false
 	@State private(set) var isShowingUser: Bool = false
+	@State private(set) var isNext: Bool = false
 	
 	// MARK: - Init
 	init(imageUser: Binding<Image>,
@@ -46,11 +47,13 @@ struct DirectMessageContentView: View {
 
 	// MARK: - Body
 	var body: some View {
-		content
-			.navigationBarTitle("")
-			.navigationBarHidden(true)
-			.background(backgroundColorView)
-			.edgesIgnoringSafeArea(.all)
+		NavigationView {
+			content
+				.navigationBarTitle("")
+				.navigationBarHidden(true)
+				.background(backgroundColorView)
+				.edgesIgnoringSafeArea(.all)
+		}
 	}
 }
 
@@ -115,7 +118,7 @@ private extension DirectMessageContentView {
 	}
 
 	func chooseUser() {
-
+		isNext = true
 	}
 }
 
@@ -148,21 +151,26 @@ private extension DirectMessageContentView {
 
 	var userView: some View {
 		ScrollView(showsIndicators: false) {
-			Button(action: chooseUser) {
-				VStack(alignment: .leading, spacing: Constants.spacing) {
-					HStack {
-						imageUser
-							.resizable()
-							.aspectRatio(contentMode: .fit)
-							.frame(width: Constants.sizeImage, height: Constants.sizeImage)
-							.clipShape(Circle())
-						Text(userName)
-							.font(AppTheme.shared.fontSet.font(style: .body2))
-							.foregroundColor(foregroundColorUserName)
-						Spacer()
+			NavigationLink(
+				destination: ChatView(messageText: "", inputStyle: .default, imageUser: imageUser, userName: userName),
+				isActive: $isNext,
+				label: {
+					Button(action: chooseUser) {
+						VStack(alignment: .leading, spacing: Constants.spacing) {
+							HStack {
+								imageUser
+									.resizable()
+									.aspectRatio(contentMode: .fit)
+									.frame(width: Constants.sizeImage, height: Constants.sizeImage)
+									.clipShape(Circle())
+								Text(userName)
+									.font(AppTheme.shared.fontSet.font(style: .body2))
+									.foregroundColor(foregroundColorUserName)
+								Spacer()
+							}
+						}
 					}
-				}
-			}
+				})
 		}
 	}
 

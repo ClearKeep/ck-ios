@@ -17,19 +17,21 @@ struct NavigationBarGradidentStyle<L, R>: ViewModifier where L: View, R: View {
 	var leftBarItems: (() -> L)?
 	var rightBarItems: (() -> R)?
 	
+	@Environment(\.colorScheme) var colorScheme
+	
 	func body(content: Content) -> some View {
-		VStack(alignment: .leading) {
+		VStack(alignment: .leading, spacing: 0) {
 			Spacer()
-				.grandientBackground(colors: commonUIConfig.colorSet.gradientPrimary)
 				.frame(width: UIScreen.main.bounds.width, height: 20 + globalSafeAreaInsets().top)
+				.background(backgroundGradientPrimary)
 			
-			VStack(alignment: .leading) {
+			VStack(alignment: .leading, spacing: 0) {
 				HStack {
 					leftBarItems?()
 					Spacer()
 					rightBarItems?()
 				}
-				.padding(.top, 29)
+				.padding([.horizontal, .bottom], 16)
 				
 				if let title = title {
 					Text(title)
@@ -37,8 +39,7 @@ struct NavigationBarGradidentStyle<L, R>: ViewModifier where L: View, R: View {
 						.foregroundColor(commonUIConfig.colorSet.black)
 						.padding(.top, 23)
 				}
-			}
-			.padding([.bottom, .horizontal], 16)
+			}.background(backgroundGradientPrimary)
 			
 			content
 		}
@@ -46,6 +47,12 @@ struct NavigationBarGradidentStyle<L, R>: ViewModifier where L: View, R: View {
 		.navigationBarTitle("", displayMode: .inline)
 		.navigationBarBackButtonHidden(true)
 		.edgesIgnoringSafeArea(.top)
+	}
+	
+	var backgroundGradientPrimary: AnyView {
+		colorScheme == .light
+		? AnyView(LinearGradient(gradient: Gradient(colors: commonUIConfig.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing))
+		: AnyView(commonUIConfig.colorSet.darkGrey2)
 	}
 }
 
