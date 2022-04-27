@@ -8,6 +8,7 @@
 import Combine
 import Common
 import ChatSecure
+import Model
 
 protocol ILoginWorker {
 	var remoteStore: ILoginRemoteStore { get }
@@ -15,7 +16,7 @@ protocol ILoginWorker {
 	var currentDomain: String { get }
 	var appVersion: String { get }
 	
-	func signIn(email: String, password: String) async -> Result<String, Error>
+	func signIn(email: String, password: String) async -> Result<IAuthenticationModel, Error>
 	func signInSocial(_ socialType: SocialType)
 	func signOut()
 }
@@ -41,7 +42,7 @@ extension LoginWorker: ILoginWorker {
 		channelStorage.currentChannel.domain
 	}
 	
-	func signIn(email: String, password: String) async -> Result<String, Error> {
+	func signIn(email: String, password: String) async -> Result<IAuthenticationModel, Error> {
 		return await remoteStore.signIn(email: email, password: password, domain: currentDomain)
 	}
 	

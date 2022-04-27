@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 import Common
 import CommonUI
-import Networking
+import Model
 
 private enum Constants {
 	static let minSpacer = 50.0
@@ -24,7 +24,7 @@ struct LoginView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
-	@State private(set) var loadable: Loadable<ILoginModel> = .notRequested
+	@State private(set) var loadable: Loadable<IAuthenticationModel> = .notRequested
 	let inspection = ViewInspector<Self>()
 
 	// MARK: - Init

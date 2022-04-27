@@ -8,6 +8,7 @@ import SwiftUI
 import Combine
 import Common
 import CommonUI
+import Model
 
 private enum Constant {
 	static let spacerTopView = 50.0
@@ -30,7 +31,7 @@ struct LoginContentView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
-	@Binding var loadable: Loadable<ILoginModel>
+	@Binding var loadable: Loadable<IAuthenticationModel>
 	@State private var email: String = ""
 	@State private var password: String = ""
 	@State private var emailStyle: TextInputStyle = .default

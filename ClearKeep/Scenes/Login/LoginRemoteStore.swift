@@ -8,9 +8,10 @@
 import Foundation
 import Combine
 import ChatSecure
+import Model
 
 protocol ILoginRemoteStore {
-	func signIn(email: String, password: String, domain: String) async -> Result<String, Error>
+	func signIn(email: String, password: String, domain: String) async -> Result<IAuthenticationModel, Error>
 	func signInSocial(_ socialType: SocialType, domain: String)
 	func signOut(domain: String)
 }
@@ -21,14 +22,13 @@ struct LoginRemoteStore {
 }
 
 extension LoginRemoteStore: ILoginRemoteStore {
-	func signIn(email: String, password: String, domain: String) async -> Result<String, Error> {
-		let response = await authenticationService.login(userName: email, password: password, domain: domain)
-		switch response {
-		case .success(let data):
-			print(data)
-			return .success("")
+	func signIn(email: String, password: String, domain: String) async -> Result<IAuthenticationModel, Error> {
+		let result = await authenticationService.login(userName: email, password: password, domain: domain)
+		
+		switch result {
+		case .success(let authenticationResponse):
+			return .success(AuthenticationModel(response: authenticationResponse))
 		case .failure(let error):
-			print(error)
 			return .failure(error)
 		}
 	}
