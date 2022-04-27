@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct NavigationModifier: ViewModifier {
+public struct NavigationModifier: ViewModifier {
 	// MARK: - Body
-	func body(content: Content) -> some View {
+	public init() { }
+	public func body(content: Content) -> some View {
 		content
 			.navigationBarTitle("")
 			.navigationBarHidden(true)

@@ -24,12 +24,12 @@ struct InComingVoiceGroupCall: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) private var colorScheme
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
-	@State private(set) var samples: Loadable<[ICallModel]>
+	@State private(set) var samples: Loadable<[IGroupCallModel]>
 	@State private(set) var isTappedDecline: Bool = false
 	@State private(set) var isTappedAnswer: Bool = false
 
 	// MARK: - Init
-	public init(samples: Loadable<[ICallModel]> = .notRequested) {
+	public init(samples: Loadable<[IGroupCallModel]> = .notRequested) {
 		self._samples = .init(initialValue: samples)
 	}
 
