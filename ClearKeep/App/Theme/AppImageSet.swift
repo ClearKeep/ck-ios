@@ -14,7 +14,7 @@ struct AppImageSet: IAppImageSet {
 	var splashLogo: Image { Image("logo_Clearkeep") }
 	var logo: Image { Image("logo_Clearkeep2") }
 	var homeIcon: Image { Image("ic_home") }
-	var plusIcon: Image { Image("ic_plus") }
+	var plusIcon: Image { Image("ic_plus").renderingMode(.template) }
 	var noteIcon: Image { Image("ic_notes") }
 	var gearIcon: Image { Image("ic_gear") }
 	var logoutIcon: Image { Image("ic_logout") }

@@ -13,12 +13,14 @@ protocol IServerModels {
 	var id: Int { get }
 	var url: String { get }
 	var title: String { get }
+	var status: Bool { get }
 }
 
 struct ServerModels {
 	var id: Int
 	var url: String
 	var title: String
+	var status: Bool
 }
 
 extension ServerModels: IServerModels {

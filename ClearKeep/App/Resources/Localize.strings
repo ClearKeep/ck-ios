@@ -78,7 +78,6 @@
 "AdvancedServer.Submit" = "Submit";
 "AdvancedServer.ServerUrl" = "Server URL";
 // MARK: - Home
-"Home.Title" = "CK Development";
 "Home.Menu" = "Menu";
 "Home.Profile" = "Profile";
 "Home.Server" = "Sever";
@@ -141,3 +140,10 @@
 "GroupDetail.TitleCheckbox" = "Add user from other server";
 "GroupDetail.UserInitTitle" = "Users int his Group chat";
 "GroupDetail.Title.PlaceHoder" = "Paste your friend's link";
+// MARK: - JoinServer
+"JoinServer.Title" = "JoinServer";
+"JoinServer.Body" = "To join a server, please type in the link of the server";
+"JoinServer.Placehoder" = "Server URL";
+"JoinServer.TitleButton" = "Join";
+"JoinServer.TipTitle" = "Tips: Ask your server admin to get the url to the server";
+

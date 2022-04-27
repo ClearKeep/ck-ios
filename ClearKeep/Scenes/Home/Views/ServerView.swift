@@ -7,23 +7,30 @@
 
 import SwiftUI
 private enum Constants {
-	static let radius = 30.0
+	static let radius = 35.0
 	static let paddingTop = 50.0
 	static let paddingTrailling = 100.0
-	static let padding = 15.0
-	
+	static let padding = 20.0
+	static let paddingLeading = 22.0
 }
 
 struct ServerView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.injected) private var injected: DIContainer
-	
+	@Binding var isAddServer: Bool
+
+	// MARK: - Init
+	init(isAddServer: Binding<Bool>) {
+		self._isAddServer = isAddServer
+	}
+
 	// MARK: - Body
 	var body: some View {
-		LazyVStack(alignment: .center) {
-			ButtonServerView()
-			Spacer()
+		ScrollView {
+			ButtonServerView(isAddServer: $isAddServer)
+				.padding(.leading, Constants.paddingLeading)
+				.padding(.top, Constants.padding)
 		}
 		.frame(maxHeight: .infinity)
 		.background(backgroundColorView.opacity(0.3))
@@ -62,7 +69,7 @@ private extension ServerView {
 #if DEBUG
 struct ServerView_Previews: PreviewProvider {
 	static var previews: some View {
-		ServerView()
+		ServerView(isAddServer: .constant(false))
 	}
 }
 #endif

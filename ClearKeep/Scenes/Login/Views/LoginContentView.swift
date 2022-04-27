@@ -38,7 +38,8 @@ struct LoginContentView: View {
 	@State private var isAdvanceServer: Bool = false
 	@State private var isForgotPassword: Bool = false
 	@State private var isRegister: Bool = false
-	
+	@State private var isHome: Bool = false
+
 	// MARK: - Body
 	var body: some View {
 		VStack(alignment: .center, spacing: Constant.spacer) {
@@ -87,15 +88,20 @@ private extension LoginContentView {
 // MARK: - Loading Content
 private extension LoginContentView {
 	var buttonSignIn: some View {
-		Button("Login.SignIn".localized) {
-			doLogin()
-		}
-		.frame(maxWidth: .infinity)
-		.frame(height: Constant.heightButton)
-		.font(fontSignIn)
-		.background(backgroundSignInButton)
-		.foregroundColor(foregroundColorView)
-		.cornerRadius(Constant.radius)
+		NavigationLink(
+			destination: HomeView(),
+			isActive: $isHome,
+			label: {
+				Button("Login.SignIn".localized) {
+					doLogin()
+				}
+				.frame(maxWidth: .infinity)
+				.frame(height: Constant.heightButton)
+				.font(fontSignIn)
+				.background(backgroundSignInButton)
+				.foregroundColor(foregroundColorView)
+				.cornerRadius(Constant.radius)
+			})
 	}
 	
 	var textInputView: some View {

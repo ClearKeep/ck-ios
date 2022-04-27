@@ -7,8 +7,8 @@
 
 import SwiftUI
 private enum Constants {
-	static let radius = 40.0
-	static let spacing = 10.0
+	static let spacing = 20.0
+	static let spacingLeading = 10.0
 	static let paddingTop = 50.0
 	static let paddingLeading = 100.0
 	static let padding = 20.0
@@ -16,9 +16,6 @@ private enum Constants {
 	static let sizeCircle = 8.0
 	static let sizeOffset = 5.0
 	static let sizeIcon = 24.0
-	static let widthExpand = 10.0
-	static let heightExpand = 6.0
-	static let sizeDisable = 12.0
 }
 
 struct HomeContentView: View {
@@ -60,7 +57,7 @@ private extension HomeContentView {
 	}
 	
 	var expandMessageImage: Image {
-		isExpandGroup ? AppTheme.shared.imageSet.chevDownIcon : AppTheme.shared.imageSet.chevRightIcon
+		isExpandMessage ? AppTheme.shared.imageSet.chevDownIcon : AppTheme.shared.imageSet.chevRightIcon
 	}
 	
 	var foregroundStatusView: Color {
@@ -114,7 +111,7 @@ private extension HomeContentView {
 // MARK: - Displaying Content
 private extension HomeContentView {
 	var bodyView: some View {
-		VStack {
+		VStack(spacing: 22) {
 			groupChat
 			directMessages
 		}
@@ -154,8 +151,7 @@ private extension HomeContentView {
 							.foregroundColor(foregroundBody)
 					}
 				}
-				.padding(.bottom, Constants.padding)
-				.padding(.leading, Constants.padding)
+				.padding(.leading, Constants.spacingLeading)
 			}
 			.opacity(opacityGroup)
 			.frame(height: frameGroup)
@@ -210,8 +206,7 @@ private extension HomeContentView {
 								.font(AppTheme.shared.fontSet.font(style: .input3))
 								.foregroundColor(foregroundBody)
 						}
-						.padding(.bottom, Constants.padding)
-						.padding(.leading, Constants.padding)
+						.padding(.leading, Constants.spacingLeading)
 						Spacer()
 					}
 				}
