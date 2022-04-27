@@ -61,7 +61,7 @@ struct ButtonServerView: View {
 					.padding(.all, Constants.paddingButton)
 					.overlay(
 						RoundedRectangle(cornerRadius: Constants.radius)
-							.stroke(AppTheme.shared.colorSet.black, lineWidth: self.selected == serverModels[index].id ? Constants.selectOn : Constants.selectOff)
+							.stroke(boderButon, lineWidth: self.selected == serverModels[index].id ? Constants.selectOn : Constants.selectOff)
 					)
 					Circle()
 						.frame(width: self.status == serverModels[index].status ? Constants.sizeCricle : Constants.selectOff, height: self.status == serverModels[index].status ? Constants.sizeCricle : Constants.selectOff)
