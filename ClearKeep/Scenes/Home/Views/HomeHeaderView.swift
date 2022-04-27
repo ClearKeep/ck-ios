@@ -112,7 +112,7 @@ private extension HomeHeaderView {
 	var contentView: some View {
 		GeometryReader { geometry in
 			ZStack {
-				ServerView(isChangeSever: false)
+				ServerView()
 					.frame(width: geometry.size.width)
 					.offset(x: self.isSearchAction ? -geometry.size.width : 0 )
 					.animation(.default)
@@ -166,6 +166,10 @@ private extension HomeHeaderView {
 
 	var searchContentView: some View {
 		SearchView(isSearchAction: $isSearchAction, searchText: $searchText)
+	}
+
+	var addServerView: some View {
+		AddServerView()
 	}
 }
 

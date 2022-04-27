@@ -7,112 +7,69 @@
 
 import SwiftUI
 private enum Constants {
-	static let radius = 40.0
-	static let radiusbutton = 4.0
+	static let radius = 30.0
 	static let paddingTop = 50.0
 	static let paddingTrailling = 100.0
-	static let padding = 10.0
-	static let sizeImage = 56.0
-	static let sizeButton = 22.0
+	static let padding = 15.0
+	
 }
 
 struct ServerView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
-	@State private(set) var items: [String] = ["a", "b", "c"]
-	@State private(set) var isChangeSever: Bool
-
-	// MARK: - Init
-	init(isChangeSever: Bool) {
-		self._isChangeSever = .init(initialValue: isChangeSever)
-	}
-
+	@Environment(\.injected) private var injected: DIContainer
+	
 	// MARK: - Body
 	var body: some View {
-		content
-			.background(backgroundView.opacity(0.7))
-			.mask(CustomShapeLeft(radius: Constants.radius))
-			.padding(.top, Constants.paddingTop)
-			.padding(.trailing, Constants.paddingTrailling)
-			.edgesIgnoringSafeArea(.all)
+		LazyVStack(alignment: .center) {
+			ButtonServerView()
+			Spacer()
+		}
+		.frame(maxHeight: .infinity)
+		.background(backgroundColorView.opacity(0.3))
+		.mask(CustomShapeLeft(radius: Constants.radius))
+		.padding(.top, Constants.paddingTop)
+		.padding(.trailing, Constants.paddingTrailling)
+		.edgesIgnoringSafeArea(.all)
 	}
 }
 
 // MARK: - Private
 private extension ServerView {
-	var content: AnyView {
-		AnyView(severButtonView)
-	}
-}
-
-// MARK: - Private Func
-private extension ServerView {
 	var foregroundButtonView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.greyLight2
 	}
-
-	var backgroundView: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.primaryLight : AppTheme.shared.colorSet.darkgrey3
+	
+	var backgroundColorView: LinearGradient {
+		colorScheme == .light ? backgroundColorLight : backgroundColorDark
 	}
-
-	var backgroundButton: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.primaryDark
+	
+	var backgroundColorLight: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientSecondary), startPoint: .leading, endPoint: .trailing)
 	}
-
-	func changeServer() {
-		self.isChangeSever.toggle()
-	}
-
-	func addServer() {
-
+	
+	var backgroundColorDark: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.grey2, AppTheme.shared.colorSet.grey2]), startPoint: .leading, endPoint: .trailing)
 	}
 }
-// MARK: - Displaying Content
+
+// MARK: - Private func
 private extension ServerView {
-	var severButtonView: some View {
-		ScrollView {
-			LazyVStack(alignment: .leading) {
-				Button(action: changeServer) {
-					AppTheme.shared.imageSet.logo
-						.resizable()
-						.renderingMode(.template)
-						.aspectRatio(contentMode: .fit)
-						.frame(width: Constants.sizeButton, height: Constants.sizeButton)
-						.foregroundColor(foregroundButtonView)
-						.background(backgroundButton)
-						.cornerRadius(Constants.radiusbutton)
-				}
-				.padding(.all, Constants.padding)
-				Button(action: addServer) {
-					AppTheme.shared.imageSet.plusIcon
-						.resizable()
-						.renderingMode(.template)
-						.aspectRatio(contentMode: .fit)
-						.frame(width: Constants.sizeButton, height: Constants.sizeButton)
-						.foregroundColor(foregroundButtonView)
-						.background(backgroundButton)
-						.cornerRadius(Constants.radiusbutton)
-				}
-				.padding(.all, Constants.padding)
-			}
-			.padding(.all, Constants.padding)
-			.padding(.top, Constants.paddingTop)
-			Spacer()
-		}
-	}
+	
 }
+
 // MARK: - Preview
 #if DEBUG
 struct ServerView_Previews: PreviewProvider {
 	static var previews: some View {
-		ServerView(isChangeSever: false)
+		ServerView()
 	}
 }
 #endif
 
 struct CustomShapeLeft: Shape {
 	let radius: CGFloat
-
+	
 	func path(in rect: CGRect) -> Path {
 		var path = Path()
 		let bottomleft = CGPoint(x: rect.minX, y: rect.maxY)

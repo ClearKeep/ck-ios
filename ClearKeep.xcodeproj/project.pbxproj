@@ -27,6 +27,13 @@
 		0462C6CB2816535C00A9EABB /* SearchUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6BE2816535C00A9EABB /* SearchUserView.swift */; };
 		0462C6CC2816535C00A9EABB /* CatalogyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6BF2816535C00A9EABB /* CatalogyView.swift */; };
 		0462C6CD2816535C00A9EABB /* SearchGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6C02816535C00A9EABB /* SearchGroupView.swift */; };
+		0462C7442818324000A9EABB /* AddServerInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C73F2818324000A9EABB /* AddServerInMemoryStore.swift */; };
+		0462C7452818324000A9EABB /* AddServerWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C7402818324000A9EABB /* AddServerWorker.swift */; };
+		0462C7462818324100A9EABB /* AddServerRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C7412818324000A9EABB /* AddServerRemoteStore.swift */; };
+		0462C7472818324100A9EABB /* AddServerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C7422818324000A9EABB /* AddServerInteractor.swift */; };
+		0462C7482818324100A9EABB /* AddServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C7432818324000A9EABB /* AddServerView.swift */; };
+		0462C74C2818356400A9EABB /* ServerModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C74B2818356400A9EABB /* ServerModels.swift */; };
+		0462C74E281836FE00A9EABB /* ButtonServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C74D281836FE00A9EABB /* ButtonServerView.swift */; };
 		0472418227DB35550043345A /* HomeMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472418127DB35550043345A /* HomeMenuView.swift */; };
 		047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419927DB3D2C0043345A /* LoginRemoteStore.swift */; };
 		047241A627DB3D2C0043345A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419A27DB3D2C0043345A /* LoginView.swift */; };
@@ -221,6 +228,13 @@
 		0462C6BE2816535C00A9EABB /* SearchUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchUserView.swift; sourceTree = "<group>"; };
 		0462C6BF2816535C00A9EABB /* CatalogyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogyView.swift; sourceTree = "<group>"; };
 		0462C6C02816535C00A9EABB /* SearchGroupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchGroupView.swift; sourceTree = "<group>"; };
+		0462C73F2818324000A9EABB /* AddServerInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServerInMemoryStore.swift; sourceTree = "<group>"; };
+		0462C7402818324000A9EABB /* AddServerWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServerWorker.swift; sourceTree = "<group>"; };
+		0462C7412818324000A9EABB /* AddServerRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServerRemoteStore.swift; sourceTree = "<group>"; };
+		0462C7422818324000A9EABB /* AddServerInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServerInteractor.swift; sourceTree = "<group>"; };
+		0462C7432818324000A9EABB /* AddServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServerView.swift; sourceTree = "<group>"; };
+		0462C74B2818356400A9EABB /* ServerModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerModels.swift; sourceTree = "<group>"; };
+		0462C74D281836FE00A9EABB /* ButtonServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonServerView.swift; sourceTree = "<group>"; };
 		0472418127DB35550043345A /* HomeMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeMenuView.swift; sourceTree = "<group>"; };
 		0472419927DB3D2C0043345A /* LoginRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRemoteStore.swift; sourceTree = "<group>"; };
 		0472419A27DB3D2C0043345A /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -480,6 +494,36 @@
 				0462C6BE2816535C00A9EABB /* SearchUserView.swift */,
 				0462C6BF2816535C00A9EABB /* CatalogyView.swift */,
 				0462C6C02816535C00A9EABB /* SearchGroupView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0462C73E281831FD00A9EABB /* Server */ = {
+			isa = PBXGroup;
+			children = (
+				0462C74A2818324C00A9EABB /* Views */,
+				0462C7492818324600A9EABB /* Models */,
+				0462C73F2818324000A9EABB /* AddServerInMemoryStore.swift */,
+				0462C7402818324000A9EABB /* AddServerWorker.swift */,
+				0462C7412818324000A9EABB /* AddServerRemoteStore.swift */,
+				0462C7422818324000A9EABB /* AddServerInteractor.swift */,
+				0462C7432818324000A9EABB /* AddServerView.swift */,
+			);
+			path = Server;
+			sourceTree = "<group>";
+		};
+		0462C7492818324600A9EABB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0462C74B2818356400A9EABB /* ServerModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0462C74A2818324C00A9EABB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0462C74D281836FE00A9EABB /* ButtonServerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -764,6 +808,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				0462C73E281831FD00A9EABB /* Server */,
 				0462C6B12816535C00A9EABB /* Search */,
 				F556C23328097F6E00D2B149 /* ChatGroup */,
 				F568DC1627FD882600EE9DF0 /* Notification */,
@@ -1485,11 +1530,13 @@
 				0462C6C22816535C00A9EABB /* SearchView.swift in Sources */,
 				0462C6C32816535C00A9EABB /* SearchInMemoryStore.swift in Sources */,
 				047D6B1227F1544D0098B104 /* GroupDetailView.swift in Sources */,
+				0462C7452818324000A9EABB /* AddServerWorker.swift in Sources */,
 				047241A627DB3D2C0043345A /* LoginView.swift in Sources */,
 				044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */,
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
 				CB8C3E3427F57FBA0034B3A9 /* AppVersion.swift in Sources */,
 				F556C24228097F6E00D2B149 /* ChatGroupRemoteStore.swift in Sources */,
+				0462C7442818324000A9EABB /* AddServerInMemoryStore.swift in Sources */,
 				CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */,
 				CB117E7B27BB65E2000941D9 /* LocationConfigurations.swift in Sources */,
 				CB117EC427BB8DB1000941D9 /* SceneDelegate.swift in Sources */,
@@ -1553,6 +1600,7 @@
 				0499344427E97035003BD4C4 /* ChangePasswordInMemoryStore.swift in Sources */,
 				0462C6CD2816535C00A9EABB /* SearchGroupView.swift in Sources */,
 				047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */,
+				0462C74E281836FE00A9EABB /* ButtonServerView.swift in Sources */,
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
 				047D6B1027F1544D0098B104 /* GroupDetailRemoteStore.swift in Sources */,
 				0499345627E9A8BE003BD4C4 /* AdvancedSeverInteractor.swift in Sources */,
@@ -1561,7 +1609,9 @@
 				F556C23E28097F6E00D2B149 /* ChatGroupInMemoryStore.swift in Sources */,
 				0499343D27E96FC5003BD4C4 /* NewPasswordContenView.swift in Sources */,
 				047D6B6027F6A3750098B104 /* CreateDirectMessageRemoteStore.swift in Sources */,
+				0462C74C2818356400A9EABB /* ServerModels.swift in Sources */,
 				F553F87527E820E600824BE7 /* SocialCommonStyle.swift in Sources */,
+				0462C7472818324100A9EABB /* AddServerInteractor.swift in Sources */,
 				047D6B6227F6A3750098B104 /* CreateDirectMessageView.swift in Sources */,
 				0499340F27E96DD7003BD4C4 /* FogotPasswordInteractor.swift in Sources */,
 				047D6B5F27F6A3750098B104 /* CreateDirectMessageWorker.swift in Sources */,
@@ -1583,12 +1633,14 @@
 				F5CE37F427E97FF20085CECE /* UserProfileContentView.swift in Sources */,
 				0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */,
 				0499344827E97035003BD4C4 /* ChangePasswordView.swift in Sources */,
+				0462C7462818324100A9EABB /* AddServerRemoteStore.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
 				0499343727E96F8A003BD4C4 /* NewPasswordRemoteStore.swift in Sources */,
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
 				0499344627E97035003BD4C4 /* ChangePasswordRemoteStore.swift in Sources */,
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
+				0462C7482818324100A9EABB /* AddServerView.swift in Sources */,
 				0462C6C82816535C00A9EABB /* SearchAllView.swift in Sources */,
 				0499343627E96F8A003BD4C4 /* NewPasswordWorker.swift in Sources */,
 				F553F87427E820E600824BE7 /* SocialCommonUI.swift in Sources */,
