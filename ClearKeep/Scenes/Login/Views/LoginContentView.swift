@@ -5,6 +5,8 @@
 //  Created by đông on 02/03/2022.
 //
 import SwiftUI
+import Combine
+import Common
 import CommonUI
 
 private enum Constant {
@@ -28,16 +30,19 @@ struct LoginContentView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
-	@Binding var email: String
-	@Binding var password: String
-	@Binding var emailStyle: TextInputStyle
-	@Binding var passwordStyle: TextInputStyle
+	@Binding var loadable: Loadable<ILoginModel>
+	@State private var email: String = ""
+	@State private var password: String = ""
+	@State private var emailStyle: TextInputStyle = .default
+	@State private var passwordStyle: TextInputStyle = .default
 	@State private var appVersion: String = "General.Version".localized
 	@State private var editingEmail = false
 	@State private var editingPassword = false
 	@State private var isAdvanceServer: Bool = false
 	@State private var isForgotPassword: Bool = false
 	@State private var isRegister: Bool = false
+	
+	// MARK: - Init
 	
 	// MARK: - Body
 	var body: some View {
@@ -278,8 +283,9 @@ private extension LoginContentView {
 	}
 	
 	func doLogin() {
+		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			await injected.interactors.loginInteractor.signIn(email: email, password: password)
+			loadable = await injected.interactors.loginInteractor.signIn(email: email, password: password)
 		}
 	}
 
@@ -299,7 +305,7 @@ private extension LoginContentView {
 #if DEBUG
 struct LoginContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		LoginContentView(email: .constant("Test"), password: .constant("Test"), emailStyle: .constant(.default), passwordStyle: .constant(.default))
+		LoginContentView(loadable: .constant(.notRequested))
 	}
 }
 #endif

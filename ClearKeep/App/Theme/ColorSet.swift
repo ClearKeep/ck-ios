@@ -8,7 +8,9 @@
 import CommonUI
 import SwiftUI
 
-struct ColorSet: IColorSet {
+protocol IAppColorSet: IColorSet & ICommonUIColorSet {}
+
+struct ColorSet: IAppColorSet {
 	// MARK: - Grayscale
 	var black: Color { Color(UIColor(hex: "#000000")) }
 	var grey1: Color { Color(UIColor(hex: "#4E4B66")) }
@@ -62,6 +64,10 @@ struct ColorSet: IColorSet {
 	var gradientBlack: [Color] { [Color(UIColor(hex: "#000000")), Color(UIColor(hex: "#000000"))] }
 	// MARK: - Gradient Linear
 	var gradientLinear: [Color] { [Color(UIColor(hex: "#7773F3")), Color(UIColor(hex: "#8ABFF3"))] }
+	
+	// MARK: - Loading
+	var lightLoading: Color { Color(UIColor(hex: "#363BD0")) }
+	var darkLoading: Color { Color(UIColor(hex: "#898DFF")) }
 	
 	func color(of label: ColorStyle) -> Color {
 		return Color(UIColor(hex: "#"))
