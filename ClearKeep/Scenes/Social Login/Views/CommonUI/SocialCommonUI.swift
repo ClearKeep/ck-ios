@@ -25,27 +25,27 @@ private enum Constant {
 
 struct SocialCommonUI: View {
 	// MARK: - Variables
-	@Environment(\.presentationMode) var presentationMode
+	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
+//	@Environment(\.isEnabled) private var isEnabled: Bool
 	@Binding var text: String
 	@Binding var socialStyle: SocialCommonStyle
 	@State private(set) var samples: Loadable<[ISocialModel]>
-	@State private(set) var security: String
+	@State private var security = ""
 	@State private(set) var securityStyle: TextInputStyle = .default
 	@State private(set) var isNext: Bool = false
+	@State private var isDisable: Bool = false
 	let inspection = ViewInspector<Self>()
 
 	// MARK: - Init
 	public init(samples: Loadable<[ISocialModel]> = .notRequested,
-				security: String = "",
 				text: Binding<String>,
 				socialStyle: Binding<SocialCommonStyle>,
 				inputStyle: TextInputStyle = .default) {
 		self._text = text
 		self._socialStyle = socialStyle
 		self._samples = .init(initialValue: samples)
-		self._security = .init(initialValue: security)
 	}
 
 	// MARK: - Body
@@ -54,7 +54,7 @@ struct SocialCommonUI: View {
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.background(background)
 			.edgesIgnoringSafeArea(.all)
-			.navigationBarBackButtonHidden(true)
+			.navigationBarHidden(true)
 	}
 }
 
@@ -73,27 +73,25 @@ private extension SocialCommonUI {
 				.padding(.top, Constant.spacerTopView)
 			titleView.padding(.top, Constant.paddingVertical)
 			textInputView.padding(.top, Constant.paddingVertical)
-			buttonSocial
+			buttonSocial.padding(.top, Constant.spacer)
 			Spacer()
 		}
 		.padding(.horizontal, Constant.paddingVertical)
 	}
 
 	var buttonSocial: some View {
-		NavigationLink(
-			destination: nextView,
-			isActive: $isNext,
-			label: {
-				Button(buttonNext.localized) {
-					isNext = true
+		NavigationLink( destination: nextView) {
+				Button(action: doSocial) {
+					Text(buttonNext.localized)
 				}
 				.frame(maxWidth: .infinity)
 				.frame(height: Constant.heightButton)
 				.font(AppTheme.shared.fontSet.font(style: .body3))
-				.background(backgroundColorDarkView.opacity(Constant.backgroundOpacity))
+				.background(backgroundButton)
 				.foregroundColor(foregroundColorView)
 				.cornerRadius(Constant.cornerRadius)
-			})
+		}
+		.disabled(disableButton)
 	}
 
 	var buttonBackView: some View {
@@ -103,7 +101,6 @@ private extension SocialCommonUI {
 					.aspectRatio(contentMode: .fit)
 					.foregroundColor(foregroundBackButton)
 				Text(buttonBack.localized)
-					.padding(.all)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
@@ -112,15 +109,22 @@ private extension SocialCommonUI {
 	}
 
 	var textInputView: some View {
-		SecureTextField(secureText: $security,
-						inputStyle: $securityStyle,
-						inputIcon: AppTheme.shared.imageSet.lockIcon,
-						placeHolder: textInput.localized,
-						keyboardType: .numberPad)
+		VStack(spacing: Constant.spacer) {
+			SecureTextField(secureText: $security,
+							inputStyle: $securityStyle,
+							inputIcon: AppTheme.shared.imageSet.lockIcon,
+							placeHolder: textInput.localized,
+							keyboardType: .default)
+
+			Text(validate.localized)
+				.font(AppTheme.shared.fontSet.font(style: .placeholder3))
+				.foregroundColor(foregroundColorMessage)
+		}
 	}
 
 	var titleView: some View {
 		HStack {
+
 			Text(title.localized)
 				.font(AppTheme.shared.fontSet.font(style: .placeholder1))
 				.foregroundColor(foregroundMessage)
@@ -151,8 +155,8 @@ private extension SocialCommonUI {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
 
-	var backgroundColorDarkView: LinearGradient {
-		colorScheme == .light ? backgroundColorWhite : backgroundColorGradient
+	var backgroundColorDarkView: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
 
 	var foregroundColorView: Color {
@@ -170,12 +174,23 @@ private extension SocialCommonUI {
 	var foregroundMessage: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.grey1
 	}
+
+	var backgroundButton: Color {
+		return disableButton ? backgroundColorDarkView.opacity(Constant.backgroundOpacity) : backgroundColorDarkView
+	}
+
+	var disableButton: Bool {
+		return security.isEmpty
+	}
 }
 
 // MARK: - Private Func
 private extension SocialCommonUI {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
+	}
+
+	func doSocial() {
 	}
 
 	var title: String {
@@ -192,6 +207,10 @@ private extension SocialCommonUI {
 
 	var buttonNext: String {
 		socialStyle.buttonNext
+	}
+
+	var validate: String {
+		socialStyle.validatePassPhrase
 	}
 
 	var nextView: some View {
