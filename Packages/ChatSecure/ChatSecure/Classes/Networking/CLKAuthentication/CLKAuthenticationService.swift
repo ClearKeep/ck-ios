@@ -117,7 +117,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		
 		switch response {
 		case .success(let data):
-			guard let mValue = await srp.getM(salt: data.salt.decodeHex, byte: data.publicChallengeB.decodeHex, usr: usr) else { return .failure(ServerError.unknown) }
+			guard let mValue = await srp.getM(salt: data.salt.hexaBytes, byte: data.publicChallengeB.hexaBytes, usr: usr) else { return .failure(ServerError.unknown) }
 			let mHex = bytesConvertToHexString(bytes: mValue)
 			
 			srp.freeMemoryAuthenticate(usr: &usr)
@@ -200,7 +200,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		
 		switch response {
 		case .success(let data):
-			guard let mValue = await srp.getM(salt: data.salt.decodeHex, byte: data.publicChallengeB.decodeHex, usr: usr) else { return .failure(ServerError.unknown) }
+			guard let mValue = await srp.getM(salt: data.salt.hexaBytes, byte: data.publicChallengeB.hexaBytes, usr: usr) else { return .failure(ServerError.unknown) }
 			let mHex = bytesConvertToHexString(bytes: mValue)
 			
 			srp.freeMemoryAuthenticate(usr: &usr)
