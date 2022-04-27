@@ -174,3 +174,13 @@
 "GroupDetail.TitleCheckbox" = "Add user from other server";
 "GroupDetail.UserInitTitle" = "Users int his Group chat";
 "GroupDetail.Title.PlaceHoder" = "Paste your friend's link";
+// MARK: - Chat
+"Chat.QuoteButton" = "Quote";
+"Chat.CopyButton" = "Copy";
+"Chat.ForwardButton" = "Forward";
+"Chat.Forward" = "Forward to";
+"Chat.Input.PlaceHolder" = "Search for group or individuals";
+"Chat.Send" = "Send";
+"Chat.Group" = "Group";
+"Chat.User" = "User";
+"Chat.Replying" = "Replying to ";

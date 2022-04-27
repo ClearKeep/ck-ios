@@ -38,4 +38,30 @@ public extension View {
 			self
 		}
 	}
+	
+	func bottomSheet<Content: View>(
+		isPresented: Binding<Bool>,
+		isShowHandle: Bool,
+		@ViewBuilder content: @escaping () -> Content
+	) -> some View {
+		self
+			.overlay(
+				Group {
+					if isPresented.wrappedValue {
+						BottomSheet(
+							isPresented: isPresented,
+							content: content,
+							isShowHandle: isShowHandle
+						)
+					}
+				}
+			)
+	}
+	
+	func gradientForeground(gradient: LinearGradient) -> some View {
+		self.overlay(
+			gradient
+		)
+		.mask(self)
+	}
 }

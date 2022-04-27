@@ -36,7 +36,7 @@ class MessageUtils {
 			let groupedSize = subList.count
 			let list = subList.enumerated().map { (index, message) in
 				MessageDisplayInfoViewModel(message: message,
-											rectCorner: message.isMine ? self.getOwnerRectCorner(index: index, size: groupedSize) : self.getOtherRectCorner(index: index, size: groupedSize),
+											rectCorner: message.isMine ? self.getOwnerRectCorner(isQuoteMessage: message.isQuoteMessage, index: index, size: groupedSize) : self.getOtherRectCorner(isQuoteMessage: message.isQuoteMessage, isForwardMessage: message.isForwardedMessage, index: index, size: groupedSize),
 											isDisplayAvatarAndUserName: self.isShowAvatarAndUserName(index: index, size: groupedSize))
 			}
 			listMessageDisplay.append(contentsOf: list)
@@ -48,7 +48,10 @@ class MessageUtils {
 		return size == 1 ? true : index == 0 ? true : false
 	}
 	
-	static func getOwnerRectCorner(index: Int, size: Int) -> UIRectCorner {
+	static func getOwnerRectCorner(isQuoteMessage: Bool, index: Int, size: Int) -> UIRectCorner {
+		if isQuoteMessage {
+			return [.topLeft, .bottomLeft]
+		}
 		if size == 1 {
 			return [.topLeft, .topRight, .bottomLeft]
 		} else {
@@ -63,7 +66,13 @@ class MessageUtils {
 		}
 	}
 	
-	static func getOtherRectCorner(index: Int, size: Int) -> UIRectCorner {
+    static func getOtherRectCorner(isQuoteMessage: Bool, isForwardMessage: Bool, index: Int, size: Int) -> UIRectCorner {
+		if isQuoteMessage {
+			return [.topRight, .bottomRight]
+		}
+        if (isForwardMessage && size == 1) || (isForwardMessage && index == 0) {
+            return [.topRight, .bottomLeft, .bottomRight]
+        }
 		if size == 1 {
 			return [.topLeft, .topRight, .bottomRight]
 		} else {

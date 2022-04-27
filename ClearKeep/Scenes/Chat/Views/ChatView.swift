@@ -11,6 +11,7 @@ import CommonUI
 import Combine
 import Model
 import Networking
+import UniformTypeIdentifiers
 
 private enum Constants {
 	static let padding = 15.0
@@ -20,6 +21,8 @@ private enum Constants {
 	static let lineBorder = 2.0
 	static let paddingTop = 50.0
 	static let sizeIcon = 24.0
+	static let screenOffset = 400.0
+	static let forwardViewHeight = UIScreen.main.bounds.height * 0.7
 }
 
 struct ChatView: View {
@@ -32,11 +35,22 @@ struct ChatView: View {
 	@State private(set) var samples: Loadable<[IMessageViewModel]>
 	@State private(set) var messageText: String
 	@State private(set) var inputStyle: TextInputStyle = .default
+	
+	@State private(set) var sampleMessages: [MessageViewModel] = createSamplesData()
+	@State private var selectedMessage: IMessageViewModel?
+	
+	@State private var scrollViewOffset: CGFloat = 0
+	@State private var startOffset: CGFloat = 0
+	@State private var showingMessageOptions = false
+	@State private var scrollToBottom = false
+	@State private var isShowingQuoteView = false
+	@State private var showingForwardView = false
+	@State private var isShowingFloatingButton = false
+	@State private var isReplying = false
+	
 	private let imageUser: Image
 	private let userName: String
 	private let inspection = ViewInspector<Self>()
-	
-	@State private(set) var sampleMessages: [MessageViewModel] = createSamplesData()
 
 	// MARK: - Init
 	init(samples: Loadable<[IMessageViewModel]> = .notRequested,
@@ -54,9 +68,16 @@ struct ChatView: View {
 	// MARK: - Fake data
 	private static func createSamplesData() -> [MessageViewModel] {
 		return	[
-			MessageViewModel(data: MessageModel(id: "1", groupID: 1, groupType: "", fromClientID: "2", clientID: "2", message: Data("someString".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
-			MessageViewModel(data: MessageModel(id: "2", groupID: 1, groupType: "", fromClientID: "1", clientID: "2", message: Data("Lorem ipsum dolor sit amet".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
-			MessageViewModel(data: MessageModel(id: "3", groupID: 1, groupType: "", fromClientID: "2", clientID: "2", message: Data("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3"))
+			MessageViewModel(data: MessageModel(id: "1", groupID: 1, groupType: "", fromClientID: "1", clientID: "2", message: Data("someString".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
+			MessageViewModel(data: MessageModel(id: "2", groupID: 1, groupType: "", fromClientID: "2", clientID: "2", message: Data(">>>Lorem ipsum dolor sit amet".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
+			MessageViewModel(data: MessageModel(id: "4", groupID: 1, groupType: "", fromClientID: "2", clientID: "2", message: Data("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
+			MessageViewModel(data: MessageModel(id: "5", groupID: 1, groupType: "", fromClientID: "1", clientID: "2", message: Data("```Lorem ipsum dolor sit amet".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
+			MessageViewModel(data: MessageModel(id: "6", groupID: 1, groupType: "", fromClientID: "2", clientID: "2", message: Data("Lorem ipsum dolor sit amet".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
+			MessageViewModel(data: MessageModel(id: "7", groupID: 1, groupType: "", fromClientID: "1", clientID: "2", message: Data(">>>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
+			MessageViewModel(data: MessageModel(id: "8", groupID: 1, groupType: "", fromClientID: "1", clientID: "2", message: Data("someString".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
+			MessageViewModel(data: MessageModel(id: "10", groupID: 1, groupType: "", fromClientID: "2", clientID: "2", message: Data("someString".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
+			MessageViewModel(data: MessageModel(id: "9", groupID: 1, groupType: "", fromClientID: "2", clientID: "2", message: Data("```Lorem ipsum dolor sit amet".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
+			MessageViewModel(data: MessageModel(id: "11", groupID: 1, groupType: "", fromClientID: "2", clientID: "2", message: Data("someString".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3"))
 		]
 	}
 	
@@ -77,7 +98,11 @@ struct ChatView: View {
 						videoButtonView
 					}
 				})
-		}.onReceive(inspection.notice) { inspection.visit(self, $0) }
+		}.bottomSheet(isPresented: $showingForwardView, isShowHandle: false) {
+			ForwardView(inputStyle: .default)
+				.frame(height: Constants.forwardViewHeight)
+		}
+		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 	}
 }
 
@@ -153,6 +178,38 @@ private extension ChatView {
 			.foregroundColor(foregroundBackButton)
 		}
 	}
+	
+	var floatingButton: some View {
+		Button(action: floatingButtonAction) {
+			ZStack {
+				AppTheme.shared.imageSet.chevDownIcon
+					.resizable()
+					.foregroundColor(foregroundFloatingButton)
+					.frame(width: Constants.sizeIconCall, height: Constants.sizeIconCall)
+				Circle()
+					.strokeBorder(foregroundFloatingButton, lineWidth: Constants.lineBorder)
+					.frame(width: Constants.sizeBorder, height: Constants.sizeBorder)
+			}
+		}
+	}
+	
+	var quoteMessageView: some View {
+		VStack(alignment: .leading, spacing: 4) {
+			Text("Chat.Replying".localized + (selectedMessage?.fromClientName ?? ""))
+				.font(AppTheme.shared.fontSet.font(style: .placeholder2))
+				.foregroundColor(foregroundFloatingButton)
+			HStack(alignment: .center, spacing: 0) {
+				Rectangle()
+					.fill(AppTheme.shared.colorSet.grey2)
+					.frame(width: 4)
+					.cornerRadius(8)
+					.padding(.trailing, 16)
+				Text(selectedMessage?.message ?? "")
+					.foregroundColor(foregroundFloatingButton)
+					.lineLimit(1)
+			}.frame(height: 24)
+		}.padding(.horizontal, Constants.padding)
+	}
 }
 
 // MARK: - Color Variables
@@ -167,6 +224,10 @@ private extension ChatView {
 	
 	var foregroundBackButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.greyLight
+	}
+	
+	var foregroundFloatingButton: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight
 	}
 	
 	var backgroundGradientPrimary: AnyView {
@@ -200,6 +261,8 @@ private extension ChatView {
 			return
 		}
 		sampleMessages.append(MessageViewModel(data: MessageModel(id: "\(UUID())", groupID: 1, groupType: "", fromClientID: "1", clientID: "2", message: Data(trimmedMessage.utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")))
+		isShowingQuoteView = false
+		isReplying = false
 	}
 	
 	func audioAction() {
@@ -209,35 +272,111 @@ private extension ChatView {
 	func videoAction() {
 		
 	}
+	
+	func floatingButtonAction() {
+		scrollToBottom.toggle()
+	}
+	
+	func copyMessage(message: String) {
+		UIPasteboard.general.setValue(message, forPasteboardType: UTType.plainText.identifier)
+	}
 }
 
 // MARK: - Loading Content
 private extension ChatView {
-	
 	var notRequestedView: some View {
-		VStack {
-			ScrollViewReader { scrollView in
-				ScrollView(.vertical) {
-					MessageListView(messages: sampleMessages) { model in
-						MessageBubbleView(messageViewModel: model.message, rectCorner: model.rectCorner)
-					}.id("MessageListView")
+		VStack(alignment: .leading) {
+			ZStack {
+				ScrollViewReader { scrollView in
+					ScrollView(.vertical) {
+						MessageListView(messages: sampleMessages) { model in
+							MessageBubbleView(messageViewModel: model.message, rectCorner: model.rectCorner).onTapGesture {
+							}.onLongPressGesture(minimumDuration: 0.5) {
+								showingMessageOptions = true
+							}.actionSheet(isPresented: $showingMessageOptions) {
+								ActionSheet(
+									title: Text(""),
+									buttons: [
+										.cancel(),
+										.default(Text("Chat.CopyButton".localized)) {
+											copyMessage(message: model.message.message)
+										},
+										.default(Text("Chat.ForwardButton".localized)) {
+											selectedMessage = model.message
+											showingForwardView = true
+											hideKeyboard()
+										},
+										.default(Text("Chat.QuoteButton".localized)) {
+											selectedMessage = model.message
+											isShowingQuoteView = true
+											isReplying = true
+											messageText = messageText
+										}
+									]
+								)
+							}
+							
+						}.id("MessageListView")
+							.overlay(
+								GeometryReader { proxy -> Color in
+									DispatchQueue.main.async {
+										if startOffset == 0 {
+											startOffset = proxy.frame(in: .global).minY
+										}
+										scrollViewOffset = proxy.frame(in: .global).minY
+										isShowingFloatingButton = scrollViewOffset - startOffset > Constants.screenOffset
+									}
+									return Color.clear
+								}.frame(width: 0, height: 0), alignment: .top)
+						Spacer()
+					}
+					.onAppear {
+						withAnimation {
+							scrollView.scrollTo("MessageListView", anchor: .bottom)
+						}
+					}
+					.onChange(of: scrollToBottom) { _ in
+						withAnimation {
+							scrollView.scrollTo("MessageListView", anchor: .bottom)
+						}
+						DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+							startOffset = scrollViewOffset
+						}
+					}
+					.onChange(of: sampleMessages) { _ in
+						withAnimation {
+							scrollView.scrollTo("MessageListView", anchor: .bottom)
+						}
+						DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+							startOffset = scrollViewOffset
+						}
+					}
+				}
+				VStack(alignment: .trailing) {
 					Spacer()
+					HStack {
+						Spacer()
+						floatingButton
+					}.padding(.trailing, 10)
+					
+				}.opacity(isShowingFloatingButton ? 1 : 0)
+			}.onTapGesture {
+				hideKeyboard()
+				isReplying = false
+			}
+			if isShowingQuoteView {
+				withAnimation {
+					quoteMessageView
 				}
-				.onAppear {
-					withAnimation {
-						scrollView.scrollTo("MessageListView", anchor: .bottom)
-					}
-				}
-				.onChange(of: sampleMessages) { _ in
-					withAnimation {
-						scrollView.scrollTo("MessageListView", anchor: .bottom)
-					}
-				}
-			}.hideKeyboardOnTapped()
-			MessagerToolBar(placeholder: "DirectMessages.Placeholder".localized,
+			}
+			
+			MessagerToolBar(message: $messageText,
+							isReplying: $isReplying,
+							placeholder: "DirectMessages.Placeholder".localized,
 							sendAction: { message in
 				sendAction(message: message)
-			}, sharePhoto: { }).padding(.horizontal, 18)
+			}, sharePhoto: { })
+			.padding(.horizontal, Constants.padding)
 		}
 	}
 	
@@ -257,6 +396,7 @@ private extension ChatView {
 					  dismissButton: .default(Text("General.OK".localized)))
 			}
 	}
+	
 }
 
 // MARK: - Interactor

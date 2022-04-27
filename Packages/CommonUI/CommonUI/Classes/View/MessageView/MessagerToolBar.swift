@@ -22,17 +22,22 @@ public struct MessagerToolBar: View {
 	public var sharePhoto: () -> Void
 	
 	// MARK: - State
-	@State private var messageText: String = ""
+	@Binding private var messageText: String
+	@Binding private var isReplying: Bool
 	@State private var height: CGFloat = Constants.defaultHeight
 	@State private var isEditing = false
 	
 	// MARK: - Init
-	public init(placeholder: String = "",
+	public init(message: Binding<String>,
+				isReplying: Binding<Bool>,
+				placeholder: String = "",
 				sendAction: @escaping (String) -> Void,
 				sharePhoto: @escaping () -> Void) {
 		self.placeholder = placeholder
 		self.sendAction = sendAction
 		self.sharePhoto = sharePhoto
+		self._isReplying = isReplying
+		self._messageText = message
 	}
 	
 	private var buttonColor: Color {
@@ -50,9 +55,9 @@ public struct MessagerToolBar: View {
 			
 			Group {
 				if colorScheme == .light {
-					MessageTextField(colorScheme: .light, placeholder: placeholder, text: $messageText, height: $height, isEditing: $isEditing)
+					MessageTextField(colorScheme: .light, placeholder: placeholder, text: $messageText, height: $height, isEditing: $isEditing, isReplying: $isReplying)
 				} else {
-					MessageTextField(colorScheme: .dark, placeholder: placeholder, text: $messageText, height: $height, isEditing: $isEditing)
+					MessageTextField(colorScheme: .dark, placeholder: placeholder, text: $messageText, height: $height, isEditing: $isEditing, isReplying: $isReplying)
 				}
 			}.frame(height: height)
 			
