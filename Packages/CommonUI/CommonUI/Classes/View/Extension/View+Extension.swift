@@ -12,6 +12,12 @@ public extension View {
 	func hideKeyboard() {
 		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 	}
+	
+	func hideKeyboardOnTapped() -> some View {
+		return self.onTapGesture {
+			hideKeyboard()
+		}
+	}
 }
 #endif
 

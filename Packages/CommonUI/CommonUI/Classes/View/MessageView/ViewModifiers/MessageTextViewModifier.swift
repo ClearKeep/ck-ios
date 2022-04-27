@@ -18,9 +18,7 @@ struct MessageTextViewModifier: ViewModifier {
 		content
 			.padding(.vertical, Constants.paddingVertical)
 			.padding(.horizontal, Constants.paddingHorizontal)
-			.background(commonUIConfig.colorSet.primaryDefault)
 			.font(commonUIConfig.fontSet.font(style: .input2))
-			.foregroundColor(commonUIConfig.colorSet.offWhite)
 			.lineSpacing(10)
 	}
 }
