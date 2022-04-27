@@ -7,10 +7,10 @@
 
 import Common
 import ChatSecure
-import GRPC
+import Model
 
 protocol ILoginInteractor {
-	func signIn(email: String, password: String) async -> Loadable<ILoginModel>
+	func signIn(email: String, password: String) async -> Loadable<IAuthenticationModel>
 	func signInSocial(_ socialType: SocialType)
 	func getAppVersion() -> String
 }
@@ -29,12 +29,12 @@ extension LoginInteractor: ILoginInteractor {
 		return LoginWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
-	func signIn(email: String, password: String) async -> Loadable<ILoginModel> {
+	func signIn(email: String, password: String) async -> Loadable<IAuthenticationModel> {
 		let result = await worker.signIn(email: email, password: password)
 		
 		switch result {
 		case .success(let data):
-			return .loaded(LoginModel(id: 1, email: "", password: ""))
+			return .loaded(data)
 		case .failure(let error):
 			return .failed(error)
 		}
@@ -60,7 +60,7 @@ struct StubLoginInteractor: ILoginInteractor {
 		return LoginWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
-	func signIn(email: String, password: String) async -> Loadable<ILoginModel> {
+	func signIn(email: String, password: String) async -> Loadable<IAuthenticationModel> {
 		return .notRequested
 	}
 	

@@ -9,6 +9,7 @@ import Foundation
 import NIOPosix
 import NIOHPACK
 import GRPC
+import Model
 
 protocol IAPIService {
 	var header: HPACKHeaders { get }

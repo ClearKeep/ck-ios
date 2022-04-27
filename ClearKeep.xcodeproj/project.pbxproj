@@ -32,7 +32,7 @@
 		047241A627DB3D2C0043345A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419A27DB3D2C0043345A /* LoginView.swift */; };
 		047241A727DB3D2C0043345A /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419B27DB3D2C0043345A /* LoginInteractor.swift */; };
 		047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419C27DB3D2C0043345A /* LoginInMemoryStore.swift */; };
-		047241A927DB3D2C0043345A /* ILoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419E27DB3D2C0043345A /* ILoginModel.swift */; };
+		047241A927DB3D2C0043345A /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419E27DB3D2C0043345A /* AuthenticationModel.swift */; };
 		047241AE27DB3D2C0043345A /* LoginWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047241A427DB3D2C0043345A /* LoginWorker.swift */; };
 		047D6B0E27F1544D0098B104 /* GroupDetailInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B0927F1544C0098B104 /* GroupDetailInMemoryStore.swift */; };
 		047D6B0F27F1544D0098B104 /* GroupDetailWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B0A27F1544C0098B104 /* GroupDetailWorker.swift */; };
@@ -226,7 +226,7 @@
 		0472419A27DB3D2C0043345A /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		0472419B27DB3D2C0043345A /* LoginInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
 		0472419C27DB3D2C0043345A /* LoginInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInMemoryStore.swift; sourceTree = "<group>"; };
-		0472419E27DB3D2C0043345A /* ILoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ILoginModel.swift; sourceTree = "<group>"; };
+		0472419E27DB3D2C0043345A /* AuthenticationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationModel.swift; sourceTree = "<group>"; };
 		047241A427DB3D2C0043345A /* LoginWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginWorker.swift; sourceTree = "<group>"; };
 		047D6B0927F1544C0098B104 /* GroupDetailInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailInMemoryStore.swift; sourceTree = "<group>"; };
 		047D6B0A27F1544C0098B104 /* GroupDetailWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailWorker.swift; sourceTree = "<group>"; };
@@ -501,7 +501,7 @@
 		0472419D27DB3D2C0043345A /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				0472419E27DB3D2C0043345A /* ILoginModel.swift */,
+				0472419E27DB3D2C0043345A /* AuthenticationModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1595,7 +1595,7 @@
 				047D6B1827F154970098B104 /* MemberView.swift in Sources */,
 				047D6B1C27F154B70098B104 /* RemoveMemberView.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
-				047241A927DB3D2C0043345A /* ILoginModel.swift in Sources */,
+				047241A927DB3D2C0043345A /* AuthenticationModel.swift in Sources */,
 				0499343827E96F8A003BD4C4 /* NewPasswordInteractor.swift in Sources */,
 				0472418227DB35550043345A /* HomeMenuView.swift in Sources */,
 				F5350E1E27FAD58F00F54E32 /* TwoFactorRemoteStore.swift in Sources */,
