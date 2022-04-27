@@ -21,7 +21,7 @@ public enum SocialType {
 }
 
 public protocol IAuthenticationService {
-	func register(displayName: String, email: String, password: String, domain: String) async
+	func register(displayName: String, email: String, password: String, domain: String) async -> Result<Auth_RegisterSRPRes, Error>
 	func login(userName: String, password: String, domain: String) async -> Result<Auth_AuthRes, Error>
 	func registerSocialPin(rawPin: String, userId: String, domain: String) async
 	func verifySocialPin(rawPin: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error>
@@ -45,11 +45,11 @@ public class CLKAuthenticationService {
 
 // MARK: - Public
 extension CLKAuthenticationService: IAuthenticationService {
-	public func register(displayName: String, email: String, password: String, domain: String) async {
+	public func register(displayName: String, email: String, password: String, domain: String) async -> Result<Auth_RegisterSRPRes, Error> {
 		let srp = SwiftSRP.shared
 		
 		guard let salt = srp.getSalt(userName: email, rawPassword: password, byteV: &byteV),
-			  let verificator = srp.getVerificator(byteV: byteV) else { return }
+			  let verificator = srp.getVerificator(byteV: byteV) else { return(.failure(ServerError.unknown)) }
 		let saltHex = bytesConvertToHexString(bytes: salt)
 		let verificatorHex = bytesConvertToHexString(bytes: verificator)
 		
@@ -60,14 +60,14 @@ extension CLKAuthenticationService: IAuthenticationService {
 		let storage = SignalStorage(signalStore: inMemoryStore)
 		let context = SignalContext(storage: storage)
 		guard let keyHelper = SignalKeyHelper(context: context ?? SignalContext()),
-			  let key = keyHelper.generateIdentityKeyPair() else { return }
+			  let key = keyHelper.generateIdentityKeyPair() else { return(.failure(ServerError.unknown)) }
 		
 		let preKeys = keyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
 		
 		guard let preKey = preKeys.first,
 			  let preKeyData = preKey.serializedData(),
 			  let signedPreKey = keyHelper.generateSignedPreKey(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (email + domain).hashCode())),
-			  let signedPreKeyData = signedPreKey.serializedData() else { return }
+			  let signedPreKeyData = signedPreKey.serializedData() else { return(.failure(ServerError.unknown)) }
 		
 		var transitionId = keyHelper.generateRegistrationId()
 		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
@@ -97,9 +97,9 @@ extension CLKAuthenticationService: IAuthenticationService {
 		let response = await channelStorage.getChannels(domain: domain).registerSRP(request)
 		switch response {
 		case .success(let data):
-			print(data)
+			return(.success(data))
 		case .failure(let error):
-			print(error)
+			return(.failure(error))
 		}
 	}
 	
