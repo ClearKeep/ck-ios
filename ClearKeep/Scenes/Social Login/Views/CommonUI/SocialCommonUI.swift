@@ -143,16 +143,8 @@ private extension SocialCommonUI {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
 
-	var backgroundColorWhite: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
-	}
-
 	var backgroundColorDark: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var backgroundColorGradient: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
 
 	var backgroundColorDarkView: Color {
@@ -180,7 +172,7 @@ private extension SocialCommonUI {
 	}
 
 	var disableButton: Bool {
-		return security.isEmpty
+		security.isEmpty
 	}
 }
 
