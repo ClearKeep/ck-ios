@@ -171,10 +171,6 @@ private extension SocialCommonUI {
 	var backgroundButton: Color {
 		return security.isEmpty ? backgroundColorDarkView.opacity(Constant.backgroundOpacity) : backgroundColorDarkView
 	}
-
-//	var disableButton: Bool {
-//		security.isEmpty
-//	}
 }
 
 // MARK: - Private Func
@@ -184,7 +180,6 @@ private extension SocialCommonUI {
 	}
 
 	func doSocial() {
-//		security = ""
 	}
 
 	var title: String {
