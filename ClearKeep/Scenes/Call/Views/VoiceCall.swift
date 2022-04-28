@@ -44,7 +44,81 @@ struct VoiceCall: View {
 
 	// MARK: - Body
 	var body: some View {
-		content
+		VStack(spacing: Constant.spacer) {
+			Button(action: customBack) {
+				HStack(spacing: Constant.spacer) {
+					AppTheme.shared.imageSet.chevleftIcon
+						.aspectRatio(contentMode: .fit)
+						.foregroundColor(foregroundBackButton)
+				}
+				.frame(maxWidth: .infinity, alignment: .leading)
+				.foregroundColor(AppTheme.shared.colorSet.offWhite)
+			}
+
+				.padding(.top, Constant.spacerTopView)
+
+			ZStack {
+				Circle()
+					.fill(backgroundGradientPrimary)
+					.frame(width: Constant.sizeImage, height: Constant.sizeImage)
+				AppTheme.shared.imageSet.userIcon
+			}
+
+			Text("Alex".localized)
+				.frame(maxWidth: .infinity, alignment: .center)
+				.font(AppTheme.shared.fontSet.font(style: .display2))
+				.foregroundColor(AppTheme.shared.colorSet.offWhite)
+			timeCalling
+
+			HStack {
+				VStack {
+					ImageButtonCall(image: muteIcon, isChecked: $isTappedMute)
+					Text("Call.Mute".localized)
+						.font(AppTheme.shared.fontSet.font(style: .body2))
+						.foregroundColor(AppTheme.shared.colorSet.offWhite)
+				}
+				.frame(maxWidth: .infinity)
+
+				VStack {
+					ImageButtonCall(image: cameraIcon, isChecked: $isTappedCamera)
+					Text("Call.Camera".localized)
+						.font(AppTheme.shared.fontSet.font(style: .body2))
+						.foregroundColor(AppTheme.shared.colorSet.offWhite)
+				}
+				.frame(maxWidth: .infinity)
+
+				VStack {
+					ImageButtonCall(image: speakerIcon, isChecked: $isTappedSpeaker)
+					Text("Call.Speaker".localized)
+						.font(AppTheme.shared.fontSet.font(style: .body2))
+						.foregroundColor(AppTheme.shared.colorSet.offWhite)
+				}
+				.frame(maxWidth: .infinity)
+			}
+			.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+				.padding(.top, Constant.spacerBottom)
+
+			VStack {
+				Button {
+					timeCalled = 0
+				} label: {
+					ZStack {
+						Circle()
+							.strokeBorder(AppTheme.shared.colorSet.errorDefault, lineWidth: Constant.borderLineWidth)
+							.background(Circle().foregroundColor(AppTheme.shared.colorSet.errorDefault))
+							.frame(width: Constant.sizeIcon, height: Constant.sizeIcon)
+						AppTheme.shared.imageSet.phoneOffIcon
+							.foregroundColor(AppTheme.shared.colorSet.offWhite)
+					}
+			}
+				Text("Call.End".localized)
+					.font(AppTheme.shared.fontSet.font(style: .body2))
+					.foregroundColor(AppTheme.shared.colorSet.offWhite)
+			}
+				.padding(.bottom, Constant.sizeIcon)
+			Spacer()
+		}
+		.padding(.horizontal, Constant.paddingVertical)
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.background(AppTheme.shared.colorSet.warningDefault.opacity(Constant.opacity))
 			.edgesIgnoringSafeArea(.all)
@@ -54,65 +128,6 @@ struct VoiceCall: View {
 
 // MARK: - Private
 private extension VoiceCall {
-	var content: AnyView {
-		AnyView(contentView)
-	}
-}
-
-// MARK: - Loading Content
-private extension VoiceCall {
-	var contentView: some View {
-		VStack(spacing: Constant.spacer) {
-			buttonBackView
-				.padding(.top, Constant.spacerTopView)
-			userPicture
-			userName
-			timeCalling
-			supportCalling
-				.padding(.top, Constant.spacerBottom)
-			buttonCancel
-				.padding(.bottom, Constant.sizeIcon)
-			Spacer()
-		}
-		.padding(.horizontal, Constant.paddingVertical)
-	}
-
-	var buttonBackView: some View {
-		Button(action: customBack) {
-			HStack(spacing: Constant.spacer) {
-				AppTheme.shared.imageSet.chevleftIcon
-					.aspectRatio(contentMode: .fit)
-					.foregroundColor(foregroundBackButton)
-			}
-			.frame(maxWidth: .infinity, alignment: .leading)
-			.foregroundColor(AppTheme.shared.colorSet.offWhite)
-		}
-	}
-
-	var statusCalling: some View {
-		Text("Call.Calling".localized)
-			.padding(.all)
-			.font(AppTheme.shared.fontSet.font(style: .input2))
-			.foregroundColor(AppTheme.shared.colorSet.grey5)
-			.frame(maxWidth: .infinity, alignment: .center)
-	}
-
-	var userPicture: some View {
-		ZStack {
-			Circle()
-				.fill(backgroundGradientPrimary)
-				.frame(width: Constant.sizeImage, height: Constant.sizeImage)
-			AppTheme.shared.imageSet.userIcon
-		}
-	}
-
-	var userName: some View {
-		Text("Alex".localized)
-			.frame(maxWidth: .infinity, alignment: .center)
-			.font(AppTheme.shared.fontSet.font(style: .display2))
-			.foregroundColor(AppTheme.shared.colorSet.offWhite)
-	}
-
 	var timeCalling: some View {
 		Text(getTimer())
 			.foregroundColor(AppTheme.shared.colorSet.offWhite)
@@ -122,55 +137,11 @@ private extension VoiceCall {
 				}
 			}
 	}
+}
 
-	var supportCalling: some View {
-		HStack {
-			VStack {
-				ImageButtonCall(image: muteIcon, isChecked: $isTappedMute)
-				Text("Call.Mute".localized)
-					.font(AppTheme.shared.fontSet.font(style: .body2))
-					.foregroundColor(AppTheme.shared.colorSet.offWhite)
-			}
-			.frame(maxWidth: .infinity)
-
-			VStack {
-				ImageButtonCall(image: cameraIcon, isChecked: $isTappedCamera)
-				Text("Call.Camera".localized)
-					.font(AppTheme.shared.fontSet.font(style: .body2))
-					.foregroundColor(AppTheme.shared.colorSet.offWhite)
-			}
-			.frame(maxWidth: .infinity)
-
-			VStack {
-				ImageButtonCall(image: speakerIcon, isChecked: $isTappedSpeaker)
-				Text("Call.Speaker".localized)
-					.font(AppTheme.shared.fontSet.font(style: .body2))
-					.foregroundColor(AppTheme.shared.colorSet.offWhite)
-			}
-			.frame(maxWidth: .infinity)
-		}
-		.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-	}
-
-	var buttonCancel: some View {
-		VStack {
-			Button {
-				timeCalled = 0
-			} label: {
-				ZStack {
-					Circle()
-						.strokeBorder(AppTheme.shared.colorSet.errorDefault, lineWidth: Constant.borderLineWidth)
-						.background(Circle().foregroundColor(AppTheme.shared.colorSet.errorDefault))
-						.frame(width: Constant.sizeIcon, height: Constant.sizeIcon)
-					AppTheme.shared.imageSet.phoneOffIcon
-						.foregroundColor(AppTheme.shared.colorSet.offWhite)
-				}
-		}
-			Text("Call.End".localized)
-				.font(AppTheme.shared.fontSet.font(style: .body2))
-				.foregroundColor(AppTheme.shared.colorSet.offWhite)
-		}
-	}
+// MARK: - Loading Content
+private extension VoiceCall {
+	
 }
 
 // MARK: - Color func
