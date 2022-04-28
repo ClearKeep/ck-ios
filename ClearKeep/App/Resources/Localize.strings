@@ -13,6 +13,7 @@
 "General.Version" = "App version: %@";
 "Unknow.Message" = "Unknow message";
 "General.Next" = "Next";
+
 // MARK: - Social Login
 "Social.SetPhrase.Back" = "Set Your Security Phrase";
 "Social.ConfirmPhrase.Back" = "Confirm Your Security Phrase";
@@ -60,10 +61,12 @@
 "General.DisplayName" = "Display Name";
 "General.Password" = "Password";
 "General.ConfirmPassword" = "Confirm Password";
+
 // MARK: - Register
 "Register.Title" = "Please fill in the information below to complete your sign up";
 "Register.SignInInstead" = "Sign in instead";
 "Register.SignUp" = "Sign up";
+
 // MARK: - ForgotPassword
 "ForgotPass.TitleMail" = "Please enter your email to reset your password";
 "ForgotPass.TitleChangePassword" = "Please enter your details to change password";
@@ -71,12 +74,14 @@
 "ForgotPass.NewPassword" = "Enter Your New Password";
 "ForgotPass.Resetpassword" = "Reset password";
 "ForgotPass.Save" = "Save";
+
 // MARK: - AdvancedServer
 "AdvancedServer.Title" = "Please enter your server URL to enter custom server";
 "AdvancedServer.SeverSetting" = "Advanced Server Settings";
 "AdvancedServer.SeverButton" = "Use Custom Server";
 "AdvancedServer.Submit" = "Submit";
 "AdvancedServer.ServerUrl" = "Server URL";
+
 // MARK: - Home
 "Home.Title" = "CK Development";
 "Home.Menu" = "Menu";
@@ -85,6 +90,7 @@
 "Home.GroupChat" = "Group Chat";
 "Home.Message" = "Direct Messages";
 "Home.Signout" = "Sign out";
+
 // MARK: - DirectMessages
 "DirectMessages.AddUserTitle" = "Add user from other server";
 "DirectMessages.TitleButton" = "Create direct message";
@@ -92,6 +98,7 @@
 "DirectMessages.Next" = "Next";
 "DirectMessages.Search" = "Search people ";
 "DirectMessages.LinkTitle" = "Paste your friend's link";
+
 // MARK: - Two Factor Login
 "2FA.Title.Back" = "Enter your code";
 "2FA.Title" = "Please input a code that has been sent to your phone";
@@ -132,6 +139,7 @@
 "Search.Message" = "Messages";
 "Search.GroupChat" = "Group Chat";
 "Search.Title.Error" = "There is no result for your search";
+
 // MARK: - GroupDetail
 "GroupDetail.SeeMembers" = "See Members";
 "GroupDetail.AddMember" = "Add Member";
@@ -141,3 +149,11 @@
 "GroupDetail.TitleCheckbox" = "Add user from other server";
 "GroupDetail.UserInitTitle" = "Users int his Group chat";
 "GroupDetail.Title.PlaceHoder" = "Paste your friend's link";
+
+// MARK: - ChangePassWord
+"ChangePassword.TitleButton" = "Enter Your New Password";
+"ChangePassword.Title" = "Please enter your details to change password";
+"ChangePassword.CurrentPassword" = "Current Password";
+"ChangePassword.NewPassword" = "New Password";
+"ChangePassword.ConfirmPassword" = "Confirm Password";
+"ChangePassword.Save" = "Save";

@@ -39,7 +39,7 @@ struct AppImageSet: IAppImageSet {
 	var straitFaceIcon: Image { Image("ic_straight_face") }
 	var speakerIcon: Image { Image("ic_speaker") }
 	var cameraRolateIcon: Image { Image("ic_camera_rotate") }
-	var backIcon: Image { Image("ic_arrow_left") }
+	var backIcon: Image { Image("ic_arrow_left").renderingMode(.template) }
 	var videosIcon: Image { Image("ic_video") }
 	var menuIcon: Image { Image("ic_hamburger") }
 	var adjustmentIcon: Image { Image("ic_adjustment") }
