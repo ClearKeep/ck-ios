@@ -13,7 +13,8 @@ private enum Constants {
 	static let radius = 40.0
 	static let spacing = 20.0
 	static let padding = 10.0
-	static let paddingTop = 50.0
+	static let paddingTop = 90.0
+	static let paddingTopButton = 38.0
 }
 
 struct AdvancedContentView: View {
@@ -45,8 +46,32 @@ struct AdvancedContentView: View {
 
 // MARK: - Private
 private extension AdvancedContentView {
-	var backgroundButton: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
+	var backgroundButton: LinearGradient {
+		severUrl.isEmpty ? backgroundButtonUnActive : backgroundButtonActive
+	}
+
+	var backgroundButtonUnActive: LinearGradient {
+		colorScheme == .light ? backgroundButtonUnActiveLight : backgroundButtonUnActiveDark
+	}
+
+	var backgroundButtonActive: LinearGradient {
+		colorScheme == .light ? backgroundButtonActiveLight : backgroundButtonActiveDark
+	}
+
+	var backgroundButtonActiveDark: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientSecondary), startPoint: .leading, endPoint: .trailing)
+	}
+
+	var backgroundButtonUnActiveDark: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientSecondary.compactMap({ $0.opacity(0.5) })), startPoint: .leading, endPoint: .trailing)
+	}
+
+	var backgroundButtonActiveLight: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
+	}
+
+	var backgroundButtonUnActiveLight: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite].compactMap({ $0.opacity(0.5) })), startPoint: .leading, endPoint: .trailing)
 	}
 
 	var backgroundColorView: LinearGradient {
@@ -62,7 +87,15 @@ private extension AdvancedContentView {
 	}
 
 	var foregroundButton: Color {
+		severUrl.isEmpty ? foregroundButtonUnActive : foregroundButtonActive
+	}
+
+	var foregroundButtonActive: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
+	}
+
+	var foregroundButtonUnActive: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault.opacity(0.5) : AppTheme.shared.colorSet.offWhite.opacity(0.5)
 	}
 
 	var foregroundBackButton: Color {
@@ -115,12 +148,13 @@ private extension AdvancedContentView {
 								keyboardType: .default,
 								onEditingChanged: { isEditing in
 					if isEditing {
-						severUrlStyle = .default
-					} else {
 						severUrlStyle = .highlighted
+					} else {
+						severUrlStyle = .normal
 					}
 				})
 				buttonSubmit
+					.padding(.top, Constants.paddingTopButton)
 				Spacer()
 			}
 			Spacer()
@@ -145,7 +179,9 @@ private extension AdvancedContentView {
 
 	var buttonSubmit: some View {
 		Button("AdvancedServer.Submit".localized) {
+			customBack()
 		}
+		.disabled(severUrl.isEmpty)
 		.frame(maxWidth: .infinity, alignment: .center)
 		.padding(.all, Constants.padding)
 		.background(backgroundButton)
