@@ -121,15 +121,15 @@
 		CBF3351A27EEBCB400F8EE63 /* GoogleService-Info-QA.plist in Resources */ = {isa = PBXBuildFile; fileRef = CBF3351927EEBCB400F8EE63 /* GoogleService-Info-QA.plist */; };
 		CBF3351C27EEBCE200F8EE63 /* GoogleService-Info-Production.plist in Resources */ = {isa = PBXBuildFile; fileRef = CBF3351B27EEBCE200F8EE63 /* GoogleService-Info-Production.plist */; };
 		E470074CEE995B43DF50347B /* Pods_ClearKeepUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE05556735574093816D2D10 /* Pods_ClearKeepUITests.framework */; };
-		F516B25428183F7D006CB025 /* CallRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B24928183F7C006CB025 /* CallRemoteStore.swift */; };
-		F516B25528183F7D006CB025 /* CallModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B24B28183F7C006CB025 /* CallModel.swift */; };
-		F516B25628183F7D006CB025 /* CallWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B24C28183F7C006CB025 /* CallWorker.swift */; };
-		F516B25728183F7D006CB025 /* CallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B24D28183F7C006CB025 /* CallView.swift */; };
-		F516B25828183F7D006CB025 /* CallingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B24F28183F7C006CB025 /* CallingView.swift */; };
-		F516B25928183F7D006CB025 /* VoiceCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B25028183F7C006CB025 /* VoiceCall.swift */; };
-		F516B25A28183F7D006CB025 /* InComingVoiceCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B25128183F7C006CB025 /* InComingVoiceCallView.swift */; };
-		F516B25B28183F7D006CB025 /* CallInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B25228183F7C006CB025 /* CallInMemoryStore.swift */; };
-		F516B25C28183F7D006CB025 /* CallInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B25328183F7C006CB025 /* CallInteractor.swift */; };
+		F516B2AA281A4C10006CB025 /* CallRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B29F281A4C10006CB025 /* CallRemoteStore.swift */; };
+		F516B2AB281A4C10006CB025 /* CallModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B2A1281A4C10006CB025 /* CallModel.swift */; };
+		F516B2AC281A4C10006CB025 /* CallWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B2A2281A4C10006CB025 /* CallWorker.swift */; };
+		F516B2AD281A4C10006CB025 /* CallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B2A3281A4C10006CB025 /* CallView.swift */; };
+		F516B2AE281A4C10006CB025 /* CallingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B2A5281A4C10006CB025 /* CallingView.swift */; };
+		F516B2AF281A4C10006CB025 /* VoiceCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B2A6281A4C10006CB025 /* VoiceCall.swift */; };
+		F516B2B0281A4C10006CB025 /* InComingVoiceCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B2A7281A4C10006CB025 /* InComingVoiceCallView.swift */; };
+		F516B2B1281A4C10006CB025 /* CallInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B2A8281A4C10006CB025 /* CallInMemoryStore.swift */; };
+		F516B2B2281A4C10006CB025 /* CallInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B2A9281A4C10006CB025 /* CallInteractor.swift */; };
 		F5350E1027FAD57500F54E32 /* TwoFactorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E0827FAD57500F54E32 /* TwoFactorModel.swift */; };
 		F5350E1527FAD57500F54E32 /* TwoFactorContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E0E27FAD57500F54E32 /* TwoFactorContentView.swift */; };
 		F5350E1C27FAD58F00F54E32 /* TwoFactorInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1727FAD58F00F54E32 /* TwoFactorInMemoryStore.swift */; };
@@ -349,15 +349,15 @@
 		D2DCCFAA78F7BF880E5359FB /* Pods-ClearKeepUITests.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.production.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.production.xcconfig"; sourceTree = "<group>"; };
 		D7261DD92456D4CFB93133C7 /* Pods_notificationextension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_notificationextension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF6BDE5564A69B7FD222901E /* Pods-ClearKeepUITests.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepUITests.qa.xcconfig"; path = "Target Support Files/Pods-ClearKeepUITests/Pods-ClearKeepUITests.qa.xcconfig"; sourceTree = "<group>"; };
-		F516B24928183F7C006CB025 /* CallRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallRemoteStore.swift; sourceTree = "<group>"; };
-		F516B24B28183F7C006CB025 /* CallModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallModel.swift; sourceTree = "<group>"; };
-		F516B24C28183F7C006CB025 /* CallWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallWorker.swift; sourceTree = "<group>"; };
-		F516B24D28183F7C006CB025 /* CallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallView.swift; sourceTree = "<group>"; };
-		F516B24F28183F7C006CB025 /* CallingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallingView.swift; sourceTree = "<group>"; };
-		F516B25028183F7C006CB025 /* VoiceCall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceCall.swift; sourceTree = "<group>"; };
-		F516B25128183F7C006CB025 /* InComingVoiceCallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InComingVoiceCallView.swift; sourceTree = "<group>"; };
-		F516B25228183F7C006CB025 /* CallInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallInMemoryStore.swift; sourceTree = "<group>"; };
-		F516B25328183F7C006CB025 /* CallInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallInteractor.swift; sourceTree = "<group>"; };
+		F516B29F281A4C10006CB025 /* CallRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallRemoteStore.swift; sourceTree = "<group>"; };
+		F516B2A1281A4C10006CB025 /* CallModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallModel.swift; sourceTree = "<group>"; };
+		F516B2A2281A4C10006CB025 /* CallWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallWorker.swift; sourceTree = "<group>"; };
+		F516B2A3281A4C10006CB025 /* CallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallView.swift; sourceTree = "<group>"; };
+		F516B2A5281A4C10006CB025 /* CallingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallingView.swift; sourceTree = "<group>"; };
+		F516B2A6281A4C10006CB025 /* VoiceCall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceCall.swift; sourceTree = "<group>"; };
+		F516B2A7281A4C10006CB025 /* InComingVoiceCallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InComingVoiceCallView.swift; sourceTree = "<group>"; };
+		F516B2A8281A4C10006CB025 /* CallInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallInMemoryStore.swift; sourceTree = "<group>"; };
+		F516B2A9281A4C10006CB025 /* CallInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallInteractor.swift; sourceTree = "<group>"; };
 		F5350E0827FAD57500F54E32 /* TwoFactorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoFactorModel.swift; sourceTree = "<group>"; };
 		F5350E0E27FAD57500F54E32 /* TwoFactorContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoFactorContentView.swift; sourceTree = "<group>"; };
 		F5350E1727FAD58F00F54E32 /* TwoFactorInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInMemoryStore.swift; sourceTree = "<group>"; };
@@ -782,7 +782,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				F516B24828183F7C006CB025 /* Call */,
+				F516B29E281A4C10006CB025 /* Call */,
 				0462C6B12816535C00A9EABB /* Search */,
 				F556C23328097F6E00D2B149 /* ChatGroup */,
 				F568DC1627FD882600EE9DF0 /* Notification */,
@@ -1013,35 +1013,34 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F516B24828183F7C006CB025 /* Call */ = {
+		F516B29E281A4C10006CB025 /* Call */ = {
 			isa = PBXGroup;
 			children = (
-				F516B24928183F7C006CB025 /* CallRemoteStore.swift */,
-				F516B24A28183F7C006CB025 /* Models */,
-				F516B24C28183F7C006CB025 /* CallWorker.swift */,
-				F516B24D28183F7C006CB025 /* CallView.swift */,
-				F516B24E28183F7C006CB025 /* Views */,
-				F516B25228183F7C006CB025 /* CallInMemoryStore.swift */,
-				F516B25328183F7C006CB025 /* CallInteractor.swift */,
+				F516B29F281A4C10006CB025 /* CallRemoteStore.swift */,
+				F516B2A0281A4C10006CB025 /* Models */,
+				F516B2A2281A4C10006CB025 /* CallWorker.swift */,
+				F516B2A3281A4C10006CB025 /* CallView.swift */,
+				F516B2A4281A4C10006CB025 /* Views */,
+				F516B2A8281A4C10006CB025 /* CallInMemoryStore.swift */,
+				F516B2A9281A4C10006CB025 /* CallInteractor.swift */,
 			);
-			name = Call;
-			path = ../../../../../../Desktop/Call;
+			path = Call;
 			sourceTree = "<group>";
 		};
-		F516B24A28183F7C006CB025 /* Models */ = {
+		F516B2A0281A4C10006CB025 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F516B24B28183F7C006CB025 /* CallModel.swift */,
+				F516B2A1281A4C10006CB025 /* CallModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		F516B24E28183F7C006CB025 /* Views */ = {
+		F516B2A4281A4C10006CB025 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F516B24F28183F7C006CB025 /* CallingView.swift */,
-				F516B25028183F7C006CB025 /* VoiceCall.swift */,
-				F516B25128183F7C006CB025 /* InComingVoiceCallView.swift */,
+				F516B2A5281A4C10006CB025 /* CallingView.swift */,
+				F516B2A6281A4C10006CB025 /* VoiceCall.swift */,
+				F516B2A7281A4C10006CB025 /* InComingVoiceCallView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1528,9 +1527,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB8C3EAB2805D2D60034B3A9 /* AddMemberView.swift in Sources */,
-				F516B25A28183F7D006CB025 /* InComingVoiceCallView.swift in Sources */,
 				0462C6C62816535C00A9EABB /* SearchInteractor.swift in Sources */,
-				F516B25428183F7D006CB025 /* CallRemoteStore.swift in Sources */,
 				CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */,
 				044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */,
 				044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */,
@@ -1540,7 +1537,6 @@
 				0462C6C32816535C00A9EABB /* SearchInMemoryStore.swift in Sources */,
 				047D6B1227F1544D0098B104 /* GroupDetailView.swift in Sources */,
 				047241A627DB3D2C0043345A /* LoginView.swift in Sources */,
-				F516B25C28183F7D006CB025 /* CallInteractor.swift in Sources */,
 				044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */,
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
 				CB8C3E3427F57FBA0034B3A9 /* AppVersion.swift in Sources */,
@@ -1553,7 +1549,6 @@
 				F568DC1027FD7CC000EE9DF0 /* ServerSettingModel.swift in Sources */,
 				F568DC1127FD7CC000EE9DF0 /* SettingServerInteractor.swift in Sources */,
 				F568DC1227FD7CC000EE9DF0 /* SettingServerWorker.swift in Sources */,
-				F516B25B28183F7D006CB025 /* CallInMemoryStore.swift in Sources */,
 				F556C24328097F6E00D2B149 /* ChatGroupInteractor.swift in Sources */,
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
 				0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */,
@@ -1561,12 +1556,14 @@
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				0462C6CC2816535C00A9EABB /* CatalogyView.swift in Sources */,
 				0499343527E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift in Sources */,
+				F516B2AD281A4C10006CB025 /* CallView.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
 				0462C6C42816535C00A9EABB /* SearchModels.swift in Sources */,
 				F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				044351F727D9AFCA0054A78F /* IRegisterModel.swift in Sources */,
 				047D6B1127F1544D0098B104 /* GroupDetailInteractor.swift in Sources */,
+				F516B2AE281A4C10006CB025 /* CallingView.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				047D6B0F27F1544D0098B104 /* GroupDetailWorker.swift in Sources */,
 				CB117ED627BBB0DD000941D9 /* ErrorView.swift in Sources */,
@@ -1579,6 +1576,7 @@
 				0499344527E97035003BD4C4 /* ChangePasswordWorker.swift in Sources */,
 				0499345727E9A8BE003BD4C4 /* AdvancedSeverView.swift in Sources */,
 				0499344D27E97100003BD4C4 /* ChangePasswordContentView.swift in Sources */,
+				F516B2AB281A4C10006CB025 /* CallModel.swift in Sources */,
 				0499345527E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift in Sources */,
 				CB40074727E8CCC800DFBE88 /* LoginContentView.swift in Sources */,
 				F5350E1027FAD57500F54E32 /* TwoFactorModel.swift in Sources */,
@@ -1601,15 +1599,15 @@
 				044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */,
 				F568DC2527FD882600EE9DF0 /* NotificationView.swift in Sources */,
 				F568DC1327FD7CC000EE9DF0 /* SettingServerRemoteStore.swift in Sources */,
+				F516B2B0281A4C10006CB025 /* InComingVoiceCallView.swift in Sources */,
 				F5350E1C27FAD58F00F54E32 /* TwoFactorInMemoryStore.swift in Sources */,
 				0499344727E97035003BD4C4 /* ChangePasswordInteractor.swift in Sources */,
 				047D6B6427F6A3DD0098B104 /* DirectMessageContentView.swift in Sources */,
 				047D6B5E27F6A3750098B104 /* CreateDirectMessageInMemoryStore.swift in Sources */,
 				0499341027E96DD7003BD4C4 /* FogotPasswordView.swift in Sources */,
-				F516B25928183F7D006CB025 /* VoiceCall.swift in Sources */,
 				0499344427E97035003BD4C4 /* ChangePasswordInMemoryStore.swift in Sources */,
 				0462C6CD2816535C00A9EABB /* SearchGroupView.swift in Sources */,
-				F516B25728183F7D006CB025 /* CallView.swift in Sources */,
+				F516B2AC281A4C10006CB025 /* CallWorker.swift in Sources */,
 				047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */,
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
 				047D6B1027F1544D0098B104 /* GroupDetailRemoteStore.swift in Sources */,
@@ -1627,6 +1625,7 @@
 				0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */,
 				F556C277280E502500D2B149 /* TagView.swift in Sources */,
 				044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */,
+				F516B2B1281A4C10006CB025 /* CallInMemoryStore.swift in Sources */,
 				0462C6C12816535C00A9EABB /* SearchRemoteStore.swift in Sources */,
 				0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */,
 				F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */,
@@ -1645,7 +1644,6 @@
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
 				0499343727E96F8A003BD4C4 /* NewPasswordRemoteStore.swift in Sources */,
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
-				F516B25628183F7D006CB025 /* CallWorker.swift in Sources */,
 				0499344627E97035003BD4C4 /* ChangePasswordRemoteStore.swift in Sources */,
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
 				0462C6C82816535C00A9EABB /* SearchAllView.swift in Sources */,
@@ -1662,8 +1660,11 @@
 				F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */,
 				F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
+				F516B2AF281A4C10006CB025 /* VoiceCall.swift in Sources */,
+				F516B2B2281A4C10006CB025 /* CallInteractor.swift in Sources */,
 				0499342E27E96F09003BD4C4 /* AdvancedContentView.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
+				F516B2AA281A4C10006CB025 /* CallRemoteStore.swift in Sources */,
 				047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
 				F568DC2427FD882600EE9DF0 /* NotificationWorker.swift in Sources */,
@@ -1672,8 +1673,6 @@
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
 				0462C6CA2816535C00A9EABB /* SearchMessageView.swift in Sources */,
 				0499341427E96E2F003BD4C4 /* FogotPasswordContentView.swift in Sources */,
-				F516B25828183F7D006CB025 /* CallingView.swift in Sources */,
-				F516B25528183F7D006CB025 /* CallModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
