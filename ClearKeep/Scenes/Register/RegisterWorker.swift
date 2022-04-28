@@ -13,7 +13,7 @@ protocol IRegisterWorker {
 	var remoteStore: IRegisterRemoteStore { get }
 	var inMemoryStore: IRegisterInMemoryStore { get }
 
-	func register(displayName: String, email: String, password: String, domain: String) async
+	func register(displayName: String, email: String, password: String) async -> Result<Bool, Error>
 }
 
 struct RegisterWorker {
@@ -31,7 +31,11 @@ struct RegisterWorker {
 }
 
 extension RegisterWorker: IRegisterWorker {
-	func register(displayName: String, email: String, password: String, domain: String) async {
-		return await remoteStore.register(displayName: displayName, email: email, password: password, domain: domain)
+	var currentDomain: String {
+		channelStorage.currentChannel.domain
+	}
+	
+	func register(displayName: String, email: String, password: String) async -> Result<Bool, Error> {
+		return await remoteStore.register(displayName: displayName, email: email, password: password, domain: currentDomain)
 	}
 }

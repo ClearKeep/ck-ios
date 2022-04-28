@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Common
 import CommonUI
 
 private enum Constants {
@@ -19,15 +20,15 @@ struct RegisterContentView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-	@State private(set) var domain: String = ""
-	@Binding var email: String
-	@Binding var password: String
-	@Binding var displayname: String
-	@Binding var rePassword: String
-	@Binding var emailStyle: TextInputStyle
-	@Binding var nameStyle: TextInputStyle
-	@Binding var passwordStyle: TextInputStyle
-	@Binding var rePasswordStyle: TextInputStyle
+	@Binding var loadable: Loadable<Bool>
+	@State private var email: String = ""
+	@State private var password: String = ""
+	@State private var displayname: String = ""
+	@State private var rePassword: String = ""
+	@State private var emailStyle: TextInputStyle = .default
+	@State private var nameStyle: TextInputStyle = .default
+	@State private var passwordStyle: TextInputStyle = .default
+	@State private var rePasswordStyle: TextInputStyle = .default
 
 	// MARK: - Body
 	var body: some View {
@@ -84,8 +85,9 @@ private extension RegisterContentView {
 // MARK: - private func
 private extension RegisterContentView {
 	func doRegister() {
+		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			await injected.interactors.registerInteractor.register(displayName: displayname, email: email, password: password, domain: domain)
+			loadable = await injected.interactors.registerInteractor.register(displayName: displayname, email: email, password: password)
 		}
 	}
 
@@ -105,8 +107,7 @@ private extension RegisterContentView {
 			.foregroundColor(foregroundColorPrimary)
 			Spacer()
 			Button("Register.SignUp".localized) {
-
-					doRegister()
+				doRegister()
 			}
 			.frame(maxWidth: .infinity, alignment: .center)
 			.padding(.all, Constants.padding)
@@ -165,7 +166,7 @@ private extension RegisterContentView {
 #if DEBUG
 struct RegisterContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		RegisterContentView(email: .constant("Test"), password: .constant("Test"), displayname: .constant("Test"), rePassword: .constant("Test"), emailStyle: .constant(.default), nameStyle: .constant(.default), passwordStyle: .constant(.default), rePasswordStyle: .constant(.default))
+		RegisterContentView(loadable: .constant(.notRequested))
 	}
 }
 #endif
