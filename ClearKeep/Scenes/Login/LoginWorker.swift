@@ -18,7 +18,6 @@ protocol ILoginWorker {
 	
 	func signIn(email: String, password: String) async -> Result<IAuthenticationModel, Error>
 	func signInSocial(_ socialType: SocialType)
-	func signOut()
 }
 
 struct LoginWorker {
@@ -48,9 +47,5 @@ extension LoginWorker: ILoginWorker {
 	
 	func signInSocial(_ socialType: SocialType) {
 		remoteStore.signInSocial(socialType, domain: currentDomain)
-	}
-	
-	func signOut() {
-		remoteStore.signOut(domain: currentDomain)
 	}
 }
