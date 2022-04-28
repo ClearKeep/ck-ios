@@ -6,19 +6,41 @@
 //
 
 import Common
+import ChatSecure
+import GRPC
 
 protocol IRegisterInteractor {
-	var worker: IRegisterWorker { get }
+	func register(displayName: String, email: String, password: String, domain: String) async
 }
 
 struct RegisterInteractor {
 	let appState: Store<AppState>
+	let channelStorage: IChannelStorage
+	let authenticationService: IAuthenticationService
 }
 
 extension RegisterInteractor: IRegisterInteractor {
 	var worker: IRegisterWorker {
-		let remoteStore = RegisterRemoteStore()
+		let remoteStore = RegisterRemoteStore(authenticationService: authenticationService)
 		let inMemoryStore = RegisterInMemoryStore()
-		return RegisterWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+		return RegisterWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+	}
+
+	func register(displayName: String, email: String, password: String, domain: String) async {
+		await worker.register(displayName: displayName, email: email, password: password, domain: domain)
+	}
+}
+
+struct StubRegisterInteractor: IRegisterInteractor {
+	let channelStorage: IChannelStorage
+	let authenticationService: IAuthenticationService
+
+	var worker: IRegisterWorker {
+		let remoteStore = RegisterRemoteStore(authenticationService: authenticationService)
+		let inMemoryStore = RegisterInMemoryStore()
+		return RegisterWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+	}
+
+	func register(displayName: String, email: String, password: String, domain: String) async {
 	}
 }

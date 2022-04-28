@@ -72,6 +72,12 @@ struct AppImageSet: IAppImageSet {
 	var facebookIcon: Image { Image("ic_faceBook") }
 	var unCheckIcon: Image { Image("ic_uncheck") }
 	var checkedIcon: Image { Image("ic_checked") }
+	var cameraIcon: Image { Image("ic_camera") }
+	var cameraOffIcon: Image { Image("ic_camera_off") }
+	var muteOffIcon: Image { Image("ic_mute") }
+	var muteIcon: Image { Image("ic_mute-1") }
+	var speakerIcon2: Image { Image("ic_speaker-1") }
+	var speakerOffIcon2: Image { Image("ic_speaker_off-1") }
 	var userImage: Image { Image("ic_user_image") }
 }
 
