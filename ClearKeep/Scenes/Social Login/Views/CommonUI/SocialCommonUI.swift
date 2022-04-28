@@ -35,7 +35,7 @@ struct SocialCommonUI: View {
 	@State private(set) var securityStyle: TextInputStyle = .default
 	@State private(set) var isNext: Bool = false
 	let inspection = ViewInspector<Self>()
-
+	
 	// MARK: - Init
 	public init(samples: Loadable<[ISocialModel]> = .notRequested,
 				security: String = "",
@@ -47,7 +47,7 @@ struct SocialCommonUI: View {
 		self._samples = .init(initialValue: samples)
 		self._security = .init(initialValue: security)
 	}
-
+	
 	// MARK: - Body
 	var body: some View {
 		content
@@ -78,7 +78,7 @@ private extension SocialCommonUI {
 		}
 		.padding(.horizontal, Constant.paddingVertical)
 	}
-
+	
 	var buttonSocial: some View {
 		NavigationLink(
 			destination: nextView,
@@ -95,7 +95,7 @@ private extension SocialCommonUI {
 				.cornerRadius(Constant.cornerRadius)
 			})
 	}
-
+	
 	var buttonBackView: some View {
 		Button(action: customBack) {
 			HStack(spacing: Constant.spacer) {
@@ -110,7 +110,7 @@ private extension SocialCommonUI {
 			.foregroundColor(AppTheme.shared.colorSet.offWhite)
 		}
 	}
-
+	
 	var textInputView: some View {
 		SecureTextField(secureText: $security,
 						inputStyle: $securityStyle,
@@ -118,7 +118,7 @@ private extension SocialCommonUI {
 						placeHolder: textInput.localized,
 						keyboardType: .numberPad)
 	}
-
+	
 	var titleView: some View {
 		HStack {
 			Text(title.localized)
@@ -134,39 +134,39 @@ private extension SocialCommonUI {
 	var background: LinearGradient {
 		colorScheme == .light ? backgroundGradientPrimary : backgroundColorDark
 	}
-
+	
 	var backgroundGradientPrimary: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundColorWhite: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundColorDark: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundColorGradient: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundColorDarkView: LinearGradient {
 		colorScheme == .light ? backgroundColorWhite : backgroundColorGradient
 	}
-
+	
 	var foregroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
 	}
-
+	
 	var foregroundBackButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.greyLight
 	}
-
+	
 	var foregroundColorMessage: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
-
+	
 	var foregroundMessage: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.grey1
 	}
@@ -177,23 +177,23 @@ private extension SocialCommonUI {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
-
+	
 	var title: String {
 		socialStyle.title
 	}
-
+	
 	var textInput: String {
 		socialStyle.textInput
 	}
-
+	
 	var buttonBack: String {
 		socialStyle.buttonBack
 	}
-
+	
 	var buttonNext: String {
 		socialStyle.buttonNext
 	}
-
+	
 	var nextView: some View {
 		socialStyle.nextView
 	}

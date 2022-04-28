@@ -107,9 +107,9 @@ private extension LoginContentView {
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
 				if isEditing {
-					emailStyle = .normal
-				} else {
 					emailStyle = .highlighted
+				} else {
+					emailStyle = .normal
 				}
 			})
 			SecureTextField(secureText: $password,

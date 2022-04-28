@@ -1,6 +1,6 @@
 //
 //  SecureTextField.swift
-//  
+//
 //
 //  Created by NamNH on 05/03/2022.
 //
@@ -19,13 +19,14 @@ private enum Constants {
 
 public struct SecureTextField: View {
 	// MARK: - Variables
+	@Environment(\.colorScheme) var colorScheme
 	@Binding var secureText: String
 	@Binding var inputStyle: TextInputStyle
 	@State private var isRevealed = false
 	private let inputIcon: Image?
 	private let placeHolder: String
 	private let keyboardType: UIKeyboardType
-	
+
 	// MARK: - Init
 	public init(secureText: Binding<String>,
 				inputStyle: Binding<TextInputStyle>,
@@ -38,7 +39,7 @@ public struct SecureTextField: View {
 		self.placeHolder = placeHolder
 		self.keyboardType = keyboardType
 	}
-	
+
 	// MARK: - Body
 	public var body: some View {
 		VStack(spacing: 2.0) {
@@ -82,48 +83,48 @@ public struct SecureTextField: View {
 // MARK: - Private func
 private extension SecureTextField {
 	var backgroundColor: Color {
-		inputStyle.backgroundColor
+		colorScheme == .light ? inputStyle.backgroundColorLight : inputStyle.backgroundColorDark
 	}
-	
+
 	var tintColor: Color {
-		inputStyle.tintColor
+		colorScheme == .light ? inputStyle.tintColorLight : inputStyle.tintColorDark
 	}
-	
+
 	var borderColor: Color {
-		inputStyle.borderColor
+		colorScheme == .light ? inputStyle.borderColorLight : inputStyle.borderColorDark
 	}
-	
+
 	var borderWidth: CGFloat {
 		inputStyle.borderWidth
 	}
-	
+
 	var cornerRadius: CGFloat {
 		inputStyle.cornerRadius
 	}
-	
+
 	var textColor: Color {
-		inputStyle.textColor
+		colorScheme == .light ? inputStyle.textColorLight : inputStyle.textColorDark
 	}
-	
+
 	var notifyColor: Color {
-		inputStyle.notifyColor
+		colorScheme == .light ? inputStyle.notifyColorLight : inputStyle.notifyColorLight
 	}
-	
+
 	var font: Font {
 		inputStyle.textStyle.font
 	}
-	
+
 	var secureIcon: Image {
 		isRevealed ? commonUIConfig.imageSet.eyeOn : commonUIConfig.imageSet.eyeOff
 	}
-	
+
 	var needShowNotifiyMessage: Bool {
 		switch inputStyle {
 		case .error, .success: return true
 		default: return false
 		}
 	}
-	
+
 	var notifiyMessage: String {
 		switch inputStyle {
 		case .error(let message), .success(let message): return message

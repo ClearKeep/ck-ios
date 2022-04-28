@@ -1,6 +1,6 @@
 //
 //  CommonTextField.swift
-//  
+//
 //
 //  Created by NamNH on 03/03/2022.
 //
@@ -17,13 +17,14 @@ private enum Constants {
 
 public struct CommonTextField: View {
 	// MARK: - Variables
+	@Environment(\.colorScheme) var colorScheme
 	@Binding var text: String
 	@Binding var inputStyle: TextInputStyle
 	private let inputIcon: Image?
 	private let placeHolder: String
 	private let keyboardType: UIKeyboardType
 	private let onEditingChanged: (Bool) -> Void
-	
+
 	// MARK: - Init
 	public init(text: Binding<String>,
 				inputStyle: Binding<TextInputStyle>,
@@ -38,7 +39,7 @@ public struct CommonTextField: View {
 		self.keyboardType = keyboardType
 		self.onEditingChanged = onEditingChanged
 	}
-	
+
 	// MARK: - Body
 	public var body: some View {
 		VStack(spacing: 2.0) {
@@ -77,21 +78,21 @@ public struct CommonTextField: View {
 // MARK: - Private func
 private extension CommonTextField {
 	var backgroundColor: Color {
-		inputStyle.backgroundColor
+		colorScheme == .light ? inputStyle.backgroundColorLight : inputStyle.backgroundColorDark
 	}
-	
+
 	var tintColor: Color {
-		inputStyle.tintColor
+		colorScheme == .light ? inputStyle.tintColorLight : inputStyle.tintColorDark
 	}
-	
+
 	var borderColor: Color {
-		inputStyle.borderColor
+		colorScheme == .light ? inputStyle.borderColorLight : inputStyle.borderColorDark
 	}
-	
+
 	var borderWidth: CGFloat {
 		inputStyle.borderWidth
 	}
-	
+
 	var cornerRadius: CGFloat {
 		inputStyle.cornerRadius
 	}
@@ -99,26 +100,26 @@ private extension CommonTextField {
 	var cornerRadiusPasscode: CGFloat {
 		inputStyle.cornerRadiusPasscode
 	}
-	
+
 	var textColor: Color {
-		inputStyle.textColor
+		colorScheme == .light ? inputStyle.textColorLight : inputStyle.textColorDark
 	}
-	
+
 	var notifyColor: Color {
-		inputStyle.notifyColor
+		colorScheme == .light ? inputStyle.notifyColorLight : inputStyle.notifyColorLight
 	}
-	
+
 	var font: Font {
 		inputStyle.textStyle.font
 	}
-	
+
 	var needShowNotifiyMessage: Bool {
 		switch inputStyle {
 		case .error, .success: return true
 		default: return false
 		}
 	}
-	
+
 	var notifiyMessage: String {
 		switch inputStyle {
 		case .error(let message), .success(let message): return message
@@ -130,7 +131,7 @@ private extension CommonTextField {
 struct CommonTextField_Previews: PreviewProvider {
 	static var previews: some View {
 		CommonTextField(text: .constant("Test"), inputStyle: .constant(.error(message: "Error")), placeHolder: "Phone") { _ in
-			
+
 		}
 	}
 }

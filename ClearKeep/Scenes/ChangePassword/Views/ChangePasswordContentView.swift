@@ -19,7 +19,7 @@ private enum Constants {
 struct ChangePasswordContentView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
-
+	
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -30,7 +30,7 @@ struct ChangePasswordContentView: View {
 	@State private(set) var currentStyle: TextInputStyle
 	@State private(set) var newStyle: TextInputStyle
 	@State private(set) var confirmStyle: TextInputStyle
-
+	
 	// MARK: - Init
 	init(currentPassword: String = "",
 		 newPassword: String = "",
@@ -45,7 +45,7 @@ struct ChangePasswordContentView: View {
 		self._newStyle = .init(initialValue: newStyle)
 		self._confirmStyle = .init(initialValue: confirmStyle)
 	}
-
+	
 	// MARK: - Body
 	var body: some View {
 		content
@@ -56,19 +56,19 @@ struct ChangePasswordContentView: View {
 
 // MARK: - Private
 private extension ChangePasswordContentView {
-
+	
 	var backgroundButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
-
+	
 	var backgroundViewColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.black
 	}
-
+	
 	var foregroundButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
 	}
-
+	
 	var foregroundBackButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
@@ -78,7 +78,7 @@ private extension ChangePasswordContentView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
-
+	
 	var content: AnyView {
 		AnyView(changePasswordView)
 	}
@@ -116,7 +116,7 @@ private extension ChangePasswordContentView {
 		.frame(maxWidth: .infinity, alignment: .center)
 		.padding(.all, Constants.padding)
 	}
-
+	
 	var buttonBack: some View {
 		Button(action: customBack) {
 			HStack(spacing: Constants.spacing) {
@@ -131,10 +131,10 @@ private extension ChangePasswordContentView {
 			.foregroundColor(foregroundBackButton)
 		}
 	}
-
+	
 	var buttonSave: some View {
 		Button("ChangePassword.Save".localized) {
-
+			
 		}
 		.frame(maxWidth: .infinity, alignment: .center)
 		.padding(.all, Constants.padding)

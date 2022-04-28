@@ -1,6 +1,6 @@
 //
 //  SearchTextField.swift
-//  
+//
 //
 //  Created by NamNH on 03/03/2022.
 //
@@ -18,6 +18,7 @@ private enum Constants {
 
 public struct SearchTextField: View {
 	// MARK: - Variables
+	@Environment(\.colorScheme) var colorScheme
 	@Binding var searchText: String
 	@Binding var inputStyle: TextInputStyle
 	@State private var shouldShowCancelButton: Bool = false
@@ -25,7 +26,7 @@ public struct SearchTextField: View {
 	private let placeHolder: String
 	private let keyboardType: UIKeyboardType
 	private let onEditingChanged: (Bool) -> Void
-	
+
 	// MARK: - Init
 	public init(searchText: Binding<String>,
 				inputStyle: Binding<TextInputStyle>,
@@ -40,7 +41,7 @@ public struct SearchTextField: View {
 		self.keyboardType = keyboardType
 		self.onEditingChanged = onEditingChanged
 	}
-	
+
 	// MARK: - Body
 	public var body: some View {
 		HStack(alignment: .center) {
@@ -81,33 +82,33 @@ public struct SearchTextField: View {
 // MARK: - Private func
 private extension SearchTextField {
 	var backgroundColor: Color {
-		inputStyle.backgroundColor
+		colorScheme == .light ? inputStyle.backgroundColorLight : inputStyle.backgroundColorDark
 	}
-	
+
 	var tintColor: Color {
-		inputStyle.tintColor
+		colorScheme == .light ? inputStyle.tintColorLight : inputStyle.tintColorDark
 	}
-	
+
 	var borderColor: Color {
-		inputStyle.borderColor
+		colorScheme == .light ? inputStyle.borderColorLight : inputStyle.borderColorDark
 	}
-	
+
 	var borderWidth: CGFloat {
 		inputStyle.borderWidth
 	}
-	
+
 	var cornerRadius: CGFloat {
 		inputStyle.cornerRadius
 	}
-	
+
 	var textColor: Color {
-		inputStyle.textColor
+		colorScheme == .light ? inputStyle.textColorLight : inputStyle.textColorDark
 	}
-	
+
 	var notifyColor: Color {
-		inputStyle.notifyColor
+		colorScheme == .light ? inputStyle.notifyColorLight : inputStyle.notifyColorLight
 	}
-	
+
 	var font: Font {
 		inputStyle.textStyle.font
 	}

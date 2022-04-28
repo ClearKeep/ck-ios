@@ -106,7 +106,7 @@ private extension RegisterContentView {
 			Spacer()
 			Button("Register.SignUp".localized) {
 
-					doRegister()
+				doRegister()
 			}
 			.frame(maxWidth: .infinity, alignment: .center)
 			.padding(.all, Constants.padding)
@@ -140,7 +140,7 @@ private extension RegisterContentView {
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
 				if isEditing {
-					emailStyle = .default
+					emailStyle = .highlighted
 				} else {
 					emailStyle = .normal
 				}

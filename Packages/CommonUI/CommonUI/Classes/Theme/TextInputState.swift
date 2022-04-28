@@ -1,6 +1,6 @@
 //
 //  TextInputStyle.swift
-//  
+//
 //
 //  Created by NamNH on 03/03/2022.
 //
@@ -13,29 +13,36 @@ private enum Constants {
 }
 
 protocol ITextInputStyle {
-	var backgroundColor: Color { get }
-	var tintColor: Color { get }
-	var borderColor: Color { get }
+	var backgroundColorLight: Color { get }
+	var backgroundColorDark: Color { get }
+	var tintColorLight: Color { get }
+	var tintColorDark: Color { get }
+	var borderColorLight: Color { get }
+	var borderColorDark: Color { get }
 	var borderWidth: CGFloat { get }
-	var textColor: Color { get }
-	var placeHolderColor: Color { get }
-	var notifyColor: Color { get }
+	var textColorLight: Color { get }
+	var textColorDark: Color { get }
+	var placeHolderColorLight: Color { get }
+	var placeHolderColorDark: Color { get }
+	var notifyColorLight: Color { get }
+	var notifyColorDark: Color { get }
 }
 
 public enum TextInputStyle: ITextInputStyle {
+
 	case `default`
 	case normal
 	case disabled
 	case highlighted
 	case error(message: String)
 	case success(message: String)
-	
-	public var backgroundColor: Color {
+
+	public var backgroundColorLight: Color {
 		switch self {
 		case .default:
 			return commonUIConfig.colorSet.grey5
 		case .normal:
-			return commonUIConfig.colorSet.offWhite
+			return commonUIConfig.colorSet.grey5
 		case .disabled:
 			return commonUIConfig.colorSet.grey5.opacity(0.5)
 		case .highlighted:
@@ -46,49 +53,100 @@ public enum TextInputStyle: ITextInputStyle {
 			return commonUIConfig.colorSet.successLight
 		}
 	}
-	
-	public var tintColor: Color {
+
+	public var backgroundColorDark: Color {
 		switch self {
 		case .default:
-			return commonUIConfig.colorSet.grey5
+			return commonUIConfig.colorSet.darkgrey3
 		case .normal:
-			return commonUIConfig.colorSet.offWhite
+			return commonUIConfig.colorSet.darkgrey3
 		case .disabled:
-			return commonUIConfig.colorSet.grey5.opacity(0.5)
+			return commonUIConfig.colorSet.darkgrey3.opacity(0.5)
 		case .highlighted:
-			return commonUIConfig.colorSet.offWhite
+			return commonUIConfig.colorSet.darkgrey3
 		case .error:
-			return commonUIConfig.colorSet.errorLight
+			return commonUIConfig.colorSet.primaryDefault
 		case .success:
 			return commonUIConfig.colorSet.successLight
 		}
 	}
-	
-	public var borderColor: Color {
-		switch self {
-		case .default:
-			return commonUIConfig.colorSet.grey5
-		case .normal:
-			return commonUIConfig.colorSet.black
-		case .disabled:
-			return commonUIConfig.colorSet.grey5
-		case .highlighted:
-			return commonUIConfig.colorSet.black
-		case .error:
-			return commonUIConfig.colorSet.errorLight
-		case .success:
-			return commonUIConfig.colorSet.successLight
-		}
-	}
-	
-	public var textColor: Color {
+
+	public var tintColorLight: Color {
 		switch self {
 		case .default:
 			return commonUIConfig.colorSet.grey1
 		case .normal:
-			return commonUIConfig.colorSet.black
+			return commonUIConfig.colorSet.grey1
 		case .disabled:
+			return commonUIConfig.colorSet.grey5.opacity(0.5)
+		case .highlighted:
+			return commonUIConfig.colorSet.black
+		case .error:
+			return commonUIConfig.colorSet.errorLight
+		case .success:
+			return commonUIConfig.colorSet.successLight
+		}
+	}
+
+	public var tintColorDark: Color {
+		switch self {
+		case .default:
+			return commonUIConfig.colorSet.greyLight
+		case .normal:
+			return commonUIConfig.colorSet.greyLight
+		case .disabled:
+			return commonUIConfig.colorSet.greyLight.opacity(0.5)
+		case .highlighted:
+			return commonUIConfig.colorSet.greyLight
+		case .error:
+			return commonUIConfig.colorSet.greyLight
+		case .success:
+			return commonUIConfig.colorSet.greyLight
+		}
+	}
+
+	public var borderColorLight: Color {
+		switch self {
+		case .default:
+			return commonUIConfig.colorSet.grey5
+		case .normal:
+			return commonUIConfig.colorSet.grey5
+		case .disabled:
+			return commonUIConfig.colorSet.grey5.opacity(0.5)
+		case .highlighted:
+			return commonUIConfig.colorSet.black
+		case .error:
+			return commonUIConfig.colorSet.errorDefault
+		case .success:
+			return commonUIConfig.colorSet.successDefault
+		}
+	}
+
+	public var borderColorDark: Color {
+		switch self {
+		case .default:
+			return commonUIConfig.colorSet.darkgrey3
+		case .normal:
+			return commonUIConfig.colorSet.darkgrey3
+		case .disabled:
+			return commonUIConfig.colorSet.darkgrey3.opacity(0.5)
+		case .highlighted:
+			return commonUIConfig.colorSet.grey5
+		case .error:
+			return commonUIConfig.colorSet.primaryDefault
+		case .success:
+			return commonUIConfig.colorSet.successDefault
+		}
+	}
+
+	public var textColorLight: Color {
+		switch self {
+		case .default:
 			return commonUIConfig.colorSet.grey3
+		case .normal:
+			return commonUIConfig.colorSet.black
+		case .disabled:
+			return commonUIConfig.colorSet.grey3.opacity(0.5)
 		case .highlighted:
 			return commonUIConfig.colorSet.black
 		case .error:
@@ -97,15 +155,36 @@ public enum TextInputStyle: ITextInputStyle {
 			return commonUIConfig.colorSet.grey1
 		}
 	}
-	
-	public var placeHolderColor: Color {
+
+	public var textColorDark: Color {
+		switch self {
+		case .default:
+			return commonUIConfig.colorSet.greyLight
+		case .normal:
+			return commonUIConfig.colorSet.greyLight
+		case .disabled:
+			return commonUIConfig.colorSet.greyLight.opacity(0.5)
+		case .highlighted:
+			return commonUIConfig.colorSet.greyLight
+		case .error:
+			return commonUIConfig.colorSet.greyLight
+		case .success:
+			return commonUIConfig.colorSet.greyLight
+		}
+	}
+
+	public var placeHolderColorLight: Color {
 		return commonUIConfig.colorSet.grey3
 	}
-	
+
+	public var placeHolderColorDark: Color {
+		return commonUIConfig.colorSet.grey3
+	}
+
 	public var textStyle: TextStyle {
 		return .textM
 	}
-	
+
 	public var cornerRadius: CGFloat {
 		return Constants.cornerRadius
 	}
@@ -113,7 +192,7 @@ public enum TextInputStyle: ITextInputStyle {
 	public var cornerRadiusPasscode: CGFloat {
 		return Constants.cornerRadiusPasscode
 	}
-	
+
 	public var borderWidth: CGFloat {
 		switch self {
 		case .default:
@@ -130,8 +209,8 @@ public enum TextInputStyle: ITextInputStyle {
 			return 2.0
 		}
 	}
-	
-	public var notifyColor: Color {
+
+	public var notifyColorLight: Color {
 		switch self {
 		case .default:
 			return commonUIConfig.colorSet.black
@@ -143,6 +222,23 @@ public enum TextInputStyle: ITextInputStyle {
 			return commonUIConfig.colorSet.black
 		case .error:
 			return commonUIConfig.colorSet.errorLight
+		case .success:
+			return commonUIConfig.colorSet.successLight
+		}
+	}
+
+	public var notifyColorDark: Color {
+		switch self {
+		case .default:
+			return commonUIConfig.colorSet.black
+		case .normal:
+			return commonUIConfig.colorSet.black
+		case .disabled:
+			return commonUIConfig.colorSet.black
+		case .highlighted:
+			return commonUIConfig.colorSet.black
+		case .error:
+			return commonUIConfig.colorSet.primaryDefault
 		case .success:
 			return commonUIConfig.colorSet.successLight
 		}
