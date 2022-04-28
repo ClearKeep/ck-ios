@@ -13,7 +13,6 @@ import Model
 protocol ILoginRemoteStore {
 	func signIn(email: String, password: String, domain: String) async -> Result<IAuthenticationModel, Error>
 	func signInSocial(_ socialType: SocialType, domain: String)
-	func signOut(domain: String)
 }
 
 struct LoginRemoteStore {
@@ -42,8 +41,5 @@ extension LoginRemoteStore: ILoginRemoteStore {
 		case .office:
 			socialAuthenticationService.signInWithOffice(domain: domain)
 		}
-	}
-	
-	func signOut(domain: String) {
 	}
 }

@@ -10,7 +10,6 @@
 		044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351EB27D9AFCA0054A78F /* RegisterRemoteStore.swift */; };
 		044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351EC27D9AFCA0054A78F /* RegisterWorker.swift */; };
 		044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351ED27D9AFCA0054A78F /* RegisterInMemoryStore.swift */; };
-		044351F727D9AFCA0054A78F /* IRegisterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351EF27D9AFCA0054A78F /* IRegisterModel.swift */; };
 		044351F827D9AFCA0054A78F /* RegisterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F027D9AFCA0054A78F /* RegisterInteractor.swift */; };
 		044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F127D9AFCA0054A78F /* RegisterView.swift */; };
 		044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F327D9AFCA0054A78F /* RegisterContentView.swift */; };
@@ -204,7 +203,6 @@
 		044351EB27D9AFCA0054A78F /* RegisterRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterRemoteStore.swift; sourceTree = "<group>"; };
 		044351EC27D9AFCA0054A78F /* RegisterWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterWorker.swift; sourceTree = "<group>"; };
 		044351ED27D9AFCA0054A78F /* RegisterInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterInMemoryStore.swift; sourceTree = "<group>"; };
-		044351EF27D9AFCA0054A78F /* IRegisterModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRegisterModel.swift; sourceTree = "<group>"; };
 		044351F027D9AFCA0054A78F /* RegisterInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterInteractor.swift; sourceTree = "<group>"; };
 		044351F127D9AFCA0054A78F /* RegisterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		044351F327D9AFCA0054A78F /* RegisterContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterContentView.swift; sourceTree = "<group>"; };
@@ -435,7 +433,6 @@
 		044351EE27D9AFCA0054A78F /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				044351EF27D9AFCA0054A78F /* IRegisterModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -487,13 +484,13 @@
 		0472419827DB3D2C0043345A /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				0472419C27DB3D2C0043345A /* LoginInMemoryStore.swift */,
+				0472419B27DB3D2C0043345A /* LoginInteractor.swift */,
 				0472419927DB3D2C0043345A /* LoginRemoteStore.swift */,
 				0472419A27DB3D2C0043345A /* LoginView.swift */,
-				0472419B27DB3D2C0043345A /* LoginInteractor.swift */,
-				0472419C27DB3D2C0043345A /* LoginInMemoryStore.swift */,
-				CB40074027E8CCC700DFBE88 /* Views */,
-				0472419D27DB3D2C0043345A /* Models */,
 				047241A427DB3D2C0043345A /* LoginWorker.swift */,
+				0472419D27DB3D2C0043345A /* Models */,
+				CB40074027E8CCC700DFBE88 /* Views */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1509,7 +1506,6 @@
 				0462C6C42816535C00A9EABB /* SearchModels.swift in Sources */,
 				F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
-				044351F727D9AFCA0054A78F /* IRegisterModel.swift in Sources */,
 				047D6B1127F1544D0098B104 /* GroupDetailInteractor.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				047D6B0F27F1544D0098B104 /* GroupDetailWorker.swift in Sources */,
