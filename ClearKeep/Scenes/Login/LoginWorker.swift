@@ -17,7 +17,7 @@ protocol ILoginWorker {
 	var appVersion: String { get }
 	
 	func signIn(email: String, password: String) async -> Result<IAuthenticationModel, Error>
-	func signInSocial(_ socialType: SocialType) async -> Result<IAuthenticationModel, Error>
+	func signInSocial(_ socialType: SocialType)
 }
 
 struct LoginWorker {
@@ -45,7 +45,7 @@ extension LoginWorker: ILoginWorker {
 		return await remoteStore.signIn(email: email, password: password, domain: currentDomain)
 	}
 	
-	func signInSocial(_ socialType: SocialType) async -> Result<IAuthenticationModel, Error> {
-		return await remoteStore.signInSocial(socialType, domain: currentDomain)
+	func signInSocial(_ socialType: SocialType) {
+		remoteStore.signInSocial(socialType, domain: currentDomain)
 	}
 }
