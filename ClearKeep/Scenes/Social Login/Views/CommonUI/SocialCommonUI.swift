@@ -28,14 +28,12 @@ struct SocialCommonUI: View {
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
-//	@Environment(\.isEnabled) private var isEnabled: Bool
 	@Binding var text: String
 	@Binding var socialStyle: SocialCommonStyle
 	@State private(set) var samples: Loadable<[ISocialModel]>
 	@State private var security = ""
 	@State private(set) var securityStyle: TextInputStyle = .default
 	@State private(set) var isNext: Bool = false
-	@State private var isDisable: Bool = false
 	let inspection = ViewInspector<Self>()
 
 	// MARK: - Init
@@ -55,19 +53,23 @@ struct SocialCommonUI: View {
 			.background(background)
 			.edgesIgnoringSafeArea(.all)
 			.navigationBarHidden(true)
+			.onDisappear {
+				security = ""
+			}
 	}
+
 }
 
 // MARK: - Private
 private extension SocialCommonUI {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		AnyView(contentView)
 	}
 }
 
 // MARK: - Loading Content
 private extension SocialCommonUI {
-	var notRequestedView: some View {
+	var contentView: some View {
 		VStack {
 			buttonBackView
 				.padding(.top, Constant.spacerTopView)
@@ -91,7 +93,7 @@ private extension SocialCommonUI {
 				.foregroundColor(foregroundColorView)
 				.cornerRadius(Constant.cornerRadius)
 		}
-		.disabled(disableButton)
+		.disabled(security.isEmpty)
 	}
 
 	var buttonBackView: some View {
@@ -124,7 +126,6 @@ private extension SocialCommonUI {
 
 	var titleView: some View {
 		HStack {
-
 			Text(title.localized)
 				.font(AppTheme.shared.fontSet.font(style: .placeholder1))
 				.foregroundColor(foregroundMessage)
@@ -168,12 +169,12 @@ private extension SocialCommonUI {
 	}
 
 	var backgroundButton: Color {
-		return disableButton ? backgroundColorDarkView.opacity(Constant.backgroundOpacity) : backgroundColorDarkView
+		return security.isEmpty ? backgroundColorDarkView.opacity(Constant.backgroundOpacity) : backgroundColorDarkView
 	}
 
-	var disableButton: Bool {
-		security.isEmpty
-	}
+//	var disableButton: Bool {
+//		security.isEmpty
+//	}
 }
 
 // MARK: - Private Func
@@ -183,6 +184,7 @@ private extension SocialCommonUI {
 	}
 
 	func doSocial() {
+//		security = ""
 	}
 
 	var title: String {

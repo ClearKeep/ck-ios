@@ -76,6 +76,12 @@ struct AppImageSet: IAppImageSet {
 }
 
 extension AppImageSet: ICommonUIImageSet {
+	var cameraIcon: Image { Image("ic_camera") }
+	var cameraOffIcon: Image { Image("ic_camera_off") }
+	var muteOffIcon: Image { Image("ic_mute") }
+	var muteIcon: Image { Image("ic_mute-1") }
+	var speakerIcon2: Image { Image("ic_speaker-1") }
+	var speakerOffIcon2: Image { Image("ic_speaker_off-1") }
 	var searchIcon: Image { Image("ic_search") }
 	var closeIcon: Image { Image("ic_cross") }
 	var eyeOn: Image { Image("ic_eye_on") }
