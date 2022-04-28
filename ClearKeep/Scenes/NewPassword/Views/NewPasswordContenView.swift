@@ -26,6 +26,9 @@ struct NewPasswordContenView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@State private(set) var password: String
 	@State private(set) var rePassword: String
+	@State private(set) var preAccessToken: String = ""
+	@State private(set) var email: String = ""
+	@State private(set) var domain: String = ""
 	@State private(set) var passwordStyle: TextInputStyle
 	@State private(set) var rePasswordStyle: TextInputStyle
 
@@ -72,6 +75,12 @@ private extension NewPasswordContenView {
 private extension NewPasswordContenView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
+	}
+
+	func doResetPassword() {
+		Task {
+			await injected.interactors.newPasswordInteractor.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: password, domain: domain)
+		}
 	}
 
 	var content: AnyView {
@@ -123,7 +132,7 @@ private extension NewPasswordContenView {
 
 	var buttonSave: some View {
 		Button("ForgotPass.Save".localized) {
-
+			doResetPassword()
 		}
 		.frame(maxWidth: .infinity, alignment: .center)
 		.padding(.all, Constants.padding)

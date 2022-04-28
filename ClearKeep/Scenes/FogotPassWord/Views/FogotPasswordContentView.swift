@@ -25,6 +25,7 @@ struct FogotPasswordContentView: View {
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
 	@State private(set) var email: String
+	@State private(set) var domain: String = ""
 	@State private(set) var emailStyle: TextInputStyle
 	@State private(set) var showingNewPass: Bool = false
 
@@ -70,6 +71,12 @@ private extension FogotPasswordContentView {
 		self.presentationMode.wrappedValue.dismiss()
 	}
 
+	func doFogotPassword() {
+		Task {
+			await injected.interactors.fogotPasswordInteractor.recoverPassword(email: email, domain: domain)
+		}
+	}
+
 	var content: AnyView {
 		AnyView(fogotPasswordView)
 	}
@@ -82,7 +89,7 @@ private extension FogotPasswordContentView {
 			buttonBack
 				.padding(.top, Constants.paddingtop)
 				.frame(maxWidth: .infinity, alignment: .leading)
-			Text("ForgotPass.Please enter your email to reset your password".localized)
+			Text("ForgotPass.TitleMail".localized)
 				.font(AppTheme.shared.fontSet.font(style: .body2))
 				.foregroundColor(foregroundBackButton)
 				.frame(maxWidth: .infinity, alignment: .leading)
@@ -128,6 +135,7 @@ private extension FogotPasswordContentView {
 			label: {
 				Button("ForgotPass.Resetpassword".localized) {
 					self.showingNewPass = true
+					doFogotPassword()
 				}
 				.frame(maxWidth: .infinity, alignment: .center)
 				.padding(.all, Constants.padding)
