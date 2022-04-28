@@ -18,11 +18,14 @@ protocol ITwoFactorWorker {
 }
 
 struct TwoFactorWorker {
+	// MARK: - Variables
 	let channelStorage: IChannelStorage
 	let remoteStore: ITwoFactorRemoteStore
 	let inMemoryStore: ITwoFactorInMemoryStore
 	
-	init(channelStorage: IChannelStorage, remoteStore: ITwoFactorRemoteStore,
+	// MARK: - Init
+	init(channelStorage: IChannelStorage,
+		 remoteStore: ITwoFactorRemoteStore,
 		 inMemoryStore: ITwoFactorInMemoryStore) {
 		self.channelStorage = channelStorage
 		self.remoteStore = remoteStore

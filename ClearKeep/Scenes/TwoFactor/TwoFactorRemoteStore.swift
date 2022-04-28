@@ -20,7 +20,5 @@ struct TwoFactorRemoteStore {
 extension TwoFactorRemoteStore: ITwoFactorRemoteStore {
 	func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async {
 		let response = await authenticationService.validateOTP(userId: userId, otp: otp, otpHash: otpHash, haskKey: haskKey, domain: domain)
-
 	}
-
 }
