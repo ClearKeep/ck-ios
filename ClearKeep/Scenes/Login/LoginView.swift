@@ -10,6 +10,7 @@ import Combine
 import Common
 import CommonUI
 import Model
+import Networking
 
 private enum Constants {
 	static let minSpacer = 50.0
@@ -48,9 +49,12 @@ private extension LoginView {
 			return AnyView(notRequestedView)
 		case .isLoading:
 			return AnyView(loadingView)
-		case .loaded:
-			return AnyView(loadedView)
+		case .loaded(let data):
+			return AnyView(loadedView(data))
 		case .failed(let error):
+			guard let error = error as? IServerError else {
+				return AnyView(errorView(ServerError.unknown))
+			}
 			return AnyView(errorView(error))
 		}
 	}
@@ -81,12 +85,17 @@ private extension LoginView {
 		notRequestedView.modifier(LoadingIndicatorViewModifier())
 	}
 	
-	var loadedView: some View {
-		Text("Success")
+	func loadedView(_ data: IAuthenticationModel) -> some View {
+		Text(data.workspaceDomain ?? "")
 	}
 	
-	func errorView(_ error: Error) -> some View {
-		Text(error.localizedDescription)
+	func errorView(_ error: IServerError) -> some View {
+		return notRequestedView
+			.alert(isPresented: .constant(true)) {
+				Alert(title: Text("General.Error".localized),
+					  message: Text(error.message ?? "General.Unknown".localized),
+					  dismissButton: .default(Text("General.OK".localized)))
+			}
 	}
 }
 
