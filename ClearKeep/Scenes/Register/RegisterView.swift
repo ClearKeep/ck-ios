@@ -21,7 +21,7 @@ private enum Constants {
 struct RegisterView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
-
+	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
@@ -34,7 +34,7 @@ struct RegisterView: View {
 	@State private(set) var nameStyle: TextInputStyle = .default
 	@State private(set) var passwordStyle: TextInputStyle = .default
 	@State private(set) var rePasswordStyle: TextInputStyle = .default
-
+	
 	// MARK: - Init
 	init(samples: Loadable<[IRegisterModel]> = .notRequested,
 		 email: String = "",
@@ -46,24 +46,24 @@ struct RegisterView: View {
 		 nameStyle: TextInputStyle = .default,
 		 passwordStyle: TextInputStyle = .default,
 		 rePasswordStyle: TextInputStyle = .default) {
-	self._samples = .init(initialValue: samples)
-	self._emails = .init(initialValue: email)
-	self._displayname = .init(initialValue: displayname)
-	self._password = .init(initialValue: password)
-	self._rePassword = .init(initialValue: rePassword)
-	self._emailStyle = .init(initialValue: emailStyle)
-	self._nameStyle = .init(initialValue: nameStyle)
-	self._passwordStyle = .init(initialValue: passwordStyle)
-	self._rePasswordStyle = .init(initialValue: rePasswordStyle)
-}
-
+		self._samples = .init(initialValue: samples)
+		self._emails = .init(initialValue: email)
+		self._displayname = .init(initialValue: displayname)
+		self._password = .init(initialValue: password)
+		self._rePassword = .init(initialValue: rePassword)
+		self._emailStyle = .init(initialValue: emailStyle)
+		self._nameStyle = .init(initialValue: nameStyle)
+		self._passwordStyle = .init(initialValue: passwordStyle)
+		self._rePasswordStyle = .init(initialValue: rePasswordStyle)
+	}
+	
 	// MARK: - Body
 	var body: some View {
-			content
-				.onReceive(inspection.notice) { inspection.visit(self, $0) }
-				.background(backgroundColorView)
-				.edgesIgnoringSafeArea(.all)
-				.navigationBarBackButtonHidden(true)
+		content
+			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.background(backgroundColorView)
+			.edgesIgnoringSafeArea(.all)
+			.navigationBarBackButtonHidden(true)
 	}
 }
 
@@ -72,11 +72,11 @@ private extension RegisterView {
 	var backgroundColorView: LinearGradient {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
 	}
-
+	
 	var backgroundColorBlack: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundColorGradient: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
@@ -92,16 +92,18 @@ private extension RegisterView {
 // MARK: - Loading Content
 private extension RegisterView {
 	var notRequestedView: some View {
-		VStack {
-			AppTheme.shared.imageSet.logo
-				.resizable()
-				.aspectRatio(contentMode: .fit)
-				.frame(width: Constants.widthLogo, height: Constants.heightLogo)
-				.padding(.top, Constants.paddingtop)
-			RegisterContentView(email: $emails, password: $password, displayname: $displayname, rePassword: $rePassword, emailStyle: $emailStyle, nameStyle: $nameStyle, passwordStyle: $passwordStyle, rePasswordStyle: $rePasswordStyle)
-			Spacer()
+		ScrollView(showsIndicators: false) {
+			VStack(spacing: Constants.padding) {
+				AppTheme.shared.imageSet.logo
+					.resizable()
+					.aspectRatio(contentMode: .fit)
+					.frame(width: Constants.widthLogo, height: Constants.heightLogo)
+					.padding(.top, Constants.paddingtop)
+				RegisterContentView(email: $emails, password: $password, displayname: $displayname, rePassword: $rePassword, emailStyle: $emailStyle, nameStyle: $nameStyle, passwordStyle: $passwordStyle, rePasswordStyle: $rePasswordStyle)
+				Spacer()
+			}
+			.padding(.horizontal, Constants.padding)
 		}
-		.padding(.horizontal, Constants.padding)
 	}
 }
 
