@@ -56,83 +56,70 @@ private extension InComingVoiceCallView {
 private extension InComingVoiceCallView {
 	var contentView: some View {
 		VStack(spacing: Constant.spacer) {
-			statusCalling
+			Text("Call.Incomming.Voice".localized)
+				.padding(.all)
+				.font(AppTheme.shared.fontSet.font(style: .input2))
+				.foregroundColor(AppTheme.shared.colorSet.grey5)
+				.frame(maxWidth: .infinity, alignment: .center)
 				.padding(.top, Constant.spacerTopView)
-			userPicture
-			userName
-			buttonResponse
+
+			ZStack {
+				Circle()
+					.fill(backgroundGradientPrimary)
+					.frame(width: Constant.sizeImage, height: Constant.sizeImage)
+				AppTheme.shared.imageSet.userIcon
+			}
+
+			Text("Alex".localized)
+				.frame(maxWidth: .infinity, alignment: .center)
+				.font(AppTheme.shared.fontSet.font(style: .display2))
+				.foregroundColor(AppTheme.shared.colorSet.offWhite)
+				.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+
+			HStack {
+				VStack {
+					Button {
+						isTappedDecline.toggle()
+					} label: {
+						ZStack {
+							Circle()
+								.strokeBorder(backgroundDecline, lineWidth: Constant.borderLineWidth)
+								.background(Circle().foregroundColor(backgroundDecline))
+								.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
+							AppTheme.shared.imageSet.phoneOffIcon
+								.foregroundColor(AppTheme.shared.colorSet.offWhite)
+						}
+				}
+					Text("Call.Decline".localized)
+						.font(AppTheme.shared.fontSet.font(style: .body2))
+						.foregroundColor(AppTheme.shared.colorSet.offWhite)
+				}
+				.frame(maxWidth: .infinity)
+
+				VStack {
+					Button {
+						isTappedAnswer.toggle()
+					} label: {
+						ZStack {
+							Circle()
+								.strokeBorder(backgroundAnswer, lineWidth: Constant.borderLineWidth)
+								.background(Circle().foregroundColor(backgroundAnswer))
+								.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
+							AppTheme.shared.imageSet.phoneCallIcon
+								.foregroundColor(AppTheme.shared.colorSet.offWhite)
+						}
+				}
+					Text("Call.Answer".localized)
+						.font(AppTheme.shared.fontSet.font(style: .body2))
+						.foregroundColor(AppTheme.shared.colorSet.offWhite)
+				}
+				.frame(maxWidth: .infinity)
+			}
+			.frame(maxWidth: .infinity)
 				.padding(.bottom, Constant.paddingButtonNext)
 			Spacer()
 		}
 		.padding(.horizontal, Constant.paddingVertical)
-	}
-
-	var statusCalling: some View {
-		Text("Call.Incomming.Voice".localized)
-			.padding(.all)
-			.font(AppTheme.shared.fontSet.font(style: .input2))
-			.foregroundColor(AppTheme.shared.colorSet.grey5)
-			.frame(maxWidth: .infinity, alignment: .center)
-	}
-
-	var userPicture: some View {
-		ZStack {
-			Circle()
-				.fill(backgroundGradientPrimary)
-				.frame(width: Constant.sizeImage, height: Constant.sizeImage)
-			AppTheme.shared.imageSet.userIcon
-		}
-	}
-
-	var userName: some View {
-		Text("Alex".localized)
-			.frame(maxWidth: .infinity, alignment: .center)
-			.font(AppTheme.shared.fontSet.font(style: .display2))
-			.foregroundColor(AppTheme.shared.colorSet.offWhite)
-			.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-	}
-
-	var buttonResponse: some View {
-		HStack {
-			VStack {
-				Button {
-					isTappedDecline.toggle()
-				} label: {
-					ZStack {
-						Circle()
-							.strokeBorder(backgroundDecline, lineWidth: Constant.borderLineWidth)
-							.background(Circle().foregroundColor(backgroundDecline))
-							.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
-						AppTheme.shared.imageSet.phoneOffIcon
-							.foregroundColor(AppTheme.shared.colorSet.offWhite)
-					}
-			}
-				Text("Call.Decline".localized)
-					.font(AppTheme.shared.fontSet.font(style: .body2))
-					.foregroundColor(AppTheme.shared.colorSet.offWhite)
-			}
-			.frame(maxWidth: .infinity)
-
-			VStack {
-				Button {
-					isTappedAnswer.toggle()
-				} label: {
-					ZStack {
-						Circle()
-							.strokeBorder(backgroundAnswer, lineWidth: Constant.borderLineWidth)
-							.background(Circle().foregroundColor(backgroundAnswer))
-							.frame(width: Constant.paddingButtonNext, height: Constant.paddingButtonNext)
-						AppTheme.shared.imageSet.phoneCallIcon
-							.foregroundColor(AppTheme.shared.colorSet.offWhite)
-					}
-			}
-				Text("Call.Answer".localized)
-					.font(AppTheme.shared.fontSet.font(style: .body2))
-					.foregroundColor(AppTheme.shared.colorSet.offWhite)
-			}
-			.frame(maxWidth: .infinity)
-		}
-		.frame(maxWidth: .infinity)
 	}
 }
 
