@@ -29,32 +29,14 @@ struct InComingVoiceCallView: View {
 	@State private(set) var samples: Loadable<[ICallModel]>
 	@State private(set) var isTappedDecline: Bool = false
 	@State private(set) var isTappedAnswer: Bool = false
-
+	
 	// MARK: - Init
 	public init(samples: Loadable<[ICallModel]> = .notRequested) {
 		self._samples = .init(initialValue: samples)
 	}
-
+	
 	// MARK: - Body
 	var body: some View {
-		content
-			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.background(AppTheme.shared.colorSet.warningDefault.opacity(Constant.opacity))
-			.edgesIgnoringSafeArea(.all)
-			.navigationBarBackButtonHidden(true)
-	}
-}
-
-// MARK: - Private
-private extension InComingVoiceCallView {
-	var content: AnyView {
-		AnyView(contentView)
-	}
-}
-
-// MARK: - Loading Content
-private extension InComingVoiceCallView {
-	var contentView: some View {
 		VStack(spacing: Constant.spacer) {
 			Text("Call.Incomming.Voice".localized)
 				.padding(.all)
@@ -62,20 +44,20 @@ private extension InComingVoiceCallView {
 				.foregroundColor(AppTheme.shared.colorSet.grey5)
 				.frame(maxWidth: .infinity, alignment: .center)
 				.padding(.top, Constant.spacerTopView)
-
+			
 			ZStack {
 				Circle()
 					.fill(backgroundGradientPrimary)
 					.frame(width: Constant.sizeImage, height: Constant.sizeImage)
 				AppTheme.shared.imageSet.userIcon
 			}
-
+			
 			Text("Alex".localized)
 				.frame(maxWidth: .infinity, alignment: .center)
 				.font(AppTheme.shared.fontSet.font(style: .display2))
 				.foregroundColor(AppTheme.shared.colorSet.offWhite)
 				.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-
+			
 			HStack {
 				VStack {
 					Button {
@@ -89,13 +71,13 @@ private extension InComingVoiceCallView {
 							AppTheme.shared.imageSet.phoneOffIcon
 								.foregroundColor(AppTheme.shared.colorSet.offWhite)
 						}
-				}
+					}
 					Text("Call.Decline".localized)
 						.font(AppTheme.shared.fontSet.font(style: .body2))
 						.foregroundColor(AppTheme.shared.colorSet.offWhite)
 				}
 				.frame(maxWidth: .infinity)
-
+				
 				VStack {
 					Button {
 						isTappedAnswer.toggle()
@@ -108,7 +90,7 @@ private extension InComingVoiceCallView {
 							AppTheme.shared.imageSet.phoneCallIcon
 								.foregroundColor(AppTheme.shared.colorSet.offWhite)
 						}
-				}
+					}
 					Text("Call.Answer".localized)
 						.font(AppTheme.shared.fontSet.font(style: .body2))
 						.foregroundColor(AppTheme.shared.colorSet.offWhite)
@@ -116,11 +98,23 @@ private extension InComingVoiceCallView {
 				.frame(maxWidth: .infinity)
 			}
 			.frame(maxWidth: .infinity)
-				.padding(.bottom, Constant.paddingButtonNext)
+			.padding(.bottom, Constant.paddingButtonNext)
 			Spacer()
 		}
 		.padding(.horizontal, Constant.paddingVertical)
+		.onReceive(inspection.notice) { inspection.visit(self, $0) }
+		.background(AppTheme.shared.colorSet.warningDefault.opacity(Constant.opacity))
+		.edgesIgnoringSafeArea(.all)
+		.navigationBarBackButtonHidden(true)
 	}
+}
+
+// MARK: - Private
+private extension InComingVoiceCallView {
+}
+
+// MARK: - Loading Content
+private extension InComingVoiceCallView {
 }
 
 // MARK: - Color func
@@ -128,11 +122,11 @@ private extension InComingVoiceCallView {
 	var backgroundGradientPrimary: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundDecline: Color {
 		AppTheme.shared.colorSet.errorDefault
 	}
-
+	
 	var backgroundAnswer: Color {
 		AppTheme.shared.colorSet.successDefault
 	}
