@@ -63,7 +63,7 @@ struct RegisterView: View {
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.background(backgroundColorView)
 			.edgesIgnoringSafeArea(.all)
-			.navigationBarBackButtonHidden(true)
+			.modifier(NavigationModifier())
 	}
 }
 
