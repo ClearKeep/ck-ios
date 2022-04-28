@@ -50,7 +50,7 @@ private extension LoginView {
 		case .isLoading:
 			return AnyView(loadingView)
 		case .loaded(let data):
-			return loadedView(data)
+			return AnyView(loadedView(data))
 		case .failed(let error):
 			guard let error = error as? IServerError else {
 				return AnyView(errorView(ServerError.unknown))
@@ -85,23 +85,8 @@ private extension LoginView {
 		notRequestedView.modifier(LoadingIndicatorViewModifier())
 	}
 	
-	func loadedView(_ data: IAuthenticationModel) -> AnyView {
-		if let normalLogin = data.normalLogin {
-			return AnyView(Text(normalLogin.workspaceDomain ?? ""))
-		}
-		
-		if let socialLogin = data.socialLogin {
-			if socialLogin.requireAction == "register_pincode" {
-				return AnyView(VStack {
-					NavigationLink(destination: SocialView(socialStyle: .setSecurity), isActive: .constant(true), label: {})
-					notRequestedView
-				})
-			} else {
-				return AnyView(Text(socialLogin.requireAction ?? ""))
-			}
-		}
-		
-		return AnyView(errorView(ServerError.unknown))
+	func loadedView(_ data: IAuthenticationModel) -> some View {
+		Text(data.workspaceDomain ?? "")
 	}
 	
 	func errorView(_ error: IServerError) -> some View {

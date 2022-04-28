@@ -9,11 +9,12 @@ import SwiftUI
 import Combine
 import Common
 import CommonUI
+import Networking
 
 private enum Constants {
 	static let heightLogo = 120.0
 	static let widthLogo = 160.0
-	static let spacing = 30.0
+	static let spacing = 40.0
 	static let paddingtop = 80.0
 	static let padding = 20.0
 }
@@ -21,49 +22,22 @@ private enum Constants {
 struct RegisterView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
-	
+
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
-	@State private(set) var samples: Loadable<[IRegisterModel]>
-	@State private(set) var emails: String
-	@State private(set) var displayname: String
-	@State private(set) var password: String
-	@State private(set) var rePassword: String
-	@State private(set) var emailStyle: TextInputStyle = .default
-	@State private(set) var nameStyle: TextInputStyle = .default
-	@State private(set) var passwordStyle: TextInputStyle = .default
-	@State private(set) var rePasswordStyle: TextInputStyle = .default
-	
+	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+	@State private(set) var loadable: Loadable<Bool> = .notRequested
+
 	// MARK: - Init
-	init(samples: Loadable<[IRegisterModel]> = .notRequested,
-		 email: String = "",
-		 username: String = "",
-		 displayname: String = "",
-		 password: String = "",
-		 rePassword: String = "",
-		 emailStyle: TextInputStyle = .default,
-		 nameStyle: TextInputStyle = .default,
-		 passwordStyle: TextInputStyle = .default,
-		 rePasswordStyle: TextInputStyle = .default) {
-		self._samples = .init(initialValue: samples)
-		self._emails = .init(initialValue: email)
-		self._displayname = .init(initialValue: displayname)
-		self._password = .init(initialValue: password)
-		self._rePassword = .init(initialValue: rePassword)
-		self._emailStyle = .init(initialValue: emailStyle)
-		self._nameStyle = .init(initialValue: nameStyle)
-		self._passwordStyle = .init(initialValue: passwordStyle)
-		self._rePasswordStyle = .init(initialValue: rePasswordStyle)
-	}
-	
+
 	// MARK: - Body
 	var body: some View {
-		content
-			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.background(backgroundColorView)
-			.edgesIgnoringSafeArea(.all)
-			.modifier(NavigationModifier())
+			content
+				.onReceive(inspection.notice) { inspection.visit(self, $0) }
+				.background(backgroundColorView)
+				.edgesIgnoringSafeArea(.all)
+				.hiddenNavigationBarStyle()
 	}
 }
 
@@ -72,11 +46,11 @@ private extension RegisterView {
 	var backgroundColorView: LinearGradient {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
 	}
-	
+
 	var backgroundColorBlack: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
 	}
-	
+
 	var backgroundColorGradient: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
@@ -85,25 +59,59 @@ private extension RegisterView {
 // MARK: - Private
 private extension RegisterView {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		switch loadable {
+		case .notRequested:
+			return AnyView(notRequestedView)
+		case .isLoading:
+			return AnyView(loadingView)
+		case .loaded:
+			return AnyView(loadedView)
+		case .failed(let error):
+			guard let error = error as? IServerError else {
+				return AnyView(errorView(ServerError.unknown))
+			}
+			return AnyView(errorView(error))
+		}
 	}
 }
 
 // MARK: - Loading Content
 private extension RegisterView {
 	var notRequestedView: some View {
-		ScrollView(showsIndicators: false) {
-			VStack(spacing: Constants.padding) {
-				AppTheme.shared.imageSet.logo
-					.resizable()
-					.aspectRatio(contentMode: .fit)
-					.frame(width: Constants.widthLogo, height: Constants.heightLogo)
-					.padding(.top, Constants.paddingtop)
-				RegisterContentView(email: $emails, password: $password, displayname: $displayname, rePassword: $rePassword, emailStyle: $emailStyle, nameStyle: $nameStyle, passwordStyle: $passwordStyle, rePasswordStyle: $rePasswordStyle)
-				Spacer()
-			}
-			.padding(.horizontal, Constants.padding)
+		VStack(spacing: Constants.spacing) {
+			AppTheme.shared.imageSet.logo
+				.resizable()
+				.aspectRatio(contentMode: .fit)
+				.frame(width: Constants.widthLogo, height: Constants.heightLogo)
+				.padding(.top, Constants.paddingtop)
+			RegisterContentView(loadable: $loadable)
+			Spacer()
 		}
+		.padding(.horizontal, Constants.padding)
+	}
+
+	var loadingView: some View {
+		notRequestedView.modifier(LoadingIndicatorViewModifier())
+	}
+
+	var loadedView: some View {
+		return notRequestedView
+			.alert(isPresented: .constant(true)) {
+				Alert(title: Text("Register.Success.Title".localized),
+					  message: Text("Register.Success.Message".localized),
+					  dismissButton: .default(Text("General.OK".localized), action: {
+					presentationMode.wrappedValue.dismiss()
+				}))
+			}
+	}
+
+	func errorView(_ error: IServerError) -> some View {
+		return notRequestedView
+			.alert(isPresented: .constant(true)) {
+				Alert(title: Text("General.Error".localized),
+					  message: Text(error.message ?? "General.Unknown".localized),
+					  dismissButton: .default(Text("General.OK".localized)))
+			}
 	}
 }
 

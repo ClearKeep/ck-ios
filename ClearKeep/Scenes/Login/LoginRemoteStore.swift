@@ -9,11 +9,10 @@ import Foundation
 import Combine
 import ChatSecure
 import Model
-import Networking
 
 protocol ILoginRemoteStore {
 	func signIn(email: String, password: String, domain: String) async -> Result<IAuthenticationModel, Error>
-	func signInSocial(_ socialType: SocialType, domain: String) async -> Result<IAuthenticationModel, Error>
+	func signInSocial(_ socialType: SocialType, domain: String)
 }
 
 struct LoginRemoteStore {
@@ -33,25 +32,14 @@ extension LoginRemoteStore: ILoginRemoteStore {
 		}
 	}
 	
-	func signInSocial(_ socialType: SocialType, domain: String) async -> Result<IAuthenticationModel, Error> {
-		var result: Result<Auth_SocialLoginRes, Error>?
-		
+	func signInSocial(_ socialType: SocialType, domain: String) {
 		switch socialType {
 		case .facebook:
-			result = await socialAuthenticationService.signInWithFB(domain: domain)
+			socialAuthenticationService.signInWithFB(domain: domain)
 		case .google:
-			result = await socialAuthenticationService.signInWithGoogle(domain: domain)
+			socialAuthenticationService.signInWithGoogle(domain: domain)
 		case .office:
-			result = await socialAuthenticationService.signInWithOffice(domain: domain)
-		}
-		
-		switch result {
-		case .success(let socialLoginResponse):
-			return .success(AuthenticationModel(response: socialLoginResponse))
-		case .failure(let error):
-			return .failure(error)
-		case .none:
-			return .failure(ServerError.unknown)
+			socialAuthenticationService.signInWithOffice(domain: domain)
 		}
 	}
 }
