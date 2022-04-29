@@ -110,11 +110,11 @@ private extension NewPasswordContenView {
 	}
 
 	var backgroundButtonUnActive: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.offWhite.opacity(0.5) : AppTheme.shared.colorSet.primaryDefault.opacity(0.5)
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite.opacity(0.5) : AppTheme.shared.colorSet.primaryLight.opacity(0.5)
 	}
 
 	var backgroundButtonActive: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryLight
 	}
 
 	var backgroundViewColor: LinearGradient {
