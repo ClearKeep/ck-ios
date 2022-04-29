@@ -11,9 +11,14 @@ import Common
 
 private enum Constants {
 	static let radius = 40.0
-	static let spacing = 20.0
-	static let padding = 10.0
-	static let paddingtop = 50.0
+	static let spacing = 40.0
+	static let spacingHstack = 23.0
+	static let padding = 30.0
+	static let paddingTextfield = 24.0
+	static let paddingButton = 10.0
+	static let paddingText = 10.0
+	static let paddingtop = 90.0
+	static let paddingLeding = 16.0
 }
 
 struct FogotPasswordContentView: View {
@@ -24,22 +29,73 @@ struct FogotPasswordContentView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
-	@State private(set) var email: String
+	@State private(set) var email: String = ""
 	@State private(set) var emailStyle: TextInputStyle
 	@State private(set) var showingNewPass: Bool = false
 
 	// MARK: - Init
-	init(email: String = "",
-		 emailStyle: TextInputStyle = .default) {
-		self._email = .init(initialValue: email)
+	init(emailStyle: TextInputStyle = .default) {
 		self._emailStyle = .init(initialValue: emailStyle)
 	}
 
 	// MARK: - Body
 	var body: some View {
-		content
-			.background(backgroundViewColor)
-			.edgesIgnoringSafeArea(.all)
+		VStack(spacing: Constants.spacing) {
+			VStack(alignment: .leading, spacing: Constants.padding) {
+				Button(action: customBack) {
+					HStack(spacing: Constants.spacingHstack) {
+						AppTheme.shared.imageSet.backIcon
+							.renderingMode(.template)
+							.foregroundColor(foregroundBackButton)
+						Text("ForgotPass.Forgotpassword".localized)
+							.font(AppTheme.shared.fontSet.font(style: .body2))
+					}
+					.foregroundColor(foregroundBackButton)
+				}
+				.padding(.top, Constants.paddingtop)
+				.frame(maxWidth: .infinity, alignment: .leading)
+				Text("ForgotPass.TitleMail".localized)
+					.font(AppTheme.shared.fontSet.font(style: .input2))
+					.foregroundColor(foregroundBackButton)
+					.frame(maxWidth: .infinity, alignment: .leading)
+					.padding(.horizontal, Constants.paddingText)
+			}
+			VStack(spacing: Constants.paddingTextfield) {
+				CommonTextField(text: $email,
+								inputStyle: $emailStyle,
+								inputIcon: AppTheme.shared.imageSet.mailIcon,
+								placeHolder: "General.Email".localized,
+								keyboardType: .default,
+								onEditingChanged: { isEditing in
+					if isEditing {
+						emailStyle = .highlighted
+					} else {
+						emailStyle = .normal
+					}
+				})
+				NavigationLink(
+					destination: NewPasswordView(),
+					isActive: $showingNewPass,
+					label: {
+						Button {
+							self.showingNewPass = true
+						} label: {
+							Text("ForgotPass.Resetpassword".localized)
+								.font(AppTheme.shared.fontSet.font(style: .body3))
+								.foregroundColor(foregroundButton)
+						}.frame(maxWidth: .infinity, alignment: .center)
+							.padding(.all, Constants.paddingButton)
+							.background(backgroundButton)
+
+							.cornerRadius(Constants.radius)
+					})	.disabled(email.isEmpty)
+			}
+			Spacer()
+		}
+		.frame(maxWidth: .infinity, alignment: .center)
+		.padding(.horizontal, Constants.paddingLeding)
+		.background(backgroundViewColor)
+		.edgesIgnoringSafeArea(.all)
 	}
 }
 
@@ -47,15 +103,39 @@ struct FogotPasswordContentView: View {
 private extension FogotPasswordContentView {
 
 	var backgroundButton: Color {
+		email.isEmpty ? backgroundButtonUnActive : backgroundButtonActive
+	}
+
+	var backgroundButtonUnActive: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite.opacity(0.5) : AppTheme.shared.colorSet.primaryDefault.opacity(0.5)
+	}
+
+	var backgroundButtonActive: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
 
-	var backgroundViewColor: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.black
+	var backgroundViewColor: LinearGradient {
+		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
+	}
+
+	var backgroundColorBlack: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
+	}
+
+	var backgroundColorGradient: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
 
 	var foregroundButton: Color {
+		email.isEmpty ? foregroundButtonUnActive : foregroundButtonActive
+	}
+
+	var foregroundButtonActive: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
+	}
+
+	var foregroundButtonUnActive: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault.opacity(0.5) : AppTheme.shared.colorSet.offWhite.opacity(0.5)
 	}
 
 	var foregroundBackButton: Color {
@@ -69,82 +149,13 @@ private extension FogotPasswordContentView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
-
-	var content: AnyView {
-		AnyView(fogotPasswordView)
-	}
 }
-
-// MARK: - Loading Content
-private extension FogotPasswordContentView {
-	var fogotPasswordView: some View {
-		VStack(spacing: Constants.spacing) {
-			buttonBack
-				.padding(.top, Constants.paddingtop)
-				.frame(maxWidth: .infinity, alignment: .leading)
-			Text("ForgotPass.Please enter your email to reset your password".localized)
-				.font(AppTheme.shared.fontSet.font(style: .body2))
-				.foregroundColor(foregroundBackButton)
-				.frame(maxWidth: .infinity, alignment: .leading)
-
-			CommonTextField(text: $email,
-							inputStyle: $emailStyle,
-							inputIcon: AppTheme.shared.imageSet.mailIcon,
-							placeHolder: "General.Email".localized,
-							keyboardType: .default,
-							onEditingChanged: { isEditing in
-				if isEditing {
-					emailStyle = .default
-				} else {
-					emailStyle = .normal
-				}
-			})
-			buttonResetPassword
-			Spacer()
-		}
-		.frame(maxWidth: .infinity, alignment: .center)
-		.padding(.all, Constants.padding)
-	}
-
-	var buttonBack: some View {
-		Button(action: customBack) {
-			HStack(spacing: Constants.spacing) {
-				AppTheme.shared.imageSet.backIcon
-					.renderingMode(.template)
-					.aspectRatio(contentMode: .fit)
-					.foregroundColor(foregroundBackButton)
-				Text("ForgotPass.Forgotpassword".localized)
-					.padding(.all)
-					.font(AppTheme.shared.fontSet.font(style: .body2))
-			}
-			.foregroundColor(foregroundBackButton)
-		}
-	}
-	
-	var buttonResetPassword: some View {
-		NavigationLink(
-			destination: NewPasswordView(),
-			isActive: $showingNewPass,
-			label: {
-				Button("ForgotPass.Resetpassword".localized) {
-					self.showingNewPass = true
-				}
-				.frame(maxWidth: .infinity, alignment: .center)
-				.padding(.all, Constants.padding)
-				.background(backgroundButton)
-				.foregroundColor(foregroundButton)
-				.cornerRadius(Constants.radius)
-			})
-	}
-}
-
-// MARK: - Interactor
 
 // MARK: - Preview
 #if DEBUG
 struct FogotPasswordContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		FogotPasswordContentView(email: "", emailStyle: .default)
+		FogotPasswordContentView(emailStyle: .default)
 	}
 }
 #endif
