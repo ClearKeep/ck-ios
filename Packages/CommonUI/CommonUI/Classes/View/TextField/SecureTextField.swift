@@ -15,6 +15,8 @@ private enum Constants {
 	static let paddingVertical = 14.0
 	static let paddingHorizontal = 24.0
 	static let spacing = 14.0
+	static let paddingText = 4.0
+	static let spacingVstack = 2.0
 }
 
 public struct SecureTextField: View {
@@ -45,7 +47,7 @@ public struct SecureTextField: View {
 
 	// MARK: - Body
 	public var body: some View {
-		VStack(spacing: 2.0) {
+		VStack(alignment: .leading, spacing: Constants.spacingVstack) {
 			HStack(alignment: .center) {
 				if let inputIcon = inputIcon {
 					inputIcon
@@ -80,6 +82,7 @@ public struct SecureTextField: View {
 				Text(notifiyMessage)
 					.font(font)
 					.frame(height: Constants.notifyHeight)
+					.padding(.leading, Constants.paddingText)
 					.foregroundColor(notifyColor)
 			}
 		}
@@ -113,7 +116,7 @@ private extension SecureTextField {
 	}
 
 	var notifyColor: Color {
-		colorScheme == .light ? inputStyle.notifyColorLight : inputStyle.notifyColorLight
+		colorScheme == .light ? inputStyle.notifyColorLight : inputStyle.notifyColorDark
 	}
 
 	var font: Font {

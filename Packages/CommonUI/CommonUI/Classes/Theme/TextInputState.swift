@@ -65,26 +65,26 @@ public enum TextInputStyle: ITextInputStyle {
 		case .highlighted:
 			return commonUIConfig.colorSet.darkgrey3
 		case .error:
-			return commonUIConfig.colorSet.primaryDefault
+			return commonUIConfig.colorSet.darkgrey3
 		case .success:
-			return commonUIConfig.colorSet.successLight
+			return commonUIConfig.colorSet.darkgrey3
 		}
 	}
 
 	public var tintColorLight: Color {
 		switch self {
 		case .default:
-			return commonUIConfig.colorSet.grey1
+			return commonUIConfig.colorSet.greyLight3
 		case .normal:
-			return commonUIConfig.colorSet.grey1
+			return commonUIConfig.colorSet.greyLight3
 		case .disabled:
 			return commonUIConfig.colorSet.grey5.opacity(0.5)
 		case .highlighted:
-			return commonUIConfig.colorSet.black
+			return commonUIConfig.colorSet.greyLight3
 		case .error:
-			return commonUIConfig.colorSet.errorLight
+			return commonUIConfig.colorSet.greyLight3
 		case .success:
-			return commonUIConfig.colorSet.successLight
+			return commonUIConfig.colorSet.greyLight3
 		}
 	}
 
@@ -135,7 +135,7 @@ public enum TextInputStyle: ITextInputStyle {
 		case .error:
 			return commonUIConfig.colorSet.primaryDefault
 		case .success:
-			return commonUIConfig.colorSet.successDefault
+			return commonUIConfig.colorSet.primaryDefault
 		}
 	}
 
@@ -221,9 +221,9 @@ public enum TextInputStyle: ITextInputStyle {
 		case .highlighted:
 			return commonUIConfig.colorSet.black
 		case .error:
-			return commonUIConfig.colorSet.errorLight
+			return commonUIConfig.colorSet.errorDefault
 		case .success:
-			return commonUIConfig.colorSet.successLight
+			return commonUIConfig.colorSet.successDefault
 		}
 	}
 
@@ -240,7 +240,7 @@ public enum TextInputStyle: ITextInputStyle {
 		case .error:
 			return commonUIConfig.colorSet.primaryDefault
 		case .success:
-			return commonUIConfig.colorSet.successLight
+			return commonUIConfig.colorSet.primaryDefault
 		}
 	}
 }

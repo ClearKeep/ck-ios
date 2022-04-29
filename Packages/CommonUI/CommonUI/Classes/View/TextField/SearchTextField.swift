@@ -106,7 +106,7 @@ private extension SearchTextField {
 	}
 
 	var notifyColor: Color {
-		colorScheme == .light ? inputStyle.notifyColorLight : inputStyle.notifyColorLight
+		colorScheme == .light ? inputStyle.notifyColorLight : inputStyle.notifyColorDark
 	}
 
 	var font: Font {
