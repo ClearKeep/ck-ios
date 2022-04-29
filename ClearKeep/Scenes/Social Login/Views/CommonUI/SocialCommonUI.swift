@@ -116,7 +116,14 @@ private extension SocialCommonUI {
 						inputStyle: $securityStyle,
 						inputIcon: AppTheme.shared.imageSet.lockIcon,
 						placeHolder: textInput.localized,
-						keyboardType: .numberPad)
+						keyboardType: .numberPad,
+						onEditingChanged: { isEditing in
+			if isEditing {
+				securityStyle = .highlighted
+			} else {
+				securityStyle = .normal
+			}
+		})
 	}
 	
 	var titleView: some View {

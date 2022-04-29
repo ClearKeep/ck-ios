@@ -131,7 +131,7 @@ public enum TextInputStyle: ITextInputStyle {
 		case .disabled:
 			return commonUIConfig.colorSet.darkgrey3.opacity(0.5)
 		case .highlighted:
-			return commonUIConfig.colorSet.grey5
+			return commonUIConfig.colorSet.greyLight
 		case .error:
 			return commonUIConfig.colorSet.primaryDefault
 		case .success:

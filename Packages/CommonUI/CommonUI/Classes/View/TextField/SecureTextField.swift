@@ -26,18 +26,21 @@ public struct SecureTextField: View {
 	private let inputIcon: Image?
 	private let placeHolder: String
 	private let keyboardType: UIKeyboardType
+	private let onEditingChanged: (Bool) -> Void
 
 	// MARK: - Init
 	public init(secureText: Binding<String>,
 				inputStyle: Binding<TextInputStyle>,
 				inputIcon: Image? = nil,
 				placeHolder: String,
-				keyboardType: UIKeyboardType = .default) {
+				keyboardType: UIKeyboardType = .default,
+				onEditingChanged: @escaping (Bool) -> Void) {
 		self._secureText = secureText
 		self._inputStyle = inputStyle
 		self.inputIcon = inputIcon
 		self.placeHolder = placeHolder
 		self.keyboardType = keyboardType
+		self.onEditingChanged = onEditingChanged
 	}
 
 	// MARK: - Body
@@ -52,7 +55,10 @@ public struct SecureTextField: View {
 					Spacer()
 						.frame(width: Constants.spacing)
 				}
-				SecureField(placeHolder, text: $secureText)
+				CustomSecureTextField(placeHolder: placeHolder,
+									  text: $secureText,
+									  isRevealed: $isRevealed,
+									  isFocused: onEditingChanged)
 					.font(font)
 					.foregroundColor(textColor)
 					.padding(.vertical, Constants.paddingVertical)
@@ -135,6 +141,8 @@ private extension SecureTextField {
 
 struct SecureTextField_Previews: PreviewProvider {
 	static var previews: some View {
-		SecureTextField(secureText: .constant("Test"), inputStyle: .constant(.error(message: "Error")), placeHolder: "Phone")
+		SecureTextField(secureText: .constant("Test"), inputStyle: .constant(.error(message: "Error")), placeHolder: "Phone"){ _ in
+
+		}
 	}
 }

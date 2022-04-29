@@ -99,17 +99,38 @@ private extension ChangePasswordContentView {
 							inputStyle: $currentStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "ChangePassword.CurrentPassword".localized,
-							keyboardType: .default )
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				if isEditing {
+					currentStyle = .highlighted
+				} else {
+					currentStyle = .normal
+				}
+			})
 			SecureTextField(secureText: $newPassword,
 							inputStyle: $newStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "ChangePassword.NewPassword".localized,
-							keyboardType: .default )
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				if isEditing {
+					newStyle = .highlighted
+				} else {
+					newStyle = .normal
+				}
+			})
 			SecureTextField(secureText: $confirmPassword,
 							inputStyle: $confirmStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "General.ConfirmPassword".localized,
-							keyboardType: .default )
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				if isEditing {
+					confirmStyle = .highlighted
+				} else {
+					confirmStyle = .normal
+				}
+			})
 			buttonSave
 			Spacer()
 		}
