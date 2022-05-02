@@ -12,17 +12,13 @@ import CommonUI
 
 private enum Constant {
 	static let spacerTopView = 90.0
-	static let spacerBottomView = 20.0
 	static let spacer = 25.0
-	static let spacerBottom = 45.0
 	static let paddingVertical = 14.0
-	static let paddingHorizontal = 24.0
-	static let paddingHorizontalSignUp = 60.0
 	static let heightButton = 40.0
 	static let cornerRadius = 40.0
 	static let cornerRadiusPasscode = 8.0
-	static let paddingTrailing = -24.0
 	static let sizePasscodeInput = 90.0
+	static let backgroundOpacity = 0.4
 }
 
 struct TwoFactorContentView: View {
@@ -55,7 +51,7 @@ struct TwoFactorContentView: View {
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.background(background)
 			.edgesIgnoringSafeArea(.all)
-			.navigationBarBackButtonHidden(true)
+			.navigationBarHidden(true)
 	}
 }
 
@@ -96,10 +92,11 @@ private extension TwoFactorContentView {
 				.frame(maxWidth: .infinity)
 				.frame(height: Constant.heightButton)
 				.font(AppTheme.shared.fontSet.font(style: .body3))
-				.background(backgroundColorView)
+				.background(backgroundButton)
 				.foregroundColor(foregroundColorView)
 				.cornerRadius(Constant.cornerRadius)
 			})
+			.disabled(pin.count < 4)
 	}
 
 	var buttonBackView: some View {
@@ -107,13 +104,13 @@ private extension TwoFactorContentView {
 			HStack(spacing: Constant.spacer) {
 				AppTheme.shared.imageSet.backIcon
 					.aspectRatio(contentMode: .fit)
-					.foregroundColor(foregroundColorWhite)
+					.foregroundColor(AppTheme.shared.colorSet.offWhite)
 				Text("2FA.Title.Back".localized)
 					.padding(.all)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
-			.foregroundColor(foregroundColorWhite)
+			.foregroundColor(AppTheme.shared.colorSet.offWhite)
 		}
 	}
 
@@ -123,12 +120,12 @@ private extension TwoFactorContentView {
 				ZStack {
 					Spacer()
 					RoundedRectangle(cornerRadius: Constant.cornerRadiusPasscode)
-						.foregroundColor(foregroundColorWhite)
+						.foregroundColor(AppTheme.shared.colorSet.offWhite)
 						.padding()
 						.frame(width: Constant.sizePasscodeInput, height: Constant.sizePasscodeInput)
 					Text(self.getDigits(at: index))
 						.font(AppTheme.shared.fontSet.font(style: .heading3))
-						.foregroundColor(foregroundColorBlack)
+						.foregroundColor(AppTheme.shared.colorSet.black)
 					Spacer()
 				}
 			}
@@ -215,40 +212,24 @@ private extension TwoFactorContentView {
 		colorScheme == .light ? backgroundColorWhite : backgroundColorGradient
 	}
 
-	var foregroundColorWhite: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite
+	var backgroundButton: Color {
+		return pin.count < 4 ? backgroundColorButton.opacity(Constant.backgroundOpacity) : backgroundColorButton
 	}
 
-	var foregroundColorBlack: Color {
-		AppTheme.shared.colorSet.black
-	}
-
-	var foregroundColorPrimary: Color {
-		AppTheme.shared.colorSet.primaryDefault
+	var backgroundColorButton: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
 
 	var foregroundColorView: Color {
-		colorScheme == .light ? foregroundColorPrimary : foregroundColorWhite
+		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
 	}
 
 	var foregroundColorMessage: Color {
-		colorScheme == .light ? foregroundColorWhite : foregroundColorPrimary
-	}
-
-	var foregroundColorBackground: Color {
-		AppTheme.shared.colorSet.background
-	}
-
-	var foregroundColorGrey1: Color {
-		AppTheme.shared.colorSet.grey1
-	}
-
-	var foregroundColorGreyLight: Color {
-		AppTheme.shared.colorSet.greyLight
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
 
 	var foregroundMessage: Color {
-		colorScheme == .light ? foregroundColorBackground : foregroundColorWhite
+		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.offWhite
 	}
 }
 

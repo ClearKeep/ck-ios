@@ -13,6 +13,7 @@
 "General.Version" = "App version: %@";
 "Unknow.Message" = "Unknow message";
 "General.Next" = "Next";
+
 // MARK: - Social Login
 "Social.SetPhrase.Back" = "Set Your Security Phrase";
 "Social.ConfirmPhrase.Back" = "Confirm Your Security Phrase";
@@ -165,3 +166,9 @@
 "GroupDetail.TitleCheckbox" = "Add user from other server";
 "GroupDetail.UserInitTitle" = "Users int his Group chat";
 "GroupDetail.Title.PlaceHoder" = "Paste your friend's link";
+
+// MARK: - Current Password
+"CurrentPassword.ButtonBack" = "Enter Your Current Password";
+"CurrentPassword.Title" = "Please enter your password to enable 2FA";
+"CurrentPassword.Placeholder" = "Current Password";
+"CurrentPassword.Next" = "Next";

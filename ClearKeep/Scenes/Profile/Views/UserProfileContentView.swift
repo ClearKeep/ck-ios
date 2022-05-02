@@ -42,6 +42,8 @@ struct UserProfileContentView: View {
 	@State private(set) var isShowCountryCode: Bool = false
 	@State private var isEnable2FA: Bool = false
 	@State private var twoFAStatus: String = ""
+	@State private var isChangePassword: Bool = false
+	@State private var isTwoFactor: Bool = false
 
 	// MARK: - Init
 	init(samples: Loadable<[IProfileModel]> = .notRequested,
@@ -62,7 +64,7 @@ struct UserProfileContentView: View {
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.navigationBarBackButtonHidden(true)
+			.navigationBarHidden(true)
 	}
 }
 
@@ -236,15 +238,17 @@ private extension UserProfileContentView {
 				}
 			}
 
-			Button(action: customBack) {
-				HStack {
-					Text("UserProfile.Password.Change".localized)
-						.font(AppTheme.shared.fontSet.font(style: .body3))
-						.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
-
-					Spacer()
-					AppTheme.shared.imageSet.arrowRightIcon
-						.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+			NavigationLink(destination: ChangePasswordView(),
+						   isActive: $isChangePassword) {
+				Button(action: changePassword) {
+					HStack {
+						Text("UserProfile.Password.Change".localized)
+							.font(AppTheme.shared.fontSet.font(style: .body3))
+							.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+						Spacer()
+						AppTheme.shared.imageSet.arrowRightIcon
+							.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+					}
 				}
 			}
 		}
@@ -258,10 +262,13 @@ private extension UserProfileContentView {
 					.foregroundColor(foregroundColorSetting)
 
 				Spacer()
-				Button(action: enable2FA) {
-					Text(statusTwoFA)
-						.font(AppTheme.shared.fontSet.font(style: .body3))
-						.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+				NavigationLink( destination: CurrentPassword(),
+								isActive: $isTwoFactor) {
+					Button(action: enable2FA) {
+						Text(statusTwoFA)
+							.font(AppTheme.shared.fontSet.font(style: .body3))
+							.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+					}
 				}
 			}
 			HStack {
@@ -281,8 +288,13 @@ private extension UserProfileContentView {
 		presentationMode.wrappedValue.dismiss()
 	}
 
+	func changePassword() {
+		isChangePassword = true
+	}
+
 	func enable2FA() {
 		isEnable2FA.toggle()
+		isTwoFactor = isEnable2FA
 	}
 
 	var statusTwoFA: String {

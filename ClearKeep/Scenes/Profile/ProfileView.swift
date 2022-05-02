@@ -17,8 +17,12 @@ struct ProfileView: View {
 	
 	// MARK: - Body
 	var body: some View {
+		NavigationView {
 		content
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
+		.navigationBarTitle("")
+		.navigationBarHidden(true)
+		}
 	}
 }
 

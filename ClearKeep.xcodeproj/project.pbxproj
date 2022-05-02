@@ -135,6 +135,7 @@
 		F516B29828191AE3006CB025 /* ProfileRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B29328191AE3006CB025 /* ProfileRemoteStore.swift */; };
 		F516B29928191AE3006CB025 /* ProfileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B29428191AE3006CB025 /* ProfileInteractor.swift */; };
 		F516B29A28191AE3006CB025 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B29528191AE3006CB025 /* ProfileView.swift */; };
+		F516B2B4281B9F4C006CB025 /* CurrentPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516B2B3281B9F4C006CB025 /* CurrentPassword.swift */; };
 		F5350E1027FAD57500F54E32 /* TwoFactorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E0827FAD57500F54E32 /* TwoFactorModel.swift */; };
 		F5350E1527FAD57500F54E32 /* TwoFactorContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E0E27FAD57500F54E32 /* TwoFactorContentView.swift */; };
 		F5350E1C27FAD58F00F54E32 /* TwoFactorInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1727FAD58F00F54E32 /* TwoFactorInMemoryStore.swift */; };
@@ -368,6 +369,7 @@
 		F516B29328191AE3006CB025 /* ProfileRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRemoteStore.swift; sourceTree = "<group>"; };
 		F516B29428191AE3006CB025 /* ProfileInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInteractor.swift; sourceTree = "<group>"; };
 		F516B29528191AE3006CB025 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		F516B2B3281B9F4C006CB025 /* CurrentPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentPassword.swift; sourceTree = "<group>"; };
 		F5350E0827FAD57500F54E32 /* TwoFactorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoFactorModel.swift; sourceTree = "<group>"; };
 		F5350E0E27FAD57500F54E32 /* TwoFactorContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoFactorContentView.swift; sourceTree = "<group>"; };
 		F5350E1727FAD58F00F54E32 /* TwoFactorInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInMemoryStore.swift; sourceTree = "<group>"; };
@@ -1241,6 +1243,7 @@
 			children = (
 				F5CE37F027E97FF20085CECE /* CountryCode.swift */,
 				F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */,
+				F516B2B3281B9F4C006CB025 /* CurrentPassword.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1574,6 +1577,7 @@
 				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				0462C6CC2816535C00A9EABB /* CatalogyView.swift in Sources */,
+				F516B2B4281B9F4C006CB025 /* CurrentPassword.swift in Sources */,
 				0499343527E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
 				0462C6C42816535C00A9EABB /* SearchModels.swift in Sources */,

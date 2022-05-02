@@ -75,7 +75,7 @@ private extension SocialCommonUI {
 				.padding(.top, Constant.spacerTopView)
 			titleView.padding(.top, Constant.paddingVertical)
 			textInputView.padding(.top, Constant.paddingVertical)
-			buttonSocial.padding(.top, Constant.spacer)
+			buttonSocial.padding(.top, Constant.paddingVertical)
 			Spacer()
 		}
 		.padding(.horizontal, Constant.paddingVertical)
@@ -148,7 +148,7 @@ private extension SocialCommonUI {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]), startPoint: .leading, endPoint: .trailing)
 	}
 
-	var backgroundColorDarkView: Color {
+	var backgroundColorButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
 
@@ -169,7 +169,7 @@ private extension SocialCommonUI {
 	}
 
 	var backgroundButton: Color {
-		return security.isEmpty ? backgroundColorDarkView.opacity(Constant.backgroundOpacity) : backgroundColorDarkView
+		return security.isEmpty ? backgroundColorButton.opacity(Constant.backgroundOpacity) : backgroundColorButton
 	}
 }
 

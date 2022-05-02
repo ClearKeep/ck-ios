@@ -20,6 +20,7 @@ public enum SocialCommonStyle: ISocialCommonStyle {
 	case setSecurity
 	case confirmSecurity
 	case verifySecurity
+	case currentPassword
 
 	public var buttonBack: String {
 		switch self {
@@ -29,6 +30,8 @@ public enum SocialCommonStyle: ISocialCommonStyle {
 			return "Social.ConfirmPhrase.Back"
 		case .verifySecurity:
 			return "Social.Verify.Back"
+		case .currentPassword:
+			return "CurrentPassword.ButtonBack"
 		}
 	}
 
@@ -40,6 +43,8 @@ public enum SocialCommonStyle: ISocialCommonStyle {
 			return "Social.Title.Confirm"
 		case .verifySecurity:
 			return "Social.Title.Verify"
+		case .currentPassword:
+			return "CurrentPassword.Title"
 		}
 	}
 
@@ -51,6 +56,8 @@ public enum SocialCommonStyle: ISocialCommonStyle {
 			return "Social.Next"
 		case .verifySecurity:
 			return "Social.Verify.Next"
+		case .currentPassword:
+			return "CurrentPassword.Next"
 		}
 	}
 
@@ -62,6 +69,8 @@ public enum SocialCommonStyle: ISocialCommonStyle {
 			return "Social.Security.Confirm"
 		case .verifySecurity:
 			return "Social.Input.Verify"
+		case .currentPassword:
+			return "CurrentPassword.Placeholder"
 		}
 	}
 
@@ -72,6 +81,8 @@ public enum SocialCommonStyle: ISocialCommonStyle {
 		case .confirmSecurity:
 			return ""
 		case .verifySecurity:
+			return ""
+		case .currentPassword:
 			return ""
 		}
 	}
@@ -84,6 +95,8 @@ public enum SocialCommonStyle: ISocialCommonStyle {
 			return AnyView(SocialVerify())
 		case .verifySecurity:
 			return AnyView(SocialVerify())
+		case .currentPassword:
+			return AnyView(TwoFactorView())
 		}
 	}
 }
