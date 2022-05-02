@@ -96,7 +96,7 @@ private extension TwoFactorContentView {
 				.foregroundColor(foregroundColorView)
 				.cornerRadius(Constant.cornerRadius)
 			})
-			.disabled(pin.count < 4)
+			.disabled(pin.count < maxDigits)
 	}
 
 	var buttonBackView: some View {
@@ -213,7 +213,7 @@ private extension TwoFactorContentView {
 	}
 
 	var backgroundButton: Color {
-		return pin.count < 4 ? backgroundColorButton.opacity(Constant.backgroundOpacity) : backgroundColorButton
+		return pin.count < maxDigits ? backgroundColorButton.opacity(Constant.backgroundOpacity) : backgroundColorButton
 	}
 
 	var backgroundColorButton: Color {
