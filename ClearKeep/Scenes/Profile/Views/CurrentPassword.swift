@@ -37,7 +37,7 @@ struct CurrentPassword: View {
 }
 
 struct CurrentPassword_Previews: PreviewProvider {
-    static var previews: some View {
+	static var previews: some View {
         CurrentPassword()
     }
 }

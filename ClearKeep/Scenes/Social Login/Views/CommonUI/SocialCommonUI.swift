@@ -82,7 +82,8 @@ private extension SocialCommonUI {
 	}
 
 	var buttonSocial: some View {
-		NavigationLink( destination: nextView) {
+		NavigationLink(destination: nextView,
+					   isActive: $isNext) {
 				Button(action: doSocial) {
 					Text(buttonNext.localized)
 				}
@@ -180,6 +181,7 @@ private extension SocialCommonUI {
 	}
 
 	func doSocial() {
+		isNext.toggle()
 	}
 
 	var title: String {
