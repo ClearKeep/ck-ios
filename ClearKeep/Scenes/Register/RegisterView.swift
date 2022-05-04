@@ -89,11 +89,11 @@ private extension RegisterView {
 		}
 		.padding(.horizontal, Constants.padding)
 	}
-
+	
 	var loadingView: some View {
 		notRequestedView.modifier(LoadingIndicatorViewModifier())
 	}
-
+	
 	var loadedView: some View {
 		return notRequestedView
 			.alert(isPresented: .constant(true)) {
@@ -104,7 +104,7 @@ private extension RegisterView {
 				}))
 			}
 	}
-
+  
 	func errorView(_ error: IServerError) -> some View {
 		return notRequestedView
 			.alert(isPresented: .constant(true)) {
