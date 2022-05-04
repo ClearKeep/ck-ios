@@ -9,6 +9,7 @@ import Combine
 import Common
 import CommonUI
 import Model
+import ChatSecure
 
 private enum Constant {
 	static let spacerTopView = 50.0
@@ -177,19 +178,19 @@ private extension LoginContentView {
 	var socialLoginButtonView: some View {
 		HStack(spacing: Constant.spacerBottom) {
 			Button {
-				injected.interactors.loginInteractor.signInSocial(.google)
+				doSocialLogin(type: .google)
 			} label: {
 				AppTheme.shared.imageSet.googleIcon
 			}
 			
 			Button {
-				injected.interactors.loginInteractor.signInSocial(.office)
+				doSocialLogin(type: .office)
 			} label: {
 				AppTheme.shared.imageSet.officeIcon
 			}
 			
 			Button {
-				injected.interactors.loginInteractor.signInSocial(.facebook)
+				doSocialLogin(type: .facebook)
 			} label: {
 				AppTheme.shared.imageSet.facebookIcon
 			}
@@ -296,7 +297,14 @@ private extension LoginContentView {
 			loadable = await injected.interactors.loginInteractor.signIn(email: email, password: password)
 		}
 	}
-
+	
+	func doSocialLogin(type: SocialType) {
+		loadable = .isLoading(last: nil, cancelBag: CancelBag())
+		Task {
+			loadable = await injected.interactors.loginInteractor.signInSocial(type)
+		}
+	}
+	
 	func advancedServer() {
 		isAdvanceServer = true
 	}

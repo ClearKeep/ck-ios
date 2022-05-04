@@ -26,6 +26,7 @@ struct RegisterView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
+	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@State private(set) var loadable: Loadable<Bool> = .notRequested
 
 	// MARK: - Init
@@ -35,8 +36,7 @@ struct RegisterView: View {
 			content
 				.onReceive(inspection.notice) { inspection.visit(self, $0) }
 				.background(backgroundColorView)
-				.edgesIgnoringSafeArea(.all)
-				.navigationBarBackButtonHidden(true)
+				.hiddenNavigationBarStyle()
 	}
 }
 
@@ -64,7 +64,7 @@ private extension RegisterView {
 		case .isLoading:
 			return AnyView(loadingView)
 		case .loaded:
-			return AnyView(loadedView())
+			return AnyView(loadedView)
 		case .failed(let error):
 			guard let error = error as? IServerError else {
 				return AnyView(errorView(ServerError.unknown))
@@ -93,8 +93,15 @@ private extension RegisterView {
 		notRequestedView.modifier(LoadingIndicatorViewModifier())
 	}
 	
-	func loadedView() -> some View {
-		Text("Success")
+	var loadedView: some View {
+		return notRequestedView
+			.alert(isPresented: .constant(true)) {
+				Alert(title: Text("Register.Success.Title".localized),
+					  message: Text("Register.Success.Message".localized),
+					  dismissButton: .default(Text("General.OK".localized), action: {
+					presentationMode.wrappedValue.dismiss()
+				}))
+			}
 	}
 	
 	func errorView(_ error: IServerError) -> some View {
