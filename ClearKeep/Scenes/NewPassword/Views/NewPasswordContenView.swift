@@ -107,9 +107,9 @@ private extension NewPasswordContenView {
 							placeHolder: "General.ConfirmPassword".localized,
 							keyboardType: .default) { isEditing in
 				if isEditing {
-					passwordStyle = .highlighted
+					rePasswordStyle = .highlighted
 				} else {
-					passwordStyle = .normal
+					rePasswordStyle = .normal
 				}
 			}
 			buttonSave
