@@ -13,6 +13,7 @@ import Common
 import GRPC
 import NIO
 import NIOHPACK
+import CryptoTokenKit
 
 public enum SocialType {
 	case google
@@ -387,8 +388,99 @@ extension CLKAuthenticationService: IAuthenticationService {
 
 // MARK: - Private
 private extension CLKAuthenticationService {
-	func onLoginSuccess() {
-		
+	func onLoginSuccess(_ response: Auth_AuthRes, password: String) {
+//		var accessToken = response.accessToken
+//		var domain = response.workspaceDomain
+//		var salt = response.salt
+//		var publicKey = response.clientKeyPeer.identityKeyPublic
+//		var privateKeyEncrypt = response.clientKeyPeer.identityKeyEncrypted
+//		var iv = response.ivParameter
+//		var privateKeyDecrypt = PBKDF2(passPharse: password).decrypt(data: privateKeyEncrypt.hexaBytes, saltEncrypt: salt.hexaBytes, ivParameterSpec: iv.hexaBytes)
+//		var preKey = response.clientKeyPeer.preKey
+//		var preKeyId = response.clientKeyPeer.preKeyID
+//		var preKeyRecord = CKSignalCoordinate.shared.ourEncryptionManager?.storage.storePreKey(preKey, preKeyId: UInt32(preKeyId))
+//		var signedPreKeyId = response.clientKeyPeer.signedPreKeyID
+//		var signedPreKey = response.clientKeyPeer.signedPreKey
+//		var signedPreKeyRecord =  CKSignalCoordinate.shared.ourEncryptionManager?.storage.storePreKey(signedPreKey, preKeyId: UInt32(signedPreKeyId))
+//		var registrationID = response.clientKeyPeer.registrationID
+//		var clientId = response.clientKeyPeer.clientID
+//		
+//		var ecPublicKey = SignalKeyPair(
+//		var eCPublicKey: ECPublicKey =
+//		Curve.decodePoint(publicKey.toByteArray(), 0)
+//		var eCPrivateKey: ECPrivateKey =
+//		Curve.decodePrivatePoint(privateKeyDecrypt)
+//		var identityKeyPair = IdentityKeyPair(IdentityKey(eCPublicKey), eCPrivateKey)
+//		var signalIdentityKey =
+//		SignalIdentityKey(
+//			identityKeyPair,
+//			registrationID,
+//		domain,
+//			clientId,
+//			response.ivParameter,
+//			salt
+//		)
+//		var profile = getProfile(
+//			paramAPIProvider.provideUserBlockingStub(
+//				ParamAPI(
+//					domain,
+//					accessToken,
+//					hashKey
+//				)
+//			)
+//		)
+//		
+//		signalIdentityKeyDAO.insert(signalIdentityKey)
+//		
+//		environment.setUpTempDomain(
+//			Server(
+//				null,
+//				"",
+//				domain,
+//				profile.userId,
+//				"",
+//				0L,
+//				"",
+//				"",
+//				"",
+//				false,
+//				Profile(null, profile.userId, "", "", "", 0L, "")
+//			)
+//		)
+//		myStore.storePreKey(preKeyID, preKeyRecord)
+//		myStore.storeSignedPreKey(signedPreKeyId, signedPreKeyRecord)
+//		
+//		if (clearOldUserData) {
+//			var oldServer = serverRepository.getServerByDomain(domain)
+//			
+//			oldServer?.id?.let {
+//				roomRepository.removeGroupByDomain(domain, profile.userId)
+//				messageRepository.clearMessageByDomain(domain, profile.userId)
+//			}
+//		}
+//		
+//		var server = Server(
+//			serverName = response.workspaceName,
+//			serverDomain = domain,
+//			ownerClientId = profile.userId,
+//			serverAvatar = "",
+//			loginTime = getCurrentDateTime().time,
+//			accessKey = accessToken,
+//			hashKey = hashKey,
+//			refreshToken = response.refreshToken,
+//			profile = profile,
+//		)
+//		
+//		serverRepository.insertServer(server)
+//		serverRepository.setActiveServer(server)
+//		userPreferenceRepository.initDefaultUserPreference(
+//			domain,
+//			profile.userId,
+//			isSocialAccount
+//		)
+//		userKeyRepository.insert(UserKey(domain, profile.userId, salt, iv))
+//		
+//		return Resource.success(response)
 	}
 	
 	func getProfile(userGRPC: String) {

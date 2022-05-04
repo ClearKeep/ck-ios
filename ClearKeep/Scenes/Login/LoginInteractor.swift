@@ -11,7 +11,7 @@ import Model
 
 protocol ILoginInteractor {
 	func signIn(email: String, password: String) async -> Loadable<IAuthenticationModel>
-	func signInSocial(_ socialType: SocialType)
+	func signInSocial(_ socialType: SocialType) async -> Loadable<IAuthenticationModel>
 	func getAppVersion() -> String
 }
 
@@ -40,8 +40,15 @@ extension LoginInteractor: ILoginInteractor {
 		}
 	}
 	
-	func signInSocial(_ socialType: SocialType) {
-		worker.signInSocial(socialType)
+	func signInSocial(_ socialType: SocialType) async -> Loadable<IAuthenticationModel> {
+		let result = await worker.signInSocial(socialType)
+		
+		switch result {
+		case .success(let data):
+			return .loaded(data)
+		case .failure(let error):
+			return .failed(error)
+		}
 	}
 	
 	func getAppVersion() -> String {
@@ -64,8 +71,8 @@ struct StubLoginInteractor: ILoginInteractor {
 		return .notRequested
 	}
 	
-	func signInSocial(_ socialType: SocialType) {
-		worker.signInSocial(socialType)
+	func signInSocial(_ socialType: SocialType) async -> Loadable<IAuthenticationModel> {
+		return .notRequested
 	}
 	
 	func getAppVersion() -> String {
