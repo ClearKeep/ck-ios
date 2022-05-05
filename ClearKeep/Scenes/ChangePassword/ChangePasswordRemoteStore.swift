@@ -8,6 +8,8 @@
 import Foundation
 import Combine
 import ChatSecure
+import Model
+import Networking
 
 protocol IChangePasswordRemoteStore {
 	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async

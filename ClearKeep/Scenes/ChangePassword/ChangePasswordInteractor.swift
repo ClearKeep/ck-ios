@@ -7,7 +7,7 @@
 
 import Common
 import ChatSecure
-import GRPC
+import Model
 
 protocol IChangePasswordInteractor {
 	var worker: IChangePasswordWorker { get }
