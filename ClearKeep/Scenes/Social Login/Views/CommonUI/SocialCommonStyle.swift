@@ -16,7 +16,6 @@ protocol ISocialCommonStyle {
 }
 
 public enum SocialCommonStyle: ISocialCommonStyle {
-	
 	case setSecurity
 	case confirmSecurity
 	case verifySecurity
@@ -68,11 +67,11 @@ public enum SocialCommonStyle: ISocialCommonStyle {
 	public var nextView: some View {
 		switch self {
 		case .setSecurity:
-			return AnyView(SocialConfirm())
+			return AnyView(SocialView(socialStyle: .confirmSecurity))
 		case .confirmSecurity:
-			return AnyView(SocialVerify())
+			return AnyView(SocialView(socialStyle: .verifySecurity))
 		case .verifySecurity:
-			return AnyView(SocialVerify())
+			return AnyView(SocialView(socialStyle: .verifySecurity))
 		}
 	}
 }

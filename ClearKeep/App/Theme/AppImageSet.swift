@@ -19,13 +19,13 @@ struct AppImageSet: IAppImageSet {
 	var gearIcon: Image { Image("ic_gear") }
 	var logoutIcon: Image { Image("ic_logout") }
 	var chevUpIcon: Image { Image("ic_chev_up") }
-	var chevRightIcon: Image { Image("ic_chev_right") }
+	var chevRightIcon: Image { Image("ic_chev_right").renderingMode(.template) }
 	var chevleftIcon: Image { Image("ic_chev_left").renderingMode(.template) }
 	var chevDownIcon: Image { Image("ic_chev_down") }
-	var microPhoneIcon: Image { Image("ic_microphone").renderingMode(.template) }
+	var microPhoneIcon: Image { Image("ic_microphone") }
 	var phoneCallIcon: Image { Image("ic_phone_call").renderingMode(.template) }
 	var videoIcon: Image { Image("ic_video").renderingMode(.template) }
-	var sendIcon: Image { Image("ic_send_plane") }
+	var sendIcon: Image { Image("ic_send_plane").renderingMode(.template) }
 	var downloadIcon: Image { Image("ic_file_download") }
 	var messagePlusIcon: Image { Image("ic_message_plus") }
 	var phoneIncommingIcon: Image { Image("ic_phone_incomming") }
@@ -53,7 +53,7 @@ struct AppImageSet: IAppImageSet {
 	var trashIcon: Image { Image("ic_trash") }
 	var userCheckIcon: Image { Image("ic_user_check") }
 	var faceIcon: Image { Image("ic_straight_face") }
-	var photoIcon: Image { Image("ic_photos") }
+	var photoIcon: Image { Image("ic_photos").renderingMode(.template) }
 	var atIcon: Image { Image("ic_at") }
 	var archireIcon: Image { Image("ic_archive") }
 	var shareIcon: Image { Image("ic_share") }
