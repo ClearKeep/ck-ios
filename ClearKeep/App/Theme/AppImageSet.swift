@@ -29,18 +29,20 @@ struct AppImageSet: IAppImageSet {
 	var downloadIcon: Image { Image("ic_file_download") }
 	var messagePlusIcon: Image { Image("ic_message_plus") }
 	var phoneIncommingIcon: Image { Image("ic_phone_incomming") }
-	var phoneOffIcon: Image { Image("ic_phone-off") }
-	var microphoneOffIcon: Image { Image("ic_microphone_off") }
+	var phoneOffIcon: Image { Image("ic_phone_off").renderingMode(.template) }
+	var microphoneOffIcon: Image { Image("ic_microphone_off").renderingMode(.template) }
 	var messageCricleIcon: Image { Image("ic_message_circle") }
 	var crossIcon: Image { Image("ic_cross").renderingMode(.template) }
 	var dotVerticalIcon: Image { Image("ic_dots_vertical") }
 	var dotIcon: Image { Image("ic_dots") }
 	var emoticonIcon: Image { Image("ic_emoticon") }
 	var straitFaceIcon: Image { Image("ic_straight_face") }
-	var speakerIcon: Image { Image("ic_speaker") }
+	var speakerIcon: Image { Image("ic_speaker").renderingMode(.template) }
+	var speakerOffIcon: Image { Image("ic_speaker_off").renderingMode(.template) }
 	var cameraRolateIcon: Image { Image("ic_camera_rotate") }
-	var backIcon: Image { Image("ic_arrow_left") }
+	var backIcon: Image { Image("ic_arrow_left").renderingMode(.template) }
 	var videosIcon: Image { Image("ic_video") }
+	var videoOffIcon: Image { Image("ic_video_off").renderingMode(.template) }
 	var menuIcon: Image { Image("ic_hamburger") }
 	var adjustmentIcon: Image { Image("ic_adjustment") }
 	var userPlusIcon: Image { Image("ic_user_plus") }
@@ -70,6 +72,12 @@ struct AppImageSet: IAppImageSet {
 	var facebookIcon: Image { Image("ic_faceBook") }
 	var unCheckIcon: Image { Image("ic_uncheck") }
 	var checkedIcon: Image { Image("ic_checked") }
+	var cameraIcon: Image { Image("ic_camera") }
+	var cameraOffIcon: Image { Image("ic_camera_off") }
+	var muteOffIcon: Image { Image("ic_mute") }
+	var muteIcon: Image { Image("ic_mute-1") }
+	var speakerIcon2: Image { Image("ic_speaker-1") }
+	var speakerOffIcon2: Image { Image("ic_speaker_off-1") }
 	var userImage: Image { Image("ic_user_image") }
 }
 
