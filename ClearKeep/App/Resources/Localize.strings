@@ -13,6 +13,9 @@
 "General.Version" = "App version: %@";
 "Unknow.Message" = "Unknow message";
 "General.Next" = "Next";
+"General.Error" = "Error";
+"General.OK" = "OK";
+
 // MARK: - Social Login
 "Social.SetPhrase.Back" = "Set Your Security Phrase";
 "Social.ConfirmPhrase.Back" = "Confirm Your Security Phrase";

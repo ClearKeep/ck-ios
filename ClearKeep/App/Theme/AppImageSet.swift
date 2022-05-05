@@ -19,13 +19,13 @@ struct AppImageSet: IAppImageSet {
 	var gearIcon: Image { Image("ic_gear") }
 	var logoutIcon: Image { Image("ic_logout") }
 	var chevUpIcon: Image { Image("ic_chev_up") }
-	var chevRightIcon: Image { Image("ic_chev_right") }
+	var chevRightIcon: Image { Image("ic_chev_right").renderingMode(.template) }
 	var chevleftIcon: Image { Image("ic_chev_left").renderingMode(.template) }
 	var chevDownIcon: Image { Image("ic_chev_down") }
-	var microPhoneIcon: Image { Image("ic_microphone").renderingMode(.template) }
+	var microPhoneIcon: Image { Image("ic_microphone") }
 	var phoneCallIcon: Image { Image("ic_phone_call").renderingMode(.template) }
 	var videoIcon: Image { Image("ic_video").renderingMode(.template) }
-	var sendIcon: Image { Image("ic_send_plane") }
+	var sendIcon: Image { Image("ic_send_plane").renderingMode(.template) }
 	var downloadIcon: Image { Image("ic_file_download") }
 	var messagePlusIcon: Image { Image("ic_message_plus") }
 	var phoneIncommingIcon: Image { Image("ic_phone_incomming") }
@@ -53,7 +53,7 @@ struct AppImageSet: IAppImageSet {
 	var trashIcon: Image { Image("ic_trash") }
 	var userCheckIcon: Image { Image("ic_user_check") }
 	var faceIcon: Image { Image("ic_straight_face") }
-	var photoIcon: Image { Image("ic_photos") }
+	var photoIcon: Image { Image("ic_photos").renderingMode(.template) }
 	var atIcon: Image { Image("ic_at") }
 	var archireIcon: Image { Image("ic_archive") }
 	var shareIcon: Image { Image("ic_share") }
@@ -76,17 +76,11 @@ struct AppImageSet: IAppImageSet {
 }
 
 extension AppImageSet: ICommonUIImageSet {
-	var cameraIcon: Image { Image("ic_camera") }
-	var cameraOffIcon: Image { Image("ic_camera_off") }
-	var muteOffIcon: Image { Image("ic_mute") }
-	var muteIcon: Image { Image("ic_mute-1") }
-	var speakerIcon2: Image { Image("ic_speaker-1") }
-	var speakerOffIcon2: Image { Image("ic_speaker_off-1") }
-	var searchIcon: Image { Image("ic_search") }
-	var closeIcon: Image { Image("ic_cross") }
-	var eyeOn: Image { Image("ic_eye_on") }
-	var eyeOff: Image { Image("ic_eye_off") }
-	var userIcon: Image { Image("ic_user") }
-	var mailIcon: Image { Image("ic_mail") }
-	var lockIcon: Image { Image("ic_lock") }
+	var searchIcon: Image { Image("ic_search").renderingMode(.template) }
+	var closeIcon: Image { Image("ic_cross").renderingMode(.template) }
+	var eyeOn: Image { Image("ic_eye_on").renderingMode(.template) }
+	var eyeOff: Image { Image("ic_eye_off").renderingMode(.template) }
+	var userIcon: Image { Image("ic_user").renderingMode(.template) }
+	var mailIcon: Image { Image("ic_mail").renderingMode(.template) }
+	var lockIcon: Image { Image("ic_lock").renderingMode(.template) }
 }

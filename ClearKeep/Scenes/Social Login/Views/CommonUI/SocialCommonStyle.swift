@@ -16,11 +16,10 @@ protocol ISocialCommonStyle {
 }
 
 public enum SocialCommonStyle: ISocialCommonStyle {
-
 	case setSecurity
 	case confirmSecurity
 	case verifySecurity
-
+	
 	public var buttonBack: String {
 		switch self {
 		case .setSecurity:
@@ -31,7 +30,7 @@ public enum SocialCommonStyle: ISocialCommonStyle {
 			return "Social.Verify.Back"
 		}
 	}
-
+	
 	public var title: String {
 		switch self {
 		case .setSecurity:
@@ -42,7 +41,7 @@ public enum SocialCommonStyle: ISocialCommonStyle {
 			return "Social.Title.Verify"
 		}
 	}
-
+	
 	public var buttonNext: String {
 		switch self {
 		case .setSecurity:
@@ -53,7 +52,7 @@ public enum SocialCommonStyle: ISocialCommonStyle {
 			return "Social.Verify.Next"
 		}
 	}
-
+	
 	public var textInput: String {
 		switch self {
 		case .setSecurity:
@@ -64,26 +63,15 @@ public enum SocialCommonStyle: ISocialCommonStyle {
 			return "Social.Input.Verify"
 		}
 	}
-
-	public var validatePassPhrase: String {
-		switch self {
-		case .setSecurity:
-			return "Social.Message"
-		case .confirmSecurity:
-			return ""
-		case .verifySecurity:
-			return ""
-		}
-	}
-
+	
 	public var nextView: some View {
 		switch self {
 		case .setSecurity:
-			return AnyView(SocialConfirm())
+			return AnyView(SocialView(socialStyle: .confirmSecurity))
 		case .confirmSecurity:
-			return AnyView(SocialVerify())
+			return AnyView(SocialView(socialStyle: .verifySecurity))
 		case .verifySecurity:
-			return AnyView(SocialVerify())
+			return AnyView(SocialView(socialStyle: .verifySecurity))
 		}
 	}
 }

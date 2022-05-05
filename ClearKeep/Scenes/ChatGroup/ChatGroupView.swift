@@ -58,9 +58,9 @@ struct ChatGroupView: View {
 									keyboardType: .default,
 									onEditingChanged: { isEditing in
 						if isEditing {
-							searchStyle = .default
-						} else {
 							searchStyle = .highlighted
+						} else {
+							searchStyle = .normal
 						}
 					})
 						.frame(maxHeight: .infinity, alignment: .top)

@@ -9,6 +9,8 @@ import SwiftUI
 import Combine
 import Common
 import CommonUI
+import Model
+import Networking
 
 private enum Constants {
 	static let minSpacer = 50.0
@@ -23,24 +25,10 @@ struct LoginView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
-	@State private(set) var samples: Loadable<[ILoginModel]>
-	@State private(set) var email: String
-	@State private(set) var password: String
-	@State private(set) var emailStyle: TextInputStyle = .default
-	@State private(set) var passwordStyle: TextInputStyle = .default
+	@State private(set) var loadable: Loadable<IAuthenticationModel> = .notRequested
 	let inspection = ViewInspector<Self>()
 
 	// MARK: - Init
-	init(samples: Loadable<[ILoginModel]> = .notRequested,
-		 email: String = "",
-		 password: String = "",
-		 inputStyle: TextInputStyle = .default) {
-		self._samples = .init(initialValue: samples)
-		self._email = .init(initialValue: email)
-		self._password = .init(initialValue: password)
-		self._emailStyle = .init(initialValue: inputStyle)
-		self._passwordStyle = .init(initialValue: inputStyle)
-	}
 	
 	// MARK: - Body
 	var body: some View {
@@ -56,7 +44,19 @@ struct LoginView: View {
 // MARK: - Private
 private extension LoginView {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		switch loadable {
+		case .notRequested:
+			return AnyView(notRequestedView)
+		case .isLoading:
+			return AnyView(loadingView)
+		case .loaded(let data):
+			return loadedView(data)
+		case .failed(let error):
+			guard let error = error as? IServerError else {
+				return AnyView(errorView(ServerError.unknown))
+			}
+			return AnyView(errorView(error))
+		}
 	}
 }
 
@@ -70,7 +70,7 @@ private extension LoginView {
 					.resizable()
 					.aspectRatio(contentMode: .fit)
 					.frame(width: Constants.widthLogo, height: Constants.heightLogo)
-				LoginContentView(email: $email, password: $password, emailStyle: $emailStyle, passwordStyle: $passwordStyle)
+				LoginContentView(loadable: $loadable)
 				Spacer()
 			}
 			.padding(.leading, Constants.paddingVertical)
@@ -78,6 +78,38 @@ private extension LoginView {
 		}
 		.background(background)
 		.edgesIgnoringSafeArea(.all)
+	}
+	
+	var loadingView: some View {
+		notRequestedView.modifier(LoadingIndicatorViewModifier())
+	}
+	
+	func loadedView(_ data: IAuthenticationModel) -> AnyView {
+		if let normalLogin = data.normalLogin {
+			return AnyView(Text(normalLogin.workspaceDomain ?? ""))
+		}
+		
+		if let socialLogin = data.socialLogin {
+			if socialLogin.requireAction == "register_pincode" {
+				return AnyView(VStack {
+					NavigationLink(destination: SocialView(socialStyle: .setSecurity), isActive: .constant(true), label: {})
+					notRequestedView
+				})
+			} else {
+				return AnyView(Text(socialLogin.requireAction ?? ""))
+			}
+		}
+		
+		return AnyView(errorView(ServerError.unknown))
+	}
+	
+	func errorView(_ error: IServerError) -> some View {
+		return notRequestedView
+			.alert(isPresented: .constant(true)) {
+				Alert(title: Text("General.Error".localized),
+					  message: Text(error.message ?? "General.Unknown".localized),
+					  dismissButton: .default(Text("General.OK".localized)))
+			}
 	}
 }
 
@@ -95,6 +127,7 @@ private extension LoginView {
 	var background: LinearGradient {
 		colorScheme == .light ? backgroundGradientPrimary : backgroundBlack
 	}
+	
 	var backgroundBlack: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]), startPoint: .leading, endPoint: .trailing)
 	}

@@ -49,7 +49,7 @@ struct NewPasswordContenView: View {
 	}
 }
 
-	// MARK: - Private
+// MARK: - Private
 private extension NewPasswordContenView {
 
 	var backgroundButton: Color {
@@ -68,7 +68,7 @@ private extension NewPasswordContenView {
 	}
 }
 
-	// MARK: - Private Func
+// MARK: - Private Func
 private extension NewPasswordContenView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
@@ -79,7 +79,7 @@ private extension NewPasswordContenView {
 	}
 }
 
-	// MARK: - Loading Content
+// MARK: - Loading Content
 private extension NewPasswordContenView {
 	var newPasswordView: some View {
 		VStack(spacing: Constants.spacing) {
@@ -93,12 +93,25 @@ private extension NewPasswordContenView {
 							inputStyle: $passwordStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "General.Password".localized,
-							keyboardType: .default )
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				if isEditing {
+					passwordStyle = .highlighted
+				} else {
+					passwordStyle = .normal
+				}
+			})
 			SecureTextField(secureText: $rePassword,
 							inputStyle: $rePasswordStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "General.ConfirmPassword".localized,
-							keyboardType: .default )
+							keyboardType: .default) { isEditing in
+				if isEditing {
+					rePasswordStyle = .highlighted
+				} else {
+					rePasswordStyle = .normal
+				}
+			}
 			buttonSave
 			Spacer()
 		}
@@ -132,9 +145,9 @@ private extension NewPasswordContenView {
 		.cornerRadius(Constants.radius)
 	}
 }
-	// MARK: - Interactor
+// MARK: - Interactor
 
-	// MARK: - Preview
+// MARK: - Preview
 #if DEBUG
 struct NewPasswordContenView_Previews: PreviewProvider {
 	static var previews: some View {
