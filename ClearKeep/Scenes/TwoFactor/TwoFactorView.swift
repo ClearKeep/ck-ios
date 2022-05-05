@@ -11,14 +11,37 @@ import Common
 struct TwoFactorView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
-	
+
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
-	
+	@State private(set) var samples: Loadable<[ITwoFactorModel]>
+	@State private(set) var userId: String
+	@State private(set) var otp: String
+	@State private(set) var otpHash: String
+	@State private(set) var hashKey: String
+	@State private(set) var domain: String
+
+	// MARK: - Init
+	init(samples: Loadable<[ITwoFactorModel]> = .notRequested,
+		 userId: String = "",
+		 otp: String = "",
+		 otpHash: String = "",
+		 hashKey: String = "",
+		 domain: String = "") {
+		self._samples = .init(initialValue: samples)
+		self._userId = .init(initialValue: userId)
+		self._otp = .init(initialValue: otp)
+		self._otpHash = .init(initialValue: otpHash)
+		self._hashKey = .init(initialValue: hashKey)
+		self._domain = .init(initialValue: domain)
+	}
+
 	// MARK: - Body
 	var body: some View {
-		content
-		.onReceive(inspection.notice) { inspection.visit(self, $0) }
+		NavigationView {
+			content
+				.onReceive(inspection.notice) { inspection.visit(self, $0) }
+		}
 	}
 }
 
@@ -32,14 +55,14 @@ private extension TwoFactorView {
 // MARK: - Loading Content
 private extension TwoFactorView {
 	var notRequestedView: some View {
-		TwoFactorContentView()
+		TwoFactorContentView(userId: $userId, otp: $otp, otpHash: $otpHash, hashKey: $hashKey, domain: $domain)
 	}
 }
 
 // MARK: - Interactor
 private extension TwoFactorView {
 }
-	
+
 // MARK: - Preview
 #if DEBUG
 struct TwoFactorView_Previews: PreviewProvider {
