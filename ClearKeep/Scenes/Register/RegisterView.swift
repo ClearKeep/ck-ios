@@ -1,10 +1,3 @@
-//
-//  RegisterView.swift
-//  ClearKeep
-//
-//  Created by MinhDev on 04/03/2022.
-//
-
 import SwiftUI
 import Combine
 import Common
@@ -12,8 +5,6 @@ import CommonUI
 import Networking
 
 private enum Constants {
-	static let heightLogo = 120.0
-	static let widthLogo = 160.0
 	static let spacing = 40.0
 	static let paddingtop = 80.0
 	static let padding = 20.0
@@ -33,11 +24,12 @@ struct RegisterView: View {
 
 	// MARK: - Body
 	var body: some View {
-			content
-				.onReceive(inspection.notice) { inspection.visit(self, $0) }
-				.background(backgroundColorView)
-				.edgesIgnoringSafeArea(.all)
-				.hiddenNavigationBarStyle()
+		content
+			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.background(backgroundColorView)
+			.edgesIgnoringSafeArea(.all)
+			.hiddenNavigationBarStyle()
+			.hideKeyboardOnTapped()
 	}
 }
 
@@ -78,18 +70,9 @@ private extension RegisterView {
 // MARK: - Loading Content
 private extension RegisterView {
 	var notRequestedView: some View {
-		VStack(spacing: Constants.spacing) {
-			AppTheme.shared.imageSet.logo
-				.resizable()
-				.aspectRatio(contentMode: .fit)
-				.frame(width: Constants.widthLogo, height: Constants.heightLogo)
-				.padding(.top, Constants.paddingtop)
-			RegisterContentView(loadable: $loadable)
-			Spacer()
-		}
-		.padding(.horizontal, Constants.padding)
+		RegisterContentView(loadable: $loadable)
 	}
-	
+
 	var loadingView: some View {
 		notRequestedView.modifier(LoadingIndicatorViewModifier())
 	}
@@ -104,7 +87,7 @@ private extension RegisterView {
 				}))
 			}
 	}
-  
+	
 	func errorView(_ error: IServerError) -> some View {
 		return notRequestedView
 			.alert(isPresented: .constant(true)) {
@@ -116,7 +99,6 @@ private extension RegisterView {
 }
 
 // MARK: - Interactors
-
 // MARK: - Preview
 #if DEBUG
 struct RegisterView_Previews: PreviewProvider {

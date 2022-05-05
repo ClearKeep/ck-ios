@@ -13,8 +13,12 @@ private enum Constants {
 	static let radius = 32.0
 	static let radiusButton = 20.0
 	static let sapcing = 20.0
-	static let padding = 10.0
+	static let padding = 16.0
 	static let paddingHorizoltal = 40.0
+	static let heightLogo = 120.0
+	static let widthLogo = 160.0
+	static let spacingLogo = 40.0
+	static let paddingtop = 60.0
 }
 
 struct RegisterContentView: View {
@@ -27,76 +31,114 @@ struct RegisterContentView: View {
 	@State private var password: String = ""
 	@State private var displayname: String = ""
 	@State private var rePassword: String = ""
+	@State private var isHidden: Bool = false
 	@State private var emailStyle: TextInputStyle = .default
 	@State private var nameStyle: TextInputStyle = .default
 	@State private var passwordStyle: TextInputStyle = .default
 	@State private var rePasswordStyle: TextInputStyle = .default
-
+	
 	// MARK: - Body
 	var body: some View {
-		VStack(alignment: .center, spacing: Constants.sapcing) {
-			Text("Register.Title".localized)
-				.font(AppTheme.shared.fontSet.font(style: .body1))
-				.frame(maxWidth: .infinity, alignment: .leading)
+		ScrollView(showsIndicators: false) {
+			VStack(spacing: Constants.spacingLogo) {
+				if isHidden == false {
+				AppTheme.shared.imageSet.logo
+					.resizable()
+					.aspectRatio(contentMode: .fit)
+					.frame(width: Constants.widthLogo, height: Constants.heightLogo)
+					.padding(.top, Constants.paddingtop)
+				}
+				VStack(alignment: .center, spacing: Constants.sapcing) {
+					Text("Register.Title".localized)
+						.font(AppTheme.shared.fontSet.font(style: .body1))
+						.frame(maxWidth: .infinity, alignment: .leading)
+						.padding(.all, Constants.padding)
+					VStack(spacing: Constants.sapcing) {
+						CommonTextField(text: $email,
+										inputStyle: $emailStyle,
+										inputIcon: AppTheme.shared.imageSet.mailIcon,
+										placeHolder: "General.Email".localized,
+										keyboardType: .default,
+										onEditingChanged: { isEditing in
+							if isEditing {
+								emailStyle = .highlighted
+								isHidden = true
+							} else {
+								emailStyle = .normal
+								isHidden = false
+							}
+						})
+						CommonTextField(text: $displayname,
+										inputStyle: $nameStyle,
+										inputIcon: AppTheme.shared.imageSet.userCheckIcon,
+										placeHolder: "General.DisplayName".localized,
+										keyboardType: .default,
+										onEditingChanged: { isEditing in
+							if isEditing {
+								nameStyle = .highlighted
+								isHidden = true
+							} else {
+								nameStyle = .normal
+								isHidden = false
+							}
+						})
+					}
+					SecureTextField(secureText: $password,
+									inputStyle: $passwordStyle,
+									inputIcon: AppTheme.shared.imageSet.lockIcon,
+									placeHolder: "General.Password".localized,
+									keyboardType: .default,
+									onEditingChanged: { isEditing in
+						if isEditing {
+							passwordStyle = .highlighted
+							isHidden = true
+						} else {
+							passwordStyle = .normal
+							isHidden = false
+						}
+					})
+					SecureTextField(secureText: $rePassword,
+									inputStyle: $rePasswordStyle,
+									inputIcon: AppTheme.shared.imageSet.lockIcon,
+									placeHolder: "General.ConfirmPassword".localized,
+									keyboardType: .default,
+									onEditingChanged: { isEditing in
+						if isEditing {
+							rePasswordStyle = .highlighted
+							isHidden = true
+						} else {
+							rePasswordStyle = .normal
+							isHidden = false
+						}
+					})
+					HStack {
+						Button(action: customBack) {
+							Text("Register.SignInInstead".localized)
+								.padding(.all)
+								.font(AppTheme.shared.fontSet.font(style: .body4))
+								.foregroundColor(foregroundColorPrimary)
+						}
+						Spacer()
+						Button(action: doRegister) {
+							Text("Register.SignUp".localized)
+								.padding(.vertical, Constants.padding)
+								.padding(.horizontal, Constants.paddingHorizoltal)
+								.background(backgroundColorButton)
+								.foregroundColor(foregroundColorWhite)
+						}
+						.disabled(buttonStatus())
+						.cornerRadius(Constants.radiusButton)
+					}
+				}
 				.padding(.all, Constants.padding)
-			VStack(spacing: Constants.sapcing) {
-				CommonTextField(text: $email,
-								inputStyle: $emailStyle,
-								inputIcon: AppTheme.shared.imageSet.mailIcon,
-								placeHolder: "General.Email".localized,
-								keyboardType: .default,
-								onEditingChanged: { isEditing in
-					if isEditing {
-						emailStyle = .highlighted
-					} else {
-						emailStyle = .normal
-					}
-				})
-				CommonTextField(text: $displayname,
-								inputStyle: $nameStyle,
-								inputIcon: AppTheme.shared.imageSet.userCheckIcon,
-								placeHolder: "General.DisplayName".localized,
-								keyboardType: .default,
-								onEditingChanged: { isEditing in
-					if isEditing {
-						nameStyle = .highlighted
-					} else {
-						nameStyle = .normal
-					}
-				})
+				.background(RoundedRectangle(cornerRadius: Constants.radius).fill(backgroundColorView))
+				.frame(maxWidth: .infinity, alignment: .center)
+
 			}
-			SecureTextField(secureText: $password,
-							inputStyle: $passwordStyle,
-							inputIcon: AppTheme.shared.imageSet.lockIcon,
-							placeHolder: "General.Password".localized,
-							keyboardType: .default)
-			SecureTextField(secureText: $rePassword,
-							inputStyle: $rePasswordStyle,
-							inputIcon: AppTheme.shared.imageSet.lockIcon,
-							placeHolder: "General.ConfirmPassword".localized,
-							keyboardType: .default)
-			HStack {
-				Button(action: customBack) {
-					Text("Register.SignInInstead".localized)
-						.padding(.all)
-						.font(AppTheme.shared.fontSet.font(style: .body4))
-						.foregroundColor(foregroundColorPrimary)
-				}
-				Spacer()
-				Button(action: doRegister) {
-					Text("Register.SignUp".localized)
-						.padding(.vertical, Constants.padding)
-						.padding(.horizontal, Constants.paddingHorizoltal)
-						.background(backgroundColorButton)
-						.foregroundColor(foregroundColorWhite)
-				}
-				.disabled(buttonStatus())
-				.cornerRadius(Constants.radiusButton)
-			}
+			.padding(.horizontal, Constants.padding)
+			.padding(.top, paddingTop)
+			.hideKeyboardOnTapped()
 		}
-		.padding(.all, Constants.padding)
-		.background(RoundedRectangle(cornerRadius: Constants.radius).fill(backgroundColorView))
-		.frame(maxWidth: .infinity, alignment: .center)
 	}
 }
 
@@ -105,25 +147,29 @@ private extension RegisterContentView {
 	var backgroundColorButton: LinearGradient {
 		(email.isEmpty || password.isEmpty || displayname.isEmpty || rePassword.isEmpty) ? backgroundColorUnActive : backgroundColorActive
 	}
-
+	
 	var backgroundColorActive: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientLinear), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundColorUnActive: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientLinear.compactMap({ $0.opacity(0.5) })), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey6
 	}
-
+	
 	var foregroundColorWhite: Color {
 		AppTheme.shared.colorSet.offWhite
 	}
-
+	
 	var foregroundColorPrimary: Color {
 		AppTheme.shared.colorSet.primaryDefault
+	}
+
+	var paddingTop: CGFloat {
+		isHidden ? 60 : 0
 	}
 }
 
@@ -135,11 +181,11 @@ private extension RegisterContentView {
 			loadable = await injected.interactors.registerInteractor.register(displayName: displayname, email: email, password: password)
 		}
 	}
-
+	
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
-
+	
 	func buttonStatus() -> Bool {
 		email.isEmpty || password.isEmpty || displayname.isEmpty || rePassword.isEmpty
 	}
