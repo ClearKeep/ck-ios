@@ -45,7 +45,6 @@ struct ListUser: View {
 
 // MARK: - Private Variables
 private extension ListUser {
-
 	var foregroundTagUser: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight
 	}
