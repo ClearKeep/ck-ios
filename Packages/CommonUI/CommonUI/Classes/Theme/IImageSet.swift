@@ -35,9 +35,11 @@ public protocol IImageSet {
 	var emoticonIcon: Image { get }
 	var straitFaceIcon: Image { get }
 	var speakerIcon: Image { get }
+	var speakerOffIcon: Image { get }
 	var cameraRolateIcon: Image { get }
 	var backIcon: Image { get }
 	var videosIcon: Image { get }
+	var videoOffIcon: Image { get }
 	var menuIcon: Image { get }
 	var adjustmentIcon: Image { get }
 	var pencilIcon: Image { get }
@@ -66,5 +68,11 @@ public protocol IImageSet {
 	var facebookIcon: Image { get }
 	var unCheckIcon: Image { get }
 	var checkedIcon: Image { get }
+	var cameraIcon: Image { get }
+	var cameraOffIcon: Image { get }
+	var muteOffIcon: Image { get }
+	var muteIcon: Image { get }
+	var speakerIcon2: Image { get }
+	var speakerOffIcon2: Image { get }
 	var userImage: Image { get }
 }

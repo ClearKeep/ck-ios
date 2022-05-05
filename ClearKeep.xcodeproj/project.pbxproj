@@ -164,6 +164,15 @@
 		F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37EE27E97FF20085CECE /* ProfileModel.swift */; };
 		F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37F027E97FF20085CECE /* CountryCode.swift */; };
 		F5CE37F427E97FF20085CECE /* UserProfileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */; };
+		F5CFCA2728237CD000A9737F /* GroupCallRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CFCA1C28237CD000A9737F /* GroupCallRemoteStore.swift */; };
+		F5CFCA2828237CD000A9737F /* GroupCallInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CFCA1D28237CD000A9737F /* GroupCallInteractor.swift */; };
+		F5CFCA2928237CD000A9737F /* GroupCallModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CFCA1F28237CD000A9737F /* GroupCallModel.swift */; };
+		F5CFCA2A28237CD000A9737F /* GroupCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CFCA2028237CD000A9737F /* GroupCallView.swift */; };
+		F5CFCA2B28237CD000A9737F /* GroupCallInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CFCA2128237CD000A9737F /* GroupCallInMemoryStore.swift */; };
+		F5CFCA2C28237CD000A9737F /* CallingGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CFCA2328237CD000A9737F /* CallingGroup.swift */; };
+		F5CFCA2D28237CD000A9737F /* InComingVoiceGroupCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CFCA2428237CD000A9737F /* InComingVoiceGroupCall.swift */; };
+		F5CFCA2E28237CD000A9737F /* VoiceGroupCalled.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CFCA2528237CD000A9737F /* VoiceGroupCalled.swift */; };
+		F5CFCA2F28237CD000A9737F /* GroupCallWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CFCA2628237CD000A9737F /* GroupCallWorker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -387,6 +396,15 @@
 		F5CE37EE27E97FF20085CECE /* ProfileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		F5CE37F027E97FF20085CECE /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileContentView.swift; sourceTree = "<group>"; };
+		F5CFCA1C28237CD000A9737F /* GroupCallRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCallRemoteStore.swift; sourceTree = "<group>"; };
+		F5CFCA1D28237CD000A9737F /* GroupCallInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCallInteractor.swift; sourceTree = "<group>"; };
+		F5CFCA1F28237CD000A9737F /* GroupCallModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCallModel.swift; sourceTree = "<group>"; };
+		F5CFCA2028237CD000A9737F /* GroupCallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCallView.swift; sourceTree = "<group>"; };
+		F5CFCA2128237CD000A9737F /* GroupCallInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCallInMemoryStore.swift; sourceTree = "<group>"; };
+		F5CFCA2328237CD000A9737F /* CallingGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallingGroup.swift; sourceTree = "<group>"; };
+		F5CFCA2428237CD000A9737F /* InComingVoiceGroupCall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InComingVoiceGroupCall.swift; sourceTree = "<group>"; };
+		F5CFCA2528237CD000A9737F /* VoiceGroupCalled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceGroupCalled.swift; sourceTree = "<group>"; };
+		F5CFCA2628237CD000A9737F /* GroupCallWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCallWorker.swift; sourceTree = "<group>"; };
 		FE05556735574093816D2D10 /* Pods_ClearKeepUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClearKeepUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -793,6 +811,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				F5CFCA1B28237CD000A9737F /* GroupCall */,
 				0462C6B12816535C00A9EABB /* Search */,
 				22A1C6932812B0D700FE957F /* Chat */,
 				F556C23328097F6E00D2B149 /* ChatGroup */,
@@ -1207,6 +1226,38 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		F5CFCA1B28237CD000A9737F /* GroupCall */ = {
+			isa = PBXGroup;
+			children = (
+				F5CFCA1C28237CD000A9737F /* GroupCallRemoteStore.swift */,
+				F5CFCA1D28237CD000A9737F /* GroupCallInteractor.swift */,
+				F5CFCA1E28237CD000A9737F /* Models */,
+				F5CFCA2028237CD000A9737F /* GroupCallView.swift */,
+				F5CFCA2128237CD000A9737F /* GroupCallInMemoryStore.swift */,
+				F5CFCA2228237CD000A9737F /* Views */,
+				F5CFCA2628237CD000A9737F /* GroupCallWorker.swift */,
+			);
+			path = GroupCall;
+			sourceTree = "<group>";
+		};
+		F5CFCA1E28237CD000A9737F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F5CFCA1F28237CD000A9737F /* GroupCallModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F5CFCA2228237CD000A9737F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F5CFCA2328237CD000A9737F /* CallingGroup.swift */,
+				F5CFCA2428237CD000A9737F /* InComingVoiceGroupCall.swift */,
+				F5CFCA2528237CD000A9737F /* VoiceGroupCalled.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1512,6 +1563,7 @@
 				F556C23F28097F6E00D2B149 /* ChatGroupModel.swift in Sources */,
 				0462C6C22816535C00A9EABB /* SearchView.swift in Sources */,
 				0462C6C32816535C00A9EABB /* SearchInMemoryStore.swift in Sources */,
+				F5CFCA2E28237CD000A9737F /* VoiceGroupCalled.swift in Sources */,
 				047D6B1227F1544D0098B104 /* GroupDetailView.swift in Sources */,
 				047241A627DB3D2C0043345A /* LoginView.swift in Sources */,
 				22A1C69A2812B1D500FE957F /* ChatWorker.swift in Sources */,
@@ -1553,8 +1605,11 @@
 				0499345727E9A8BE003BD4C4 /* AdvancedSeverView.swift in Sources */,
 				0499344D27E97100003BD4C4 /* ChangePasswordContentView.swift in Sources */,
 				0499345527E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift in Sources */,
+				F5CFCA2928237CD000A9737F /* GroupCallModel.swift in Sources */,
 				CB40074727E8CCC800DFBE88 /* LoginContentView.swift in Sources */,
+				F5CFCA2D28237CD000A9737F /* InComingVoiceGroupCall.swift in Sources */,
 				F5350E1027FAD57500F54E32 /* TwoFactorModel.swift in Sources */,
+				F5CFCA2728237CD000A9737F /* GroupCallRemoteStore.swift in Sources */,
 				0499345427E9A8BE003BD4C4 /* AdvancedSeverWorker.swift in Sources */,
 				F5350E2027FAD58F00F54E32 /* TwoFactorView.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
@@ -1572,8 +1627,10 @@
 				F568DC0F27FD7CC000EE9DF0 /* SettingServerView.swift in Sources */,
 				F568DC2027FD882600EE9DF0 /* NotificationRemoteStore.swift in Sources */,
 				044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */,
+				F5CFCA2B28237CD000A9737F /* GroupCallInMemoryStore.swift in Sources */,
 				F568DC2527FD882600EE9DF0 /* NotificationView.swift in Sources */,
 				F568DC1327FD7CC000EE9DF0 /* SettingServerRemoteStore.swift in Sources */,
+				F5CFCA2828237CD000A9737F /* GroupCallInteractor.swift in Sources */,
 				F5350E1C27FAD58F00F54E32 /* TwoFactorInMemoryStore.swift in Sources */,
 				0499344727E97035003BD4C4 /* ChangePasswordInteractor.swift in Sources */,
 				22A1C69C2812B1D500FE957F /* ChatInteractor.swift in Sources */,
@@ -1608,8 +1665,10 @@
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
 				047D6B0E27F1544D0098B104 /* GroupDetailInMemoryStore.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
+				F5CFCA2A28237CD000A9737F /* GroupCallView.swift in Sources */,
 				047241A727DB3D2C0043345A /* LoginInteractor.swift in Sources */,
 				F556C23D28097F6E00D2B149 /* ChatGroupWorker.swift in Sources */,
+				F5CFCA2C28237CD000A9737F /* CallingGroup.swift in Sources */,
 				F556C27B280E961E00D2B149 /* ListUser.swift in Sources */,
 				F5CE37F427E97FF20085CECE /* UserProfileContentView.swift in Sources */,
 				0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */,
@@ -1619,6 +1678,7 @@
 				0499343727E96F8A003BD4C4 /* NewPasswordRemoteStore.swift in Sources */,
 				CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */,
 				0499344627E97035003BD4C4 /* ChangePasswordRemoteStore.swift in Sources */,
+				F5CFCA2F28237CD000A9737F /* GroupCallWorker.swift in Sources */,
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
 				0462C6C82816535C00A9EABB /* SearchAllView.swift in Sources */,
 				0499343627E96F8A003BD4C4 /* NewPasswordWorker.swift in Sources */,

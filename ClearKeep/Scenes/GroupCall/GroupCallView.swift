@@ -1,15 +1,14 @@
 //
-//  ChangePasswordView.swift
+//  GroupCallView.swift
 //  ClearKeep
 //
-//  Created by MinhDev on 22/03/2022.
+//  Created by đông on 07/04/2022.
 //
 
 import SwiftUI
 import Common
-import CommonUI
 
-struct ChangePasswordView: View {
+struct GroupCallView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
 	
@@ -20,34 +19,32 @@ struct ChangePasswordView: View {
 	var body: some View {
 		content
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		.hideKeyboardOnTapped()
-		.hiddenNavigationBarStyle()
 	}
 }
 
 // MARK: - Private
-private extension ChangePasswordView {
+private extension GroupCallView {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		AnyView(contentView)
 	}
 }
 
 // MARK: - Loading Content
-private extension ChangePasswordView {
-	var notRequestedView: some View {
-		ChangePasswordContentView()
+private extension GroupCallView {
+	var contentView: some View {
+		CallingGroup()
 	}
 }
 
 // MARK: - Interactor
-private extension ChangePasswordView {
+private extension GroupCallView {
 }
 	
 // MARK: - Preview
 #if DEBUG
-struct ChangePasswordView_Previews: PreviewProvider {
+struct GroupCallView_Previews: PreviewProvider {
 	static var previews: some View {
-		ChangePasswordView()
+		GroupCallView()
 	}
 }
 #endif
