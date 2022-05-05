@@ -24,24 +24,16 @@ struct NewPasswordContenView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
-	@State private(set) var password: String
-	@State private(set) var rePassword: String
+	@State private(set) var password: String = ""
+	@State private(set) var rePassword: String = ""
 	@State private(set) var preAccessToken: String = ""
 	@State private(set) var email: String = ""
 	@State private(set) var domain: String = ""
-	@State private(set) var passwordStyle: TextInputStyle
-	@State private(set) var rePasswordStyle: TextInputStyle
+	@State private(set) var passwordStyle: TextInputStyle = .default
+	@State private(set) var rePasswordStyle: TextInputStyle = .default
+	@State private(set) var isLogin: Bool = false
 
 	// MARK: - Init
-	init(password: String = "",
-		 rePassword: String = "",
-		 passwordStyle: TextInputStyle = .default,
-		 rePasswordStyle: TextInputStyle = .default) {
-		self._password = .init(initialValue: password)
-		self._rePassword = .init(initialValue: rePassword)
-		self._passwordStyle = .init(initialValue: rePasswordStyle)
-		self._rePasswordStyle = .init(initialValue: rePasswordStyle)
-	}
 
 	// MARK: - Body
 	var body: some View {
@@ -144,14 +136,22 @@ private extension NewPasswordContenView {
 	}
 
 	var buttonSave: some View {
-		Button("ForgotPass.Save".localized) {
-			doResetPassword()
-		}
-		.frame(maxWidth: .infinity, alignment: .center)
-		.padding(.all, Constants.padding)
-		.background(backgroundButton)
-		.foregroundColor(foregroundButton)
-		.cornerRadius(Constants.radius)
+		NavigationLink(
+			destination: LoginView(),
+			isActive: $isLogin,
+			label: {
+				Button {
+					doResetPassword()
+					isLogin.toggle()
+				} label: {
+					Text("ForgotPass.Save".localized)
+						.frame(maxWidth: .infinity, alignment: .center)
+						.padding(.all, Constants.padding)
+						.background(backgroundButton)
+						.foregroundColor(foregroundButton)
+				}
+				.cornerRadius(Constants.radius)
+			})
 	}
 }
 // MARK: - Interactor

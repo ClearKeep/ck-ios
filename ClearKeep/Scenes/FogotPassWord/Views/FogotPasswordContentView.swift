@@ -19,7 +19,7 @@ private enum Constants {
 struct FogotPasswordContentView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
-
+	
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -28,14 +28,14 @@ struct FogotPasswordContentView: View {
 	@State private(set) var domain: String = ""
 	@State private(set) var emailStyle: TextInputStyle
 	@State private(set) var showingNewPass: Bool = false
-
+	
 	// MARK: - Init
 	init(email: String = "",
 		 emailStyle: TextInputStyle = .default) {
 		self._email = .init(initialValue: email)
 		self._emailStyle = .init(initialValue: emailStyle)
 	}
-
+	
 	// MARK: - Body
 	var body: some View {
 		content
@@ -46,23 +46,23 @@ struct FogotPasswordContentView: View {
 
 // MARK: - Private
 private extension FogotPasswordContentView {
-
+	
 	var backgroundButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
-
+	
 	var backgroundViewColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.black
 	}
-
+	
 	var foregroundButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
 	}
-
+	
 	var foregroundBackButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
-
+	
 }
 
 // MARK: - Private Func
@@ -70,13 +70,13 @@ private extension FogotPasswordContentView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
-
+	
 	func doFogotPassword() {
 		Task {
 			await injected.interactors.fogotPasswordInteractor.recoverPassword(email: email, domain: domain)
 		}
 	}
-
+	
 	var content: AnyView {
 		AnyView(fogotPasswordView)
 	}
@@ -93,7 +93,7 @@ private extension FogotPasswordContentView {
 				.font(AppTheme.shared.fontSet.font(style: .body2))
 				.foregroundColor(foregroundBackButton)
 				.frame(maxWidth: .infinity, alignment: .leading)
-
+			
 			CommonTextField(text: $email,
 							inputStyle: $emailStyle,
 							inputIcon: AppTheme.shared.imageSet.mailIcon,
@@ -112,7 +112,7 @@ private extension FogotPasswordContentView {
 		.frame(maxWidth: .infinity, alignment: .center)
 		.padding(.all, Constants.padding)
 	}
-
+	
 	var buttonBack: some View {
 		Button(action: customBack) {
 			HStack(spacing: Constants.spacing) {
@@ -133,14 +133,16 @@ private extension FogotPasswordContentView {
 			destination: NewPasswordView(),
 			isActive: $showingNewPass,
 			label: {
-				Button("ForgotPass.Resetpassword".localized) {
+				Button {
 					self.showingNewPass = true
 					doFogotPassword()
+				} label: {
+					Text("ForgotPass.Resetpassword".localized)
+						.frame(maxWidth: .infinity, alignment: .center)
+						.padding(.all, Constants.padding)
+						.background(backgroundButton)
+						.foregroundColor(foregroundButton)
 				}
-				.frame(maxWidth: .infinity, alignment: .center)
-				.padding(.all, Constants.padding)
-				.background(backgroundButton)
-				.foregroundColor(foregroundButton)
 				.cornerRadius(Constants.radius)
 			})
 	}
