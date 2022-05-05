@@ -45,6 +45,7 @@ struct RegisterContentView: View {
 			.frame(maxWidth: .infinity, alignment: .center)
 			.padding(.all, Constants.padding)
 		}
+		.hideKeyboardOnTapped()
 	}
 }
 
