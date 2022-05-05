@@ -36,7 +36,6 @@ struct ChangePasswordContentView: View {
 	
 	// MARK: - Init
 
-	
 	// MARK: - Body
 	var body: some View {
 		content
