@@ -79,6 +79,7 @@ private extension CountryCode {
 			})
 			Spacer()
 		}
+		.frame(maxWidth: .infinity)
 	}
 
 	var title: some View {
