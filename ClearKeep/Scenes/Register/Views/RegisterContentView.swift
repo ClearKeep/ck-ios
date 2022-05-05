@@ -60,12 +60,11 @@ struct RegisterContentView: View {
 										placeHolder: "General.Email".localized,
 										keyboardType: .default,
 										onEditingChanged: { isEditing in
+							isHidden = isEditing
 							if isEditing {
 								emailStyle = .highlighted
-								isHidden = true
 							} else {
 								emailStyle = .normal
-								isHidden = false
 							}
 						})
 						CommonTextField(text: $displayname,
@@ -74,12 +73,11 @@ struct RegisterContentView: View {
 										placeHolder: "General.DisplayName".localized,
 										keyboardType: .default,
 										onEditingChanged: { isEditing in
+							isHidden = isEditing
 							if isEditing {
 								nameStyle = .highlighted
-								isHidden = true
 							} else {
 								nameStyle = .normal
-								isHidden = false
 							}
 						})
 					}
@@ -89,12 +87,11 @@ struct RegisterContentView: View {
 									placeHolder: "General.Password".localized,
 									keyboardType: .default,
 									onEditingChanged: { isEditing in
+						isHidden = isEditing
 						if isEditing {
 							passwordStyle = .highlighted
-							isHidden = true
 						} else {
 							passwordStyle = .normal
-							isHidden = false
 						}
 					})
 					SecureTextField(secureText: $rePassword,
@@ -103,12 +100,11 @@ struct RegisterContentView: View {
 									placeHolder: "General.ConfirmPassword".localized,
 									keyboardType: .default,
 									onEditingChanged: { isEditing in
+						isHidden = isEditing
 						if isEditing {
 							rePasswordStyle = .highlighted
-							isHidden = true
 						} else {
 							rePasswordStyle = .normal
-							isHidden = false
 						}
 					})
 					HStack {
@@ -169,7 +165,7 @@ private extension RegisterContentView {
 	}
 
 	var paddingTop: CGFloat {
-		isHidden ? 60 : 0
+		isHidden ? Constants.paddingtop : 0
 	}
 }
 

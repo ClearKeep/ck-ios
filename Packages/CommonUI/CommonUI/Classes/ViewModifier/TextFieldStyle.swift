@@ -40,15 +40,11 @@ public struct CustomSecureTextField: UIViewRepresentable {
 		}
 
 		public func textFieldDidBeginEditing(_ textField: UITextField) {
-			DispatchQueue.main.async {
 			   self.isFocused(true)
-			}
 		}
 
 		public func textFieldDidEndEditing(_ textField: UITextField) {
-			DispatchQueue.main.async {
 				self.isFocused(false)
-			}
 		}
 
 		public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
