@@ -19,21 +19,18 @@ private enum Constants {
 struct ChangePasswordContentView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
-
+	
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
-	@State private(set) var email: String = ""
-	@State private(set) var preAccessToken: String = ""
-	@State private(set) var domain: String = ""
 	@State private(set) var currentPassword: String
 	@State private(set) var newPassword: String
 	@State private(set) var confirmPassword: String
 	@State private(set) var currentStyle: TextInputStyle
 	@State private(set) var newStyle: TextInputStyle
 	@State private(set) var confirmStyle: TextInputStyle
-
+	
 	// MARK: - Init
 	init(currentPassword: String = "",
 		 newPassword: String = "",
@@ -48,7 +45,7 @@ struct ChangePasswordContentView: View {
 		self._newStyle = .init(initialValue: newStyle)
 		self._confirmStyle = .init(initialValue: confirmStyle)
 	}
-
+	
 	// MARK: - Body
 	var body: some View {
 		content
@@ -59,43 +56,29 @@ struct ChangePasswordContentView: View {
 
 // MARK: - Private
 private extension ChangePasswordContentView {
-
+	
 	var backgroundButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
-
-	var backgroundViewColor: LinearGradient {
-		colorScheme == .light ? backgroundGradientPrimary : backgroundBlack
+	
+	var backgroundViewColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.black
 	}
-	var backgroundBlack: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]), startPoint: .leading, endPoint: .trailing)
-	}
-	var backgroundGradientPrimary: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-	}
-
+	
 	var foregroundButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
 	}
-
+	
 	var foregroundBackButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
 }
-
 // MARK: - Private Func
 private extension ChangePasswordContentView {
-
-	func doChangePassword() {
-		Task {
-			await injected.interactors.changePasswordInteractor.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: newPassword, domain: domain)
-		}
-	}
-
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
-
+	
 	var content: AnyView {
 		AnyView(changePasswordView)
 	}
@@ -116,28 +99,50 @@ private extension ChangePasswordContentView {
 							inputStyle: $currentStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "ChangePassword.CurrentPassword".localized,
-							keyboardType: .default )
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				if isEditing {
+					currentStyle = .highlighted
+				} else {
+					currentStyle = .normal
+				}
+			})
 			SecureTextField(secureText: $newPassword,
 							inputStyle: $newStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "ChangePassword.NewPassword".localized,
-							keyboardType: .default )
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				if isEditing {
+					newStyle = .highlighted
+				} else {
+					newStyle = .normal
+				}
+			})
 			SecureTextField(secureText: $confirmPassword,
 							inputStyle: $confirmStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
-							placeHolder: "ChangePassword.ConfirmPassword".localized,
-							keyboardType: .default )
+							placeHolder: "General.ConfirmPassword".localized,
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				if isEditing {
+					confirmStyle = .highlighted
+				} else {
+					confirmStyle = .normal
+				}
+			})
 			buttonSave
 			Spacer()
 		}
 		.frame(maxWidth: .infinity, alignment: .center)
 		.padding(.all, Constants.padding)
 	}
-
+	
 	var buttonBack: some View {
 		Button(action: customBack) {
 			HStack(spacing: Constants.spacing) {
 				AppTheme.shared.imageSet.backIcon
+					.renderingMode(.template)
 					.aspectRatio(contentMode: .fit)
 					.foregroundColor(foregroundBackButton)
 				Text("ChangePassword.TitleButton".localized)
@@ -147,11 +152,11 @@ private extension ChangePasswordContentView {
 			.foregroundColor(foregroundBackButton)
 		}
 	}
-
+	
 	var buttonSave: some View {
-		Button(action: doChangePassword, label: {
-			Text("ChangePassword.Save".localized)
-		})
+		Button("ChangePassword.Save".localized) {
+			
+		}
 		.frame(maxWidth: .infinity, alignment: .center)
 		.padding(.all, Constants.padding)
 		.background(backgroundButton)

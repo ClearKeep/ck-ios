@@ -13,9 +13,9 @@ import MSAL
 import Networking
 
 public protocol ISocialAuthenticationService {
-	func signInWithFB(domain: String)
-	func signInWithGoogle(domain: String)
-	func signInWithOffice(domain: String)
+	func signInWithFB(domain: String) async -> Result<Auth_SocialLoginRes, Error>
+	func signInWithGoogle(domain: String) async -> Result<Auth_SocialLoginRes, Error>
+	func signInWithOffice(domain: String) async -> Result<Auth_SocialLoginRes, Error>
 	func signOutFacebookAccount()
 	func signOutGoogleAccount()
 	func signOutO365()
@@ -54,67 +54,77 @@ public class SocialAuthenticationService {
 
 // MARK: - ISocialAuthenticationService
 extension SocialAuthenticationService: ISocialAuthenticationService {
-	public func signInWithFB(domain: String) {
+	public func signInWithFB(domain: String) async -> Result<Auth_SocialLoginRes, Error> {
 		let fbLoginManager = LoginManager()
 		fbLoginManager.logOut()
-		fbLoginManager.logIn(permissions: [.publicProfile, .email], viewController: nil) { (result) in
-			switch result {
-			case .cancelled:
-				break
-			default:
-				if let currentUser = AccessToken.current {
-					Task {
-						var request = Auth_FacebookLoginReq()
-						request.accessToken = currentUser.tokenString
-						request.workspaceDomain = domain
-						
-						let response = await channelStorage.getChannels(domain: domain).login(request)
-						
-						switch response {
-						case .success(let data):
-							print(data)
-						case .failure(let error):
-							print(error)
-						}
-					}
-				}
+		
+		let result: LoginResult = await withCheckedContinuation({ continuation in
+			fbLoginManager.logIn(permissions: [.publicProfile, .email], viewController: nil) { result in
+				return continuation.resume(returning: result)
 			}
-		}
-	}
-	
-	public func signInWithGoogle(domain: String) {
-		guard let topViewController = UIApplication.shared.topMostViewController(),
-			  let googleSignInConfiguration = googleSignInConfiguration else { return }
-		GIDSignIn.sharedInstance.signIn(with: googleSignInConfiguration, presenting: topViewController) { user, error in
-			guard let idToken = user?.authentication.idToken else { return }
-			
-			Task {
-				var request = Auth_GoogleLoginReq()
-				request.idToken = idToken
+		})
+		
+		switch result {
+		case .cancelled:
+			return .failure(ServerError.unknown)
+		default:
+			if let currentUser = AccessToken.current {
+				var request = Auth_FacebookLoginReq()
+				request.accessToken = currentUser.tokenString
 				request.workspaceDomain = domain
-				
-				let response = await channelStorage.getChannels(domain: domain).login(request)
-				
-				switch response {
-				case .success(let data):
-					print(data)
-				case .failure(let error):
-					print(error)
-				}
+				return await channelStorage.getChannels(domain: domain).login(request)
+			} else {
+				return .failure(ServerError.unknown)
 			}
 		}
 	}
 	
-	public func signInWithOffice(domain: String) {
-		guard let topViewController = UIApplication.shared.topMostViewController() else { return }
+	public func signInWithGoogle(domain: String) async -> Result<Auth_SocialLoginRes, Error> {
+		guard let topViewController = await UIApplication.shared.topMostViewController(),
+			  let googleSignInConfiguration = googleSignInConfiguration else { return .failure(ServerError.unknown) }
+		let result: Result<String, Error> = await withCheckedContinuation({ continuation in
+			GIDSignIn.sharedInstance.signIn(with: googleSignInConfiguration, presenting: topViewController) { user, error in
+				if let error = error { return continuation.resume(returning: .failure(error)) }
+				guard let idToken = user?.authentication.idToken else { return continuation.resume(returning: .failure(ServerError.unknown)) }
+				return continuation.resume(returning: .success(idToken))
+			}
+		})
+		
+		switch result {
+		case .success(let idToken):
+			var request = Auth_GoogleLoginReq()
+			request.idToken = idToken
+			request.workspaceDomain = domain
+			
+			return await channelStorage.getChannels(domain: domain).login(request)
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+	
+	public func signInWithOffice(domain: String) async -> Result<Auth_SocialLoginRes, Error> {
+		guard let topViewController = await UIApplication.shared.topMostViewController() else { return .failure(ServerError.unknown) }
 		webViewParamaters = MSALWebviewParameters(authPresentationViewController: topViewController)
 		
-		guard let account = try? applicationContext?.allAccounts().first else {
-			self.acquireTokenInteractively(domain: domain)
-			return
+		var result: Result<MSALResult, Error>?
+		if let account = try? applicationContext?.allAccounts().first {
+			result = await acquireTokenSilently(account, domain: domain)
+		} else {
+			result = await acquireTokenInteractively(domain: domain)
 		}
 		
-		self.acquireTokenSilently(account, domain: domain)
+		switch result {
+		case .success(let msalResult):
+			var request = Auth_OfficeLoginReq()
+			request.accessToken = msalResult.accessToken
+			request.workspaceDomain = domain
+			
+			return await channelStorage.getChannels(domain: domain).login(request)
+		case .failure(let error):
+			return .failure(error)
+		case .none:
+			return .failure(ServerError.unknown)
+		}
 	}
 	
 	public func signOutFacebookAccount() {
@@ -144,7 +154,6 @@ private extension SocialAuthenticationService {
 	
 	func initMSAL(clientId: String, redirectUri: String) {
 		guard let authorityURL = URL(string: kAuthority) else {
-			print("Unable to create authority URL")
 			return
 		}
 		do {
@@ -159,80 +168,65 @@ private extension SocialAuthenticationService {
 		}
 	}
 	
-	func acquireTokenInteractively(domain: String) {
-		guard let applicationContext = applicationContext else { return }
-		guard let webViewParameters = webViewParamaters else { return }
-
+	func acquireTokenInteractively(domain: String) async -> Result<MSALResult, Error> {
+		guard let applicationContext = applicationContext else { return .failure(ServerError.unknown) }
+		guard let webViewParameters = webViewParamaters else { return .failure(ServerError.unknown) }
+		
 		let parameters = MSALInteractiveTokenParameters(scopes: ["user.read"], webviewParameters: webViewParameters)
 		parameters.promptType = .selectAccount
 		
-		applicationContext.acquireToken(with: parameters) { (result, error) in
-			if let error = error {
-				print("Could not acquire token: \(error)")
-				return
-			}
-			
-			guard let result = result else {
-				print("Could not acquire token: No result returned")
-				return
-			}
-			
-			Task {
-				var request = Auth_OfficeLoginReq()
-				request.accessToken = result.accessToken
-				request.workspaceDomain = domain
-				
-				let response = await channelStorage.getChannels(domain: domain).login(request)
-				
-				switch response {
-				case .success(let data):
-					print(data)
-				case .failure(let error):
-					print(error)
+		return await withCheckedContinuation({ continuation in
+			applicationContext.acquireToken(with: parameters) { (result, error) in
+				if let error = error {
+					return continuation.resume(returning: .failure(error))
 				}
+				
+				guard let result = result else {
+					return continuation.resume(returning: .failure(ServerError.unknown))
+				}
+				return continuation.resume(returning: .success(result))
 			}
-		}
+		})
 	}
 	
-	func acquireTokenSilently(_ account: MSALAccount, domain: String) {
-		guard let applicationContext = self.applicationContext else { return }
+	func acquireTokenSilently(_ account: MSALAccount, domain: String) async -> Result<MSALResult, Error> {
+		guard let applicationContext = self.applicationContext else { return .failure(ServerError.unknown) }
+		guard let webViewParameters = webViewParamaters else { return .failure(ServerError.unknown) }
 		
 		let parameters = MSALSilentTokenParameters(scopes: ["user.read"], account: account)
 		
-		applicationContext.acquireTokenSilent(with: parameters) { (result, error) in
-			if let error = error {
-				let nsError = error as NSError
-				if nsError.domain == MSALErrorDomain {
-					if nsError.code == MSALError.interactionRequired.rawValue {
-						DispatchQueue.main.async {
-							self.acquireTokenInteractively(domain: domain)
+		return await withCheckedContinuation({ continuation in
+			applicationContext.acquireTokenSilent(with: parameters) { [weak self] (result, error) in
+				guard let self = self else { return continuation.resume(returning: .failure(ServerError.unknown)) }
+				if let error = error {
+					let nsError = error as NSError
+					if nsError.domain == MSALErrorDomain {
+						if nsError.code == MSALError.interactionRequired.rawValue {
+							let parameters = MSALInteractiveTokenParameters(scopes: ["user.read"], webviewParameters: webViewParameters)
+							parameters.promptType = .selectAccount
+							applicationContext.acquireToken(with: parameters) { (result, error) in
+								if let error = error {
+									return continuation.resume(returning: .failure(error))
+								}
+								guard let result = result else {
+									return continuation.resume(returning: .failure(ServerError.unknown))
+								}
+								return continuation.resume(returning: .success(result))
+							}
+						} else {
+							continuation.resume(returning: .failure(nsError))
 						}
-						return
+					} else {
+						continuation.resume(returning: .failure(error))
 					}
 				}
-				print("Could not acquire token silently: \(error)")
-				return
-			}
-			guard let result = result else {
-				print("Could not acquire token: No result returned")
-				return
-			}
-			
-			Task {
-				var request = Auth_OfficeLoginReq()
-				request.accessToken = result.accessToken
-				request.workspaceDomain = domain
-				
-				let response = await channelStorage.getChannels(domain: domain).login(request)
-				
-				switch response {
-				case .success(let data):
-					print(data)
-				case .failure(let error):
-					print(error)
+				guard let result = result else {
+					continuation.resume(returning: .failure(ServerError.unknown))
+					return
 				}
+				continuation.resume(returning: .success(result))
 			}
-		}
+		})
 	}
 }
 

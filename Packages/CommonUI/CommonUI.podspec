@@ -15,5 +15,6 @@ Pod::Spec.new do |spec|
 	spec.source_files = 'CommonUI/**/*.{swift,h,m,c}'
 	
 	spec.dependency 'Common'
+	spec.dependency 'Introspect'
 end
 

@@ -21,6 +21,7 @@ def common
 	pod 'CommonUI', :path => './Packages/CommonUI'
 	pod 'ChatSecure', :path => './Packages/ChatSecure'
 	pod 'Networking', :path => './Packages/Networking'
+	pod 'Model', :path => './Packages/Model'
 	pod 'SwiftSRP', :path => './Packages/SwiftSRP'
 	pod 'SignalProtocolObjC', :git =>'https://github.com/nohtbook/SignalProtocol-ObjC.git'
 end

@@ -48,7 +48,7 @@ struct SearchView: View {
 		GeometryReader { _ in
 			self.content
 				.onReceive(inspection.notice) { inspection.visit(self, $0) }
-				.modifier(NavigationModifier())
+				.hiddenNavigationBarStyle()
 				.edgesIgnoringSafeArea(.all)
 				.background(backgroundColorView)
 		}
