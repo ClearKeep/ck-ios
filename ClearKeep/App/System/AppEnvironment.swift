@@ -39,12 +39,14 @@ extension AppEnvironment {
 		let registerInteractor = RegisterInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService)
 		let fogotPasswordInteractor = FogotPasswordInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService)
 		let newPasswordInteractor = NewPasswordInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService)
+		let changePasswordInteractor = ChangePasswordInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService)
 
 		return .init(homeInteractor: homeInteractor,
 					 loginInteractor: loginInteractor,
 					 registerInteractor: registerInteractor,
 					 fogotPasswordInteractor: fogotPasswordInteractor,
-					 newPasswordInteractor: newPasswordInteractor)
+					 newPasswordInteractor: newPasswordInteractor,
+					 changePasswordInteractor: changePasswordInteractor)
 	}
 }
 

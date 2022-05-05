@@ -121,17 +121,6 @@ extension SwiftSRP: ISwiftSRP {
 		
 		let data = Data(bytes: bytesM, count: Int(lenM))
 		
-		guard let bytesB = bytesB else {
-			return nil
-		}
-		
-		var testBPtr = UnsafePointer<CUnsignedChar>(bytesB)
-		let endBPtr = UnsafePointer<CUnsignedChar>(bytesB) + 256
-		
-		while testBPtr < endBPtr {
-			testBPtr += 1
-		}
-		
 		return Array(data)
 	}
 	
@@ -148,9 +137,7 @@ extension SwiftSRP: ISwiftSRP {
 // MARK: - Private
 private extension SwiftSRP {
 	func asUnsignedCharArray(bytes: [UInt8]) async -> UnsafePointer<CUnsignedChar>? {
-		let data = Data(bytes: bytes, count: bytes.count)
-		
-		return await data.withUnsafeBytes { (unsafeBytes) in
+		return await bytes.withUnsafeBytes { (unsafeBytes) in
 			unsafeBytes.bindMemory(to: UInt8.self).baseAddress
 		}
 	}

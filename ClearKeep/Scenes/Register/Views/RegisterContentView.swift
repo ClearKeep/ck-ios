@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Common
 import CommonUI
 
 private enum Constants {
@@ -19,15 +20,15 @@ struct RegisterContentView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-	@State private(set) var domain: String = ""
-	@Binding var email: String
-	@Binding var password: String
-	@Binding var displayname: String
-	@Binding var rePassword: String
-	@Binding var emailStyle: TextInputStyle
-	@Binding var nameStyle: TextInputStyle
-	@Binding var passwordStyle: TextInputStyle
-	@Binding var rePasswordStyle: TextInputStyle
+	@Binding var loadable: Loadable<Bool>
+	@State private var email: String = ""
+	@State private var password: String = ""
+	@State private var displayname: String = ""
+	@State private var rePassword: String = ""
+	@State private var emailStyle: TextInputStyle = .default
+	@State private var nameStyle: TextInputStyle = .default
+	@State private var passwordStyle: TextInputStyle = .default
+	@State private var rePasswordStyle: TextInputStyle = .default
 
 	// MARK: - Body
 	var body: some View {
@@ -44,6 +45,7 @@ struct RegisterContentView: View {
 			.frame(maxWidth: .infinity, alignment: .center)
 			.padding(.all, Constants.padding)
 		}
+		.hideKeyboardOnTapped()
 	}
 }
 
@@ -52,15 +54,15 @@ private extension RegisterContentView {
 	var backgroundColorView: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: backgroundColorButton), startPoint: .leading, endPoint: .trailing)
 	}
-	
+
 	var backgroundColorButton: [Color] {
 		AppTheme.shared.colorSet.gradientPrimary
 	}
-	
+
 	var foregroundColorWhite: Color {
 		AppTheme.shared.colorSet.offWhite
 	}
-	
+
 	var foregroundColorPrimary: Color {
 		AppTheme.shared.colorSet.primaryDefault
 	}
@@ -68,7 +70,7 @@ private extension RegisterContentView {
 
 // MARK: - Private
 private extension RegisterContentView {
-	
+
 	var button: AnyView {
 		AnyView(buttonView)
 	}
@@ -84,8 +86,9 @@ private extension RegisterContentView {
 // MARK: - private func
 private extension RegisterContentView {
 	func doRegister() {
+		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			await injected.interactors.registerInteractor.register(displayName: displayname, email: email, password: password, domain: domain)
+			loadable = await injected.interactors.registerInteractor.register(displayName: displayname, email: email, password: password)
 		}
 	}
 
@@ -105,8 +108,7 @@ private extension RegisterContentView {
 			.foregroundColor(foregroundColorPrimary)
 			Spacer()
 			Button("Register.SignUp".localized) {
-
-					doRegister()
+				doRegister()
 			}
 			.frame(maxWidth: .infinity, alignment: .center)
 			.padding(.all, Constants.padding)
@@ -115,22 +117,36 @@ private extension RegisterContentView {
 			.cornerRadius(Constants.radius)
 		}
 	}
-	
+
 	var secureView: some View {
 		VStack(spacing: Constants.sapcing) {
 			SecureTextField(secureText: $password,
 							inputStyle: $passwordStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "General.Password".localized,
-							keyboardType: .default )
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				if isEditing {
+					passwordStyle = .highlighted
+				} else {
+					passwordStyle = .normal
+				}
+			})
 			SecureTextField(secureText: $rePassword,
 							inputStyle: $rePasswordStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "General.ConfirmPassword".localized,
-							keyboardType: .default )
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				if isEditing {
+					rePasswordStyle = .highlighted
+				} else {
+					rePasswordStyle = .normal
+				}
+			})
 		}
 	}
-	
+
 	var nomalTextfieldView: some View {
 		VStack(spacing: Constants.sapcing) {
 			CommonTextField(text: $email,
@@ -140,7 +156,7 @@ private extension RegisterContentView {
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
 				if isEditing {
-					emailStyle = .default
+					emailStyle = .highlighted
 				} else {
 					emailStyle = .normal
 				}
@@ -165,7 +181,7 @@ private extension RegisterContentView {
 #if DEBUG
 struct RegisterContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		RegisterContentView(email: .constant("Test"), password: .constant("Test"), displayname: .constant("Test"), rePassword: .constant("Test"), emailStyle: .constant(.default), nameStyle: .constant(.default), passwordStyle: .constant(.default), rePasswordStyle: .constant(.default))
+		RegisterContentView(loadable: .constant(.notRequested))
 	}
 }
 #endif

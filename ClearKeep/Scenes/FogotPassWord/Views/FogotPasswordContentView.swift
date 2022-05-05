@@ -101,7 +101,7 @@ private extension FogotPasswordContentView {
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
 				if isEditing {
-					emailStyle = .default
+					emailStyle = .highlighted
 				} else {
 					emailStyle = .normal
 				}
