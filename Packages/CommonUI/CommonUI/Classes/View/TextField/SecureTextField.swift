@@ -144,8 +144,6 @@ private extension SecureTextField {
 
 struct SecureTextField_Previews: PreviewProvider {
 	static var previews: some View {
-		SecureTextField(secureText: .constant("Test"), inputStyle: .constant(.error(message: "Error")), placeHolder: "Phone"){ _ in
-
-		}
+		SecureTextField(secureText: .constant("Test"), inputStyle: .constant(.error(message: "Error")), placeHolder: "Phone") { _ in }
 	}
 }
