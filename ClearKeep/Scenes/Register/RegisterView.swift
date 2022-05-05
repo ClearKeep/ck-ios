@@ -23,6 +23,7 @@ struct RegisterView: View {
 	@State private(set) var loadable: Loadable<Bool> = .notRequested
 
 	// MARK: - Init
+
 	// MARK: - Body
 	var body: some View {
 			content
@@ -84,7 +85,7 @@ private extension RegisterView {
 	var loadingView: some View {
 		notRequestedView.modifier(LoadingIndicatorViewModifier())
 	}
-
+	
 	var loadedView: some View {
 		return notRequestedView
 			.alert(isPresented: .constant(true)) {
