@@ -7,10 +7,9 @@
 
 import Common
 import ChatSecure
-import GRPC
 
 protocol IRegisterInteractor {
-	func register(displayName: String, email: String, password: String, domain: String) async
+	func register(displayName: String, email: String, password: String) async -> Loadable<Bool>
 }
 
 struct RegisterInteractor {
@@ -26,8 +25,15 @@ extension RegisterInteractor: IRegisterInteractor {
 		return RegisterWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
-	func register(displayName: String, email: String, password: String, domain: String) async {
-		await worker.register(displayName: displayName, email: email, password: password, domain: domain)
+	func register(displayName: String, email: String, password: String) async -> Loadable<Bool> {
+		let result = await worker.register(displayName: displayName, email: email, password: password)
+		
+		switch result {
+		case .success(let data):
+			return .loaded(data)
+		case .failure(let error):
+			return .failed(error)
+		}
 	}
 }
 
@@ -41,6 +47,7 @@ struct StubRegisterInteractor: IRegisterInteractor {
 		return RegisterWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
-	func register(displayName: String, email: String, password: String, domain: String) async {
+	func register(displayName: String, email: String, password: String) async -> Loadable<Bool> {
+		return .notRequested
 	}
 }

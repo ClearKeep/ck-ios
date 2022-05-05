@@ -69,5 +69,11 @@ public protocol IImageSet {
 	var facebookIcon: Image { get }
 	var unCheckIcon: Image { get }
 	var checkedIcon: Image { get }
+	var cameraIcon: Image { get }
+	var cameraOffIcon: Image { get }
+	var muteOffIcon: Image { get }
+	var muteIcon: Image { get }
+	var speakerIcon2: Image { get }
+	var speakerOffIcon2: Image { get }
 	var userImage: Image { get }
 }
