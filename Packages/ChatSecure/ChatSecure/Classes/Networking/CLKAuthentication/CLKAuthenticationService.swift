@@ -13,6 +13,7 @@ import Common
 import GRPC
 import NIO
 import NIOHPACK
+import CryptoTokenKit
 
 public enum SocialType {
 	case google
@@ -21,7 +22,7 @@ public enum SocialType {
 }
 
 public protocol IAuthenticationService {
-	func register(displayName: String, email: String, password: String, domain: String) async
+	func register(displayName: String, email: String, password: String, domain: String) async -> Result<Auth_RegisterSRPRes, Error>
 	func login(userName: String, password: String, domain: String) async -> Result<Auth_AuthRes, Error>
 	func registerSocialPin(rawPin: String, userId: String, domain: String) async
 	func verifySocialPin(rawPin: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error>
@@ -45,11 +46,11 @@ public class CLKAuthenticationService {
 
 // MARK: - Public
 extension CLKAuthenticationService: IAuthenticationService {
-	public func register(displayName: String, email: String, password: String, domain: String) async {
+	public func register(displayName: String, email: String, password: String, domain: String) async -> Result<Auth_RegisterSRPRes, Error> {
 		let srp = SwiftSRP.shared
 		
 		guard let salt = srp.getSalt(userName: email, rawPassword: password, byteV: &byteV),
-			  let verificator = srp.getVerificator(byteV: byteV) else { return }
+			  let verificator = srp.getVerificator(byteV: byteV) else { return(.failure(ServerError.unknown)) }
 		let saltHex = bytesConvertToHexString(bytes: salt)
 		let verificatorHex = bytesConvertToHexString(bytes: verificator)
 		
@@ -60,14 +61,14 @@ extension CLKAuthenticationService: IAuthenticationService {
 		let storage = SignalStorage(signalStore: inMemoryStore)
 		let context = SignalContext(storage: storage)
 		guard let keyHelper = SignalKeyHelper(context: context ?? SignalContext()),
-			  let key = keyHelper.generateIdentityKeyPair() else { return }
+			  let key = keyHelper.generateIdentityKeyPair() else { return(.failure(ServerError.unknown)) }
 		
 		let preKeys = keyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
 		
 		guard let preKey = preKeys.first,
 			  let preKeyData = preKey.serializedData(),
 			  let signedPreKey = keyHelper.generateSignedPreKey(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (email + domain).hashCode())),
-			  let signedPreKeyData = signedPreKey.serializedData() else { return }
+			  let signedPreKeyData = signedPreKey.serializedData() else { return(.failure(ServerError.unknown)) }
 		
 		var transitionId = keyHelper.generateRegistrationId()
 		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
@@ -97,9 +98,9 @@ extension CLKAuthenticationService: IAuthenticationService {
 		let response = await channelStorage.getChannels(domain: domain).registerSRP(request)
 		switch response {
 		case .success(let data):
-			print(data)
+			return(.success(data))
 		case .failure(let error):
-			print(error)
+			return(.failure(error))
 		}
 	}
 	
@@ -117,7 +118,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		
 		switch response {
 		case .success(let data):
-			guard let mValue = await srp.getM(salt: data.salt.decodeHex, byte: data.publicChallengeB.decodeHex, usr: usr) else { return .failure(ServerError.unknown) }
+			guard let mValue = await srp.getM(salt: data.salt.hexaBytes, byte: data.publicChallengeB.hexaBytes, usr: usr) else { return .failure(ServerError.unknown) }
 			let mHex = bytesConvertToHexString(bytes: mValue)
 			
 			srp.freeMemoryAuthenticate(usr: &usr)
@@ -200,7 +201,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		
 		switch response {
 		case .success(let data):
-			guard let mValue = await srp.getM(salt: data.salt.decodeHex, byte: data.publicChallengeB.decodeHex, usr: usr) else { return .failure(ServerError.unknown) }
+			guard let mValue = await srp.getM(salt: data.salt.hexaBytes, byte: data.publicChallengeB.hexaBytes, usr: usr) else { return .failure(ServerError.unknown) }
 			let mHex = bytesConvertToHexString(bytes: mValue)
 			
 			srp.freeMemoryAuthenticate(usr: &usr)
@@ -387,8 +388,99 @@ extension CLKAuthenticationService: IAuthenticationService {
 
 // MARK: - Private
 private extension CLKAuthenticationService {
-	func onLoginSuccess() {
-		
+	func onLoginSuccess(_ response: Auth_AuthRes, password: String) {
+//		var accessToken = response.accessToken
+//		var domain = response.workspaceDomain
+//		var salt = response.salt
+//		var publicKey = response.clientKeyPeer.identityKeyPublic
+//		var privateKeyEncrypt = response.clientKeyPeer.identityKeyEncrypted
+//		var iv = response.ivParameter
+//		var privateKeyDecrypt = PBKDF2(passPharse: password).decrypt(data: privateKeyEncrypt.hexaBytes, saltEncrypt: salt.hexaBytes, ivParameterSpec: iv.hexaBytes)
+//		var preKey = response.clientKeyPeer.preKey
+//		var preKeyId = response.clientKeyPeer.preKeyID
+//		var preKeyRecord = CKSignalCoordinate.shared.ourEncryptionManager?.storage.storePreKey(preKey, preKeyId: UInt32(preKeyId))
+//		var signedPreKeyId = response.clientKeyPeer.signedPreKeyID
+//		var signedPreKey = response.clientKeyPeer.signedPreKey
+//		var signedPreKeyRecord =  CKSignalCoordinate.shared.ourEncryptionManager?.storage.storePreKey(signedPreKey, preKeyId: UInt32(signedPreKeyId))
+//		var registrationID = response.clientKeyPeer.registrationID
+//		var clientId = response.clientKeyPeer.clientID
+//		
+//		var ecPublicKey = SignalKeyPair(
+//		var eCPublicKey: ECPublicKey =
+//		Curve.decodePoint(publicKey.toByteArray(), 0)
+//		var eCPrivateKey: ECPrivateKey =
+//		Curve.decodePrivatePoint(privateKeyDecrypt)
+//		var identityKeyPair = IdentityKeyPair(IdentityKey(eCPublicKey), eCPrivateKey)
+//		var signalIdentityKey =
+//		SignalIdentityKey(
+//			identityKeyPair,
+//			registrationID,
+//		domain,
+//			clientId,
+//			response.ivParameter,
+//			salt
+//		)
+//		var profile = getProfile(
+//			paramAPIProvider.provideUserBlockingStub(
+//				ParamAPI(
+//					domain,
+//					accessToken,
+//					hashKey
+//				)
+//			)
+//		)
+//		
+//		signalIdentityKeyDAO.insert(signalIdentityKey)
+//		
+//		environment.setUpTempDomain(
+//			Server(
+//				null,
+//				"",
+//				domain,
+//				profile.userId,
+//				"",
+//				0L,
+//				"",
+//				"",
+//				"",
+//				false,
+//				Profile(null, profile.userId, "", "", "", 0L, "")
+//			)
+//		)
+//		myStore.storePreKey(preKeyID, preKeyRecord)
+//		myStore.storeSignedPreKey(signedPreKeyId, signedPreKeyRecord)
+//		
+//		if (clearOldUserData) {
+//			var oldServer = serverRepository.getServerByDomain(domain)
+//			
+//			oldServer?.id?.let {
+//				roomRepository.removeGroupByDomain(domain, profile.userId)
+//				messageRepository.clearMessageByDomain(domain, profile.userId)
+//			}
+//		}
+//		
+//		var server = Server(
+//			serverName = response.workspaceName,
+//			serverDomain = domain,
+//			ownerClientId = profile.userId,
+//			serverAvatar = "",
+//			loginTime = getCurrentDateTime().time,
+//			accessKey = accessToken,
+//			hashKey = hashKey,
+//			refreshToken = response.refreshToken,
+//			profile = profile,
+//		)
+//		
+//		serverRepository.insertServer(server)
+//		serverRepository.setActiveServer(server)
+//		userPreferenceRepository.initDefaultUserPreference(
+//			domain,
+//			profile.userId,
+//			isSocialAccount
+//		)
+//		userKeyRepository.insert(UserKey(domain, profile.userId, salt, iv))
+//		
+//		return Resource.success(response)
 	}
 	
 	func getProfile(userGRPC: String) {
