@@ -12,12 +12,14 @@ extension DIContainer {
 		let loginInteractor: ILoginInteractor
 		let twoFactorInteractor: ITwoFactorInteractor
 		let registerInteractor: IRegisterInteractor
+		let changePasswordInteractor: IChangePasswordInteractor
 		
 		static var stub: Self {
 			.init(homeInteractor: StubHomeInteractor(channelStorage: DependencyResolver.shared.channelStorage),
 				  loginInteractor: StubLoginInteractor(channelStorage: DependencyResolver.shared.channelStorage, socialAuthenticationService: DependencyResolver.shared.socialAuthenticationService, authenticationService: DependencyResolver.shared.authenticationService),
 				  twoFactorInteractor: StubTwoFactorInteractor(channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService),
-				  registerInteractor: StubRegisterInteractor(channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService))
+				  registerInteractor: StubRegisterInteractor(channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService),
+				  changePasswordInteractor: StubChangePasswordInteractor(channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService))
 		}
 	}
 }
