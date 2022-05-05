@@ -19,21 +19,18 @@ struct TwoFactorView: View {
 	@State private(set) var otp: String
 	@State private(set) var otpHash: String
 	@State private(set) var hashKey: String
-	@State private(set) var domain: String
 
 	// MARK: - Init
 	init(samples: Loadable<[ITwoFactorModel]> = .notRequested,
 		 userId: String = "",
 		 otp: String = "",
 		 otpHash: String = "",
-		 hashKey: String = "",
-		 domain: String = "") {
+		 hashKey: String = "") {
 		self._samples = .init(initialValue: samples)
 		self._userId = .init(initialValue: userId)
 		self._otp = .init(initialValue: otp)
 		self._otpHash = .init(initialValue: otpHash)
 		self._hashKey = .init(initialValue: hashKey)
-		self._domain = .init(initialValue: domain)
 	}
 
 	// MARK: - Body
@@ -55,7 +52,7 @@ private extension TwoFactorView {
 // MARK: - Loading Content
 private extension TwoFactorView {
 	var notRequestedView: some View {
-		TwoFactorContentView(userId: $userId, otp: $otp, otpHash: $otpHash, hashKey: $hashKey, domain: $domain)
+		TwoFactorContentView()
 	}
 }
 

@@ -26,16 +26,15 @@ struct TwoFactorContentView: View {
 	@Environment(\.presentationMode) var presentationMode
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
-	@State private var pin: String = ""
-	@State private var pinStyle: TextInputStyle = .default
+	@State private var otp: String = ""
+	@State private var otpStyle: TextInputStyle = .default
 	@State private var isNext: Bool = false
 	@State private var maxDigits: Int = 4
-	@State var showPin = true
-	@Binding var userId: String
-	@Binding var otp: String
-	@Binding var otpHash: String
-	@Binding var hashKey: String
-	@Binding var domain: String
+	@State private var showOtp = true
+	@State private var userId: String = ""
+	@State private var otpHash: String = ""
+	@State private var hashKey: String = ""
+	@State private var domain: String = ""
 	let inspection = ViewInspector<Self>()
 
 	// MARK: - Body
@@ -91,7 +90,7 @@ private extension TwoFactorContentView {
 						.cornerRadius(Constant.cornerRadius)
 				}
 			}
-			.disabled(pin.count < maxDigits)
+			.disabled(otp.count < maxDigits)
 	}
 
 	var buttonBackView: some View {
@@ -130,9 +129,9 @@ private extension TwoFactorContentView {
 	}
 
 	var backgroundField: some View {
-		return TextField("", text: $pin)
-			.onChange(of: self.pin, perform: { value in
-				self.pin = String(value.prefix(maxDigits))
+		return TextField("", text: $otp)
+			.onChange(of: self.otp, perform: { value in
+				self.otp = String(value.prefix(maxDigits))
 			})
 			.accentColor(.clear)
 			.foregroundColor(.clear)
@@ -174,10 +173,10 @@ private extension TwoFactorContentView {
 	}
 
 	private func getDigits(at index: Int) -> String {
-		if index >= self.pin.count {
+		if index >= self.otp.count {
 			return ""
 		}
-		return self.pin.digits[index].numberString
+		return self.otp.digits[index].numberString
 	}
 
 	func doTwoFactor() {
@@ -202,7 +201,7 @@ private extension TwoFactorContentView {
 	}
 
 	var backgroundButton: Color {
-		return pin.count < maxDigits ? backgroundColorButton.opacity(Constant.backgroundOpacity) : backgroundColorButton
+		return otp.count < maxDigits ? backgroundColorButton.opacity(Constant.backgroundOpacity) : backgroundColorButton
 	}
 
 	var backgroundColorButton: Color {
@@ -261,6 +260,6 @@ struct TextFieldLimitModifer: ViewModifier {
 
 struct TwoFactorContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		TwoFactorContentView(userId: .constant("Test"), otp: .constant("Test"), otpHash: .constant("Test"), hashKey: .constant("Test"), domain: .constant("Test"))
+		TwoFactorContentView()
 	}
 }
