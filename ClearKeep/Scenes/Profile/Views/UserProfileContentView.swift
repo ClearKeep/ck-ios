@@ -262,14 +262,14 @@ private extension UserProfileContentView {
 					.foregroundColor(foregroundColorSetting)
 
 				Spacer()
-				NavigationLink( destination: CurrentPassword(),
-								isActive: $isTwoFactor) {
-					Button(action: enable2FA) {
-						Text(statusTwoFA)
-							.font(AppTheme.shared.fontSet.font(style: .body3))
-							.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
-					}
-				}
+//				NavigationLink( destination: CurrentPassword(),
+//								isActive: $isTwoFactor) {
+//					Button(action: enable2FA) {
+//						Text(statusTwoFA)
+//							.font(AppTheme.shared.fontSet.font(style: .body3))
+//							.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+//					}
+//				}
 			}
 			HStack {
 				Text("UserProfile.2FA.Title".localized)

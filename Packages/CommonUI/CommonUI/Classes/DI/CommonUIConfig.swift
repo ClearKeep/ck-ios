@@ -9,10 +9,10 @@ import Common
 
 public struct CommonUIConfig {
 	var fontSet: IFontSet
-	var colorSet: IColorSet
+	var colorSet: ICommonUIColorSet
 	var imageSet: ICommonUIImageSet
 	
-	public init(fontSet: IFontSet, colorSet: IColorSet, imageSet: ICommonUIImageSet) {
+	public init(fontSet: IFontSet, colorSet: ICommonUIColorSet, imageSet: ICommonUIImageSet) {
 		self.fontSet = fontSet
 		self.colorSet = colorSet
 		self.imageSet = imageSet

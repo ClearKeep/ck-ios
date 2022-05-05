@@ -16,12 +16,10 @@ protocol ISocialCommonStyle {
 }
 
 public enum SocialCommonStyle: ISocialCommonStyle {
-
 	case setSecurity
 	case confirmSecurity
 	case verifySecurity
-	case currentPassword
-
+	
 	public var buttonBack: String {
 		switch self {
 		case .setSecurity:
@@ -30,11 +28,9 @@ public enum SocialCommonStyle: ISocialCommonStyle {
 			return "Social.ConfirmPhrase.Back"
 		case .verifySecurity:
 			return "Social.Verify.Back"
-		case .currentPassword:
-			return "CurrentPassword.ButtonBack"
 		}
 	}
-
+	
 	public var title: String {
 		switch self {
 		case .setSecurity:
@@ -43,11 +39,9 @@ public enum SocialCommonStyle: ISocialCommonStyle {
 			return "Social.Title.Confirm"
 		case .verifySecurity:
 			return "Social.Title.Verify"
-		case .currentPassword:
-			return "CurrentPassword.Title"
 		}
 	}
-
+	
 	public var buttonNext: String {
 		switch self {
 		case .setSecurity:
@@ -56,11 +50,9 @@ public enum SocialCommonStyle: ISocialCommonStyle {
 			return "Social.Next"
 		case .verifySecurity:
 			return "Social.Verify.Next"
-		case .currentPassword:
-			return "CurrentPassword.Next"
 		}
 	}
-
+	
 	public var textInput: String {
 		switch self {
 		case .setSecurity:
@@ -69,34 +61,17 @@ public enum SocialCommonStyle: ISocialCommonStyle {
 			return "Social.Security.Confirm"
 		case .verifySecurity:
 			return "Social.Input.Verify"
-		case .currentPassword:
-			return "CurrentPassword.Placeholder"
 		}
 	}
-
-	public var validatePassPhrase: String {
-		switch self {
-		case .setSecurity:
-			return "Social.Message"
-		case .confirmSecurity:
-			return ""
-		case .verifySecurity:
-			return ""
-		case .currentPassword:
-			return ""
-		}
-	}
-
+	
 	public var nextView: some View {
 		switch self {
 		case .setSecurity:
-			return AnyView(SocialConfirm())
+			return AnyView(SocialView(socialStyle: .confirmSecurity))
 		case .confirmSecurity:
-			return AnyView(SocialVerify())
+			return AnyView(SocialView(socialStyle: .verifySecurity))
 		case .verifySecurity:
-			return AnyView(SocialVerify())
-		case .currentPassword:
-			return AnyView(TwoFactorView())
+			return AnyView(SocialView(socialStyle: .verifySecurity))
 		}
 	}
 }

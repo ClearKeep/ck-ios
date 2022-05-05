@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
-	spec.name         = "CommonUI"
+	spec.name         = "Model"
 	spec.version      = "1.0.0"
-	spec.summary      = "CommonUI Framework"
+	spec.summary      = "Model Framework"
 	spec.description  = <<-DESC
 	Networking
 	DESC
@@ -11,10 +11,7 @@ Pod::Spec.new do |spec|
 	spec.author       = { "Code4Fun" => "namnh@vmodev.com" }
 	spec.ios.deployment_target = "14.0"
 	
-	spec.source       = { :git => "https://github.com/Code4Fun-Group/CommonUI.git", :tag => spec.version.to_s }
-	spec.source_files = 'CommonUI/**/*.{swift,h,m,c}'
-	
-	spec.dependency 'Common'
-	spec.dependency 'Introspect'
+	spec.source       = { :git => "https://github.com/Code4Fun-Group/Model.git", :tag => spec.version.to_s }
+	spec.source_files = 'Model/**/*.{swift,h}'
 end
 

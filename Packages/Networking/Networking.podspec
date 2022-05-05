@@ -15,6 +15,7 @@ Pod::Spec.new do |spec|
 	spec.source_files = 'Networking/**/*.{swift,h,m,c}'
 	
 	spec.dependency 'Common'
+	spec.dependency 'Model'
 	spec.dependency 'gRPC-Swift'
 	spec.dependency 'SwiftProtobuf'
 end
