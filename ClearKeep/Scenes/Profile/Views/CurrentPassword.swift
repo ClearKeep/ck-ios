@@ -38,7 +38,7 @@ struct CurrentPassword: View {
 										  titleColor: AppTheme.shared.colorSet.offWhite,
 										  backgroundColors: AppTheme.shared.colorSet.gradientPrimary,
 										  leftBarItems: {
-				buttonBackView.padding(.top, Constant.spacerTopView)
+				buttonBackView
 			},
 										  rightBarItems: {
 				Spacer()
@@ -65,7 +65,7 @@ private extension CurrentPassword {
 		VStack {
 			titleView
 			textInputView
-			buttonNext
+			buttonNext.padding(.top, Constant.spacer)
 			Spacer()
 		}
 		.padding(.horizontal, Constant.paddingVertical)

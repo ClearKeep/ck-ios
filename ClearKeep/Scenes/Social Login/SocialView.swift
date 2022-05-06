@@ -121,7 +121,7 @@ private extension SocialView {
 				securityStyle = .normal
 			}
 		})
-			.padding(.top, Constant.paddingVertical)
+		.padding(.top, Constant.paddingVertical)
 	}
 	
 	var titleView: some View {

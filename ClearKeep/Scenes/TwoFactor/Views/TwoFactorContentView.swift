@@ -26,24 +26,16 @@ struct TwoFactorContentView: View {
 	@Environment(\.presentationMode) var presentationMode
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
-	@State private(set) var samples: Loadable<[ITwoFactorModel]>
-	@State private(set) var pin: String
-	@State var showPin = true
-	@State private(set) var pinStyle: TextInputStyle = .default
-	@State private(set) var isNext: Bool = false
-	@State private(set) var maxDigits: Int
+	@State private var otp: String = ""
+	@State private var otpStyle: TextInputStyle = .default
+	@State private var isNext: Bool = false
+	@State private var maxDigits: Int = 4
+	@State private var showOtp = true
+	@State private var userId: String = ""
+	@State private var otpHash: String = ""
+	@State private var hashKey: String = ""
+	@State private var domain: String = ""
 	let inspection = ViewInspector<Self>()
-
-	// MARK: - Init
-	public init(samples: Loadable<[ITwoFactorModel]> = .notRequested,
-				pin: String = "",
-				maxDigits: Int = 4,
-				pinStyle: TextInputStyle = .default,
-				keyboardType: UIKeyboardType = .numberPad) {
-		self._samples = .init(initialValue: samples)
-		self._pin = .init(initialValue: pin)
-		self._maxDigits = .init(initialValue: maxDigits)
-	}
 
 	// MARK: - Body
 	var body: some View {
@@ -51,7 +43,7 @@ struct TwoFactorContentView: View {
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.background(background)
 			.edgesIgnoringSafeArea(.all)
-			.navigationBarHidden(true)
+			.navigationBarBackButtonHidden(true)
 	}
 }
 
@@ -75,28 +67,30 @@ private extension TwoFactorContentView {
 			}
 			resendCodeTitle.padding(.top, Constant.paddingVertical)
 			buttonResend.padding(.bottom, Constant.paddingVertical)
-			buttonSocial
+			buttonVerify
 			Spacer()
 		}
 		.padding(.horizontal, Constant.paddingVertical)
 	}
 
-	var buttonSocial: some View {
+	var buttonVerify: some View {
 		NavigationLink(
 			destination: LoginView(),
-			isActive: $isNext,
-			label: {
-				Button("2FA.Verify".localized) {
-					isNext = true
+			isActive: $isNext) {
+				Button {
+					isNext.toggle()
+					doTwoFactor()
+				} label: {
+					Text("2FA.Verify".localized)
+						.frame(maxWidth: .infinity)
+						.frame(height: Constant.heightButton)
+						.font(AppTheme.shared.fontSet.font(style: .body3))
+						.background(backgroundButton)
+						.foregroundColor(foregroundColorView)
+						.cornerRadius(Constant.cornerRadius)
 				}
-				.frame(maxWidth: .infinity)
-				.frame(height: Constant.heightButton)
-				.font(AppTheme.shared.fontSet.font(style: .body3))
-				.background(backgroundButton)
-				.foregroundColor(foregroundColorView)
-				.cornerRadius(Constant.cornerRadius)
-			})
-			.disabled(pin.count < maxDigits)
+			}
+			.disabled(otp.count < maxDigits)
 	}
 
 	var buttonBackView: some View {
@@ -135,9 +129,9 @@ private extension TwoFactorContentView {
 	}
 
 	var backgroundField: some View {
-		return TextField("", text: $pin)
-			.onChange(of: self.pin, perform: { value in
-				self.pin = String(value.prefix(maxDigits))
+		return TextField("", text: $otp)
+			.onChange(of: self.otp, perform: { value in
+				self.otp = String(value.prefix(maxDigits))
 			})
 			.accentColor(.clear)
 			.foregroundColor(.clear)
@@ -179,10 +173,16 @@ private extension TwoFactorContentView {
 	}
 
 	private func getDigits(at index: Int) -> String {
-		if index >= self.pin.count {
+		if index >= self.otp.count {
 			return ""
 		}
-		return self.pin.digits[index].numberString
+		return self.otp.digits[index].numberString
+	}
+
+	func doTwoFactor() {
+		Task {
+			await injected.interactors.twoFactorInteractor.validateOTP(userId: userId, otp: otp, otpHash: otpHash, haskKey: hashKey, domain: domain)
+		}
 	}
 }
 
@@ -196,24 +196,12 @@ private extension TwoFactorContentView {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
 
-	var backgroundColorWhite: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
-	}
-
 	var backgroundColorDark: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]), startPoint: .leading, endPoint: .trailing)
 	}
 
-	var backgroundColorGradient: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var backgroundColorView: LinearGradient {
-		colorScheme == .light ? backgroundColorWhite : backgroundColorGradient
-	}
-
 	var backgroundButton: Color {
-		return pin.count < maxDigits ? backgroundColorButton.opacity(Constant.backgroundOpacity) : backgroundColorButton
+		return otp.count < maxDigits ? backgroundColorButton.opacity(Constant.backgroundOpacity) : backgroundColorButton
 	}
 
 	var backgroundColorButton: Color {

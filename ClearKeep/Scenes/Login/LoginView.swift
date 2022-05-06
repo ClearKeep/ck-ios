@@ -52,10 +52,7 @@ private extension LoginView {
 		case .loaded(let data):
 			return loadedView(data)
 		case .failed(let error):
-			guard let error = error as? IServerError else {
-				return AnyView(errorView(ServerError.unknown))
-			}
-			return AnyView(errorView(error))
+			return AnyView(errorView(LoginViewError(error)))
 		}
 	}
 }
@@ -100,15 +97,15 @@ private extension LoginView {
 			}
 		}
 		
-		return AnyView(errorView(ServerError.unknown))
+		return AnyView(errorView(LoginViewError.unknownError(errorCode: nil)))
 	}
 	
-	func errorView(_ error: IServerError) -> some View {
+	func errorView(_ error: LoginViewError) -> some View {
 		return notRequestedView
 			.alert(isPresented: .constant(true)) {
-				Alert(title: Text("General.Error".localized),
-					  message: Text(error.message ?? "General.Unknown".localized),
-					  dismissButton: .default(Text("General.OK".localized)))
+				Alert(title: Text(error.title),
+					  message: Text(error.message),
+					  dismissButton: .default(Text(error.primaryButtonTitle)))
 			}
 	}
 }

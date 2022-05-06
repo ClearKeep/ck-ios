@@ -11,14 +11,20 @@ import Common
 struct TwoFactorView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
-	
+
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
-	
+	@State private(set) var userId: String = ""
+	@State private(set) var otp: String = ""
+	@State private(set) var otpHash: String = ""
+	@State private(set) var hashKey: String = ""
+
 	// MARK: - Body
 	var body: some View {
-		content
-		.onReceive(inspection.notice) { inspection.visit(self, $0) }
+		NavigationView {
+			content
+				.onReceive(inspection.notice) { inspection.visit(self, $0) }
+		}
 	}
 }
 
@@ -39,7 +45,7 @@ private extension TwoFactorView {
 // MARK: - Interactor
 private extension TwoFactorView {
 }
-	
+
 // MARK: - Preview
 #if DEBUG
 struct TwoFactorView_Previews: PreviewProvider {
