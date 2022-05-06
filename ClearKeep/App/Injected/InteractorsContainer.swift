@@ -12,6 +12,8 @@ extension DIContainer {
 		let loginInteractor: ILoginInteractor
 		let twoFactorInteractor: ITwoFactorInteractor
 		let registerInteractor: IRegisterInteractor
+		let fogotPasswordInteractor: IFogotPasswordInteractor
+		let newPasswordInteractor: INewPasswordInteractor
 		let changePasswordInteractor: IChangePasswordInteractor
 		
 		static var stub: Self {
@@ -19,6 +21,8 @@ extension DIContainer {
 				  loginInteractor: StubLoginInteractor(channelStorage: DependencyResolver.shared.channelStorage, socialAuthenticationService: DependencyResolver.shared.socialAuthenticationService, authenticationService: DependencyResolver.shared.authenticationService),
 				  twoFactorInteractor: StubTwoFactorInteractor(channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService),
 				  registerInteractor: StubRegisterInteractor(channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService),
+				  fogotPasswordInteractor: StubFogotPasswordInteractor(channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService),
+				  newPasswordInteractor: StubNewPasswordInteractor(channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService),
 				  changePasswordInteractor: StubChangePasswordInteractor(channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService))
 		}
 	}

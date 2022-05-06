@@ -6,19 +6,41 @@
 //
 
 import Common
+import ChatSecure
+import GRPC
 
 protocol IFogotPasswordInteractor {
-	var worker: IFogotPasswordWorker { get }
+	func recoverPassword(email: String, domain: String) async
 }
 
 struct FogotPasswordInteractor {
 	let appState: Store<AppState>
+	let channelStorage: IChannelStorage
+	let authenticationService: IAuthenticationService
 }
 
 extension FogotPasswordInteractor: IFogotPasswordInteractor {
 	var worker: IFogotPasswordWorker {
-		let remoteStore = FogotPasswordRemoteStore()
+		let remoteStore = FogotPasswordRemoteStore(authenticationService: authenticationService)
 		let inMemoryStore = FogotPasswordInMemoryStore()
-		return FogotPasswordWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+		return FogotPasswordWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+	}
+
+	func recoverPassword(email: String, domain: String) async {
+		await worker.recoverPassword(email: email, domain: domain)
+	}
+}
+
+struct StubFogotPasswordInteractor: IFogotPasswordInteractor {
+	let channelStorage: IChannelStorage
+	let authenticationService: IAuthenticationService
+
+	var worker: IFogotPasswordWorker {
+		let remoteStore = FogotPasswordRemoteStore(authenticationService: authenticationService)
+		let inMemoryStore = FogotPasswordInMemoryStore()
+		return FogotPasswordWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+	}
+
+	func recoverPassword(email: String, domain: String) async {
 	}
 }
