@@ -36,6 +36,7 @@ extension AppEnvironment {
 	private static func configuredInteractors(appState: Store<AppState>) -> DIContainer.Interactors {
 		let homeInteractor = HomeInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage)
 		let loginInteractor = LoginInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, socialAuthenticationService: DependencyResolver.shared.socialAuthenticationService, authenticationService: DependencyResolver.shared.authenticationService)
+		let twoFactorInteractor = TwoFactorInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService)
 		let registerInteractor = RegisterInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService)
 		let fogotPasswordInteractor = FogotPasswordInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService)
 		let newPasswordInteractor = NewPasswordInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService)
@@ -43,6 +44,7 @@ extension AppEnvironment {
 
 		return .init(homeInteractor: homeInteractor,
 					 loginInteractor: loginInteractor,
+					 twoFactorInteractor: twoFactorInteractor,
 					 registerInteractor: registerInteractor,
 					 fogotPasswordInteractor: fogotPasswordInteractor,
 					 newPasswordInteractor: newPasswordInteractor,
