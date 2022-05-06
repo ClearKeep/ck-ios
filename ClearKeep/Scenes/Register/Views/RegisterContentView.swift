@@ -11,7 +11,8 @@ import CommonUI
 
 private enum Constants {
 	static let radius = 32.0
-	static let radiusButton = 20.0
+	static let radiusButton = 40.0
+	static let heightButton = 40.0
 	static let sapcing = 20.0
 	static let padding = 16.0
 	static let paddingHorizoltal = 40.0
@@ -42,11 +43,11 @@ struct RegisterContentView: View {
 		ScrollView(showsIndicators: false) {
 			VStack(spacing: Constants.spacingLogo) {
 				if isHidden == false {
-				AppTheme.shared.imageSet.logo
-					.resizable()
-					.aspectRatio(contentMode: .fit)
-					.frame(width: Constants.widthLogo, height: Constants.heightLogo)
-					.padding(.top, Constants.paddingtop)
+					AppTheme.shared.imageSet.logo
+						.resizable()
+						.aspectRatio(contentMode: .fit)
+						.frame(width: Constants.widthLogo, height: Constants.heightLogo)
+						.padding(.top, Constants.paddingtop)
 				}
 				VStack(alignment: .center, spacing: Constants.sapcing) {
 					Text("Register.Title".localized)
@@ -117,19 +118,19 @@ struct RegisterContentView: View {
 						Spacer()
 						Button(action: doRegister) {
 							Text("Register.SignUp".localized)
-								.padding(.vertical, Constants.padding)
+								.frame(height: Constants.heightButton, alignment: .center)
 								.padding(.horizontal, Constants.paddingHorizoltal)
-								.background(backgroundColorButton)
-								.foregroundColor(foregroundColorWhite)
+
 						}
 						.disabled(buttonStatus())
+						.background(backgroundColorButton)
+						.foregroundColor(foregroundColorWhite)
 						.cornerRadius(Constants.radiusButton)
 					}
 				}
 				.padding(.all, Constants.padding)
 				.background(RoundedRectangle(cornerRadius: Constants.radius).fill(backgroundColorView))
 				.frame(maxWidth: .infinity, alignment: .center)
-
 			}
 			.padding(.horizontal, Constants.padding)
 			.padding(.top, paddingTop)
@@ -141,7 +142,7 @@ struct RegisterContentView: View {
 // MARK: - Private variables
 private extension RegisterContentView {
 	var backgroundColorButton: LinearGradient {
-		(email.isEmpty || password.isEmpty || displayname.isEmpty || rePassword.isEmpty) ? backgroundColorUnActive : backgroundColorActive
+		buttonStatus() ? backgroundColorUnActive : backgroundColorActive
 	}
 	
 	var backgroundColorActive: LinearGradient {
@@ -181,9 +182,9 @@ private extension RegisterContentView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
-	
+
 	func buttonStatus() -> Bool {
-		email.isEmpty || password.isEmpty || displayname.isEmpty || rePassword.isEmpty
+		return email.isEmpty || displayname.isEmpty || password.isEmpty || rePassword.isEmpty
 	}
 }
 
