@@ -115,9 +115,9 @@ private extension AdvancedContentView {
 								keyboardType: .default,
 								onEditingChanged: { isEditing in
 					if isEditing {
-						severUrlStyle = .default
-					} else {
 						severUrlStyle = .highlighted
+					} else {
+						severUrlStyle = .normal
 					}
 				})
 				buttonSubmit

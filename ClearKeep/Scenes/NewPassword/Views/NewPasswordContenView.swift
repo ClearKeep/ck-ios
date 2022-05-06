@@ -24,21 +24,16 @@ struct NewPasswordContenView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
-	@State private(set) var password: String
-	@State private(set) var rePassword: String
-	@State private(set) var passwordStyle: TextInputStyle
-	@State private(set) var rePasswordStyle: TextInputStyle
+	@State private(set) var password: String = ""
+	@State private(set) var rePassword: String = ""
+	@State private(set) var preAccessToken: String = ""
+	@State private(set) var email: String = ""
+	@State private(set) var domain: String = ""
+	@State private(set) var passwordStyle: TextInputStyle = .default
+	@State private(set) var rePasswordStyle: TextInputStyle = .default
+	@State private(set) var isLogin: Bool = false
 
 	// MARK: - Init
-	init(password: String = "",
-		 rePassword: String = "",
-		 passwordStyle: TextInputStyle = .default,
-		 rePasswordStyle: TextInputStyle = .default) {
-		self._password = .init(initialValue: password)
-		self._rePassword = .init(initialValue: rePassword)
-		self._passwordStyle = .init(initialValue: rePasswordStyle)
-		self._rePasswordStyle = .init(initialValue: rePasswordStyle)
-	}
 
 	// MARK: - Body
 	var body: some View {
@@ -49,7 +44,7 @@ struct NewPasswordContenView: View {
 	}
 }
 
-	// MARK: - Private
+// MARK: - Private
 private extension NewPasswordContenView {
 
 	var backgroundButton: Color {
@@ -68,10 +63,16 @@ private extension NewPasswordContenView {
 	}
 }
 
-	// MARK: - Private Func
+// MARK: - Private Func
 private extension NewPasswordContenView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
+	}
+
+	func doResetPassword() {
+		Task {
+			await injected.interactors.newPasswordInteractor.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: password, domain: domain)
+		}
 	}
 
 	var content: AnyView {
@@ -79,7 +80,7 @@ private extension NewPasswordContenView {
 	}
 }
 
-	// MARK: - Loading Content
+// MARK: - Loading Content
 private extension NewPasswordContenView {
 	var newPasswordView: some View {
 		VStack(spacing: Constants.spacing) {
@@ -93,12 +94,25 @@ private extension NewPasswordContenView {
 							inputStyle: $passwordStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "General.Password".localized,
-							keyboardType: .default )
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				if isEditing {
+					passwordStyle = .highlighted
+				} else {
+					passwordStyle = .normal
+				}
+			})
 			SecureTextField(secureText: $rePassword,
 							inputStyle: $rePasswordStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "General.ConfirmPassword".localized,
-							keyboardType: .default )
+							keyboardType: .default) { isEditing in
+				if isEditing {
+					rePasswordStyle = .highlighted
+				} else {
+					rePasswordStyle = .normal
+				}
+			}
 			buttonSave
 			Spacer()
 		}
@@ -122,19 +136,27 @@ private extension NewPasswordContenView {
 	}
 
 	var buttonSave: some View {
-		Button("ForgotPass.Save".localized) {
-
-		}
-		.frame(maxWidth: .infinity, alignment: .center)
-		.padding(.all, Constants.padding)
-		.background(backgroundButton)
-		.foregroundColor(foregroundButton)
-		.cornerRadius(Constants.radius)
+		NavigationLink(
+			destination: LoginView(),
+			isActive: $isLogin,
+			label: {
+				Button {
+					doResetPassword()
+					isLogin.toggle()
+				} label: {
+					Text("ForgotPass.Save".localized)
+						.frame(maxWidth: .infinity, alignment: .center)
+						.padding(.all, Constants.padding)
+						.background(backgroundButton)
+						.foregroundColor(foregroundButton)
+				}
+				.cornerRadius(Constants.radius)
+			})
 	}
 }
-	// MARK: - Interactor
+// MARK: - Interactor
 
-	// MARK: - Preview
+// MARK: - Preview
 #if DEBUG
 struct NewPasswordContenView_Previews: PreviewProvider {
 	static var previews: some View {

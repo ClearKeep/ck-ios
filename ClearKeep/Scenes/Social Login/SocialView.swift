@@ -118,7 +118,14 @@ private extension SocialView {
 						inputStyle: $securityStyle,
 						inputIcon: AppTheme.shared.imageSet.lockIcon,
 						placeHolder: textInput.localized,
-						keyboardType: .numberPad)
+						keyboardType: .numberPad,
+						onEditingChanged: { isEditing in
+			if isEditing {
+				securityStyle = .highlighted
+			} else {
+				securityStyle = .normal
+			}
+		})
 		.padding(.top, Constant.paddingVertical)
 	}
 	

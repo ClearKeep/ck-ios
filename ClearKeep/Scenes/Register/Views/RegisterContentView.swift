@@ -45,6 +45,7 @@ struct RegisterContentView: View {
 			.frame(maxWidth: .infinity, alignment: .center)
 			.padding(.all, Constants.padding)
 		}
+		.hideKeyboardOnTapped()
 	}
 }
 
@@ -53,15 +54,15 @@ private extension RegisterContentView {
 	var backgroundColorView: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: backgroundColorButton), startPoint: .leading, endPoint: .trailing)
 	}
-	
+
 	var backgroundColorButton: [Color] {
 		AppTheme.shared.colorSet.gradientPrimary
 	}
-	
+
 	var foregroundColorWhite: Color {
 		AppTheme.shared.colorSet.offWhite
 	}
-	
+
 	var foregroundColorPrimary: Color {
 		AppTheme.shared.colorSet.primaryDefault
 	}
@@ -69,7 +70,7 @@ private extension RegisterContentView {
 
 // MARK: - Private
 private extension RegisterContentView {
-	
+
 	var button: AnyView {
 		AnyView(buttonView)
 	}
@@ -116,22 +117,36 @@ private extension RegisterContentView {
 			.cornerRadius(Constants.radius)
 		}
 	}
-	
+
 	var secureView: some View {
 		VStack(spacing: Constants.sapcing) {
 			SecureTextField(secureText: $password,
 							inputStyle: $passwordStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "General.Password".localized,
-							keyboardType: .default )
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				if isEditing {
+					passwordStyle = .highlighted
+				} else {
+					passwordStyle = .normal
+				}
+			})
 			SecureTextField(secureText: $rePassword,
 							inputStyle: $rePasswordStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "General.ConfirmPassword".localized,
-							keyboardType: .default )
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				if isEditing {
+					rePasswordStyle = .highlighted
+				} else {
+					rePasswordStyle = .normal
+				}
+			})
 		}
 	}
-	
+
 	var nomalTextfieldView: some View {
 		VStack(spacing: Constants.sapcing) {
 			CommonTextField(text: $email,
@@ -141,7 +156,7 @@ private extension RegisterContentView {
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
 				if isEditing {
-					emailStyle = .default
+					emailStyle = .highlighted
 				} else {
 					emailStyle = .normal
 				}
