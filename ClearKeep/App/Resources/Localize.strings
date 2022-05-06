@@ -16,6 +16,12 @@
 "General.Error" = "Error";
 "General.OK" = "OK";
 
+// MARK: - Error
+"Error.Unknow.Message" = "Unknow message (%ld)";
+"Error.Authentication.UnAuthorized" = "Please check your details and try again!";
+"Error.Authentication.NotActivated" = "Your account has not been activated. Please check the email for the activation link!";
+"Error.Authentication.Locked" = "Your account has been locked out due to too many attempts. Please try again later!";
+
 // MARK: - Social Login
 "Social.SetPhrase.Back" = "Set Your Security Phrase";
 "Social.ConfirmPhrase.Back" = "Confirm Your Security Phrase";
