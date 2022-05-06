@@ -20,7 +20,7 @@ struct AdvancedSeverView: View {
 	var body: some View {
 		content
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		.modifier(NavigationModifier())
+		.hiddenNavigationBarStyle()
 	}
 }
 

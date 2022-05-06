@@ -58,7 +58,7 @@ struct AppImageSet: IAppImageSet {
 	var archireIcon: Image { Image("ic_archive") }
 	var shareIcon: Image { Image("ic_share") }
 	var bellIcon: Image { Image("ic_bell") }
-	var alertIcon: Image { Image("ic_alert") }
+	var alertIcon: Image { Image("ic_alert").renderingMode(.template) }
 	var copyIcon: Image { Image("ic_copy") }
 	var quoteIcon: Image { Image("ic_quote") }
 	var forwardIcon: Image { Image("ic_forward") }

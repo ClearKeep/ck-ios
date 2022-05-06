@@ -28,6 +28,7 @@ struct AdvancedContentView: View {
 	@State private(set) var severUrl: String
 	@State private(set) var severUrlStyle: TextInputStyle
 	@State private(set) var isShowingView: Bool = false
+	@State private(set) var isLogin: Bool = false
 
 	// MARK: - Init
 	init(severUrl: String = "",
@@ -178,15 +179,20 @@ private extension AdvancedContentView {
 	}
 
 	var buttonSubmit: some View {
-		Button("AdvancedServer.Submit".localized) {
-			customBack()
-		}
-		.disabled(severUrl.isEmpty)
-		.frame(maxWidth: .infinity, alignment: .center)
-		.padding(.all, Constants.padding)
-		.background(backgroundButton)
-		.foregroundColor(foregroundButton)
-		.cornerRadius(Constants.radius)
+		NavigationLink(
+			destination: LoginView(isCustomServer: isLogin),
+			isActive: $isLogin,
+			label: {
+				Button("AdvancedServer.Submit".localized) {
+					isLogin.toggle()
+				}
+				.disabled(severUrl.isEmpty)
+				.frame(maxWidth: .infinity, alignment: .center)
+				.padding(.all, Constants.padding)
+				.background(backgroundButton)
+				.foregroundColor(foregroundButton)
+				.cornerRadius(Constants.radius)
+			})
 	}
 
 	var checkMaskButton: some View {

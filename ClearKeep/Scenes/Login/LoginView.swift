@@ -27,7 +27,8 @@ struct LoginView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@State private(set) var loadable: Loadable<IAuthenticationModel> = .notRequested
 	let inspection = ViewInspector<Self>()
-
+	@State private(set) var isCustomServer: Bool = false
+	
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -71,6 +72,15 @@ private extension LoginView {
 					.resizable()
 					.aspectRatio(contentMode: .fit)
 					.frame(width: Constants.widthLogo, height: Constants.heightLogo)
+				if isCustomServer {
+					HStack {
+						AppTheme.shared.imageSet.alertIcon
+							.foregroundColor(backgroundArlert)
+						Text("AdvancedServer.Alert".localized)
+							.foregroundColor(backgroundArlert)
+							.font(AppTheme.shared.fontSet.font(style: .input3))
+					}
+				}
 				LoginContentView(loadable: $loadable)
 				Spacer()
 			}
@@ -116,7 +126,7 @@ private extension LoginView {
 
 // MARK: - Displaying Content
 private extension LoginView {
-
+	
 }
 
 // MARK: - Interactors
@@ -132,9 +142,15 @@ private extension LoginView {
 	var backgroundBlack: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]), startPoint: .leading, endPoint: .trailing)
 	}
+	
 	var backgroundGradientPrimary: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
+	
+	var backgroundArlert: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.warningLight : AppTheme.shared.colorSet.primaryDefault
+	}
+	
 }
 
 // MARK: - Preview
