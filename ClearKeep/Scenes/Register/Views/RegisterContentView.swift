@@ -62,11 +62,7 @@ struct RegisterContentView: View {
 										keyboardType: .default,
 										onEditingChanged: { isEditing in
 							isHidden = isEditing
-							if isEditing {
-								emailStyle = .highlighted
-							} else {
-								emailStyle = .normal
-							}
+							emailStyle = isEditing ? .highlighted : .normal
 						})
 						CommonTextField(text: $displayname,
 										inputStyle: $nameStyle,
@@ -75,11 +71,7 @@ struct RegisterContentView: View {
 										keyboardType: .default,
 										onEditingChanged: { isEditing in
 							isHidden = isEditing
-							if isEditing {
-								nameStyle = .highlighted
-							} else {
-								nameStyle = .normal
-							}
+							nameStyle = isEditing ? .highlighted : .normal
 						})
 					}
 					SecureTextField(secureText: $password,
@@ -89,11 +81,7 @@ struct RegisterContentView: View {
 									keyboardType: .default,
 									onEditingChanged: { isEditing in
 						isHidden = isEditing
-						if isEditing {
-							passwordStyle = .highlighted
-						} else {
-							passwordStyle = .normal
-						}
+						passwordStyle = isEditing ? .highlighted : .normal
 					})
 					SecureTextField(secureText: $rePassword,
 									inputStyle: $rePasswordStyle,
@@ -102,11 +90,7 @@ struct RegisterContentView: View {
 									keyboardType: .default,
 									onEditingChanged: { isEditing in
 						isHidden = isEditing
-						if isEditing {
-							rePasswordStyle = .highlighted
-						} else {
-							rePasswordStyle = .normal
-						}
+						rePasswordStyle = isEditing ? .highlighted : .normal
 					})
 					HStack {
 						Button(action: customBack) {
@@ -132,6 +116,7 @@ struct RegisterContentView: View {
 				.background(RoundedRectangle(cornerRadius: Constants.radius).fill(backgroundColorView))
 				.frame(maxWidth: .infinity, alignment: .center)
 			}
+			.animation(.easeIn)
 			.padding(.horizontal, Constants.padding)
 			.padding(.top, paddingTop)
 			.hideKeyboardOnTapped()
