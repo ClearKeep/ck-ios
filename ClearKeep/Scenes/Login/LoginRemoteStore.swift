@@ -8,11 +8,12 @@
 import Foundation
 import Combine
 import ChatSecure
+import Model
+import Networking
 
 protocol ILoginRemoteStore {
-	func signIn(email: String, password: String, domain: String) async -> Result<String, Error>
-	func signInSocial(_ socialType: SocialType, domain: String)
-	func signOut(domain: String)
+	func signIn(email: String, password: String, domain: String) async -> Result<IAuthenticationModel, Error>
+	func signInSocial(_ socialType: SocialType, domain: String) async -> Result<IAuthenticationModel, Error>
 }
 
 struct LoginRemoteStore {
@@ -21,28 +22,36 @@ struct LoginRemoteStore {
 }
 
 extension LoginRemoteStore: ILoginRemoteStore {
-	func signIn(email: String, password: String, domain: String) async -> Result<String, Error> {
-		let response = await authenticationService.login(userName: email, password: password, domain: domain)
-		switch response {
-		case .success(let data):
-			print(data)
-			return .success("")
+	func signIn(email: String, password: String, domain: String) async -> Result<IAuthenticationModel, Error> {
+		let result = await authenticationService.login(userName: email, password: password, domain: domain)
+		
+		switch result {
+		case .success(let authenticationResponse):
+			return .success(AuthenticationModel(response: authenticationResponse))
 		case .failure(let error):
 			return .failure(error)
 		}
 	}
 	
-	func signInSocial(_ socialType: SocialType, domain: String) {
+	func signInSocial(_ socialType: SocialType, domain: String) async -> Result<IAuthenticationModel, Error> {
+		var result: Result<Auth_SocialLoginRes, Error>?
+		
 		switch socialType {
 		case .facebook:
-			socialAuthenticationService.signInWithFB(domain: domain)
+			result = await socialAuthenticationService.signInWithFB(domain: domain)
 		case .google:
-			socialAuthenticationService.signInWithGoogle(domain: domain)
+			result = await socialAuthenticationService.signInWithGoogle(domain: domain)
 		case .office:
-			socialAuthenticationService.signInWithOffice(domain: domain)
+			result = await socialAuthenticationService.signInWithOffice(domain: domain)
 		}
-	}
-	
-	func signOut(domain: String) {
+		
+		switch result {
+		case .success(let socialLoginResponse):
+			return .success(AuthenticationModel(response: socialLoginResponse))
+		case .failure(let error):
+			return .failure(error)
+		case .none:
+			return .failure(ServerError.unknown)
+		}
 	}
 }

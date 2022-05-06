@@ -19,6 +19,7 @@ struct FogotPasswordView: View {
 	// MARK: - Body
 	var body: some View {
 		content
+		.hideKeyboardOnTapped()
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 		.modifier(NavigationModifier())
 	}

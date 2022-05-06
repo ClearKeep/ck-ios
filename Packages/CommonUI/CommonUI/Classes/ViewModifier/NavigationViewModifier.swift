@@ -7,12 +7,13 @@
 
 import SwiftUI
 
-public struct NavigationModifier: ViewModifier {
+public struct HiddenNavigationBar: ViewModifier {
 	// MARK: - Body
 	public init() { }
 	public func body(content: Content) -> some View {
 		content
-			.navigationBarTitle("")
 			.navigationBarHidden(true)
+			.navigationBarTitle("", displayMode: .inline)
+			.navigationBarBackButtonHidden(true)
 	}
 }
