@@ -14,7 +14,7 @@ class DependencyResolver {
 	static let shared = DependencyResolver()
 	
 	let fontSet: IFontSet!
-	let colorSet: IColorSet!
+	let colorSet: IAppColorSet!
 	let imageSet: IAppImageSet!
 	
 	let securedStoreService: ISecuredStoreService!
