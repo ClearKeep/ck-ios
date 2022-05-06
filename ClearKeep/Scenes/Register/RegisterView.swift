@@ -1,3 +1,10 @@
+//
+//  RegisterView.swift
+//  ClearKeep
+//
+//  Created by MinhDev on 04/03/2022.
+//
+
 import SwiftUI
 import Combine
 import Common
@@ -82,7 +89,7 @@ private extension RegisterView {
 		}
 		.padding(.horizontal, Constants.padding)
 	}
-
+	
 	var loadingView: some View {
 		notRequestedView.modifier(LoadingIndicatorViewModifier())
 	}
@@ -97,7 +104,7 @@ private extension RegisterView {
 				}))
 			}
 	}
-
+	
 	func errorView(_ error: IServerError) -> some View {
 		return notRequestedView
 			.alert(isPresented: .constant(true)) {
@@ -109,6 +116,7 @@ private extension RegisterView {
 }
 
 // MARK: - Interactors
+
 // MARK: - Preview
 #if DEBUG
 struct RegisterView_Previews: PreviewProvider {

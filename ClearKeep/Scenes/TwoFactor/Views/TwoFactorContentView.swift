@@ -12,17 +12,13 @@ import CommonUI
 
 private enum Constant {
 	static let spacerTopView = 90.0
-	static let spacerBottomView = 20.0
 	static let spacer = 25.0
-	static let spacerBottom = 45.0
 	static let paddingVertical = 14.0
-	static let paddingHorizontal = 24.0
-	static let paddingHorizontalSignUp = 60.0
 	static let heightButton = 40.0
 	static let cornerRadius = 40.0
 	static let cornerRadiusPasscode = 8.0
-	static let paddingTrailing = -24.0
 	static let sizePasscodeInput = 90.0
+	static let backgroundOpacity = 0.4
 }
 
 struct TwoFactorContentView: View {
@@ -30,24 +26,16 @@ struct TwoFactorContentView: View {
 	@Environment(\.presentationMode) var presentationMode
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
-	@State private(set) var samples: Loadable<[ITwoFactorModel]>
-	@State private(set) var pin: String
-	@State var showPin = true
-	@State private(set) var pinStyle: TextInputStyle = .default
-	@State private(set) var isNext: Bool = false
-	@State private(set) var maxDigits: Int
+	@State private var otp: String = ""
+	@State private var otpStyle: TextInputStyle = .default
+	@State private var isNext: Bool = false
+	@State private var maxDigits: Int = 4
+	@State private var showOtp = true
+	@State private var userId: String = ""
+	@State private var otpHash: String = ""
+	@State private var hashKey: String = ""
+	@State private var domain: String = ""
 	let inspection = ViewInspector<Self>()
-
-	// MARK: - Init
-	public init(samples: Loadable<[ITwoFactorModel]> = .notRequested,
-				pin: String = "",
-				maxDigits: Int = 4,
-				pinStyle: TextInputStyle = .default,
-				keyboardType: UIKeyboardType = .numberPad) {
-		self._samples = .init(initialValue: samples)
-		self._pin = .init(initialValue: pin)
-		self._maxDigits = .init(initialValue: maxDigits)
-	}
 
 	// MARK: - Body
 	var body: some View {
@@ -79,27 +67,30 @@ private extension TwoFactorContentView {
 			}
 			resendCodeTitle.padding(.top, Constant.paddingVertical)
 			buttonResend.padding(.bottom, Constant.paddingVertical)
-			buttonSocial
+			buttonVerify
 			Spacer()
 		}
 		.padding(.horizontal, Constant.paddingVertical)
 	}
 
-	var buttonSocial: some View {
+	var buttonVerify: some View {
 		NavigationLink(
 			destination: LoginView(),
-			isActive: $isNext,
-			label: {
-				Button("2FA.Verify".localized) {
-					isNext = true
+			isActive: $isNext) {
+				Button {
+					isNext.toggle()
+					doTwoFactor()
+				} label: {
+					Text("2FA.Verify".localized)
+						.frame(maxWidth: .infinity)
+						.frame(height: Constant.heightButton)
+						.font(AppTheme.shared.fontSet.font(style: .body3))
+						.background(backgroundButton)
+						.foregroundColor(foregroundColorView)
+						.cornerRadius(Constant.cornerRadius)
 				}
-				.frame(maxWidth: .infinity)
-				.frame(height: Constant.heightButton)
-				.font(AppTheme.shared.fontSet.font(style: .body3))
-				.background(backgroundColorView)
-				.foregroundColor(foregroundColorView)
-				.cornerRadius(Constant.cornerRadius)
-			})
+			}
+			.disabled(otp.count < maxDigits)
 	}
 
 	var buttonBackView: some View {
@@ -107,13 +98,13 @@ private extension TwoFactorContentView {
 			HStack(spacing: Constant.spacer) {
 				AppTheme.shared.imageSet.backIcon
 					.aspectRatio(contentMode: .fit)
-					.foregroundColor(foregroundColorWhite)
+					.foregroundColor(AppTheme.shared.colorSet.offWhite)
 				Text("2FA.Title.Back".localized)
 					.padding(.all)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
-			.foregroundColor(foregroundColorWhite)
+			.foregroundColor(AppTheme.shared.colorSet.offWhite)
 		}
 	}
 
@@ -123,12 +114,12 @@ private extension TwoFactorContentView {
 				ZStack {
 					Spacer()
 					RoundedRectangle(cornerRadius: Constant.cornerRadiusPasscode)
-						.foregroundColor(foregroundColorWhite)
+						.foregroundColor(AppTheme.shared.colorSet.offWhite)
 						.padding()
 						.frame(width: Constant.sizePasscodeInput, height: Constant.sizePasscodeInput)
 					Text(self.getDigits(at: index))
 						.font(AppTheme.shared.fontSet.font(style: .heading3))
-						.foregroundColor(foregroundColorBlack)
+						.foregroundColor(AppTheme.shared.colorSet.black)
 					Spacer()
 				}
 			}
@@ -138,9 +129,9 @@ private extension TwoFactorContentView {
 	}
 
 	var backgroundField: some View {
-		return TextField("", text: $pin)
-			.onChange(of: self.pin, perform: { value in
-				self.pin = String(value.prefix(maxDigits))
+		return TextField("", text: $otp)
+			.onChange(of: self.otp, perform: { value in
+				self.otp = String(value.prefix(maxDigits))
 			})
 			.accentColor(.clear)
 			.foregroundColor(.clear)
@@ -182,10 +173,16 @@ private extension TwoFactorContentView {
 	}
 
 	private func getDigits(at index: Int) -> String {
-		if index >= self.pin.count {
+		if index >= self.otp.count {
 			return ""
 		}
-		return self.pin.digits[index].numberString
+		return self.otp.digits[index].numberString
+	}
+
+	func doTwoFactor() {
+		Task {
+			await injected.interactors.twoFactorInteractor.validateOTP(userId: userId, otp: otp, otpHash: otpHash, haskKey: hashKey, domain: domain)
+		}
 	}
 }
 
@@ -199,56 +196,28 @@ private extension TwoFactorContentView {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
 
-	var backgroundColorWhite: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
-	}
-
 	var backgroundColorDark: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]), startPoint: .leading, endPoint: .trailing)
 	}
 
-	var backgroundColorGradient: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
+	var backgroundButton: Color {
+		return otp.count < maxDigits ? backgroundColorButton.opacity(Constant.backgroundOpacity) : backgroundColorButton
 	}
 
-	var backgroundColorView: LinearGradient {
-		colorScheme == .light ? backgroundColorWhite : backgroundColorGradient
-	}
-
-	var foregroundColorWhite: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.offWhite
-	}
-
-	var foregroundColorBlack: Color {
-		AppTheme.shared.colorSet.black
-	}
-
-	var foregroundColorPrimary: Color {
-		AppTheme.shared.colorSet.primaryDefault
+	var backgroundColorButton: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
 
 	var foregroundColorView: Color {
-		colorScheme == .light ? foregroundColorPrimary : foregroundColorWhite
+		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
 	}
 
 	var foregroundColorMessage: Color {
-		colorScheme == .light ? foregroundColorWhite : foregroundColorPrimary
-	}
-
-	var foregroundColorBackground: Color {
-		AppTheme.shared.colorSet.background
-	}
-
-	var foregroundColorGrey1: Color {
-		AppTheme.shared.colorSet.grey1
-	}
-
-	var foregroundColorGreyLight: Color {
-		AppTheme.shared.colorSet.greyLight
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
 
 	var foregroundMessage: Color {
-		colorScheme == .light ? foregroundColorBackground : foregroundColorWhite
+		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.offWhite
 	}
 }
 
