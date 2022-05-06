@@ -15,12 +15,22 @@ struct AdvancedSeverView: View {
 	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
-	
+	@Environment(\.colorScheme) var colorScheme
+	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	// MARK: - Body
 	var body: some View {
 		content
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		.hiddenNavigationBarStyle()
+		.applyNavigationBarPlainStyle(title: "AdvancedServer.SeverSetting".localized,
+									  titleColor: foregroundBackButton,
+									  backgroundColors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary : AppTheme.shared.colorSet.gradientBlack,
+									  leftBarItems: {
+			buttonBack
+		},
+									  rightBarItems: {
+			Spacer()
+		})
+		.background(backgroundColorView)
 	}
 }
 
@@ -31,10 +41,39 @@ private extension AdvancedSeverView {
 	}
 }
 
+// MARK: Private func
+private extension AdvancedSeverView {
+	var backgroundColorView: LinearGradient {
+		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
+	}
+
+	var backgroundColorBlack: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
+	}
+
+	var backgroundColorGradient: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
+	}
+	
+	var foregroundBackButton: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
+	}
+}
 // MARK: - Loading Content
 private extension AdvancedSeverView {
 	var notRequestedView: some View {
-		AdvancedContentView(severUrl: "", severUrlStyle: (.default))
+		AdvancedContentView()
+	}
+	func customBack() {
+		self.presentationMode.wrappedValue.dismiss()
+	}
+
+	var buttonBack : some View {
+		Button(action: customBack) {
+				AppTheme.shared.imageSet.backIcon
+				.aspectRatio(contentMode: .fit)
+				.foregroundColor(foregroundBackButton)
+		}
 	}
 }
 

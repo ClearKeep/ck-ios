@@ -25,17 +25,12 @@ struct AdvancedContentView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
-	@State private(set) var severUrl: String
-	@State private(set) var severUrlStyle: TextInputStyle
+	@State private(set) var severUrl: String = ""
+	@State private(set) var severUrlStyle: TextInputStyle = .default
 	@State private(set) var isShowingView: Bool = false
 	@State private(set) var isLogin: Bool = false
 
 	// MARK: - Init
-	init(severUrl: String = "",
-		 severUrlStyle: TextInputStyle = .default) {
-		self._severUrl = .init(initialValue: severUrl)
-		self._severUrlStyle = .init(initialValue: severUrlStyle)
-	}
 
 	// MARK: - Body
 	var body: some View {
@@ -132,9 +127,6 @@ private extension AdvancedContentView {
 private extension AdvancedContentView {
 	var severUrlView: some View {
 		VStack(spacing: Constants.spacing) {
-			buttonBack
-				.padding(.top, Constants.paddingTop)
-				.frame(maxWidth: .infinity, alignment: .leading)
 			checkMaskButton
 				.frame(maxWidth: .infinity, alignment: .leading)
 			if isShowingView {
