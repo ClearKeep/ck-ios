@@ -66,10 +66,7 @@ private extension RegisterView {
 		case .loaded:
 			return AnyView(loadedView)
 		case .failed(let error):
-			guard let error = error as? IServerError else {
-				return AnyView(errorView(ServerError.unknown))
-			}
-			return AnyView(errorView(error))
+			return AnyView(errorView(RegisterViewError(error)))
 		}
 	}
 }
@@ -95,12 +92,12 @@ private extension RegisterView {
 			}
 	}
 	
-	func errorView(_ error: IServerError) -> some View {
+	func errorView(_ error: RegisterViewError) -> some View {
 		return notRequestedView
 			.alert(isPresented: .constant(true)) {
-				Alert(title: Text("General.Error".localized),
-					  message: Text(error.message ?? "General.Unknown".localized),
-					  dismissButton: .default(Text("General.OK".localized)))
+				Alert(title: Text(error.title),
+					  message: Text(error.message),
+					  dismissButton: .default(Text(error.primaryButtonTitle)))
 			}
 	}
 }
