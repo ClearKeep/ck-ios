@@ -9,6 +9,10 @@ import SwiftUI
 import Common
 import CommonUI
 
+private enum Constants {
+	static let imageScale = 40.0
+}
+
 struct AdvancedSeverView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
@@ -20,17 +24,17 @@ struct AdvancedSeverView: View {
 	// MARK: - Body
 	var body: some View {
 		content
-		.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		.applyNavigationBarPlainStyle(title: "AdvancedServer.SeverSetting".localized,
-									  titleColor: foregroundBackButton,
-									  backgroundColors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary : AppTheme.shared.colorSet.gradientBlack,
-									  leftBarItems: {
-			buttonBack
-		},
-									  rightBarItems: {
-			Spacer()
-		})
-		.background(backgroundColorView)
+			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.applyNavigationBarPlainStyle(title: "AdvancedServer.SeverSetting".localized,
+										  titleColor: foregroundBackButton,
+										  backgroundColors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary : AppTheme.shared.colorSet.gradientBlack,
+										  leftBarItems: {
+				buttonBack
+			},
+										  rightBarItems: {
+				Spacer()
+			})
+			.background(backgroundColorView)
 	}
 }
 
@@ -41,7 +45,7 @@ private extension AdvancedSeverView {
 	}
 }
 
-// MARK: Private func
+// MARK: - Private variable
 private extension AdvancedSeverView {
 	var backgroundColorView: LinearGradient {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
@@ -59,11 +63,9 @@ private extension AdvancedSeverView {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
 }
-// MARK: - Loading Content
+
+// MARK: - Private func
 private extension AdvancedSeverView {
-	var notRequestedView: some View {
-		AdvancedContentView()
-	}
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
@@ -71,16 +73,21 @@ private extension AdvancedSeverView {
 	var buttonBack : some View {
 		Button(action: customBack) {
 				AppTheme.shared.imageSet.backIcon
+				.resizable()
 				.aspectRatio(contentMode: .fit)
+				.frame(width: Constants.imageScale, height: Constants.imageScale)
 				.foregroundColor(foregroundBackButton)
 		}
 	}
 }
 
-// MARK: - Interactor
+// MARK: - Loading Content
 private extension AdvancedSeverView {
+	var notRequestedView: some View {
+		AdvancedContentView()
+	}
 }
-	
+
 // MARK: - Preview
 #if DEBUG
 struct AdvancedSeverView_Previews: PreviewProvider {

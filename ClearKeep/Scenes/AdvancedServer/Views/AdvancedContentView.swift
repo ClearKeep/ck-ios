@@ -12,7 +12,7 @@ import Common
 private enum Constants {
 	static let radius = 40.0
 	static let spacing = 20.0
-	static let padding = 10.0
+	static let padding = 16.0
 	static let paddingTop = 90.0
 	static let paddingTopButton = 38.0
 }
@@ -23,7 +23,6 @@ struct AdvancedContentView: View {
 
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
-	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
 	@State private(set) var severUrl: String = ""
 	@State private(set) var severUrlStyle: TextInputStyle = .default
@@ -34,9 +33,45 @@ struct AdvancedContentView: View {
 
 	// MARK: - Body
 	var body: some View {
-		content
-			.background(backgroundColorView)
-			.edgesIgnoringSafeArea(.all)
+		VStack(spacing: Constants.spacing) {
+			CheckBoxButtons(text: "AdvancedServer.SeverButton".localized, isChecked: $isShowingView)
+				.foregroundColor(foregroundCheckmask)
+				.frame(maxWidth: .infinity, alignment: .leading)
+			if isShowingView {
+				Text("AdvancedServer.Title".localized)
+					.font(AppTheme.shared.fontSet.font(style: .body2))
+					.foregroundColor(foregroundBackButton)
+					.frame(maxWidth: .infinity, alignment: .leading)
+				CommonTextField(text: $severUrl,
+								inputStyle: $severUrlStyle,
+								inputIcon: AppTheme.shared.imageSet.mailIcon,
+								placeHolder: "AdvancedServer.ServerUrl".localized,
+								keyboardType: .default,
+								onEditingChanged: { isEditing in
+					severUrlStyle = isEditing ? .highlighted : .normal
+				})
+				NavigationLink(
+					destination: LoginView(isCustomServer: true),
+					isActive: $isLogin,
+					label: {
+						Button("AdvancedServer.Submit".localized) {
+							isLogin.toggle()
+						}
+						.disabled(severUrl.isEmpty)
+						.frame(maxWidth: .infinity, alignment: .center)
+						.padding(.all, Constants.padding)
+						.background(backgroundButton)
+						.foregroundColor(foregroundButton)
+						.cornerRadius(Constants.radius)
+					})
+					.padding(.top, Constants.paddingTopButton)
+				Spacer()
+			}
+			Spacer()
+		}
+		.padding(.horizontal, Constants.padding)
+		.background(backgroundColorView)
+		.edgesIgnoringSafeArea(.all)
 	}
 }
 
@@ -106,100 +141,8 @@ private extension AdvancedContentView {
 
 // MARK: - Private Func
 private extension AdvancedContentView {
-	func customBack() {
-		self.presentationMode.wrappedValue.dismiss()
-	}
-
 	func showAction() {
 		isShowingView.toggle()
-	}
-
-	var content: AnyView {
-		return AnyView(severUrlView)
-	}
-
-	var checkMark: AnyView {
-		return AnyView(checkMarkView)
-	}
-}
-
-// MARK: - Loading Content
-private extension AdvancedContentView {
-	var severUrlView: some View {
-		VStack(spacing: Constants.spacing) {
-			checkMaskButton
-				.frame(maxWidth: .infinity, alignment: .leading)
-			if isShowingView {
-				Text("AdvancedServer.Title".localized)
-					.font(AppTheme.shared.fontSet.font(style: .body2))
-					.foregroundColor(foregroundBackButton)
-					.frame(maxWidth: .infinity, alignment: .leading)
-				CommonTextField(text: $severUrl,
-								inputStyle: $severUrlStyle,
-								inputIcon: AppTheme.shared.imageSet.mailIcon,
-								placeHolder: "AdvancedServer.ServerUrl".localized,
-								keyboardType: .default,
-								onEditingChanged: { isEditing in
-					if isEditing {
-						severUrlStyle = .highlighted
-					} else {
-						severUrlStyle = .normal
-					}
-				})
-				buttonSubmit
-					.padding(.top, Constants.paddingTopButton)
-				Spacer()
-			}
-			Spacer()
-		}
-		.padding(.all, Constants.padding)
-	}
-
-	var buttonBack : some View {
-		Button(action: customBack) {
-			HStack(spacing: Constants.spacing) {
-				AppTheme.shared.imageSet.backIcon
-					.renderingMode(.template)
-					.aspectRatio(contentMode: .fit)
-					.foregroundColor(foregroundBackButton)
-				Text("AdvancedServer.SeverSetting".localized)
-					.padding(.all)
-					.font(AppTheme.shared.fontSet.font(style: .body2))
-			}
-			.foregroundColor(foregroundBackButton)
-		}
-	}
-
-	var buttonSubmit: some View {
-		NavigationLink(
-			destination: LoginView(isCustomServer: isLogin),
-			isActive: $isLogin,
-			label: {
-				Button("AdvancedServer.Submit".localized) {
-					isLogin.toggle()
-				}
-				.disabled(severUrl.isEmpty)
-				.frame(maxWidth: .infinity, alignment: .center)
-				.padding(.all, Constants.padding)
-				.background(backgroundButton)
-				.foregroundColor(foregroundButton)
-				.cornerRadius(Constants.radius)
-			})
-	}
-
-	var checkMaskButton: some View {
-		CheckBoxButtons(text: "AdvancedServer.SeverButton".localized, isChecked: $isShowingView)
-			.foregroundColor(foregroundCheckmask)
-	}
-
-	var checkMarkView: some View {
-		VStack {
-			checkMaskButton
-				.frame(maxWidth: .infinity, alignment: .leading)
-				.padding(.top, Constants.paddingTop)
-			Spacer()
-		}
-		.padding(.all, Constants.padding)
 	}
 }
 
