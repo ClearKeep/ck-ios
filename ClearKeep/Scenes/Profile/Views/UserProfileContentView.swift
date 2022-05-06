@@ -43,7 +43,7 @@ struct UserProfileContentView: View {
 	@State private var isEnable2FA: Bool = false
 	@State private var twoFAStatus: String = ""
 	@State private var isChangePassword: Bool = false
-	@State private var isTwoFactor: Bool = false
+	@State private var isCurrentPass: Bool = false
 
 	// MARK: - Init
 	init(samples: Loadable<[IProfileModel]> = .notRequested,
@@ -262,14 +262,14 @@ private extension UserProfileContentView {
 					.foregroundColor(foregroundColorSetting)
 
 				Spacer()
-//				NavigationLink( destination: CurrentPassword(),
-//								isActive: $isTwoFactor) {
-//					Button(action: enable2FA) {
-//						Text(statusTwoFA)
-//							.font(AppTheme.shared.fontSet.font(style: .body3))
-//							.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
-//					}
-//				}
+				NavigationLink( destination: CurrentPassword(),
+								isActive: $isCurrentPass) {
+					Button(action: enable2FA) {
+						Text(statusTwoFA)
+							.font(AppTheme.shared.fontSet.font(style: .body3))
+							.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+					}
+				}
 			}
 			HStack {
 				Text("UserProfile.2FA.Title".localized)
@@ -294,7 +294,7 @@ private extension UserProfileContentView {
 
 	func enable2FA() {
 		isEnable2FA.toggle()
-		isTwoFactor = isEnable2FA
+		isCurrentPass = isEnable2FA
 	}
 
 	var statusTwoFA: String {

@@ -53,6 +53,12 @@
 "Country.Code" = "Country Codes";
 "Country.Search" = "Search";
 
+// MARK: - Current Password
+"CurrentPass.Button.Back" = "Enter Your Current Password";
+"CurrentPass.Title" = "Please enter your password to enable 2FA";
+"CurrentPass.Placeholder" = "Current Password";
+"CurrentPass.Next" = "Next";
+
 // MARK: - Login
 "Login.SignInWith" = "Sign in with";
 "Login.SignIn" = "Sign in";

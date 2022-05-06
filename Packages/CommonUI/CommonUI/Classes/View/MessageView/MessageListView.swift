@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MessageListView<Content: View>: View {
+public struct MessageListView<Content: View>: View {
 	// MARK: - Variables
 	private var listMessageAndSection: [SectionWithMessageViewModel] = []
 	
@@ -15,22 +15,23 @@ struct MessageListView<Content: View>: View {
 	private let content: (MessageDisplayInfoViewModel) -> Content
 	
 	// MARK: - Init
-	init(messages: [IMessageViewModel], @ViewBuilder content: @escaping (MessageDisplayInfoViewModel) -> Content) {
+	public init(messages: [IMessageViewModel], @ViewBuilder content: @escaping (MessageDisplayInfoViewModel) -> Content) {
 		self.content = content
 		self.setupList(messages)
 	}
 	
 	// MARK: - Setup
 	private mutating func setupList(_ messages: [IMessageViewModel]) {
-		listMessageAndSection = []
+		// fake data
+		listMessageAndSection = [SectionWithMessageViewModel(title: "Today", messages: messages)]
 	}
 	
 	// MARK: - Body
-	var body: some View {
-		VStack(spacing: 8) {
+	public var body: some View {
+		LazyVStack(spacing: 8) {
 			ForEach(listMessageAndSection, id: \.title) { group in
 				Section(header: Text(group.title ?? "")
-							.font(commonUIConfig.fontSet.font(style: .input2))
+							.font(commonUIConfig.fontSet.font(style: .body3))
 							.foregroundColor(commonUIConfig.colorSet.grey3)) {
 					let listDisplayMessage = MessageUtils.getListRectCorner(messages: group.messages)
 					ForEach(listDisplayMessage, id: \.message.id) { message in
@@ -40,6 +41,6 @@ struct MessageListView<Content: View>: View {
 			}
 		}
 		.padding([.horizontal, .bottom])
-		.padding(.top, 25)
+		.padding(.top, 16)
 	}
 }

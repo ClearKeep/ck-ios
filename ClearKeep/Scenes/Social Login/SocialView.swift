@@ -11,13 +11,8 @@ import Common
 import CommonUI
 
 private enum Constant {
-	static let spacerTopView = 90.0
-	static let spacerBottomView = 20.0
 	static let spacer = 25.0
-	static let spacerBottom = 45.0
 	static let paddingVertical = 14.0
-	static let paddingHorizontal = 24.0
-	static let paddingHorizontalSignUp = 60.0
 	static let heightButton = 40.0
 	static let cornerRadius = 40.0
 	static let backgroundOpacity = 0.4
@@ -118,8 +113,15 @@ private extension SocialView {
 						inputStyle: $securityStyle,
 						inputIcon: AppTheme.shared.imageSet.lockIcon,
 						placeHolder: textInput.localized,
-						keyboardType: .numberPad)
-		.padding(.top, Constant.paddingVertical)
+						keyboardType: .numberPad,
+						onEditingChanged: { isEditing in
+			if isEditing {
+				securityStyle = .highlighted
+			} else {
+				securityStyle = .normal
+			}
+		})
+			.padding(.top, Constant.paddingVertical)
 	}
 	
 	var titleView: some View {
