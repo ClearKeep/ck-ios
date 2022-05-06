@@ -1,3 +1,10 @@
+//
+//  RegisterView.swift
+//  ClearKeep
+//
+//  Created by MinhDev on 04/03/2022.
+//
+
 import SwiftUI
 import Combine
 import Common
@@ -72,7 +79,7 @@ private extension RegisterView {
 	var notRequestedView: some View {
 		RegisterContentView(loadable: $loadable)
 	}
-
+	
 	var loadingView: some View {
 		notRequestedView.modifier(LoadingIndicatorViewModifier())
 	}
@@ -99,6 +106,7 @@ private extension RegisterView {
 }
 
 // MARK: - Interactors
+
 // MARK: - Preview
 #if DEBUG
 struct RegisterView_Previews: PreviewProvider {
