@@ -66,7 +66,7 @@ struct UserProfileContentView: View {
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.applyNavigationBarPlainStyle(title: "",
 										  titleColor: AppTheme.shared.colorSet.offWhite,
-										  backgroundColors: backgroundColorWhite,
+										  backgroundColors: backgroundButtonBack,
 										  leftBarItems: {
 				buttonTop
 			},
@@ -211,7 +211,7 @@ private extension UserProfileContentView {
 						
 					}
 					.frame(width: Constant.widthButtonPhone, height: Constant.heightButtonPhone)
-					.background(AppTheme.shared.colorSet.grey5)
+					.background(backgroundInputCountryCode)
 					.cornerRadius(Constant.radius)
 					.overlay(
 						RoundedRectangle(cornerRadius: Constant.radius)
@@ -319,8 +319,12 @@ private extension UserProfileContentView {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.darkGrey2, AppTheme.shared.colorSet.darkGrey2]), startPoint: .leading, endPoint: .trailing)
 	}
 	
-	var backgroundColorWhite: [Color] {
-		[AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]
+	var backgroundButtonBack: [Color] {
+		colorScheme == .light ? [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
+	}
+
+	var backgroundInputCountryCode: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.darkGrey2
 	}
 	
 	var backgroundColorTop: LinearGradient {

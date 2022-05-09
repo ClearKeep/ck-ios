@@ -43,7 +43,7 @@ struct TwoFactorContentView: View {
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.applyNavigationBarPlainStyle(title: "",
 										  titleColor: AppTheme.shared.colorSet.offWhite,
-										  backgroundColors: AppTheme.shared.colorSet.gradientPrimary,
+										  backgroundColors: backgroundButtonBack,
 										  leftBarItems: {
 				buttonBackView
 			},
@@ -208,6 +208,10 @@ private extension TwoFactorContentView {
 
 	var backgroundButton: Color {
 		return otp.count < maxDigits ? backgroundColorButton.opacity(Constant.backgroundOpacity) : backgroundColorButton
+	}
+
+	var backgroundButtonBack: [Color] {
+		colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
 
 	var backgroundColorButton: Color {

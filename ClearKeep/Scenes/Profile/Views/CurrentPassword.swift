@@ -36,7 +36,7 @@ struct CurrentPassword: View {
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.applyNavigationBarPlainStyle(title: "",
 										  titleColor: AppTheme.shared.colorSet.offWhite,
-										  backgroundColors: AppTheme.shared.colorSet.gradientPrimary,
+										  backgroundColors: backgroundButtonBack,
 										  leftBarItems: {
 				buttonBackView.padding(.top, Constant.spacer)
 			},
@@ -163,6 +163,10 @@ private extension CurrentPassword {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]), startPoint: .leading, endPoint: .trailing)
 	}
 
+	var backgroundButtonBack: [Color] {
+		colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
+	}
+
 	var backgroundColorGradient: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
@@ -188,7 +192,7 @@ private extension CurrentPassword {
 	}
 
 	var foregroundMessage: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.grey1
+		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.greyLight
 	}
 }
 
