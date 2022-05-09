@@ -45,13 +45,12 @@ struct AppImageSet: IAppImageSet {
 	var videoOffIcon: Image { Image("ic_video_off").renderingMode(.template) }
 	var menuIcon: Image { Image("ic_hamburger") }
 	var adjustmentIcon: Image { Image("ic_adjustment") }
-	var userPlusIcon: Image { Image("ic_user_plus") }
 	var pencilIcon: Image { Image("ic_pencil") }
 	var notificationIcon: Image { Image("ic_notification") }
 	var userOfflineIcon: Image { Image("ic_user_off") }
 	var usersPlusIcon: Image { Image("ic_user_plus") }
 	var trashIcon: Image { Image("ic_trash") }
-	var userCheckIcon: Image { Image("ic_user_check") }
+	var userCheckIcon: Image { Image("ic_user_check").renderingMode(.template) }
 	var faceIcon: Image { Image("ic_straight_face") }
 	var photoIcon: Image { Image("ic_photos").renderingMode(.template) }
 	var atIcon: Image { Image("ic_at") }

@@ -42,7 +42,6 @@ public protocol IImageSet {
 	var videoOffIcon: Image { get }
 	var menuIcon: Image { get }
 	var adjustmentIcon: Image { get }
-	var userPlusIcon: Image { get }
 	var pencilIcon: Image { get }
 	var notificationIcon: Image { get }
 	var userOfflineIcon: Image { get }
