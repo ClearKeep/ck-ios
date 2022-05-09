@@ -17,3 +17,9 @@ public struct HiddenNavigationBar: ViewModifier {
 			.navigationBarBackButtonHidden(true)
 	}
 }
+
+public extension View {
+	func hiddenNavigationBarStyle() -> some View {
+		modifier( HiddenNavigationBar() )
+	}
+}

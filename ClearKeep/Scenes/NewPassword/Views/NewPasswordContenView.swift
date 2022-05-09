@@ -10,10 +10,11 @@ import CommonUI
 import Common
 
 private enum Constants {
-	static let radius = 40.0
-	static let spacing = 20.0
-	static let padding = 10.0
-	static let paddingtop = 50.0
+	static let spacing = 40.0
+	static let padding = 30.0
+	static let paddingTextfield = 24.0
+	static let paddingLeading = 16.0
+	static let submitButtonHeight = 40.0
 }
 
 struct NewPasswordContenView: View {
@@ -37,28 +38,49 @@ struct NewPasswordContenView: View {
 
 	// MARK: - Body
 	var body: some View {
-		content
-			.background(backgroundViewColor)
-			.edgesIgnoringSafeArea(.all)
-			.navigationBarBackButtonHidden(true)
+		VStack(spacing: Constants.spacing) {
+			Text("NewPassword.Description".localized)
+				.font(AppTheme.shared.fontSet.font(style: .input2))
+				.foregroundColor(titleColor)
+				.frame(maxWidth: .infinity, alignment: .leading)
+			VStack(spacing: Constants.paddingTextfield) {
+				SecureTextField(secureText: $password,
+								inputStyle: $passwordStyle,
+								inputIcon: AppTheme.shared.imageSet.lockIcon,
+								placeHolder: "NewPassword.NewPassword".localized,
+								keyboardType: .default,
+								onEditingChanged: { isEdit in
+					passwordStyle = isEdit ? .highlighted : .normal
+				})
+				SecureTextField(secureText: $rePassword,
+								inputStyle: $rePasswordStyle,
+								inputIcon: AppTheme.shared.imageSet.lockIcon,
+								placeHolder: "General.ConfirmPassword".localized,
+								keyboardType: .default,
+								onEditingChanged: { isEdit in
+					rePasswordStyle = isEdit ? .highlighted : .normal
+				})
+				NavigationLink(
+					destination: LoginView(),
+					isActive: $isLogin,
+					label: {
+						RoundedButton("General.Save".localized,
+									  disable: .constant(password.isEmpty || rePassword.isEmpty)) {
+							isLogin = true
+						}.frame(height: Constants.submitButtonHeight)
+					})
+			}
+			Spacer()
+		}
+		.frame(maxWidth: .infinity, alignment: .center)
+		.padding(.horizontal, Constants.paddingLeading)
+		.edgesIgnoringSafeArea(.all)
 	}
 }
 
 // MARK: - Private
 private extension NewPasswordContenView {
-
-	var backgroundButton: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
-	}
-
-	var backgroundViewColor: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.black
-	}
-
-	var foregroundButton: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
-	}
-	var foregroundBackButton: Color {
+	var titleColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
 }
@@ -74,87 +96,7 @@ private extension NewPasswordContenView {
 			await injected.interactors.newPasswordInteractor.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: password, domain: domain)
 		}
 	}
-
-	var content: AnyView {
-		AnyView(newPasswordView)
-	}
 }
-
-// MARK: - Loading Content
-private extension NewPasswordContenView {
-	var newPasswordView: some View {
-		VStack(spacing: Constants.spacing) {
-			buttonBack
-				.padding(.top, Constants.paddingtop)
-				.frame(maxWidth: .infinity, alignment: .leading)
-			Text("ForgotPass.TitleChangePassword".localized)
-				.font(AppTheme.shared.fontSet.font(style: .body2))
-				.foregroundColor(foregroundBackButton)
-			SecureTextField(secureText: $password,
-							inputStyle: $passwordStyle,
-							inputIcon: AppTheme.shared.imageSet.lockIcon,
-							placeHolder: "General.Password".localized,
-							keyboardType: .default,
-							onEditingChanged: { isEditing in
-				if isEditing {
-					passwordStyle = .highlighted
-				} else {
-					passwordStyle = .normal
-				}
-			})
-			SecureTextField(secureText: $rePassword,
-							inputStyle: $rePasswordStyle,
-							inputIcon: AppTheme.shared.imageSet.lockIcon,
-							placeHolder: "General.ConfirmPassword".localized,
-							keyboardType: .default) { isEditing in
-				if isEditing {
-					rePasswordStyle = .highlighted
-				} else {
-					rePasswordStyle = .normal
-				}
-			}
-			buttonSave
-			Spacer()
-		}
-		.frame(maxWidth: .infinity, alignment: .center)
-		.padding(.all, Constants.padding)
-	}
-
-	var buttonBack: some View {
-		Button(action: customBack) {
-			HStack(spacing: Constants.spacing) {
-				AppTheme.shared.imageSet.backIcon
-					.renderingMode(.template)
-					.aspectRatio(contentMode: .fit)
-					.foregroundColor(foregroundBackButton)
-				Text("ForgotPass.NewPassword".localized)
-					.padding(.all)
-					.font(AppTheme.shared.fontSet.font(style: .body2))
-			}
-			.foregroundColor(foregroundBackButton)
-		}
-	}
-
-	var buttonSave: some View {
-		NavigationLink(
-			destination: LoginView(),
-			isActive: $isLogin,
-			label: {
-				Button {
-					doResetPassword()
-					isLogin.toggle()
-				} label: {
-					Text("ForgotPass.Save".localized)
-						.frame(maxWidth: .infinity, alignment: .center)
-						.padding(.all, Constants.padding)
-						.background(backgroundButton)
-						.foregroundColor(foregroundButton)
-				}
-				.cornerRadius(Constants.radius)
-			})
-	}
-}
-// MARK: - Interactor
 
 // MARK: - Preview
 #if DEBUG

@@ -7,20 +7,35 @@
 
 import SwiftUI
 import Common
+import CommonUI
+
+private enum Constants {
+	static let imageScale = 40.0
+}
 
 struct NewPasswordView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
-	
+
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
+	@Environment(\.colorScheme) var colorScheme
+	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
 	// MARK: - Body
 	var body: some View {
 		content
-		.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		.navigationBarTitle("")
-		.navigationBarHidden(true)
+			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.applyNavigationBarPlainStyle(title: "NewPassword.Title".localized,
+										  titleColor: titleColor,
+										  leftBarItems: {
+				BackButton(customBack)
+			},
+										  rightBarItems: {
+				Spacer()
+			})
+			.hideKeyboardOnTapped()
+			.grandientBackground()
 	}
 }
 
@@ -38,10 +53,20 @@ private extension NewPasswordView {
 	}
 }
 
-// MARK: - Interactor
+// MARK: - Private variable
 private extension NewPasswordView {
+	var titleColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
+	}
 }
-	
+
+// MARK: - Private func
+private extension NewPasswordView {
+	func customBack() {
+		self.presentationMode.wrappedValue.dismiss()
+	}
+}
+
 // MARK: - Preview
 #if DEBUG
 struct NewPasswordView_Previews: PreviewProvider {

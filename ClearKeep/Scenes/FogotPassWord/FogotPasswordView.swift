@@ -7,21 +7,35 @@
 
 import SwiftUI
 import Common
+import CommonUI
+
+private enum Constants {
+	static let imageScale = 40.0
+}
 
 struct FogotPasswordView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
-	
+
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
-	
+	@Environment(\.colorScheme) var colorScheme
+	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
 	// MARK: - Body
 	var body: some View {
 		content
-		.hideKeyboardOnTapped()
-		.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		.navigationBarTitle("")
-		.navigationBarHidden(true)
+			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.applyNavigationBarPlainStyle(title: "ForgotPassword.Title".localized,
+										  titleColor: titleColor,
+										  leftBarItems: {
+				BackButton(customBack)
+			},
+										  rightBarItems: {
+				Spacer()
+			})
+			.hideKeyboardOnTapped()
+			.grandientBackground()
 	}
 }
 
@@ -35,14 +49,24 @@ private extension FogotPasswordView {
 // MARK: - Loading Content
 private extension FogotPasswordView {
 	var notRequestedView: some View {
-		FogotPasswordContentView(email: "", emailStyle: .default)
+		FogotPasswordContentView(emailStyle: .default)
 	}
 }
 
-// MARK: - Interactor
+// MARK: - Private variable
 private extension FogotPasswordView {
+	var titleColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
+	}
 }
-	
+
+// MARK: - Private func
+private extension FogotPasswordView {
+	func customBack() {
+		self.presentationMode.wrappedValue.dismiss()
+	}
+}
+
 // MARK: - Preview
 #if DEBUG
 struct FogotPasswordView_Previews: PreviewProvider {

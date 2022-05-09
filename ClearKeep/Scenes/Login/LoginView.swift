@@ -38,6 +38,7 @@ struct LoginView: View {
 				.onReceive(inspection.notice) { inspection.visit(self, $0) }
 				.hiddenNavigationBarStyle()
 				.grandientBackground()
+				.edgesIgnoringSafeArea(.all)
 		}
 	}
 }
