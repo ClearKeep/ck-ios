@@ -51,7 +51,7 @@ struct FogotPasswordContentView: View {
 								placeHolder: "General.Email".localized,
 								keyboardType: .default,
 								onEditingChanged: { isEditing in
-					emailStyle = isEditing ? .default : .normal
+					emailStyle = isEditing ? .highlighted : .normal
 				})
 				NavigationLink(
 					destination: NewPasswordView(),

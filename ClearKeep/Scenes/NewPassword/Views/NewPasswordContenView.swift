@@ -47,6 +47,7 @@ struct NewPasswordContenView: View {
 				Text("ForgotPass.TitleChangePassword".localized)
 					.font(AppTheme.shared.fontSet.font(style: .input2))
 					.foregroundColor(foregroundBackButton)
+					.frame(maxWidth: .infinity, alignment: .leading)
 					.padding(.horizontal, Constants.paddingText)
 			}
 			VStack(spacing: Constants.paddingTextfield) {
@@ -89,7 +90,6 @@ struct NewPasswordContenView: View {
 		.padding(.horizontal, Constants.paddingLeding)
 		.background(backgroundViewColor)
 		.edgesIgnoringSafeArea(.all)
-		.navigationBarBackButtonHidden(true)
 	}
 }
 
