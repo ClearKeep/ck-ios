@@ -11,3 +11,10 @@ struct CustomServer {
 	var isSelectedCustomServer: Bool
 	var customServerURL: String
 }
+
+extension CustomServer {
+	init() {
+		isSelectedCustomServer = false
+		customServerURL = ""
+	}
+}

@@ -25,6 +25,7 @@ struct FogotPasswordContentView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
+	@Binding var customServer: CustomServer
 	@State private(set) var email: String = ""
 	@State private(set) var domain: String = ""
 	@State private(set) var emailStyle: TextInputStyle = .default
@@ -77,7 +78,7 @@ private extension FogotPasswordContentView {
 
 	func doFogotPassword() {
 		Task {
-			await injected.interactors.fogotPasswordInteractor.recoverPassword(email: email, domain: domain)
+			await injected.interactors.fogotPasswordInteractor.recoverPassword(email: email, customServer: customServer)
 		}
 	}
 
@@ -86,7 +87,7 @@ private extension FogotPasswordContentView {
 #if DEBUG
 struct FogotPasswordContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		FogotPasswordContentView(emailStyle: .default)
+		FogotPasswordContentView(customServer: .constant(CustomServer()))
 	}
 }
 #endif

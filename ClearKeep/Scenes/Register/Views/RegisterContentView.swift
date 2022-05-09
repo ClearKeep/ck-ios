@@ -22,6 +22,7 @@ struct RegisterContentView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Binding var loadable: Loadable<Bool>
+	@Binding var customServer: CustomServer
 	@State private var email: String = ""
 	@State private var emailStyle: TextInputStyle = .default
 	@State private var displayName: String = ""
@@ -100,7 +101,7 @@ private extension RegisterContentView {
 	func doRegister() {
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			loadable = await injected.interactors.registerInteractor.register(displayName: displayName, email: email, password: password)
+			loadable = await injected.interactors.registerInteractor.register(displayName: displayName, email: email, password: password, customServer: customServer)
 		}
 	}
 	
@@ -117,7 +118,7 @@ private extension RegisterContentView {
 #if DEBUG
 struct RegisterContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		RegisterContentView(loadable: .constant(.notRequested))
+		RegisterContentView(loadable: .constant(.notRequested), customServer: .constant(CustomServer()))
 	}
 }
 #endif

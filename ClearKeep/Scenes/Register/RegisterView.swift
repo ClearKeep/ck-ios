@@ -25,6 +25,7 @@ struct RegisterView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+	@Binding var customServer: CustomServer
 	@State private(set) var loadable: Loadable<Bool> = .notRequested
 
 	// MARK: - Init
@@ -73,7 +74,7 @@ private extension RegisterView {
 // MARK: - Loading Content
 private extension RegisterView {
 	var notRequestedView: some View {
-		RegisterContentView(loadable: $loadable)
+		RegisterContentView(loadable: $loadable, customServer: $customServer)
 	}
 	
 	var loadingView: some View {
@@ -107,7 +108,7 @@ private extension RegisterView {
 #if DEBUG
 struct RegisterView_Previews: PreviewProvider {
 	static var previews: some View {
-		RegisterView()
+		RegisterView(customServer: .constant(CustomServer()))
 	}
 }
 #endif

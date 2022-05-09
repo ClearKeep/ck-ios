@@ -21,7 +21,8 @@ struct FogotPasswordView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
+	@Binding var customServer: CustomServer
+	
 	// MARK: - Body
 	var body: some View {
 		content
@@ -49,7 +50,7 @@ private extension FogotPasswordView {
 // MARK: - Loading Content
 private extension FogotPasswordView {
 	var notRequestedView: some View {
-		FogotPasswordContentView(emailStyle: .default)
+		FogotPasswordContentView(customServer: $customServer)
 	}
 }
 
@@ -71,7 +72,7 @@ private extension FogotPasswordView {
 #if DEBUG
 struct FogotPasswordView_Previews: PreviewProvider {
 	static var previews: some View {
-		FogotPasswordView()
+		FogotPasswordView(customServer: .constant(CustomServer()))
 	}
 }
 #endif

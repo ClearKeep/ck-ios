@@ -113,7 +113,7 @@ private extension LoginContentView {
 				LinkButton("Login.AdvancedServerSettings".localized, alignment: .leading, action: advancedServer)
 			})
 			Spacer()
-			NavigationLink(destination: FogotPasswordView(),
+			NavigationLink(destination: FogotPasswordView(customServer: $customServer),
 						   isActive: $isForgotPassword,
 						   label: {
 				LinkButton("Login.ForgotPassword".localized, alignment: .trailing, action: forgotPassword)
@@ -140,7 +140,7 @@ private extension LoginContentView {
 				.font(AppTheme.shared.fontSet.font(style: .body3))
 				.foregroundColor(AppTheme.shared.colorSet.offWhite)
 			
-			NavigationLink(destination: RegisterView(),
+			NavigationLink(destination: RegisterView(customServer: $customServer),
 						   isActive: $isRegister,
 						   label: {
 				RoundedBorderButton("Login.SignUp".localized, action: register)
@@ -189,7 +189,7 @@ private extension LoginContentView {
 #if DEBUG
 struct LoginContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		LoginContentView(loadable: .constant(.notRequested), customServer: .constant(CustomServer(isSelectedCustomServer: false, customServerURL: "")))
+		LoginContentView(loadable: .constant(.notRequested), customServer: .constant(CustomServer()))
 	}
 }
 #endif

@@ -25,7 +25,7 @@ struct LoginView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@State private(set) var loadable: Loadable<IAuthenticationModel> = .notRequested
-	@State private(set) var customServer: CustomServer = CustomServer(isSelectedCustomServer: false, customServerURL: "")
+	@State private(set) var customServer: CustomServer = CustomServer()
 	let inspection = ViewInspector<Self>()
 	
 	// MARK: - Init

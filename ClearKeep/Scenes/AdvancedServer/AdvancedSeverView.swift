@@ -97,7 +97,7 @@ private extension AdvancedSeverView {
 #if DEBUG
 struct AdvancedSeverView_Previews: PreviewProvider {
 	static var previews: some View {
-		AdvancedSeverView(customServer: .constant(CustomServer(isSelectedCustomServer: false, customServerURL: "")))
+		AdvancedSeverView(customServer: .constant(CustomServer()))
 	}
 }
 #endif
