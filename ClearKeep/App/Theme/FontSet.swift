@@ -23,6 +23,8 @@ struct DefaultFontSet: IFontSet {
 			return Font.system(size: 16.0, weight: Font.Weight.bold)
 		case .body3:
 			return Font.system(size: 14.0, weight: Font.Weight.bold)
+		case .body4:
+			return Font.system(size: 12.0, weight: Font.Weight.bold)
 		case .input1:
 			return Font.system(size: 20.0, weight: Font.Weight.regular)
 		case .input2:

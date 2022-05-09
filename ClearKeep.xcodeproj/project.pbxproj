@@ -120,6 +120,7 @@
 		CB7F2916281BA17300BD5049 /* SocialLoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F2915281BA17300BD5049 /* SocialLoginModel.swift */; };
 		CB7F291C281BC1A300BD5049 /* NormalLoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F291B281BC1A300BD5049 /* NormalLoginModel.swift */; };
 		CB7F29232823C53E00BD5049 /* LoginViewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F29222823C53E00BD5049 /* LoginViewError.swift */; };
+		CB7F295B2828BA5900BD5049 /* RegisterViewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F295A2828BA5800BD5049 /* RegisterViewError.swift */; };
 		CB8C3E3427F57FBA0034B3A9 /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8C3E3327F57FB90034B3A9 /* AppVersion.swift */; };
 		CB8C3EAB2805D2D60034B3A9 /* AddMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B1927F154A60098B104 /* AddMemberView.swift */; };
 		CBCF494F27D46715006D84FE /* Localize.strings in Resources */ = {isa = PBXBuildFile; fileRef = CBCF494E27D46714006D84FE /* Localize.strings */; };
@@ -349,6 +350,7 @@
 		CB7F2915281BA17300BD5049 /* SocialLoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginModel.swift; sourceTree = "<group>"; };
 		CB7F291B281BC1A300BD5049 /* NormalLoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalLoginModel.swift; sourceTree = "<group>"; };
 		CB7F29222823C53E00BD5049 /* LoginViewError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewError.swift; sourceTree = "<group>"; };
+		CB7F295A2828BA5800BD5049 /* RegisterViewError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewError.swift; sourceTree = "<group>"; };
 		CB8C3E3327F57FB90034B3A9 /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
 		CBCF494E27D46714006D84FE /* Localize.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localize.strings; sourceTree = "<group>"; };
 		CBD9FDDA2805DB9100F54076 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -449,22 +451,15 @@
 		044351EA27D9AFCA0054A78F /* Register */ = {
 			isa = PBXGroup;
 			children = (
+				CB7F29572828BA3F00BD5049 /* Models */,
 				044351EB27D9AFCA0054A78F /* RegisterRemoteStore.swift */,
 				044351EC27D9AFCA0054A78F /* RegisterWorker.swift */,
 				044351ED27D9AFCA0054A78F /* RegisterInMemoryStore.swift */,
 				044351F027D9AFCA0054A78F /* RegisterInteractor.swift */,
 				044351F127D9AFCA0054A78F /* RegisterView.swift */,
-				044351EE27D9AFCA0054A78F /* Models */,
 				044351F227D9AFCA0054A78F /* Views */,
 			);
 			path = Register;
-			sourceTree = "<group>";
-		};
-		044351EE27D9AFCA0054A78F /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		044351F227D9AFCA0054A78F /* Views */ = {
@@ -629,7 +624,6 @@
 		0499342027E96EBB003BD4C4 /* AdvancedServer */ = {
 			isa = PBXGroup;
 			children = (
-				0499342C27E96EE9003BD4C4 /* Models */,
 				0499342B27E96EE1003BD4C4 /* Views */,
 				0499344E27E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift */,
 				0499344F27E9A8BE003BD4C4 /* AdvancedSeverWorker.swift */,
@@ -646,13 +640,6 @@
 				0499342D27E96F09003BD4C4 /* AdvancedContentView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		0499342C27E96EE9003BD4C4 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		0499342F27E96F70003BD4C4 /* NewPassword */ = {
@@ -987,6 +974,14 @@
 				CB40074327E8CCC700DFBE88 /* LoginContentView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		CB7F29572828BA3F00BD5049 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CB7F295A2828BA5800BD5049 /* RegisterViewError.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		CB8C3E3227F57FA00034B3A9 /* Helper */ = {
@@ -1705,6 +1700,7 @@
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
 				F568DC2427FD882600EE9DF0 /* NotificationWorker.swift in Sources */,
 				CB40073027E74E1900DFBE88 /* Configuration.swift in Sources */,
+				CB7F295B2828BA5900BD5049 /* RegisterViewError.swift in Sources */,
 				CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */,
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
 				0462C6CA2816535C00A9EABB /* SearchMessageView.swift in Sources */,

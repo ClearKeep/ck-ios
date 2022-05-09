@@ -76,7 +76,7 @@ struct NavigationBarPlainStyle<L, R>: ViewModifier where L: View, R: View {
 				rightBarItems?()
 			}
 			.padding(.top, globalSafeAreaInsets().top)
-			.padding(16)
+			.padding(20)
 			.gradientHeader(colors: backgroundColors)
 			.frame(width: UIScreen.main.bounds.width, height: 60 + globalSafeAreaInsets().top)
 			content
@@ -94,6 +94,6 @@ public extension View {
 	}
 	
 	func applyNavigationBarPlainStyle<L, R>(title: String, titleColor: Color, backgroundColors: [Color], leftBarItems: @escaping (() -> L), rightBarItems: @escaping (() -> R)) -> some View where L: View, R: View {
-		self.modifier(NavigationBarPlainStyle(title: title, titleFont: commonUIConfig.fontSet.font(style: .body2), titleColor: commonUIConfig.colorSet.black, backgroundColors: backgroundColors, leftBarItems: leftBarItems, rightBarItems: rightBarItems))
+		self.modifier(NavigationBarPlainStyle(title: title, titleFont: commonUIConfig.fontSet.font(style: .body2), titleColor: titleColor, backgroundColors: backgroundColors, leftBarItems: leftBarItems, rightBarItems: rightBarItems))
 	}
 }

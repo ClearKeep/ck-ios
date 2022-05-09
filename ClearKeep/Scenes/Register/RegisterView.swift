@@ -12,11 +12,9 @@ import CommonUI
 import Networking
 
 private enum Constants {
-	static let heightLogo = 120.0
-	static let widthLogo = 160.0
-	static let spacing = 30.0
-	static let paddingtop = 80.0
-	static let padding = 20.0
+	static let logoSize = CGSize(width: 160.0, height: 120)
+	static let logoPadding = UIEdgeInsets(top: 60.0, left: 0.0, bottom: 40.0, right: 0.0)
+	static let contentPadding = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
 }
 
 struct RegisterView: View {
@@ -33,27 +31,29 @@ struct RegisterView: View {
 
 	// MARK: - Body
 	var body: some View {
-			content
-				.onReceive(inspection.notice) { inspection.visit(self, $0) }
-				.background(backgroundColorView)
-				.hiddenNavigationBarStyle()
-				.hideKeyboardOnTapped()
+		GeometryReader { _ in
+			ScrollView(showsIndicators: false) {
+				AppTheme.shared.imageSet.logo
+					.resizable()
+					.aspectRatio(contentMode: .fit)
+					.frame(width: Constants.logoSize.width, height: Constants.logoSize.height)
+					.padding(.top, Constants.logoPadding.top)
+					.padding(.bottom, Constants.logoPadding.bottom)
+				content
+					.padding(.horizontal, Constants.contentPadding.left)
+			}
+			.keyboardAdaptive()
+		}
+		.onReceive(inspection.notice) { inspection.visit(self, $0) }
+		.grandientBackground()
+		.edgesIgnoringSafeArea(.all)
+		.hiddenNavigationBarStyle()
+		.hideKeyboardOnTapped()
 	}
 }
 
 // MARK: - Private variable
 private extension RegisterView {
-	var backgroundColorView: LinearGradient {
-		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
-	}
-
-	var backgroundColorBlack: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var backgroundColorGradient: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-	}
 }
 
 // MARK: - Private
@@ -67,10 +67,7 @@ private extension RegisterView {
 		case .loaded:
 			return AnyView(loadedView)
 		case .failed(let error):
-			guard let error = error as? IServerError else {
-				return AnyView(errorView(ServerError.unknown))
-			}
-			return AnyView(errorView(error))
+			return AnyView(errorView(RegisterViewError(error)))
 		}
 	}
 }
@@ -78,16 +75,7 @@ private extension RegisterView {
 // MARK: - Loading Content
 private extension RegisterView {
 	var notRequestedView: some View {
-		VStack {
-			AppTheme.shared.imageSet.logo
-				.resizable()
-				.aspectRatio(contentMode: .fit)
-				.frame(width: Constants.widthLogo, height: Constants.heightLogo)
-				.padding(.top, Constants.paddingtop)
-			RegisterContentView(loadable: $loadable)
-			Spacer()
-		}
-		.padding(.horizontal, Constants.padding)
+		RegisterContentView(loadable: $loadable)
 	}
 	
 	var loadingView: some View {
@@ -105,12 +93,12 @@ private extension RegisterView {
 			}
 	}
 	
-	func errorView(_ error: IServerError) -> some View {
+	func errorView(_ error: RegisterViewError) -> some View {
 		return notRequestedView
 			.alert(isPresented: .constant(true)) {
-				Alert(title: Text("General.Error".localized),
-					  message: Text(error.message ?? "General.Unknown".localized),
-					  dismissButton: .default(Text("General.OK".localized)))
+				Alert(title: Text(error.title),
+					  message: Text(error.message),
+					  dismissButton: .default(Text(error.primaryButtonTitle)))
 			}
 	}
 }
