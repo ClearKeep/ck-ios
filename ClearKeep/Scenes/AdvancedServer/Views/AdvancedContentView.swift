@@ -28,8 +28,6 @@ struct AdvancedContentView: View {
 	@State private(set) var isShowingView: Bool = false
 	@State private(set) var isLogin: Bool = false
 
-	// MARK: - Init
-
 	// MARK: - Body
 	var body: some View {
 		VStack(spacing: Constants.spacing) {
@@ -87,8 +85,6 @@ private extension AdvancedContentView {
 		isShowingView.toggle()
 	}
 }
-
-// MARK: - Interactor
 
 // MARK: - Preview
 #if DEBUG

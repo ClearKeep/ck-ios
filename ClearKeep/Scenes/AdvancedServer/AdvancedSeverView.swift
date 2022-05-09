@@ -21,6 +21,7 @@ struct AdvancedSeverView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+	
 	// MARK: - Body
 	var body: some View {
 		content
