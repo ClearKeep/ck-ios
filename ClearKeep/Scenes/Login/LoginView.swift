@@ -36,6 +36,7 @@ struct LoginView: View {
 		NavigationView {
 			content
 				.onReceive(inspection.notice) { inspection.visit(self, $0) }
+				.hideKeyboardOnTapped()
 				.hiddenNavigationBarStyle()
 				.grandientBackground()
 				.edgesIgnoringSafeArea(.all)
