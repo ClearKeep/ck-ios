@@ -113,8 +113,8 @@ private extension LoginContentView {
 				LinkButton("Login.AdvancedServerSettings".localized, alignment: .leading, action: advancedServer)
 			})
 			Spacer()
-			NavigationLink(destination: AdvancedSeverView(customServer: $customServer),
-						   isActive: $isAdvanceServer,
+			NavigationLink(destination: FogotPasswordView(),
+						   isActive: $isForgotPassword,
 						   label: {
 				LinkButton("Login.ForgotPassword".localized, alignment: .trailing, action: forgotPassword)
 			})
@@ -162,14 +162,14 @@ private extension LoginContentView {
 	func doLogin() {
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			loadable = await injected.interactors.loginInteractor.signIn(email: email, password: password)
+			loadable = await injected.interactors.loginInteractor.signIn(email: email, password: password, customServer: customServer)
 		}
 	}
 	
 	func doSocialLogin(type: SocialType) {
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			loadable = await injected.interactors.loginInteractor.signInSocial(type)
+			loadable = await injected.interactors.loginInteractor.signInSocial(type, customServer: customServer)
 		}
 	}
 	

@@ -10,8 +10,8 @@ import ChatSecure
 import Model
 
 protocol ILoginInteractor {
-	func signIn(email: String, password: String) async -> Loadable<IAuthenticationModel>
-	func signInSocial(_ socialType: SocialType) async -> Loadable<IAuthenticationModel>
+	func signIn(email: String, password: String, customServer: CustomServer) async -> Loadable<IAuthenticationModel>
+	func signInSocial(_ socialType: SocialType, customServer: CustomServer) async -> Loadable<IAuthenticationModel>
 	func getAppVersion() -> String
 }
 
@@ -29,8 +29,8 @@ extension LoginInteractor: ILoginInteractor {
 		return LoginWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
-	func signIn(email: String, password: String) async -> Loadable<IAuthenticationModel> {
-		let result = await worker.signIn(email: email, password: password)
+	func signIn(email: String, password: String, customServer: CustomServer) async -> Loadable<IAuthenticationModel> {
+		let result = await worker.signIn(email: email, password: password, customServer: customServer)
 		
 		switch result {
 		case .success(let data):
@@ -40,8 +40,8 @@ extension LoginInteractor: ILoginInteractor {
 		}
 	}
 	
-	func signInSocial(_ socialType: SocialType) async -> Loadable<IAuthenticationModel> {
-		let result = await worker.signInSocial(socialType)
+	func signInSocial(_ socialType: SocialType, customServer: CustomServer) async -> Loadable<IAuthenticationModel> {
+		let result = await worker.signInSocial(socialType, customServer: customServer)
 		
 		switch result {
 		case .success(let data):
@@ -67,11 +67,11 @@ struct StubLoginInteractor: ILoginInteractor {
 		return LoginWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
-	func signIn(email: String, password: String) async -> Loadable<IAuthenticationModel> {
+	func signIn(email: String, password: String, customServer: CustomServer) async -> Loadable<IAuthenticationModel> {
 		return .notRequested
 	}
 	
-	func signInSocial(_ socialType: SocialType) async -> Loadable<IAuthenticationModel> {
+	func signInSocial(_ socialType: SocialType, customServer: CustomServer) async -> Loadable<IAuthenticationModel> {
 		return .notRequested
 	}
 	

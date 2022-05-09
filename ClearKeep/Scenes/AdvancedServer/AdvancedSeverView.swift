@@ -10,8 +10,7 @@ import Common
 import CommonUI
 
 private enum Constants {
-	static let spacing = 20.0
-	static let padding = 16.0
+	static let spacing = 16.0
 	static let paddingTopButton = 38.0
 }
 
@@ -36,12 +35,12 @@ struct AdvancedSeverView: View {
 	
 	// MARK: - Body
 	var body: some View {
-		VStack(spacing: Constants.spacing) {
+		VStack(alignment: .leading, spacing: Constants.spacing) {
 			CheckBoxButtons(text: "AdvancedServer.SeverButton".localized, isChecked: $editingCustomServer.isSelectedCustomServer)
 				.foregroundColor(titleColor)
 			if editingCustomServer.isSelectedCustomServer {
 				Text("AdvancedServer.Title".localized)
-					.font(AppTheme.shared.fontSet.font(style: .body2))
+					.font(AppTheme.shared.fontSet.font(style: .input2))
 					.foregroundColor(titleColor)
 					.frame(maxWidth: .infinity, alignment: .leading)
 				CommonTextField(text: $editingCustomServer.customServerURL,
@@ -56,11 +55,11 @@ struct AdvancedSeverView: View {
 							  disable: .constant(editingCustomServer.customServerURL.isEmpty),
 							  action: submitAction)
 				.padding(.top, Constants.paddingTopButton)
-				Spacer()
 			}
 			Spacer()
 		}
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
+		.padding()
 		.applyNavigationBarPlainStyle(title: "AdvancedServer.SeverSetting".localized,
 									  titleColor: titleColor,
 									  backgroundColors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary : AppTheme.shared.colorSet.gradientBlack,
@@ -70,7 +69,6 @@ struct AdvancedSeverView: View {
 									  rightBarItems: {
 			Spacer()
 		})
-		.padding(.horizontal, Constants.padding)
 		.grandientBackground()
 		.edgesIgnoringSafeArea(.all)
 	}
