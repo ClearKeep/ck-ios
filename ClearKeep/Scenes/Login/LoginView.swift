@@ -87,7 +87,7 @@ private extension LoginView {
 	}
 	
 	var loadingView: some View {
-		notRequestedView.modifier(LoadingIndicatorViewModifier())
+		notRequestedView.progressHUD(true)
 	}
 	
 	func loadedView(_ data: IAuthenticationModel) -> AnyView {
