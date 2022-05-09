@@ -1,17 +1,15 @@
 //
-//  LoginViewError.swift
+//  RegisterViewError.swift
 //  ClearKeep
 //
-//  Created by NamNH on 05/05/2022.
+//  Created by NamNH on 06/05/2022.
 //
 
 import Foundation
 import Networking
 
-enum LoginViewError {
-	case unauthorized
-	case notActivated
-	case locked
+enum RegisterViewError {
+	case existed
 	case unknownError(errorCode: Int?)
 	
 	// MARK: Init
@@ -23,12 +21,8 @@ enum LoginViewError {
 		
 		let errorCode = errorResponse.status
 		switch errorCode {
-		case 1001, 1079:
-			self = .unauthorized
-		case 1026:
-			self = .notActivated
-		case 1069:
-			self = .locked
+		case 1002:
+			self = .existed
 		default:
 			self = .unknownError(errorCode: errorCode)
 		}
@@ -41,12 +35,8 @@ enum LoginViewError {
 	
 	var message: String {
 		switch self {
-		case .unauthorized:
-			return "Error.Authentication.UnAuthorized".localized
-		case .notActivated:
-			return "Error.Authentication.NotActivated".localized
-		case .locked:
-			return "Error.Authentication.Locked".localized
+		case .existed:
+			return "Error.Authentication.Existed".localized
 		case .unknownError(let errorCode):
 			if let errorCode = errorCode {
 				return String(format: "Error.Unknow.Message".localized, errorCode)
