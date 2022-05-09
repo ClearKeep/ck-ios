@@ -14,14 +14,12 @@ private enum Constants {
 public struct RoundedGradientButton: View {
 	// MARK: - Variables
 	@Binding var disable: Bool
-	private var size: CGSize
 	private var title: String
 	private var action: () -> Void
 	
 	// MARK: Init
-	public init(_ title: String, size: CGSize, disable: Binding<Bool> = .constant(false), action: @escaping() -> Void) {
+	public init(_ title: String, disable: Binding<Bool> = .constant(false), action: @escaping() -> Void) {
 		self.title = title
-		self.size = size
 		self.action = action
 		self._disable = disable
 	}
@@ -30,12 +28,13 @@ public struct RoundedGradientButton: View {
 	public var body: some View {
 		Button(action: action) {
 			Text(title)
-				.frame(width: size.width, height: size.height, alignment: .center)
+				.frame(maxWidth: .infinity, maxHeight: .infinity)
 		}
 		.disabled(disable)
 		.background(disable ? backgroundColorActive : backgroundColorUnActive)
-		.foregroundColor(commonUIConfig.colorSet.offWhite)
+		.foregroundColor(disable ? commonUIConfig.colorSet.offWhite.opacity(0.5) : commonUIConfig.colorSet.offWhite)
 		.cornerRadius(Constants.radiusButton)
+		.frame(maxWidth: .infinity, maxHeight: .infinity)
 	}
 }
 

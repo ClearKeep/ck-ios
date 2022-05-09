@@ -15,15 +15,15 @@ private enum Constants {
 
 public struct RoundedButton: View {
 	// MARK: - Variables
+	@Environment(\.colorScheme) var colorScheme
+	
 	@Binding var disable: Bool
-	private var size: CGSize
 	private var title: String
 	private var action: () -> Void
 	
 	// MARK: Init
-	public init(_ title: String, size: CGSize, disable: Binding<Bool> = .constant(false), action: @escaping() -> Void) {
+	public init(_ title: String, disable: Binding<Bool> = .constant(false), action: @escaping() -> Void) {
 		self.title = title
-		self.size = size
 		self.action = action
 		self._disable = disable
 	}
@@ -32,11 +32,39 @@ public struct RoundedButton: View {
 	public var body: some View {
 		Button(action: action) {
 			Text(title)
-				.frame(width: size.width, height: size.height, alignment: .center)
+				.frame(maxWidth: .infinity, maxHeight: .infinity)
 		}
 		.disabled(disable)
-		.background(disable ? commonUIConfig.colorSet.offWhite.opacity(0.5) : commonUIConfig.colorSet.offWhite)
-		.foregroundColor(commonUIConfig.colorSet.offWhite)
+		.background(disable ? backgroundColorUnActive : backgroundColorActive)
+		.foregroundColor(disable ? foregroundColorUnActive : foregroundColorActive)
 		.cornerRadius(Constants.radiusButton)
+		.frame(maxWidth: .infinity, maxHeight: .infinity)
+	}
+}
+
+// MARK: - Private
+private extension RoundedButton {
+	var foregroundColorActive: Color {
+		colorScheme == .light ? commonUIConfig.colorSet.primaryDefault : commonUIConfig.colorSet.offWhite
+	}
+
+	var foregroundColorUnActive: Color {
+		colorScheme == .light ? commonUIConfig.colorSet.primaryDefault.opacity(0.5) : commonUIConfig.colorSet.offWhite.opacity(0.5)
+	}
+
+	var backgroundColorActive: LinearGradient {
+		if colorScheme == .light {
+			return LinearGradient(gradient: Gradient(colors: [commonUIConfig.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
+		} else {
+			return LinearGradient(gradient: Gradient(colors: commonUIConfig.colorSet.gradientLinear), startPoint: .leading, endPoint: .trailing)
+		}
+	}
+	
+	var backgroundColorUnActive: LinearGradient {
+		if colorScheme == .light {
+			return LinearGradient(gradient: Gradient(colors: [commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })), startPoint: .leading, endPoint: .trailing)
+		} else {
+			return LinearGradient(gradient: Gradient(colors: commonUIConfig.colorSet.gradientLinear.compactMap({ $0.opacity(0.5) })), startPoint: .leading, endPoint: .trailing)
+		}
 	}
 }

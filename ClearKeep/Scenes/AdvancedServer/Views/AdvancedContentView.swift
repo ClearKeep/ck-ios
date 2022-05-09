@@ -10,11 +10,10 @@ import CommonUI
 import Common
 
 private enum Constants {
-	static let radius = 40.0
 	static let spacing = 20.0
 	static let padding = 16.0
-	static let paddingTop = 90.0
 	static let paddingTopButton = 38.0
+	static let submitButtonHeight = 40.0
 }
 
 struct AdvancedContentView: View {
@@ -54,15 +53,11 @@ struct AdvancedContentView: View {
 					destination: LoginView(isCustomServer: true),
 					isActive: $isLogin,
 					label: {
-						Button("AdvancedServer.Submit".localized) {
-							isLogin.toggle()
+						RoundedButton("AdvancedServer.Submit".localized, disable: .constant(severUrl.isEmpty)) {
+								isLogin.toggle()
 						}
-						.disabled(severUrl.isEmpty)
-						.frame(maxWidth: .infinity, alignment: .center)
-						.padding(.all, Constants.padding)
-						.background(backgroundButton)
-						.foregroundColor(foregroundButton)
-						.cornerRadius(Constants.radius)
+						.frame(height: Constants.submitButtonHeight)
+						.frame(maxWidth: .infinity)
 					})
 					.padding(.top, Constants.paddingTopButton)
 				Spacer()
@@ -77,34 +72,6 @@ struct AdvancedContentView: View {
 
 // MARK: - Private
 private extension AdvancedContentView {
-	var backgroundButton: LinearGradient {
-		severUrl.isEmpty ? backgroundButtonUnActive : backgroundButtonActive
-	}
-
-	var backgroundButtonUnActive: LinearGradient {
-		colorScheme == .light ? backgroundButtonUnActiveLight : backgroundButtonUnActiveDark
-	}
-
-	var backgroundButtonActive: LinearGradient {
-		colorScheme == .light ? backgroundButtonActiveLight : backgroundButtonActiveDark
-	}
-
-	var backgroundButtonActiveDark: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientSecondary), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var backgroundButtonUnActiveDark: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientSecondary.compactMap({ $0.opacity(0.5) })), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var backgroundButtonActiveLight: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var backgroundButtonUnActiveLight: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite].compactMap({ $0.opacity(0.5) })), startPoint: .leading, endPoint: .trailing)
-	}
-
 	var backgroundColorView: LinearGradient {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
 	}
@@ -117,18 +84,6 @@ private extension AdvancedContentView {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
 
-	var foregroundButton: Color {
-		severUrl.isEmpty ? foregroundButtonUnActive : foregroundButtonActive
-	}
-
-	var foregroundButtonActive: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
-	}
-
-	var foregroundButtonUnActive: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault.opacity(0.5) : AppTheme.shared.colorSet.offWhite.opacity(0.5)
-	}
-
 	var foregroundBackButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
@@ -136,7 +91,6 @@ private extension AdvancedContentView {
 	var foregroundCheckmask: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
-
 }
 
 // MARK: - Private Func

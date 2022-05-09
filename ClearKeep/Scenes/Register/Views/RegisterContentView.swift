@@ -76,9 +76,10 @@ struct RegisterContentView: View {
 						.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 				}
 				Spacer()
-				RoundedGradientButton("Register.SignUp".localized, size: Constants.buttonSize, disable: .constant(true)) {
+				RoundedGradientButton("Register.SignUp".localized, disable: .constant(true)) {
 					doRegister()
 				}
+				.frame(width: Constants.buttonSize.width, height: Constants.buttonSize.height)
 			}
 		}
 		.padding(.vertical, Constants.padding.top)
