@@ -614,7 +614,6 @@
 			isa = PBXGroup;
 			children = (
 				0499341227E96DF7003BD4C4 /* Views */,
-				0499341127E96DF1003BD4C4 /* Models */,
 				0499340727E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift */,
 				0499340827E96DD7003BD4C4 /* FogotPasswordWorker.swift */,
 				0499340927E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift */,
@@ -622,13 +621,6 @@
 				0499340B27E96DD7003BD4C4 /* FogotPasswordView.swift */,
 			);
 			path = FogotPassWord;
-			sourceTree = "<group>";
-		};
-		0499341127E96DF1003BD4C4 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		0499341227E96DF7003BD4C4 /* Views */ = {
@@ -663,7 +655,6 @@
 		0499342F27E96F70003BD4C4 /* NewPassword */ = {
 			isa = PBXGroup;
 			children = (
-				0499343B27E96F97003BD4C4 /* Models */,
 				0499343A27E96F8E003BD4C4 /* Views */,
 				0499343027E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift */,
 				0499343127E96F8A003BD4C4 /* NewPasswordWorker.swift */,
@@ -680,13 +671,6 @@
 				0499343C27E96FC5003BD4C4 /* NewPasswordContenView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		0499343B27E96F97003BD4C4 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		0499343E27E97015003BD4C4 /* ChangePassword */ = {
