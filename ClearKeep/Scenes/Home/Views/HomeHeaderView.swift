@@ -170,7 +170,10 @@ private extension HomeHeaderView {
 							placeHolder: placeHolderText,
 							onEditingChanged: { isEditing in
 				if isEditing {
+					inputStyle = .highlighted
 					isSearchAction = true
+				} else {
+					inputStyle = .normal
 				}
 			})
 				.padding(.leading, leaddingPadding)

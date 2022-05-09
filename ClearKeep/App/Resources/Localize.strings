@@ -13,6 +13,15 @@
 "General.Version" = "App version: %@";
 "Unknow.Message" = "Unknow message";
 "General.Next" = "Next";
+"General.Error" = "Error";
+"General.OK" = "OK";
+
+// MARK: - Error
+"Error.Unknow.Message" = "Unknow message (%ld)";
+"Error.Authentication.UnAuthorized" = "Please check your details and try again!";
+"Error.Authentication.NotActivated" = "Your account has not been activated. Please check the email for the activation link!";
+"Error.Authentication.Locked" = "Your account has been locked out due to too many attempts. Please try again later!";
+
 // MARK: - Social Login
 "Social.SetPhrase.Back" = "Set Your Security Phrase";
 "Social.ConfirmPhrase.Back" = "Confirm Your Security Phrase";
@@ -120,6 +129,30 @@
 "GroupChat.Add" = "Add";
 "GroupChat.Next" = "Next";
 "GroupChat.Create" = "Create";
+
+// MARK: - Call
+"Call.Calling" = "Calling";
+"Call.Mute" = "Mute";
+"Call.Camera" = "Camera";
+"Call.Speaker" = "Speaker";
+"Call.Cancel" = "Cancel";
+"Call.Decline" = "Decline";
+"Call.Answer" = "Answer";
+"Call.End" = "End Call";
+"Call.Incomming.Video" = "Incomming Video Call";
+"Call.Incomming.Voice" = "Incomming Voice Call";
+
+// MARK: - Call Group
+"CallGroup.Calling" = "Calling Group";
+"CallGroup.Mute" = "Mute";
+"CallGroup.Camera" = "Camera";
+"CallGroup.Speaker" = "Speaker";
+"CallGroup.Cancel" = "Cancel";
+"CallGroup.Decline" = "Decline";
+"CallGroup.Answer" = "Answer";
+"CallGroup.End" = "End Call";
+"CallGroup.Incomming.Video" = "Incomming Video Group Call";
+"CallGroup.Incomming.Voice" = "Incomming Voice Group Call";
 
 // MARK: - Search
 "Search.Title" = "CK Development";

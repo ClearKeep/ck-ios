@@ -5,7 +5,11 @@
 //  Created by đông on 02/03/2022.
 //
 import SwiftUI
+import Combine
+import Common
 import CommonUI
+import Model
+import ChatSecure
 
 private enum Constant {
 	static let spacerTopView = 50.0
@@ -28,18 +32,20 @@ struct LoginContentView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
-	@Binding var email: String
-	@Binding var password: String
-	@Binding var emailStyle: TextInputStyle
-	@Binding var passwordStyle: TextInputStyle
+	@Binding var loadable: Loadable<IAuthenticationModel>
+	@State private var email: String = ""
+	@State private var password: String = ""
+	@State private var emailStyle: TextInputStyle = .default
+	@State private var passwordStyle: TextInputStyle = .default
 	@State private var appVersion: String = "General.Version".localized
 	@State private var editingEmail = false
 	@State private var editingPassword = false
 	@State private var isAdvanceServer: Bool = false
 	@State private var isForgotPassword: Bool = false
 	@State private var isRegister: Bool = false
-	@State private var isHome: Bool = false
-
+	
+	// MARK: - Init
+	
 	// MARK: - Body
 	var body: some View {
 		VStack(alignment: .center, spacing: Constant.spacer) {
@@ -88,20 +94,15 @@ private extension LoginContentView {
 // MARK: - Loading Content
 private extension LoginContentView {
 	var buttonSignIn: some View {
-		NavigationLink(
-			destination: HomeView(),
-			isActive: $isHome,
-			label: {
-				Button("Login.SignIn".localized) {
-					doLogin()
-				}
-				.frame(maxWidth: .infinity)
-				.frame(height: Constant.heightButton)
-				.font(fontSignIn)
-				.background(backgroundSignInButton)
-				.foregroundColor(foregroundColorView)
-				.cornerRadius(Constant.radius)
-			})
+		Button("Login.SignIn".localized) {
+			doLogin()
+		}
+		.frame(maxWidth: .infinity)
+		.frame(height: Constant.heightButton)
+		.font(fontSignIn)
+		.background(backgroundSignInButton)
+		.foregroundColor(foregroundColorView)
+		.cornerRadius(Constant.radius)
 	}
 	
 	var textInputView: some View {
@@ -113,16 +114,23 @@ private extension LoginContentView {
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
 				if isEditing {
-					emailStyle = .normal
-				} else {
 					emailStyle = .highlighted
+				} else {
+					emailStyle = .normal
 				}
 			})
 			SecureTextField(secureText: $password,
 							inputStyle: $passwordStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "General.Password".localized,
-							keyboardType: .default )
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				if isEditing {
+					passwordStyle = .highlighted
+				} else {
+					passwordStyle = .normal
+				}
+			})
 		}
 	}
 	
@@ -170,19 +178,19 @@ private extension LoginContentView {
 	var socialLoginButtonView: some View {
 		HStack(spacing: Constant.spacerBottom) {
 			Button {
-				injected.interactors.loginInteractor.signInSocial(.google)
+				doSocialLogin(type: .google)
 			} label: {
 				AppTheme.shared.imageSet.googleIcon
 			}
 			
 			Button {
-				injected.interactors.loginInteractor.signInSocial(.office)
+				doSocialLogin(type: .office)
 			} label: {
 				AppTheme.shared.imageSet.officeIcon
 			}
 			
 			Button {
-				injected.interactors.loginInteractor.signInSocial(.facebook)
+				doSocialLogin(type: .facebook)
 			} label: {
 				AppTheme.shared.imageSet.facebookIcon
 			}
@@ -284,11 +292,19 @@ private extension LoginContentView {
 	}
 	
 	func doLogin() {
+		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			await injected.interactors.loginInteractor.signIn(email: email, password: password)
+			loadable = await injected.interactors.loginInteractor.signIn(email: email, password: password)
 		}
 	}
-
+	
+	func doSocialLogin(type: SocialType) {
+		loadable = .isLoading(last: nil, cancelBag: CancelBag())
+		Task {
+			loadable = await injected.interactors.loginInteractor.signInSocial(type)
+		}
+	}
+	
 	func advancedServer() {
 		isAdvanceServer = true
 	}
@@ -305,7 +321,7 @@ private extension LoginContentView {
 #if DEBUG
 struct LoginContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		LoginContentView(email: .constant("Test"), password: .constant("Test"), emailStyle: .constant(.default), passwordStyle: .constant(.default))
+		LoginContentView(loadable: .constant(.notRequested))
 	}
 }
 #endif

@@ -19,7 +19,7 @@ public protocol IMessageViewModel {
 	var clientWorkspaceDomain: String { get }
 }
 
-public struct MessageViewModel: Identifiable, IMessageViewModel {
+public struct MessageViewModel: Identifiable, Equatable, IMessageViewModel {
 	public var id: String
 	public var groupId: Int64
 	public var groupType: String
@@ -58,6 +58,6 @@ private extension MessageViewModel {
 	}
 	
 	static func isMine(clientId: String) -> Bool {
-		return true
+		return clientId == "1"
 	}
 }
