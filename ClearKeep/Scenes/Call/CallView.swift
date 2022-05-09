@@ -2,7 +2,7 @@
 //  CallView.swift
 //  ClearKeep
 //
-//  Created by đông on 05/04/2022.
+//  Created by đông on 09/05/2022.
 //
 
 import SwiftUI
@@ -32,7 +32,7 @@ private extension CallView {
 // MARK: - Loading Content
 private extension CallView {
 	var notRequestedView: some View {
-		CallingView()
+		Text("")
 	}
 }
 

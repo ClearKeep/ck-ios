@@ -27,7 +27,8 @@ struct LoginView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@State private(set) var loadable: Loadable<IAuthenticationModel> = .notRequested
 	let inspection = ViewInspector<Self>()
-
+	@State private(set) var isCustomServer: Bool = false
+	
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -35,8 +36,8 @@ struct LoginView: View {
 		NavigationView {
 			content
 				.onReceive(inspection.notice) { inspection.visit(self, $0) }
-				.navigationBarTitle("")
-				.navigationBarHidden(true)
+				.hiddenNavigationBarStyle()
+				.grandientBackground()
 		}
 	}
 }
@@ -52,10 +53,7 @@ private extension LoginView {
 		case .loaded(let data):
 			return loadedView(data)
 		case .failed(let error):
-			guard let error = error as? IServerError else {
-				return AnyView(errorView(ServerError.unknown))
-			}
-			return AnyView(errorView(error))
+			return AnyView(errorView(LoginViewError(error)))
 		}
 	}
 }
@@ -64,20 +62,27 @@ private extension LoginView {
 private extension LoginView {
 	var notRequestedView: some View {
 		ScrollView {
-			background
 			VStack(spacing: Constants.spacing) {
 				Spacer(minLength: Constants.minSpacer)
 				AppTheme.shared.imageSet.logo
 					.resizable()
 					.aspectRatio(contentMode: .fit)
 					.frame(width: Constants.widthLogo, height: Constants.heightLogo)
+				if isCustomServer {
+					HStack {
+						AppTheme.shared.imageSet.alertIcon
+							.foregroundColor(backgroundArlert)
+						Text("AdvancedServer.Alert".localized)
+							.foregroundColor(backgroundArlert)
+							.font(AppTheme.shared.fontSet.font(style: .input3))
+					}
+				}
 				LoginContentView(loadable: $loadable)
 				Spacer()
 			}
 			.padding(.leading, Constants.paddingVertical)
 			.padding(.trailing, Constants.paddingVertical)
 		}
-		.background(background)
 		.edgesIgnoringSafeArea(.all)
 	}
 	
@@ -101,22 +106,22 @@ private extension LoginView {
 			}
 		}
 		
-		return AnyView(errorView(ServerError.unknown))
+		return AnyView(errorView(LoginViewError.unknownError(errorCode: nil)))
 	}
 	
-	func errorView(_ error: IServerError) -> some View {
+	func errorView(_ error: LoginViewError) -> some View {
 		return notRequestedView
 			.alert(isPresented: .constant(true)) {
-				Alert(title: Text("General.Error".localized),
-					  message: Text(error.message ?? "General.Unknown".localized),
-					  dismissButton: .default(Text("General.OK".localized)))
+				Alert(title: Text(error.title),
+					  message: Text(error.message),
+					  dismissButton: .default(Text(error.primaryButtonTitle)))
 			}
 	}
 }
 
 // MARK: - Displaying Content
 private extension LoginView {
-
+	
 }
 
 // MARK: - Interactors
@@ -125,15 +130,8 @@ private extension LoginView {
 
 // MARK: - Support Variables
 private extension LoginView {
-	var background: LinearGradient {
-		colorScheme == .light ? backgroundGradientPrimary : backgroundBlack
-	}
-	
-	var backgroundBlack: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]), startPoint: .leading, endPoint: .trailing)
-	}
-	var backgroundGradientPrimary: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
+	var backgroundArlert: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.warningLight : AppTheme.shared.colorSet.primaryDefault
 	}
 }
 

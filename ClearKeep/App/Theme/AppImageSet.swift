@@ -45,20 +45,19 @@ struct AppImageSet: IAppImageSet {
 	var videoOffIcon: Image { Image("ic_video_off").renderingMode(.template) }
 	var menuIcon: Image { Image("ic_hamburger") }
 	var adjustmentIcon: Image { Image("ic_adjustment") }
-	var userPlusIcon: Image { Image("ic_user_plus") }
 	var pencilIcon: Image { Image("ic_pencil") }
 	var notificationIcon: Image { Image("ic_notification") }
 	var userOfflineIcon: Image { Image("ic_user_off") }
 	var usersPlusIcon: Image { Image("ic_user_plus") }
 	var trashIcon: Image { Image("ic_trash") }
-	var userCheckIcon: Image { Image("ic_user_check") }
+	var userCheckIcon: Image { Image("ic_user_check").renderingMode(.template) }
 	var faceIcon: Image { Image("ic_straight_face") }
 	var photoIcon: Image { Image("ic_photos").renderingMode(.template) }
 	var atIcon: Image { Image("ic_at") }
 	var archireIcon: Image { Image("ic_archive") }
 	var shareIcon: Image { Image("ic_share") }
 	var bellIcon: Image { Image("ic_bell") }
-	var alertIcon: Image { Image("ic_alert") }
+	var alertIcon: Image { Image("ic_alert").renderingMode(.template) }
 	var copyIcon: Image { Image("ic_copy") }
 	var quoteIcon: Image { Image("ic_quote") }
 	var forwardIcon: Image { Image("ic_forward") }
@@ -74,19 +73,19 @@ struct AppImageSet: IAppImageSet {
 	var checkedIcon: Image { Image("ic_checked") }
 	var cameraIcon: Image { Image("ic_camera") }
 	var cameraOffIcon: Image { Image("ic_camera_off") }
-	var muteOffIcon: Image { Image("ic_mute_off") }
-	var muteIcon: Image { Image("ic_mute") }
+	var muteOffIcon: Image { Image("ic_mute") }
+	var muteIcon: Image { Image("ic_mute-1") }
 	var speakerIcon2: Image { Image("ic_speaker-1") }
 	var speakerOffIcon2: Image { Image("ic_speaker_off-1") }
 	var userImage: Image { Image("ic_user_image") }
 }
 
 extension AppImageSet: ICommonUIImageSet {
-	var searchIcon: Image { Image("ic_search") }
-	var closeIcon: Image { Image("ic_cross") }
-	var eyeOn: Image { Image("ic_eye_on") }
-	var eyeOff: Image { Image("ic_eye_off") }
-	var userIcon: Image { Image("ic_user") }
-	var mailIcon: Image { Image("ic_mail") }
-	var lockIcon: Image { Image("ic_lock") }
+	var searchIcon: Image { Image("ic_search").renderingMode(.template) }
+	var closeIcon: Image { Image("ic_cross").renderingMode(.template) }
+	var eyeOn: Image { Image("ic_eye_on").renderingMode(.template) }
+	var eyeOff: Image { Image("ic_eye_off").renderingMode(.template) }
+	var userIcon: Image { Image("ic_user").renderingMode(.template) }
+	var mailIcon: Image { Image("ic_mail").renderingMode(.template) }
+	var lockIcon: Image { Image("ic_lock").renderingMode(.template) }
 }

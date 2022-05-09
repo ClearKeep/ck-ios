@@ -96,7 +96,6 @@ private extension HomeHeaderView {
 	func menuAction() {
 		if isSearchAction == true {
 			self.isSearchAction.toggle()
-			hideKeyboard()
 		} else {
 			self.isMenuAction.toggle()
 		}
@@ -122,6 +121,7 @@ private extension HomeHeaderView {
 					.offset(x: self.isMenuAction ? 0 : geometry.size.width )
 					.animation(.default)
 			}
+			.hideKeyboardOnTapped()
 		}
 	}
 
@@ -147,7 +147,10 @@ private extension HomeHeaderView {
 							placeHolder: placeHolderText,
 							onEditingChanged: { isEditing in
 				if isEditing {
+					inputStyle = .highlighted
 					isSearchAction = true
+				} else {
+					inputStyle = .normal
 				}
 			})
 				.padding(.leading, leaddingPadding)

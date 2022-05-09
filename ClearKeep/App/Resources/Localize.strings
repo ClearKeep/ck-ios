@@ -16,6 +16,13 @@
 "General.Error" = "Error";
 "General.OK" = "OK";
 
+// MARK: - Error
+"Error.Unknow.Message" = "Unknow message (%ld)";
+"Error.Authentication.Existed" = "This email address is already being used!";
+"Error.Authentication.UnAuthorized" = "Please check your details and try again!";
+"Error.Authentication.NotActivated" = "Your account has not been activated. Please check the email for the activation link!";
+"Error.Authentication.Locked" = "Your account has been locked out due to too many attempts. Please try again later!";
+
 // MARK: - Social Login
 "Social.SetPhrase.Back" = "Set Your Security Phrase";
 "Social.ConfirmPhrase.Back" = "Confirm Your Security Phrase";
@@ -63,10 +70,12 @@
 "General.DisplayName" = "Display Name";
 "General.Password" = "Password";
 "General.ConfirmPassword" = "Confirm Password";
+
 // MARK: - Register
 "Register.Title" = "Please fill in the information below to complete your sign up";
 "Register.SignInInstead" = "Sign in instead";
 "Register.SignUp" = "Sign up";
+
 // MARK: - ForgotPassword
 "ForgotPass.TitleMail" = "Please enter your email to reset your password";
 "ForgotPass.TitleChangePassword" = "Please enter your details to change password";
@@ -74,12 +83,15 @@
 "ForgotPass.NewPassword" = "Enter Your New Password";
 "ForgotPass.Resetpassword" = "Reset password";
 "ForgotPass.Save" = "Save";
+
 // MARK: - AdvancedServer
 "AdvancedServer.Title" = "Please enter your server URL to enter custom server";
 "AdvancedServer.SeverSetting" = "Advanced Server Settings";
 "AdvancedServer.SeverButton" = "Use Custom Server";
 "AdvancedServer.Submit" = "Submit";
 "AdvancedServer.ServerUrl" = "Server URL";
+"AdvancedServer.Alert" = "You are using custom server";
+
 // MARK: - Home
 "Home.Title" = "CK Development";
 "Home.Menu" = "Menu";
@@ -88,6 +100,7 @@
 "Home.GroupChat" = "Group Chat";
 "Home.Message" = "Direct Messages";
 "Home.Signout" = "Sign out";
+
 // MARK: - DirectMessages
 "DirectMessages.AddUserTitle" = "Add user from other server";
 "DirectMessages.TitleButton" = "Create direct message";
@@ -95,6 +108,7 @@
 "DirectMessages.Next" = "Next";
 "DirectMessages.Search" = "Search people ";
 "DirectMessages.LinkTitle" = "Paste your friend's link";
+
 // MARK: - Two Factor Login
 "2FA.Title.Back" = "Enter your code";
 "2FA.Title" = "Please input a code that has been sent to your phone";
@@ -137,6 +151,18 @@
 "Call.Incomming.Video" = "Incomming Video Call";
 "Call.Incomming.Voice" = "Incomming Voice Call";
 
+// MARK: - Call Group
+"CallGroup.Calling" = "Calling Group";
+"CallGroup.Mute" = "Mute";
+"CallGroup.Camera" = "Camera";
+"CallGroup.Speaker" = "Speaker";
+"CallGroup.Cancel" = "Cancel";
+"CallGroup.Decline" = "Decline";
+"CallGroup.Answer" = "Answer";
+"CallGroup.End" = "End Call";
+"CallGroup.Incomming.Video" = "Incomming Video Group Call";
+"CallGroup.Incomming.Voice" = "Incomming Voice Group Call";
+
 // MARK: - Search
 "Search.Title" = "CK Development";
 "Search.Placehodel" = "Search people, groups & messages";
@@ -147,6 +173,7 @@
 "Search.Message" = "Messages";
 "Search.GroupChat" = "Group Chat";
 "Search.Title.Error" = "There is no result for your search";
+
 // MARK: - GroupDetail
 "GroupDetail.SeeMembers" = "See Members";
 "GroupDetail.AddMember" = "Add Member";

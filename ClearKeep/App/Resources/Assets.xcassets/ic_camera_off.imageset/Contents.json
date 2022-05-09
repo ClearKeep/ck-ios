@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "ic_video_off.png",
+      "filename" : "ic_camera_off.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
