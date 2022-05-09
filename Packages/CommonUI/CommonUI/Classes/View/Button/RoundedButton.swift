@@ -16,15 +16,15 @@ public struct RoundedButton: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	
-	@Binding var disable: Bool
+	@Binding var disabled: Bool
 	private var title: String
 	private var action: () -> Void
 	
 	// MARK: Init
-	public init(_ title: String, disable: Binding<Bool> = .constant(false), action: @escaping() -> Void) {
+	public init(_ title: String, disabled: Binding<Bool> = .constant(false), action: @escaping() -> Void) {
 		self.title = title
 		self.action = action
-		self._disable = disable
+		self._disabled = disabled
 	}
 	
 	// MARK: - Body
@@ -34,9 +34,9 @@ public struct RoundedButton: View {
 				.font(commonUIConfig.fontSet.font(style: .body3))
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 		}
-		.disabled(disable)
-		.background(disable ? backgroundColorUnActive : backgroundColorActive)
-		.foregroundColor(disable ? foregroundColorUnActive : foregroundColorActive)
+		.disabled(disabled)
+		.background(disabled ? backgroundColorUnActive : backgroundColorActive)
+		.foregroundColor(disabled ? foregroundColorUnActive : foregroundColorActive)
 		.cornerRadius(Constants.radiusButton)
 		.frame(height: Constants.buttonHeight)
 		.frame(maxWidth: .infinity)

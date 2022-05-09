@@ -77,9 +77,9 @@ struct RegisterContentView: View {
 						.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 				}
 				Spacer()
-				RoundedGradientButton("Register.SignUp".localized, disable: .constant(true)) {
-					doRegister()
-				}
+				RoundedGradientButton("Register.SignUp".localized,
+									  disabled: .constant(email.isEmpty || displayName.isEmpty || password.isEmpty || confirmPassword.isEmpty),
+									  action: doRegister)
 				.frame(width: Constants.buttonSize.width)
 			}
 		}
@@ -107,10 +107,6 @@ private extension RegisterContentView {
 	
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
-	}
-	
-	func buttonStatus() -> Bool {
-		return email.isEmpty || displayName.isEmpty || password.isEmpty || confirmPassword.isEmpty
 	}
 }
 

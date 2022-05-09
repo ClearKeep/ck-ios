@@ -45,9 +45,9 @@ struct RegisterView: View {
 		}
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 		.grandientBackground()
-		.edgesIgnoringSafeArea(.all)
 		.hiddenNavigationBarStyle()
 		.hideKeyboardOnTapped()
+		.edgesIgnoringSafeArea(.all)
 	}
 }
 
@@ -78,7 +78,7 @@ private extension RegisterView {
 	}
 	
 	var loadingView: some View {
-		notRequestedView.modifier(LoadingIndicatorViewModifier())
+		notRequestedView.progressHUD(true)
 	}
 	
 	var loadedView: some View {

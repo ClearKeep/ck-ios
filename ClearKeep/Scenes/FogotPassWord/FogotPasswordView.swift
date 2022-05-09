@@ -22,6 +22,7 @@ struct FogotPasswordView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Binding var customServer: CustomServer
+	@State private(set) var loadable: Loadable<Bool> = .notRequested
 	
 	// MARK: - Body
 	var body: some View {
@@ -43,14 +44,47 @@ struct FogotPasswordView: View {
 // MARK: - Private
 private extension FogotPasswordView {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		switch loadable {
+		case .notRequested:
+			return AnyView(notRequestedView)
+		case .isLoading:
+			return AnyView(loadingView)
+		case .loaded:
+			return AnyView(loadedView)
+		case .failed(let error):
+			return AnyView(errorView(RegisterViewError(error)))
+		}
 	}
 }
 
 // MARK: - Loading Content
 private extension FogotPasswordView {
 	var notRequestedView: some View {
-		FogotPasswordContentView(customServer: $customServer)
+		FogotPasswordContentView(loadable: $loadable, customServer: $customServer)
+	}
+	
+	var loadingView: some View {
+		notRequestedView.progressHUD(true)
+	}
+	
+	var loadedView: some View {
+		return notRequestedView
+			.alert(isPresented: .constant(true)) {
+				Alert(title: Text("Register.Success.Title".localized),
+					  message: Text("Register.Success.Message".localized),
+					  dismissButton: .default(Text("General.OK".localized), action: {
+					presentationMode.wrappedValue.dismiss()
+				}))
+			}
+	}
+	
+	func errorView(_ error: RegisterViewError) -> some View {
+		return notRequestedView
+			.alert(isPresented: .constant(true)) {
+				Alert(title: Text(error.title),
+					  message: Text(error.message),
+					  dismissButton: .default(Text(error.primaryButtonTitle)))
+			}
 	}
 }
 

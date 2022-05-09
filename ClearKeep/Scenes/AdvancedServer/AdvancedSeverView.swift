@@ -52,7 +52,7 @@ struct AdvancedSeverView: View {
 					severUrlStyle = isEditing ? .highlighted : .normal
 				})
 				RoundedButton("AdvancedServer.Submit".localized,
-							  disable: .constant(editingCustomServer.customServerURL.isEmpty),
+							  disabled: .constant(editingCustomServer.customServerURL.isEmpty),
 							  action: submitAction)
 				.padding(.top, Constants.paddingTopButton)
 			}

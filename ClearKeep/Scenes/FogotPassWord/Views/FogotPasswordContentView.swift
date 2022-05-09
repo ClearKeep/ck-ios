@@ -25,6 +25,7 @@ struct FogotPasswordContentView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
+	@Binding var loadable: Loadable<Bool>
 	@Binding var customServer: CustomServer
 	@State private(set) var email: String = ""
 	@State private(set) var domain: String = ""
@@ -52,7 +53,7 @@ struct FogotPasswordContentView: View {
 					isActive: $showingNewPass,
 					label: {
 						RoundedButton("ForgotPassword.ResetPassword".localized,
-									  disable: .constant(email.isEmpty)) {
+									  disabled: .constant(email.isEmpty)) {
 							showingNewPass = true
 						}
 					})
@@ -77,8 +78,9 @@ private extension FogotPasswordContentView {
 private extension FogotPasswordContentView {
 
 	func doFogotPassword() {
+		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			await injected.interactors.fogotPasswordInteractor.recoverPassword(email: email, customServer: customServer)
+			loadable = await injected.interactors.fogotPasswordInteractor.recoverPassword(email: email, customServer: customServer)
 		}
 	}
 
@@ -87,7 +89,7 @@ private extension FogotPasswordContentView {
 #if DEBUG
 struct FogotPasswordContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		FogotPasswordContentView(customServer: .constant(CustomServer()))
+		FogotPasswordContentView(loadable: .constant(.notRequested), customServer: .constant(CustomServer()))
 	}
 }
 #endif

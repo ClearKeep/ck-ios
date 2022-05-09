@@ -64,7 +64,7 @@ struct NewPasswordContenView: View {
 					isActive: $isLogin,
 					label: {
 						RoundedButton("General.Save".localized,
-									  disable: .constant(password.isEmpty || rePassword.isEmpty)) {
+									  disabled: .constant(password.isEmpty || rePassword.isEmpty)) {
 							isLogin = true
 						}
 					})
