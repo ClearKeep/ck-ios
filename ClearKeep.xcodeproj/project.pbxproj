@@ -53,7 +53,6 @@
 		0499340F27E96DD7003BD4C4 /* FogotPasswordInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340A27E96DD7003BD4C4 /* FogotPasswordInteractor.swift */; };
 		0499341027E96DD7003BD4C4 /* FogotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340B27E96DD7003BD4C4 /* FogotPasswordView.swift */; };
 		0499341427E96E2F003BD4C4 /* FogotPasswordContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499341327E96E2F003BD4C4 /* FogotPasswordContentView.swift */; };
-		0499342E27E96F09003BD4C4 /* AdvancedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499342D27E96F09003BD4C4 /* AdvancedContentView.swift */; };
 		0499343527E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499343027E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift */; };
 		0499343627E96F8A003BD4C4 /* NewPasswordWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499343127E96F8A003BD4C4 /* NewPasswordWorker.swift */; };
 		0499343727E96F8A003BD4C4 /* NewPasswordRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499343227E96F8A003BD4C4 /* NewPasswordRemoteStore.swift */; };
@@ -121,6 +120,7 @@
 		CB7F291C281BC1A300BD5049 /* NormalLoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F291B281BC1A300BD5049 /* NormalLoginModel.swift */; };
 		CB7F29232823C53E00BD5049 /* LoginViewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F29222823C53E00BD5049 /* LoginViewError.swift */; };
 		CB7F295B2828BA5900BD5049 /* RegisterViewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F295A2828BA5800BD5049 /* RegisterViewError.swift */; };
+		CB7F29632828D36300BD5049 /* CustomServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F29622828D36300BD5049 /* CustomServer.swift */; };
 		CB8C3E3427F57FBA0034B3A9 /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8C3E3327F57FB90034B3A9 /* AppVersion.swift */; };
 		CB8C3EAB2805D2D60034B3A9 /* AddMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B1927F154A60098B104 /* AddMemberView.swift */; };
 		CBCF494F27D46715006D84FE /* Localize.strings in Resources */ = {isa = PBXBuildFile; fileRef = CBCF494E27D46714006D84FE /* Localize.strings */; };
@@ -263,7 +263,6 @@
 		0499340A27E96DD7003BD4C4 /* FogotPasswordInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordInteractor.swift; sourceTree = "<group>"; };
 		0499340B27E96DD7003BD4C4 /* FogotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordView.swift; sourceTree = "<group>"; };
 		0499341327E96E2F003BD4C4 /* FogotPasswordContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordContentView.swift; sourceTree = "<group>"; };
-		0499342D27E96F09003BD4C4 /* AdvancedContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedContentView.swift; sourceTree = "<group>"; };
 		0499343027E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordInMemoryStore.swift; sourceTree = "<group>"; };
 		0499343127E96F8A003BD4C4 /* NewPasswordWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordWorker.swift; sourceTree = "<group>"; };
 		0499343227E96F8A003BD4C4 /* NewPasswordRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordRemoteStore.swift; sourceTree = "<group>"; };
@@ -351,6 +350,7 @@
 		CB7F291B281BC1A300BD5049 /* NormalLoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalLoginModel.swift; sourceTree = "<group>"; };
 		CB7F29222823C53E00BD5049 /* LoginViewError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewError.swift; sourceTree = "<group>"; };
 		CB7F295A2828BA5800BD5049 /* RegisterViewError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewError.swift; sourceTree = "<group>"; };
+		CB7F29622828D36300BD5049 /* CustomServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomServer.swift; sourceTree = "<group>"; };
 		CB8C3E3327F57FB90034B3A9 /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
 		CBCF494E27D46714006D84FE /* Localize.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localize.strings; sourceTree = "<group>"; };
 		CBD9FDDA2805DB9100F54076 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -616,7 +616,7 @@
 		0499342027E96EBB003BD4C4 /* AdvancedServer */ = {
 			isa = PBXGroup;
 			children = (
-				0499342B27E96EE1003BD4C4 /* Views */,
+				CB7F29612828D35400BD5049 /* Models */,
 				0499344E27E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift */,
 				0499344F27E9A8BE003BD4C4 /* AdvancedSeverWorker.swift */,
 				0499345027E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift */,
@@ -624,14 +624,6 @@
 				0499345227E9A8BE003BD4C4 /* AdvancedSeverView.swift */,
 			);
 			path = AdvancedServer;
-			sourceTree = "<group>";
-		};
-		0499342B27E96EE1003BD4C4 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				0499342D27E96F09003BD4C4 /* AdvancedContentView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		0499342F27E96F70003BD4C4 /* NewPassword */ = {
@@ -964,6 +956,14 @@
 			isa = PBXGroup;
 			children = (
 				CB7F295A2828BA5800BD5049 /* RegisterViewError.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CB7F29612828D35400BD5049 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CB7F29622828D36300BD5049 /* CustomServer.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1645,6 +1645,7 @@
 				0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */,
 				F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */,
 				F568DC2127FD882600EE9DF0 /* NotificationInteractor.swift in Sources */,
+				CB7F29632828D36300BD5049 /* CustomServer.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
 				047D6B0E27F1544D0098B104 /* GroupDetailInMemoryStore.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
@@ -1677,7 +1678,6 @@
 				F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */,
 				F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
-				0499342E27E96F09003BD4C4 /* AdvancedContentView.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
 				047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */,
 				22A1C69B2812B1D500FE957F /* ChatRemoteStore.swift in Sources */,

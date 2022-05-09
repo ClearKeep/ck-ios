@@ -15,7 +15,6 @@ private enum Constants {
 	static let paddingTextfield = 24.0
 	static let paddingText = 10.0
 	static let paddingLeading = 16.0
-	static let submitButtonHeight = 40.0
 }
 
 struct FogotPasswordContentView: View {
@@ -54,7 +53,7 @@ struct FogotPasswordContentView: View {
 						RoundedButton("ForgotPassword.ResetPassword".localized,
 									  disable: .constant(email.isEmpty)) {
 							showingNewPass = true
-						}.frame(height: Constants.submitButtonHeight)
+						}
 					})
 			}
 			Spacer()

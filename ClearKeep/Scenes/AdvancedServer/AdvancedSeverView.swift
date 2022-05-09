@@ -10,7 +10,9 @@ import Common
 import CommonUI
 
 private enum Constants {
-	static let imageScale = 40.0
+	static let spacing = 20.0
+	static let padding = 16.0
+	static let paddingTopButton = 38.0
 }
 
 struct AdvancedSeverView: View {
@@ -21,71 +23,75 @@ struct AdvancedSeverView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+	@Binding var customServer: CustomServer
+	@State private(set) var editingCustomServer: CustomServer
+	@State private(set) var severUrlStyle: TextInputStyle = .default
+	@State private(set) var isLogin: Bool = false
+	
+	// MARK: - Init
+	init(customServer: Binding<CustomServer>) {
+		self._customServer = customServer
+		self._editingCustomServer = State(initialValue: customServer.wrappedValue)
+	}
 	
 	// MARK: - Body
 	var body: some View {
-		content
-			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.applyNavigationBarPlainStyle(title: "AdvancedServer.SeverSetting".localized,
-										  titleColor: foregroundBackButton,
-										  backgroundColors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary : AppTheme.shared.colorSet.gradientBlack,
-										  leftBarItems: {
-				buttonBack
-			},
-										  rightBarItems: {
+		VStack(spacing: Constants.spacing) {
+			CheckBoxButtons(text: "AdvancedServer.SeverButton".localized, isChecked: $editingCustomServer.isSelectedCustomServer)
+				.foregroundColor(titleColor)
+			if editingCustomServer.isSelectedCustomServer {
+				Text("AdvancedServer.Title".localized)
+					.font(AppTheme.shared.fontSet.font(style: .body2))
+					.foregroundColor(titleColor)
+					.frame(maxWidth: .infinity, alignment: .leading)
+				CommonTextField(text: $editingCustomServer.customServerURL,
+								inputStyle: $severUrlStyle,
+								inputIcon: AppTheme.shared.imageSet.mailIcon,
+								placeHolder: "AdvancedServer.ServerUrl".localized,
+								keyboardType: .default,
+								onEditingChanged: { isEditing in
+					severUrlStyle = isEditing ? .highlighted : .normal
+				})
+				RoundedButton("AdvancedServer.Submit".localized,
+							  disable: .constant(editingCustomServer.customServerURL.isEmpty),
+							  action: submitAction)
+				.padding(.top, Constants.paddingTopButton)
 				Spacer()
-			})
-			.background(backgroundColorView)
+			}
+			Spacer()
+		}
+		.onReceive(inspection.notice) { inspection.visit(self, $0) }
+		.applyNavigationBarPlainStyle(title: "AdvancedServer.SeverSetting".localized,
+									  titleColor: titleColor,
+									  backgroundColors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary : AppTheme.shared.colorSet.gradientBlack,
+									  leftBarItems: {
+			BackButton(backAction)
+		},
+									  rightBarItems: {
+			Spacer()
+		})
+		.padding(.horizontal, Constants.padding)
+		.grandientBackground()
+		.edgesIgnoringSafeArea(.all)
 	}
 }
 
 // MARK: - Private
 private extension AdvancedSeverView {
-	var content: AnyView {
-		AnyView(notRequestedView)
-	}
-}
-
-// MARK: - Private variable
-private extension AdvancedSeverView {
-	var backgroundColorView: LinearGradient {
-		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
-	}
-
-	var backgroundColorBlack: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var backgroundColorGradient: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-	}
-	
-	var foregroundBackButton: Color {
+	var titleColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
 }
 
 // MARK: - Private func
 private extension AdvancedSeverView {
-	func customBack() {
+	func backAction() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
-
-	var buttonBack : some View {
-		Button(action: customBack) {
-				AppTheme.shared.imageSet.backIcon
-				.resizable()
-				.aspectRatio(contentMode: .fit)
-				.frame(width: Constants.imageScale, height: Constants.imageScale)
-				.foregroundColor(foregroundBackButton)
-		}
-	}
-}
-
-// MARK: - Loading Content
-private extension AdvancedSeverView {
-	var notRequestedView: some View {
-		AdvancedContentView()
+	
+	func submitAction() {
+		customServer = editingCustomServer
+		self.presentationMode.wrappedValue.dismiss()
 	}
 }
 
@@ -93,7 +99,7 @@ private extension AdvancedSeverView {
 #if DEBUG
 struct AdvancedSeverView_Previews: PreviewProvider {
 	static var previews: some View {
-		AdvancedSeverView()
+		AdvancedSeverView(customServer: .constant(CustomServer(isSelectedCustomServer: false, customServerURL: "")))
 	}
 }
 #endif

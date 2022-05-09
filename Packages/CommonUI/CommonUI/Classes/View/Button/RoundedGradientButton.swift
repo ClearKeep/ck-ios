@@ -9,6 +9,7 @@ import SwiftUI
 
 private enum Constants {
 	static let radiusButton = 40.0
+	static let buttonHeight = 40.0
 }
 
 public struct RoundedGradientButton: View {
@@ -28,13 +29,15 @@ public struct RoundedGradientButton: View {
 	public var body: some View {
 		Button(action: action) {
 			Text(title)
+				.font(commonUIConfig.fontSet.font(style: .body3))
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 		}
 		.disabled(disable)
 		.background(disable ? backgroundColorActive : backgroundColorUnActive)
 		.foregroundColor(disable ? commonUIConfig.colorSet.offWhite.opacity(0.5) : commonUIConfig.colorSet.offWhite)
 		.cornerRadius(Constants.radiusButton)
-		.frame(maxWidth: .infinity, maxHeight: .infinity)
+		.frame(height: Constants.buttonHeight)
+		.frame(maxWidth: .infinity)
 	}
 }
 

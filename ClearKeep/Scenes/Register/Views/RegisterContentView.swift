@@ -79,7 +79,7 @@ struct RegisterContentView: View {
 				RoundedGradientButton("Register.SignUp".localized, disable: .constant(true)) {
 					doRegister()
 				}
-				.frame(width: Constants.buttonSize.width, height: Constants.buttonSize.height)
+				.frame(width: Constants.buttonSize.width)
 			}
 		}
 		.padding(.vertical, Constants.padding.top)

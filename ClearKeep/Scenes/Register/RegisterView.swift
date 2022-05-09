@@ -33,9 +33,7 @@ struct RegisterView: View {
 	var body: some View {
 		GeometryReader { _ in
 			ScrollView(showsIndicators: false) {
-				AppTheme.shared.imageSet.logo
-					.resizable()
-					.aspectRatio(contentMode: .fit)
+				AppLogo()
 					.frame(width: Constants.logoSize.width, height: Constants.logoSize.height)
 					.padding(.top, Constants.logoPadding.top)
 					.padding(.bottom, Constants.logoPadding.bottom)

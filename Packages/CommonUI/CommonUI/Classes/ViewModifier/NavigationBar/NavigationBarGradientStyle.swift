@@ -19,7 +19,7 @@ struct NavigationBarGradidentStyle<L, R>: ViewModifier where L: View, R: View {
 		VStack(alignment: .leading, spacing: 0) {
 			Spacer()
 				.frame(width: UIScreen.main.bounds.width, height: 20 + globalSafeAreaInsets().top)
-				.background(backgroundGradientPrimary)
+				.background(backgroundColor)
 			
 			VStack(alignment: .leading, spacing: 0) {
 				HStack {
@@ -35,7 +35,8 @@ struct NavigationBarGradidentStyle<L, R>: ViewModifier where L: View, R: View {
 						.foregroundColor(commonUIConfig.colorSet.black)
 						.padding(.top, 23)
 				}
-			}.background(backgroundGradientPrimary)
+			}
+			.background(backgroundColor)
 			
 			content
 		}
@@ -46,11 +47,11 @@ struct NavigationBarGradidentStyle<L, R>: ViewModifier where L: View, R: View {
 
 // MARK: - Private
 extension NavigationBarGradidentStyle {
-	var backgroundGradientPrimary: AnyView {
-	   colorScheme == .light
-	   ? AnyView(LinearGradient(gradient: Gradient(colors: commonUIConfig.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing))
-	   : AnyView(commonUIConfig.colorSet.darkGrey2)
-   }
+	var backgroundColor: LinearGradient {
+		colorScheme == .light
+		? LinearGradient(gradient: Gradient(colors: commonUIConfig.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
+		: LinearGradient(gradient: Gradient(colors: [commonUIConfig.colorSet.darkGrey2]), startPoint: .leading, endPoint: .trailing)
+	}
 }
 
 public extension View {

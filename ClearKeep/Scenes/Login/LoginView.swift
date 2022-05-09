@@ -17,7 +17,6 @@ private enum Constants {
 	static let heightLogo = 120.0
 	static let widthLogo = 150.0
 	static let spacing = 30.0
-	static let paddingVertical = 14.0
 	static let paddingHorizontal = 24.0
 }
 
@@ -26,8 +25,8 @@ struct LoginView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@State private(set) var loadable: Loadable<IAuthenticationModel> = .notRequested
+	@State private(set) var customServer: CustomServer = CustomServer(isSelectedCustomServer: false, customServerURL: "")
 	let inspection = ViewInspector<Self>()
-	@State private(set) var isCustomServer: Bool = false
 	
 	// MARK: - Init
 	
@@ -36,6 +35,9 @@ struct LoginView: View {
 		NavigationView {
 			content
 				.onReceive(inspection.notice) { inspection.visit(self, $0) }
+				.onReceive(injected.appState, perform: { _ in
+					print("hello")
+				})
 				.hideKeyboardOnTapped()
 				.hiddenNavigationBarStyle()
 				.grandientBackground()
@@ -63,14 +65,12 @@ private extension LoginView {
 // MARK: - Loading Content
 private extension LoginView {
 	var notRequestedView: some View {
-		ScrollView {
+		ScrollView(showsIndicators: false) {
 			VStack(spacing: Constants.spacing) {
 				Spacer(minLength: Constants.minSpacer)
-				AppTheme.shared.imageSet.logo
-					.resizable()
-					.aspectRatio(contentMode: .fit)
+				AppLogo()
 					.frame(width: Constants.widthLogo, height: Constants.heightLogo)
-				if isCustomServer {
+				if customServer.isSelectedCustomServer {
 					HStack {
 						AppTheme.shared.imageSet.alertIcon
 							.foregroundColor(backgroundArlert)
@@ -79,13 +79,11 @@ private extension LoginView {
 							.font(AppTheme.shared.fontSet.font(style: .input3))
 					}
 				}
-				LoginContentView(loadable: $loadable)
+				LoginContentView(loadable: $loadable, customServer: $customServer)
 				Spacer()
 			}
-			.padding(.leading, Constants.paddingVertical)
-			.padding(.trailing, Constants.paddingVertical)
+			.padding(.horizontal, Constants.paddingHorizontal)
 		}
-		.edgesIgnoringSafeArea(.all)
 	}
 	
 	var loadingView: some View {

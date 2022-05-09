@@ -14,7 +14,6 @@ private enum Constants {
 	static let padding = 30.0
 	static let paddingTextfield = 24.0
 	static let paddingLeading = 16.0
-	static let submitButtonHeight = 40.0
 }
 
 struct NewPasswordContenView: View {
@@ -67,7 +66,7 @@ struct NewPasswordContenView: View {
 						RoundedButton("General.Save".localized,
 									  disable: .constant(password.isEmpty || rePassword.isEmpty)) {
 							isLogin = true
-						}.frame(height: Constants.submitButtonHeight)
+						}
 					})
 			}
 			Spacer()
