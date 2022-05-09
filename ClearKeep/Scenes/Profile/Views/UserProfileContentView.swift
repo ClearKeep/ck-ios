@@ -44,7 +44,7 @@ struct UserProfileContentView: View {
 	@State private var twoFAStatus: String = ""
 	@State private var isChangePassword: Bool = false
 	@State private var isCurrentPass: Bool = false
-
+	
 	// MARK: - Init
 	init(samples: Loadable<[IProfileModel]> = .notRequested,
 		 username: String = "",
@@ -59,18 +59,16 @@ struct UserProfileContentView: View {
 		_phone = .init(initialValue: phone)
 		_phoneStyle = .init(initialValue: phoneStyle)
 	}
-
+	
 	// MARK: - Body
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-//			.navigationBarHidden(true)
 			.applyNavigationBarPlainStyle(title: "",
 										  titleColor: AppTheme.shared.colorSet.offWhite,
 										  backgroundColors: backgroundColorWhite,
 										  leftBarItems: {
 				buttonTop
-					.padding(.top, Constant.spacerTop)
 			},
 										  rightBarItems: {
 				Spacer()
@@ -100,7 +98,7 @@ private extension UserProfileContentView {
 					Spacer()
 				}
 				.padding(.horizontal, Constant.spacer)
-
+				
 				if isShowCountryCode {
 					CountryCode(selectedNum: $countryCode, isShowing: $isShowCountryCode)
 				}
@@ -108,7 +106,7 @@ private extension UserProfileContentView {
 		}
 		.edgesIgnoringSafeArea(.all)
 	}
-
+	
 	var buttonTop: some View {
 		HStack {
 			Button(action: { }, label: {
@@ -124,7 +122,7 @@ private extension UserProfileContentView {
 		}
 		.frame(maxWidth: .infinity)
 	}
-
+	
 	var profileSettings: some View {
 		VStack(alignment: .leading, spacing: Constant.spacer) {
 			HStack {
@@ -133,7 +131,7 @@ private extension UserProfileContentView {
 					.foregroundColor(foregroundColorSetting)
 				Spacer()
 			}
-
+			
 			Button(action: customBack) {
 				HStack {
 					Circle()
@@ -155,13 +153,13 @@ private extension UserProfileContentView {
 		}
 		.frame(maxWidth: .infinity)
 	}
-
+	
 	var textInput: some View {
 		VStack(alignment: .leading, spacing: Constant.spacer) {
 			Text("UserProfile.Username".localized)
 				.font(AppTheme.shared.fontSet.font(style: .input3))
 				.foregroundColor(AppTheme.shared.colorSet.grey1)
-
+			
 			CommonTextField(text: $username,
 							inputStyle: $usernameStyle,
 							inputIcon: Image(""),
@@ -174,11 +172,11 @@ private extension UserProfileContentView {
 					usernameStyle = .highlighted
 				}
 			})
-
+			
 			Text("UserProfile.Email".localized)
 				.font(AppTheme.shared.fontSet.font(style: .input3))
 				.foregroundColor(AppTheme.shared.colorSet.grey1)
-
+			
 			CommonTextField(text: $email,
 							inputStyle: $emailStyle,
 							inputIcon: Image(""),
@@ -191,11 +189,11 @@ private extension UserProfileContentView {
 					emailStyle = .highlighted
 				}
 			})
-
+			
 			Text("UserProfile.PhoneNumber".localized)
 				.font(AppTheme.shared.fontSet.font(style: .input3))
 				.foregroundColor(AppTheme.shared.colorSet.grey1)
-
+			
 			HStack {
 				Button {
 					isShowCountryCode = true
@@ -210,7 +208,7 @@ private extension UserProfileContentView {
 							.font(AppTheme.shared.fontSet.font(style: .input3))
 							.foregroundColor(foregroundCrossButton)
 							.padding(.trailing, 5)
-
+						
 					}
 					.frame(width: Constant.widthButtonPhone, height: Constant.heightButtonPhone)
 					.background(AppTheme.shared.colorSet.grey5)
@@ -220,7 +218,7 @@ private extension UserProfileContentView {
 							.stroke(AppTheme.shared.colorSet.grey5, lineWidth: Constant.lineWidth)
 					)
 				}
-
+				
 				CommonTextField(text: $phone,
 								inputStyle: $phoneStyle,
 								inputIcon: Image(""),
@@ -239,13 +237,13 @@ private extension UserProfileContentView {
 					Text("UserProfile.Link.Copy".localized)
 						.font(AppTheme.shared.fontSet.font(style: .body3))
 						.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
-
+					
 					Spacer()
 					AppTheme.shared.imageSet.copyIcon
 						.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 				}
 			}
-
+			
 			NavigationLink(destination: ChangePasswordView(),
 						   isActive: $isChangePassword) {
 				Button(action: changePassword) {
@@ -261,14 +259,14 @@ private extension UserProfileContentView {
 			}
 		}
 	}
-
+	
 	var twoFactor: some View {
 		VStack(spacing: 20) {
 			HStack {
 				Text("UserProfile.Authen.2FA".localized)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundColorSetting)
-
+				
 				Spacer()
 				NavigationLink( destination: CurrentPassword(),
 								isActive: $isCurrentPass) {
@@ -295,16 +293,16 @@ private extension UserProfileContentView {
 	func customBack() {
 		presentationMode.wrappedValue.dismiss()
 	}
-
+	
 	func changePassword() {
 		isChangePassword = true
 	}
-
+	
 	func enable2FA() {
 		isEnable2FA.toggle()
 		isCurrentPass = isEnable2FA
 	}
-
+	
 	var statusTwoFA: String {
 		isEnable2FA ? "Disable" : "Enable"
 	}
@@ -316,31 +314,31 @@ private extension UserProfileContentView {
 	var backgroundColorGradient: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundColorBlack: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.darkGrey2, AppTheme.shared.colorSet.darkGrey2]), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundColorWhite: [Color] {
 		[AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]
 	}
-
+	
 	var backgroundColorTop: LinearGradient {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
 	}
-
+	
 	var foregroundCrossButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight
 	}
-
+	
 	var foregroundColorSetting: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
 	}
-
+	
 	var foregroundColorPicture: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.offWhite
 	}
-
+	
 	var foregroundColorStatus: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.offWhite
 	}

@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct GradientBackground: ViewModifier {
-	var colors: [Color]
+	// MARK: - Variables
+	@Environment(\.colorScheme) var colorScheme
 	
-	public func body(content: Content) -> some View {
+	// MARK: - Body
+	func body(content: Content) -> some View {
 		ZStack(alignment: .topLeading) {
-			LinearGradient(gradient: Gradient(colors: colors), startPoint: .leading, endPoint: .trailing)
+			backgroundColor
 				.frame(minWidth: 0,
 					   maxWidth: .infinity,
 					   minHeight: 0,
@@ -25,9 +27,25 @@ struct GradientBackground: ViewModifier {
 	}
 }
 
-extension View {
-	func grandientBackground(colors: [Color]) -> some View {
-		self.modifier(GradientBackground(colors: colors))
+// MARK: Private
+extension GradientBackground {
+	var backgroundColor: LinearGradient {
+		colorScheme == .light ? backgroundColorLight : backgroundColorDark
+	}
+
+	var backgroundColorDark: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: commonUIConfig.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
+	}
+
+	var backgroundColorLight: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: commonUIConfig.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
+	}
+
+}
+
+public extension View {
+	func grandientBackground() -> some View {
+		self.modifier(GradientBackground())
 	}
 	
 	func gradientHeader(opacity: Double = 1.0, colors: [Color]) -> some View {
