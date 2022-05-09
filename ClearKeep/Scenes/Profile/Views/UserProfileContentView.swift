@@ -64,7 +64,17 @@ struct UserProfileContentView: View {
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.navigationBarHidden(true)
+//			.navigationBarHidden(true)
+			.applyNavigationBarPlainStyle(title: "",
+										  titleColor: AppTheme.shared.colorSet.offWhite,
+										  backgroundColors: backgroundColorWhite,
+										  leftBarItems: {
+				buttonTop
+					.padding(.top, Constant.spacerTop)
+			},
+										  rightBarItems: {
+				Spacer()
+			})
 	}
 }
 
@@ -81,8 +91,6 @@ private extension UserProfileContentView {
 		ScrollView {
 			ZStack {
 				VStack {
-					buttonTop
-						.padding(.top, Constant.spacerTop)
 					profileSettings
 						.padding(.top, Constant.spacer)
 					textInput
@@ -311,6 +319,10 @@ private extension UserProfileContentView {
 
 	var backgroundColorBlack: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.darkGrey2, AppTheme.shared.colorSet.darkGrey2]), startPoint: .leading, endPoint: .trailing)
+	}
+
+	var backgroundColorWhite: [Color] {
+		[AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]
 	}
 
 	var backgroundColorTop: LinearGradient {
