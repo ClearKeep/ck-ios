@@ -25,18 +25,17 @@ struct FogotPasswordView: View {
 	// MARK: - Body
 	var body: some View {
 		content
-			.hideKeyboardOnTapped()
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.applyNavigationBarPlainStyle(title: "AdvancedServer.SeverSetting".localized,
-										  titleColor: foregroundBackButton,
-										  backgroundColors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary : AppTheme.shared.colorSet.gradientBlack,
+			.applyNavigationBarPlainStyle(title: "ForgotPassword.Title".localized,
+										  titleColor: titleColor,
 										  leftBarItems: {
-				buttonBack
+				BackButton(customBack)
 			},
 										  rightBarItems: {
 				Spacer()
 			})
-			.background(backgroundColorView)
+			.hideKeyboardOnTapped()
+			.grandientBackground()
 	}
 }
 
@@ -52,36 +51,15 @@ private extension FogotPasswordView {
 	var notRequestedView: some View {
 		FogotPasswordContentView(emailStyle: .default)
 	}
-
-	var buttonBack : some View {
-		Button(action: customBack) {
-			AppTheme.shared.imageSet.backIcon
-				.resizable()
-				.aspectRatio(contentMode: .fit)
-				.frame(width: Constants.imageScale, height: Constants.imageScale)
-				.foregroundColor(foregroundBackButton)
-		}
-	}
 }
 
 // MARK: - Private variable
 private extension FogotPasswordView {
-	var backgroundColorView: LinearGradient {
-		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
-	}
-
-	var backgroundColorBlack: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var backgroundColorGradient: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var foregroundBackButton: Color {
+	var titleColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
 }
+
 // MARK: - Private func
 private extension FogotPasswordView {
 	func customBack() {

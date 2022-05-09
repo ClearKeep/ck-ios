@@ -10,15 +10,12 @@ import CommonUI
 import Common
 
 private enum Constants {
-	static let radius = 40.0
 	static let spacing = 40.0
-	static let spacingHstack = 23.0
 	static let padding = 30.0
 	static let paddingTextfield = 24.0
-	static let paddingButton = 10.0
 	static let paddingText = 10.0
-	static let paddingtop = 90.0
-	static let paddingLeding = 16.0
+	static let paddingLeading = 16.0
+	static let submitButtonHeight = 40.0
 }
 
 struct FogotPasswordContentView: View {
@@ -37,13 +34,10 @@ struct FogotPasswordContentView: View {
 	// MARK: - Body
 	var body: some View {
 		VStack(spacing: Constants.spacing) {
-			VStack(alignment: .leading, spacing: Constants.padding) {
-				Text("ForgotPass.TitleMail".localized)
-					.font(AppTheme.shared.fontSet.font(style: .input2))
-					.foregroundColor(foregroundBackButton)
-					.frame(maxWidth: .infinity, alignment: .leading)
-					.padding(.horizontal, Constants.paddingText)
-			}
+			Text("ForgotPassword.Description".localized)
+				.font(AppTheme.shared.fontSet.font(style: .input2))
+				.foregroundColor(titleColor)
+				.frame(maxWidth: .infinity, alignment: .leading)
 			VStack(spacing: Constants.paddingTextfield) {
 				CommonTextField(text: $email,
 								inputStyle: $emailStyle,
@@ -57,68 +51,23 @@ struct FogotPasswordContentView: View {
 					destination: NewPasswordView(),
 					isActive: $showingNewPass,
 					label: {
-						Button {
-							self.showingNewPass = true
-						} label: {
-							Text("ForgotPass.Resetpassword".localized)
-								.font(AppTheme.shared.fontSet.font(style: .body3))
-								.foregroundColor(foregroundButton)
-						}.frame(maxWidth: .infinity, alignment: .center)
-							.padding(.all, Constants.paddingButton)
-							.background(backgroundButton)
-
-							.cornerRadius(Constants.radius)
-					})	.disabled(email.isEmpty)
+						RoundedButton("ForgotPassword.ResetPassword".localized,
+									  disable: .constant(email.isEmpty)) {
+							showingNewPass = true
+						}.frame(height: Constants.submitButtonHeight)
+					})
 			}
 			Spacer()
 		}
 		.frame(maxWidth: .infinity, alignment: .center)
-		.padding(.horizontal, Constants.paddingLeding)
-		.background(backgroundViewColor)
+		.padding(.horizontal, Constants.paddingLeading)
 		.edgesIgnoringSafeArea(.all)
 	}
 }
 
 // MARK: - Private
 private extension FogotPasswordContentView {
-
-	var backgroundButton: Color {
-		email.isEmpty ? backgroundButtonUnActive : backgroundButtonActive
-	}
-
-	var backgroundButtonUnActive: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.offWhite.opacity(0.5) : AppTheme.shared.colorSet.primaryLight.opacity(0.5)
-	}
-
-	var backgroundButtonActive: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryLight
-	}
-
-	var backgroundViewColor: LinearGradient {
-		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
-	}
-
-	var backgroundColorBlack: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var backgroundColorGradient: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var foregroundButton: Color {
-		email.isEmpty ? foregroundButtonUnActive : foregroundButtonActive
-	}
-
-	var foregroundButtonActive: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
-	}
-
-	var foregroundButtonUnActive: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault.opacity(0.5) : AppTheme.shared.colorSet.offWhite.opacity(0.5)
-	}
-
-	var foregroundBackButton: Color {
+	var titleColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
 

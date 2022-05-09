@@ -65,7 +65,6 @@ struct AdvancedContentView: View {
 			Spacer()
 		}
 		.padding(.horizontal, Constants.padding)
-		.grandientBackground()
 		.edgesIgnoringSafeArea(.all)
 	}
 }

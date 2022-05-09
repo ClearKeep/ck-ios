@@ -25,18 +25,17 @@ struct NewPasswordView: View {
 	// MARK: - Body
 	var body: some View {
 		content
-			.hideKeyboardOnTapped()
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.applyNavigationBarPlainStyle(title: "AdvancedServer.SeverSetting".localized,
-										  titleColor: foregroundBackButton,
-										  backgroundColors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary : AppTheme.shared.colorSet.gradientBlack,
+			.applyNavigationBarPlainStyle(title: "NewPassword.Title".localized,
+										  titleColor: titleColor,
 										  leftBarItems: {
-				buttonBack
+				BackButton(customBack)
 			},
 										  rightBarItems: {
 				Spacer()
 			})
-			.background(backgroundColorView)
+			.hideKeyboardOnTapped()
+			.grandientBackground()
 	}
 }
 
@@ -52,33 +51,11 @@ private extension NewPasswordView {
 	var notRequestedView: some View {
 		NewPasswordContenView()
 	}
-
-	var buttonBack : some View {
-		Button(action: customBack) {
-			AppTheme.shared.imageSet.backIcon
-				.resizable()
-				.aspectRatio(contentMode: .fit)
-				.frame(width: Constants.imageScale, height: Constants.imageScale)
-				.foregroundColor(foregroundBackButton)
-		}
-	}
 }
 
 // MARK: - Private variable
 private extension NewPasswordView {
-	var backgroundColorView: LinearGradient {
-		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
-	}
-
-	var backgroundColorBlack: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var backgroundColorGradient: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var foregroundBackButton: Color {
+	var titleColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
 }
