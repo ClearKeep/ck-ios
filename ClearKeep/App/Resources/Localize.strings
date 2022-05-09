@@ -18,6 +18,7 @@
 
 // MARK: - Error
 "Error.Unknow.Message" = "Unknow message (%ld)";
+"Error.Authentication.Existed" = "This email address is already being used!";
 "Error.Authentication.UnAuthorized" = "Please check your details and try again!";
 "Error.Authentication.NotActivated" = "Your account has not been activated. Please check the email for the activation link!";
 "Error.Authentication.Locked" = "Your account has been locked out due to too many attempts. Please try again later!";

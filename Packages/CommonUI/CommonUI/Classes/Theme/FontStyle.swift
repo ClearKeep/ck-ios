@@ -19,7 +19,8 @@ public enum FontStyle {
 	case body1
 	case body2
 	case body3
-	
+	case body4
+
 	case input1
 	case input2
 	case input3
