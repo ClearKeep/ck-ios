@@ -36,8 +36,8 @@ struct LoginView: View {
 		NavigationView {
 			content
 				.onReceive(inspection.notice) { inspection.visit(self, $0) }
-				.navigationBarTitle("")
-				.navigationBarHidden(true)
+				.hiddenNavigationBarStyle()
+				.grandientBackground()
 		}
 	}
 }
@@ -62,7 +62,6 @@ private extension LoginView {
 private extension LoginView {
 	var notRequestedView: some View {
 		ScrollView {
-			background
 			VStack(spacing: Constants.spacing) {
 				Spacer(minLength: Constants.minSpacer)
 				AppTheme.shared.imageSet.logo
@@ -84,7 +83,6 @@ private extension LoginView {
 			.padding(.leading, Constants.paddingVertical)
 			.padding(.trailing, Constants.paddingVertical)
 		}
-		.background(background)
 		.edgesIgnoringSafeArea(.all)
 	}
 	
@@ -132,22 +130,9 @@ private extension LoginView {
 
 // MARK: - Support Variables
 private extension LoginView {
-	var background: LinearGradient {
-		colorScheme == .light ? backgroundGradientPrimary : backgroundBlack
-	}
-	
-	var backgroundBlack: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]), startPoint: .leading, endPoint: .trailing)
-	}
-	
-	var backgroundGradientPrimary: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-	}
-	
 	var backgroundArlert: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.warningLight : AppTheme.shared.colorSet.primaryDefault
 	}
-	
 }
 
 // MARK: - Preview

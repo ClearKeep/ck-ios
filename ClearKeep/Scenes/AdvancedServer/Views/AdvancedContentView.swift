@@ -34,7 +34,7 @@ struct AdvancedContentView: View {
 	var body: some View {
 		VStack(spacing: Constants.spacing) {
 			CheckBoxButtons(text: "AdvancedServer.SeverButton".localized, isChecked: $isShowingView)
-				.foregroundColor(foregroundCheckmask)
+				.foregroundColor(foregroundCheckMark)
 				.frame(maxWidth: .infinity, alignment: .leading)
 			if isShowingView {
 				Text("AdvancedServer.Title".localized)
@@ -65,30 +65,18 @@ struct AdvancedContentView: View {
 			Spacer()
 		}
 		.padding(.horizontal, Constants.padding)
-		.background(backgroundColorView)
+		.grandientBackground()
 		.edgesIgnoringSafeArea(.all)
 	}
 }
 
 // MARK: - Private
 private extension AdvancedContentView {
-	var backgroundColorView: LinearGradient {
-		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
-	}
-
-	var backgroundColorBlack: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var backgroundColorGradient: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-	}
-
 	var foregroundBackButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
 
-	var foregroundCheckmask: Color {
+	var foregroundCheckMark: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
 }
