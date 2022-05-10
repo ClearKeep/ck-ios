@@ -97,7 +97,7 @@
 		CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117EA727BB7856000941D9 /* DeepLinksHandler.swift */; };
 		CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117EAB27BB786B000941D9 /* AppEnvironment.swift */; };
 		CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117EB027BB7879000941D9 /* DependencyInjector.swift */; };
-		CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117EBB27BB7D2F000941D9 /* ContentView.swift */; };
+		CB117EBC27BB7D2F000941D9 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117EBB27BB7D2F000941D9 /* RootView.swift */; };
 		CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117EBD27BB7DE2000941D9 /* RootViewModifier.swift */; };
 		CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117EC127BB8DB1000941D9 /* AppDelegate.swift */; };
 		CB117EC427BB8DB1000941D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117EC227BB8DB1000941D9 /* SceneDelegate.swift */; };
@@ -121,6 +121,8 @@
 		CB7F29232823C53E00BD5049 /* LoginViewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F29222823C53E00BD5049 /* LoginViewError.swift */; };
 		CB7F295B2828BA5900BD5049 /* RegisterViewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F295A2828BA5800BD5049 /* RegisterViewError.swift */; };
 		CB7F29632828D36300BD5049 /* CustomServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F29622828D36300BD5049 /* CustomServer.swift */; };
+		CB7F2971282A198B00BD5049 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F2970282A198B00BD5049 /* Server.swift */; };
+		CB7F2973282A4D6A00BD5049 /* SocialViewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F2972282A4D6A00BD5049 /* SocialViewError.swift */; };
 		CB8C3E3427F57FBA0034B3A9 /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8C3E3327F57FB90034B3A9 /* AppVersion.swift */; };
 		CB8C3EAB2805D2D60034B3A9 /* AddMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B1927F154A60098B104 /* AddMemberView.swift */; };
 		CBCF494F27D46715006D84FE /* Localize.strings in Resources */ = {isa = PBXBuildFile; fileRef = CBCF494E27D46714006D84FE /* Localize.strings */; };
@@ -320,7 +322,7 @@
 		CB117EA727BB7856000941D9 /* DeepLinksHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinksHandler.swift; sourceTree = "<group>"; };
 		CB117EAB27BB786B000941D9 /* AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		CB117EB027BB7879000941D9 /* DependencyInjector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependencyInjector.swift; sourceTree = "<group>"; };
-		CB117EBB27BB7D2F000941D9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		CB117EBB27BB7D2F000941D9 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		CB117EBD27BB7DE2000941D9 /* RootViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModifier.swift; sourceTree = "<group>"; };
 		CB117EC127BB8DB1000941D9 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CB117EC227BB8DB1000941D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -351,6 +353,8 @@
 		CB7F29222823C53E00BD5049 /* LoginViewError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewError.swift; sourceTree = "<group>"; };
 		CB7F295A2828BA5800BD5049 /* RegisterViewError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewError.swift; sourceTree = "<group>"; };
 		CB7F29622828D36300BD5049 /* CustomServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomServer.swift; sourceTree = "<group>"; };
+		CB7F2970282A198B00BD5049 /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
+		CB7F2972282A4D6A00BD5049 /* SocialViewError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialViewError.swift; sourceTree = "<group>"; };
 		CB8C3E3327F57FB90034B3A9 /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
 		CBCF494E27D46714006D84FE /* Localize.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localize.strings; sourceTree = "<group>"; };
 		CBD9FDDA2805DB9100F54076 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -795,7 +799,7 @@
 				044351EA27D9AFCA0054A78F /* Register */,
 				0472419827DB3D2C0043345A /* Login */,
 				CB117E7D27BB660D000941D9 /* Home */,
-				CB117EBB27BB7D2F000941D9 /* ContentView.swift */,
+				CB117EBB27BB7D2F000941D9 /* RootView.swift */,
 				CB117EBD27BB7DE2000941D9 /* RootViewModifier.swift */,
 			);
 			path = Scenes;
@@ -844,6 +848,7 @@
 			isa = PBXGroup;
 			children = (
 				CB117E8527BB6687000941D9 /* SampleModel.swift */,
+				CB7F2970282A198B00BD5049 /* Server.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1074,6 +1079,7 @@
 			isa = PBXGroup;
 			children = (
 				F553F86227E820E600824BE7 /* SocialModel.swift */,
+				CB7F2972282A4D6A00BD5049 /* SocialViewError.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1564,12 +1570,14 @@
 				F556C24328097F6E00D2B149 /* ChatGroupInteractor.swift in Sources */,
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
 				0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */,
+				CB7F2971282A198B00BD5049 /* Server.swift in Sources */,
 				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				0462C6CC2816535C00A9EABB /* CatalogyView.swift in Sources */,
 				0499343527E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
 				CB7F2916281BA17300BD5049 /* SocialLoginModel.swift in Sources */,
+				CB7F2973282A4D6A00BD5049 /* SocialViewError.swift in Sources */,
 				0462C6C42816535C00A9EABB /* SearchModels.swift in Sources */,
 				22A1C69D2812B1D500FE957F /* ChatView.swift in Sources */,
 				F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */,
@@ -1685,7 +1693,7 @@
 				F568DC2427FD882600EE9DF0 /* NotificationWorker.swift in Sources */,
 				CB40073027E74E1900DFBE88 /* Configuration.swift in Sources */,
 				CB7F295B2828BA5900BD5049 /* RegisterViewError.swift in Sources */,
-				CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */,
+				CB117EBC27BB7D2F000941D9 /* RootView.swift in Sources */,
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
 				0462C6CA2816535C00A9EABB /* SearchMessageView.swift in Sources */,
 				0499341427E96E2F003BD4C4 /* FogotPasswordContentView.swift in Sources */,

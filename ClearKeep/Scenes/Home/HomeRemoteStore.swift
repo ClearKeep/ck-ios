@@ -10,11 +10,15 @@ import Combine
 import ChatSecure
 
 protocol IHomeRemoteStore {
+	func signOut()
 }
 
 struct HomeRemoteStore {
 	let channelStorage: IChannelStorage
+	let authenticationService: IAuthenticationService
 }
 
 extension HomeRemoteStore: IHomeRemoteStore {
+	func signOut() {
+	}
 }

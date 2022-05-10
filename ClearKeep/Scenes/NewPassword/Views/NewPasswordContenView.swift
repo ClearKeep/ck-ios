@@ -26,14 +26,19 @@ struct NewPasswordContenView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@State private(set) var password: String = ""
 	@State private(set) var rePassword: String = ""
-	@State private(set) var preAccessToken: String = ""
-	@State private(set) var email: String = ""
-	@State private(set) var domain: String = ""
 	@State private(set) var passwordStyle: TextInputStyle = .default
 	@State private(set) var rePasswordStyle: TextInputStyle = .default
 	@State private(set) var isLogin: Bool = false
+	let preAccessToken: String
+	let email: String
+	let domain: String
 
 	// MARK: - Init
+	init(preAccessToken: String, email: String, domain: String) {
+		self.preAccessToken = preAccessToken
+		self.email = email
+		self.domain = domain
+	}
 
 	// MARK: - Body
 	var body: some View {
@@ -101,7 +106,7 @@ private extension NewPasswordContenView {
 #if DEBUG
 struct NewPasswordContenView_Previews: PreviewProvider {
 	static var previews: some View {
-		NewPasswordContenView()
+		NewPasswordContenView(preAccessToken: "", email: "", domain: "")
 	}
 }
 #endif
