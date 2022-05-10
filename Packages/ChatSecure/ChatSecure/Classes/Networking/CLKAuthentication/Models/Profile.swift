@@ -6,9 +6,9 @@
 //
 
 import UIKit
+import Networking
 
-public protocol IProfile {
-	var generateId: Int? { get set }
+protocol IProfile {
 	var userId: String { get set }
 	var userName: String? { get set }
 	var email: String? { get set }
@@ -17,5 +17,22 @@ public protocol IProfile {
 	var avatar: String? { get set }
 }
 
-struct Profile {
+struct Profile: IProfile {
+	var userId: String
+	var userName: String?
+	var email: String?
+	var phoneNumber: String?
+	var updatedAt: Int8
+	var avatar: String?
+}
+
+extension Profile {
+	init(profileResponse: User_UserProfileResponse) {
+		userId = profileResponse.id
+		userName = profileResponse.displayName
+		email = profileResponse.email
+		phoneNumber = profileResponse.phoneNumber
+		updatedAt = 0
+		avatar = profileResponse.avatar
+	}
 }

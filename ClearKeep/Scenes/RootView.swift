@@ -26,7 +26,7 @@ struct RootView: View {
 				Text("Running unit tests")
 			} else {
 				if isLoggedIn {
-					HomeHeaderView(inputStyle: .constant(.default))
+					HomeView()
 						.inject(container)
 				} else {
 					LoginView()

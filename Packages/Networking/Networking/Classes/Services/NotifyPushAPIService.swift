@@ -16,13 +16,13 @@ public protocol INotifyPushAPIService {
 extension APIService: INotifyPushAPIService {
 	public func registerToken(_ request: NotifyPush_RegisterTokenRequest) async -> Result<NotifyPush_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let response = clientNotifyPush.register_token(request).response
-			let status = clientNotifyPush.register_token(request).status
-			status.whenComplete({ result in
+			let caller = clientNotifyPush.register_token(request, callOptions: callOptions)
+			
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -37,13 +37,13 @@ extension APIService: INotifyPushAPIService {
 	
 	public func pushText(_ request: NotifyPush_PushTextRequest) async -> Result<NotifyPush_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let response = clientNotifyPush.push_text(request).response
-			let status = clientNotifyPush.push_text(request).status
-			status.whenComplete({ result in
+			let caller = clientNotifyPush.push_text(request, callOptions: callOptions)
+			
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -58,13 +58,13 @@ extension APIService: INotifyPushAPIService {
 	
 	public func pushVoip(_ request: NotifyPush_PushVoipRequest) async -> Result<NotifyPush_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let response = clientNotifyPush.push_voip(request).response
-			let status = clientNotifyPush.push_voip(request).status
-			status.whenComplete({ result in
+			let caller = clientNotifyPush.push_voip(request, callOptions: callOptions)
+			
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {

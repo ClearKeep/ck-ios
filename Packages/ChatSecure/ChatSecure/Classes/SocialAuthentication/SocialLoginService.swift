@@ -59,8 +59,10 @@ extension SocialAuthenticationService: ISocialAuthenticationService {
 		fbLoginManager.logOut()
 		
 		let result: LoginResult = await withCheckedContinuation({ continuation in
-			fbLoginManager.logIn(permissions: [.publicProfile, .email], viewController: nil) { result in
-				return continuation.resume(returning: result)
+			DispatchQueue.main.async {
+				fbLoginManager.logIn(permissions: [.publicProfile, .email], viewController: nil) { result in
+					return continuation.resume(returning: result)
+				}
 			}
 		})
 		
@@ -72,7 +74,7 @@ extension SocialAuthenticationService: ISocialAuthenticationService {
 				var request = Auth_FacebookLoginReq()
 				request.accessToken = currentUser.tokenString
 				request.workspaceDomain = domain
-				return await channelStorage.getChannels(domain: domain).login(request)
+				return await channelStorage.getChannel(domain: domain).login(request)
 			} else {
 				return .failure(ServerError.unknown)
 			}
@@ -83,10 +85,12 @@ extension SocialAuthenticationService: ISocialAuthenticationService {
 		guard let topViewController = await UIApplication.shared.topMostViewController(),
 			  let googleSignInConfiguration = googleSignInConfiguration else { return .failure(ServerError.unknown) }
 		let result: Result<String, Error> = await withCheckedContinuation({ continuation in
-			GIDSignIn.sharedInstance.signIn(with: googleSignInConfiguration, presenting: topViewController) { user, error in
-				if let error = error { return continuation.resume(returning: .failure(error)) }
-				guard let idToken = user?.authentication.idToken else { return continuation.resume(returning: .failure(ServerError.unknown)) }
-				return continuation.resume(returning: .success(idToken))
+			DispatchQueue.main.async {
+				GIDSignIn.sharedInstance.signIn(with: googleSignInConfiguration, presenting: topViewController) { user, error in
+					if let error = error { return continuation.resume(returning: .failure(error)) }
+					guard let idToken = user?.authentication.idToken else { return continuation.resume(returning: .failure(ServerError.unknown)) }
+					return continuation.resume(returning: .success(idToken))
+				}
 			}
 		})
 		
@@ -96,7 +100,7 @@ extension SocialAuthenticationService: ISocialAuthenticationService {
 			request.idToken = idToken
 			request.workspaceDomain = domain
 			
-			return await channelStorage.getChannels(domain: domain).login(request)
+			return await channelStorage.getChannel(domain: domain).login(request)
 		case .failure(let error):
 			return .failure(error)
 		}
@@ -119,7 +123,7 @@ extension SocialAuthenticationService: ISocialAuthenticationService {
 			request.accessToken = msalResult.accessToken
 			request.workspaceDomain = domain
 			
-			return await channelStorage.getChannels(domain: domain).login(request)
+			return await channelStorage.getChannel(domain: domain).login(request)
 		case .failure(let error):
 			return .failure(error)
 		case .none:
@@ -176,15 +180,17 @@ private extension SocialAuthenticationService {
 		parameters.promptType = .selectAccount
 		
 		return await withCheckedContinuation({ continuation in
-			applicationContext.acquireToken(with: parameters) { (result, error) in
-				if let error = error {
-					return continuation.resume(returning: .failure(error))
+			DispatchQueue.main.async {
+				applicationContext.acquireToken(with: parameters) { (result, error) in
+					if let error = error {
+						return continuation.resume(returning: .failure(error))
+					}
+					
+					guard let result = result else {
+						return continuation.resume(returning: .failure(ServerError.unknown))
+					}
+					return continuation.resume(returning: .success(result))
 				}
-				
-				guard let result = result else {
-					return continuation.resume(returning: .failure(ServerError.unknown))
-				}
-				return continuation.resume(returning: .success(result))
 			}
 		})
 	}
@@ -196,35 +202,37 @@ private extension SocialAuthenticationService {
 		let parameters = MSALSilentTokenParameters(scopes: ["user.read"], account: account)
 		
 		return await withCheckedContinuation({ continuation in
-			applicationContext.acquireTokenSilent(with: parameters) { [weak self] (result, error) in
-				guard let self = self else { return continuation.resume(returning: .failure(ServerError.unknown)) }
-				if let error = error {
-					let nsError = error as NSError
-					if nsError.domain == MSALErrorDomain {
-						if nsError.code == MSALError.interactionRequired.rawValue {
-							let parameters = MSALInteractiveTokenParameters(scopes: ["user.read"], webviewParameters: webViewParameters)
-							parameters.promptType = .selectAccount
-							applicationContext.acquireToken(with: parameters) { (result, error) in
-								if let error = error {
-									return continuation.resume(returning: .failure(error))
+			DispatchQueue.main.async {
+				applicationContext.acquireTokenSilent(with: parameters) { [weak self] (result, error) in
+					guard let self = self else { return continuation.resume(returning: .failure(ServerError.unknown)) }
+					if let error = error {
+						let nsError = error as NSError
+						if nsError.domain == MSALErrorDomain {
+							if nsError.code == MSALError.interactionRequired.rawValue {
+								let parameters = MSALInteractiveTokenParameters(scopes: ["user.read"], webviewParameters: webViewParameters)
+								parameters.promptType = .selectAccount
+								applicationContext.acquireToken(with: parameters) { (result, error) in
+									if let error = error {
+										return continuation.resume(returning: .failure(error))
+									}
+									guard let result = result else {
+										return continuation.resume(returning: .failure(ServerError.unknown))
+									}
+									return continuation.resume(returning: .success(result))
 								}
-								guard let result = result else {
-									return continuation.resume(returning: .failure(ServerError.unknown))
-								}
-								return continuation.resume(returning: .success(result))
+							} else {
+								continuation.resume(returning: .failure(nsError))
 							}
 						} else {
-							continuation.resume(returning: .failure(nsError))
+							continuation.resume(returning: .failure(error))
 						}
-					} else {
-						continuation.resume(returning: .failure(error))
 					}
+					guard let result = result else {
+						continuation.resume(returning: .failure(ServerError.unknown))
+						return
+					}
+					continuation.resume(returning: .success(result))
 				}
-				guard let result = result else {
-					continuation.resume(returning: .failure(ServerError.unknown))
-					return
-				}
-				continuation.resume(returning: .success(result))
 			}
 		})
 	}

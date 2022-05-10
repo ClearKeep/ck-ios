@@ -15,13 +15,13 @@ public protocol IWorkspaceAPIService {
 extension APIService: IWorkspaceAPIService {
 	public func workspaceInfo(_ request: Workspace_WorkspaceInfoRequest) async -> Result<Workspace_WorkspaceInfoResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let response = clientWorkspace.workspace_info(request).response
-			let status = clientWorkspace.workspace_info(request).status
-			status.whenComplete({ result in
+			let caller = clientWorkspace.workspace_info(request, callOptions: callOptions)
+			
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -36,13 +36,13 @@ extension APIService: IWorkspaceAPIService {
 	
 	public func leaveWorkspace(_ request: Workspace_LeaveWorkspaceRequest) async -> Result<Workspace_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let response = clientWorkspace.leave_workspace(request).response
-			let status = clientWorkspace.leave_workspace(request).status
-			status.whenComplete({ result in
+			let caller = clientWorkspace.leave_workspace(request, callOptions: callOptions)
+			
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {

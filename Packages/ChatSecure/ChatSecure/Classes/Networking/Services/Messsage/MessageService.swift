@@ -66,7 +66,7 @@ private extension MessageService {
 		request.clientID = clientId
 		request.workspaceDomain = workspaceDomain
 		
-		let response = await channelStorage.getChannels(domain: workspaceDomain).peerGetClientKey(request)
+		let response = await channelStorage.getChannel(domain: workspaceDomain).peerGetClientKey(request)
 		
 		switch response {
 		case .success(let recipientResponse):

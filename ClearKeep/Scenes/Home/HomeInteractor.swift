@@ -11,38 +11,49 @@ import ChatSecure
 protocol IHomeInteractor {
 	var worker: IHomeWorker { get }
 	
-	func signOut()
+	func getJoinedGroup() async
+	func signOut() async
 }
 
 struct HomeInteractor {
 	let appState: Store<AppState>
 	let channelStorage: IChannelStorage
 	let authenticationService: IAuthenticationService
+	let groupService: IGroupService
 }
 
 extension HomeInteractor: IHomeInteractor {
 	var worker: IHomeWorker {
-		let remoteStore = HomeRemoteStore(channelStorage: channelStorage, authenticationService: authenticationService)
+		let remoteStore = HomeRemoteStore(authenticationService: authenticationService, groupService: groupService)
 		let inMemoryStore = HomeInMemoryStore()
-		return HomeWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+		return HomeWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
-	func signOut() {
-		worker.signOut()
+	func getJoinedGroup() async {
+		let result = await worker.getJoinedGroup()
+	}
+	
+	func signOut() async {
+		let result = await worker.signOut()
 	}
 }
 
 struct StubHomeInteractor: IHomeInteractor {
 	let channelStorage: IChannelStorage
 	let authenticationService: IAuthenticationService
+	let groupService: IGroupService
 	
 	var worker: IHomeWorker {
-		let remoteStore = HomeRemoteStore(channelStorage: channelStorage, authenticationService: authenticationService)
+		let remoteStore = HomeRemoteStore(authenticationService: authenticationService, groupService: groupService)
 		let inMemoryStore = HomeInMemoryStore()
-		return HomeWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+		return HomeWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
-	func signOut() {
-		worker.signOut()
+	func getJoinedGroup() async {
+		let result = await worker.getJoinedGroup()
+	}
+	
+	func signOut() async {
+		let result = await worker.signOut()
 	}
 }

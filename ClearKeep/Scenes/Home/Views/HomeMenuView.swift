@@ -160,7 +160,9 @@ private extension HomeMenuView {
 	}
 
 	func signOut() {
-		injected.interactors.homeInteractor.signOut()
+		Task {
+			await injected.interactors.homeInteractor.signOut()
+		}
 	}
 
 	func chooseAction() {
