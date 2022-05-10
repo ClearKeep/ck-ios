@@ -68,14 +68,10 @@ private extension FogotPasswordView {
 	}
 	
 	var loadedView: some View {
-		return notRequestedView
-			.alert(isPresented: .constant(true)) {
-				Alert(title: Text("Register.Success.Title".localized),
-					  message: Text("Register.Success.Message".localized),
-					  dismissButton: .default(Text("General.OK".localized), action: {
-					presentationMode.wrappedValue.dismiss()
-				}))
-			}
+		NavigationLink(
+			destination: NewPasswordView(),
+			isActive: .constant(true),
+			label: {})
 	}
 	
 	func errorView(_ error: RegisterViewError) -> some View {

@@ -15,7 +15,6 @@ protocol INewPasswordInteractor {
 
 struct NewPasswordInteractor {
 	let appState: Store<AppState>
-	let channelStorage: IChannelStorage
 	let authenticationService: IAuthenticationService
 }
 
@@ -23,7 +22,7 @@ extension NewPasswordInteractor: INewPasswordInteractor {
 	var worker: INewPasswordWorker {
 		let remoteStore = NewPasswordRemoteStore(authenticationService: authenticationService)
 		let inMemoryStore = NewPasswordInMemoryStore()
-		return NewPasswordWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+		return NewPasswordWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
 	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async {
@@ -32,13 +31,12 @@ extension NewPasswordInteractor: INewPasswordInteractor {
 }
 
 struct StubNewPasswordInteractor: INewPasswordInteractor {
-	let channelStorage: IChannelStorage
 	let authenticationService: IAuthenticationService
 
 	var worker: INewPasswordWorker {
 		let remoteStore = NewPasswordRemoteStore(authenticationService: authenticationService)
 		let inMemoryStore = NewPasswordInMemoryStore()
-		return NewPasswordWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+		return NewPasswordWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
 	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async {

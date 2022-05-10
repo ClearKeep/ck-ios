@@ -35,9 +35,6 @@ struct LoginView: View {
 		NavigationView {
 			content
 				.onReceive(inspection.notice) { inspection.visit(self, $0) }
-				.onReceive(injected.appState, perform: { _ in
-					print("hello")
-				})
 				.hideKeyboardOnTapped()
 				.hiddenNavigationBarStyle()
 				.grandientBackground()
@@ -92,16 +89,24 @@ private extension LoginView {
 	
 	func loadedView(_ data: IAuthenticationModel) -> AnyView {
 		if let normalLogin = data.normalLogin {
+			injected.appState[\.authentication.accessToken] = normalLogin.accessToken
 			return AnyView(Text(normalLogin.workspaceDomain ?? ""))
 		}
 		
-		if let socialLogin = data.socialLogin {
-			if socialLogin.requireAction == "register_pincode" {
+		if let socialLogin = data.socialLogin,
+		   let userName = socialLogin.userName {
+			switch socialLogin.requireAction {
+			case "register_pincode":
 				return AnyView(VStack {
-					NavigationLink(destination: SocialView(socialStyle: .setSecurity), isActive: .constant(true), label: {})
+					NavigationLink(destination: SocialView(userName: userName, socialStyle: .setSecurity, customServer: $customServer), isActive: .constant(true), label: {})
 					notRequestedView
 				})
-			} else {
+			case "verify_pincode":
+				return AnyView(VStack {
+					NavigationLink(destination: SocialView(userName: userName, socialStyle: .verifySecurity, customServer: $customServer), isActive: .constant(true), label: {})
+					notRequestedView
+				})
+			default:
 				return AnyView(Text(socialLogin.requireAction ?? ""))
 			}
 		}
@@ -139,7 +144,7 @@ private extension LoginView {
 #if DEBUG
 struct LoginView_Previews: PreviewProvider {
 	static var previews: some View {
-		ContentView(container: .preview)
+		LoginView()
 	}
 }
 #endif

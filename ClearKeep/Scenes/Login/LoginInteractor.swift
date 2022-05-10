@@ -15,11 +15,24 @@ protocol ILoginInteractor {
 	func getAppVersion() -> String
 }
 
-struct LoginInteractor {
+class LoginInteractor {
 	let appState: Store<AppState>
 	let channelStorage: IChannelStorage
 	let socialAuthenticationService: ISocialAuthenticationService
 	let authenticationService: IAuthenticationService
+	var appTokenService: IAppTokenService
+	
+	init(appState: Store<AppState>,
+		 channelStorage: IChannelStorage,
+		 socialAuthenticationService: ISocialAuthenticationService,
+		 authenticationService: IAuthenticationService,
+		 appTokenService: IAppTokenService) {
+		self.appState = appState
+		self.channelStorage = channelStorage
+		self.socialAuthenticationService = socialAuthenticationService
+		self.authenticationService = authenticationService
+		self.appTokenService = appTokenService
+	}
 }
 
 extension LoginInteractor: ILoginInteractor {
@@ -34,6 +47,8 @@ extension LoginInteractor: ILoginInteractor {
 		
 		switch result {
 		case .success(let data):
+			appTokenService.accessToken = data.normalLogin?.accessToken
+			appState[\.authentication.accessToken] = appTokenService.accessToken
 			return .loaded(data)
 		case .failure(let error):
 			return .failed(error)

@@ -12,6 +12,8 @@ import Common
 protocol IHomeWorker {
 	var remoteStore: IHomeRemoteStore { get }
 	var inMemoryStore: IHomeInMemoryStore { get }
+	
+	func signOut()
 }
 
 struct HomeWorker {
@@ -25,4 +27,7 @@ struct HomeWorker {
 }
 
 extension HomeWorker: IHomeWorker {
+	func signOut() {
+		remoteStore.signOut()
+	}
 }

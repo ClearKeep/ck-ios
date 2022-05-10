@@ -96,7 +96,7 @@ private extension RegisterContentView {
 	}
 }
 
-// MARK: - private func
+// MARK: - Interactor
 private extension RegisterContentView {
 	func doRegister() {
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())

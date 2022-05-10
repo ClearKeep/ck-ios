@@ -328,7 +328,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		var request = Auth_ForgotPasswordReq()
 		request.email = email
 		
-		let callOptions = CallOptions(timeLimit: .deadline(NIODeadline.uptimeNanoseconds(30 * 1000 * 1000)))
+		let callOptions = CallOptions(timeLimit: .timeout(TimeAmount.seconds(30)))
 		let response = await channelStorage.getChannels(domain: domain).forgotPassword(request, callOptions: callOptions)
 		switch response {
 		case .success(let data):
@@ -347,7 +347,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 											"hash_key": server.hashKey,
 											"domain": "localhost",
 											"ip_address": "0.0.0.0"]
-		let callOptions = CallOptions(customMetadata: customMetadata, timeLimit: .deadline(NIODeadline.uptimeNanoseconds(10 * 1000 * 1000)))
+		let callOptions = CallOptions(customMetadata: customMetadata, timeLimit: .timeout(TimeAmount.seconds(10)))
 		let response = await channelStorage.getChannels(domain: server.serverDomain).logout(request, callOptions: callOptions)
 		switch response {
 		case .success(let data):

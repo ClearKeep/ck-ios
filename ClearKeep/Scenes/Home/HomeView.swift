@@ -97,7 +97,7 @@ private extension HomeView {
 #if DEBUG
 struct HomeView_Previews: PreviewProvider {
 	static var previews: some View {
-		ContentView(container: .preview)
+		HomeView()
 	}
 }
 #endif

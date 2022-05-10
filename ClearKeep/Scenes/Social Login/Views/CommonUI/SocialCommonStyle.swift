@@ -6,72 +6,82 @@
 //
 
 import SwiftUI
+import Common
 
 protocol ISocialCommonStyle {
 	var buttonBack: String { get }
 	var title: String { get }
 	var buttonNext: String { get }
-	associatedtype NextView
-	var nextView: NextView { get }
+	
+	func nextView(userName: String, customServer: Binding<CustomServer>) -> AnyView
 }
 
-public enum SocialCommonStyle: ISocialCommonStyle {
+enum SocialCommonStyle: ISocialCommonStyle {
 	case setSecurity
 	case confirmSecurity
 	case verifySecurity
 	
-	public var buttonBack: String {
+	var buttonBack: String {
 		switch self {
 		case .setSecurity:
-			return "Social.SetPhrase.Back"
+			return "Social.SetPhrase.Back".localized
 		case .confirmSecurity:
-			return "Social.ConfirmPhrase.Back"
+			return "Social.ConfirmPhrase.Back".localized
 		case .verifySecurity:
-			return "Social.Verify.Back"
+			return "Social.Verify.Back".localized
 		}
 	}
 	
-	public var title: String {
+	var title: String {
 		switch self {
 		case .setSecurity:
-			return "Social.Title.Set"
+			return "Social.Title.Set".localized
 		case .confirmSecurity:
-			return "Social.Title.Confirm"
+			return "Social.Title.Confirm".localized
 		case .verifySecurity:
-			return "Social.Title.Verify"
+			return "Social.Title.Verify".localized
 		}
 	}
 	
-	public var buttonNext: String {
+	var buttonNext: String {
 		switch self {
 		case .setSecurity:
-			return "Social.Next"
+			return "Social.Next".localized
 		case .confirmSecurity:
-			return "Social.Next"
+			return "Social.Next".localized
 		case .verifySecurity:
-			return "Social.Verify.Next"
+			return "Social.Verify.Next".localized
 		}
 	}
 	
-	public var textInput: String {
+	var textInput: String {
 		switch self {
 		case .setSecurity:
-			return "Social.Security.Set"
+			return "Social.Security.Set".localized
 		case .confirmSecurity:
-			return "Social.Security.Confirm"
+			return "Social.Security.Confirm".localized
 		case .verifySecurity:
-			return "Social.Input.Verify"
+			return "Social.Input.Verify".localized
 		}
 	}
 	
-	public var nextView: some View {
+	var textInputDescription: String {
 		switch self {
 		case .setSecurity:
-			return AnyView(SocialView(socialStyle: .confirmSecurity))
+			return "Social.Security.Set.Description".localized
+		default:
+			return ""
+		}
+	}
+	
+	func nextView(userName: String, customServer: Binding<CustomServer>) -> AnyView {
+		switch self {
+		case .setSecurity:
+			return AnyView(SocialView(userName: userName, socialStyle: .confirmSecurity, customServer: customServer))
 		case .confirmSecurity:
-			return AnyView(SocialView(socialStyle: .verifySecurity))
+			return AnyView(SocialView(userName: userName, socialStyle: .verifySecurity, customServer: customServer))
 		case .verifySecurity:
-			return AnyView(SocialView(socialStyle: .verifySecurity))
+			return AnyView(SocialView(userName: userName, socialStyle: .verifySecurity, customServer: customServer))
 		}
 	}
 }
