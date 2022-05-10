@@ -31,14 +31,13 @@ public protocol IUserAPIService {
 extension APIService: IUserAPIService {
 	public func mfaResendOTP(_ request: User_MfaResendOtpRequest) async -> (Result<User_MfaBaseResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let status = clientUser.mfa_resend_otp(request).status
-			let response = clientUser.mfa_resend_otp(request).response
+			let caller = clientUser.mfa_resend_otp(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -53,14 +52,13 @@ extension APIService: IUserAPIService {
 	
 	public func mfaValidateOtp(_ request: User_MfaValidateOtpRequest) async -> (Result<User_MfaBaseResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let status = clientUser.mfa_validate_otp(request).status
-			let response = clientUser.mfa_validate_otp(request).response
+			let caller = clientUser.mfa_validate_otp(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -75,14 +73,13 @@ extension APIService: IUserAPIService {
 	
 	public func mfaValidatePassword(_ request: User_MfaValidatePasswordRequest) async -> (Result<User_MfaBaseResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let status = clientUser.mfa_validate_password(request).status
-			let response = clientUser.mfa_validate_password(request).response
+			let caller = clientUser.mfa_validate_password(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -97,14 +94,13 @@ extension APIService: IUserAPIService {
 	
 	public func mfaAuthChallenge(_ request: User_MfaAuthChallengeRequest) async -> (Result<User_MfaAuthChallengeResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let status = clientUser.mfa_auth_challenge(request).status
-			let response = clientUser.mfa_auth_challenge(request).response
+			let caller = clientUser.mfa_auth_challenge(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -119,14 +115,13 @@ extension APIService: IUserAPIService {
 	
 	public func disableMFA(_ request: User_MfaChangingStateRequest) async -> (Result<User_MfaBaseResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let status = clientUser.disable_mfa(request).status
-			let response = clientUser.disable_mfa(request).response
+			let caller = clientUser.disable_mfa(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -141,14 +136,13 @@ extension APIService: IUserAPIService {
 	
 	public func enableMFA(_ request: User_MfaChangingStateRequest) async -> (Result<User_MfaBaseResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let status = clientUser.enable_mfa(request).status
-			let response = clientUser.enable_mfa(request).response
+			let caller = clientUser.enable_mfa(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -163,14 +157,13 @@ extension APIService: IUserAPIService {
 	
 	public func getMFAState(_ request: User_MfaGetStateRequest) async -> (Result<User_MfaStateResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let status = clientUser.get_mfa_state(request).status
-			let response = clientUser.get_mfa_state(request).response
+			let caller = clientUser.get_mfa_state(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -185,14 +178,13 @@ extension APIService: IUserAPIService {
 	
 	public func getUsers(_ request: User_Empty) async -> (Result<User_GetUsersResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let status = clientUser.get_users(request).status
-			let response = clientUser.get_users(request).response
+			let caller = clientUser.get_users(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -207,14 +199,13 @@ extension APIService: IUserAPIService {
 	
 	public func searchUser(_ request: User_SearchUserRequest) async -> (Result<User_SearchUserResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let status = clientUser.search_user(request).status
-			let response = clientUser.search_user(request).response
+			let caller = clientUser.search_user(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -229,14 +220,13 @@ extension APIService: IUserAPIService {
 	
 	public func getUserInfo(_ request: User_GetUserRequest) async -> (Result<User_UserInfoResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let status = clientUser.get_user_info(request).status
-			let response = clientUser.get_user_info(request).response
+			let caller = clientUser.get_user_info(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -251,14 +241,13 @@ extension APIService: IUserAPIService {
 	
 	public func getClientsStatus(_ request: User_GetClientsStatusRequest) async -> (Result<User_GetClientsStatusResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let status = clientUser.get_clients_status(request).status
-			let response = clientUser.get_clients_status(request).response
+			let caller = clientUser.get_clients_status(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -273,14 +262,13 @@ extension APIService: IUserAPIService {
 	
 	public func updateStatus(_ request: User_SetUserStatusRequest) async -> (Result<User_BaseResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let status = clientUser.update_status(request).status
-			let response = clientUser.update_status(request).response
+			let caller = clientUser.update_status(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -295,14 +283,13 @@ extension APIService: IUserAPIService {
 	
 	public func pingRequest(_ request: User_PingRequest) async -> (Result<User_BaseResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let status = clientUser.ping_request(request).status
-			let response = clientUser.ping_request(request).response
+			let caller = clientUser.ping_request(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -317,14 +304,13 @@ extension APIService: IUserAPIService {
 	
 	public func changePassword(_ request: User_ChangePasswordRequest) async -> (Result<User_BaseResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let status = clientUser.change_password(request).status
-			let response = clientUser.change_password(request).response
+			let caller = clientUser.change_password(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -339,14 +325,13 @@ extension APIService: IUserAPIService {
 	
 	public func requestChangePassword(_ request: User_RequestChangePasswordReq) async -> (Result<User_RequestChangePasswordRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let status = clientUser.request_change_password(request).status
-			let response = clientUser.request_change_password(request).response
+			let caller = clientUser.request_change_password(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -361,14 +346,13 @@ extension APIService: IUserAPIService {
 	
 	public func uploadAvatar(_ request: User_UploadAvatarRequest) async -> (Result<User_UploadAvatarResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let status = clientUser.upload_avatar(request).status
-			let response = clientUser.upload_avatar(request).response
+			let caller = clientUser.upload_avatar(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -383,14 +367,13 @@ extension APIService: IUserAPIService {
 	
 	public func updateProfile(_ request: User_UpdateProfileRequest) async -> (Result<User_BaseResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let status = clientUser.update_profile(request).status
-			let response = clientUser.update_profile(request).response
+			let caller = clientUser.update_profile(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -405,14 +388,13 @@ extension APIService: IUserAPIService {
 	
 	public func getProfile(_ request: User_Empty) async -> (Result<User_UserProfileResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let status = clientUser.get_profile(request).status
-			let response = clientUser.get_profile(request).response
+			let caller = clientUser.get_profile(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {

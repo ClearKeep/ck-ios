@@ -121,7 +121,6 @@
 		CB7F29232823C53E00BD5049 /* LoginViewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F29222823C53E00BD5049 /* LoginViewError.swift */; };
 		CB7F295B2828BA5900BD5049 /* RegisterViewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F295A2828BA5800BD5049 /* RegisterViewError.swift */; };
 		CB7F29632828D36300BD5049 /* CustomServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F29622828D36300BD5049 /* CustomServer.swift */; };
-		CB7F2971282A198B00BD5049 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F2970282A198B00BD5049 /* Server.swift */; };
 		CB7F2973282A4D6A00BD5049 /* SocialViewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F2972282A4D6A00BD5049 /* SocialViewError.swift */; };
 		CB8C3E3427F57FBA0034B3A9 /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8C3E3327F57FB90034B3A9 /* AppVersion.swift */; };
 		CB8C3EAB2805D2D60034B3A9 /* AddMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B1927F154A60098B104 /* AddMemberView.swift */; };
@@ -353,7 +352,6 @@
 		CB7F29222823C53E00BD5049 /* LoginViewError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewError.swift; sourceTree = "<group>"; };
 		CB7F295A2828BA5800BD5049 /* RegisterViewError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewError.swift; sourceTree = "<group>"; };
 		CB7F29622828D36300BD5049 /* CustomServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomServer.swift; sourceTree = "<group>"; };
-		CB7F2970282A198B00BD5049 /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		CB7F2972282A4D6A00BD5049 /* SocialViewError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialViewError.swift; sourceTree = "<group>"; };
 		CB8C3E3327F57FB90034B3A9 /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
 		CBCF494E27D46714006D84FE /* Localize.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localize.strings; sourceTree = "<group>"; };
@@ -848,7 +846,6 @@
 			isa = PBXGroup;
 			children = (
 				CB117E8527BB6687000941D9 /* SampleModel.swift */,
-				CB7F2970282A198B00BD5049 /* Server.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1570,7 +1567,6 @@
 				F556C24328097F6E00D2B149 /* ChatGroupInteractor.swift in Sources */,
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
 				0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */,
-				CB7F2971282A198B00BD5049 /* Server.swift in Sources */,
 				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				0462C6CC2816535C00A9EABB /* CatalogyView.swift in Sources */,

@@ -15,13 +15,13 @@ public protocol IServerInfoAPIService {
 extension APIService: IServerInfoAPIService {
 	public func updateNts(_ request: ServerInfo_UpdateNTSReq) async -> Result<ServerInfo_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let response = clientServerInfo.update_nts(request).response
-			let status = clientServerInfo.update_nts(request).status
-			status.whenComplete({ result in
+			let caller = clientServerInfo.update_nts(request, callOptions: callOptions)
+			
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -36,13 +36,13 @@ extension APIService: IServerInfoAPIService {
 	
 	public func totalThread(_ request: ServerInfo_Empty) async -> Result<ServerInfo_GetThreadResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let response = clientServerInfo.total_thread(request).response
-			let status = clientServerInfo.total_thread(request).status
-			status.whenComplete({ result in
+			let caller = clientServerInfo.total_thread(request, callOptions: callOptions)
+			
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {

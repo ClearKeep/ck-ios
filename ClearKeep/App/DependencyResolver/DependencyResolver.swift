@@ -27,6 +27,7 @@ class DependencyResolver {
 	let channelStorage: ChannelStorage!
 	let authenticationService: IAuthenticationService!
 	let socialAuthenticationService: ISocialAuthenticationService!
+	let groupService: IGroupService!
 	
 	init() {
 		fontSet = DefaultFontSet()
@@ -50,7 +51,7 @@ class DependencyResolver {
 																   .office(clientId: ConfigurationProvider.default.officeClientId,
 																		   redirectUri: ConfigurationProvider.default.officeRedirectUri)
 																  ])
-		
+		groupService = GroupService()
 		// MARK: - Location
 		locationManager = CLLocationManager()
 		let locationConfiguration = LocationConfigurations()
