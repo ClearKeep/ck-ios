@@ -137,6 +137,7 @@
 		F5350E1E27FAD58F00F54E32 /* TwoFactorRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1927FAD58F00F54E32 /* TwoFactorRemoteStore.swift */; };
 		F5350E1F27FAD58F00F54E32 /* TwoFactorInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1A27FAD58F00F54E32 /* TwoFactorInteractor.swift */; };
 		F5350E2027FAD58F00F54E32 /* TwoFactorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1B27FAD58F00F54E32 /* TwoFactorView.swift */; };
+		F5484D9E2828FF8200F0B43C /* CreateGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484D9D2828FF8200F0B43C /* CreateGroupView.swift */; };
 		F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86027E820E600824BE7 /* SocialWorker.swift */; };
 		F553F86F27E820E600824BE7 /* SocialModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86227E820E600824BE7 /* SocialModel.swift */; };
 		F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86327E820E600824BE7 /* SocialRemoteStore.swift */; };
@@ -371,6 +372,7 @@
 		F5350E1927FAD58F00F54E32 /* TwoFactorRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorRemoteStore.swift; sourceTree = "<group>"; };
 		F5350E1A27FAD58F00F54E32 /* TwoFactorInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInteractor.swift; sourceTree = "<group>"; };
 		F5350E1B27FAD58F00F54E32 /* TwoFactorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorView.swift; sourceTree = "<group>"; };
+		F5484D9D2828FF8200F0B43C /* CreateGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupView.swift; sourceTree = "<group>"; };
 		F553F86027E820E600824BE7 /* SocialWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialWorker.swift; sourceTree = "<group>"; };
 		F553F86227E820E600824BE7 /* SocialModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialModel.swift; sourceTree = "<group>"; };
 		F553F86327E820E600824BE7 /* SocialRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialRemoteStore.swift; sourceTree = "<group>"; };
@@ -1121,6 +1123,7 @@
 			children = (
 				F556C276280E502500D2B149 /* TagView.swift */,
 				F556C27A280E961E00D2B149 /* ListUser.swift */,
+				F5484D9D2828FF8200F0B43C /* CreateGroupView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1670,6 +1673,7 @@
 				047D6B1C27F154B70098B104 /* RemoveMemberView.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
 				047241A927DB3D2C0043345A /* AuthenticationModel.swift in Sources */,
+				F5484D9E2828FF8200F0B43C /* CreateGroupView.swift in Sources */,
 				0499343827E96F8A003BD4C4 /* NewPasswordInteractor.swift in Sources */,
 				0472418227DB35550043345A /* HomeMenuView.swift in Sources */,
 				F5350E1E27FAD58F00F54E32 /* TwoFactorRemoteStore.swift in Sources */,
