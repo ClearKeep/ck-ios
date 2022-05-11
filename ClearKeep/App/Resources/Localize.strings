@@ -29,9 +29,9 @@
 "Social.Title.Set" = "Security Phrase keep information stored with Clearkeep encrypted so only you can access it.";
 "Social.Title.Confirm" = "Remember this security phrase. If you forget it, you'll need to reset your account and all data will be erased.";
 "Social.Security.Set" = "Security Phrase";
+"Social.Security.Set.Description" = "Your passphrase should be at least 3 words and 15 characters in length";
 "Social.Security.Confirm" = "Confirm Security Phrase";
 "Social.Security.Thanos" = "Thanos is the legend";
-"Social.Message" = "Your passphrase should be at least 3 words and 15 characters in length";
 "Social.Next" = "Next";
 "Social.Verify.Back" = "Enter Your Security Phrase";
 "Social.Title.Verify" = "Please enter your security phrase";
@@ -73,9 +73,6 @@
 "Login.ForgotPassword" = "Forgot Password?";
 "Login.SignUp.Suggest" = "Don't have an account?";
 "Login.SignUp" = "Sign up";
-"General.DisplayName" = "Display Name";
-"General.Password" = "Password";
-"General.ConfirmPassword" = "Confirm Password";
 
 // MARK: - Register
 "Register.Title" = "Please fill in the information below to complete your sign up";
@@ -83,12 +80,14 @@
 "Register.SignUp" = "Sign up";
 
 // MARK: - ForgotPassword
-"ForgotPass.TitleMail" = "Please enter your email to reset your password";
-"ForgotPass.TitleChangePassword" = "Please enter your details to change password";
-"ForgotPass.Forgotpassword" = "Forgot password";
-"ForgotPass.NewPassword" = "Enter Your New Password";
-"ForgotPass.Resetpassword" = "Reset password";
-"ForgotPass.Save" = "Save";
+"ForgotPassword.Title" = "Forgot password";
+"ForgotPassword.Description" = "Please enter your email to reset your password";
+"ForgotPassword.ResetPassword" = "Reset password";
+
+// MARK: - NewPassword
+"NewPassword.Title" = "Enter Your New Password";
+"NewPassword.Description" = "Please enter your details to change password";
+"NewPassword.NewPassword" = "New Password";
 
 // MARK: - AdvancedServer
 "AdvancedServer.Title" = "Please enter your server URL to enter custom server";

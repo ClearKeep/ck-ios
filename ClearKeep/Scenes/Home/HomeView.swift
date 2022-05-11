@@ -53,7 +53,7 @@ private extension HomeView {
 // MARK: - Loading Content
 private extension HomeView {
 	var notRequestedView: some View {
-		Text("").onAppear(perform: reloadSamples)
+		Text("").onAppear(perform: getScreenInfo)
 	}
 	
 	func loadingView(_ previouslyLoaded: [ISampleModel]?) -> some View {
@@ -66,7 +66,6 @@ private extension HomeView {
 	
 	func failedView(_ error: Error) -> some View {
 		ErrorView(error: error, retryAction: {
-			self.reloadSamples()
 		})
 	}
 }
@@ -89,7 +88,10 @@ private extension HomeView {
 
 // MARK: - Interactors
 private extension HomeView {
-	func reloadSamples() {
+	func getScreenInfo() {
+		Task {
+			await injected.interactors.homeInteractor.getJoinedGroup()
+		}
 	}
 }
 
@@ -97,7 +99,7 @@ private extension HomeView {
 #if DEBUG
 struct HomeView_Previews: PreviewProvider {
 	static var previews: some View {
-		ContentView(container: .preview)
+		HomeView()
 	}
 }
 #endif

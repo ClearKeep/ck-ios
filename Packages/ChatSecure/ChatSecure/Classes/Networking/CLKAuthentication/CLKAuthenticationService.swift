@@ -24,14 +24,14 @@ public enum SocialType {
 public protocol IAuthenticationService {
 	func register(displayName: String, email: String, password: String, domain: String) async -> Result<Auth_RegisterSRPRes, Error>
 	func login(userName: String, password: String, domain: String) async -> Result<Auth_AuthRes, Error>
-	func registerSocialPin(rawPin: String, userId: String, domain: String) async
+	func registerSocialPin(rawPin: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error>
 	func verifySocialPin(rawPin: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error>
-	func resetSocialPin(rawPin: String, userId: String, domain: String) async
-	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async
-	func recoverPassword(email: String, domain: String) async
-	func logoutFromAPI(server: IServer) async
-	func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async
-	func mfaResendOTP(userId: String, otpHash: String, domain: String) async
+	func resetSocialPin(rawPin: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error>
+	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async -> Result<Auth_AuthRes, Error>
+	func recoverPassword(email: String, domain: String) async -> Result<Auth_BaseResponse, Error>
+	func logoutFromAPI(domain: String) async -> Result<Auth_BaseResponse, Error>
+	func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async -> Result<Auth_AuthRes, Error>
+	func mfaResendOTP(userId: String, otpHash: String, domain: String) async -> Result<Auth_MfaResendOtpRes, Error>
 }
 
 public class CLKAuthenticationService {
@@ -95,7 +95,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		request.clientKeyPeer = peerRegisterClientKeyRequest
 		request.ivParameter = bytesConvertToHexString(bytes: pbkdf2.iv)
 		
-		let response = await channelStorage.getChannels(domain: domain).registerSRP(request)
+		let response = await channelStorage.getChannel(domain: domain).registerSRP(request)
 		switch response {
 		case .success(let data):
 			return(.success(data))
@@ -114,7 +114,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		request.email = userName
 		request.clientPublic = aHex
 		
-		let response = await channelStorage.getChannels(domain: domain).login(request)
+		let response = await channelStorage.getChannel(domain: domain).login(request)
 		
 		switch response {
 		case .success(let data):
@@ -128,17 +128,34 @@ extension CLKAuthenticationService: IAuthenticationService {
 			request.clientPublic = aHex
 			request.clientSessionKeyProof = mHex
 			
-			return await channelStorage.getChannels(domain: domain).login(request)
+			let response = await channelStorage.getChannel(domain: domain).login(request)
+			
+			switch response {
+			case .success(let authenResponse):
+				var request = User_Empty()
+				
+				let response = await channelStorage.getChannel(domain: domain, accessToken: authenResponse.accessToken, hashKey: authenResponse.hashKey).getProfile(request)
+				
+				switch response {
+				case .success(let profileResponse):
+					channelStorage.serverStore.saveServer(Server(profileResponse: profileResponse, authenResponse: authenResponse))
+				case .failure(let error):
+					break
+				}
+			case .failure:
+				break
+			}
+			return response
 		case .failure(let error):
 			return .failure(error)
 		}
 	}
 	
-	public func registerSocialPin(rawPin: String, userId: String, domain: String) async {
+	public func registerSocialPin(rawPin: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error> {
 		let srp = SwiftSRP.shared
 		
 		guard let salt = srp.getSalt(userName: userId, rawPassword: rawPin, byteV: &byteV),
-			  let verificator = srp.getVerificator(byteV: byteV) else { return }
+			  let verificator = srp.getVerificator(byteV: byteV) else { return .failure(ServerError.unknown) }
 		let saltHex = bytesConvertToHexString(bytes: salt)
 		let verificatorHex = bytesConvertToHexString(bytes: verificator)
 		
@@ -149,14 +166,14 @@ extension CLKAuthenticationService: IAuthenticationService {
 		let storage = SignalStorage(signalStore: inMemoryStore)
 		let context = SignalContext(storage: storage)
 		guard let keyHelper = SignalKeyHelper(context: context ?? SignalContext()),
-			  let key = keyHelper.generateIdentityKeyPair() else { return }
+			  let key = keyHelper.generateIdentityKeyPair() else { return .failure(ServerError.unknown) }
 		
 		let preKeys = keyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
 		
 		guard let preKey = preKeys.first,
 			  let preKeyData = preKey.serializedData(),
 			  let signedPreKey = keyHelper.generateSignedPreKey(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (userId + domain).hashCode())),
-			  let signedPreKeyData = signedPreKey.serializedData() else { return }
+			  let signedPreKeyData = signedPreKey.serializedData() else { return .failure(ServerError.unknown) }
 		
 		var transitionId = keyHelper.generateRegistrationId()
 		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
@@ -178,13 +195,25 @@ extension CLKAuthenticationService: IAuthenticationService {
 		request.clientKeyPeer = peerRegisterClientKeyRequest
 		request.ivParameter = bytesConvertToHexString(bytes: pbkdf2.iv)
 		
-		let response = await channelStorage.getChannels(domain: domain).registerPinCode(request)
+		let response = await channelStorage.getChannel(domain: domain).registerPinCode(request)
+		
 		switch response {
-		case .success(let data):
-			print(data)
-		case .failure(let error):
-			print(error)
+		case .success(let authenResponse):
+			var request = User_Empty()
+			
+			let response = await channelStorage.getChannel(domain: domain, accessToken: authenResponse.accessToken, hashKey: authenResponse.hashKey).getProfile(request)
+			
+			switch response {
+			case .success(let profileResponse):
+				channelStorage.serverStore.saveServer(Server(profileResponse: profileResponse, authenResponse: authenResponse))
+			case .failure(let error):
+				break
+			}
+		case .failure:
+			break
 		}
+		
+		return response
 	}
 	
 	public func verifySocialPin(rawPin: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error> {
@@ -197,7 +226,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		request.userName = userId
 		request.clientPublic = aHex
 		
-		let response = await channelStorage.getChannels(domain: domain).login(request)
+		let response = await channelStorage.getChannel(domain: domain).login(request)
 		
 		switch response {
 		case .success(let data):
@@ -211,17 +240,34 @@ extension CLKAuthenticationService: IAuthenticationService {
 			request.clientPublic = aHex
 			request.clientSessionKeyProof = mHex
 			
-			return await channelStorage.getChannels(domain: domain).verifyPinCode(request)
+			let response = await channelStorage.getChannel(domain: domain).verifyPinCode(request)
+			switch response {
+			case .success(let authenResponse):
+				var request = User_Empty()
+				
+				let response = await channelStorage.getChannel(domain: domain, accessToken: authenResponse.accessToken, hashKey: authenResponse.hashKey).getProfile(request)
+				
+				switch response {
+				case .success(let profileResponse):
+					channelStorage.serverStore.saveServer(Server(profileResponse: profileResponse, authenResponse: authenResponse))
+				case .failure(let error):
+					break
+				}
+			case .failure:
+				break
+			}
+			
+			return response
 		case .failure(let error):
 			return .failure(error)
 		}
 	}
 	
-	public func resetSocialPin(rawPin: String, userId: String, domain: String) async {
+	public func resetSocialPin(rawPin: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error> {
 		let srp = SwiftSRP.shared
 		
 		guard let salt = srp.getSalt(userName: userId, rawPassword: rawPin, byteV: &byteV),
-			  let verificator = srp.getVerificator(byteV: byteV) else { return }
+			  let verificator = srp.getVerificator(byteV: byteV) else { return .failure(ServerError.unknown) }
 		let saltHex = bytesConvertToHexString(bytes: salt)
 		let verificatorHex = bytesConvertToHexString(bytes: verificator)
 		
@@ -232,14 +278,14 @@ extension CLKAuthenticationService: IAuthenticationService {
 		let storage = SignalStorage(signalStore: inMemoryStore)
 		let context = SignalContext(storage: storage)
 		guard let keyHelper = SignalKeyHelper(context: context ?? SignalContext()),
-			  let key = keyHelper.generateIdentityKeyPair() else { return }
+			  let key = keyHelper.generateIdentityKeyPair() else { return .failure(ServerError.unknown) }
 		
 		let preKeys = keyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
 		
 		guard let preKey = preKeys.first,
 			  let preKeyData = preKey.serializedData(),
 			  let signedPreKey = keyHelper.generateSignedPreKey(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (userId + domain).hashCode())),
-			  let signedPreKeyData = signedPreKey.serializedData() else { return }
+			  let signedPreKeyData = signedPreKey.serializedData() else { return .failure(ServerError.unknown) }
 		
 		var transitionId = keyHelper.generateRegistrationId()
 		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
@@ -261,20 +307,20 @@ extension CLKAuthenticationService: IAuthenticationService {
 		request.clientKeyPeer = peerRegisterClientKeyRequest
 		request.ivParameter = bytesConvertToHexString(bytes: pbkdf2.iv)
 		
-		let response = await channelStorage.getChannels(domain: domain).registerPinCode(request)
+		let response = await channelStorage.getChannel(domain: domain).registerPinCode(request)
 		switch response {
 		case .success(let data):
-			print(data)
+			return(.success(data))
 		case .failure(let error):
-			print(error)
+			return(.failure(error))
 		}
 	}
 	
-	public func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async {
+	public func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async -> Result<Auth_AuthRes, Error> {
 		let srp = SwiftSRP.shared
 		
 		guard let salt = srp.getSalt(userName: email, rawPassword: rawNewPassword, byteV: &byteV),
-			  let verificator = srp.getVerificator(byteV: byteV) else { return }
+			  let verificator = srp.getVerificator(byteV: byteV) else { return .failure(ServerError.unknown) }
 		let saltHex = bytesConvertToHexString(bytes: salt)
 		let verificatorHex = bytesConvertToHexString(bytes: verificator)
 		
@@ -285,14 +331,14 @@ extension CLKAuthenticationService: IAuthenticationService {
 		let storage = SignalStorage(signalStore: inMemoryStore)
 		let context = SignalContext(storage: storage)
 		guard let keyHelper = SignalKeyHelper(context: context ?? SignalContext()),
-			  let key = keyHelper.generateIdentityKeyPair() else { return }
+			  let key = keyHelper.generateIdentityKeyPair() else { return .failure(ServerError.unknown) }
 		
 		let preKeys = keyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
 		
 		guard let preKey = preKeys.first,
 			  let preKeyData = preKey.serializedData(),
 			  let signedPreKey = keyHelper.generateSignedPreKey(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (email + domain).hashCode())),
-			  let signedPreKeyData = signedPreKey.serializedData() else { return }
+			  let signedPreKeyData = signedPreKey.serializedData() else { return .failure(ServerError.unknown) }
 		
 		var transitionId = keyHelper.generateRegistrationId()
 		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
@@ -315,73 +361,69 @@ extension CLKAuthenticationService: IAuthenticationService {
 		request.clientKeyPeer = peerRegisterClientKeyRequest
 		request.ivParameter = bytesConvertToHexString(bytes: pbkdf2.iv)
 		
-		let response = await channelStorage.getChannels(domain: domain).forgotPasswordUpdate(request)
+		let response = await channelStorage.getChannel(domain: domain).forgotPasswordUpdate(request)
 		switch response {
 		case .success(let data):
-			print(data)
+			return(.success(data))
 		case .failure(let error):
-			print(error)
+			return(.failure(error))
 		}
 	}
 	
-	public func recoverPassword(email: String, domain: String) async {
+	public func recoverPassword(email: String, domain: String) async -> Result<Auth_BaseResponse, Error> {
 		var request = Auth_ForgotPasswordReq()
 		request.email = email
 		
-		let callOptions = CallOptions(timeLimit: .deadline(NIODeadline.uptimeNanoseconds(30 * 1000 * 1000)))
-		let response = await channelStorage.getChannels(domain: domain).forgotPassword(request, callOptions: callOptions)
+		let response = await channelStorage.getChannel(domain: domain).forgotPassword(request)
 		switch response {
 		case .success(let data):
-			print(data)
+			return(.success(data))
 		case .failure(let error):
-			print(error)
+			return(.failure(error))
 		}
 	}
 	
-	public func logoutFromAPI(server: IServer) async {
+	public func logoutFromAPI(domain: String) async -> Result<Auth_BaseResponse, Error> {
+		guard let server = channelStorage.serverStore.getServer(by: domain) else { return .failure(ServerError.unknown) }
+		
 		var request = Auth_LogoutReq()
 		request.deviceID = clientStore.getUniqueDeviceId()
 		request.refreshToken = server.refreshToken
 		
-		let customMetadata: HPACKHeaders = ["access_token": server.accessKey,
-											"hash_key": server.hashKey,
-											"domain": "localhost",
-											"ip_address": "0.0.0.0"]
-		let callOptions = CallOptions(customMetadata: customMetadata, timeLimit: .deadline(NIODeadline.uptimeNanoseconds(10 * 1000 * 1000)))
-		let response = await channelStorage.getChannels(domain: server.serverDomain).logout(request, callOptions: callOptions)
+		let response = await channelStorage.getChannel(domain: server.serverDomain).logout(request)
 		switch response {
 		case .success(let data):
-			print(data)
+			return(.success(data))
 		case .failure(let error):
-			print(error)
+			return(.failure(error))
 		}
 	}
 	
-	public func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async {
+	public func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async -> Result<Auth_AuthRes, Error> {
 		var request = Auth_MfaValidateOtpRequest()
 		request.preAccessToken = otpHash
 		request.userID = userId
 		
-		let response = await channelStorage.getChannels(domain: domain).validateOTP(request)
+		let response = await channelStorage.getChannel(domain: domain).validateOTP(request)
 		switch response {
 		case .success(let data):
-			print(data)
+			return(.success(data))
 		case .failure(let error):
-			print(error)
+			return(.failure(error))
 		}
 	}
 	
-	public func mfaResendOTP(userId: String, otpHash: String, domain: String) async {
+	public func mfaResendOTP(userId: String, otpHash: String, domain: String) async -> Result<Auth_MfaResendOtpRes, Error> {
 		var request = Auth_MfaResendOtpReq()
 		request.preAccessToken = otpHash
 		request.userID = userId
 		
-		let response = await channelStorage.getChannels(domain: domain).mfaResendOTP(request)
+		let response = await channelStorage.getChannel(domain: domain).mfaResendOTP(request)
 		switch response {
 		case .success(let data):
-			print(data)
+			return(.success(data))
 		case .failure(let error):
-			print(error)
+			return(.failure(error))
 		}
 	}
 }

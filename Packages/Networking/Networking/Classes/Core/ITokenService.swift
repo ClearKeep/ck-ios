@@ -8,8 +8,8 @@
 import UIKit
 
 public protocol ITokenService {
-	var uid: String? { get }
-	var accessToken: String? { get }
+	var uid: String? { get set }
+	var accessToken: String? { get set }
 	
 	func clearToken()
 }

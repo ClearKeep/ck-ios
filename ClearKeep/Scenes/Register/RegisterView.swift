@@ -25,6 +25,7 @@ struct RegisterView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+	@Binding var customServer: CustomServer
 	@State private(set) var loadable: Loadable<Bool> = .notRequested
 
 	// MARK: - Init
@@ -33,9 +34,7 @@ struct RegisterView: View {
 	var body: some View {
 		GeometryReader { _ in
 			ScrollView(showsIndicators: false) {
-				AppTheme.shared.imageSet.logo
-					.resizable()
-					.aspectRatio(contentMode: .fit)
+				AppLogo()
 					.frame(width: Constants.logoSize.width, height: Constants.logoSize.height)
 					.padding(.top, Constants.logoPadding.top)
 					.padding(.bottom, Constants.logoPadding.bottom)
@@ -46,9 +45,9 @@ struct RegisterView: View {
 		}
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 		.grandientBackground()
-		.edgesIgnoringSafeArea(.all)
 		.hiddenNavigationBarStyle()
 		.hideKeyboardOnTapped()
+		.edgesIgnoringSafeArea(.all)
 	}
 }
 
@@ -75,11 +74,11 @@ private extension RegisterView {
 // MARK: - Loading Content
 private extension RegisterView {
 	var notRequestedView: some View {
-		RegisterContentView(loadable: $loadable)
+		RegisterContentView(loadable: $loadable, customServer: $customServer)
 	}
 	
 	var loadingView: some View {
-		notRequestedView.modifier(LoadingIndicatorViewModifier())
+		notRequestedView.progressHUD(true)
 	}
 	
 	var loadedView: some View {
@@ -109,7 +108,7 @@ private extension RegisterView {
 #if DEBUG
 struct RegisterView_Previews: PreviewProvider {
 	static var previews: some View {
-		RegisterView()
+		RegisterView(customServer: .constant(CustomServer()))
 	}
 }
 #endif

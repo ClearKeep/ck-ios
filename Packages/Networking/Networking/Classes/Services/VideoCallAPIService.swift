@@ -17,14 +17,13 @@ public protocol IVideoCallAPIService {
 extension APIService: IVideoCallAPIService {
 	public func videoCall(_ request: VideoCall_VideoCallRequest) async -> Result<VideoCall_ServerResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientVideoCall.video_call(request).status
-			let response = clientVideoCall.video_call(request).response
+			let caller = clientVideoCall.video_call(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -39,14 +38,13 @@ extension APIService: IVideoCallAPIService {
 	
 	public func updateCall(_ request: VideoCall_UpdateCallRequest) async -> Result<VideoCall_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientVideoCall.update_call(request).status
-			let response = clientVideoCall.update_call(request).response
+			let caller = clientVideoCall.update_call(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -61,14 +59,13 @@ extension APIService: IVideoCallAPIService {
 	
 	public func workspaceVideoCall(_ request: VideoCall_WorkspaceVideoCallRequest) async -> Result<VideoCall_ServerResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientVideoCall.workspace_video_call(request).status
-			let response = clientVideoCall.workspace_video_call(request).response
+			let caller = clientVideoCall.workspace_video_call(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -83,14 +80,13 @@ extension APIService: IVideoCallAPIService {
 	
 	public func workspaceUpdateCall(_ request: VideoCall_WorkspaceUpdateCallRequest) async -> Result<VideoCall_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientVideoCall.workspace_update_call(request).status
-			let response = clientVideoCall.workspace_update_call(request).response
+			let caller = clientVideoCall.workspace_update_call(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {

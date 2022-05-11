@@ -23,7 +23,7 @@ class UserService {
 extension UserService: IUserService {
 	func getProfile(domain: String) async -> Result<User_UserProfileResponse, Error> {
 		let request = User_Empty()
-		return await channelStorage.getChannels(domain: domain).getProfile(request)
+		return await channelStorage.getChannel(domain: domain).getProfile(request)
 	}
 	
 }

@@ -8,9 +8,10 @@
 import Foundation
 import Combine
 import ChatSecure
+import Model
 
 protocol IFogotPasswordRemoteStore {
-	func recoverPassword(email: String, domain: String) async
+	func recoverPassword(email: String, domain: String) async -> Result<Bool, Error>
 }
 
 struct FogotPasswordRemoteStore {
@@ -18,7 +19,14 @@ struct FogotPasswordRemoteStore {
 }
 
 extension FogotPasswordRemoteStore: IFogotPasswordRemoteStore {
-	func recoverPassword(email: String, domain: String) async {
-		await authenticationService.recoverPassword(email: email, domain: domain)
+	func recoverPassword(email: String, domain: String) async -> Result<Bool, Error> {
+		let result = await authenticationService.recoverPassword(email: email, domain: domain)
+		
+		switch result {
+		case .success:
+			return .success(true)
+		case .failure(let error):
+			return .failure(error)
+		}
 	}
 }

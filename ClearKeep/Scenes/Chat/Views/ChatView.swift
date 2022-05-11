@@ -242,7 +242,7 @@ private extension ChatView {
 	}
 	
 	var loadingView: some View {
-		notRequestedView.modifier(LoadingIndicatorViewModifier())
+		notRequestedView.progressHUD(true)
 	}
 	
 	func loadedView(_ data: [IMessageViewModel]) -> AnyView {

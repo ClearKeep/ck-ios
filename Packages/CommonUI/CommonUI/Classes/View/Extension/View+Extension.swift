@@ -22,10 +22,6 @@ extension View {
 #endif
 
 public extension View {
-	func hiddenNavigationBarStyle() -> some View {
-		modifier( HiddenNavigationBar() )
-	}
-	
 	/// Applies the given transform if the given condition evaluates to `true`.
 	/// - Parameters:
 	///   - condition: The condition to evaluate.

@@ -59,6 +59,7 @@ public struct CommonTextField: View {
 					.foregroundColor(textColor)
 					.padding(.vertical, Constants.paddingVertical)
 					.padding(.trailing, Constants.paddingHorizontal)
+					.autocapitalization(.none)
 			}
 			.frame(height: Constants.textFieldHeight)
 			.background(backgroundColor)
