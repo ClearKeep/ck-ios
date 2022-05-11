@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import CommonUI
+
 private enum Constants {
 	static let radius = 40.0
 	static let radiusbutton = 4.0
@@ -73,10 +75,7 @@ private extension ServerView {
 		ScrollView {
 			LazyVStack(alignment: .leading) {
 				Button(action: changeServer) {
-					AppTheme.shared.imageSet.logo
-						.resizable()
-						.renderingMode(.template)
-						.aspectRatio(contentMode: .fit)
+					AppLogo()
 						.frame(width: Constants.sizeButton, height: Constants.sizeButton)
 						.foregroundColor(foregroundButtonView)
 						.background(backgroundButton)

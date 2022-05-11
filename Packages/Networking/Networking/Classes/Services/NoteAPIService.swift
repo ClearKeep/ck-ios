@@ -17,13 +17,13 @@ public protocol INoteAPIService {
 extension APIService: INoteAPIService {
 	public func createNote(_ request: Note_CreateNoteRequest) async -> Result<Note_UserNoteResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let response = clientNote.create_note(request).response
-			let status = clientNote.create_note(request).status
-			status.whenComplete({ result in
+			let caller = clientNote.create_note(request, callOptions: callOptions)
+			
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -38,13 +38,13 @@ extension APIService: INoteAPIService {
 	
 	public func editNote(_ request: Note_EditNoteRequest) async -> Result<Note_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let response = clientNote.edit_note(request).response
-			let status = clientNote.edit_note(request).status
-			status.whenComplete({ result in
+			let caller = clientNote.edit_note(request, callOptions: callOptions)
+			
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -59,13 +59,13 @@ extension APIService: INoteAPIService {
 	
 	public func deleteNote(_ request: Note_DeleteNoteRequest) async -> Result<Note_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let response = clientNote.delete_note(request).response
-			let status = clientNote.delete_note(request).status
-			status.whenComplete({ result in
+			let caller = clientNote.delete_note(request, callOptions: callOptions)
+			
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -80,13 +80,13 @@ extension APIService: INoteAPIService {
 	
 	public func getUserNotes(_ request: Note_GetUserNotesRequest) async -> Result<Note_GetUserNotesResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let response = clientNote.get_user_notes(request).response
-			let status = clientNote.get_user_notes(request).status
-			status.whenComplete({ result in
+			let caller = clientNote.get_user_notes(request, callOptions: callOptions)
+			
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {

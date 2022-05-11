@@ -10,7 +10,7 @@ import ChatSecure
 import GRPC
 
 protocol IFogotPasswordInteractor {
-	func recoverPassword(email: String, domain: String) async
+	func recoverPassword(email: String, customServer: CustomServer) async -> Loadable<Bool>
 }
 
 struct FogotPasswordInteractor {
@@ -26,8 +26,15 @@ extension FogotPasswordInteractor: IFogotPasswordInteractor {
 		return FogotPasswordWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
-	func recoverPassword(email: String, domain: String) async {
-		await worker.recoverPassword(email: email, domain: domain)
+	func recoverPassword(email: String, customServer: CustomServer) async -> Loadable<Bool> {
+		let result = await worker.recoverPassword(email: email, customServer: customServer)
+		
+		switch result {
+		case .success(let data):
+			return .loaded(data)
+		case .failure(let error):
+			return .failed(error)
+		}
 	}
 }
 
@@ -41,6 +48,7 @@ struct StubFogotPasswordInteractor: IFogotPasswordInteractor {
 		return FogotPasswordWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
-	func recoverPassword(email: String, domain: String) async {
+	func recoverPassword(email: String, customServer: CustomServer) async -> Loadable<Bool> {
+		return .notRequested
 	}
 }

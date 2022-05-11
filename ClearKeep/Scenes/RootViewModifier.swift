@@ -12,8 +12,6 @@ import Common
 struct RootViewAppearance: ViewModifier {
 	
 	@Environment(\.injected) private var injected: DIContainer
-	@Environment(\.scenePhase) var scenePhase
-	
 	@State private var isActive: Bool = false
 	internal let inspection = ViewInspector<Self>()
 	

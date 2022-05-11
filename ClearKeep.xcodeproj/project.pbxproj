@@ -53,7 +53,6 @@
 		0499340F27E96DD7003BD4C4 /* FogotPasswordInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340A27E96DD7003BD4C4 /* FogotPasswordInteractor.swift */; };
 		0499341027E96DD7003BD4C4 /* FogotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340B27E96DD7003BD4C4 /* FogotPasswordView.swift */; };
 		0499341427E96E2F003BD4C4 /* FogotPasswordContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499341327E96E2F003BD4C4 /* FogotPasswordContentView.swift */; };
-		0499342E27E96F09003BD4C4 /* AdvancedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499342D27E96F09003BD4C4 /* AdvancedContentView.swift */; };
 		0499343527E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499343027E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift */; };
 		0499343627E96F8A003BD4C4 /* NewPasswordWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499343127E96F8A003BD4C4 /* NewPasswordWorker.swift */; };
 		0499343727E96F8A003BD4C4 /* NewPasswordRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499343227E96F8A003BD4C4 /* NewPasswordRemoteStore.swift */; };
@@ -98,7 +97,7 @@
 		CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117EA727BB7856000941D9 /* DeepLinksHandler.swift */; };
 		CB117EAC27BB786B000941D9 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117EAB27BB786B000941D9 /* AppEnvironment.swift */; };
 		CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117EB027BB7879000941D9 /* DependencyInjector.swift */; };
-		CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117EBB27BB7D2F000941D9 /* ContentView.swift */; };
+		CB117EBC27BB7D2F000941D9 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117EBB27BB7D2F000941D9 /* RootView.swift */; };
 		CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117EBD27BB7DE2000941D9 /* RootViewModifier.swift */; };
 		CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117EC127BB8DB1000941D9 /* AppDelegate.swift */; };
 		CB117EC427BB8DB1000941D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117EC227BB8DB1000941D9 /* SceneDelegate.swift */; };
@@ -121,6 +120,8 @@
 		CB7F291C281BC1A300BD5049 /* NormalLoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F291B281BC1A300BD5049 /* NormalLoginModel.swift */; };
 		CB7F29232823C53E00BD5049 /* LoginViewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F29222823C53E00BD5049 /* LoginViewError.swift */; };
 		CB7F295B2828BA5900BD5049 /* RegisterViewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F295A2828BA5800BD5049 /* RegisterViewError.swift */; };
+		CB7F29632828D36300BD5049 /* CustomServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F29622828D36300BD5049 /* CustomServer.swift */; };
+		CB7F2973282A4D6A00BD5049 /* SocialViewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F2972282A4D6A00BD5049 /* SocialViewError.swift */; };
 		CB8C3E3427F57FBA0034B3A9 /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8C3E3327F57FB90034B3A9 /* AppVersion.swift */; };
 		CB8C3EAB2805D2D60034B3A9 /* AddMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B1927F154A60098B104 /* AddMemberView.swift */; };
 		CBCF494F27D46715006D84FE /* Localize.strings in Resources */ = {isa = PBXBuildFile; fileRef = CBCF494E27D46714006D84FE /* Localize.strings */; };
@@ -137,15 +138,15 @@
 		F5350E1E27FAD58F00F54E32 /* TwoFactorRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1927FAD58F00F54E32 /* TwoFactorRemoteStore.swift */; };
 		F5350E1F27FAD58F00F54E32 /* TwoFactorInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1A27FAD58F00F54E32 /* TwoFactorInteractor.swift */; };
 		F5350E2027FAD58F00F54E32 /* TwoFactorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5350E1B27FAD58F00F54E32 /* TwoFactorView.swift */; };
-		F5484D8D2828C4DB00F0B43C /* CallingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484D8A2828C4DB00F0B43C /* CallingView.swift */; };
-		F5484D8E2828C4DB00F0B43C /* VoiceCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484D8B2828C4DB00F0B43C /* VoiceCall.swift */; };
-		F5484D8F2828C4DB00F0B43C /* InComingVoiceCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484D8C2828C4DB00F0B43C /* InComingVoiceCallView.swift */; };
-		F5484D952828C50400F0B43C /* CallInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484D902828C50400F0B43C /* CallInMemoryStore.swift */; };
-		F5484D962828C50400F0B43C /* CallWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484D912828C50400F0B43C /* CallWorker.swift */; };
-		F5484D972828C50400F0B43C /* CallRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484D922828C50400F0B43C /* CallRemoteStore.swift */; };
-		F5484D982828C50400F0B43C /* CallInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484D932828C50400F0B43C /* CallInteractor.swift */; };
-		F5484D992828C50400F0B43C /* CallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484D942828C50400F0B43C /* CallView.swift */; };
-		F5484D9C2828C5C400F0B43C /* CallModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484D9B2828C5C400F0B43C /* CallModel.swift */; };
+		F5484DAB282B6F4900F0B43C /* CallRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484DA0282B6F4900F0B43C /* CallRemoteStore.swift */; };
+		F5484DAC282B6F4900F0B43C /* CallModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484DA2282B6F4900F0B43C /* CallModel.swift */; };
+		F5484DAD282B6F4900F0B43C /* CallWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484DA3282B6F4900F0B43C /* CallWorker.swift */; };
+		F5484DAE282B6F4900F0B43C /* CallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484DA4282B6F4900F0B43C /* CallView.swift */; };
+		F5484DAF282B6F4900F0B43C /* CallingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484DA6282B6F4900F0B43C /* CallingView.swift */; };
+		F5484DB0282B6F4900F0B43C /* VoiceCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484DA7282B6F4900F0B43C /* VoiceCall.swift */; };
+		F5484DB1282B6F4900F0B43C /* InComingVoiceCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484DA8282B6F4900F0B43C /* InComingVoiceCallView.swift */; };
+		F5484DB2282B6F4900F0B43C /* CallInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484DA9282B6F4900F0B43C /* CallInMemoryStore.swift */; };
+		F5484DB3282B6F4900F0B43C /* CallInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484DAA282B6F4900F0B43C /* CallInteractor.swift */; };
 		F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86027E820E600824BE7 /* SocialWorker.swift */; };
 		F553F86F27E820E600824BE7 /* SocialModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86227E820E600824BE7 /* SocialModel.swift */; };
 		F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86327E820E600824BE7 /* SocialRemoteStore.swift */; };
@@ -272,7 +273,6 @@
 		0499340A27E96DD7003BD4C4 /* FogotPasswordInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordInteractor.swift; sourceTree = "<group>"; };
 		0499340B27E96DD7003BD4C4 /* FogotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordView.swift; sourceTree = "<group>"; };
 		0499341327E96E2F003BD4C4 /* FogotPasswordContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordContentView.swift; sourceTree = "<group>"; };
-		0499342D27E96F09003BD4C4 /* AdvancedContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedContentView.swift; sourceTree = "<group>"; };
 		0499343027E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordInMemoryStore.swift; sourceTree = "<group>"; };
 		0499343127E96F8A003BD4C4 /* NewPasswordWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordWorker.swift; sourceTree = "<group>"; };
 		0499343227E96F8A003BD4C4 /* NewPasswordRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordRemoteStore.swift; sourceTree = "<group>"; };
@@ -330,7 +330,7 @@
 		CB117EA727BB7856000941D9 /* DeepLinksHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinksHandler.swift; sourceTree = "<group>"; };
 		CB117EAB27BB786B000941D9 /* AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		CB117EB027BB7879000941D9 /* DependencyInjector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependencyInjector.swift; sourceTree = "<group>"; };
-		CB117EBB27BB7D2F000941D9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		CB117EBB27BB7D2F000941D9 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		CB117EBD27BB7DE2000941D9 /* RootViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModifier.swift; sourceTree = "<group>"; };
 		CB117EC127BB8DB1000941D9 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CB117EC227BB8DB1000941D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -360,6 +360,8 @@
 		CB7F291B281BC1A300BD5049 /* NormalLoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalLoginModel.swift; sourceTree = "<group>"; };
 		CB7F29222823C53E00BD5049 /* LoginViewError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewError.swift; sourceTree = "<group>"; };
 		CB7F295A2828BA5800BD5049 /* RegisterViewError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewError.swift; sourceTree = "<group>"; };
+		CB7F29622828D36300BD5049 /* CustomServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomServer.swift; sourceTree = "<group>"; };
+		CB7F2972282A4D6A00BD5049 /* SocialViewError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialViewError.swift; sourceTree = "<group>"; };
 		CB8C3E3327F57FB90034B3A9 /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
 		CBCF494E27D46714006D84FE /* Localize.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localize.strings; sourceTree = "<group>"; };
 		CBD9FDDA2805DB9100F54076 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -380,15 +382,15 @@
 		F5350E1927FAD58F00F54E32 /* TwoFactorRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorRemoteStore.swift; sourceTree = "<group>"; };
 		F5350E1A27FAD58F00F54E32 /* TwoFactorInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInteractor.swift; sourceTree = "<group>"; };
 		F5350E1B27FAD58F00F54E32 /* TwoFactorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorView.swift; sourceTree = "<group>"; };
-		F5484D8A2828C4DB00F0B43C /* CallingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallingView.swift; sourceTree = "<group>"; };
-		F5484D8B2828C4DB00F0B43C /* VoiceCall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceCall.swift; sourceTree = "<group>"; };
-		F5484D8C2828C4DB00F0B43C /* InComingVoiceCallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InComingVoiceCallView.swift; sourceTree = "<group>"; };
-		F5484D902828C50400F0B43C /* CallInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallInMemoryStore.swift; sourceTree = "<group>"; };
-		F5484D912828C50400F0B43C /* CallWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallWorker.swift; sourceTree = "<group>"; };
-		F5484D922828C50400F0B43C /* CallRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallRemoteStore.swift; sourceTree = "<group>"; };
-		F5484D932828C50400F0B43C /* CallInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallInteractor.swift; sourceTree = "<group>"; };
-		F5484D942828C50400F0B43C /* CallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallView.swift; sourceTree = "<group>"; };
-		F5484D9B2828C5C400F0B43C /* CallModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallModel.swift; sourceTree = "<group>"; };
+		F5484DA0282B6F4900F0B43C /* CallRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallRemoteStore.swift; sourceTree = "<group>"; };
+		F5484DA2282B6F4900F0B43C /* CallModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallModel.swift; sourceTree = "<group>"; };
+		F5484DA3282B6F4900F0B43C /* CallWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallWorker.swift; sourceTree = "<group>"; };
+		F5484DA4282B6F4900F0B43C /* CallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallView.swift; sourceTree = "<group>"; };
+		F5484DA6282B6F4900F0B43C /* CallingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallingView.swift; sourceTree = "<group>"; };
+		F5484DA7282B6F4900F0B43C /* VoiceCall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceCall.swift; sourceTree = "<group>"; };
+		F5484DA8282B6F4900F0B43C /* InComingVoiceCallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InComingVoiceCallView.swift; sourceTree = "<group>"; };
+		F5484DA9282B6F4900F0B43C /* CallInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallInMemoryStore.swift; sourceTree = "<group>"; };
+		F5484DAA282B6F4900F0B43C /* CallInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallInteractor.swift; sourceTree = "<group>"; };
 		F553F86027E820E600824BE7 /* SocialWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialWorker.swift; sourceTree = "<group>"; };
 		F553F86227E820E600824BE7 /* SocialModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialModel.swift; sourceTree = "<group>"; };
 		F553F86327E820E600824BE7 /* SocialRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialRemoteStore.swift; sourceTree = "<group>"; };
@@ -634,7 +636,7 @@
 		0499342027E96EBB003BD4C4 /* AdvancedServer */ = {
 			isa = PBXGroup;
 			children = (
-				0499342B27E96EE1003BD4C4 /* Views */,
+				CB7F29612828D35400BD5049 /* Models */,
 				0499344E27E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift */,
 				0499344F27E9A8BE003BD4C4 /* AdvancedSeverWorker.swift */,
 				0499345027E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift */,
@@ -642,14 +644,6 @@
 				0499345227E9A8BE003BD4C4 /* AdvancedSeverView.swift */,
 			);
 			path = AdvancedServer;
-			sourceTree = "<group>";
-		};
-		0499342B27E96EE1003BD4C4 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				0499342D27E96F09003BD4C4 /* AdvancedContentView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		0499342F27E96F70003BD4C4 /* NewPassword */ = {
@@ -803,7 +797,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				F5484D882828C4DB00F0B43C /* Call */,
+				F5484D9F282B6F4900F0B43C /* Call */,
 				F5CFCA1B28237CD000A9737F /* GroupCall */,
 				0462C6B12816535C00A9EABB /* Search */,
 				22A1C6932812B0D700FE957F /* Chat */,
@@ -822,7 +816,7 @@
 				044351EA27D9AFCA0054A78F /* Register */,
 				0472419827DB3D2C0043345A /* Login */,
 				CB117E7D27BB660D000941D9 /* Home */,
-				CB117EBB27BB7D2F000941D9 /* ContentView.swift */,
+				CB117EBB27BB7D2F000941D9 /* RootView.swift */,
 				CB117EBD27BB7DE2000941D9 /* RootViewModifier.swift */,
 			);
 			path = Scenes;
@@ -987,6 +981,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		CB7F29612828D35400BD5049 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CB7F29622828D36300BD5049 /* CustomServer.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		CB8C3E3227F57FA00034B3A9 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
@@ -1075,36 +1077,36 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		F5484D882828C4DB00F0B43C /* Call */ = {
+		F5484D9F282B6F4900F0B43C /* Call */ = {
 			isa = PBXGroup;
 			children = (
-				F5484D9A2828C5B600F0B43C /* Models */,
-				F5484D892828C4DB00F0B43C /* Views */,
-				F5484D902828C50400F0B43C /* CallInMemoryStore.swift */,
-				F5484D912828C50400F0B43C /* CallWorker.swift */,
-				F5484D922828C50400F0B43C /* CallRemoteStore.swift */,
-				F5484D932828C50400F0B43C /* CallInteractor.swift */,
-				F5484D942828C50400F0B43C /* CallView.swift */,
+				F5484DA0282B6F4900F0B43C /* CallRemoteStore.swift */,
+				F5484DA1282B6F4900F0B43C /* Models */,
+				F5484DA3282B6F4900F0B43C /* CallWorker.swift */,
+				F5484DA4282B6F4900F0B43C /* CallView.swift */,
+				F5484DA5282B6F4900F0B43C /* Views */,
+				F5484DA9282B6F4900F0B43C /* CallInMemoryStore.swift */,
+				F5484DAA282B6F4900F0B43C /* CallInteractor.swift */,
 			);
 			path = Call;
 			sourceTree = "<group>";
 		};
-		F5484D892828C4DB00F0B43C /* Views */ = {
+		F5484DA1282B6F4900F0B43C /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F5484D8A2828C4DB00F0B43C /* CallingView.swift */,
-				F5484D8B2828C4DB00F0B43C /* VoiceCall.swift */,
-				F5484D8C2828C4DB00F0B43C /* InComingVoiceCallView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		F5484D9A2828C5B600F0B43C /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				F5484D9B2828C5C400F0B43C /* CallModel.swift */,
+				F5484DA2282B6F4900F0B43C /* CallModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		F5484DA5282B6F4900F0B43C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F5484DA6282B6F4900F0B43C /* CallingView.swift */,
+				F5484DA7282B6F4900F0B43C /* VoiceCall.swift */,
+				F5484DA8282B6F4900F0B43C /* InComingVoiceCallView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		F553F85F27E820E600824BE7 /* Social Login */ = {
@@ -1125,6 +1127,7 @@
 			isa = PBXGroup;
 			children = (
 				F553F86227E820E600824BE7 /* SocialModel.swift */,
+				CB7F2972282A4D6A00BD5049 /* SocialViewError.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1600,13 +1603,13 @@
 				047D6B1227F1544D0098B104 /* GroupDetailView.swift in Sources */,
 				047241A627DB3D2C0043345A /* LoginView.swift in Sources */,
 				22A1C69A2812B1D500FE957F /* ChatWorker.swift in Sources */,
-				F5484D962828C50400F0B43C /* CallWorker.swift in Sources */,
 				044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */,
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
 				CB8C3E3427F57FBA0034B3A9 /* AppVersion.swift in Sources */,
 				F556C24228097F6E00D2B149 /* ChatGroupRemoteStore.swift in Sources */,
 				CB73084227CE648F00AB0FBD /* HomeContentView.swift in Sources */,
 				CB117E7B27BB65E2000941D9 /* LocationConfigurations.swift in Sources */,
+				F5484DAD282B6F4900F0B43C /* CallWorker.swift in Sources */,
 				CB117EC427BB8DB1000941D9 /* SceneDelegate.swift in Sources */,
 				F5350E1D27FAD58F00F54E32 /* TwoFactorWorker.swift in Sources */,
 				CB117ECD27BBA6E5000941D9 /* HomeWorker.swift in Sources */,
@@ -1618,11 +1621,12 @@
 				0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */,
 				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
+				F5484DAB282B6F4900F0B43C /* CallRemoteStore.swift in Sources */,
 				0462C6CC2816535C00A9EABB /* CatalogyView.swift in Sources */,
-				F5484D8F2828C4DB00F0B43C /* InComingVoiceCallView.swift in Sources */,
 				0499343527E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift in Sources */,
 				CB73084027CE647E00AB0FBD /* HomeHeaderView.swift in Sources */,
 				CB7F2916281BA17300BD5049 /* SocialLoginModel.swift in Sources */,
+				CB7F2973282A4D6A00BD5049 /* SocialViewError.swift in Sources */,
 				0462C6C42816535C00A9EABB /* SearchModels.swift in Sources */,
 				22A1C69D2812B1D500FE957F /* ChatView.swift in Sources */,
 				F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */,
@@ -1641,11 +1645,14 @@
 				0499345727E9A8BE003BD4C4 /* AdvancedSeverView.swift in Sources */,
 				0499344D27E97100003BD4C4 /* ChangePasswordContentView.swift in Sources */,
 				0499345527E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift in Sources */,
+				F5484DB2282B6F4900F0B43C /* CallInMemoryStore.swift in Sources */,
 				F5CFCA2928237CD000A9737F /* GroupCallModel.swift in Sources */,
 				CB40074727E8CCC800DFBE88 /* LoginContentView.swift in Sources */,
 				F5CFCA2D28237CD000A9737F /* InComingVoiceGroupCall.swift in Sources */,
 				F5350E1027FAD57500F54E32 /* TwoFactorModel.swift in Sources */,
 				F5CFCA2728237CD000A9737F /* GroupCallRemoteStore.swift in Sources */,
+				F5484DB3282B6F4900F0B43C /* CallInteractor.swift in Sources */,
+				F5484DB0282B6F4900F0B43C /* VoiceCall.swift in Sources */,
 				0499345427E9A8BE003BD4C4 /* AdvancedSeverWorker.swift in Sources */,
 				F5350E2027FAD58F00F54E32 /* TwoFactorView.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
@@ -1657,11 +1664,11 @@
 				F553F86F27E820E600824BE7 /* SocialModel.swift in Sources */,
 				047D6B6127F6A3750098B104 /* CreateDirectMessageInteractor.swift in Sources */,
 				F568DC1527FD7CC000EE9DF0 /* SettingServerInMemoryStore.swift in Sources */,
-				F5484D982828C50400F0B43C /* CallInteractor.swift in Sources */,
 				CB73083E27CE644800AB0FBD /* ServerView.swift in Sources */,
 				CB7F2911281A6EA000BD5049 /* AppState.swift in Sources */,
 				0462C6C92816535C00A9EABB /* SearchContentView.swift in Sources */,
 				F568DC0F27FD7CC000EE9DF0 /* SettingServerView.swift in Sources */,
+				F5484DAF282B6F4900F0B43C /* CallingView.swift in Sources */,
 				F568DC2027FD882600EE9DF0 /* NotificationRemoteStore.swift in Sources */,
 				044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */,
 				F5CFCA2B28237CD000A9737F /* GroupCallInMemoryStore.swift in Sources */,
@@ -1669,6 +1676,7 @@
 				F568DC1327FD7CC000EE9DF0 /* SettingServerRemoteStore.swift in Sources */,
 				F5CFCA2828237CD000A9737F /* GroupCallInteractor.swift in Sources */,
 				F5350E1C27FAD58F00F54E32 /* TwoFactorInMemoryStore.swift in Sources */,
+				F5484DB1282B6F4900F0B43C /* InComingVoiceCallView.swift in Sources */,
 				0499344727E97035003BD4C4 /* ChangePasswordInteractor.swift in Sources */,
 				22A1C69C2812B1D500FE957F /* ChatInteractor.swift in Sources */,
 				047D6B6427F6A3DD0098B104 /* DirectMessageContentView.swift in Sources */,
@@ -1680,7 +1688,6 @@
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
 				047D6B1027F1544D0098B104 /* GroupDetailRemoteStore.swift in Sources */,
 				0499345627E9A8BE003BD4C4 /* AdvancedSeverInteractor.swift in Sources */,
-				F5484D9C2828C5C400F0B43C /* CallModel.swift in Sources */,
 				CB117E8627BB6687000941D9 /* SampleModel.swift in Sources */,
 				22A1C6992812B1D500FE957F /* ChatInMemoryStore.swift in Sources */,
 				F556C24028097F6E00D2B149 /* ChatGroupView.swift in Sources */,
@@ -1688,6 +1695,7 @@
 				F556C23E28097F6E00D2B149 /* ChatGroupInMemoryStore.swift in Sources */,
 				0499343D27E96FC5003BD4C4 /* NewPasswordContenView.swift in Sources */,
 				047D6B6027F6A3750098B104 /* CreateDirectMessageRemoteStore.swift in Sources */,
+				F5484DAC282B6F4900F0B43C /* CallModel.swift in Sources */,
 				F553F87527E820E600824BE7 /* SocialCommonStyle.swift in Sources */,
 				047D6B6227F6A3750098B104 /* CreateDirectMessageView.swift in Sources */,
 				0499340F27E96DD7003BD4C4 /* FogotPasswordInteractor.swift in Sources */,
@@ -1700,6 +1708,7 @@
 				0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */,
 				F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */,
 				F568DC2127FD882600EE9DF0 /* NotificationInteractor.swift in Sources */,
+				CB7F29632828D36300BD5049 /* CustomServer.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
 				047D6B0E27F1544D0098B104 /* GroupDetailInMemoryStore.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
@@ -1728,13 +1737,11 @@
 				0499343827E96F8A003BD4C4 /* NewPasswordInteractor.swift in Sources */,
 				0472418227DB35550043345A /* HomeMenuView.swift in Sources */,
 				F5350E1E27FAD58F00F54E32 /* TwoFactorRemoteStore.swift in Sources */,
+				F5484DAE282B6F4900F0B43C /* CallView.swift in Sources */,
 				0462C6C52816535C00A9EABB /* SearchCatalogy.swift in Sources */,
 				F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */,
-				F5484D992828C50400F0B43C /* CallView.swift in Sources */,
 				F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
-				F5484D8D2828C4DB00F0B43C /* CallingView.swift in Sources */,
-				0499342E27E96F09003BD4C4 /* AdvancedContentView.swift in Sources */,
 				CB117ED427BBB0CE000941D9 /* ActivityIndicatorView.swift in Sources */,
 				047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */,
 				22A1C69B2812B1D500FE957F /* ChatRemoteStore.swift in Sources */,
@@ -1742,10 +1749,7 @@
 				F568DC2427FD882600EE9DF0 /* NotificationWorker.swift in Sources */,
 				CB40073027E74E1900DFBE88 /* Configuration.swift in Sources */,
 				CB7F295B2828BA5900BD5049 /* RegisterViewError.swift in Sources */,
-				F5484D972828C50400F0B43C /* CallRemoteStore.swift in Sources */,
-				F5484D8E2828C4DB00F0B43C /* VoiceCall.swift in Sources */,
-				CB117EBC27BB7D2F000941D9 /* ContentView.swift in Sources */,
-				F5484D952828C50400F0B43C /* CallInMemoryStore.swift in Sources */,
+				CB117EBC27BB7D2F000941D9 /* RootView.swift in Sources */,
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
 				0462C6CA2816535C00A9EABB /* SearchMessageView.swift in Sources */,
 				0499341427E96E2F003BD4C4 /* FogotPasswordContentView.swift in Sources */,

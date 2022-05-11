@@ -18,9 +18,9 @@ public protocol IAuthenticationAPIService {
 	func verifyPinCode(_ request: Auth_VerifyPinCodeReq) async -> (Result<Auth_AuthRes, Error>)
 	func registerSRP(_ request: Auth_RegisterSRPReq) async -> (Result<Auth_RegisterSRPRes, Error>)
 	func registerPinCode(_ request: Auth_RegisterPinCodeReq) async -> (Result<Auth_AuthRes, Error>)
-	func forgotPassword(_ request: Auth_ForgotPasswordReq, callOptions: CallOptions) async -> (Result<Auth_BaseResponse, Error>)
+	func forgotPassword(_ request: Auth_ForgotPasswordReq) async -> (Result<Auth_BaseResponse, Error>)
 	func forgotPasswordUpdate(_ request: Auth_ForgotPasswordUpdateReq) async -> (Result<Auth_AuthRes, Error>)
-	func logout(_ request: Auth_LogoutReq, callOptions: CallOptions) async -> (Result<Auth_BaseResponse, Error>)
+	func logout(_ request: Auth_LogoutReq) async -> (Result<Auth_BaseResponse, Error>)
 	func validateOTP(_ request: Auth_MfaValidateOtpRequest) async -> (Result<Auth_AuthRes, Error>)
 	func mfaResendOTP(_ request: Auth_MfaResendOtpReq) async -> (Result<Auth_MfaResendOtpRes, Error>)
 }
@@ -28,7 +28,7 @@ public protocol IAuthenticationAPIService {
 extension APIService: IAuthenticationAPIService {
 	public func login(_ request: Auth_AuthChallengeReq) async -> (Result<Auth_AuthChallengeRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let caller = clientAuth.login_challenge(request)
+			let caller = clientAuth.login_challenge(request, callOptions: callOptions)
 			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
@@ -48,7 +48,7 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func login(_ request: Auth_AuthenticateReq) async -> (Result<Auth_AuthRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let caller = clientAuth.login_authenticate(request)
+			let caller = clientAuth.login_authenticate(request, callOptions: callOptions)
 			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
@@ -68,7 +68,7 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func login(_ request: Auth_GoogleLoginReq) async -> (Result<Auth_SocialLoginRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let caller = clientAuth.login_google(request)
+			let caller = clientAuth.login_google(request, callOptions: callOptions)
 			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
@@ -88,7 +88,7 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func login(_ request: Auth_OfficeLoginReq) async -> (Result<Auth_SocialLoginRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let caller = clientAuth.login_office(request)
+			let caller = clientAuth.login_office(request, callOptions: callOptions)
 			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
@@ -108,7 +108,7 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func login(_ request: Auth_FacebookLoginReq) async -> (Result<Auth_SocialLoginRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let caller = clientAuth.login_facebook(request)
+			let caller = clientAuth.login_facebook(request, callOptions: callOptions)
 			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
@@ -128,7 +128,7 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func login(_ request: Auth_AuthSocialChallengeReq) async -> (Result<Auth_AuthChallengeRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let caller = clientAuth.login_social_challange(request)
+			let caller = clientAuth.login_social_challange(request, callOptions: callOptions)
 			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
@@ -148,7 +148,7 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func verifyPinCode(_ request: Auth_VerifyPinCodeReq) async -> (Result<Auth_AuthRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let caller = clientAuth.verify_pincode(request)
+			let caller = clientAuth.verify_pincode(request, callOptions: callOptions)
 			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
@@ -168,7 +168,7 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func registerSRP(_ request: Auth_RegisterSRPReq) async -> (Result<Auth_RegisterSRPRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let caller = clientAuth.register_srp(request)
+			let caller = clientAuth.register_srp(request, callOptions: callOptions)
 			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
@@ -188,7 +188,7 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func registerPinCode(_ request: Auth_RegisterPinCodeReq) async -> (Result<Auth_AuthRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let caller = clientAuth.register_pincode(request)
+			let caller = clientAuth.register_pincode(request, callOptions: callOptions)
 			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
@@ -206,7 +206,7 @@ extension APIService: IAuthenticationAPIService {
 		})
 	}
 	
-	public func forgotPassword(_ request: Auth_ForgotPasswordReq, callOptions: CallOptions) async -> (Result<Auth_BaseResponse, Error>) {
+	public func forgotPassword(_ request: Auth_ForgotPasswordReq) async -> (Result<Auth_BaseResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
 			let caller = clientAuth.forgot_password(request, callOptions: callOptions)
 			caller.status.whenComplete({ result in
@@ -228,7 +228,7 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func forgotPasswordUpdate(_ request: Auth_ForgotPasswordUpdateReq) async -> (Result<Auth_AuthRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let caller = clientAuth.forgot_password_update(request)
+			let caller = clientAuth.forgot_password_update(request, callOptions: callOptions)
 			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
@@ -246,7 +246,7 @@ extension APIService: IAuthenticationAPIService {
 		})
 	}
 	
-	public func logout(_ request: Auth_LogoutReq, callOptions: CallOptions) async -> (Result<Auth_BaseResponse, Error>) {
+	public func logout(_ request: Auth_LogoutReq) async -> (Result<Auth_BaseResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
 			let caller = clientAuth.logout(request, callOptions: callOptions)
 			caller.status.whenComplete({ result in
@@ -268,7 +268,7 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func validateOTP(_ request: Auth_MfaValidateOtpRequest) async -> (Result<Auth_AuthRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let caller = clientAuth.validate_otp(request)
+			let caller = clientAuth.validate_otp(request, callOptions: callOptions)
 			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
@@ -288,7 +288,7 @@ extension APIService: IAuthenticationAPIService {
 	
 	public func mfaResendOTP(_ request: Auth_MfaResendOtpReq) async -> (Result<Auth_MfaResendOtpRes, Error>) {
 		return await withCheckedContinuation({ continuation in
-			let caller = clientAuth.resend_otp(request)
+			let caller = clientAuth.resend_otp(request, callOptions: callOptions)
 			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):

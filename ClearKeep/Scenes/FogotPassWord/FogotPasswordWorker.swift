@@ -13,7 +13,7 @@ protocol IFogotPasswordWorker {
 	var remoteStore: IFogotPasswordRemoteStore { get }
 	var inMemoryStore: IFogotPasswordInMemoryStore { get }
 
-	func recoverPassword(email: String, domain: String) async
+	func recoverPassword(email: String, customServer: CustomServer) async -> Result<Bool, Error>
 }
 
 struct FogotPasswordWorker {
@@ -31,7 +31,12 @@ struct FogotPasswordWorker {
 }
 
 extension FogotPasswordWorker: IFogotPasswordWorker {
-	func recoverPassword(email: String, domain: String) async {
-		return await remoteStore.recoverPassword(email: email, domain: domain)
+	var currentDomain: String {
+		channelStorage.currentChannel.domain
+	}
+	
+	func recoverPassword(email: String, customServer: CustomServer) async -> Result<Bool, Error> {
+		let isCustomServer = customServer.isSelectedCustomServer && !customServer.customServerURL.isEmpty
+		return await remoteStore.recoverPassword(email: email, domain: isCustomServer ? customServer.customServerURL : currentDomain)
 	}
 }

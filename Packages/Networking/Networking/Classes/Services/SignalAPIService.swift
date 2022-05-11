@@ -27,14 +27,13 @@ public protocol ISignalAPIService {
 extension APIService: ISignalAPIService {
 	public func peerRegisterClientKey(_ request: Signal_PeerRegisterClientKeyRequest) async -> Result<Signal_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientSignal.peerRegisterClientKey(request).status
-			let response = clientSignal.peerRegisterClientKey(request).response
+			let caller = clientSignal.peerRegisterClientKey(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -49,14 +48,13 @@ extension APIService: ISignalAPIService {
 	
 	public func peerGetClientKey(_ request: Signal_PeerGetClientKeyRequest) async -> Result<Signal_PeerGetClientKeyResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientSignal.peerGetClientKey(request).status
-			let response = clientSignal.peerGetClientKey(request).response
+			let caller = clientSignal.peerGetClientKey(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -71,14 +69,13 @@ extension APIService: ISignalAPIService {
 	
 	public func workspacePeerGetClientKey(_ request: Signal_PeerGetClientKeyRequest) async -> Result<Signal_PeerGetClientKeyResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientSignal.workspacePeerGetClientKey(request).status
-			let response = clientSignal.workspacePeerGetClientKey(request).response
+			let caller = clientSignal.workspacePeerGetClientKey(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -93,14 +90,13 @@ extension APIService: ISignalAPIService {
 	
 	public func clientUpdatePeerKey(_ request: Signal_PeerRegisterClientKeyRequest) async -> Result<Signal_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientSignal.clientUpdatePeerKey(request).status
-			let response = clientSignal.clientUpdatePeerKey(request).response
+			let caller = clientSignal.clientUpdatePeerKey(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -115,14 +111,13 @@ extension APIService: ISignalAPIService {
 	
 	public func groupRegisterClientKey(_ request: Signal_GroupRegisterClientKeyRequest) async -> Result<Signal_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientSignal.groupRegisterClientKey(request).status
-			let response = clientSignal.groupRegisterClientKey(request).response
+			let caller = clientSignal.groupRegisterClientKey(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -137,14 +132,13 @@ extension APIService: ISignalAPIService {
 	
 	public func groupUpdateClientKey(_ request: Signal_GroupUpdateClientKeyRequest) async -> Result<Signal_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientSignal.groupUpdateClientKey(request).status
-			let response = clientSignal.groupUpdateClientKey(request).response
+			let caller = clientSignal.groupUpdateClientKey(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -159,14 +153,13 @@ extension APIService: ISignalAPIService {
 	
 	public func groupGetClientKey(_ request: Signal_GroupGetClientKeyRequest) async -> Result<Signal_GroupGetClientKeyResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientSignal.groupGetClientKey(request).status
-			let response = clientSignal.groupGetClientKey(request).response
+			let caller = clientSignal.groupGetClientKey(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -181,14 +174,13 @@ extension APIService: ISignalAPIService {
 	
 	public func groupGetAllClientKey(_ request: Signal_GroupGetAllClientKeyRequest) async -> Result<Signal_GroupGetAllClientKeyResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientSignal.groupGetAllClientKey(request).status
-			let response = clientSignal.groupGetAllClientKey(request).response
+			let caller = clientSignal.groupGetAllClientKey(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -203,14 +195,13 @@ extension APIService: ISignalAPIService {
 	
 	public func workspaceGroupGetClientKey(_ request: Signal_WorkspaceGroupGetClientKeyRequest) async -> Result<Signal_WorkspaceGroupGetClientKeyResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientSignal.workspaceGroupGetClientKey(request).status
-			let response = clientSignal.workspaceGroupGetClientKey(request).response
+			let caller = clientSignal.workspaceGroupGetClientKey(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {

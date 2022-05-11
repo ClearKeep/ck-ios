@@ -17,7 +17,6 @@ private enum Constants {
 	static let heightLogo = 120.0
 	static let widthLogo = 150.0
 	static let spacing = 30.0
-	static let paddingVertical = 14.0
 	static let paddingHorizontal = 24.0
 }
 
@@ -26,8 +25,8 @@ struct LoginView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@State private(set) var loadable: Loadable<IAuthenticationModel> = .notRequested
+	@State private(set) var customServer: CustomServer = CustomServer()
 	let inspection = ViewInspector<Self>()
-	@State private(set) var isCustomServer: Bool = false
 	
 	// MARK: - Init
 	
@@ -63,14 +62,12 @@ private extension LoginView {
 // MARK: - Loading Content
 private extension LoginView {
 	var notRequestedView: some View {
-		ScrollView {
+		ScrollView(showsIndicators: false) {
 			VStack(spacing: Constants.spacing) {
 				Spacer(minLength: Constants.minSpacer)
-				AppTheme.shared.imageSet.logo
-					.resizable()
-					.aspectRatio(contentMode: .fit)
+				AppLogo()
 					.frame(width: Constants.widthLogo, height: Constants.heightLogo)
-				if isCustomServer {
+				if customServer.isSelectedCustomServer {
 					HStack {
 						AppTheme.shared.imageSet.alertIcon
 							.foregroundColor(backgroundArlert)
@@ -79,31 +76,37 @@ private extension LoginView {
 							.font(AppTheme.shared.fontSet.font(style: .input3))
 					}
 				}
-				LoginContentView(loadable: $loadable)
+				LoginContentView(loadable: $loadable, customServer: $customServer)
 				Spacer()
 			}
-			.padding(.leading, Constants.paddingVertical)
-			.padding(.trailing, Constants.paddingVertical)
+			.padding(.horizontal, Constants.paddingHorizontal)
 		}
-		.edgesIgnoringSafeArea(.all)
 	}
 	
 	var loadingView: some View {
-		notRequestedView.modifier(LoadingIndicatorViewModifier())
+		notRequestedView.progressHUD(true)
 	}
 	
 	func loadedView(_ data: IAuthenticationModel) -> AnyView {
 		if let normalLogin = data.normalLogin {
+			injected.appState[\.authentication.accessToken] = normalLogin.accessToken
 			return AnyView(Text(normalLogin.workspaceDomain ?? ""))
 		}
 		
-		if let socialLogin = data.socialLogin {
-			if socialLogin.requireAction == "register_pincode" {
+		if let socialLogin = data.socialLogin,
+		   let userName = socialLogin.userName {
+			switch socialLogin.requireAction {
+			case "register_pincode":
 				return AnyView(VStack {
-					NavigationLink(destination: SocialView(socialStyle: .setSecurity), isActive: .constant(true), label: {})
+					NavigationLink(destination: SocialView(userName: userName, socialStyle: .setSecurity, customServer: $customServer), isActive: .constant(true), label: {})
 					notRequestedView
 				})
-			} else {
+			case "verify_pincode":
+				return AnyView(VStack {
+					NavigationLink(destination: SocialView(userName: userName, socialStyle: .verifySecurity, customServer: $customServer), isActive: .constant(true), label: {})
+					notRequestedView
+				})
+			default:
 				return AnyView(Text(socialLogin.requireAction ?? ""))
 			}
 		}
@@ -141,7 +144,7 @@ private extension LoginView {
 #if DEBUG
 struct LoginView_Previews: PreviewProvider {
 	static var previews: some View {
-		ContentView(container: .preview)
+		LoginView()
 	}
 }
 #endif

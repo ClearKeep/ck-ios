@@ -1,5 +1,5 @@
 //
-//  RoundedButton.swift
+//  RoundedBorderButton.swift
 //  CommonUI
 //
 //  Created by NamNH on 09/05/2022.
@@ -12,7 +12,7 @@ private enum Constants {
 	static let buttonHeight = 40.0
 }
 
-public struct RoundedButton: View {
+public struct RoundedBorderButton: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	
@@ -40,32 +40,33 @@ public struct RoundedButton: View {
 		.cornerRadius(Constants.radiusButton)
 		.frame(height: Constants.buttonHeight)
 		.frame(maxWidth: .infinity)
+		.applyBorderStyle()
 	}
 }
 
 // MARK: - Private
-private extension RoundedButton {
+private extension RoundedBorderButton {
 	var foregroundColorActive: Color {
-		colorScheme == .light ? commonUIConfig.colorSet.primaryDefault : commonUIConfig.colorSet.offWhite
+		colorScheme == .light ? commonUIConfig.colorSet.offWhite : commonUIConfig.colorSet.primaryDefault
 	}
 
 	var foregroundColorUnActive: Color {
-		colorScheme == .light ? commonUIConfig.colorSet.primaryDefault.opacity(0.5) : commonUIConfig.colorSet.offWhite.opacity(0.5)
+		colorScheme == .light ? commonUIConfig.colorSet.offWhite.opacity(0.5) : commonUIConfig.colorSet.primaryDefault.opacity(0.5)
 	}
 
 	var backgroundColorActive: LinearGradient {
 		if colorScheme == .light {
-			return LinearGradient(gradient: Gradient(colors: [commonUIConfig.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
+			return LinearGradient(gradient: Gradient(colors: commonUIConfig.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 		} else {
-			return LinearGradient(gradient: Gradient(colors: commonUIConfig.colorSet.gradientLinear), startPoint: .leading, endPoint: .trailing)
+			return LinearGradient(gradient: Gradient(colors: commonUIConfig.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
 		}
 	}
 	
 	var backgroundColorUnActive: LinearGradient {
 		if colorScheme == .light {
-			return LinearGradient(gradient: Gradient(colors: [commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })), startPoint: .leading, endPoint: .trailing)
+			return LinearGradient(gradient: Gradient(colors: commonUIConfig.colorSet.gradientPrimary.compactMap({ $0.opacity(0.5) })), startPoint: .leading, endPoint: .trailing)
 		} else {
-			return LinearGradient(gradient: Gradient(colors: commonUIConfig.colorSet.gradientLinear.compactMap({ $0.opacity(0.5) })), startPoint: .leading, endPoint: .trailing)
+			return LinearGradient(gradient: Gradient(colors: commonUIConfig.colorSet.gradientBlack.compactMap({ $0.opacity(0.5) })), startPoint: .leading, endPoint: .trailing)
 		}
 	}
 }

@@ -6,13 +6,38 @@
 //
 
 import Foundation
-import Combine
+import ChatSecure
+import Model
 
 protocol ISocialRemoteStore {
+	func registerSocialPin(rawPin: String, userId: String, domain: String) async -> Result<IAuthenticationModel, Error>
+	func verifySocialPin(rawPin: String, userId: String, domain: String) async -> Result<IAuthenticationModel, Error>
 }
 
 struct SocialRemoteStore {
+	let authenticationService: IAuthenticationService
 }
 
 extension SocialRemoteStore: ISocialRemoteStore {
+	func registerSocialPin(rawPin: String, userId: String, domain: String) async -> Result<IAuthenticationModel, Error> {
+		let result = await authenticationService.registerSocialPin(rawPin: rawPin, userId: userId, domain: domain)
+		
+		switch result {
+		case .success(let authenticationResponse):
+			return .success(AuthenticationModel(response: authenticationResponse))
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+	
+	func verifySocialPin(rawPin: String, userId: String, domain: String) async -> Result<IAuthenticationModel, Error> {
+		let result = await authenticationService.verifySocialPin(rawPin: rawPin, userId: userId, domain: domain)
+		
+		switch result {
+		case .success(let authenticationResponse):
+			return .success(AuthenticationModel(response: authenticationResponse))
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
 }

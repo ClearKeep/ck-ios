@@ -61,6 +61,7 @@ public struct SearchTextField: View {
 				.foregroundColor(textColor)
 				.padding(.vertical, Constants.paddingVertical)
 				.padding(.trailing, Constants.spacing)
+				.autocapitalization(.none)
 			if shouldShowCancelButton {
 				Button(action: { searchText = "" }) {
 					commonUIConfig.imageSet.closeIcon
