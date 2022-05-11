@@ -13,31 +13,37 @@ private enum Constants {
 	static let blurRadius: CGFloat = 3.0
 }
 
-public struct LoadingIndicatorViewModifier: ViewModifier {
+struct LoadingIndicatorViewModifier: ViewModifier {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
+	private let isLoading: Bool
 	private let scaleSize: CGFloat
 	
 	// MARK: - Init
-	public init(scaleSize: CGFloat = 2.0) {
+	public init(isLoading: Bool, scaleSize: CGFloat = 2.0) {
+		self.isLoading = isLoading
 		self.scaleSize = scaleSize
 	}
 	
 	// MARK: - Body
-	public func body(content: Content) -> some View {
+	func body(content: Content) -> some View {
 		ZStack(alignment: .center) {
 			content
-				.disabled(true)
-				.blur(radius: Constants.blurRadius)
+				.disabled(isLoading)
+				.if(isLoading) { view in
+					view.blur(radius: Constants.blurRadius)
+				}
 			
-			ProgressView()
-				.scaleEffect(scaleSize, anchor: .center)
-				.progressViewStyle(CircularProgressViewStyle(tint: tintColor))
-				.frame(width: Constants.containerSize.width,
-					   height: Constants.containerSize.height)
-				.background(Color.secondary.colorInvert())
-				.foregroundColor(Color.primary)
-				.cornerRadius(Constants.cornerRadius)
+			if isLoading {
+				ProgressView()
+					.scaleEffect(scaleSize, anchor: .center)
+					.progressViewStyle(CircularProgressViewStyle(tint: tintColor))
+					.frame(width: Constants.containerSize.width,
+						   height: Constants.containerSize.height)
+					.background(Color.secondary.colorInvert())
+					.foregroundColor(Color.primary)
+					.cornerRadius(Constants.cornerRadius)
+			}
 		}
 	}
 }
@@ -50,5 +56,11 @@ private extension LoadingIndicatorViewModifier {
 private extension LoadingIndicatorViewModifier {
 	var tintColor: Color {
 		colorScheme == .light ? commonUIConfig.colorSet.lightLoading : commonUIConfig.colorSet.darkLoading
+	}
+}
+
+extension View {
+	public func progressHUD(_ isLoading: Bool) -> some View {
+		self.modifier(LoadingIndicatorViewModifier(isLoading: isLoading))
 	}
 }

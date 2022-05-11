@@ -14,8 +14,7 @@ private enum Constants {
 	static let padding = 30.0
 	static let paddingTextfield = 24.0
 	static let paddingText = 10.0
-	static let paddingLeading = 16.0
-	static let submitButtonHeight = 40.0
+	static let paddingHorizontal = 16.0
 }
 
 struct FogotPasswordContentView: View {
@@ -26,10 +25,11 @@ struct FogotPasswordContentView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
+	@Binding var loadable: Loadable<Bool>
+	@Binding var customServer: CustomServer
 	@State private(set) var email: String = ""
 	@State private(set) var domain: String = ""
 	@State private(set) var emailStyle: TextInputStyle = .default
-	@State private(set) var showingNewPass: Bool = false
 
 	// MARK: - Body
 	var body: some View {
@@ -47,20 +47,14 @@ struct FogotPasswordContentView: View {
 								onEditingChanged: { isEditing in
 					emailStyle = isEditing ? .highlighted : .normal
 				})
-				NavigationLink(
-					destination: NewPasswordView(),
-					isActive: $showingNewPass,
-					label: {
-						RoundedButton("ForgotPassword.ResetPassword".localized,
-									  disable: .constant(email.isEmpty)) {
-							showingNewPass = true
-						}.frame(height: Constants.submitButtonHeight)
-					})
+				RoundedButton("ForgotPassword.ResetPassword".localized,
+							  disabled: .constant(email.isEmpty),
+							  action: doRecoverPassword)
 			}
 			Spacer()
 		}
 		.frame(maxWidth: .infinity, alignment: .center)
-		.padding(.horizontal, Constants.paddingLeading)
+		.padding(.horizontal, Constants.paddingHorizontal)
 		.edgesIgnoringSafeArea(.all)
 	}
 }
@@ -70,15 +64,14 @@ private extension FogotPasswordContentView {
 	var titleColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
-
 }
 
-// MARK: - Private Func
+// MARK: - Interactor
 private extension FogotPasswordContentView {
-
-	func doFogotPassword() {
+	func doRecoverPassword() {
+		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			await injected.interactors.fogotPasswordInteractor.recoverPassword(email: email, domain: domain)
+			loadable = await injected.interactors.fogotPasswordInteractor.recoverPassword(email: email, customServer: customServer)
 		}
 	}
 
@@ -87,7 +80,7 @@ private extension FogotPasswordContentView {
 #if DEBUG
 struct FogotPasswordContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		FogotPasswordContentView(emailStyle: .default)
+		FogotPasswordContentView(loadable: .constant(.notRequested), customServer: .constant(CustomServer()))
 	}
 }
 #endif

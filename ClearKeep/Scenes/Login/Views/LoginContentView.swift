@@ -11,21 +11,16 @@ import CommonUI
 import Model
 import ChatSecure
 
-private enum Constant {
-	static let spacerTopView = 50.0
-	static let spacerBottomView = 20.0
-	static let spacer = 25.0
-	static let spacerBottom = 45.0
-	static let widthLogo = 160.0
-	static let heightLogo = 120.0
-	static let paddingVertical = 14.0
-	static let paddingHorizontal = 24.0
-	static let paddingHorizontalSignUp = 60.0
-	static let widthIconButton = 54.0
-	static let heightButton = 40.0
-	static let radius = 40.0
-	static let heightRectangle = 1.0
-	static let lineWidthBorder = 3.0
+private enum Constants {
+	static let inputViewSpacing = 24.0
+	static let extraButtonViewHeight = 22.0
+	static let extraButtonViewPaddingTop = 16.0
+	static let separateLineHeight = 1.0
+	static let separateLinePaddingTop = 32.0
+	static let socialViewPaddingTop = 24.0
+	static let socialViewSpacing = 40.0
+	static let signUpViewPaddingTop = 45.0
+	static let appVersionPaddingTop = 30.0
 }
 
 struct LoginContentView: View {
@@ -33,6 +28,7 @@ struct LoginContentView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Binding var loadable: Loadable<IAuthenticationModel>
+	@Binding var customServer: CustomServer
 	@State private var email: String = ""
 	@State private var password: String = ""
 	@State private var emailStyle: TextInputStyle = .default
@@ -48,65 +44,39 @@ struct LoginContentView: View {
 	
 	// MARK: - Body
 	var body: some View {
-		VStack(alignment: .center, spacing: Constant.spacer) {
-			textInput
-			button
-			extraButton
-			lineSeperate
-			signInWith
-			socialLoginButton
-			signUp
+		VStack {
+			inputView
+			extraButtonView
+				.frame(height: Constants.extraButtonViewHeight)
+				.padding(.top, Constants.extraButtonViewPaddingTop)
+			Rectangle()
+				.frame(height: Constants.separateLineHeight)
+				.foregroundColor(AppTheme.shared.colorSet.offWhite)
+				.padding(.top, Constants.separateLinePaddingTop)
+			socialView
+				.padding(.top, Constants.socialViewPaddingTop)
+			signUpView
+				.padding(.top, Constants.signUpViewPaddingTop)
+			
+			Text(appVersion)
+				.font(AppTheme.shared.fontSet.font(style: .placeholder3))
+				.foregroundColor(AppTheme.shared.colorSet.offWhite)
+				.onAppear(perform: {
+					getAppVersion()
+				})
+				.padding(.top, Constants.appVersionPaddingTop)
 		}
 	}
 }
 
 // MARK: - Private
 private extension LoginContentView {
-	var button: AnyView {
-		AnyView(buttonSignIn)
-	}
-	
-	var textInput: AnyView {
-		AnyView(textInputView)
-	}
-	
-	var extraButton: AnyView {
-		AnyView(extraButtonView)
-	}
-	
-	var lineSeperate: AnyView {
-		AnyView(lineSeperateView)
-	}
-	
-	var signInWith: AnyView {
-		AnyView(signInWithView)
-	}
-	
-	var socialLoginButton: AnyView {
-		AnyView(socialLoginButtonView)
-	}
-	
-	var signUp: AnyView {
-		AnyView(signUpView)
-	}
 }
 
 // MARK: - Loading Content
 private extension LoginContentView {
-	var buttonSignIn: some View {
-		Button("Login.SignIn".localized) {
-			doLogin()
-		}
-		.frame(maxWidth: .infinity)
-		.frame(height: Constant.heightButton)
-		.font(fontSignIn)
-		.background(backgroundSignInButton)
-		.foregroundColor(foregroundColorView)
-		.cornerRadius(Constant.radius)
-	}
-	
-	var textInputView: some View {
-		VStack(spacing: Constant.spacer) {
+	var inputView: some View {
+		VStack(spacing: Constants.inputViewSpacing) {
 			CommonTextField(text: $email,
 							inputStyle: $emailStyle,
 							inputIcon: AppTheme.shared.imageSet.mailIcon,
@@ -131,158 +101,56 @@ private extension LoginContentView {
 					passwordStyle = .normal
 				}
 			})
+			RoundedButton("Login.SignIn".localized, action: doLogin)
 		}
 	}
 	
 	var extraButtonView: some View {
 		HStack {
-			NavigationLink(destination: AdvancedSeverView(),
+			NavigationLink(destination: AdvancedSeverView(customServer: $customServer),
 						   isActive: $isAdvanceServer,
 						   label: {
-				Button(action: advancedServer,
-					   label: {
-					Text("Login.AdvancedServerSettings".localized)
-				})
-					.padding()
-					.font(fontSignIn)
-					.foregroundColor(foregroundColorViewButton)
+				LinkButton("Login.AdvancedServerSettings".localized, alignment: .leading, action: advancedServer)
 			})
-			
 			Spacer()
-			
-			NavigationLink(destination: FogotPasswordView(),
+			NavigationLink(destination: FogotPasswordView(customServer: $customServer),
 						   isActive: $isForgotPassword,
 						   label: {
-				Button(action: forgotPassword,
-					   label: {
-					Text("Login.ForgotPassword".localized)
-				})
-					.padding()
-					.font(fontSignIn)
-					.foregroundColor(foregroundColorViewButton)
+				LinkButton("Login.ForgotPassword".localized, alignment: .trailing, action: forgotPassword)
 			})
 		}
 	}
 	
-	var lineSeperateView: some View {
-		Rectangle().frame(height: Constant.heightRectangle)
-			.padding(.horizontal).foregroundColor(foregroundColorWhite)
-	}
-	
-	var signInWithView: some View {
-		Text("Login.SignInWith".localized)
-			.font(fontSignIn)
-			.foregroundColor(foregroundColorWhite)
-	}
-	
-	var socialLoginButtonView: some View {
-		HStack(spacing: Constant.spacerBottom) {
-			Button {
-				doSocialLogin(type: .google)
-			} label: {
-				AppTheme.shared.imageSet.googleIcon
-			}
-			
-			Button {
-				doSocialLogin(type: .office)
-			} label: {
-				AppTheme.shared.imageSet.officeIcon
-			}
-			
-			Button {
-				doSocialLogin(type: .facebook)
-			} label: {
-				AppTheme.shared.imageSet.facebookIcon
+	var socialView: some View {
+		VStack(alignment: .center, spacing: Constants.socialViewPaddingTop) {
+			Text("Login.SignInWith".localized)
+				.font(AppTheme.shared.fontSet.font(style: .body3))
+				.foregroundColor(AppTheme.shared.colorSet.offWhite)
+			HStack(spacing: Constants.socialViewSpacing) {
+				SocialButton(AppTheme.shared.imageSet.googleIcon) { doSocialLogin(type: .google) }
+				SocialButton(AppTheme.shared.imageSet.officeIcon) { doSocialLogin(type: .office) }
+				SocialButton(AppTheme.shared.imageSet.facebookIcon) { doSocialLogin(type: .facebook) }
 			}
 		}
-		.frame(maxWidth: .infinity)
-		.padding(.leading, Constant.paddingHorizontalSignUp)
-		.padding(.trailing, Constant.paddingHorizontalSignUp)
 	}
 	
 	var signUpView: some View {
 		VStack {
 			Text("Login.SignUp.Suggest".localized)
-				.font(fontSignIn)
-				.foregroundColor(foregroundColorWhite)
+				.font(AppTheme.shared.fontSet.font(style: .body3))
+				.foregroundColor(AppTheme.shared.colorSet.offWhite)
 			
-			Spacer(minLength: Constant.spacer)
-			
-			NavigationLink(destination: RegisterView(),
+			NavigationLink(destination: RegisterView(customServer: $customServer),
 						   isActive: $isRegister,
 						   label: {
-				Button(action: register,
-					   label: {
-					Text("Login.SignUp".localized)
-				})
-					.frame(maxWidth: .infinity)
-					.frame(height: Constant.heightButton)
-					.font(fontSignIn)
-					.foregroundColor(foregroundColorViewButton)
-					.overlay(
-						RoundedRectangle(cornerRadius: Constant.radius)
-							.stroke(foregroundColorViewButton, lineWidth: Constant.lineWidthBorder))
+				RoundedBorderButton("Login.SignUp".localized, action: register)
 			})
-			
-			Spacer(minLength: Constant.spacerBottomView)
-			
-			Text(appVersion)
-				.font(AppTheme.shared.fontSet.font(style: .placeholder3))
-				.foregroundColor(foregroundColorWhite)
-				.onAppear(perform: {
-					getAppVersion()
-				})
 		}
-		.padding(.leading, Constant.paddingHorizontalSignUp)
-		.padding(.trailing, Constant.paddingHorizontalSignUp)
 	}
 }
 
 // MARK: - Private func
 private extension LoginContentView {
-	var backgroundColorView: LinearGradient {
-		colorScheme == .light ? backgroundColorGradient : backgroundColorDark
-	}
-	
-	var backgroundSignInButton: LinearGradient {
-		colorScheme == .light ? backgroundColorWhite : backgroundColorGradient
-	}
-	
-	var foregroundColorView: Color {
-		colorScheme == .light ? foregroundColorPrimary : foregroundColorWhite
-	}
-	
-	var foregroundColorViewButton: Color {
-		colorScheme == .light ? foregroundColorWhite : foregroundColorPrimary
-	}
-	
-	var foregroundColorWhite: Color {
-		AppTheme.shared.colorSet.offWhite
-	}
-	
-	var foregroundColorPrimary: Color {
-		AppTheme.shared.colorSet.primaryDefault
-	}
-	
-	var foregroundColorGradient: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
-	}
-	
-	var backgroundColorWhite: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
-	}
-	
-	var backgroundColorDark: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]), startPoint: .leading, endPoint: .trailing)
-	}
-	
-	var backgroundColorGradient: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-	}
-	
-	var fontSignIn: Font {
-		AppTheme.shared.fontSet.font(style: .body3)
-	}
 }
 
 // MARK: - Interactors
@@ -294,14 +162,14 @@ private extension LoginContentView {
 	func doLogin() {
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			loadable = await injected.interactors.loginInteractor.signIn(email: email, password: password)
+			loadable = await injected.interactors.loginInteractor.signIn(email: email, password: password, customServer: customServer)
 		}
 	}
 	
 	func doSocialLogin(type: SocialType) {
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			loadable = await injected.interactors.loginInteractor.signInSocial(type)
+			loadable = await injected.interactors.loginInteractor.signInSocial(type, customServer: customServer)
 		}
 	}
 	
@@ -321,7 +189,7 @@ private extension LoginContentView {
 #if DEBUG
 struct LoginContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		LoginContentView(loadable: .constant(.notRequested))
+		LoginContentView(loadable: .constant(.notRequested), customServer: .constant(CustomServer()))
 	}
 }
 #endif

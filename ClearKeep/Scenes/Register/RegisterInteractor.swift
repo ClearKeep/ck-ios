@@ -9,7 +9,7 @@ import Common
 import ChatSecure
 
 protocol IRegisterInteractor {
-	func register(displayName: String, email: String, password: String) async -> Loadable<Bool>
+	func register(displayName: String, email: String, password: String, customServer: CustomServer) async -> Loadable<Bool>
 }
 
 struct RegisterInteractor {
@@ -25,8 +25,8 @@ extension RegisterInteractor: IRegisterInteractor {
 		return RegisterWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
-	func register(displayName: String, email: String, password: String) async -> Loadable<Bool> {
-		let result = await worker.register(displayName: displayName, email: email, password: password)
+	func register(displayName: String, email: String, password: String, customServer: CustomServer) async -> Loadable<Bool> {
+		let result = await worker.register(displayName: displayName, email: email, password: password, customServer: customServer)
 		
 		switch result {
 		case .success(let data):
@@ -47,7 +47,7 @@ struct StubRegisterInteractor: IRegisterInteractor {
 		return RegisterWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
-	func register(displayName: String, email: String, password: String) async -> Loadable<Bool> {
+	func register(displayName: String, email: String, password: String, customServer: CustomServer) async -> Loadable<Bool> {
 		return .notRequested
 	}
 }

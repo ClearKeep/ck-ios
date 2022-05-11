@@ -15,11 +15,12 @@ public struct CustomSecureTextField: UIViewRepresentable {
 	let isFocused: (Bool) -> Void
 
 	public func makeUIView(context: UIViewRepresentableContext<CustomSecureTextField>) -> UITextField {
-		let textfield = UITextField(frame: .zero)
-		textfield.placeholder = self.placeHolder
-		textfield.isUserInteractionEnabled = true
-		textfield.delegate = context.coordinator
-		return textfield
+		let textField = UITextField(frame: .zero)
+		textField.placeholder = placeHolder
+		textField.isUserInteractionEnabled = true
+		textField.delegate = context.coordinator
+		textField.autocapitalizationType = .none
+		return textField
 	}
 
 	public func makeCoordinator() -> CustomSecureTextField.Coordinator {
@@ -40,18 +41,22 @@ public struct CustomSecureTextField: UIViewRepresentable {
 		}
 
 		public func textFieldDidBeginEditing(_ textField: UITextField) {
-			self.text = textField.text ?? ""
+			text = textField.text ?? ""
 			self.isFocused(true)
 		}
 
 		public func textFieldDidEndEditing(_ textField: UITextField) {
-			self.text = textField.text ?? ""
+			text = textField.text ?? ""
 			self.isFocused(false)
 		}
 
 		public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 			textField.resignFirstResponder()
 			return false
+		}
+		
+		public func textFieldDidChangeSelection(_ textField: UITextField) {
+			text = textField.text ?? ""
 		}
 	}
 }

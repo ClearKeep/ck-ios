@@ -29,6 +29,7 @@ struct MultilineTextField: View {
 			TextEditor(text: $text)
 				.background(placeholderView)
 				.frame(minHeight: Constants.minHeight, maxHeight: Constants.minHeight * Constants.maxLine)
+				.autocapitalization(.none)
 			Button(action: {
 
 			}, label: {

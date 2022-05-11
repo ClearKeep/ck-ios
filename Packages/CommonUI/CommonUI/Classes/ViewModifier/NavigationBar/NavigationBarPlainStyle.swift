@@ -34,14 +34,12 @@ struct NavigationBarPlainStyle<L, R>: ViewModifier where L: View, R: View {
 				rightBarItems?()
 			}
 			.padding(.top, globalSafeAreaInsets().top)
-			.padding(20)
+			.padding(16.0)
 			.gradientHeader(colors: headerBackgroundColor)
 			.frame(width: UIScreen.main.bounds.width, height: 60 + globalSafeAreaInsets().top)
 			content
 		}
-		.navigationBarHidden(true)
-		.navigationBarTitle("", displayMode: .inline)
-		.navigationBarBackButtonHidden(true)
+		.hiddenNavigationBarStyle()
 		.edgesIgnoringSafeArea(.top)
 	}
 	

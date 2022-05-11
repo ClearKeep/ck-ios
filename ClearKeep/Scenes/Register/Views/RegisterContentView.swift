@@ -22,6 +22,7 @@ struct RegisterContentView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Binding var loadable: Loadable<Bool>
+	@Binding var customServer: CustomServer
 	@State private var email: String = ""
 	@State private var emailStyle: TextInputStyle = .default
 	@State private var displayName: String = ""
@@ -76,10 +77,10 @@ struct RegisterContentView: View {
 						.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 				}
 				Spacer()
-				RoundedGradientButton("Register.SignUp".localized, disable: .constant(true)) {
-					doRegister()
-				}
-				.frame(width: Constants.buttonSize.width, height: Constants.buttonSize.height)
+				RoundedGradientButton("Register.SignUp".localized,
+									  disabled: .constant(email.isEmpty || displayName.isEmpty || password.isEmpty || confirmPassword.isEmpty),
+									  action: doRegister)
+				.frame(width: Constants.buttonSize.width)
 			}
 		}
 		.padding(.vertical, Constants.padding.top)
@@ -95,21 +96,17 @@ private extension RegisterContentView {
 	}
 }
 
-// MARK: - private func
+// MARK: - Interactor
 private extension RegisterContentView {
 	func doRegister() {
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			loadable = await injected.interactors.registerInteractor.register(displayName: displayName, email: email, password: password)
+			loadable = await injected.interactors.registerInteractor.register(displayName: displayName, email: email, password: password, customServer: customServer)
 		}
 	}
 	
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
-	}
-	
-	func buttonStatus() -> Bool {
-		return email.isEmpty || displayName.isEmpty || password.isEmpty || confirmPassword.isEmpty
 	}
 }
 
@@ -117,7 +114,7 @@ private extension RegisterContentView {
 #if DEBUG
 struct RegisterContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		RegisterContentView(loadable: .constant(.notRequested))
+		RegisterContentView(loadable: .constant(.notRequested), customServer: .constant(CustomServer()))
 	}
 }
 #endif

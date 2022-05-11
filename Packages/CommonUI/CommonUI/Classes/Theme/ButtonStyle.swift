@@ -8,7 +8,7 @@
 import SwiftUI
 
 private enum Constants {
-	static let cornerRadius: CGFloat = 16.0
+	static let cornerRadius: CGFloat = 40.0
 }
 
 protocol IButtonStyle {
@@ -23,98 +23,98 @@ protocol IButtonStyle {
 }
 
 public enum ButtonStyle: IButtonStyle {
-	case primary
-	case secondary
-	case subtle
-	case text
+	case primary(colorScheme: ColorScheme)
+	case secondary(colorScheme: ColorScheme)
+	case subtle(colorScheme: ColorScheme)
+	case text(colorScheme: ColorScheme)
 	
 	public var backgroundColor: [Color] {
 		switch self {
-		case .primary:
+		case .primary(let colorScheme):
 			return commonUIConfig.colorSet.gradientPrimary
-		case .secondary:
+		case .secondary(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite]
-		case .subtle:
+		case .subtle(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite]
-		case .text:
+		case .text(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite]
 		}
 	}
 	
 	public var disabledBackgroundColor: [Color] {
 		switch self {
-		case .primary:
+		case .primary(let colorScheme):
 			return commonUIConfig.colorSet.gradientPrimary.compactMap({ $0.opacity(0.5) })
-		case .secondary:
+		case .secondary(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
-		case .subtle:
+		case .subtle(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
-		case .text:
+		case .text(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
 		}
 	}
 	
 	public var highlightedBackgroundColor: [Color] {
 		switch self {
-		case .primary:
+		case .primary(let colorScheme):
 			return commonUIConfig.colorSet.gradientPrimary
-		case .secondary:
+		case .secondary(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite]
-		case .subtle:
+		case .subtle(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite]
-		case .text:
+		case .text(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite]
 		}
 	}
 	
 	public var borderColor: [Color] {
 		switch self {
-		case .primary:
+		case .primary(let colorScheme):
 			return commonUIConfig.colorSet.gradientPrimary
-		case .secondary:
+		case .secondary(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite]
-		case .subtle:
+		case .subtle(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite]
-		case .text:
+		case .text(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite]
 		}
 	}
 	
 	public var disabledBorderColor: [Color] {
 		switch self {
-		case .primary:
+		case .primary(let colorScheme):
 			return commonUIConfig.colorSet.gradientPrimary.compactMap({ $0.opacity(0.5) })
-		case .secondary:
+		case .secondary(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
-		case .subtle:
+		case .subtle(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
-		case .text:
+		case .text(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
 		}
 	}
 	
 	public var textColor: [Color] {
 		switch self {
-		case .primary:
+		case .primary(let colorScheme):
 			return commonUIConfig.colorSet.gradientPrimary.compactMap({ $0.opacity(0.5) })
-		case .secondary:
+		case .secondary(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
-		case .subtle:
+		case .subtle(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
-		case .text:
+		case .text(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
 		}
 	}
 	
 	public var disabledTextColor: [Color] {
 		switch self {
-		case .primary:
+		case .primary(let colorScheme):
 			return commonUIConfig.colorSet.gradientPrimary.compactMap({ $0.opacity(0.5) })
-		case .secondary:
+		case .secondary(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
-		case .subtle:
+		case .subtle(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
-		case .text:
+		case .text(let colorScheme):
 			return [commonUIConfig.colorSet.offWhite, commonUIConfig.colorSet.offWhite].compactMap({ $0.opacity(0.5) })
 		}
 	}

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CommonUI
 
 private enum Constants {
 	static let radius = 40.0
@@ -159,7 +160,9 @@ private extension HomeMenuView {
 	}
 
 	func signOut() {
-
+		Task {
+			await injected.interactors.homeInteractor.signOut()
+		}
 	}
 
 	func chooseAction() {
@@ -202,10 +205,7 @@ private extension HomeMenuView {
 			Button(action: signOut) {
 				HStack {
 					Spacer()
-					AppTheme.shared.imageSet.logoutIcon
-						.resizable()
-						.renderingMode(.template)
-						.aspectRatio(contentMode: .fit)
+					AppLogo()
 						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 						.padding(.all, Constants.padding)
 						.foregroundColor(foregroundSignout)

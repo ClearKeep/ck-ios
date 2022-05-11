@@ -21,14 +21,13 @@ public protocol IMessageAPIService {
 extension APIService: IMessageAPIService {
 	public func getMessage(_ request: Message_GetMessagesInGroupRequest) async -> Result<Message_GetMessagesInGroupResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientMessage.get_messages_in_group(request).status
-			let response = clientMessage.get_messages_in_group(request).response
+			let caller = clientMessage.get_messages_in_group(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -43,14 +42,13 @@ extension APIService: IMessageAPIService {
 	
 	public func getMessageWorkspace(_ request: Message_WorkspaceGetMessagesInGroupRequest) async -> Result<Message_GetMessagesInGroupResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientMessage.workspace_get_messages_in_group(request).status
-			let response = clientMessage.workspace_get_messages_in_group(request).response
+			let caller = clientMessage.workspace_get_messages_in_group(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -65,14 +63,13 @@ extension APIService: IMessageAPIService {
 	
 	public func subscribe(_ request: Message_SubscribeRequest) async -> Result<Message_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientMessage.subscribe(request).status
-			let response = clientMessage.subscribe(request).response
+			let caller = clientMessage.subscribe(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -87,14 +84,13 @@ extension APIService: IMessageAPIService {
 	
 	public func unSubscribe(_ request: Message_UnSubscribeRequest) async -> Result<Message_BaseResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientMessage.unSubscribe(request).status
-			let response = clientMessage.unSubscribe(request).response
+			let caller = clientMessage.unSubscribe(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -110,7 +106,7 @@ extension APIService: IMessageAPIService {
 	public func listen(_ request: Message_ListenRequest) async -> Result<Message_MessageObjectResponse, Error> {
 		return await withCheckedContinuation({ continuation in
 			do {
-				try clientMessage.listen(request) { publication in
+				try clientMessage.listen(request, callOptions: callOptions) { publication in
 					guard let data = try? publication.serializedData(),
 						  let response = try? Message_MessageObjectResponse(serializedData: data) else {
 							  continuation.resume(returning: .failure(ServerError.unknown))
@@ -125,14 +121,13 @@ extension APIService: IMessageAPIService {
 	
 	public func sendMessage(_ request: Message_PublishRequest) async -> Result<Message_MessageObjectResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientMessage.publish(request).status
-			let response = clientMessage.publish(request).response
+			let caller = clientMessage.publish(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -147,14 +142,13 @@ extension APIService: IMessageAPIService {
 	
 	public func sendMessageWorkspace(_ request: Message_WorkspacePublishRequest) async -> Result<Message_MessageObjectResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let status = clientMessage.workspace_publish(request).status
-			let response = clientMessage.workspace_publish(request).response
+			let caller = clientMessage.workspace_publish(request, callOptions: callOptions)
 			
-			status.whenComplete({ result in
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {

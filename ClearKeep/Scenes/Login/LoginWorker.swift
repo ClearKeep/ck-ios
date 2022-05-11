@@ -16,8 +16,8 @@ protocol ILoginWorker {
 	var currentDomain: String { get }
 	var appVersion: String { get }
 	
-	func signIn(email: String, password: String) async -> Result<IAuthenticationModel, Error>
-	func signInSocial(_ socialType: SocialType) async -> Result<IAuthenticationModel, Error>
+	func signIn(email: String, password: String, customServer: CustomServer) async -> Result<IAuthenticationModel, Error>
+	func signInSocial(_ socialType: SocialType, customServer: CustomServer) async -> Result<IAuthenticationModel, Error>
 }
 
 struct LoginWorker {
@@ -41,11 +41,13 @@ extension LoginWorker: ILoginWorker {
 		channelStorage.currentChannel.domain
 	}
 	
-	func signIn(email: String, password: String) async -> Result<IAuthenticationModel, Error> {
-		return await remoteStore.signIn(email: email, password: password, domain: currentDomain)
+	func signIn(email: String, password: String, customServer: CustomServer) async -> Result<IAuthenticationModel, Error> {
+		let isCustomServer = customServer.isSelectedCustomServer && !customServer.customServerURL.isEmpty
+		return await remoteStore.signIn(email: email, password: password, domain: isCustomServer ? customServer.customServerURL : currentDomain)
 	}
 	
-	func signInSocial(_ socialType: SocialType) async -> Result<IAuthenticationModel, Error> {
-		return await remoteStore.signInSocial(socialType, domain: currentDomain)
+	func signInSocial(_ socialType: SocialType, customServer: CustomServer) async -> Result<IAuthenticationModel, Error> {
+		let isCustomServer = customServer.isSelectedCustomServer && !customServer.customServerURL.isEmpty
+		return await remoteStore.signInSocial(socialType, domain: isCustomServer ? customServer.customServerURL : currentDomain)
 	}
 }

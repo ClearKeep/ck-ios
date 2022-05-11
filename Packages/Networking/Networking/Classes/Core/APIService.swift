@@ -12,7 +12,7 @@ import GRPC
 import Model
 
 protocol IAPIService {
-	var header: HPACKHeaders { get }
+	var callOptions: CallOptions { get set }
 	var group: MultiThreadedEventLoopGroup { get }
 	var connection: ClientConnection { get }
 	var clientAuth: Auth_AuthClient { get }
@@ -27,13 +27,15 @@ protocol IAPIService {
 	var clientServerInfo: ServerInfo_ServerInfoClient { get }
 	var clientUploadFile: UploadFile_UploadFileClient { get }
 	var clientWorkspace: Workspace_WorkspaceClient { get }
+	
+	func updateHeaders(accessKey: String?, hashKey: String?)
 }
 
 public class APIService {
 	// MARK: - Variables
 	public let domain: String!
 	public var owner: IUser?
-	let header: HPACKHeaders
+	var callOptions: CallOptions
 	let group: MultiThreadedEventLoopGroup
 	let connection: ClientConnection
 	let clientAuth: Auth_AuthClient
@@ -52,7 +54,11 @@ public class APIService {
 	// MARK: - Init & Deinit
 	public init(domain: String) {
 		self.domain = domain
-		header = HPACKHeaders()
+		callOptions = CallOptions()
+		var headers: HPACKHeaders = ["domain": "localhost",
+									 "ip_address": "0.0.0.0"]
+		callOptions.customMetadata = headers
+		
 		group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
 		
 		let domainConfig = domain.components(separatedBy: ":")
@@ -79,4 +85,14 @@ public class APIService {
 	}
 }
 
-extension APIService: IAPIService {}
+extension APIService: IAPIService {
+	public func updateHeaders(accessKey: String?, hashKey: String?) {
+		if let accessKey = accessKey {
+			callOptions.customMetadata.add(name: "access_token", value: accessKey)
+		}
+		
+		if let hashKey = hashKey {
+			callOptions.customMetadata.add(name: "hash_key", value: hashKey)
+		}
+	}
+}

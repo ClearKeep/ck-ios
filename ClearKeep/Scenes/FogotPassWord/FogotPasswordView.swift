@@ -21,7 +21,9 @@ struct FogotPasswordView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
+	@Binding var customServer: CustomServer
+	@State private(set) var loadable: Loadable<Bool> = .notRequested
+	
 	// MARK: - Body
 	var body: some View {
 		content
@@ -42,14 +44,43 @@ struct FogotPasswordView: View {
 // MARK: - Private
 private extension FogotPasswordView {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		switch loadable {
+		case .notRequested:
+			return AnyView(notRequestedView)
+		case .isLoading:
+			return AnyView(loadingView)
+		case .loaded:
+			return AnyView(loadedView)
+		case .failed(let error):
+			return AnyView(errorView(RegisterViewError(error)))
+		}
 	}
 }
 
 // MARK: - Loading Content
 private extension FogotPasswordView {
 	var notRequestedView: some View {
-		FogotPasswordContentView(emailStyle: .default)
+		FogotPasswordContentView(loadable: $loadable, customServer: $customServer)
+	}
+	
+	var loadingView: some View {
+		notRequestedView.progressHUD(true)
+	}
+	
+	var loadedView: some View {
+		NavigationLink(
+			destination: NewPasswordView(),
+			isActive: .constant(true),
+			label: {})
+	}
+	
+	func errorView(_ error: RegisterViewError) -> some View {
+		return notRequestedView
+			.alert(isPresented: .constant(true)) {
+				Alert(title: Text(error.title),
+					  message: Text(error.message),
+					  dismissButton: .default(Text(error.primaryButtonTitle)))
+			}
 	}
 }
 
@@ -71,7 +102,7 @@ private extension FogotPasswordView {
 #if DEBUG
 struct FogotPasswordView_Previews: PreviewProvider {
 	static var previews: some View {
-		FogotPasswordView()
+		FogotPasswordView(customServer: .constant(CustomServer()))
 	}
 }
 #endif

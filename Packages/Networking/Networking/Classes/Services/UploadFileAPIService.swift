@@ -18,13 +18,13 @@ public protocol IUploadFileAPIService {
 extension APIService: IUploadFileAPIService {
 	public func uploadImage(_ request: UploadFile_FileUploadRequest) async -> Result<UploadFile_UploadFilesResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let response = clientUploadFile.upload_image(request).response
-			let status = clientUploadFile.upload_image(request).status
-			status.whenComplete({ result in
+			let caller = clientUploadFile.upload_image(request, callOptions: callOptions)
+			
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -39,13 +39,13 @@ extension APIService: IUploadFileAPIService {
 	
 	public func uploadFile(_ request: UploadFile_FileUploadRequest) async -> Result<UploadFile_UploadFilesResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let response = clientUploadFile.upload_file(request).response
-			let status = clientUploadFile.upload_file(request).status
-			status.whenComplete({ result in
+			let caller = clientUploadFile.upload_file(request, callOptions: callOptions)
+			
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -60,13 +60,13 @@ extension APIService: IUploadFileAPIService {
 	
 	public func uploadChunkedFile() async -> Result<UploadFile_UploadFilesResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let response = clientUploadFile.upload_chunked_file().response
-			let status = clientUploadFile.upload_chunked_file().status
-			status.whenComplete({ result in
+			let caller = clientUploadFile.upload_chunked_file()
+			
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -81,13 +81,13 @@ extension APIService: IUploadFileAPIService {
 	
 	public func getUploadFileLink(_ request: UploadFile_GetUploadFileLinkRequest) async -> Result<UploadFile_GetUploadFileLinkResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let response = clientUploadFile.get_upload_file_link(request).response
-			let status = clientUploadFile.get_upload_file_link(request).status
-			status.whenComplete({ result in
+			let caller = clientUploadFile.get_upload_file_link(request, callOptions: callOptions)
+			
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {
@@ -102,13 +102,13 @@ extension APIService: IUploadFileAPIService {
 	
 	public func getDownloadFileLink(_ request: UploadFile_GetDownloadFileLinkRequest) async -> Result<UploadFile_GetDownloadFileLinkResponse, Error> {
 		return await withCheckedContinuation({ continuation in
-			let response = clientUploadFile.get_download_file_link(request).response
-			let status = clientUploadFile.get_download_file_link(request).status
-			status.whenComplete({ result in
+			let caller = clientUploadFile.get_download_file_link(request, callOptions: callOptions)
+			
+			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
 					if status.isOk {
-						response.whenComplete { result in
+						caller.response.whenComplete { result in
 							continuation.resume(returning: result)
 						}
 					} else {

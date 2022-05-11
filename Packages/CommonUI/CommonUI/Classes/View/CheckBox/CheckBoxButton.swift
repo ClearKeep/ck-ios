@@ -17,7 +17,7 @@ public struct CheckBoxButtons: View {
 	// MARK: - Variables
 	@Binding var isChecked: Bool
 	private let text: String
-
+	
 	// MARK: - Init
 	public init(text: String, isChecked: Binding<Bool>) {
 		self.text = text
@@ -29,14 +29,14 @@ public struct CheckBoxButtons: View {
 			isChecked.toggle()
 		}, label: {
 			HStack {
-			checkMaskIcon
-				.foregroundColor(focegroundColorImage)
-			Text(text)
-				.font(font)
-				.frame(height: Constants.textHeight)
+				checkMaskIcon
+					.foregroundColor(focegroundColorImage)
+				Text(text)
+					.font(font)
+					.frame(height: Constants.textHeight)
 			}
-		}
-	)}
+		})
+	}
 }
 
 // MARK: - Private func
@@ -48,7 +48,7 @@ private extension CheckBoxButtons {
 	var font: Font {
 		commonUIConfig.fontSet.font(style: .body3)
 	}
-
+	
 	var checkMaskIcon: Image {
 		isChecked ? commonUIConfig.imageSet.checkedIcon : commonUIConfig.imageSet.unCheckIcon
 	}
