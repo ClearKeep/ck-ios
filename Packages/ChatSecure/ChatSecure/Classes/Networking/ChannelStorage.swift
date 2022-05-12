@@ -18,10 +18,11 @@ public class ChannelStorage: IChannelStorage {
 	public var currentChannel: APIService
 	public var channels: [String: APIService]
 	public let config: IChatSecureConfig
-	let serverStore: ServerStore = ServerStore()
+	let realmManager: RealmManager
 	
 	public init(config: IChatSecureConfig) {
 		self.config = config
+		realmManager = RealmManager(databasePath: config.databaseURL)
 		channels = [config.clkDomain + ":" + config.clkPort: APIService(domain: config.clkDomain + ":" + config.clkPort)]
 		currentChannel = channels.first?.value ?? APIService(domain: config.clkDomain + ":" + config.clkPort)
 	}
@@ -42,7 +43,7 @@ public class ChannelStorage: IChannelStorage {
 	}
 	
 	public func updateChannel(domain: String) {
-		guard let server = serverStore.getServer(by: domain) else { return }
+		guard let server = realmManager.getServer(by: domain) else { return }
 		getChannel(domain: server.serverDomain).updateHeaders(accessKey: server.accessKey, hashKey: server.hashKey)
 	}
 }
