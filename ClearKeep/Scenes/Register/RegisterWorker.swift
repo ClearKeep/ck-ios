@@ -14,13 +14,18 @@ protocol IRegisterWorker {
 	var inMemoryStore: IRegisterInMemoryStore { get }
 
 	func register(displayName: String, email: String, password: String, customServer: CustomServer) async -> Result<Bool, Error>
+	func emailValid(email: String) -> Bool
+	func passwordValid(password: String) -> Bool
+	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool
+	func checkValid(emailValid: Bool, passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool
 }
 
 struct RegisterWorker {
 	let channelStorage: IChannelStorage
 	let remoteStore: IRegisterRemoteStore
 	let inMemoryStore: IRegisterInMemoryStore
-
+	let emailPredicate = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
+	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "^(?=.*?[a-z]).{6,12}$")
 	init(channelStorage: IChannelStorage,
 		remoteStore: IRegisterRemoteStore,
 		 inMemoryStore: IRegisterInMemoryStore) {
@@ -38,5 +43,26 @@ extension RegisterWorker: IRegisterWorker {
 	func register(displayName: String, email: String, password: String, customServer: CustomServer) async -> Result<Bool, Error> {
 		let isCustomServer = customServer.isSelectedCustomServer && !customServer.customServerURL.isEmpty
 		return await remoteStore.register(displayName: displayName, email: email, password: password, domain: isCustomServer ? customServer.customServerURL : currentDomain)
+	}
+	func emailValid(email: String) -> Bool {
+		let result = self.emailPredicate.evaluate(with: email)
+		return result
+	}
+
+	func passwordValid(password: String) -> Bool {
+		let result = self.passwordPredicate.evaluate(with: password)
+		return result
+	}
+
+	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool {
+		if password == confirmPassword {
+			return true
+		} else {
+			return false
+		}
+	}
+
+	func checkValid(emailValid: Bool, passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool {
+		(emailValid == false || passwordValdid == false || confirmPasswordValid == false) ?  false : true
 	}
 }

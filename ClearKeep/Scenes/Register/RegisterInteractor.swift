@@ -10,6 +10,10 @@ import ChatSecure
 
 protocol IRegisterInteractor {
 	func register(displayName: String, email: String, password: String, customServer: CustomServer) async -> Loadable<Bool>
+	func emailValid(email: String) -> Bool
+	func passwordValid(password: String) -> Bool
+	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool
+	func checkValid(emailValid: Bool, passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool
 }
 
 struct RegisterInteractor {
@@ -35,6 +39,22 @@ extension RegisterInteractor: IRegisterInteractor {
 			return .failed(error)
 		}
 	}
+
+	func emailValid(email: String) -> Bool {
+		return worker.emailValid(email: email)
+	}
+
+	func passwordValid(password: String) -> Bool {
+		return worker.passwordValid(password: password)
+	}
+
+	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool {
+		return worker.confirmPasswordValid(password: password, confirmPassword: confirmPassword)
+	}
+
+	func checkValid(emailValid: Bool, passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool {
+		return worker.checkValid(emailValid: emailValid, passwordValdid: passwordValdid, confirmPasswordValid: confirmPasswordValid)
+	}
 }
 
 struct StubRegisterInteractor: IRegisterInteractor {
@@ -50,4 +70,21 @@ struct StubRegisterInteractor: IRegisterInteractor {
 	func register(displayName: String, email: String, password: String, customServer: CustomServer) async -> Loadable<Bool> {
 		return .notRequested
 	}
+
+	func emailValid(email: String) -> Bool {
+		return worker.emailValid(email: email)
+	}
+
+	func passwordValid(password: String) -> Bool {
+		return worker.passwordValid(password: password)
+	}
+
+	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool {
+		return worker.confirmPasswordValid(password: password, confirmPassword: confirmPassword)
+	}
+
+	func checkValid(emailValid: Bool, passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool {
+		return worker.checkValid(emailValid: emailValid, passwordValdid: passwordValdid, confirmPasswordValid: confirmPasswordValid)
+	}
+
 }
