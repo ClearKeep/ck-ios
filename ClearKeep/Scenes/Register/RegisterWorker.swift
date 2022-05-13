@@ -25,7 +25,7 @@ struct RegisterWorker {
 	let remoteStore: IRegisterRemoteStore
 	let inMemoryStore: IRegisterInMemoryStore
 	let emailPredicate = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
-	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "^(?=.*?[a-z]).{6,12}$")
+	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "[0-9a-zA-Z]{6,12}")
 	init(channelStorage: IChannelStorage,
 		remoteStore: IRegisterRemoteStore,
 		 inMemoryStore: IRegisterInMemoryStore) {

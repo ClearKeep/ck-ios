@@ -135,7 +135,7 @@ private extension LoginContentView {
 	}
 	
 	var signUpView: some View {
-		VStack {
+		VStack(spacing: Constants.extraButtonViewPaddingTop) {
 			Text("Login.SignUp.Suggest".localized)
 				.font(AppTheme.shared.fontSet.font(style: .body3))
 				.foregroundColor(AppTheme.shared.colorSet.offWhite)
