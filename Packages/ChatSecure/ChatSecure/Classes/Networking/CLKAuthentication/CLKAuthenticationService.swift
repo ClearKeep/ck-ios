@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SignalProtocolObjC
+import LibSignalClient
 import Networking
 import SwiftSRP
 import Common
@@ -57,31 +57,28 @@ extension CLKAuthenticationService: IAuthenticationService {
 		srp.freeMemoryCreateAccount(byteV: &byteV)
 		
 		let pbkdf2 = PBKDF2(passPharse: password)
-		let inMemoryStore: SignalInMemoryStore = SignalInMemoryStore()
-		let storage = SignalStorage(signalStore: inMemoryStore)
-		let context = SignalContext(storage: storage)
-		guard let keyHelper = SignalKeyHelper(context: context ?? SignalContext()),
-			  let key = keyHelper.generateIdentityKeyPair() else { return(.failure(ServerError.unknown)) }
 		
-		let preKeys = keyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
-		
+		let key = IdentityKeyPair.generate()
+		let preKeys = KeyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
 		guard let preKey = preKeys.first,
-			  let preKeyData = preKey.serializedData(),
-			  let signedPreKey = keyHelper.generateSignedPreKey(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (email + domain).hashCode())),
-			  let signedPreKeyData = signedPreKey.serializedData() else { return(.failure(ServerError.unknown)) }
+			  let signedPreKeyRecord = KeyHelper.generateSignedPreKeyRecord(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (email + domain).hashCode()))
+		else { return(.failure(ServerError.unknown)) }
 		
-		var transitionId = keyHelper.generateRegistrationId()
+		let preKeyData = preKey.serialize()
+		let signedPrekeyRecordData = signedPreKeyRecord.serialize()
+		
+		var transitionId = KeyHelper.generateRegistrationId()
 		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
 		peerRegisterClientKeyRequest.deviceID = Int32(Constants.senderDeviceId)
 		peerRegisterClientKeyRequest.registrationID = Int32(bitPattern: transitionId)
-		peerRegisterClientKeyRequest.identityKeyPublic = key.publicKey
-		peerRegisterClientKeyRequest.preKey = preKeyData
-		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.preKeyId)
-		peerRegisterClientKeyRequest.signedPreKey = signedPreKeyData
-		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKey.preKeyId)
-		let encrypt = pbkdf2.encrypt(data: [UInt8](key.privateKey), saltHex: saltHex)
+		peerRegisterClientKeyRequest.identityKeyPublic = Data(key.publicKey.serialize())
+		peerRegisterClientKeyRequest.preKey = Data(preKeyData)
+		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.id)
+		peerRegisterClientKeyRequest.signedPreKey = Data(signedPrekeyRecordData)
+		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKeyRecord.id)
+		let encrypt = pbkdf2.encrypt(data: key.privateKey.serialize(), saltHex: saltHex)
 		peerRegisterClientKeyRequest.identityKeyEncrypted = bytesConvertToHexString(bytes: encrypt ?? [])
-		peerRegisterClientKeyRequest.signedPreKeySignature = signedPreKey.signature
+		peerRegisterClientKeyRequest.signedPreKeySignature = Data(signedPreKeyRecord.signature)
 		
 		var request = Auth_RegisterSRPReq()
 		request.workspaceDomain = domain
@@ -162,31 +159,28 @@ extension CLKAuthenticationService: IAuthenticationService {
 		srp.freeMemoryCreateAccount(byteV: &byteV)
 		
 		let pbkdf2 = PBKDF2(passPharse: rawPin)
-		let inMemoryStore: SignalInMemoryStore = SignalInMemoryStore()
-		let storage = SignalStorage(signalStore: inMemoryStore)
-		let context = SignalContext(storage: storage)
-		guard let keyHelper = SignalKeyHelper(context: context ?? SignalContext()),
-			  let key = keyHelper.generateIdentityKeyPair() else { return .failure(ServerError.unknown) }
 		
-		let preKeys = keyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
-		
+		let key = IdentityKeyPair.generate()
+		let preKeys = try KeyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
 		guard let preKey = preKeys.first,
-			  let preKeyData = preKey.serializedData(),
-			  let signedPreKey = keyHelper.generateSignedPreKey(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (userId + domain).hashCode())),
-			  let signedPreKeyData = signedPreKey.serializedData() else { return .failure(ServerError.unknown) }
+			  let signedPreKeyRecord = try KeyHelper.generateSignedPreKeyRecord(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (userId + domain).hashCode()))
+		else { return(.failure(ServerError.unknown)) }
 		
-		var transitionId = keyHelper.generateRegistrationId()
+		let preKeyData = preKey.serialize()
+		let signedPrekeyRecordData = signedPreKeyRecord.serialize()
+		
+		var transitionId = KeyHelper.generateRegistrationId()
 		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
 		peerRegisterClientKeyRequest.deviceID = Int32(Constants.senderDeviceId)
 		peerRegisterClientKeyRequest.registrationID = Int32(bitPattern: transitionId)
-		peerRegisterClientKeyRequest.identityKeyPublic = key.publicKey
-		peerRegisterClientKeyRequest.preKey = preKeyData
-		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.preKeyId)
-		peerRegisterClientKeyRequest.signedPreKey = signedPreKeyData
-		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKey.preKeyId)
-		let encrypt = pbkdf2.encrypt(data: [UInt8](key.privateKey), saltHex: saltHex)
+		peerRegisterClientKeyRequest.identityKeyPublic = Data(key.publicKey.serialize())
+		peerRegisterClientKeyRequest.preKey = Data(preKeyData)
+		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.id)
+		peerRegisterClientKeyRequest.signedPreKey = Data(signedPrekeyRecordData)
+		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKeyRecord.id)
+		let encrypt = pbkdf2.encrypt(data: key.privateKey.serialize(), saltHex: saltHex)
 		peerRegisterClientKeyRequest.identityKeyEncrypted = bytesConvertToHexString(bytes: encrypt ?? [])
-		peerRegisterClientKeyRequest.signedPreKeySignature = signedPreKey.signature
+		peerRegisterClientKeyRequest.signedPreKeySignature = Data(signedPreKeyRecord.signature)
 		
 		var request = Auth_RegisterPinCodeReq()
 		request.userName = userId
@@ -212,7 +206,6 @@ extension CLKAuthenticationService: IAuthenticationService {
 		case .failure:
 			break
 		}
-		
 		return response
 	}
 	
@@ -274,31 +267,28 @@ extension CLKAuthenticationService: IAuthenticationService {
 		srp.freeMemoryCreateAccount(byteV: &byteV)
 		
 		let pbkdf2 = PBKDF2(passPharse: rawPin)
-		let inMemoryStore: SignalInMemoryStore = SignalInMemoryStore()
-		let storage = SignalStorage(signalStore: inMemoryStore)
-		let context = SignalContext(storage: storage)
-		guard let keyHelper = SignalKeyHelper(context: context ?? SignalContext()),
-			  let key = keyHelper.generateIdentityKeyPair() else { return .failure(ServerError.unknown) }
 		
-		let preKeys = keyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
-		
+		let key = IdentityKeyPair.generate()
+		let preKeys = try KeyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
 		guard let preKey = preKeys.first,
-			  let preKeyData = preKey.serializedData(),
-			  let signedPreKey = keyHelper.generateSignedPreKey(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (userId + domain).hashCode())),
-			  let signedPreKeyData = signedPreKey.serializedData() else { return .failure(ServerError.unknown) }
+			  let signedPreKeyRecord = try KeyHelper.generateSignedPreKeyRecord(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (userId + domain).hashCode()))
+		else { return(.failure(ServerError.unknown)) }
 		
-		var transitionId = keyHelper.generateRegistrationId()
+		let preKeyData = preKey.serialize()
+		let signedPrekeyRecordData = signedPreKeyRecord.serialize()
+		
+		var transitionId = KeyHelper.generateRegistrationId()
 		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
 		peerRegisterClientKeyRequest.deviceID = Int32(Constants.senderDeviceId)
 		peerRegisterClientKeyRequest.registrationID = Int32(bitPattern: transitionId)
-		peerRegisterClientKeyRequest.identityKeyPublic = key.publicKey
-		peerRegisterClientKeyRequest.preKey = preKeyData
-		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.preKeyId)
-		peerRegisterClientKeyRequest.signedPreKey = signedPreKeyData
-		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKey.preKeyId)
-		let encrypt = pbkdf2.encrypt(data: [UInt8](key.privateKey), saltHex: saltHex)
+		peerRegisterClientKeyRequest.identityKeyPublic = Data(key.publicKey.serialize())
+		peerRegisterClientKeyRequest.preKey = Data(preKeyData)
+		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.id)
+		peerRegisterClientKeyRequest.signedPreKey = Data(signedPrekeyRecordData)
+		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKeyRecord.id)
+		let encrypt = pbkdf2.encrypt(data: key.privateKey.serialize(), saltHex: saltHex)
 		peerRegisterClientKeyRequest.identityKeyEncrypted = bytesConvertToHexString(bytes: encrypt ?? [])
-		peerRegisterClientKeyRequest.signedPreKeySignature = signedPreKey.signature
+		peerRegisterClientKeyRequest.signedPreKeySignature = Data(signedPreKeyRecord.signature)
 		
 		var request = Auth_RegisterPinCodeReq()
 		request.userName = userId
@@ -327,31 +317,28 @@ extension CLKAuthenticationService: IAuthenticationService {
 		srp.freeMemoryCreateAccount(byteV: &byteV)
 		
 		let pbkdf2 = PBKDF2(passPharse: rawNewPassword)
-		let inMemoryStore: SignalInMemoryStore = SignalInMemoryStore()
-		let storage = SignalStorage(signalStore: inMemoryStore)
-		let context = SignalContext(storage: storage)
-		guard let keyHelper = SignalKeyHelper(context: context ?? SignalContext()),
-			  let key = keyHelper.generateIdentityKeyPair() else { return .failure(ServerError.unknown) }
 		
-		let preKeys = keyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
-		
+		let key = IdentityKeyPair.generate()
+		let preKeys = try KeyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
 		guard let preKey = preKeys.first,
-			  let preKeyData = preKey.serializedData(),
-			  let signedPreKey = keyHelper.generateSignedPreKey(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (email + domain).hashCode())),
-			  let signedPreKeyData = signedPreKey.serializedData() else { return .failure(ServerError.unknown) }
+			  let signedPreKeyRecord = try KeyHelper.generateSignedPreKeyRecord(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (email + domain).hashCode()))
+		else { return(.failure(ServerError.unknown)) }
 		
-		var transitionId = keyHelper.generateRegistrationId()
+		let preKeyData = preKey.serialize()
+		let signedPrekeyRecordData = signedPreKeyRecord.serialize()
+		
+		var transitionId = KeyHelper.generateRegistrationId()
 		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
 		peerRegisterClientKeyRequest.deviceID = Int32(Constants.senderDeviceId)
 		peerRegisterClientKeyRequest.registrationID = Int32(bitPattern: transitionId)
-		peerRegisterClientKeyRequest.identityKeyPublic = key.publicKey
-		peerRegisterClientKeyRequest.preKey = preKeyData
-		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.preKeyId)
-		peerRegisterClientKeyRequest.signedPreKey = signedPreKeyData
-		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKey.preKeyId)
-		let encrypt = pbkdf2.encrypt(data: [UInt8](key.privateKey), saltHex: saltHex)
+		peerRegisterClientKeyRequest.identityKeyPublic = Data(key.publicKey.serialize())
+		peerRegisterClientKeyRequest.preKey = Data(preKeyData)
+		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.id)
+		peerRegisterClientKeyRequest.signedPreKey = Data(signedPrekeyRecordData)
+		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKeyRecord.id)
+		let encrypt = pbkdf2.encrypt(data: key.privateKey.serialize(), saltHex: saltHex)
 		peerRegisterClientKeyRequest.identityKeyEncrypted = bytesConvertToHexString(bytes: encrypt ?? [])
-		peerRegisterClientKeyRequest.signedPreKeySignature = signedPreKey.signature
+		peerRegisterClientKeyRequest.signedPreKeySignature = Data(signedPreKeyRecord.signature)
 		
 		var request = Auth_ForgotPasswordUpdateReq()
 		request.preAccessToken = domain
