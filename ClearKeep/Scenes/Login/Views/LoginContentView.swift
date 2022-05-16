@@ -127,9 +127,9 @@ private extension LoginContentView {
 				.font(AppTheme.shared.fontSet.font(style: .body3))
 				.foregroundColor(AppTheme.shared.colorSet.offWhite)
 			HStack(spacing: Constants.socialViewSpacing) {
-				SocialButton(AppTheme.shared.imageSet.googleIcon) { doSocialLogin(type: .google) }
-				SocialButton(AppTheme.shared.imageSet.officeIcon) { doSocialLogin(type: .office) }
-				SocialButton(AppTheme.shared.imageSet.facebookIcon) { doSocialLogin(type: .facebook) }
+				ImageButton(AppTheme.shared.imageSet.googleIcon) { doSocialLogin(type: .google) }
+				ImageButton(AppTheme.shared.imageSet.officeIcon) { doSocialLogin(type: .office) }
+				ImageButton(AppTheme.shared.imageSet.facebookIcon) { doSocialLogin(type: .facebook) }
 			}
 		}
 	}

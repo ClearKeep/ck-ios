@@ -21,7 +21,7 @@ extension AppEnvironment {
 	
 	static func bootstrap() -> AppEnvironment {
 		let appState = Store<AppState>(AppState())
-		appState[\.authentication.accessToken] = nil
+		appState[\.authentication.accessToken] = DependencyResolver.shared.appTokenService.accessToken
 		let interactors = configuredInteractors(appState: appState)
 		let diContainer = DIContainer(appState: appState, interactors: interactors)
 		let deepLinksHandler = DeepLinksHandler(container: diContainer)
@@ -39,7 +39,7 @@ extension AppEnvironment {
 		let loginInteractor = LoginInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, socialAuthenticationService: DependencyResolver.shared.socialAuthenticationService, authenticationService: DependencyResolver.shared.authenticationService, appTokenService: DependencyResolver.shared.appTokenService)
 		let twoFactorInteractor = TwoFactorInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService)
 		let registerInteractor = RegisterInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService)
-		let socialInteractor = SocialInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService)
+		let socialInteractor = SocialInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService, appTokenService: DependencyResolver.shared.appTokenService)
 		let fogotPasswordInteractor = FogotPasswordInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService)
 		let newPasswordInteractor = NewPasswordInteractor(appState: appState, authenticationService: DependencyResolver.shared.authenticationService)
 		let changePasswordInteractor = ChangePasswordInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService)

@@ -1,5 +1,5 @@
 //
-//  SocialButton.swift
+//  ImageButton.swift
 //  CommonUI
 //
 //  Created by NamNH on 09/05/2022.
@@ -7,10 +7,8 @@
 
 import SwiftUI
 
-public struct SocialButton: View {
+public struct ImageButton: View {
 	// MARK: - Variables
-	@Environment(\.colorScheme) var colorScheme
-	
 	private let image: Image
 	private var action: () -> Void
 	
@@ -22,6 +20,8 @@ public struct SocialButton: View {
 	
 	// MARK: - Body
 	public var body: some View {
-		Button(action: action, label: { image })
+		Button(action: action, label: { image
+			.renderingMode(.template)
+		})
 	}
 }

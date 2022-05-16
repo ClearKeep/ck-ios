@@ -4,7 +4,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 # App
 ##################
 workspace "ClearKeep"
-platform :ios, '14.0'
+platform :ios, '15.0'
 
 ##################
 # Global
