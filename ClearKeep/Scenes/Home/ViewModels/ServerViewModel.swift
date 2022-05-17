@@ -6,10 +6,19 @@
 //
 
 import Foundation
+import Model
 
 struct ServerViewModel: Identifiable {
-	var id: Int
-	var name: String
+	var id: String { "\(serverDomain)" }
+	var serverName: String
+	var serverDomain: String
+	var ownerClientId: String
 	var imageURL: URL?
-	var isSelected: Bool = false
+	
+	init(_ server: IServerModel) {
+		serverName = server.serverName
+		serverDomain = server.serverDomain
+		ownerClientId = server.ownerClientId
+		imageURL = URL(string: server.serverAvatar)
+	}
 }

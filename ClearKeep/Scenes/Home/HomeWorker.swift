@@ -5,16 +5,16 @@
 //  Created by NamNH on 15/02/2022.
 //
 
-import UIKit
-import Combine
 import Common
 import ChatSecure
+import Model
 
 protocol IHomeWorker {
 	var remoteStore: IHomeRemoteStore { get }
 	var inMemoryStore: IHomeInMemoryStore { get }
+	var servers: [IServerModel] { get }
 	
-	func getJoinedGroup() async
+	func getJoinedGroup() async -> Result<[IGroupModel], Error>
 	func signOut() async
 }
 
@@ -31,12 +31,17 @@ struct HomeWorker {
 }
 
 extension HomeWorker: IHomeWorker {
+	var servers: [IServerModel] {
+		channelStorage.getServers().compactMap({
+			ServerModel($0)
+		})
+	}
 	var currentDomain: String {
 		channelStorage.currentChannel.domain
 	}
 	
-	func getJoinedGroup() async {
-		await remoteStore.getJoinedGroup(domain: currentDomain)
+	func getJoinedGroup() async -> Result<[IGroupModel], Error> {
+		return await remoteStore.getJoinedGroup(domain: currentDomain)
 	}
 	
 	func signOut() async {

@@ -24,15 +24,29 @@ struct HomeView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.injected) private var injected: DIContainer
-	@State private(set) var samples: Loadable<[String]> = .notRequested
+	@State private(set) var loadable: Loadable<[GroupViewModel]> = .notRequested {
+		didSet {
+			switch loadable {
+			case .loaded(let groups):
+				self.groups = groups.filter({ $0.groupType == "group" })
+				self.peers = groups.filter({ $0.groupType == "peer" })
+			default: break
+			}
+		}
+	}
 	@State private(set) var searchKeyword: String = ""
 	@State private(set) var searchInputStyle: TextInputStyle = .default
 	@State private(set) var isShowMenu: Bool = false
 	@State private(set) var isAddNewServer: Bool = false
-	@State private(set) var servers: [ServerViewModel] = [ServerViewModel(id: 0, name: "Server1", imageURL: URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png")),
-														  ServerViewModel(id: 1, name: "Server2", imageURL: nil),
-														  ServerViewModel(id: 2, name: "Server3", imageURL: URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png"))]
-	@State private(set) var selectedServer: ServerViewModel?
+	@State private(set) var servers: [ServerViewModel] = []
+	@State private(set) var selectedServer: ServerViewModel? {
+		didSet {
+			getScreenInfo()
+		}
+	}
+	@State private(set) var groups: [GroupViewModel] = []
+	@State private(set) var peers: [GroupViewModel] = []
+	
 	let inspection = ViewInspector<Self>()
 	
 	var body: some View {
@@ -57,23 +71,25 @@ struct HomeView: View {
 							if selectedServer == nil {
 								JoinServerView()
 							} else {
-								Button(action: searchAction, label: {
-									HStack(spacing: Constants.hSpacing) {
-										AppTheme.shared.imageSet.searchIcon
-											.foregroundColor(AppTheme.shared.colorSet.greyLight)
-										Text("Home.Search".localized)
-											.font(AppTheme.shared.fontSet.font(style: .input3))
-											.foregroundColor(AppTheme.shared.colorSet.greyLight)
+								VStack {
+									Button(action: searchAction, label: {
+										HStack(spacing: Constants.hSpacing) {
+											AppTheme.shared.imageSet.searchIcon
+												.foregroundColor(AppTheme.shared.colorSet.greyLight)
+											Text("Home.Search".localized)
+												.font(AppTheme.shared.fontSet.font(style: .input3))
+												.foregroundColor(AppTheme.shared.colorSet.greyLight)
+										}
+										.padding()
+										.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+									})
+									.frame(height: Constants.searchHeight)
+									.background(colorScheme == .light ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.darkgrey3)
+									.cornerRadius(Constants.cornerRadius)
+									ScrollView {
+										ListGroupView(title: "Home.GroupChat".localized, groups: groups, action: { print("Group") })
+										ListGroupView(title: "Home.DirectMessages".localized, groups: peers, action: { print("Peer") })
 									}
-									.padding()
-									.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-								})
-								.frame(height: Constants.searchHeight)
-								.background(colorScheme == .light ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.darkgrey3)
-								.cornerRadius(Constants.cornerRadius)
-								ScrollView {
-									ListGroupView(title: "Home.GroupChat".localized, groups: [GroupViewModel(id: 0, name: "A", hasNewMessage: true), GroupViewModel(id: 1, name: "B")], action: { print("Group") })
-									ListGroupView(title: "Home.DirectMessages".localized, groups: [GroupViewModel(id: 0, name: "C"), GroupViewModel(id: 1, name: "D", hasNewMessage: true)], action: { print("Peer") })
 								}
 							}
 						}
@@ -96,20 +112,13 @@ struct HomeView: View {
 					.animation(.default, value: Constants.duration)
 			}
 		}
+		.onAppear(perform: getServers)
 		.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
 	}
 }
 
 // MARK: - Private
 private extension HomeView {
-	var content: AnyView {
-		switch samples {
-		case .notRequested: return AnyView(notRequestedView)
-		case .isLoading: return AnyView(notRequestedView)
-		case .loaded: return AnyView(notRequestedView)
-		case .failed: return AnyView(notRequestedView)
-		}
-	}
 }
 
 // MARK: -
@@ -120,7 +129,7 @@ private extension HomeView {
 	
 	var serverName: String {
 		if let selectedServer = selectedServer {
-			return selectedServer.name
+			return selectedServer.serverName
 		} else {
 			return "JoinServer.Title".localized
 		}
@@ -129,9 +138,6 @@ private extension HomeView {
 
 // MARK: - Loading Content
 private extension HomeView {
-	var notRequestedView: some View {
-		Text("").onAppear(perform: getScreenInfo)
-	}
 }
 
 // MARK: - Displaying Content
@@ -140,9 +146,14 @@ private extension HomeView {
 
 // MARK: - Interactors
 private extension HomeView {
+	func getServers() {
+		servers = injected.interactors.homeInteractor.getServers()
+		selectedServer = servers.first
+	}
+	
 	func getScreenInfo() {
 		Task {
-			await injected.interactors.homeInteractor.getJoinedGroup()
+			loadable = await injected.interactors.homeInteractor.getJoinedGroup()
 		}
 	}
 }

@@ -8,20 +8,20 @@
 import Foundation
 import RealmSwift
 
-class RealmMessage: Object, RealmOptionalType {
-	@objc dynamic var generateId: Int
-	@objc dynamic var messageId: String
-	@objc dynamic var groupId: Int64
-	@objc dynamic var groupType: String
-	@objc dynamic var senderId: String
-	@objc dynamic var receiverId: String
-	@objc dynamic var message: String
-	@objc dynamic var createdTime: Int64
-	@objc dynamic var updatedTime: Int64
-	@objc dynamic var ownerDomain: String
-	@objc dynamic var ownerClientId: String
+public class RealmMessage: Object, RealmOptionalType {
+	@objc public dynamic var generateId: Int
+	@objc public dynamic var messageId: String
+	@objc public dynamic var groupId: Int64
+	@objc public dynamic var groupType: String
+	@objc public dynamic var senderId: String
+	@objc public dynamic var receiverId: String
+	@objc public dynamic var message: String
+	@objc public dynamic var createdTime: Int64
+	@objc public dynamic var updatedTime: Int64
+	@objc public dynamic var ownerDomain: String
+	@objc public dynamic var ownerClientId: String
 	
-	override class func primaryKey() -> String? {
+	public override class func primaryKey() -> String? {
 		return "generateId"
 	}
 	

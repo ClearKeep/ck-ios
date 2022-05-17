@@ -30,7 +30,7 @@ struct UserProfileContentView: View {
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
 	@State var countryCode = ""
-	@State private(set) var samples: Loadable<[IProfileModel]>
+	@State private(set) var samples: Loadable<[String]>
 	@State private(set) var username: String
 	@State private(set) var usernameStyle: TextInputStyle = .default
 	@State private(set) var email: String
@@ -40,7 +40,7 @@ struct UserProfileContentView: View {
 	@State private(set) var isExpand = false
 	@State private(set) var isShowCountryCode: Bool = false
 
-	init(samples: Loadable<[IProfileModel]> = .notRequested,
+	init(samples: Loadable<[String]> = .notRequested,
 		 username: String = "",
 		 email: String = "",
 		 phone: String = "",

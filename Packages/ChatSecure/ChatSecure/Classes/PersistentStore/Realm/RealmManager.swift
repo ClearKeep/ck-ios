@@ -71,6 +71,7 @@ extension RealmManager {
 					realmGroup.lastMessageAt = groupResponse.lastMessageAt
 					realmGroup.lastMessageSyncTimestamp = lastMessageSyncTime
 					realmGroup.isDeletedUserPeer = false
+					realmGroup.hasUnreadMessage = groupResponse.hasUnreadMessage_p
 					
 					realm.add(realmGroup, update: .modified)
 					realmGroups.append(realmGroup)
@@ -125,6 +126,11 @@ extension RealmManager {
 	func getServer(by domain: String) -> RealmServer? {
 		let servers = load(listOf: RealmServer.self, filter: NSPredicate(format: "serverDomain == %@", domain))
 		return servers.first
+	}
+	
+	func getServers() -> [RealmServer] {
+		let servers = load(listOf: RealmServer.self)
+		return servers
 	}
 }
 

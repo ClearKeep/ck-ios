@@ -11,7 +11,8 @@ import ChatSecure
 protocol IHomeInteractor {
 	var worker: IHomeWorker { get }
 	
-	func getJoinedGroup() async
+	func getServers() -> [ServerViewModel]
+	func getJoinedGroup() async -> Loadable<[GroupViewModel]>
 	func signOut() async
 }
 
@@ -29,12 +30,25 @@ extension HomeInteractor: IHomeInteractor {
 		return HomeWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
-	func getJoinedGroup() async {
+	func getServers() -> [ServerViewModel] {
+		let serverViewModels = worker.servers.compactMap { ServerViewModel($0) }
+		return serverViewModels
+	}
+	
+	func getJoinedGroup() async -> Loadable<[GroupViewModel]> {
 		let result = await worker.getJoinedGroup()
+		
+		switch result {
+		case .success(let groups):
+			let groupViewModels = groups.compactMap { GroupViewModel($0) }
+			return .loaded(groupViewModels)
+		case .failure(let error):
+			return .failed(error)
+		}
 	}
 	
 	func signOut() async {
-		let result = await worker.signOut()
+//		let result = await worker.signOut()
 	}
 }
 
@@ -49,11 +63,15 @@ struct StubHomeInteractor: IHomeInteractor {
 		return HomeWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
-	func getJoinedGroup() async {
-		let result = await worker.getJoinedGroup()
+	func getServers() -> [ServerViewModel] {
+		return []
+	}
+	
+	func getJoinedGroup() async -> Loadable<[GroupViewModel]> {
+		return .notRequested
 	}
 	
 	func signOut() async {
-		let result = await worker.signOut()
+//		let result = await worker.signOut()
 	}
 }
