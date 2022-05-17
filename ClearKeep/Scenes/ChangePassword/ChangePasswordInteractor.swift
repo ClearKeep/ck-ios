@@ -12,6 +12,9 @@ import Model
 protocol IChangePasswordInteractor {
 	var worker: IChangePasswordWorker { get }
 	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async
+	func passwordValid(password: String) -> Bool
+	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool
+	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool
 }
 
 struct ChangePasswordInteractor {
@@ -31,6 +34,18 @@ extension ChangePasswordInteractor: IChangePasswordInteractor {
 	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async {
 		await worker.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: rawNewPassword, domain: domain)
 	}
+
+	func passwordValid(password: String) -> Bool {
+		return worker.passwordValid(password: password)
+	}
+
+	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool {
+		return worker.confirmPasswordValid(password: password, confirmPassword: confirmPassword)
+	}
+
+	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool {
+		return worker.checkValid(passwordValdid: passwordValdid, confirmPasswordValid: confirmPasswordValid)
+	}
 }
 
 struct StubChangePasswordInteractor: IChangePasswordInteractor {
@@ -46,4 +61,15 @@ struct StubChangePasswordInteractor: IChangePasswordInteractor {
 	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async {
 	}
 
+	func passwordValid(password: String) -> Bool {
+		return worker.passwordValid(password: password)
+	}
+
+	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool {
+		return worker.confirmPasswordValid(password: password, confirmPassword: confirmPassword)
+	}
+
+	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool {
+		return worker.checkValid(passwordValdid: passwordValdid, confirmPasswordValid: confirmPasswordValid)
+	}
 }

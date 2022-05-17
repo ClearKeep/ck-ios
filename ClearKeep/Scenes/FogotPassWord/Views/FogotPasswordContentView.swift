@@ -30,6 +30,7 @@ struct FogotPasswordContentView: View {
 	@State private(set) var email: String = ""
 	@State private(set) var domain: String = ""
 	@State private(set) var emailStyle: TextInputStyle = .default
+	@State private var emailInvalid: Bool = false
 
 	// MARK: - Body
 	var body: some View {
@@ -69,12 +70,19 @@ private extension FogotPasswordContentView {
 // MARK: - Interactor
 private extension FogotPasswordContentView {
 	func doRecoverPassword() {
-		loadable = .isLoading(last: nil, cancelBag: CancelBag())
-		Task {
-			loadable = await injected.interactors.fogotPasswordInteractor.recoverPassword(email: email, customServer: customServer)
+		invalid()
+		if emailInvalid {
+			loadable = .isLoading(last: nil, cancelBag: CancelBag())
+			Task {
+				loadable = await injected.interactors.fogotPasswordInteractor.recoverPassword(email: email, customServer: customServer)
+			}
 		}
 	}
 
+	func invalid() {
+		emailInvalid = injected.interactors.fogotPasswordInteractor.emailValid(email: email)
+		emailStyle = emailInvalid ? .normal : .error(message: "General.Email.Valid".localized)
+	}
 }
 // MARK: - Preview
 #if DEBUG

@@ -11,6 +11,7 @@ import GRPC
 
 protocol IFogotPasswordInteractor {
 	func recoverPassword(email: String, customServer: CustomServer) async -> Loadable<Bool>
+	func emailValid(email: String) -> Bool
 }
 
 struct FogotPasswordInteractor {
@@ -36,6 +37,10 @@ extension FogotPasswordInteractor: IFogotPasswordInteractor {
 			return .failed(error)
 		}
 	}
+
+	func emailValid(email: String) -> Bool {
+		return worker.emailValid(email: email)
+	}
 }
 
 struct StubFogotPasswordInteractor: IFogotPasswordInteractor {
@@ -50,5 +55,9 @@ struct StubFogotPasswordInteractor: IFogotPasswordInteractor {
 
 	func recoverPassword(email: String, customServer: CustomServer) async -> Loadable<Bool> {
 		return .notRequested
+	}
+
+	func emailValid(email: String) -> Bool {
+		return worker.emailValid(email: email)
 	}
 }

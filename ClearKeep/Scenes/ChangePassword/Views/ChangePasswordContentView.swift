@@ -33,7 +33,10 @@ struct ChangePasswordContentView: View {
 	@State private(set) var currentStyle: TextInputStyle = .default
 	@State private(set) var newStyle: TextInputStyle = .default
 	@State private(set) var confirmStyle: TextInputStyle = .default
-	
+	@State private var passwordInvalid: Bool = false
+	@State private var confirmPasswordInvvalid: Bool = false
+	@State private var checkInvalid: Bool = false
+
 	// MARK: - Init
 
 	// MARK: - Body
@@ -74,9 +77,23 @@ private extension ChangePasswordContentView {
 	}
 
 	func dochangPassword() {
-		Task {
-			await injected.interactors.changePasswordInteractor.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: newPassword, domain: domain)
+		invalid()
+		if checkInvalid {
+			Task {
+				await injected.interactors.changePasswordInteractor.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: newPassword, domain: domain)
+			}
 		}
+	}
+
+	func invalid() {
+
+		passwordInvalid = injected.interactors.changePasswordInteractor.passwordValid(password: newPassword)
+		newStyle = passwordInvalid ? .normal : .error(message: "General.Password.Valid".localized)
+
+		confirmPasswordInvvalid = injected.interactors.changePasswordInteractor.confirmPasswordValid(password: newPassword, confirmPassword: confirmPassword)
+		confirmStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
+
+		checkInvalid = injected.interactors.changePasswordInteractor.checkValid(passwordValdid: passwordInvalid, confirmPasswordValid: confirmPasswordInvvalid)
 	}
 }
 

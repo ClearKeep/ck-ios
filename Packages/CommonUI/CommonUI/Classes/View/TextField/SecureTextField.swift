@@ -81,9 +81,11 @@ public struct SecureTextField: View {
 			if needShowNotifiyMessage {
 				Text(notifiyMessage)
 					.font(font)
-					.frame(height: Constants.notifyHeight)
+					.lineLimit(2)
+					.fixedSize(horizontal: false, vertical: true)
 					.padding(.leading, Constants.paddingText)
 					.foregroundColor(notifyColor)
+
 			}
 		}
 	}

@@ -49,7 +49,7 @@ private extension NewPasswordView {
 // MARK: - Loading Content
 private extension NewPasswordView {
 	var notRequestedView: some View {
-		Text("")
+		NewPasswordContenView(preAccessToken: "", email: "", domain: "")
 	}
 }
 

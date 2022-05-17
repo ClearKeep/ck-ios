@@ -25,7 +25,7 @@ struct RegisterWorker {
 	let remoteStore: IRegisterRemoteStore
 	let inMemoryStore: IRegisterInMemoryStore
 	let emailPredicate = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
-	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "[0-9a-zA-Z]{6,12}")
+	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "[0-9a-zA-Z._%+-]{6,12}")
 	init(channelStorage: IChannelStorage,
 		remoteStore: IRegisterRemoteStore,
 		 inMemoryStore: IRegisterInMemoryStore) {
@@ -44,6 +44,7 @@ extension RegisterWorker: IRegisterWorker {
 		let isCustomServer = customServer.isSelectedCustomServer && !customServer.customServerURL.isEmpty
 		return await remoteStore.register(displayName: displayName, email: email, password: password, domain: isCustomServer ? customServer.customServerURL : currentDomain)
 	}
+
 	func emailValid(email: String) -> Bool {
 		let result = self.emailPredicate.evaluate(with: email)
 		return result
