@@ -7,11 +7,14 @@
 
 import Foundation
 import Networking
+import Model
 
 public protocol IChannelStorage {
 	var currentChannel: APIService { get }
 	var channels: [String: APIService] { get }
 	var config: IChatSecureConfig { get }
+	
+	func getServers() -> [RealmServer]
 }
 
 public class ChannelStorage: IChannelStorage {
@@ -27,7 +30,14 @@ public class ChannelStorage: IChannelStorage {
 		currentChannel = channels.first?.value ?? APIService(domain: config.clkDomain + ":" + config.clkPort)
 	}
 	
-	public func getChannel(domain: String, accessToken: String? = nil, hashKey: String? = nil) -> APIService {
+	public func getServers() -> [RealmServer] {
+		return realmManager.getServers()
+	}
+}
+
+// MARK: - Internal
+extension ChannelStorage {
+	func getChannel(domain: String, accessToken: String? = nil, hashKey: String? = nil) -> APIService {
 		if channels.contains(where: { $0.key == domain }) {
 			let channel = channels[domain]
 			channel?.updateHeaders(accessKey: accessToken, hashKey: hashKey)
@@ -42,7 +52,7 @@ public class ChannelStorage: IChannelStorage {
 		}
 	}
 	
-	public func updateChannel(domain: String) {
+	func updateChannel(domain: String) {
 		guard let server = realmManager.getServer(by: domain) else { return }
 		getChannel(domain: server.serverDomain).updateHeaders(accessKey: server.accessKey, hashKey: server.hashKey)
 	}

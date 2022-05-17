@@ -102,6 +102,9 @@
 		CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117ECA27BBA44A000941D9 /* InteractorsContainer.swift */; };
 		CB117ECD27BBA6E5000941D9 /* HomeWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB117ECC27BBA6E5000941D9 /* HomeWorker.swift */; };
 		CB23604728322DAA00D98F54 /* StatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB23604628322DAA00D98F54 /* StatusType.swift */; };
+		CB23604928333AC300D98F54 /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB23604828333AC300D98F54 /* GroupModel.swift */; };
+		CB23604D28334CFD00D98F54 /* GroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB23604C28334CFD00D98F54 /* GroupViewModel.swift */; };
+		CB23605128335BAC00D98F54 /* ServerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB23605028335BAC00D98F54 /* ServerModel.swift */; };
 		CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3F78F627C4CC0000E569B0 /* FontSet.swift */; };
 		CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3F78F727C4CC0000E569B0 /* AppImageSet.swift */; };
 		CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3F78F827C4CC0000E569B0 /* ColorSet.swift */; };
@@ -122,7 +125,6 @@
 		CB7F2993282D0CEA00BD5049 /* MenuType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F2992282D0CEA00BD5049 /* MenuType.swift */; };
 		CB7F2998282D2ED700BD5049 /* ServerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F2997282D2ED700BD5049 /* ServerButton.swift */; };
 		CB7F299B282D5FB300BD5049 /* ListGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F299A282D5FB300BD5049 /* ListGroupView.swift */; };
-		CB7F299D282D5FD400BD5049 /* GroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F299C282D5FD400BD5049 /* GroupViewModel.swift */; };
 		CB7F299F282D5FF700BD5049 /* JoinServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F299E282D5FF700BD5049 /* JoinServerView.swift */; };
 		CB8C3E3427F57FBA0034B3A9 /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8C3E3327F57FB90034B3A9 /* AppVersion.swift */; };
 		CB8C3EAB2805D2D60034B3A9 /* AddMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B1927F154A60098B104 /* AddMemberView.swift */; };
@@ -166,7 +168,6 @@
 		F568DC2227FD882600EE9DF0 /* NotificationInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC1927FD882600EE9DF0 /* NotificationInMemoryStore.swift */; };
 		F568DC2427FD882600EE9DF0 /* NotificationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC1C27FD882600EE9DF0 /* NotificationWorker.swift */; };
 		F568DC2527FD882600EE9DF0 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC1D27FD882600EE9DF0 /* NotificationView.swift */; };
-		F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37EE27E97FF20085CECE /* ProfileModel.swift */; };
 		F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37F027E97FF20085CECE /* CountryCode.swift */; };
 		F5CE37F427E97FF20085CECE /* UserProfileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */; };
 		F5CFCA2728237CD000A9737F /* GroupCallRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CFCA1C28237CD000A9737F /* GroupCallRemoteStore.swift */; };
@@ -329,6 +330,9 @@
 		CB117ECA27BBA44A000941D9 /* InteractorsContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractorsContainer.swift; sourceTree = "<group>"; };
 		CB117ECC27BBA6E5000941D9 /* HomeWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorker.swift; sourceTree = "<group>"; };
 		CB23604628322DAA00D98F54 /* StatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusType.swift; sourceTree = "<group>"; };
+		CB23604828333AC300D98F54 /* GroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
+		CB23604C28334CFD00D98F54 /* GroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
+		CB23605028335BAC00D98F54 /* ServerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerModel.swift; sourceTree = "<group>"; };
 		CB3F78F627C4CC0000E569B0 /* FontSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontSet.swift; sourceTree = "<group>"; };
 		CB3F78F727C4CC0000E569B0 /* AppImageSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppImageSet.swift; sourceTree = "<group>"; };
 		CB3F78F827C4CC0000E569B0 /* ColorSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
@@ -355,7 +359,6 @@
 		CB7F2992282D0CEA00BD5049 /* MenuType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuType.swift; sourceTree = "<group>"; };
 		CB7F2997282D2ED700BD5049 /* ServerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerButton.swift; sourceTree = "<group>"; };
 		CB7F299A282D5FB300BD5049 /* ListGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGroupView.swift; sourceTree = "<group>"; };
-		CB7F299C282D5FD400BD5049 /* GroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
 		CB7F299E282D5FF700BD5049 /* JoinServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinServerView.swift; sourceTree = "<group>"; };
 		CB8C3E3327F57FB90034B3A9 /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
 		CBCF494E27D46714006D84FE /* Localize.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localize.strings; sourceTree = "<group>"; };
@@ -403,7 +406,6 @@
 		F568DC1927FD882600EE9DF0 /* NotificationInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationInMemoryStore.swift; sourceTree = "<group>"; };
 		F568DC1C27FD882600EE9DF0 /* NotificationWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationWorker.swift; sourceTree = "<group>"; };
 		F568DC1D27FD882600EE9DF0 /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
-		F5CE37EE27E97FF20085CECE /* ProfileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		F5CE37F027E97FF20085CECE /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		F5CE37F127E97FF20085CECE /* UserProfileContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileContentView.swift; sourceTree = "<group>"; };
 		F5CFCA1C28237CD000A9737F /* GroupCallRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCallRemoteStore.swift; sourceTree = "<group>"; };
@@ -851,8 +853,9 @@
 			isa = PBXGroup;
 			children = (
 				CB7F2992282D0CEA00BD5049 /* MenuType.swift */,
-				CB7F299C282D5FD400BD5049 /* GroupViewModel.swift */,
 				CB23604628322DAA00D98F54 /* StatusType.swift */,
+				CB23604828333AC300D98F54 /* GroupModel.swift */,
+				CB23605028335BAC00D98F54 /* ServerModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -978,6 +981,7 @@
 			isa = PBXGroup;
 			children = (
 				CB7F298C282CED4000BD5049 /* ServerViewModel.swift */,
+				CB23604C28334CFD00D98F54 /* GroupViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1219,7 +1223,6 @@
 		F5CE37ED27E97FF20085CECE /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F5CE37EE27E97FF20085CECE /* ProfileModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1592,13 +1595,13 @@
 				0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */,
 				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
+				CB23604928333AC300D98F54 /* GroupModel.swift in Sources */,
 				0462C6CC2816535C00A9EABB /* CatalogyView.swift in Sources */,
 				0499343527E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift in Sources */,
 				CB7F2916281BA17300BD5049 /* SocialLoginModel.swift in Sources */,
 				CB7F2973282A4D6A00BD5049 /* SocialViewError.swift in Sources */,
 				0462C6C42816535C00A9EABB /* SearchModels.swift in Sources */,
 				22A1C69D2812B1D500FE957F /* ChatView.swift in Sources */,
-				F5CE37F227E97FF20085CECE /* ProfileModel.swift in Sources */,
 				CB7F29232823C53E00BD5049 /* LoginViewError.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				047D6B1127F1544D0098B104 /* GroupDetailInteractor.swift in Sources */,
@@ -1610,13 +1613,13 @@
 				0462C6C72816535C00A9EABB /* SearchWorker.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
 				0499344527E97035003BD4C4 /* ChangePasswordWorker.swift in Sources */,
+				CB23604D28334CFD00D98F54 /* GroupViewModel.swift in Sources */,
 				CB7F2993282D0CEA00BD5049 /* MenuType.swift in Sources */,
 				0499345727E9A8BE003BD4C4 /* AdvancedSeverView.swift in Sources */,
 				0499344D27E97100003BD4C4 /* ChangePasswordContentView.swift in Sources */,
 				0499345527E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift in Sources */,
 				F5CFCA2928237CD000A9737F /* GroupCallModel.swift in Sources */,
 				CB40074727E8CCC800DFBE88 /* LoginContentView.swift in Sources */,
-				CB7F299D282D5FD400BD5049 /* GroupViewModel.swift in Sources */,
 				F5CFCA2D28237CD000A9737F /* InComingVoiceGroupCall.swift in Sources */,
 				F5350E1027FAD57500F54E32 /* TwoFactorModel.swift in Sources */,
 				F5CFCA2728237CD000A9737F /* GroupCallRemoteStore.swift in Sources */,
@@ -1708,6 +1711,7 @@
 				F5CE37F327E97FF20085CECE /* CountryCode.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
 				047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */,
+				CB23605128335BAC00D98F54 /* ServerModel.swift in Sources */,
 				22A1C69B2812B1D500FE957F /* ChatRemoteStore.swift in Sources */,
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
 				F568DC2427FD882600EE9DF0 /* NotificationWorker.swift in Sources */,

@@ -50,9 +50,9 @@ struct ListGroupView: View {
 			}
 			
 			if isExpand {
-				ForEach(groups, id: \.id) { group in
-					Text(group.name)
-						.font(group.hasNewMessage ? AppTheme.shared.fontSet.font(style: .body3) : AppTheme.shared.fontSet.font(style: .input3))
+				ForEach(groups, id: \.groupId) { group in
+					Text(group.groupName)
+						.font(group.hasUnreadMessage ? AppTheme.shared.fontSet.font(style: .body3) : AppTheme.shared.fontSet.font(style: .input3))
 						.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight)
 						.frame(height: Constants.itemHeight)
 						.frame(maxWidth: .infinity, alignment: .leading)

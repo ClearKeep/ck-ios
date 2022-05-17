@@ -8,13 +8,13 @@
 import Foundation
 import RealmSwift
 
-class RealmProfile: Object {
-	@objc dynamic var userId: String
-	@objc dynamic var userName: String
-	@objc dynamic var email: String
-	@objc dynamic var phoneNumber: String
-	@objc dynamic var updatedAt: Int64
-	@objc dynamic var avatar: String
+public class RealmProfile: Object {
+	@objc public dynamic var userId: String
+	@objc public dynamic var userName: String
+	@objc public dynamic var email: String
+	@objc public dynamic var phoneNumber: String
+	@objc public dynamic var updatedAt: Int64
+	@objc public dynamic var avatar: String
 	
 	required override init() {
 		userId = String()

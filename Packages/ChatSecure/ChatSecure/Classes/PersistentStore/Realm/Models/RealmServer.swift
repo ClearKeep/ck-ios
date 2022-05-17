@@ -8,18 +8,18 @@
 import Foundation
 import RealmSwift
 	
-class RealmServer: Object {
-	@objc dynamic var generateId: Int
-	@objc dynamic var serverName: String
-	@objc dynamic var serverDomain: String
-	@objc dynamic var ownerClientId: String
-	@objc dynamic var serverAvatar: String
-	@objc dynamic var loginTime: Int64
-	@objc dynamic var accessKey: String
-	@objc dynamic var hashKey: String
-	@objc dynamic var refreshToken: String
-	@objc dynamic var isActive: Bool
-	@objc dynamic var profile: RealmProfile?
+public class RealmServer: Object {
+	@objc public dynamic var generateId: Int
+	@objc public dynamic var serverName: String
+	@objc public dynamic var serverDomain: String
+	@objc public dynamic var ownerClientId: String
+	@objc public dynamic var serverAvatar: String
+	@objc public dynamic var loginTime: Int64
+	@objc public dynamic var accessKey: String
+	@objc public dynamic var hashKey: String
+	@objc public dynamic var refreshToken: String
+	@objc public dynamic var isActive: Bool
+	@objc public dynamic var profile: RealmProfile?
 	
 	public override class func primaryKey() -> String? {
 		return "generateId"

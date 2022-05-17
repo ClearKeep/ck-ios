@@ -9,24 +9,25 @@ import Foundation
 import RealmSwift
 	
 public class RealmGroup: Object {
-	@objc dynamic var generateId: Int
-	@objc dynamic var groupId: Int64
-	@objc dynamic var groupName: String
-	@objc dynamic var groupAvatar: String
-	@objc dynamic var groupType: String
-	@objc dynamic var createdBy: String
-	@objc dynamic var createdAt: Int64
-	@objc dynamic var updatedBy: String
-	@objc dynamic var updatedAt: Int64
-	@objc dynamic var rtcToken: String
-	dynamic var groupMembers: [RealmMember]
-	@objc dynamic var isJoined: Bool
-	@objc dynamic var ownerDomain: String
-	@objc dynamic var ownerClientId: String
-	@objc dynamic var lastMessage: RealmMessage?
-	@objc dynamic var lastMessageAt: Int64
-	@objc dynamic var lastMessageSyncTimestamp: Int64
-	@objc dynamic var isDeletedUserPeer: Bool
+	@objc public dynamic var generateId: Int
+	@objc public dynamic var groupId: Int64
+	@objc public dynamic var groupName: String
+	@objc public dynamic var groupAvatar: String
+	@objc public dynamic var groupType: String
+	@objc public dynamic var createdBy: String
+	@objc public dynamic var createdAt: Int64
+	@objc public dynamic var updatedBy: String
+	@objc public dynamic var updatedAt: Int64
+	@objc public dynamic var rtcToken: String
+	public dynamic var groupMembers: [RealmMember]
+	@objc public dynamic var isJoined: Bool
+	@objc public dynamic var ownerDomain: String
+	@objc public dynamic var ownerClientId: String
+	@objc public dynamic var lastMessage: RealmMessage?
+	@objc public dynamic var lastMessageAt: Int64
+	@objc public dynamic var lastMessageSyncTimestamp: Int64
+	@objc public dynamic var isDeletedUserPeer: Bool
+	@objc public dynamic var hasUnreadMessage: Bool
 	
 	public override class func primaryKey() -> String? {
 		return "generateId"
@@ -51,20 +52,21 @@ public class RealmGroup: Object {
 		lastMessageAt = Int64()
 		lastMessageSyncTimestamp = Int64()
 		isDeletedUserPeer = Bool()
+		hasUnreadMessage = Bool()
 		
 		super.init()
 	}
 }
 
-class RealmMember: Object {
-	@objc dynamic var userId: String
-	@objc dynamic var userName: String
-	@objc dynamic var domain: String
-	@objc dynamic var userState: String
-	@objc dynamic var userStatus: String
-	@objc dynamic var phoneNumber: String
-	@objc dynamic var avatar: String
-	@objc dynamic var email: String
+public class RealmMember: Object {
+	@objc public dynamic var userId: String
+	@objc public dynamic var userName: String
+	@objc public dynamic var domain: String
+	@objc public dynamic var userState: String
+	@objc public dynamic var userStatus: String
+	@objc public dynamic var phoneNumber: String
+	@objc public dynamic var avatar: String
+	@objc public dynamic var email: String
 	
 	required override init() {
 		userId = String()
