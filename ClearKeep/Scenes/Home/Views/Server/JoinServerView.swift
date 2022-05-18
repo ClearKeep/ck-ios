@@ -16,8 +16,11 @@ private enum Constants {
 struct JoinServerView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
+	@Environment(\.injected) private var injected: DIContainer
 	@State private var serverURL: String = ""
 	@State private var serverURLInputStyle: TextInputStyle = .default
+	@State private var isValid: Bool = false
+	@State private var navigateToLogin: Bool = false
 	
 	// MARK: - Body
 	var body: some View {
@@ -44,8 +47,11 @@ struct JoinServerView: View {
 			Spacer()
 		}
 	}
-	
+}
+
+// MARK: - Action
+private extension JoinServerView {
 	func joinServerAction() {
-		
+		injected.appState[\.authentication.newServerDomain] = serverURL
 	}
 }

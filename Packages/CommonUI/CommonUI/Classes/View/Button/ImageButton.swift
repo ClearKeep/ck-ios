@@ -20,8 +20,6 @@ public struct ImageButton: View {
 	
 	// MARK: - Body
 	public var body: some View {
-		Button(action: action, label: { image
-			.renderingMode(.template)
-		})
+		Button(action: action, label: { image })
 	}
 }

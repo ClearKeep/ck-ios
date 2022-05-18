@@ -39,8 +39,8 @@ struct MenuView: View {
 			HStack {
 				Spacer()
 				VStack(alignment: .trailing) {
-					ImageButton(AppTheme.shared.imageSet.closeIcon) { isShowMenu.toggle() }
-						.foregroundColor(Color.gray)
+					ImageButton(AppTheme.shared.imageSet.closeIcon.renderingMode(.template)) { isShowMenu.toggle() }
+						.foregroundColor(AppTheme.shared.colorSet.grey1)
 					HStack {
 						ZStack {
 							Circle()
@@ -79,7 +79,7 @@ struct MenuView: View {
 									.font(AppTheme.shared.fontSet.font(style: .input3))
 									.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight)
 								Spacer()
-								ImageButton(AppTheme.shared.imageSet.copyIcon, action: copyAction)
+								ImageButton(AppTheme.shared.imageSet.copyIcon.renderingMode(.template), action: copyAction)
 									.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 							}
 							.frame(height: Constants.urlHeight)

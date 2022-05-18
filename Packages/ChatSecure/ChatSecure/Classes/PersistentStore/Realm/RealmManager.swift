@@ -12,6 +12,9 @@ import Networking
 class RealmManager {
 	// MARK: - Variables
 	private var configuration = Realm.Configuration()
+	private var backgroundQueue = DispatchQueue(label: "realm.queue",
+												qos: .background,
+												target: nil)
 	
 	// MARK: - Init
 	init(databasePath: URL?) {
@@ -27,15 +30,11 @@ extension RealmManager {
 extension RealmManager {
 	func addAndUpdateGroups(group: Group_GetJoinedGroupsResponse, domain: String) async -> [RealmGroup] {
 		return await withCheckedContinuation({ continuation in
-			let dispatchGroup = DispatchGroup()
-			
 			var realmGroups: [RealmGroup] = []
 			
 			group.lstGroup.forEach { groupResponse in
-				dispatchGroup.enter()
 				let server = getServer(by: domain)
 				guard let server = server, let profile = server.profile else {
-					dispatchGroup.leave()
 					return
 				}
 				let oldGroup = getGroup(by: groupResponse.groupID, domain: domain, ownerId: profile.userId)
@@ -43,45 +42,44 @@ extension RealmManager {
 				let isRegisteredKey = oldGroup?.isJoined ?? false
 				let lastMessageSyncTime = oldGroup?.lastMessageSyncTimestamp ?? (server.loginTime ?? Int64(Date().timeIntervalSince1970))
 				
-				write { realm in
-					let realmGroup = RealmGroup()
-					let groupMembers = groupResponse.lstClient.map { member -> RealmMember in
-						let realmMember = RealmMember()
-						realmMember.userId = member.id
-						realmMember.userName = member.displayName
-						realmMember.domain = member.workspaceDomain
-						realmMember.userState = member.status
-						return realmMember
-					}
-					realmGroup.generateId = oldGroup?.generateId ?? (realm.objects(RealmGroup.self).max(ofProperty: "generateId") ?? 0) + 1
-					realmGroup.groupId = groupResponse.groupID
-					realmGroup.groupName = groupResponse.groupName
-					realmGroup.groupAvatar = groupResponse.groupAvatar
-					realmGroup.groupType = groupResponse.groupType
-					realmGroup.createdBy = groupResponse.createdByClientID
-					realmGroup.createdAt = groupResponse.createdAt
-					realmGroup.updatedBy = groupResponse.updatedByClientID
-					realmGroup.updatedAt = groupResponse.updatedAt
-					realmGroup.rtcToken = groupResponse.groupRtcToken
-					realmGroup.groupMembers = groupMembers
-					realmGroup.isJoined = isRegisteredKey
-					realmGroup.ownerDomain = domain
-					realmGroup.ownerClientId = profile.userId
-					realmGroup.lastMessage = nil
-					realmGroup.lastMessageAt = groupResponse.lastMessageAt
-					realmGroup.lastMessageSyncTimestamp = lastMessageSyncTime
-					realmGroup.isDeletedUserPeer = false
-					realmGroup.hasUnreadMessage = groupResponse.hasUnreadMessage_p
-					
-					realm.add(realmGroup, update: .modified)
-					realmGroups.append(realmGroup)
-					dispatchGroup.leave()
+				let realmGroup = RealmGroup()
+				let groupMembers = groupResponse.lstClient.map { member -> RealmMember in
+					let realmMember = RealmMember()
+					realmMember.userId = member.id
+					realmMember.userName = member.displayName
+					realmMember.domain = member.workspaceDomain
+					realmMember.userState = member.status
+					return realmMember
 				}
+				
+				let realm = try? Realm(configuration: self.configuration)
+				realmGroup.generateId = oldGroup?.generateId ?? (realm?.objects(RealmGroup.self).max(ofProperty: "generateId") ?? 0) + 1
+				realmGroup.groupId = groupResponse.groupID
+				realmGroup.groupName = groupResponse.groupName
+				realmGroup.groupAvatar = groupResponse.groupAvatar
+				realmGroup.groupType = groupResponse.groupType
+				realmGroup.createdBy = groupResponse.createdByClientID
+				realmGroup.createdAt = groupResponse.createdAt
+				realmGroup.updatedBy = groupResponse.updatedByClientID
+				realmGroup.updatedAt = groupResponse.updatedAt
+				realmGroup.rtcToken = groupResponse.groupRtcToken
+				realmGroup.groupMembers = groupMembers
+				realmGroup.isJoined = isRegisteredKey
+				realmGroup.ownerDomain = domain
+				realmGroup.ownerClientId = profile.userId
+				realmGroup.lastMessage = nil
+				realmGroup.lastMessageAt = groupResponse.lastMessageAt
+				realmGroup.lastMessageSyncTimestamp = lastMessageSyncTime
+				realmGroup.isDeletedUserPeer = false
+				realmGroup.hasUnreadMessage = groupResponse.hasUnreadMessage_p
+				
+				realmGroups.append(realmGroup)
 			}
 			
-			dispatchGroup.notify(queue: .main) {
-				continuation.resume(returning: realmGroups)
+			write { realm in
+				realm.add(realmGroups, update: .modified)
 			}
+			continuation.resume(returning: realmGroups)
 		})
 	}
 	
@@ -96,7 +94,8 @@ extension RealmManager {
 	func saveServer(profileResponse: User_UserProfileResponse, authenResponse: Auth_AuthRes) {
 		let oldServer = getServer(by: authenResponse.workspaceDomain)
 		
-		write { realm in
+		deactiveAllServer { [weak self] realm in
+			guard let self = self else { return }
 			let realmServer = RealmServer()
 			realmServer.generateId = oldServer?.generateId ?? (realm.objects(RealmServer.self).max(ofProperty: "generateId") ?? 0) + 1
 			realmServer.serverName = authenResponse.workspaceName
@@ -132,13 +131,46 @@ extension RealmManager {
 		let servers = load(listOf: RealmServer.self)
 		return servers
 	}
+	
+	func getCurrentServer() -> RealmServer? {
+		let servers = load(listOf: RealmServer.self, filter: NSPredicate(format: "isActive == true"))
+		return servers.first
+	}
+	
+	func deactiveAllServer(completion: @escaping (_ realm: Realm) -> Void) {
+		write { realm in
+			let servers = self.load(listOf: RealmServer.self, filter: NSPredicate(format: "isActive == true"))
+			servers.forEach { oldServer in
+				oldServer.isActive = false
+			}
+			
+			realm.add(servers, update: .modified)
+			completion(realm)
+		}
+	}
+	
+	func activeServer(domain: String?) -> [RealmServer] {
+		guard let domain = domain else {
+			deactiveAllServer { _ in }
+			return getServers()
+		}
+
+		guard let server = self.getServer(by: domain) else { return getServers() }
+		deactiveAllServer { [weak self] realm in
+			guard let self = self else { return }
+			
+			server.isActive = true
+			realm.add(server, update: .modified)
+		}
+		return getServers()
+	}
 }
 
 // MARK: - Private
 private extension RealmManager {
-	private func write(_ handler: ((_ realm: Realm) -> Void)) {
+	private func write(_ handler: @escaping ((_ realm: Realm) -> Void)) {
 		do {
-			let realm = try Realm(configuration: configuration)
+			let realm = try Realm(configuration: self.configuration)
 			try realm.write {
 				handler(realm)
 			}

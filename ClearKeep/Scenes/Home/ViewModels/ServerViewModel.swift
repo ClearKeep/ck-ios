@@ -14,11 +14,13 @@ struct ServerViewModel: Identifiable {
 	var serverDomain: String
 	var ownerClientId: String
 	var imageURL: URL?
+	var isActive: Bool
 	
 	init(_ server: IServerModel) {
 		serverName = server.serverName
 		serverDomain = server.serverDomain
 		ownerClientId = server.ownerClientId
 		imageURL = URL(string: server.serverAvatar)
+		isActive = server.isActive
 	}
 }

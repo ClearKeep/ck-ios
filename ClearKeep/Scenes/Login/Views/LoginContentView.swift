@@ -111,12 +111,14 @@ private extension LoginContentView {
 						   isActive: $isAdvanceServer,
 						   label: {
 				LinkButton("Login.AdvancedServerSettings".localized, alignment: .leading, action: advancedServer)
+					.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault)
 			})
 			Spacer()
 			NavigationLink(destination: FogotPasswordView(customServer: $customServer),
 						   isActive: $isForgotPassword,
 						   label: {
 				LinkButton("Login.ForgotPassword".localized, alignment: .trailing, action: forgotPassword)
+					.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault)
 			})
 		}
 	}

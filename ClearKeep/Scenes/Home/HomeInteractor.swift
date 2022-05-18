@@ -11,8 +11,10 @@ import ChatSecure
 protocol IHomeInteractor {
 	var worker: IHomeWorker { get }
 	
+	func validateDomain(_ domain: String) -> Bool
 	func getServers() -> [ServerViewModel]
 	func getJoinedGroup() async -> Loadable<[GroupViewModel]>
+	func didSelectServer(_ domain: String?) -> [ServerViewModel]
 	func signOut() async
 }
 
@@ -30,9 +32,12 @@ extension HomeInteractor: IHomeInteractor {
 		return HomeWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
+	func validateDomain(_ domain: String) -> Bool {
+		return worker.validateDomain(domain)
+	}
+	
 	func getServers() -> [ServerViewModel] {
-		let serverViewModels = worker.servers.compactMap { ServerViewModel($0) }
-		return serverViewModels
+		return worker.servers.compactMap { ServerViewModel($0) }
 	}
 	
 	func getJoinedGroup() async -> Loadable<[GroupViewModel]> {
@@ -45,6 +50,10 @@ extension HomeInteractor: IHomeInteractor {
 		case .failure(let error):
 			return .failed(error)
 		}
+	}
+	
+	func didSelectServer(_ domain: String?) -> [ServerViewModel] {
+		return worker.didSelectServer(domain).compactMap { ServerViewModel($0) }
 	}
 	
 	func signOut() async {
@@ -63,12 +72,20 @@ struct StubHomeInteractor: IHomeInteractor {
 		return HomeWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
+	func validateDomain(_ domain: String) -> Bool {
+		return true
+	}
+	
 	func getServers() -> [ServerViewModel] {
 		return []
 	}
 	
 	func getJoinedGroup() async -> Loadable<[GroupViewModel]> {
 		return .notRequested
+	}
+	
+	func didSelectServer(_ domain: String?) -> [ServerViewModel] {
+		return []
 	}
 	
 	func signOut() async {
