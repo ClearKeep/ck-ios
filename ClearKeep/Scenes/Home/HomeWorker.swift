@@ -12,16 +12,19 @@ import Model
 protocol IHomeWorker {
 	var remoteStore: IHomeRemoteStore { get }
 	var inMemoryStore: IHomeInMemoryStore { get }
-	var servers: [IServerModel] { get }
+	var servers: [ServerModel] { get }
 	
+	func validateDomain(_ domain: String) -> Bool
 	func getJoinedGroup() async -> Result<[IGroupModel], Error>
+	func didSelectServer(_ domain: String?) -> [ServerModel]
 	func signOut() async
 }
 
-struct HomeWorker {
+class HomeWorker {
 	let channelStorage: IChannelStorage
 	let remoteStore: IHomeRemoteStore
 	let inMemoryStore: IHomeInMemoryStore
+	var currentDomain: String?
 	
 	init(channelStorage: IChannelStorage, remoteStore: IHomeRemoteStore, inMemoryStore: IHomeInMemoryStore) {
 		self.channelStorage = channelStorage
@@ -31,17 +34,25 @@ struct HomeWorker {
 }
 
 extension HomeWorker: IHomeWorker {
-	var servers: [IServerModel] {
+	var servers: [ServerModel] {
 		channelStorage.getServers().compactMap({
 			ServerModel($0)
 		})
 	}
-	var currentDomain: String {
-		channelStorage.currentChannel.domain
+	
+	func validateDomain(_ domain: String) -> Bool {
+		return !domain.isEmpty
 	}
 	
 	func getJoinedGroup() async -> Result<[IGroupModel], Error> {
-		return await remoteStore.getJoinedGroup(domain: currentDomain)
+		return await remoteStore.getJoinedGroup(domain: currentDomain ?? channelStorage.currentDomain)
+	}
+	
+	func didSelectServer(_ domain: String?) -> [ServerModel] {
+		currentDomain = domain
+		return channelStorage.didSelectServer(domain).compactMap({
+			ServerModel($0)
+		})
 	}
 	
 	func signOut() async {

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 import CommonUI
 
 private enum Constants {
@@ -21,21 +22,28 @@ private enum Constants {
 struct ListServerView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
+	@Environment(\.injected) private var injected: DIContainer
 	@Binding var servers: [ServerViewModel]
-	@Binding var selectedServer: ServerViewModel?
-	@State private var isAddServerSelected: Bool = false
+	@Binding var isAddNewServer: Bool
+	@State private var selectedServer: ServerViewModel?
+	let action: () -> Void
 	
 	// MARK: - Init
+	init(servers: Binding<[ServerViewModel]>, isAddNewServer: Binding<Bool>, action: @escaping () -> Void) {
+		self._servers = servers
+		self._isAddNewServer = isAddNewServer
+		self.action = action
+	}
 	
 	// MARK: - Body
 	var body: some View {
 		VStack(alignment: .center, spacing: Constants.spacing) {
 			ForEach(servers) { server in
-				ServerButton(server, isSelected: server.id == selectedServer?.id) { didSelectServer(server) }
+				ServerButton(server, isSelected: server.isActive && !isAddNewServer) { didSelectServer(server) }
 					.frame(width: Constants.serverButtonSize.width, height: Constants.serverButtonSize.height)
 					.cornerRadius(Constants.buttonCornerRadius)
 			}
-			ServerButton(AppTheme.shared.imageSet.plusIcon, isSelected: isAddServerSelected, action: addServerAction)
+			ServerButton(AppTheme.shared.imageSet.plusIcon, isSelected: isAddNewServer, action: addServerAction)
 				.frame(width: Constants.serverButtonSize.width, height: Constants.serverButtonSize.height)
 				.cornerRadius(Constants.buttonCornerRadius)
 			Spacer()
@@ -59,15 +67,20 @@ struct ListServerView: View {
 	}
 }
 
+// MARK: - Private
+private extension ListServerView {
+}
+
 // MARK: - Action
 private extension ListServerView {
 	func didSelectServer(_ server: ServerViewModel) {
-		selectedServer = server
-		isAddServerSelected = false
+		isAddNewServer = false
+		servers = injected.interactors.homeInteractor.didSelectServer(server.serverDomain)
+		action()
 	}
 	
 	func addServerAction() {
-		selectedServer = nil
-		isAddServerSelected = true
+		isAddNewServer = true
+		servers = injected.interactors.homeInteractor.didSelectServer(nil)
 	}
 }

@@ -10,28 +10,43 @@ import Networking
 import Model
 
 public protocol IChannelStorage {
-	var currentChannel: APIService { get }
-	var channels: [String: APIService] { get }
 	var config: IChatSecureConfig { get }
+	var channels: [String: APIService] { get }
+	var currentServer: RealmServer? { get }
+	var currentDomain: String { get }
 	
 	func getServers() -> [RealmServer]
+	func didSelectServer(_ domain: String?) -> [RealmServer]
 }
 
 public class ChannelStorage: IChannelStorage {
-	public var currentChannel: APIService
-	public var channels: [String: APIService]
 	public let config: IChatSecureConfig
+	public var channels: [String: APIService]
+	public var currentServer: RealmServer? {
+		return realmManager.getCurrentServer()
+	}
+	public var currentDomain: String {
+		currentServer?.serverDomain ?? config.clkDomain + ":" + config.clkPort
+	}
+	
 	let realmManager: RealmManager
 	
 	public init(config: IChatSecureConfig) {
 		self.config = config
 		realmManager = RealmManager(databasePath: config.databaseURL)
 		channels = [config.clkDomain + ":" + config.clkPort: APIService(domain: config.clkDomain + ":" + config.clkPort)]
-		currentChannel = channels.first?.value ?? APIService(domain: config.clkDomain + ":" + config.clkPort)
 	}
 	
 	public func getServers() -> [RealmServer] {
-		return realmManager.getServers()
+		let servers = realmManager.getServers()
+		servers.forEach { server in
+			getChannel(domain: server.serverDomain).updateHeaders(accessKey: server.accessKey, hashKey: server.hashKey)
+		}
+		return servers
+	}
+	
+	public func didSelectServer(_ domain: String?) -> [RealmServer] {
+		return realmManager.activeServer(domain: domain)
 	}
 }
 
@@ -50,10 +65,5 @@ extension ChannelStorage {
 			channels[domain] = channel
 			return channels[domain] ?? APIService(domain: domain)
 		}
-	}
-	
-	func updateChannel(domain: String) {
-		guard let server = realmManager.getServer(by: domain) else { return }
-		getChannel(domain: server.serverDomain).updateHeaders(accessKey: server.accessKey, hashKey: server.hashKey)
 	}
 }

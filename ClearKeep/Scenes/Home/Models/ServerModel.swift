@@ -8,7 +8,7 @@
 import Model
 import ChatSecure
 
-struct ServerModel: IServerModel {
+struct ServerModel: Equatable, IServerModel {
 	var serverName: String
 	var serverDomain: String
 	var ownerClientId: String
@@ -19,10 +19,17 @@ struct ServerModel: IServerModel {
 	var refreshToken: String
 	var isActive: Bool
 	var profile: IProfileModel?
+	
+	static func == (lhs: ServerModel, rhs: ServerModel) -> Bool {
+		return lhs.serverDomain == rhs.serverDomain
+	}
 }
 
 extension ServerModel {
-	init(_ server: RealmServer) {
+	init?(_ server: RealmServer?) {
+		guard let server = server else {
+			return nil
+		}
 		self.init(serverName: server.serverName,
 				  serverDomain: server.serverDomain,
 				  ownerClientId: server.ownerClientId,
