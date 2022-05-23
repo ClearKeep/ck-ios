@@ -147,6 +147,8 @@
 		F5484DC6282B70BB00F0B43C /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484DBD282B70BB00F0B43C /* CountryCode.swift */; };
 		F5484DC7282B70BB00F0B43C /* CurrentPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484DBE282B70BB00F0B43C /* CurrentPassword.swift */; };
 		F5484DC8282B70BB00F0B43C /* UserProfileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484DBF282B70BB00F0B43C /* UserProfileContentView.swift */; };
+		F5484E052836437800F0B43C /* locations.json in Resources */ = {isa = PBXBuildFile; fileRef = F5484E042836437800F0B43C /* locations.json */; };
+		F5484E0728364EFA00F0B43C /* CountryCodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5484E0628364EFA00F0B43C /* CountryCodeModel.swift */; };
 		F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86027E820E600824BE7 /* SocialWorker.swift */; };
 		F553F86F27E820E600824BE7 /* SocialModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86227E820E600824BE7 /* SocialModel.swift */; };
 		F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F553F86327E820E600824BE7 /* SocialRemoteStore.swift */; };
@@ -388,6 +390,8 @@
 		F5484DBD282B70BB00F0B43C /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		F5484DBE282B70BB00F0B43C /* CurrentPassword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentPassword.swift; sourceTree = "<group>"; };
 		F5484DBF282B70BB00F0B43C /* UserProfileContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileContentView.swift; sourceTree = "<group>"; };
+		F5484E042836437800F0B43C /* locations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = locations.json; sourceTree = "<group>"; };
+		F5484E0628364EFA00F0B43C /* CountryCodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCodeModel.swift; sourceTree = "<group>"; };
 		F553F86027E820E600824BE7 /* SocialWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialWorker.swift; sourceTree = "<group>"; };
 		F553F86227E820E600824BE7 /* SocialModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialModel.swift; sourceTree = "<group>"; };
 		F553F86327E820E600824BE7 /* SocialRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialRemoteStore.swift; sourceTree = "<group>"; };
@@ -993,6 +997,7 @@
 		CBCF495027D4671E006D84FE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F5484E042836437800F0B43C /* locations.json */,
 				CB117E2627BB5283000941D9 /* Assets.xcassets */,
 				CBCF494E27D46714006D84FE /* Localize.strings */,
 			);
@@ -1088,6 +1093,7 @@
 			isa = PBXGroup;
 			children = (
 				F5484DB9282B70BB00F0B43C /* ProfileModel.swift */,
+				F5484E0628364EFA00F0B43C /* CountryCodeModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1397,6 +1403,7 @@
 				CBF3351C27EEBCE200F8EE63 /* GoogleService-Info-Production.plist in Resources */,
 				CBF3351A27EEBCB400F8EE63 /* GoogleService-Info-QA.plist in Resources */,
 				CBCF494F27D46715006D84FE /* Localize.strings in Resources */,
+				F5484E052836437800F0B43C /* locations.json in Resources */,
 				CB117E2A27BB5283000941D9 /* Preview Assets.xcassets in Resources */,
 				CBF3351827EEBC6C00F8EE63 /* GoogleService-Info-Development.plist in Resources */,
 				CB117E2727BB5283000941D9 /* Assets.xcassets in Resources */,
@@ -1668,6 +1675,7 @@
 				047D6B5F27F6A3750098B104 /* CreateDirectMessageWorker.swift in Sources */,
 				F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */,
 				0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */,
+				F5484E0728364EFA00F0B43C /* CountryCodeModel.swift in Sources */,
 				F556C277280E502500D2B149 /* TagView.swift in Sources */,
 				044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */,
 				0462C6C12816535C00A9EABB /* SearchRemoteStore.swift in Sources */,

@@ -15,11 +15,11 @@ private enum Constant {
 	static let spacerTop = 50.0
 	static let spacerSetting = 5.0
 	static let spacerSettingBottom = 10.0
-	static let paddingVertical = 14.0
+	static let paddingVertical = 10.0
 	static let paddingHorizontal = 24.0
 	static let heightBackground = 60.0
 	static let radius = 16.0
-	static let widthButtonPhone = 80.0
+	static let widthButtonPhone = 90.0
 	static let heightButtonPhone = 52.0
 	static let lineWidth = 2.0
 }
@@ -64,15 +64,6 @@ struct UserProfileContentView: View {
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.applyNavigationBarPlainStyle(title: "",
-										  titleColor: AppTheme.shared.colorSet.offWhite,
-										  backgroundColors: backgroundButtonBack,
-										  leftBarItems: {
-				buttonTop
-			},
-										  rightBarItems: {
-				Spacer()
-			})
 	}
 }
 
@@ -89,6 +80,8 @@ private extension UserProfileContentView {
 		ScrollView {
 			ZStack {
 				VStack {
+					buttonTop
+						.padding(.top, Constant.spacerTop)
 					profileSettings
 						.padding(.top, Constant.spacer)
 					textInput

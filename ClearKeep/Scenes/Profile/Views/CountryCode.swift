@@ -24,6 +24,7 @@ struct CountryCode: View {
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 
 	@Binding var isShowing: Bool
+	@ObservedObject var datas = ReadData()
 	@State private(set) var samples: Loadable<[IProfileModel]>
 	@State private(set) var search: String
 	@State private(set) var searchStyle: TextInputStyle = .default
@@ -38,10 +39,6 @@ struct CountryCode: View {
 		self._search = .init(initialValue: search)
 		self._searchStyle = .init(initialValue: inputStyle)
 	}
-
-	let values = [
-			"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
-		]
 
 	// MARK: Body
 	var body: some View {
@@ -61,8 +58,7 @@ private extension CountryCode {
 private extension CountryCode {
 	var contentView: some View {
 		VStack(spacing: Constant.spacer) {
-			buttonTop
-				.padding(.top, Constant.spacerTop)
+			buttonTop.padding(.top, Constant.spacerTop)
 			title
 			searchInput
 			listCountryCode
@@ -104,12 +100,17 @@ private extension CountryCode {
 	}
 
 	var listCountryCode: some View {
-		List(values, id: \.self) { value in
+		List(datas.countryCodes) { item in
 			Button {
-				self.selectedNum = "+\(value)"
+				self.selectedNum = "\(item.code)"
 				isShowing = false
 			} label: {
-				Text("\(value)")
+				HStack {
+					Text("\(item.name)")
+					Spacer()
+					Text("\(item.code)")
+				}
+
 			}
 		}
 		.frame(maxWidth: .infinity, alignment: .leading)
@@ -125,6 +126,10 @@ private extension CountryCode {
 
 	var foregroundCrossButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight
+	}
+
+	var backgroundButtonBack: [Color] {
+		colorScheme == .light ? [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
 }
 
