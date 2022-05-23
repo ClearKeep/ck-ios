@@ -25,14 +25,14 @@ struct CountryCode: View {
 
 	@Binding var isShowing: Bool
 	@ObservedObject var datas = ReadData()
-	@State private(set) var samples: Loadable<[IProfileModel]>
+	@State private(set) var samples: Loadable<[String]>
 	@State private(set) var search: String
 	@State private(set) var searchStyle: TextInputStyle = .default
 	@State private(set) var isShowUserProfile = false
 	@Binding var selectedNum: String
 
 	// MARK: - Init
-	init(selectedNum: Binding<String>, isShowing: Binding<Bool>, samples: Loadable<[IProfileModel]> = .notRequested, search: String = "", inputStyle: TextInputStyle = .default) {
+	init(selectedNum: Binding<String>, isShowing: Binding<Bool>, samples: Loadable<[String]> = .notRequested, search: String = "", inputStyle: TextInputStyle = .default) {
 		self._selectedNum = selectedNum
 		self._isShowing = isShowing
 		self._samples = .init(initialValue: samples)

@@ -99,12 +99,27 @@
 
 // MARK: - Home
 "Home.Title" = "CK Development";
+"Home.Search" = "Search";
 "Home.Menu" = "Menu";
-"Home.Profile" = "Profile";
-"Home.Server" = "Sever";
 "Home.GroupChat" = "Group Chat";
-"Home.Message" = "Direct Messages";
-"Home.Signout" = "Sign out";
+"Home.DirectMessages" = "Direct Messages";
+"Home.SignOut" = "Sign out";
+
+// MARK: - Join Server
+"JoinServer.Title" = "Join Server";
+"JoinServer.Description" = "To join a server, please type in the link of the server";
+"JoinServer.Tips" = "Tips: Ask your server admin to get the url to the server";
+"JoinServer.ServerURL.Placeholder" = "Server URL";
+"JoinServer.Join" = "Join";
+
+// MARK: - Menu
+"Menu.Profile.Title" = "Profile";
+"Menu.Server.Title" = "Sever";
+"Menu.Notification.Title" = "Notification";
+
+// MARK: - Status
+"Status.Online.Title" = "Online";
+"Status.Busy.Title" = "Busy";
 
 // MARK: - DirectMessages
 "DirectMessages.AddUserTitle" = "Add user from other server";

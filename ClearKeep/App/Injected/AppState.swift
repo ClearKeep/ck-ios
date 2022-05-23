@@ -9,28 +9,35 @@ import SwiftUI
 import Combine
 import Model
 
-public struct AppState: Equatable {
+struct AppState: Equatable {
 	public var authentication = Authentication()
 	public var system = System()
 	
 	public init() {}
 }
-public extension AppState {
+
+extension AppState {
 	struct System: Equatable {
-		public var isActive: Bool = false
-		public var keyboardHeight: CGFloat = 0
+		var isActive: Bool = false
+		var keyboardHeight: CGFloat = 0
 	}
 	
 	struct Authentication: Equatable {
-		public var accessToken: String?
+		static func == (lhs: AppState.Authentication, rhs: AppState.Authentication) -> Bool {
+			return lhs.servers == rhs.servers
+		}
+		
+		var servers: [ServerModel] = []
+		var accessTokens: [String: String] = [:]
+		var newServerDomain: String?
 	}
 }
 
-public func == (lhs: AppState, rhs: AppState) -> Bool {
+func == (lhs: AppState, rhs: AppState) -> Bool {
 	return lhs.system == rhs.system && lhs.authentication == rhs.authentication
 }
 
-public extension AppState {
+extension AppState {
 	static var preview: AppState {
 		var state = AppState()
 		state.system.isActive = true
