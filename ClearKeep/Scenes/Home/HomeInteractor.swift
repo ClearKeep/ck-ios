@@ -11,7 +11,10 @@ import ChatSecure
 protocol IHomeInteractor {
 	var worker: IHomeWorker { get }
 	
-	func getJoinedGroup() async
+	func validateDomain(_ domain: String) -> Bool
+	func getServers() -> [ServerViewModel]
+	func getJoinedGroup() async -> Loadable<[GroupViewModel]>
+	func didSelectServer(_ domain: String?) -> [ServerViewModel]
 	func signOut() async
 }
 
@@ -29,12 +32,32 @@ extension HomeInteractor: IHomeInteractor {
 		return HomeWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
-	func getJoinedGroup() async {
+	func validateDomain(_ domain: String) -> Bool {
+		return worker.validateDomain(domain)
+	}
+	
+	func getServers() -> [ServerViewModel] {
+		return worker.servers.compactMap { ServerViewModel($0) }
+	}
+	
+	func getJoinedGroup() async -> Loadable<[GroupViewModel]> {
 		let result = await worker.getJoinedGroup()
+		
+		switch result {
+		case .success(let groups):
+			let groupViewModels = groups.compactMap { GroupViewModel($0) }
+			return .loaded(groupViewModels)
+		case .failure(let error):
+			return .failed(error)
+		}
+	}
+	
+	func didSelectServer(_ domain: String?) -> [ServerViewModel] {
+		return worker.didSelectServer(domain).compactMap { ServerViewModel($0) }
 	}
 	
 	func signOut() async {
-		let result = await worker.signOut()
+//		let result = await worker.signOut()
 	}
 }
 
@@ -49,11 +72,23 @@ struct StubHomeInteractor: IHomeInteractor {
 		return HomeWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
-	func getJoinedGroup() async {
-		let result = await worker.getJoinedGroup()
+	func validateDomain(_ domain: String) -> Bool {
+		return true
+	}
+	
+	func getServers() -> [ServerViewModel] {
+		return []
+	}
+	
+	func getJoinedGroup() async -> Loadable<[GroupViewModel]> {
+		return .notRequested
+	}
+	
+	func didSelectServer(_ domain: String?) -> [ServerViewModel] {
+		return []
 	}
 	
 	func signOut() async {
-		let result = await worker.signOut()
+//		let result = await worker.signOut()
 	}
 }

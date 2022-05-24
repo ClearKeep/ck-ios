@@ -39,6 +39,6 @@ extension TwoFactorWorker: ITwoFactorWorker {
 	}
 
 	var currentDomain: String {
-		channelStorage.currentChannel.domain
+		channelStorage.currentDomain
 	}
 }

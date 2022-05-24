@@ -14,6 +14,8 @@ IOS_APP_NAME = [QA] ClearKeep
 IOS_APP_ICON = AppIcon-Staging
 IOS_BUNDLE_ID = com.telred.clearkeep.qa
 IOS_NOTIFICATION_EXTENSION_BUNDLE_ID = com.telred.clearkeep.qa.notificationextension
+APP_GROUP_NAME =group.com.telred.clearkeep.qa
+DATABASE_PATH = qa.db
 MARKETING_VERSION = 3.0.0
 CURRENT_PROJECT_VERSION = 1
 

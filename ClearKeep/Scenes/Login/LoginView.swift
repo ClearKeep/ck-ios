@@ -35,6 +35,11 @@ struct LoginView: View {
 		NavigationView {
 			content
 				.onReceive(inspection.notice) { inspection.visit(self, $0) }
+				.onReceive(newServerDomainStateUpdate) { newServerDomain in
+					if let newServerDomain = newServerDomain {
+						customServer = CustomServer(isSelectedCustomServer: true, customServerURL: newServerDomain)
+					}
+				}
 				.hideKeyboardOnTapped()
 				.hiddenNavigationBarStyle()
 				.grandientBackground()
@@ -45,6 +50,10 @@ struct LoginView: View {
 
 // MARK: - Private
 private extension LoginView {
+	var newServerDomainStateUpdate: AnyPublisher<String?, Never> {
+		injected.appState.updates(for: \.authentication.newServerDomain)
+	}
+	
 	var content: AnyView {
 		switch loadable {
 		case .notRequested:
@@ -89,7 +98,6 @@ private extension LoginView {
 	
 	func loadedView(_ data: IAuthenticationModel) -> AnyView {
 		if let normalLogin = data.normalLogin {
-			injected.appState[\.authentication.accessToken] = normalLogin.accessToken
 			return AnyView(Text(normalLogin.workspaceDomain ?? ""))
 		}
 		
