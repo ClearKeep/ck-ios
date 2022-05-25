@@ -6,14 +6,13 @@
 //
 
 import Foundation
-import SignalProtocolObjC
+import SignalServiceKit
 import Networking
 import SwiftSRP
 import Common
 import GRPC
-import NIO
-import NIOHPACK
 import CryptoTokenKit
+import LibSignalClient
 
 public enum SocialType {
 	case google
@@ -38,9 +37,11 @@ public class CLKAuthenticationService {
 	var byteV: UnsafePointer<CUnsignedChar>?
 	var usr: OpaquePointer?
 	var clientStore: ClientStore
+	private let signalStore: ISignalProtocolInMemoryStore
 	
-	public init() {
+	public init(signalStore: ISignalProtocolInMemoryStore) {
 		clientStore = ClientStore()
+		self.signalStore = signalStore
 	}
 }
 
@@ -53,36 +54,33 @@ extension CLKAuthenticationService: IAuthenticationService {
 			  let verificator = srp.getVerificator(byteV: byteV) else { return(.failure(ServerError.unknown)) }
 		let saltHex = bytesConvertToHexString(bytes: salt)
 		let verificatorHex = bytesConvertToHexString(bytes: verificator)
-		
 		srp.freeMemoryCreateAccount(byteV: &byteV)
-		
 		let pbkdf2 = PBKDF2(passPharse: password)
-		let inMemoryStore: SignalInMemoryStore = SignalInMemoryStore()
-		let storage = SignalStorage(signalStore: inMemoryStore)
-		let context = SignalContext(storage: storage)
-		guard let keyHelper = SignalKeyHelper(context: context ?? SignalContext()),
-			  let key = keyHelper.generateIdentityKeyPair() else { return(.failure(ServerError.unknown)) }
 		
-		let preKeys = keyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
-		
+		let key = KeyHelper.generateIdentityKeyPair()
+		let preKeys = KeyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
 		guard let preKey = preKeys.first,
-			  let preKeyData = preKey.serializedData(),
-			  let signedPreKey = keyHelper.generateSignedPreKey(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (email + domain).hashCode())),
-			  let signedPreKeyData = signedPreKey.serializedData() else { return(.failure(ServerError.unknown)) }
-		
-		var transitionId = keyHelper.generateRegistrationId()
+			  let signedPreKeyRecord = KeyHelper.generateSignedPreKeyRecord(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (email + domain).hashCode()))
+		else { return(.failure(ServerError.unknown)) }
+
+		let preKeyData = preKey.serialize()
+		let signedPrekeyRecordData = signedPreKeyRecord.serialize()
+
+		var transitionId = KeyHelper.generateRegistrationId()
+
 		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
 		peerRegisterClientKeyRequest.deviceID = Int32(Constants.senderDeviceId)
 		peerRegisterClientKeyRequest.registrationID = Int32(bitPattern: transitionId)
-		peerRegisterClientKeyRequest.identityKeyPublic = key.publicKey
-		peerRegisterClientKeyRequest.preKey = preKeyData
-		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.preKeyId)
-		peerRegisterClientKeyRequest.signedPreKey = signedPreKeyData
-		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKey.preKeyId)
-		let encrypt = pbkdf2.encrypt(data: [UInt8](key.privateKey), saltHex: saltHex)
+		peerRegisterClientKeyRequest.identityKeyPublic = Data(key.publicKey.serialize())
+		peerRegisterClientKeyRequest.preKey = Data(preKeyData)
+		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.id)
+		peerRegisterClientKeyRequest.signedPreKey = Data(signedPrekeyRecordData)
+		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKeyRecord.id)
+		let encrypt = pbkdf2.encrypt(data: key.privateKey.serialize(), saltHex: saltHex)
+
 		peerRegisterClientKeyRequest.identityKeyEncrypted = bytesConvertToHexString(bytes: encrypt ?? [])
-		peerRegisterClientKeyRequest.signedPreKeySignature = signedPreKey.signature
-		
+		peerRegisterClientKeyRequest.signedPreKeySignature = Data(signedPreKeyRecord.signature)
+
 		var request = Auth_RegisterSRPReq()
 		request.workspaceDomain = domain
 		request.email = email
@@ -94,7 +92,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		request.lastName = ""
 		request.clientKeyPeer = peerRegisterClientKeyRequest
 		request.ivParameter = bytesConvertToHexString(bytes: pbkdf2.iv)
-		
+
 		let response = await channelStorage.getChannel(domain: domain).registerSRP(request)
 		switch response {
 		case .success(let data):
@@ -120,7 +118,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		case .success(let data):
 			guard let mValue = await srp.getM(salt: data.salt.hexaBytes, byte: data.publicChallengeB.hexaBytes, usr: usr) else { return .failure(ServerError.unknown) }
 			let mHex = bytesConvertToHexString(bytes: mValue)
-			
+
 			srp.freeMemoryAuthenticate(usr: &usr)
 			
 			var request = Auth_AuthenticateReq()
@@ -138,7 +136,14 @@ extension CLKAuthenticationService: IAuthenticationService {
 				
 				switch response {
 				case .success(let profileResponse):
-					channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse)
+					await channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse)
+					let result = onLoginSuccess(authenResponse, password: password)
+					switch result {
+					case .success(let value):
+						return .success(authenResponse)
+					case .failure(let error):
+						return .failure(error)
+					}
 				case .failure(let error):
 					break
 				}
@@ -153,56 +158,52 @@ extension CLKAuthenticationService: IAuthenticationService {
 	
 	public func registerSocialPin(rawPin: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error> {
 		let srp = SwiftSRP.shared
-		
+
 		guard let salt = srp.getSalt(userName: userId, rawPassword: rawPin, byteV: &byteV),
 			  let verificator = srp.getVerificator(byteV: byteV) else { return .failure(ServerError.unknown) }
 		let saltHex = bytesConvertToHexString(bytes: salt)
 		let verificatorHex = bytesConvertToHexString(bytes: verificator)
-		
 		srp.freeMemoryCreateAccount(byteV: &byteV)
-		
 		let pbkdf2 = PBKDF2(passPharse: rawPin)
-		let inMemoryStore: SignalInMemoryStore = SignalInMemoryStore()
-		let storage = SignalStorage(signalStore: inMemoryStore)
-		let context = SignalContext(storage: storage)
-		guard let keyHelper = SignalKeyHelper(context: context ?? SignalContext()),
-			  let key = keyHelper.generateIdentityKeyPair() else { return .failure(ServerError.unknown) }
 		
-		let preKeys = keyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
-		
+		let key = KeyHelper.generateIdentityKeyPair()
+		let preKeys = try KeyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
 		guard let preKey = preKeys.first,
-			  let preKeyData = preKey.serializedData(),
-			  let signedPreKey = keyHelper.generateSignedPreKey(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (userId + domain).hashCode())),
-			  let signedPreKeyData = signedPreKey.serializedData() else { return .failure(ServerError.unknown) }
+			  let signedPreKeyRecord = try KeyHelper.generateSignedPreKeyRecord(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (userId + domain).hashCode()))
+		else { return(.failure(ServerError.unknown)) }
+
+		let preKeyData = preKey.serialize()
+		let signedPrekeyRecordData = signedPreKeyRecord.serialize()
 		
-		var transitionId = keyHelper.generateRegistrationId()
+		var transitionId = KeyHelper.generateRegistrationId()
 		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
 		peerRegisterClientKeyRequest.deviceID = Int32(Constants.senderDeviceId)
 		peerRegisterClientKeyRequest.registrationID = Int32(bitPattern: transitionId)
-		peerRegisterClientKeyRequest.identityKeyPublic = key.publicKey
-		peerRegisterClientKeyRequest.preKey = preKeyData
-		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.preKeyId)
-		peerRegisterClientKeyRequest.signedPreKey = signedPreKeyData
-		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKey.preKeyId)
-		let encrypt = pbkdf2.encrypt(data: [UInt8](key.privateKey), saltHex: saltHex)
+		peerRegisterClientKeyRequest.identityKeyPublic = Data(key.publicKey.serialize())
+		peerRegisterClientKeyRequest.preKey = Data(preKeyData)
+		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.id)
+		peerRegisterClientKeyRequest.signedPreKey = Data(signedPrekeyRecordData)
+		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKeyRecord.id)
+		let encrypt = pbkdf2.encrypt(data: key.privateKey.serialize(), saltHex: saltHex)
+
 		peerRegisterClientKeyRequest.identityKeyEncrypted = bytesConvertToHexString(bytes: encrypt ?? [])
-		peerRegisterClientKeyRequest.signedPreKeySignature = signedPreKey.signature
-		
+		peerRegisterClientKeyRequest.signedPreKeySignature = Data(signedPreKeyRecord.signature)
+
 		var request = Auth_RegisterPinCodeReq()
 		request.userName = userId
 		request.hashPincode = verificatorHex
 		request.salt = saltHex
 		request.clientKeyPeer = peerRegisterClientKeyRequest
 		request.ivParameter = bytesConvertToHexString(bytes: pbkdf2.iv)
-		
+
 		let response = await channelStorage.getChannel(domain: domain).registerPinCode(request)
 		
 		switch response {
 		case .success(let authenResponse):
 			var request = User_Empty()
-			
+
 			let response = await channelStorage.getChannel(domain: domain, accessToken: authenResponse.accessToken, hashKey: authenResponse.hashKey).getProfile(request)
-			
+
 			switch response {
 			case .success(let profileResponse):
 				channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse)
@@ -212,7 +213,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		case .failure:
 			break
 		}
-		
+
 		return response
 	}
 	
@@ -265,41 +266,36 @@ extension CLKAuthenticationService: IAuthenticationService {
 	
 	public func resetSocialPin(rawPin: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error> {
 		let srp = SwiftSRP.shared
-		
 		guard let salt = srp.getSalt(userName: userId, rawPassword: rawPin, byteV: &byteV),
 			  let verificator = srp.getVerificator(byteV: byteV) else { return .failure(ServerError.unknown) }
 		let saltHex = bytesConvertToHexString(bytes: salt)
 		let verificatorHex = bytesConvertToHexString(bytes: verificator)
-		
 		srp.freeMemoryCreateAccount(byteV: &byteV)
-		
 		let pbkdf2 = PBKDF2(passPharse: rawPin)
-		let inMemoryStore: SignalInMemoryStore = SignalInMemoryStore()
-		let storage = SignalStorage(signalStore: inMemoryStore)
-		let context = SignalContext(storage: storage)
-		guard let keyHelper = SignalKeyHelper(context: context ?? SignalContext()),
-			  let key = keyHelper.generateIdentityKeyPair() else { return .failure(ServerError.unknown) }
 		
-		let preKeys = keyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
-		
+		let key = KeyHelper.generateIdentityKeyPair()
+		let preKeys = try KeyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
 		guard let preKey = preKeys.first,
-			  let preKeyData = preKey.serializedData(),
-			  let signedPreKey = keyHelper.generateSignedPreKey(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (userId + domain).hashCode())),
-			  let signedPreKeyData = signedPreKey.serializedData() else { return .failure(ServerError.unknown) }
+			  let signedPreKeyRecord = try KeyHelper.generateSignedPreKeyRecord(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (userId + domain).hashCode()))
+		else { return(.failure(ServerError.unknown)) }
 		
-		var transitionId = keyHelper.generateRegistrationId()
+		let preKeyData = preKey.serialize()
+		let signedPrekeyRecordData = signedPreKeyRecord.serialize()
+
+		var transitionId = KeyHelper.generateRegistrationId()
 		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
 		peerRegisterClientKeyRequest.deviceID = Int32(Constants.senderDeviceId)
 		peerRegisterClientKeyRequest.registrationID = Int32(bitPattern: transitionId)
-		peerRegisterClientKeyRequest.identityKeyPublic = key.publicKey
-		peerRegisterClientKeyRequest.preKey = preKeyData
-		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.preKeyId)
-		peerRegisterClientKeyRequest.signedPreKey = signedPreKeyData
-		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKey.preKeyId)
-		let encrypt = pbkdf2.encrypt(data: [UInt8](key.privateKey), saltHex: saltHex)
+		peerRegisterClientKeyRequest.identityKeyPublic = Data(key.publicKey.serialize())
+		peerRegisterClientKeyRequest.preKey = Data(preKeyData)
+		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.id)
+		peerRegisterClientKeyRequest.signedPreKey = Data(signedPrekeyRecordData)
+		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKeyRecord.id)
+		let encrypt = pbkdf2.encrypt(data: key.privateKey.serialize(), saltHex: saltHex)
+
 		peerRegisterClientKeyRequest.identityKeyEncrypted = bytesConvertToHexString(bytes: encrypt ?? [])
-		peerRegisterClientKeyRequest.signedPreKeySignature = signedPreKey.signature
-		
+		peerRegisterClientKeyRequest.signedPreKeySignature = Data(signedPreKeyRecord.signature)
+
 		var request = Auth_RegisterPinCodeReq()
 		request.userName = userId
 		request.hashPincode = verificatorHex
@@ -318,41 +314,36 @@ extension CLKAuthenticationService: IAuthenticationService {
 	
 	public func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async -> Result<Auth_AuthRes, Error> {
 		let srp = SwiftSRP.shared
-		
 		guard let salt = srp.getSalt(userName: email, rawPassword: rawNewPassword, byteV: &byteV),
 			  let verificator = srp.getVerificator(byteV: byteV) else { return .failure(ServerError.unknown) }
 		let saltHex = bytesConvertToHexString(bytes: salt)
 		let verificatorHex = bytesConvertToHexString(bytes: verificator)
-		
 		srp.freeMemoryCreateAccount(byteV: &byteV)
-		
 		let pbkdf2 = PBKDF2(passPharse: rawNewPassword)
-		let inMemoryStore: SignalInMemoryStore = SignalInMemoryStore()
-		let storage = SignalStorage(signalStore: inMemoryStore)
-		let context = SignalContext(storage: storage)
-		guard let keyHelper = SignalKeyHelper(context: context ?? SignalContext()),
-			  let key = keyHelper.generateIdentityKeyPair() else { return .failure(ServerError.unknown) }
 		
-		let preKeys = keyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
-		
+		let key = KeyHelper.generateIdentityKeyPair()
+		let preKeys = try KeyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
 		guard let preKey = preKeys.first,
-			  let preKeyData = preKey.serializedData(),
-			  let signedPreKey = keyHelper.generateSignedPreKey(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (email + domain).hashCode())),
-			  let signedPreKeyData = signedPreKey.serializedData() else { return .failure(ServerError.unknown) }
+			  let signedPreKeyRecord = try KeyHelper.generateSignedPreKeyRecord(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (email + domain).hashCode()))
+		else { return(.failure(ServerError.unknown)) }
 		
-		var transitionId = keyHelper.generateRegistrationId()
+		let preKeyData = preKey.serialize()
+		let signedPrekeyRecordData = signedPreKeyRecord.serialize()
+
+		var transitionId = KeyHelper.generateRegistrationId()
 		var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
 		peerRegisterClientKeyRequest.deviceID = Int32(Constants.senderDeviceId)
 		peerRegisterClientKeyRequest.registrationID = Int32(bitPattern: transitionId)
-		peerRegisterClientKeyRequest.identityKeyPublic = key.publicKey
-		peerRegisterClientKeyRequest.preKey = preKeyData
-		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.preKeyId)
-		peerRegisterClientKeyRequest.signedPreKey = signedPreKeyData
-		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKey.preKeyId)
-		let encrypt = pbkdf2.encrypt(data: [UInt8](key.privateKey), saltHex: saltHex)
+		peerRegisterClientKeyRequest.identityKeyPublic = Data(key.publicKey.serialize())
+		peerRegisterClientKeyRequest.preKey = Data(preKeyData)
+		peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.id)
+		peerRegisterClientKeyRequest.signedPreKey = Data(signedPrekeyRecordData)
+		peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKeyRecord.id)
+		let encrypt = pbkdf2.encrypt(data: key.privateKey.serialize(), saltHex: saltHex)
+
 		peerRegisterClientKeyRequest.identityKeyEncrypted = bytesConvertToHexString(bytes: encrypt ?? [])
-		peerRegisterClientKeyRequest.signedPreKeySignature = signedPreKey.signature
-		
+		peerRegisterClientKeyRequest.signedPreKeySignature = Data(signedPreKeyRecord.signature)
+
 		var request = Auth_ForgotPasswordUpdateReq()
 		request.preAccessToken = domain
 		request.email = email
@@ -430,99 +421,40 @@ extension CLKAuthenticationService: IAuthenticationService {
 
 // MARK: - Private
 private extension CLKAuthenticationService {
-	func onLoginSuccess(_ response: Auth_AuthRes, password: String) {
-//		var accessToken = response.accessToken
-//		var domain = response.workspaceDomain
-//		var salt = response.salt
-//		var publicKey = response.clientKeyPeer.identityKeyPublic
-//		var privateKeyEncrypt = response.clientKeyPeer.identityKeyEncrypted
-//		var iv = response.ivParameter
-//		var privateKeyDecrypt = PBKDF2(passPharse: password).decrypt(data: privateKeyEncrypt.hexaBytes, saltEncrypt: salt.hexaBytes, ivParameterSpec: iv.hexaBytes)
-//		var preKey = response.clientKeyPeer.preKey
-//		var preKeyId = response.clientKeyPeer.preKeyID
-//		var preKeyRecord = CKSignalCoordinate.shared.ourEncryptionManager?.storage.storePreKey(preKey, preKeyId: UInt32(preKeyId))
-//		var signedPreKeyId = response.clientKeyPeer.signedPreKeyID
-//		var signedPreKey = response.clientKeyPeer.signedPreKey
-//		var signedPreKeyRecord =  CKSignalCoordinate.shared.ourEncryptionManager?.storage.storePreKey(signedPreKey, preKeyId: UInt32(signedPreKeyId))
-//		var registrationID = response.clientKeyPeer.registrationID
-//		var clientId = response.clientKeyPeer.clientID
-//		
-//		var ecPublicKey = SignalKeyPair(
-//		var eCPublicKey: ECPublicKey =
-//		Curve.decodePoint(publicKey.toByteArray(), 0)
-//		var eCPrivateKey: ECPrivateKey =
-//		Curve.decodePrivatePoint(privateKeyDecrypt)
-//		var identityKeyPair = IdentityKeyPair(IdentityKey(eCPublicKey), eCPrivateKey)
-//		var signalIdentityKey =
-//		SignalIdentityKey(
-//			identityKeyPair,
-//			registrationID,
-//		domain,
-//			clientId,
-//			response.ivParameter,
-//			salt
-//		)
-//		var profile = getProfile(
-//			paramAPIProvider.provideUserBlockingStub(
-//				ParamAPI(
-//					domain,
-//					accessToken,
-//					hashKey
-//				)
-//			)
-//		)
-//		
-//		signalIdentityKeyDAO.insert(signalIdentityKey)
-//		
-//		environment.setUpTempDomain(
-//			Server(
-//				null,
-//				"",
-//				domain,
-//				profile.userId,
-//				"",
-//				0L,
-//				"",
-//				"",
-//				"",
-//				false,
-//				Profile(null, profile.userId, "", "", "", 0L, "")
-//			)
-//		)
-//		myStore.storePreKey(preKeyID, preKeyRecord)
-//		myStore.storeSignedPreKey(signedPreKeyId, signedPreKeyRecord)
-//		
-//		if (clearOldUserData) {
-//			var oldServer = serverRepository.getServerByDomain(domain)
-//			
-//			oldServer?.id?.let {
-//				roomRepository.removeGroupByDomain(domain, profile.userId)
-//				messageRepository.clearMessageByDomain(domain, profile.userId)
-//			}
-//		}
-//		
-//		var server = Server(
-//			serverName = response.workspaceName,
-//			serverDomain = domain,
-//			ownerClientId = profile.userId,
-//			serverAvatar = "",
-//			loginTime = getCurrentDateTime().time,
-//			accessKey = accessToken,
-//			hashKey = hashKey,
-//			refreshToken = response.refreshToken,
-//			profile = profile,
-//		)
-//		
-//		serverRepository.insertServer(server)
-//		serverRepository.setActiveServer(server)
-//		userPreferenceRepository.initDefaultUserPreference(
-//			domain,
-//			profile.userId,
-//			isSocialAccount
-//		)
-//		userKeyRepository.insert(UserKey(domain, profile.userId, salt, iv))
-//		
-//		return Resource.success(response)
+	func onLoginSuccess(_ response: Auth_AuthRes, password: String) -> Result<Bool, Error> {
+		do {
+			let accessToken = response.accessToken
+			let domain = response.workspaceDomain
+			let salt = response.salt
+			let privateKeyEncrypt = response.clientKeyPeer.identityKeyEncrypted
+			let iv = response.ivParameter
+			let privateKeyDecrypt = PBKDF2(passPharse: password).decrypt(data: privateKeyEncrypt.hexaBytes, saltEncrypt: salt.hexaBytes, ivParameterSpec: iv.hexaBytes)
+			let preKey = response.clientKeyPeer.preKey
+			let preKeyId = response.clientKeyPeer.preKeyID
+			let preKeyRecord = try PreKeyRecord(bytes: preKey)
+			let signedPreKeyId = response.clientKeyPeer.signedPreKeyID
+			let signedPreKey = response.clientKeyPeer.signedPreKey
+			let signedPreKeyRecord = try SignedPreKeyRecord(bytes: signedPreKey)
+			let registrationID = response.clientKeyPeer.registrationID
+			let clientId = response.clientKeyPeer.clientID
+			
+			let publicKey = try PublicKey(response.clientKeyPeer.identityKeyPublic)
+			let privateKey = try PrivateKey(privateKeyDecrypt ?? [])
+			let identityKeyPair = IdentityKeyPair(publicKey: publicKey, privateKey: privateKey)
+			let identityKeyPairData = Data(identityKeyPair.serialize())
+			let signalIdentityKey = SignalIdentityKey(
+				identityKeyPair: identityKeyPairData,
+				registrationId: UInt32(bitPattern: registrationID),
+				domain: domain,
+				userId: clientId)
+			
+			try signalStore.saveUserIdentity(identity: signalIdentityKey)
+			try signalStore.saveUserPreKey(preKey: preKeyRecord, id: UInt32(bitPattern: preKeyId))
+			try signalStore.saveUserSignedPreKey(signedPreKey: signedPreKeyRecord, id: UInt32(bitPattern: signedPreKeyId))
+			return .success(true)
+		} catch {
+			return .failure(error)
+		}
 	}
 	
 	func getProfile(userGRPC: String) {

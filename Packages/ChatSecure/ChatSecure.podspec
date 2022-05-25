@@ -30,4 +30,5 @@ Pod::Spec.new do |spec|
 	spec.dependency 'MSAL'
 	spec.dependency 'FBSDKLoginKit'
 	spec.dependency 'RealmSwift'
+	spec.dependency 'SignalServiceKit'
 end

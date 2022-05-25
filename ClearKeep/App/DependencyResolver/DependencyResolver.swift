@@ -52,7 +52,7 @@ class DependencyResolver {
 		securedStoreService = SecuredStoreService()
 		persistentStoreService = PersistentStoreService()
 		appTokenService = AppTokenService(securedStoreService: securedStoreService, persistentStoreService: persistentStoreService)
-		authenticationService = CLKAuthenticationService()
+		authenticationService = CLKAuthenticationService(signalStore: signalStore)
 		socialAuthenticationService = SocialAuthenticationService([.facebook,
 																   .google(clientId: ConfigurationProvider.default.googleClientId),
 																   .office(clientId: ConfigurationProvider.default.officeClientId,
