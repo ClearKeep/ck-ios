@@ -23,6 +23,7 @@ enum ConfigurationProvider: IConfiguration {
 		static let officeRedirectUri = "OFFICE_REDIRECT_URI"
 		static let databasePath = "DATABASE_PATH"
 		static let appGroupName = "APP_GROUP_NAME"
+		static let yapDatabasePath = "YAP_DATABASE_PATH"
 	}
 	
 	var clkDomain: String {
@@ -56,5 +57,11 @@ enum ConfigurationProvider: IConfiguration {
 	var databaseURL: URL? {
 		let sharedDirectoryURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Configuration.value(for: Keys.appGroupName))
 		return sharedDirectoryURL?.appendingPathComponent(Configuration.value(for: Keys.databasePath))
+	}
+	
+	var yapDatabaseURL: URL {
+		let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)
+		let baseDir = paths.count > 0 ? paths[0] : NSTemporaryDirectory()
+		return URL(fileURLWithPath: baseDir).appendingPathComponent(Configuration.value(for: Keys.yapDatabasePath))
 	}
 }

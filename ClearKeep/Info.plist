@@ -87,6 +87,8 @@
 	<string>$(OFFICE_REDIRECT_URI)</string>
 	<key>DATABASE_PATH</key>
 	<string>$(DATABASE_PATH)</string>
+	<key>YAP_DATABASE_PATH</key>
+	<string>$(YAP_DATABASE_PATH)</string>
 	<key>APP_GROUP_NAME</key>
 	<string>$(APP_GROUP_NAME)</string>
 	<key>RECEIVER_DEVICE_ID</key>

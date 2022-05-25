@@ -23,7 +23,10 @@ def common
 	pod 'Networking', :path => './Packages/Networking'
 	pod 'Model', :path => './Packages/Model'
 	pod 'SwiftSRP', :path => './Packages/SwiftSRP'
+	pod 'SignalServiceKit', :path => './Packages/SignalServiceKit'
 	pod 'SignalProtocolObjC', :git =>'https://github.com/nohtbook/SignalProtocol-ObjC.git'
+	pod 'LibSignalClient', git: 'https://github.com/signalapp/libsignal.git'
+	pod 'SignalCoreKit', git: 'https://github.com/signalapp/SignalCoreKit.git'
 end
 
 def xctools
