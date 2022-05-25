@@ -16,4 +16,5 @@ public protocol IChatSecureConfig {
 	var officeClientId: String { get }
 	var officeRedirectUri: String { get }
 	var databaseURL: URL? { get }
+	var yapDatabaseURL: URL { get }
 }

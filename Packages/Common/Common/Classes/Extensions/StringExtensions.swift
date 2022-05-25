@@ -32,4 +32,16 @@ public extension String {
 		}
 		return result
 	}
+	
+	var asciiArray: [UInt32] {
+		return unicodeScalars.filter { $0.isASCII }.map { $0.value }
+	}
+	
+	func hashCode() -> Int32 {
+		var hash: Int32 = 0
+		for index in self.asciiArray {
+			hash = 31 &* hash &+ Int32(index)
+		}
+		return hash
+	}
 }
