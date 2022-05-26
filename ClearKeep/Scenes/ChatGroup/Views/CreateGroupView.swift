@@ -122,9 +122,7 @@ private extension CreateGroupView {
 					.foregroundColor(Color.gray)
 			}
 		}
-		
-			.listStyle(PlainListStyle())
-		
+		.listStyle(PlainListStyle())
 	}
 
 	var buttonNextView: some View {
