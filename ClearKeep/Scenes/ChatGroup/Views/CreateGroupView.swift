@@ -67,6 +67,7 @@ private extension CreateGroupView {
 			Spacer()
 		}
 	}
+	
 	var buttonBackView: some View {
 		Button(action: customBack) {
 			HStack(spacing: Constants.spacer) {
