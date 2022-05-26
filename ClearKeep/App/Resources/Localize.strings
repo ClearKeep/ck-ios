@@ -60,6 +60,12 @@
 "Country.Code" = "Country Codes";
 "Country.Search" = "Search";
 
+// MARK: - Current Password
+"CurrentPass.Button.Back" = "Enter Your Current Password";
+"CurrentPass.Title" = "Please enter your password to enable 2FA";
+"CurrentPass.Placeholder" = "Current Password";
+"CurrentPass.Next" = "Next";
+
 // MARK: - Login
 "Login.SignInWith" = "Sign in with";
 "Login.SignIn" = "Sign in";
@@ -197,3 +203,9 @@
 "GroupDetail.TitleCheckbox" = "Add user from other server";
 "GroupDetail.UserInitTitle" = "Users int his Group chat";
 "GroupDetail.Title.PlaceHoder" = "Paste your friend's link";
+
+// MARK: - Current Password
+"CurrentPassword.ButtonBack" = "Enter Your Current Password";
+"CurrentPassword.Title" = "Please enter your password to enable 2FA";
+"CurrentPassword.Placeholder" = "Current Password";
+"CurrentPassword.Next" = "Next";

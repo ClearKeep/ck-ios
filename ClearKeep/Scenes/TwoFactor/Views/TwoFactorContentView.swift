@@ -41,9 +41,17 @@ struct TwoFactorContentView: View {
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.applyNavigationBarPlainStyle(title: "",
+										  titleColor: AppTheme.shared.colorSet.offWhite,
+										  backgroundColors: backgroundButtonBack,
+										  leftBarItems: {
+				buttonBackView
+			},
+										  rightBarItems: {
+				Spacer()
+			})
 			.background(background)
 			.edgesIgnoringSafeArea(.all)
-			.navigationBarBackButtonHidden(true)
 	}
 }
 
@@ -58,8 +66,6 @@ private extension TwoFactorContentView {
 private extension TwoFactorContentView {
 	var notRequestedView: some View {
 		VStack {
-			buttonBackView
-				.padding(.top, Constant.spacerTopView)
 			titleView.padding(.top, Constant.paddingVertical)
 			ZStack {
 				pinDots
@@ -202,6 +208,10 @@ private extension TwoFactorContentView {
 
 	var backgroundButton: Color {
 		return otp.count < maxDigits ? backgroundColorButton.opacity(Constant.backgroundOpacity) : backgroundColorButton
+	}
+
+	var backgroundButtonBack: [Color] {
+		colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
 
 	var backgroundColorButton: Color {
