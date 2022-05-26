@@ -1,0 +1,1222 @@
+ [
+		{
+			"name": "Afghanistan",
+			"code": "+93",
+			"abbreviation": "AF"
+		},
+		{
+			"name": "Aland Islands",
+			"code": "+358",
+			"abbreviation": "AX"
+		},
+		{
+			"name": "Albania",
+			"code": "+355",
+			"abbreviation": "AL"
+		},
+		{
+			"name": "Algeria",
+			"code": "+213",
+			"abbreviation": "DZ"
+		},
+		{
+			"name": "American Samoa",
+			"code": "+1684",
+			"abbreviation": "AS"
+		},
+		{
+			"name": "Andorra",
+			"code": "+376",
+			"abbreviation": "AD"
+		},
+		{
+			"name": "Angola",
+			"code": "+244",
+			"abbreviation": "AO"
+		},
+		{
+			"name": "Anguilla",
+			"code": "+1264",
+			"abbreviation": "AI"
+		},
+		{
+			"name": "Antarctica",
+			"code": "+672",
+			"abbreviation": "AQ"
+		},
+		{
+			"name": "Antigua and Barbuda",
+			"code": "+1268",
+			"abbreviation": "AG"
+		},
+		{
+			"name": "Argentina",
+			"code": "+54",
+			"abbreviation": "AR"
+		},
+		{
+			"name": "Armenia",
+			"code": "+374",
+			"abbreviation": "AM"
+		},
+		{
+			"name": "Aruba",
+			"code": "+297",
+			"abbreviation": "AW"
+		},
+		{
+			"name": "Australia",
+			"code": "+61",
+			"abbreviation": "AU"
+		},
+		{
+			"name": "Austria",
+			"code": "+43",
+			"abbreviation": "AT"
+		},
+		{
+			"name": "Azerbaijan",
+			"code": "+994",
+			"abbreviation": "AZ"
+		},
+		{
+			"name": "Bahamas",
+			"code": "+1242",
+			"abbreviation": "BS"
+		},
+		{
+			"name": "Bahrain",
+			"code": "+973",
+			"abbreviation": "BH"
+		},
+		{
+			"name": "Bangladesh",
+			"code": "+880",
+			"abbreviation": "BD"
+		},
+		{
+			"name": "Barbados",
+			"code": "+1246",
+			"abbreviation": "BB"
+		},
+		{
+			"name": "Belarus",
+			"code": "+375",
+			"abbreviation": "BY"
+		},
+		{
+			"name": "Belgium",
+			"code": "+32",
+			"abbreviation": "BE"
+		},
+		{
+			"name": "Belize",
+			"code": "+501",
+			"abbreviation": "BZ"
+		},
+		{
+			"name": "Benin",
+			"code": "+229",
+			"abbreviation": "BJ"
+		},
+		{
+			"name": "Bermuda",
+			"code": "+1441",
+			"abbreviation": "BM"
+		},
+		{
+			"name": "Bhutan",
+			"code": "+975",
+			"abbreviation": "BT"
+		},
+		{
+			"name": "Bolivia, Plurinational State of",
+			"code": "+591",
+			"abbreviation": "BO"
+		},
+		{
+			"name": "Bosnia and Herzegovina",
+			"code": "+387",
+			"abbreviation": "BA"
+		},
+		{
+			"name": "Botswana",
+			"code": "+267",
+			"abbreviation": "BW"
+		},
+		{
+			"name": "Brazil",
+			"code": "+55",
+			"abbreviation": "BR"
+		},
+		{
+			"name": "British Indian Ocean Territory",
+			"code": "+246",
+			"abbreviation": "IO"
+		},
+		{
+			"name": "Brunei Darussalam",
+			"code": "+673",
+			"abbreviation": "BN"
+		},
+		{
+			"name": "Bulgaria",
+			"code": "+359",
+			"abbreviation": "BG"
+		},
+		{
+			"name": "Burkina Faso",
+			"code": "+226",
+			"abbreviation": "BF"
+		},
+		{
+			"name": "Burundi",
+			"code": "+257",
+			"abbreviation": "BI"
+		},
+		{
+			"name": "Cambodia",
+			"code": "+855",
+			"abbreviation": "KH"
+		},
+		{
+			"name": "Cameroon",
+			"code": "+237",
+			"abbreviation": "CM"
+		},
+		{
+			"name": "Canada",
+			"code": "+1",
+			"abbreviation": "CA"
+		},
+		{
+			"name": "Cape Verde",
+			"code": "+238",
+			"abbreviation": "CV"
+		},
+		{
+			"name": "Cayman Islands",
+			"code": "+1345",
+			"abbreviation": "KY"
+		},
+		{
+			"name": "Central African Republic",
+			"code": "+236",
+			"abbreviation": "CF"
+		},
+		{
+			"name": "Chad",
+			"code": "+235",
+			"abbreviation": "TD"
+		},
+		{
+			"name": "Chile",
+			"code": "+56",
+			"abbreviation": "CL"
+		},
+		{
+			"name": "China",
+			"code": "+86",
+			"abbreviation": "CN"
+		},
+		{
+			"name": "Christmas Island",
+			"code": "+61",
+			"abbreviation": "CX"
+		},
+		{
+			"name": "Cocos (Keeling) Islands",
+			"code": "+61",
+			"abbreviation": "CC"
+		},
+		{
+			"name": "Colombia",
+			"code": "+57",
+			"abbreviation": "CO"
+		},
+		{
+			"name": "Comoros",
+			"code": "+269",
+			"abbreviation": "KM"
+		},
+		{
+			"name": "Congo",
+			"code": "+242",
+			"abbreviation": "CG"
+		},
+		{
+			"name": "Congo, The Democratic Republic of the Congo",
+			"code": "+243",
+			"abbreviation": "CD"
+		},
+		{
+			"name": "Cook Islands",
+			"code": "+682",
+			"abbreviation": "CK"
+		},
+		{
+			"name": "Costa Rica",
+			"code": "+506",
+			"abbreviation": "CR"
+		},
+		{
+			"name": "Cote d'Ivoire",
+			"code": "+225",
+			"abbreviation": "CI"
+		},
+		{
+			"name": "Croatia",
+			"code": "+385",
+			"abbreviation": "HR"
+		},
+		{
+			"name": "Cuba",
+			"code": "+53",
+			"abbreviation": "CU"
+		},
+		{
+			"name": "Curacao",
+			"code": "+599",
+			"abbreviation": "CW"
+		},
+		{
+			"name": "Cyprus",
+			"code": "+357",
+			"abbreviation": "CY"
+		},
+		{
+			"name": "Czech Republic",
+			"code": "+420",
+			"abbreviation": "CZ"
+		},
+		{
+			"name": "Denmark",
+			"code": "+45",
+			"abbreviation": "DK"
+		},
+		{
+			"name": "Djibouti",
+			"code": "+253",
+			"abbreviation": "DJ"
+		},
+		{
+			"name": "Dominica",
+			"code": "+1767",
+			"abbreviation": "DM"
+		},
+		{
+			"name": "Dominican Republic",
+			"code": "+1",
+			"abbreviation": "DO"
+		},
+		{
+			"name": "Ecuador",
+			"code": "+593",
+			"abbreviation": "EC"
+		},
+		{
+			"name": "Egypt",
+			"code": "+20",
+			"abbreviation": "EG"
+		},
+		{
+			"name": "El Salvador",
+			"code": "+503",
+			"abbreviation": "SV"
+		},
+		{
+			"name": "Equatorial Guinea",
+			"code": "+240",
+			"abbreviation": "GQ"
+		},
+		{
+			"name": "Eritrea",
+			"code": "+291",
+			"abbreviation": "ER"
+		},
+		{
+			"name": "Estonia",
+			"code": "+372",
+			"abbreviation": "EE"
+		},
+		{
+			"name": "Ethiopia",
+			"code": "+251",
+			"abbreviation": "ET"
+		},
+		{
+			"name": "Falkland Islands (Malvinas)",
+			"code": "+500",
+			"abbreviation": "FK"
+		},
+		{
+			"name": "Faroe Islands",
+			"code": "+298",
+			"abbreviation": "FO"
+		},
+		{
+			"name": "Fiji",
+			"code": "+679",
+			"abbreviation": "FJ"
+		},
+		{
+			"name": "Finland",
+			"code": "+358",
+			"abbreviation": "FI"
+		},
+		{
+			"name": "France",
+			"code": "+33",
+			"abbreviation": "FR"
+		},
+		{
+			"name": "French Guiana",
+			"code": "+594",
+			"abbreviation": "GF"
+		},
+		{
+			"name": "French Polynesia",
+			"code": "+689",
+			"abbreviation": "PF"
+		},
+		{
+			"name": "Gabon",
+			"code": "+241",
+			"abbreviation": "GA"
+		},
+		{
+			"name": "Gambia",
+			"code": "+220",
+			"abbreviation": "GM"
+		},
+		{
+			"name": "Georgia",
+			"code": "+995",
+			"abbreviation": "GE"
+		},
+		{
+			"name": "Germany",
+			"code": "+49",
+			"abbreviation": "DE"
+		},
+		{
+			"name": "Ghana",
+			"code": "+233",
+			"abbreviation": "GH"
+		},
+		{
+			"name": "Gibraltar",
+			"code": "+350",
+			"abbreviation": "GI"
+		},
+		{
+			"name": "Greece",
+			"code": "+30",
+			"abbreviation": "GR"
+		},
+		{
+			"name": "Greenland",
+			"code": "+299",
+			"abbreviation": "GL"
+		},
+		{
+			"name": "Grenada",
+			"code": "+1473",
+			"abbreviation": "GD"
+		},
+		{
+			"name": "Guadeloupe",
+			"code": "+590",
+			"abbreviation": "GP"
+		},
+		{
+			"name": "Guam",
+			"code": "+1671",
+			"abbreviation": "GU"
+		},
+		{
+			"name": "Guatemala",
+			"code": "+502",
+			"abbreviation": "GT"
+		},
+		{
+			"name": "Guernsey",
+			"code": "+44",
+			"abbreviation": "GG"
+		},
+		{
+			"name": "Guinea",
+			"code": "+224",
+			"abbreviation": "GN"
+		},
+		{
+			"name": "Guinea-Bissau",
+			"code": "+245",
+			"abbreviation": "GW"
+		},
+		{
+			"name": "Guyana",
+			"code": "+592",
+			"abbreviation": "GY"
+		},
+		{
+			"name": "Haiti",
+			"code": "+509",
+			"abbreviation": "HT"
+		},
+		{
+			"name": "Holy See (Vatican City State)",
+			"code": "+379",
+			"abbreviation": "VA"
+		},
+		{
+			"name": "Honduras",
+			"code": "+504",
+			"abbreviation": "HN"
+		},
+		{
+			"name": "Hong Kong",
+			"code": "+852",
+			"abbreviation": "HK"
+		},
+		{
+			"name": "Hungary",
+			"code": "+36",
+			"abbreviation": "HU"
+		},
+		{
+			"name": "Iceland",
+			"code": "+354",
+			"abbreviation": "IS"
+		},
+		{
+			"name": "India",
+			"code": "+91",
+			"abbreviation": "IN"
+		},
+		{
+			"name": "Indonesia",
+			"code": "+62",
+			"abbreviation": "ID"
+		},
+		{
+			"name": "Iran",
+			"code": "+98",
+			"abbreviation": "IR"
+		},
+		{
+			"name": "Iraq",
+			"code": "+964",
+			"abbreviation": "IQ"
+		},
+		{
+			"name": "Ireland",
+			"code": "+353",
+			"abbreviation": "IE"
+		},
+		{
+			"name": "Isle of Man",
+			"code": "+44",
+			"abbreviation": "IM"
+		},
+		{
+			"name": "Israel",
+			"code": "+972",
+			"abbreviation": "IL"
+		},
+		{
+			"name": "Italy",
+			"code": "+39",
+			"abbreviation": "IT"
+		},
+		{
+			"name": "Jamaica",
+			"code": "+876",
+			"abbreviation": "JM"
+		},
+		{
+			"name": "Japan",
+			"code": "+81",
+			"abbreviation": "JP"
+		},
+		{
+			"name": "Jersey",
+			"code": "+44",
+			"abbreviation": "JE"
+		},
+		{
+			"name": "Jordan",
+			"code": "+962",
+			"abbreviation": "JO"
+		},
+		{
+			"name": "Kazakhstan",
+			"code": "+7",
+			"abbreviation": "KZ"
+		},
+		{
+			"name": "Kenya",
+			"code": "+254",
+			"abbreviation": "KE"
+		},
+		{
+			"name": "Kiribati",
+			"code": "+686",
+			"abbreviation": "KI"
+		},
+		{
+			"name": "Kosovo",
+			"code": "+383",
+			"abbreviation": "XK"
+		},
+		{
+			"name": "Kuwait",
+			"code": "+965",
+			"abbreviation": "KW"
+		},
+		{
+			"name": "Kyrgyzstan",
+			"code": "+996",
+			"abbreviation": "KG"
+		},
+		{
+			"name": "Laos",
+			"code": "+856",
+			"abbreviation": "LA"
+		},
+		{
+			"name": "Latvia",
+			"code": "+371",
+			"abbreviation": "LV"
+		},
+		{
+			"name": "Lebanon",
+			"code": "+961",
+			"abbreviation": "LB"
+		},
+		{
+			"name": "Lesotho",
+			"code": "+266",
+			"abbreviation": "LS"
+		},
+		{
+			"name": "Liberia",
+			"code": "+231",
+			"abbreviation": "LR"
+		},
+		{
+			"name": "Libyan Arab Jamahiriya",
+			"code": "+218",
+			"abbreviation": "LY"
+		},
+		{
+			"name": "Liechtenstein",
+			"code": "+423",
+			"abbreviation": "LI"
+		},
+		{
+			"name": "Lithuania",
+			"code": "+370",
+			"abbreviation": "LT"
+		},
+		{
+			"name": "Luxembourg",
+			"code": "+352",
+			"abbreviation": "LU"
+		},
+		{
+			"name": "Macao",
+			"code": "+853",
+			"abbreviation": "MO"
+		},
+		{
+			"name": "Macedonia",
+			"code": "+389",
+			"abbreviation": "MK"
+		},
+		{
+			"name": "Madagascar",
+			"code": "+261",
+			"abbreviation": "MG"
+		},
+		{
+			"name": "Malawi",
+			"code": "+265",
+			"abbreviation": "MW"
+		},
+		{
+			"name": "Malaysia",
+			"code": "+60",
+			"abbreviation": "MY"
+		},
+		{
+			"name": "Maldives",
+			"code": "+960",
+			"abbreviation": "MV"
+		},
+		{
+			"name": "Mali",
+			"code": "+223",
+			"abbreviation": "ML"
+		},
+		{
+			"name": "Malta",
+			"code": "+356",
+			"abbreviation": "MT"
+		},
+		{
+			"name": "Marshall Islands",
+			"code": "+692",
+			"abbreviation": "MH"
+		},
+		{
+			"name": "Martinique",
+			"code": "+596",
+			"abbreviation": "MQ"
+		},
+		{
+			"name": "Mauritania",
+			"code": "+222",
+			"abbreviation": "MR"
+		},
+		{
+			"name": "Mauritius",
+			"code": "+230",
+			"abbreviation": "MU"
+		},
+		{
+			"name": "Mayotte",
+			"code": "+262",
+			"abbreviation": "YT"
+		},
+		{
+			"name": "Mexico",
+			"code": "+52",
+			"abbreviation": "MX"
+		},
+		{
+			"name": "Micronesia, Federated States of Micronesia",
+			"code": "+691",
+			"abbreviation": "FM"
+		},
+		{
+			"name": "Moldova",
+			"code": "+373",
+			"abbreviation": "MD"
+		},
+		{
+			"name": "Monaco",
+			"code": "+377",
+			"abbreviation": "MC"
+		},
+		{
+			"name": "Mongolia",
+			"code": "+976",
+			"abbreviation": "MN"
+		},
+		{
+			"name": "Montenegro",
+			"code": "+382",
+			"abbreviation": "ME"
+		},
+		{
+			"name": "Montserrat",
+			"code": "+1664",
+			"abbreviation": "MS"
+		},
+		{
+			"name": "Morocco",
+			"code": "+212",
+			"abbreviation": "MA"
+		},
+		{
+			"name": "Mozambique",
+			"code": "+258",
+			"abbreviation": "MZ"
+		},
+		{
+			"name": "Myanmar",
+			"code": "+95",
+			"abbreviation": "MM"
+		},
+		{
+			"name": "Namibia",
+			"code": "+264",
+			"abbreviation": "NA"
+		},
+		{
+			"name": "Nauru",
+			"code": "+674",
+			"abbreviation": "NR"
+		},
+		{
+			"name": "Nepal",
+			"code": "+977",
+			"abbreviation": "NP"
+		},
+		{
+			"name": "Netherlands",
+			"code": "+31",
+			"abbreviation": "NL"
+		},
+		{
+			"name": "New Caledonia",
+			"code": "+687",
+			"abbreviation": "NC"
+		},
+		{
+			"name": "New Zealand",
+			"code": "+64",
+			"abbreviation": "NZ"
+		},
+		{
+			"name": "Nicaragua",
+			"code": "+505",
+			"abbreviation": "NI"
+		},
+		{
+			"name": "Niger",
+			"code": "+227",
+			"abbreviation": "NE"
+		},
+		{
+			"name": "Nigeria",
+			"code": "+234",
+			"abbreviation": "NG"
+		},
+		{
+			"name": "Niue",
+			"code": "+683",
+			"abbreviation": "NU"
+		},
+		{
+			"name": "Norfolk Island",
+			"code": "+672",
+			"abbreviation": "NF"
+		},
+		{
+			"name": "North Korea",
+			"code": "+850",
+			"abbreviation": "KP"
+		},
+		{
+			"name": "Northern Mariana Islands",
+			"code": "+1670",
+			"abbreviation": "MP"
+		},
+		{
+			"name": "Norway",
+			"code": "+47",
+			"abbreviation": "NO"
+		},
+		{
+			"name": "Oman",
+			"code": "+968",
+			"abbreviation": "OM"
+		},
+		{
+			"name": "Pakistan",
+			"code": "+92",
+			"abbreviation": "PK"
+		},
+		{
+			"name": "Palau",
+			"code": "+680",
+			"abbreviation": "PW"
+		},
+		{
+			"name": "Palestinian Territory, Occupied",
+			"code": "+970",
+			"abbreviation": "PS"
+		},
+		{
+			"name": "Panama",
+			"code": "+507",
+			"abbreviation": "PA"
+		},
+		{
+			"name": "Papua New Guinea",
+			"code": "+675",
+			"abbreviation": "PG"
+		},
+		{
+			"name": "Paraguay",
+			"code": "+595",
+			"abbreviation": "PY"
+		},
+		{
+			"name": "Peru",
+			"code": "+51",
+			"abbreviation": "PE"
+		},
+		{
+			"name": "Philippines",
+			"code": "+63",
+			"abbreviation": "PH"
+		},
+		{
+			"name": "Pitcairn",
+			"code": "+64",
+			"abbreviation": "PN"
+		},
+		{
+			"name": "Poland",
+			"code": "+48",
+			"abbreviation": "PL"
+		},
+		{
+			"name": "Portugal",
+			"code": "+351",
+			"abbreviation": "PT"
+		},
+		{
+			"name": "Puerto Rico",
+			"code": "+1",
+			"abbreviation": "PR"
+		},
+		{
+			"name": "Qatar",
+			"code": "+974",
+			"abbreviation": "QA"
+		},
+		{
+			"name": "Romania",
+			"code": "+40",
+			"abbreviation": "RO"
+		},
+		{
+			"name": "Russia",
+			"code": "+7",
+			"abbreviation": "RU"
+		},
+		{
+			"name": "Rwanda",
+			"code": "+250",
+			"abbreviation": "RW"
+		},
+		{
+			"name": "Reunion",
+			"code": "+262",
+			"abbreviation": "RE"
+		},
+		{
+			"name": "Saint Barthelemy",
+			"code": "+590",
+			"abbreviation": "BL"
+		},
+		{
+			"name": "Saint Helena, Ascension and Tristan Da Cunha",
+			"code": "+290",
+			"abbreviation": "SH"
+		},
+		{
+			"name": "Saint Kitts and Nevis",
+			"code": "+1869",
+			"abbreviation": "KN"
+		},
+		{
+			"name": "Saint Lucia",
+			"code": "+1758",
+			"abbreviation": "LC"
+		},
+		{
+			"name": "Saint Martin",
+			"code": "+590",
+			"abbreviation": "MF"
+		},
+		{
+			"name": "Saint Pierre and Miquelon",
+			"code": "+508",
+			"abbreviation": "PM"
+		},
+		{
+			"name": "Saint Vincent and the Grenadines",
+			"code": "+1784",
+			"abbreviation": "VC"
+		},
+		{
+			"name": "Samoa",
+			"code": "+685",
+			"abbreviation": "WS"
+		},
+		{
+			"name": "San Marino",
+			"code": "+378",
+			"abbreviation": "SM"
+		},
+		{
+			"name": "Sao Tome and Principe",
+			"code": "+239",
+			"abbreviation": "ST"
+		},
+		{
+			"name": "Saudi Arabia",
+			"code": "+966",
+			"abbreviation": "SA"
+		},
+		{
+			"name": "Senegal",
+			"code": "+221",
+			"abbreviation": "SN"
+		},
+		{
+			"name": "Serbia",
+			"code": "+381",
+			"abbreviation": "RS"
+		},
+		{
+			"name": "Seychelles",
+			"code": "+248",
+			"abbreviation": "SC"
+		},
+		{
+			"name": "Sierra Leone",
+			"code": "+232",
+			"abbreviation": "SL"
+		},
+		{
+			"name": "Singapore",
+			"code": "+65",
+			"abbreviation": "SG"
+		},
+		{
+			"name": "Sint Maarten",
+			"code": "+1721",
+			"abbreviation": "SX"
+		},
+		{
+			"name": "Slovakia",
+			"code": "+421",
+			"abbreviation": "SK"
+		},
+		{
+			"name": "Slovenia",
+			"code": "+386",
+			"abbreviation": "SI"
+		},
+		{
+			"name": "Solomon Islands",
+			"code": "+677",
+			"abbreviation": "SB"
+		},
+		{
+			"name": "Somalia",
+			"code": "+252",
+			"abbreviation": "SO"
+		},
+		{
+			"name": "South Africa",
+			"code": "+27",
+			"abbreviation": "ZA"
+		},
+		{
+			"name": "South Georgia and the South Sandwich Islands",
+			"code": "+500",
+			"abbreviation": "GS"
+		},
+		{
+			"name": "South Korea",
+			"code": "+82",
+			"abbreviation": "KR"
+		},
+		{
+			"name": "South Sudan",
+			"code": "+211",
+			"abbreviation": "SS"
+		},
+		{
+			"name": "Spain",
+			"code": "+34",
+			"abbreviation": "ES"
+		},
+		{
+			"name": "Sri Lanka",
+			"code": "+94",
+			"abbreviation": "LK"
+		},
+		{
+			"name": "Sudan",
+			"code": "+249",
+			"abbreviation": "SD"
+		},
+		{
+			"name": "Suriname",
+			"code": "+597",
+			"abbreviation": "SR"
+		},
+		{
+			"name": "Svalbard and Jan Mayen",
+			"code": "+47",
+			"abbreviation": "SJ"
+		},
+		{
+			"name": "Swaziland",
+			"code": "+268",
+			"abbreviation": "SZ"
+		},
+		{
+			"name": "Sweden",
+			"code": "+46",
+			"abbreviation": "SE"
+		},
+		{
+			"name": "Switzerland",
+			"code": "+41",
+			"abbreviation": "CH"
+		},
+		{
+			"name": "Syrian Arab Republic",
+			"code": "+963",
+			"abbreviation": "SY"
+		},
+		{
+			"name": "Taiwan",
+			"code": "+886",
+			"abbreviation": "TW"
+		},
+		{
+			"name": "Tajikistan",
+			"code": "+992",
+			"abbreviation": "TJ"
+		},
+		{
+			"name": "Tanzania, United Republic of Tanzania",
+			"code": "+255",
+			"abbreviation": "TZ"
+		},
+		{
+			"name": "Thailand",
+			"code": "+66",
+			"abbreviation": "TH"
+		},
+		{
+			"name": "Timor-Leste",
+			"code": "+670",
+			"abbreviation": "TL"
+		},
+		{
+			"name": "Togo",
+			"code": "+228",
+			"abbreviation": "TG"
+		},
+		{
+			"name": "Tokelau",
+			"code": "+690",
+			"abbreviation": "TK"
+		},
+		{
+			"name": "Tonga",
+			"code": "+676",
+			"abbreviation": "TO"
+		},
+		{
+			"name": "Trinidad and Tobago",
+			"code": "+1868",
+			"abbreviation": "TT"
+		},
+		{
+			"name": "Tunisia",
+			"code": "+216",
+			"abbreviation": "TN"
+		},
+		{
+			"name": "Turkey",
+			"code": "+90",
+			"abbreviation": "TR"
+		},
+		{
+			"name": "Turkmenistan",
+			"code": "+993",
+			"abbreviation": "TM"
+		},
+		{
+			"name": "Turks and Caicos Islands",
+			"code": "+1649",
+			"abbreviation": "TC"
+		},
+		{
+			"name": "Tuvalu",
+			"code": "+688",
+			"abbreviation": "TV"
+		},
+		{
+			"name": "Uganda",
+			"code": "+256",
+			"abbreviation": "UG"
+		},
+		{
+			"name": "Ukraine",
+			"code": "+380",
+			"abbreviation": "UA"
+		},
+		{
+			"name": "United Arab Emirates",
+			"code": "+971",
+			"abbreviation": "AE"
+		},
+		{
+			"name": "United Kingdom",
+			"code": "+44",
+			"abbreviation": "GB"
+		},
+		{
+			"name": "United States",
+			"code": "+1",
+			"abbreviation": "US"
+		},
+		{
+			"name": "Uruguay",
+			"code": "+598",
+			"abbreviation": "UY"
+		},
+		{
+			"name": "Uzbekistan",
+			"code": "+998",
+			"abbreviation": "UZ"
+		},
+		{
+			"name": "Vanuatu",
+			"code": "+678",
+			"abbreviation": "VU"
+		},
+		{
+			"name": "Venezuela, Bolivarian Republic of Venezuela",
+			"code": "+58",
+			"abbreviation": "VE"
+		},
+		{
+			"name": "Vietnam",
+			"code": "+84",
+			"abbreviation": "VN"
+		},
+		{
+			"name": "Virgin Islands, British",
+			"code": "+1284",
+			"abbreviation": "VG"
+		},
+		{
+			"name": "Virgin Islands, U.S.",
+			"code": "+1340",
+			"abbreviation": "VI"
+		},
+		{
+			"name": "Wallis and Futuna",
+			"code": "+681",
+			"abbreviation": "WF"
+		},
+		{
+			"name": "Yemen",
+			"code": "+967",
+			"abbreviation": "YE"
+		},
+		{
+			"name": "Zambia",
+			"code": "+260",
+			"abbreviation": "ZM"
+		},
+		{
+			"name": "Zimbabwe",
+			"code": "+263",
+			"abbreviation": "ZW"
+		}
+]

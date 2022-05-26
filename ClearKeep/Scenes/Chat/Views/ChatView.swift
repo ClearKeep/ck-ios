@@ -54,9 +54,9 @@ struct ChatView: View {
 	// MARK: - Fake data
 	private static func createSamplesData() -> [MessageViewModel] {
 		return	[
-			MessageViewModel(data: MessageModel(id: "1", groupID: 1, groupType: "", fromClientID: "2", clientID: "2", message: Data("someString".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
-			MessageViewModel(data: MessageModel(id: "2", groupID: 1, groupType: "", fromClientID: "1", clientID: "2", message: Data("Lorem ipsum dolor sit amet".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
-			MessageViewModel(data: MessageModel(id: "3", groupID: 1, groupType: "", fromClientID: "2", clientID: "2", message: Data("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3"))
+//			MessageViewModel(data: MessageModel(id: "1", groupID: 1, groupType: "", fromClientID: "2", clientID: "2", message: Data("someString".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
+//			MessageViewModel(data: MessageModel(id: "2", groupID: 1, groupType: "", fromClientID: "1", clientID: "2", message: Data("Lorem ipsum dolor sit amet".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
+//			MessageViewModel(data: MessageModel(id: "3", groupID: 1, groupType: "", fromClientID: "2", clientID: "2", message: Data("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3"))
 		]
 	}
 	
@@ -199,7 +199,7 @@ private extension ChatView {
 		if trimmedMessage.isEmpty {
 			return
 		}
-		sampleMessages.append(MessageViewModel(data: MessageModel(id: "\(UUID())", groupID: 1, groupType: "", fromClientID: "1", clientID: "2", message: Data(trimmedMessage.utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")))
+//		sampleMessages.append(MessageViewModel(data: MessageModel(id: "\(UUID())", groupID: 1, groupType: "", fromClientID: "1", clientID: "2", message: Data(trimmedMessage.utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")))
 	}
 	
 	func audioAction() {

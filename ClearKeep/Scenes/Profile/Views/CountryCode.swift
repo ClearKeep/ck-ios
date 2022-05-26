@@ -12,6 +12,7 @@ import CommonUI
 
 private enum Constant {
 	static let spacer = 25.0
+	static let spacerTop = 50.0
 	static let paddingVertical = 14.0
 	static let paddingHorizontal = 24.0
 }
@@ -23,14 +24,15 @@ struct CountryCode: View {
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 
 	@Binding var isShowing: Bool
-	@State private(set) var samples: Loadable<[IProfileModel]>
+	@ObservedObject var datas = ReadData()
+	@State private(set) var samples: Loadable<[String]>
 	@State private(set) var search: String
 	@State private(set) var searchStyle: TextInputStyle = .default
 	@State private(set) var isShowUserProfile = false
-	@Binding private(set) var selectedNum: String
+	@Binding var selectedNum: String
 
 	// MARK: - Init
-	init(selectedNum: Binding<String>, isShowing: Binding<Bool>, samples: Loadable<[IProfileModel]> = .notRequested, search: String = "", inputStyle: TextInputStyle = .default) {
+	init(selectedNum: Binding<String>, isShowing: Binding<Bool>, samples: Loadable<[String]> = .notRequested, search: String = "", inputStyle: TextInputStyle = .default) {
 		self._selectedNum = selectedNum
 		self._isShowing = isShowing
 		self._samples = .init(initialValue: samples)
@@ -38,15 +40,9 @@ struct CountryCode: View {
 		self._searchStyle = .init(initialValue: inputStyle)
 	}
 
-	let values = [
-			"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
-		]
-
 	// MARK: Body
 	var body: some View {
-		VStack {
 			content
-		}
 		.background(background)
 	}
 }
@@ -54,15 +50,15 @@ struct CountryCode: View {
 // MARK: - Private
 private extension CountryCode {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		AnyView(contentView)
 	}
 }
 
 // MARK: - Loading Content
 private extension CountryCode {
-	var notRequestedView: some View {
+	var contentView: some View {
 		VStack(spacing: Constant.spacer) {
-			buttonTop
+			buttonTop.padding(.top, Constant.spacerTop)
 			title
 			searchInput
 			listCountryCode
@@ -76,6 +72,7 @@ private extension CountryCode {
 				isShowing = false
 			}, label: {
 				AppTheme.shared.imageSet.crossIcon
+					.foregroundColor(foregroundCrossButton)
 			})
 			Spacer()
 		}
@@ -103,12 +100,17 @@ private extension CountryCode {
 	}
 
 	var listCountryCode: some View {
-		List(values, id: \.self) { value in
+		List(datas.countryCodes) { item in
 			Button {
-				self.selectedNum = value
+				self.selectedNum = "\(item.code)"
 				isShowing = false
 			} label: {
-				Text("\(value)")
+				HStack {
+					Text("\(item.name)")
+					Spacer()
+					Text("\(item.code)")
+				}
+
 			}
 		}
 		.frame(maxWidth: .infinity, alignment: .leading)
@@ -120,6 +122,14 @@ private extension CountryCode {
 private extension CountryCode {
 	var background: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.black
+	}
+
+	var foregroundCrossButton: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight
+	}
+
+	var backgroundButtonBack: [Color] {
+		colorScheme == .light ? [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
 }
 

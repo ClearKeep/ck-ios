@@ -32,7 +32,7 @@ struct RegisterWorker {
 
 extension RegisterWorker: IRegisterWorker {
 	var currentDomain: String {
-		channelStorage.currentChannel.domain
+		channelStorage.currentDomain
 	}
 	
 	func register(displayName: String, email: String, password: String, customServer: CustomServer) async -> Result<Bool, Error> {

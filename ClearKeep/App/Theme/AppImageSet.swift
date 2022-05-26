@@ -44,7 +44,7 @@ struct AppImageSet: IAppImageSet {
 	var videosIcon: Image { Image("ic_video") }
 	var videoOffIcon: Image { Image("ic_video_off").renderingMode(.template) }
 	var menuIcon: Image { Image("ic_hamburger") }
-	var adjustmentIcon: Image { Image("ic_adjustment") }
+	var serverIcon: Image { Image("ic_adjustment") }
 	var pencilIcon: Image { Image("ic_pencil") }
 	var notificationIcon: Image { Image("ic_notification") }
 	var userOfflineIcon: Image { Image("ic_user_off") }
@@ -58,7 +58,7 @@ struct AppImageSet: IAppImageSet {
 	var shareIcon: Image { Image("ic_share") }
 	var bellIcon: Image { Image("ic_bell") }
 	var alertIcon: Image { Image("ic_alert").renderingMode(.template) }
-	var copyIcon: Image { Image("ic_copy") }
+	var copyIcon: Image { Image("ic_copy").renderingMode(.template) }
 	var quoteIcon: Image { Image("ic_quote") }
 	var forwardIcon: Image { Image("ic_forward") }
 	var uploadIcon: Image { Image("ic_upload") }

@@ -5,23 +5,26 @@
 //  Created by NamNH on 15/02/2022.
 //
 
-import UIKit
-import Combine
 import Common
 import ChatSecure
+import Model
 
 protocol IHomeWorker {
 	var remoteStore: IHomeRemoteStore { get }
 	var inMemoryStore: IHomeInMemoryStore { get }
+	var servers: [ServerModel] { get }
 	
-	func getJoinedGroup() async
+	func validateDomain(_ domain: String) -> Bool
+	func getJoinedGroup() async -> Result<[IGroupModel], Error>
+	func didSelectServer(_ domain: String?) -> [ServerModel]
 	func signOut() async
 }
 
-struct HomeWorker {
+class HomeWorker {
 	let channelStorage: IChannelStorage
 	let remoteStore: IHomeRemoteStore
 	let inMemoryStore: IHomeInMemoryStore
+	var currentDomain: String?
 	
 	init(channelStorage: IChannelStorage, remoteStore: IHomeRemoteStore, inMemoryStore: IHomeInMemoryStore) {
 		self.channelStorage = channelStorage
@@ -31,12 +34,25 @@ struct HomeWorker {
 }
 
 extension HomeWorker: IHomeWorker {
-	var currentDomain: String {
-		channelStorage.currentChannel.domain
+	var servers: [ServerModel] {
+		channelStorage.getServers().compactMap({
+			ServerModel($0)
+		})
 	}
 	
-	func getJoinedGroup() async {
-		await remoteStore.getJoinedGroup(domain: currentDomain)
+	func validateDomain(_ domain: String) -> Bool {
+		return !domain.isEmpty
+	}
+	
+	func getJoinedGroup() async -> Result<[IGroupModel], Error> {
+		return await remoteStore.getJoinedGroup(domain: currentDomain ?? channelStorage.currentDomain)
+	}
+	
+	func didSelectServer(_ domain: String?) -> [ServerModel] {
+		currentDomain = domain
+		return channelStorage.didSelectServer(domain).compactMap({
+			ServerModel($0)
+		})
 	}
 	
 	func signOut() async {

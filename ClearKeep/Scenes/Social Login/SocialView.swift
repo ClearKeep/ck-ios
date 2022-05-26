@@ -119,7 +119,6 @@ private extension SocialView {
 	
 	func loadedView(_ data: IAuthenticationModel) -> AnyView {
 		if let normalLogin = data.normalLogin {
-			injected.appState[\.authentication.accessToken] = normalLogin.accessToken
 			return AnyView(Text(normalLogin.workspaceDomain ?? ""))
 		}
 		return AnyView(errorView(SocialViewError.unknownError(errorCode: nil)))

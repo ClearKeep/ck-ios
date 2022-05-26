@@ -138,7 +138,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 				
 				switch response {
 				case .success(let profileResponse):
-					channelStorage.serverStore.saveServer(Server(profileResponse: profileResponse, authenResponse: authenResponse))
+					channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse)
 				case .failure(let error):
 					break
 				}
@@ -205,7 +205,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 			
 			switch response {
 			case .success(let profileResponse):
-				channelStorage.serverStore.saveServer(Server(profileResponse: profileResponse, authenResponse: authenResponse))
+				channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse)
 			case .failure(let error):
 				break
 			}
@@ -249,7 +249,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 				
 				switch response {
 				case .success(let profileResponse):
-					channelStorage.serverStore.saveServer(Server(profileResponse: profileResponse, authenResponse: authenResponse))
+					channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse)
 				case .failure(let error):
 					break
 				}
@@ -384,7 +384,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 	}
 	
 	public func logoutFromAPI(domain: String) async -> Result<Auth_BaseResponse, Error> {
-		guard let server = channelStorage.serverStore.getServer(by: domain) else { return .failure(ServerError.unknown) }
+		guard let server = channelStorage.realmManager.getServer(by: domain) else { return .failure(ServerError.unknown) }
 		
 		var request = Auth_LogoutReq()
 		request.deviceID = clientStore.getUniqueDeviceId()

@@ -13,7 +13,7 @@ import Model
 protocol ILoginWorker {
 	var remoteStore: ILoginRemoteStore { get }
 	var inMemoryStore: ILoginInMemoryStore { get }
-	var currentDomain: String { get }
+	var currentServer: ServerModel? { get }
 	var appVersion: String { get }
 	
 	func signIn(email: String, password: String, customServer: CustomServer) async -> Result<IAuthenticationModel, Error>
@@ -37,8 +37,12 @@ extension LoginWorker: ILoginWorker {
 		String(format: "General.Version".localized, AppVersion.getVersion())
 	}
 	
+	var currentServer: ServerModel? {
+		ServerModel(channelStorage.currentServer)
+	}
+	
 	var currentDomain: String {
-		channelStorage.currentChannel.domain
+		channelStorage.currentDomain
 	}
 	
 	func signIn(email: String, password: String, customServer: CustomServer) async -> Result<IAuthenticationModel, Error> {

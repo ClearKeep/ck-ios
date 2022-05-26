@@ -13,7 +13,6 @@ struct BubbleArrow: Shape {
 	
 	// MARK: - Draw
 	func path(in rect: CGRect) -> Path {
-		let path = UIBezierPath(roundedRect: rect, byRoundingCorners: rectCorner, cornerRadii: CGSize(width: 32, height: 32))
-		return Path(path.cgPath)
+		return RoundedCorner(radius: 32.0, rectCorner: rectCorner).path(in: rect)
 	}
 }
