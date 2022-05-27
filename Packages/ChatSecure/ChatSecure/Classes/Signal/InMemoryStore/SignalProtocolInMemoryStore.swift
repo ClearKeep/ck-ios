@@ -5,10 +5,14 @@
 //  Created by Quang Pham on 24/05/2022.
 //
 
-import Foundation
+import SignalServiceKit
 import LibSignalClient
 
 public protocol ISignalProtocolInMemoryStore {
+	var identityStore: IIdentityKeyInMemoryStore { get }
+	var sessionStore: SessionStore { get }
+	var preKeyStore: PreKeyStore { get }
+	var signedPreKeyStore: SignedPreKeyStore { get }
 	func saveUserPreKey(preKey: PreKeyRecord, id: UInt32) throws
 	func saveUserSignedPreKey(signedPreKey: SignedPreKeyRecord, id: UInt32) throws
 	func saveUserIdentity(identity: SignalIdentityKey) throws
@@ -16,19 +20,16 @@ public protocol ISignalProtocolInMemoryStore {
 
 public final class SignalProtocolInMemoryStore: ISignalProtocolInMemoryStore {
 	// MARK: - Variables
-	let identityStore: IIdentityKeyInMemoryStore
-	let sessionStore: SessionStore
-	let preKeyStore: PreKeyStore
-	let signedPreKeyStore: SignedPreKeyStore
+	public var identityStore: IIdentityKeyInMemoryStore
+	public var sessionStore: SessionStore
+	public var preKeyStore: PreKeyStore
+	public var signedPreKeyStore: SignedPreKeyStore
 	
-	let storage: YapDatabaseManager
-
 	// MARK: - Init
-	public init(storage: YapDatabaseManager) {
-		self.storage = storage
+	public init(storage: YapDatabaseManager, channelStorage: ChannelStorage) {
 		sessionStore = SessionInMemoryStore()
-		identityStore = IdentityKeyInMemoryStore(storage: storage)
-		preKeyStore = PreKeyInMemoryStore(storage: storage)
+		identityStore = IdentityKeyInMemoryStore(storage: storage, channelStorage: channelStorage)
+		preKeyStore = PreKeyInMemoryStore(storage: storage, channelStorage: channelStorage)
 		signedPreKeyStore = SignedPreKeyInMemoryStore(storage: storage)
 	}
 	

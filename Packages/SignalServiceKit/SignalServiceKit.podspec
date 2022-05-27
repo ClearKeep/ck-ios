@@ -21,7 +21,6 @@ TODO: Add long description of the pod here.
 		'GCC_PREPROCESSOR_DEFINITIONS' => 'SQLITE_HAS_CODEC=1'
 	}
 	
-	s.dependency 'YapDatabase/SQLCipher'
 	s.dependency 'LibSignalClient'
 	s.dependency 'SignalCoreKit'
 	s.dependency 'Common'

@@ -11,16 +11,19 @@ import Common
 final class PreKeyInMemoryStore {
 	// MARK: - Variables
 	private let storage: YapDatabaseManager
+	private let channelStorage: ChannelStorage
 	private var prekeyMap: [UInt32: PreKeyRecord] = [:]
 	
 	// MARK: - Init
-	init(storage: YapDatabaseManager) {
+	init(storage: YapDatabaseManager, channelStorage: ChannelStorage) {
 		self.storage = storage
+		self.channelStorage = channelStorage
 	}
 	
 	private func getIndex(preKeyId: UInt32) -> UInt32 {
-		let domain = ""
-		let userId = ""
+		let currrentServer = channelStorage.realmManager.getCurrentServer()
+		let userId = currrentServer?.profile?.userId ?? ""
+		let domain = currrentServer?.serverDomain ?? ""
 		let index = ("\(preKeyId)" + domain + userId).hashCode()
 		return UInt32(bitPattern: index)
 	}
