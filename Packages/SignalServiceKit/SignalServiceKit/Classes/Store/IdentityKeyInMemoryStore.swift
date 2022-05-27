@@ -7,7 +7,7 @@
 
 import LibSignalClient
 
-protocol IIdentityKeyInMemoryStore: IdentityKeyStore {
+public protocol IIdentityKeyInMemoryStore: IdentityKeyStore {
 	func saveUserIdentity(identity: SignalIdentityKey) throws
 }
 
