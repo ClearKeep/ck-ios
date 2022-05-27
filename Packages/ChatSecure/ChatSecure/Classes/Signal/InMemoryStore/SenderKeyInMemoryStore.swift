@@ -7,18 +7,23 @@
 
 import LibSignalClient
 
+public protocol ISenderKeyStore: SenderKeyStore {
+	func getSenderDistributionID(from sender: ProtocolAddress, groupId: Int64) -> UUID
+}
+
 private struct SenderKeyName: Hashable {
 	var sender: ProtocolAddress
 	var distributionId: UUID
 }
 
-final class SenderKeyInMemoryStore {
+public final class SenderKeyInMemoryStore {
 	// MARK: - Variables
 	private let storage: YapDatabaseManager
 	private var senderKeyMap: [SenderKeyName: SenderKeyRecord] = [:]
+	private var senderUuidMap: [String: UUID] = [:]
 	
 	// MARK: - Init
-	init(storage: YapDatabaseManager) {
+	public init(storage: YapDatabaseManager) {
 		self.storage = storage
 	}
 	
@@ -27,14 +32,14 @@ final class SenderKeyInMemoryStore {
 	}
 }
 
-extension SenderKeyInMemoryStore: SenderKeyStore {
-	func storeSenderKey(from sender: ProtocolAddress, distributionId: UUID, record: SenderKeyRecord, context: StoreContext) throws {
+extension SenderKeyInMemoryStore: ISenderKeyStore {
+	public func storeSenderKey(from sender: ProtocolAddress, distributionId: UUID, record: SenderKeyRecord, context: StoreContext) throws {
 		senderKeyMap[SenderKeyName(sender: sender, distributionId: distributionId)] = record
 		let data = Data(record.serialize())
 		storage.insert(data, forKey: getKey(distributionId: distributionId, name: sender.name))
 	}
 	
-	func loadSenderKey(from sender: ProtocolAddress, distributionId: UUID, context: StoreContext) throws -> SenderKeyRecord? {
+	public func loadSenderKey(from sender: ProtocolAddress, distributionId: UUID, context: StoreContext) throws -> SenderKeyRecord? {
 		if let record = senderKeyMap[SenderKeyName(sender: sender, distributionId: distributionId)] {
 			return record
 		} else {
@@ -44,6 +49,24 @@ extension SenderKeyInMemoryStore: SenderKeyStore {
 				return senderKeyRecord
 			} else {
 				return nil
+			}
+		}
+	}
+	
+	public func getSenderDistributionID(from sender: ProtocolAddress, groupId: Int64) -> UUID {
+		let key = "\(groupId).\(sender.name)"
+		if let existingId = senderUuidMap[key] {
+			return existingId
+		} else {
+			if let persistedString: String = storage.object(forKey: key),
+			   let persistedUUID = UUID(uuidString: persistedString) {
+				senderUuidMap[key] = persistedUUID
+				return persistedUUID
+			} else {
+				let distributionId = UUID()
+				storage.insert(distributionId.uuidString, forKey: key)
+				senderUuidMap[key] = distributionId
+				return distributionId
 			}
 		}
 	}

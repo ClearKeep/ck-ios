@@ -8,10 +8,10 @@
 import Foundation
 
 public struct SignalIdentityKey: Codable {
-	let identityKeyPair: Data
-	let registrationId: UInt32
-	let domain: String
-	let userId: String
+	public let identityKeyPair: Data
+	public let registrationId: UInt32
+	public let domain: String
+	public let userId: String
 	
 	public init(identityKeyPair: Data,
 		 registrationId: UInt32,

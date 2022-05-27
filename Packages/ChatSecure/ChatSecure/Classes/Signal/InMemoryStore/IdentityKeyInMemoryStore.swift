@@ -5,27 +5,31 @@
 //  Created by Quang Pham on 23/05/2022.
 //
 
+import SignalServiceKit
 import LibSignalClient
 
-protocol IIdentityKeyInMemoryStore: IdentityKeyStore {
+public protocol IIdentityKeyInMemoryStore: IdentityKeyStore {
 	func saveUserIdentity(identity: SignalIdentityKey) throws
 }
 
 final class IdentityKeyInMemoryStore {
 	// MARK: - Variables
 	private let storage: YapDatabaseManager
+	private let channelStorage: ChannelStorage
 	private var identityKey: SignalIdentityKey?
 	private var publicKeys: [ProtocolAddress: IdentityKey] = [:]
 	
 	// MARK: - Init
-	init(storage: YapDatabaseManager) {
+	init(storage: YapDatabaseManager, channelStorage: ChannelStorage) {
 		self.storage = storage
+		self.channelStorage = channelStorage
 	}
 	
 	private func getIdentityKey() -> SignalIdentityKey? {
 		do {
-			let clientId = ""
-			let domain = ""
+			let currrentServer = channelStorage.realmManager.getCurrentServer()
+			let clientId = currrentServer?.profile?.userId ?? ""
+			let domain = currrentServer?.serverDomain ?? ""
 			let jsonDecoder = JSONDecoder()
 			if let keyData: Data = storage.object(forKey: clientId + domain) {
 				let key = try jsonDecoder.decode(SignalIdentityKey.self, from: keyData)
