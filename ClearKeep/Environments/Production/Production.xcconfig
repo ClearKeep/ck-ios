@@ -14,6 +14,7 @@ IOS_APP_NAME = ClearKeep
 IOS_APP_ICON = AppIcon
 IOS_BUNDLE_ID = com.telred.clearkeep
 IOS_NOTIFICATION_EXTENSION_BUNDLE_ID = com.telred.clearkeep.notificationextension
+URL_SCHEME = clearkeep
 APP_GROUP_NAME = group.com.telred.clearkeep
 DATABASE_PATH = production.db
 YAP_DATABASE_PATH = production.sqlite
