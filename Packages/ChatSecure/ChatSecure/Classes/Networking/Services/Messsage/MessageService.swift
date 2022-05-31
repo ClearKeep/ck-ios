@@ -30,11 +30,9 @@ protocol IMessageService {
 }
 
 class MessageService {
-	var clientStore: ClientStore
 	var connectionDb: YapDatabaseConnection?
 	
 	public init() {
-		clientStore = ClientStore()
 		connectionDb = CKDatabaseManager.shared.database?.newConnection()
 	}
 }

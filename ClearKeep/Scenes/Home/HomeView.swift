@@ -9,31 +9,80 @@ import SwiftUI
 import Combine
 import Common
 import CommonUI
+import Model
+
+private enum Constants {
+	static let padding = 20.0
+	static let opacity = 0.72
+	static let blur = 10.0
+	static let duration = 0.2
+}
 
 struct HomeView: View {
-	
+	// MARK: - Variables
+	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.injected) private var injected: DIContainer
-	@State private(set) var samples: Loadable<[ISampleModel]>
+	@State private(set) var loadable: Loadable<[GroupViewModel]> = .notRequested {
+		didSet {
+			switch loadable {
+			case .loaded(let groups):
+				self.groups = groups.filter({ $0.groupType == "group" })
+				self.peers = groups.filter({ $0.groupType == "peer" })
+			case .failed(let error):
+				print(error)
+			default: break
+			}
+		}
+	}
+	@State private(set) var servers: [ServerViewModel] = []
 	@State private(set) var searchKeyword: String = ""
 	@State private(set) var searchInputStyle: TextInputStyle = .default
+	@State private(set) var isShowMenu: Bool = false
+	@State private(set) var isAddNewServer: Bool = false
+	@State private(set) var groups: [GroupViewModel] = []
+	@State private(set) var peers: [GroupViewModel] = []
+	
 	let inspection = ViewInspector<Self>()
 	
-	init(samples: Loadable<[ISampleModel]> = .notRequested,
-		 searchKeyword: String = "",
-		 searchInputStyle: TextInputStyle = .default) {
-		self._samples = .init(initialValue: samples)
-		self._searchKeyword = .init(initialValue: searchKeyword)
-		self._searchInputStyle = .init(initialValue: searchInputStyle)
-	}
-	
 	var body: some View {
-		GeometryReader { _ in
-			NavigationView {
-				self.content
-					.navigationBarTitle("Home")
+		GeometryReader { geometry in
+			ZStack {
+				HStack {
+					ListServerView(servers: $servers, isAddNewServer: $isAddNewServer, action: getServerInfo)
+					VStack {
+						HStack {
+							Text(serverName)
+								.font(AppTheme.shared.fontSet.font(style: .display3))
+								.foregroundColor(titleColor)
+							Spacer()
+							ImageButton(AppTheme.shared.imageSet.menuIcon) {
+								withAnimation {
+									isShowMenu.toggle()
+								}
+							}
+							.foregroundColor(titleColor)
+						}
+						content
+							.padding(.top, Constants.padding)
+					}
+					.padding(Constants.padding)
+				}
+				.padding(.top, Constants.padding)
+				.hideKeyboardOnTapped()
 			}
-			.navigationViewStyle(DoubleColumnNavigationViewStyle())
+			
+			if isShowMenu {
+				LinearGradient(gradient: Gradient(colors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary.compactMap({ $0.opacity(Constants.opacity) }) : AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
+					.blur(radius: Constants.blur)
+					.edgesIgnoringSafeArea(.vertical)
+				MenuView(isShowMenu: $isShowMenu)
+					.frame(width: geometry.size.width)
+					.offset(x: isShowMenu ? 0 : geometry.size.width * 2)
+					.transition(.move(edge: .trailing))
+					.animation(.default, value: Constants.duration)
+			}
 		}
+		.onAppear(perform: getServers)
 		.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
 	}
 }
@@ -41,58 +90,49 @@ struct HomeView: View {
 // MARK: - Private
 private extension HomeView {
 	var content: AnyView {
-		switch samples {
-		case .notRequested: return AnyView(notRequestedView)
-		case let .isLoading(last, _): return AnyView(loadingView(last))
-		case let .loaded(countries): return AnyView(loadedView(countries, showSearch: true, showLoading: false))
-		case let .failed(error): return AnyView(failedView(error))
+		if isAddNewServer {
+			return AnyView(JoinServerView())
+		} else {
+			return AnyView(HomeContentView(groups: $groups, peers: $peers))
+		}
+	}
+	
+	var titleColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight
+	}
+	
+	var serverName: String {
+		if let selectedServer = servers.filter({ $0.isActive == true }).first, !isAddNewServer {
+			return selectedServer.serverName
+		} else {
+			return "JoinServer.Title".localized
 		}
 	}
 }
 
 // MARK: - Loading Content
 private extension HomeView {
-	var notRequestedView: some View {
-		Text("").onAppear(perform: getScreenInfo)
-	}
-	
-	func loadingView(_ previouslyLoaded: [ISampleModel]?) -> some View {
-		if let samples = previouslyLoaded {
-			return AnyView(loadedView(samples, showSearch: true, showLoading: true))
-		} else {
-			return AnyView(ActivityIndicatorView().padding())
-		}
-	}
-	
-	func failedView(_ error: Error) -> some View {
-		ErrorView(error: error, retryAction: {
-		})
-	}
 }
 
 // MARK: - Displaying Content
 private extension HomeView {
-	func loadedView(_ samples: [ISampleModel], showSearch: Bool, showLoading: Bool) -> some View {
-		VStack {
-			if showLoading {
-				ActivityIndicatorView().padding()
-			}
-			ForEach(samples, id: \.id) { sample in
-				Text(sample.name)
-			}
-			.id(samples.count)
-			HomeHeaderView(inputStyle: $searchInputStyle)
-		}.padding(.bottom, 0)
-	}
 }
 
 // MARK: - Interactors
 private extension HomeView {
-	func getScreenInfo() {
+	func getServers() {
+		servers = injected.interactors.homeInteractor.getServers()
+	}
+	
+	func getServerInfo() {
 		Task {
-			await injected.interactors.homeInteractor.getJoinedGroup()
+			loadable = await injected.interactors.homeInteractor.getJoinedGroup()
 		}
 	}
+}
+
+// MARK: - Action
+private extension HomeView {
 }
 
 // MARK: - Preview

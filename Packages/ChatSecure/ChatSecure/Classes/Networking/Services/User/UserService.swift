@@ -13,10 +13,8 @@ protocol IUserService {
 }
 
 class UserService {
-	var clientStore: ClientStore
 	
 	public init() {
-		clientStore = ClientStore()
 	}
 }
 

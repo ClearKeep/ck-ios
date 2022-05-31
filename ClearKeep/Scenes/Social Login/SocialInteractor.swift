@@ -16,10 +16,21 @@ protocol ISocialInteractor {
 	func verifySocialPin(userName: String, rawPin: String, customServer: CustomServer) async -> Loadable<IAuthenticationModel>
 }
 
-struct SocialInteractor {
+class SocialInteractor {
 	let appState: Store<AppState>
 	let channelStorage: IChannelStorage
 	let authenticationService: IAuthenticationService
+	var appTokenService: IAppTokenService
+	
+	init(appState: Store<AppState>,
+				  channelStorage: IChannelStorage,
+				  authenticationService: IAuthenticationService,
+				  appTokenService: IAppTokenService) {
+		self.appState = appState
+		self.channelStorage = channelStorage
+		self.authenticationService = authenticationService
+		self.appTokenService = appTokenService
+	}
 }
 
 extension SocialInteractor: ISocialInteractor {
@@ -34,6 +45,11 @@ extension SocialInteractor: ISocialInteractor {
 		
 		switch result {
 		case .success(let data):
+			appTokenService.accessToken = data.normalLogin?.accessToken
+			appState.bulkUpdate {
+				$0.authentication.servers = worker.servers
+				$0.authentication.newServerDomain = nil
+			}
 			return .loaded(data)
 		case .failure(let error):
 			return .failed(error)
@@ -44,6 +60,11 @@ extension SocialInteractor: ISocialInteractor {
 		
 		switch result {
 		case .success(let data):
+			appTokenService.accessToken = data.normalLogin?.accessToken
+			appState.bulkUpdate {
+				$0.authentication.servers = worker.servers
+				$0.authentication.newServerDomain = nil
+			}
 			return .loaded(data)
 		case .failure(let error):
 			return .failed(error)

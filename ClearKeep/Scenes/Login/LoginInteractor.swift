@@ -48,7 +48,6 @@ extension LoginInteractor: ILoginInteractor {
 		switch result {
 		case .success(let data):
 			appTokenService.accessToken = data.normalLogin?.accessToken
-			appState[\.authentication.accessToken] = appTokenService.accessToken
 			return .loaded(data)
 		case .failure(let error):
 			return .failed(error)

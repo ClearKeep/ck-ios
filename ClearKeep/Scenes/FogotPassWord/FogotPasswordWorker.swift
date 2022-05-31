@@ -34,7 +34,7 @@ struct FogotPasswordWorker {
 
 extension FogotPasswordWorker: IFogotPasswordWorker {
 	var currentDomain: String {
-		channelStorage.currentChannel.domain
+		channelStorage.currentDomain
 	}
 	
 	func recoverPassword(email: String, customServer: CustomServer) async -> Result<Bool, Error> {

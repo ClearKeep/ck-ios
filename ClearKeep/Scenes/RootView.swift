@@ -14,6 +14,8 @@ struct RootView: View {
 	private let container: DIContainer
 	private let isRunningTests: Bool
 	@State private var isLoggedIn: Bool = false
+	@State private var servers: [ServerModel] = []
+	@State private var newServerDomain: String?
 	
 	init(container: DIContainer, isRunningTests: Bool = ProcessInfo.processInfo.isRunningTests) {
 		self.container = container
@@ -25,7 +27,7 @@ struct RootView: View {
 			if isRunningTests {
 				Text("Running unit tests")
 			} else {
-				if isLoggedIn {
+				if !servers.isEmpty && (newServerDomain?.isEmpty ?? true) {
 					HomeView()
 						.inject(container)
 				} else {
@@ -33,16 +35,24 @@ struct RootView: View {
 						.inject(container)
 				}
 			}
-		}.onReceive(stateUpdate) { accessToken in
-			isLoggedIn = accessToken != nil
+		}
+		.onReceive(serversUpdate) { servers in
+			self.servers = servers
+		}
+		.onReceive(newServerDomainUpdate) { newServerDomain in
+			self.newServerDomain = newServerDomain
 		}
 	}
 }
 
 // MARK: - Private
 private extension RootView {
-	var stateUpdate: AnyPublisher<String?, Never> {
-		container.appState.updates(for: \.authentication.accessToken)
+	var serversUpdate: AnyPublisher<[ServerModel], Never> {
+		container.appState.updates(for: \.authentication.servers)
+	}
+	
+	var newServerDomainUpdate: AnyPublisher<String?, Never> {
+		container.appState.updates(for: \.authentication.newServerDomain)
 	}
 }
 

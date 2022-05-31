@@ -13,6 +13,7 @@ import Model
 protocol ISocialWorker {
 	var remoteStore: ISocialRemoteStore { get }
 	var inMemoryStore: ISocialInMemoryStore { get }
+	var servers: [ServerModel] { get }
 	
 	func registerSocialPin(userName: String, rawPin: String, customServer: CustomServer) async -> Result<IAuthenticationModel, Error>
 	func verifySocialPin(userName: String, rawPin: String, customServer: CustomServer) async -> Result<IAuthenticationModel, Error>
@@ -34,7 +35,15 @@ struct SocialWorker {
 
 extension SocialWorker: ISocialWorker {
 	var currentDomain: String {
-		channelStorage.currentChannel.domain
+		channelStorage.currentDomain
+	}
+	
+	var currentServer: ServerModel? {
+		ServerModel(channelStorage.currentServer)
+	}
+	
+	var servers: [ServerModel] {
+		channelStorage.getServers().compactMap { ServerModel($0) }
 	}
 	
 	func registerSocialPin(userName: String, rawPin: String, customServer: CustomServer) async -> Result<IAuthenticationModel, Error> {

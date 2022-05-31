@@ -298,7 +298,7 @@ private extension DetailContentView {
 						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 						.padding(.all, Constants.padding)
 						.foregroundColor(foregroundSignout)
-					Text("Home.Signout".localized)
+					Text("Home.SignOut".localized)
 						.font(AppTheme.shared.fontSet.font(style: .body3))
 						.foregroundColor(foregroundSignout)
 					Spacer()

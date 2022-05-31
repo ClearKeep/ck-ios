@@ -12,17 +12,14 @@ public protocol IGroupService {
 	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [Group_ClientInGroupObject], domain: String) async -> (Result<Group_GroupObjectResponse, Error>)
 	func searchGroups(_ keyword: String, domain: String) async -> (Result<Group_SearchGroupsResponse, Error>)
 	func getGroup(by groupId: Int64, domain: String) async -> (Result<Group_GroupObjectResponse, Error>)
-	func getJoinedGroups(domain: String) async -> (Result<Group_GetJoinedGroupsResponse, Error>)
+	func getJoinedGroups(domain: String) async -> (Result<[RealmGroup], Error>)
 	func joinGroup(by groupId: Int64, domain: String) async -> (Result<Group_BaseResponse, Error>)
 	func addMember(_ user: Group_ClientInGroupObject, groupId: Int64, domain: String) async -> (Result<Group_BaseResponse, Error>)
 	func leaveGroup(_ user: Group_ClientInGroupObject, groupId: Int64, domain: String) async -> (Result<Group_BaseResponse, Error>)
 }
 
 public class GroupService {
-	var clientStore: ClientStore
-	
 	public init() {
-		clientStore = ClientStore()
 	}
 }
 
@@ -51,10 +48,18 @@ extension GroupService: IGroupService {
 		return await channelStorage.getChannel(domain: domain).getGroup(request)
 	}
 	
-	public func getJoinedGroups(domain: String) async -> (Result<Group_GetJoinedGroupsResponse, Error>) {
+	public func getJoinedGroups(domain: String) async -> (Result<[RealmGroup], Error>) {
 		let request = Group_GetJoinedGroupsRequest()
 		
-		return await channelStorage.getChannel(domain: domain).getJoinedGroups(request)
+		let response = await channelStorage.getChannel(domain: domain).getJoinedGroups(request)
+		
+		switch response {
+		case .success(let data):
+			print(data)
+			return await .success(channelStorage.realmManager.addAndUpdateGroups(group: data, domain: domain))
+		case .failure(let error):
+			return .failure(error)
+		}
 	}
 	
 	public func joinGroup(by groupId: Int64, domain: String) async -> (Result<Group_BaseResponse, Error>) {
