@@ -22,12 +22,16 @@ struct HomeView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.injected) private var injected: DIContainer
-	@State private(set) var loadable: Loadable<[GroupViewModel]> = .notRequested {
+	@State private(set) var loadable: Loadable<HomeViewModels> = .notRequested {
 		didSet {
 			switch loadable {
-			case .loaded(let groups):
-				self.groups = groups.filter({ $0.groupType == "group" })
-				self.peers = groups.filter({ $0.groupType == "peer" })
+			case .loaded(let load):
+				self.groups = load.groupViewModel?.viewModelGroup.compactMap { profile in
+					GroupViewModel(profile)} ?? [GroupViewModel]()
+				self.peers = load.groupViewModel?.viewModelGroup.compactMap { profile in
+					GroupViewModel(profile)} ?? [GroupViewModel]()
+				self.user = [load.userViewModel?.viewModelUser].compactMap { profile in
+					UserViewModel(profile)}
 			case .failed(let error):
 				print(error)
 			default: break
@@ -41,9 +45,9 @@ struct HomeView: View {
 	@State private(set) var isAddNewServer: Bool = false
 	@State private(set) var groups: [GroupViewModel] = []
 	@State private(set) var peers: [GroupViewModel] = []
-	
+	@State private(set) var user: [UserViewModel] = [UserViewModel]()
 	let inspection = ViewInspector<Self>()
-	
+
 	var body: some View {
 		GeometryReader { geometry in
 			ZStack {
@@ -75,7 +79,7 @@ struct HomeView: View {
 				LinearGradient(gradient: Gradient(colors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary.compactMap({ $0.opacity(Constants.opacity) }) : AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
 					.blur(radius: Constants.blur)
 					.edgesIgnoringSafeArea(.vertical)
-				MenuView(isShowMenu: $isShowMenu)
+				MenuView(isShowMenu: $isShowMenu, user: $user)
 					.frame(width: geometry.size.width)
 					.offset(x: isShowMenu ? 0 : geometry.size.width * 2)
 					.transition(.move(edge: .trailing))
@@ -83,6 +87,7 @@ struct HomeView: View {
 			}
 		}
 		.onAppear(perform: getServers)
+		.onAppear(perform: getUser)
 		.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
 	}
 }
@@ -123,7 +128,13 @@ private extension HomeView {
 	func getServers() {
 		servers = injected.interactors.homeInteractor.getServers()
 	}
-	
+
+	func getUser() {
+		Task {
+			loadable = await injected.interactors.homeInteractor.getProfile()
+		}
+	}
+
 	func getServerInfo() {
 		Task {
 			loadable = await injected.interactors.homeInteractor.getJoinedGroup()

@@ -24,3 +24,14 @@ struct GroupViewModel: Identifiable {
 		self.hasUnreadMessage = model.hasUnreadMessage
 	}
 }
+
+protocol IGroupViewModels {
+	var viewModelGroup: [IGroupModel] { get }
+}
+
+struct GroupViewModels: IGroupViewModels {
+	var viewModelGroup: [IGroupModel]
+	init(_ model: IHomeModels) {
+		self.viewModelGroup = model.groupModel ?? [IGroupModel]()
+	}
+}

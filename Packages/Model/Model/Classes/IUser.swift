@@ -9,7 +9,10 @@ import Foundation
 
 public protocol IUser {
 	var id: String { get }
-	var name: String { get }
+	var displayName: String { get }
+	var email: String { get }
+	var phoneNumber: String { get }
+	var avatar: String { get }
 }
 
 public protocol IOwner {

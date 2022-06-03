@@ -15,8 +15,9 @@ protocol IHomeWorker {
 	var servers: [ServerModel] { get }
 	
 	func validateDomain(_ domain: String) -> Bool
-	func getJoinedGroup() async -> Result<[IGroupModel], Error>
+	func getJoinedGroup() async -> Result<IHomeModels, Error>
 	func didSelectServer(_ domain: String?) -> [ServerModel]
+	func getProfile() async -> Result<IHomeModels, Error>
 	func signOut() async
 }
 
@@ -44,7 +45,7 @@ extension HomeWorker: IHomeWorker {
 		return !domain.isEmpty
 	}
 	
-	func getJoinedGroup() async -> Result<[IGroupModel], Error> {
+	func getJoinedGroup() async -> Result<IHomeModels, Error> {
 		return await remoteStore.getJoinedGroup(domain: currentDomain ?? channelStorage.currentDomain)
 	}
 	
@@ -53,6 +54,17 @@ extension HomeWorker: IHomeWorker {
 		return channelStorage.didSelectServer(domain).compactMap({
 			ServerModel($0)
 		})
+	}
+	
+	func getProfile() async -> Result<IHomeModels, Error> {
+		let result = await remoteStore.getProfile(domain: currentDomain ?? channelStorage.currentDomain)
+		
+		switch result {
+		case .success(let user):
+			return .success(user)
+		case .failure(let error):
+			return .failure(error)
+		}
 	}
 	
 	func signOut() async {

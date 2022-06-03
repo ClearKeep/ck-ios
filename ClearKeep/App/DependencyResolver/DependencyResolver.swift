@@ -29,6 +29,7 @@ class DependencyResolver {
 	let authenticationService: IAuthenticationService!
 	let socialAuthenticationService: ISocialAuthenticationService!
 	let groupService: IGroupService!
+	let userService: IUserService!
 	let signalStore: ISignalProtocolInMemoryStore!
 	let yapDatabaseManager: YapDatabaseManager!
 	
@@ -59,6 +60,7 @@ class DependencyResolver {
 																		   redirectUri: ConfigurationProvider.default.officeRedirectUri)
 																  ])
 		groupService = GroupService()
+		userService = UserService()
 		// MARK: - Location
 		locationManager = CLLocationManager()
 		let locationConfiguration = LocationConfigurations()
