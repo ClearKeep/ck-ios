@@ -19,7 +19,7 @@ private enum Constants {
 	static let spacing = 4.0
 	static let arrowSize = CGSize(width: 12.0, height: 12.0)
 	static let statusSize = CGSize(width: 12.0, height: 12.0)
-	static let statusOffset = UIOffset(horizontal: 20.0, vertical: -20.0)
+	static let statusOffset = UIOffset(horizontal: -20.0, vertical: 20.0)
 	static let avatarSize = CGSize(width: 56.0, height: 56.0)
 }
 
@@ -28,9 +28,10 @@ struct MenuView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
+	
 	@Binding var isShowMenu: Bool
 	@State private var userProfile: String = ""
-	
+	@Binding var user: [UserViewModel]
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -43,7 +44,7 @@ struct MenuView: View {
 						.foregroundColor(AppTheme.shared.colorSet.grey1)
 					HStack {
 						ZStack {
-							Circle()
+							Image(user.first?.avatar ?? "")
 								.frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
 								.clipShape(Circle())
 								.foregroundColor(Color.gray)
@@ -53,7 +54,7 @@ struct MenuView: View {
 								.foregroundColor(Color.green)
 						}
 						VStack(alignment: .leading, spacing: Constants.spacing) {
-							Text("Name")
+							Text(user.first?.displayName ?? "name")
 								.font(AppTheme.shared.fontSet.font(style: .body2))
 								.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 								.frame(height: Constants.nameHeight)

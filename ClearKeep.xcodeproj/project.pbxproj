@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		043A041D28486C8700FFCAD2 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A041C28486C8700FFCAD2 /* UserModel.swift */; };
 		044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351EB27D9AFCA0054A78F /* RegisterRemoteStore.swift */; };
 		044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351EC27D9AFCA0054A78F /* RegisterWorker.swift */; };
 		044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351ED27D9AFCA0054A78F /* RegisterInMemoryStore.swift */; };
 		044351F827D9AFCA0054A78F /* RegisterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F027D9AFCA0054A78F /* RegisterInteractor.swift */; };
 		044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F127D9AFCA0054A78F /* RegisterView.swift */; };
 		044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F327D9AFCA0054A78F /* RegisterContentView.swift */; };
+		04458C272849BA1300992ECB /* HomeViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04458C262849BA1300992ECB /* HomeViewModels.swift */; };
 		0462C6C12816535C00A9EABB /* SearchRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B22816535C00A9EABB /* SearchRemoteStore.swift */; };
 		0462C6C22816535C00A9EABB /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B32816535C00A9EABB /* SearchView.swift */; };
 		0462C6C32816535C00A9EABB /* SearchInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B42816535C00A9EABB /* SearchInMemoryStore.swift */; };
@@ -69,6 +71,8 @@
 		0499345527E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499345027E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift */; };
 		0499345627E9A8BE003BD4C4 /* AdvancedSeverInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499345127E9A8BE003BD4C4 /* AdvancedSeverInteractor.swift */; };
 		0499345727E9A8BE003BD4C4 /* AdvancedSeverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499345227E9A8BE003BD4C4 /* AdvancedSeverView.swift */; };
+		04C854AE284873C300CBA291 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C854AD284873C300CBA291 /* UserViewModel.swift */; };
+		04C854B228489DA300CBA291 /* HomeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C854B128489DA300CBA291 /* HomeModels.swift */; };
 		111CDB183DAC665A08A0F9AE /* Pods_ClearKeepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 762B17389323AE09C354C456 /* Pods_ClearKeepTests.framework */; };
 		228F2C84281B9E6F0012B07A /* ForwardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228F2C83281B9E6F0012B07A /* ForwardView.swift */; };
 		22A1C6992812B1D500FE957F /* ChatInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6942812B1D500FE957F /* ChatInMemoryStore.swift */; };
@@ -240,12 +244,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		043A041C28486C8700FFCAD2 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		044351EB27D9AFCA0054A78F /* RegisterRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterRemoteStore.swift; sourceTree = "<group>"; };
 		044351EC27D9AFCA0054A78F /* RegisterWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterWorker.swift; sourceTree = "<group>"; };
 		044351ED27D9AFCA0054A78F /* RegisterInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterInMemoryStore.swift; sourceTree = "<group>"; };
 		044351F027D9AFCA0054A78F /* RegisterInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterInteractor.swift; sourceTree = "<group>"; };
 		044351F127D9AFCA0054A78F /* RegisterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		044351F327D9AFCA0054A78F /* RegisterContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterContentView.swift; sourceTree = "<group>"; };
+		04458C262849BA1300992ECB /* HomeViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModels.swift; sourceTree = "<group>"; };
 		0462C6B22816535C00A9EABB /* SearchRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRemoteStore.swift; sourceTree = "<group>"; };
 		0462C6B32816535C00A9EABB /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		0462C6B42816535C00A9EABB /* SearchInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchInMemoryStore.swift; sourceTree = "<group>"; };
@@ -303,6 +309,8 @@
 		0499345027E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSeverRemoteStore.swift; sourceTree = "<group>"; };
 		0499345127E9A8BE003BD4C4 /* AdvancedSeverInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSeverInteractor.swift; sourceTree = "<group>"; };
 		0499345227E9A8BE003BD4C4 /* AdvancedSeverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSeverView.swift; sourceTree = "<group>"; };
+		04C854AD284873C300CBA291 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		04C854B128489DA300CBA291 /* HomeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModels.swift; sourceTree = "<group>"; };
 		1D2080FC782DE43A5ADFC387 /* Pods-ClearKeepTests.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.production.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.production.xcconfig"; sourceTree = "<group>"; };
 		228F2C83281B9E6F0012B07A /* ForwardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardView.swift; sourceTree = "<group>"; };
 		22A1C6942812B1D500FE957F /* ChatInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInMemoryStore.swift; sourceTree = "<group>"; };
@@ -898,6 +906,8 @@
 				CB23604628322DAA00D98F54 /* StatusType.swift */,
 				CB23604828333AC300D98F54 /* GroupModel.swift */,
 				CB23605028335BAC00D98F54 /* ServerModel.swift */,
+				043A041C28486C8700FFCAD2 /* UserModel.swift */,
+				04C854B128489DA300CBA291 /* HomeModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1025,6 +1035,8 @@
 			children = (
 				CB7F298C282CED4000BD5049 /* ServerViewModel.swift */,
 				CB23604C28334CFD00D98F54 /* GroupViewModel.swift */,
+				04C854AD284873C300CBA291 /* UserViewModel.swift */,
+				04458C262849BA1300992ECB /* HomeViewModels.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1665,9 +1677,11 @@
 				047241A627DB3D2C0043345A /* LoginView.swift in Sources */,
 				22A1C69A2812B1D500FE957F /* ChatWorker.swift in Sources */,
 				044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */,
+				04C854AE284873C300CBA291 /* UserViewModel.swift in Sources */,
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
 				F5644849283F8562007846F9 /* CallRemoteStore.swift in Sources */,
 				CB7F2991282CF11C00BD5049 /* MenuView.swift in Sources */,
+				043A041D28486C8700FFCAD2 /* UserModel.swift in Sources */,
 				CB8C3E3427F57FBA0034B3A9 /* AppVersion.swift in Sources */,
 				F556C24228097F6E00D2B149 /* ChatGroupRemoteStore.swift in Sources */,
 				CB117E7B27BB65E2000941D9 /* LocationConfigurations.swift in Sources */,
@@ -1745,6 +1759,7 @@
 				F5CFCA2828237CD000A9737F /* GroupCallInteractor.swift in Sources */,
 				F5350E1C27FAD58F00F54E32 /* TwoFactorInMemoryStore.swift in Sources */,
 				CB7F299B282D5FB300BD5049 /* ListGroupView.swift in Sources */,
+				04458C272849BA1300992ECB /* HomeViewModels.swift in Sources */,
 				0499344727E97035003BD4C4 /* ChangePasswordInteractor.swift in Sources */,
 				22A1C69C2812B1D500FE957F /* ChatInteractor.swift in Sources */,
 				047D6B6427F6A3DD0098B104 /* DirectMessageContentView.swift in Sources */,
@@ -1824,6 +1839,7 @@
 				CB7F295B2828BA5900BD5049 /* RegisterViewError.swift in Sources */,
 				CB117EBC27BB7D2F000941D9 /* RootView.swift in Sources */,
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
+				04C854B228489DA300CBA291 /* HomeModels.swift in Sources */,
 				CB23605428337CD400D98F54 /* HomeContentView.swift in Sources */,
 				0462C6CA2816535C00A9EABB /* SearchMessageView.swift in Sources */,
 				0499341427E96E2F003BD4C4 /* FogotPasswordContentView.swift in Sources */,

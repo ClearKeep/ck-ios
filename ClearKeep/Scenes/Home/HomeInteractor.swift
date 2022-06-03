@@ -7,14 +7,16 @@
 
 import Common
 import ChatSecure
+import Model
 
 protocol IHomeInteractor {
 	var worker: IHomeWorker { get }
 	
 	func validateDomain(_ domain: String) -> Bool
 	func getServers() -> [ServerViewModel]
-	func getJoinedGroup() async -> Loadable<[GroupViewModel]>
+	func getJoinedGroup() async -> Loadable<HomeViewModels>
 	func didSelectServer(_ domain: String?) -> [ServerViewModel]
+	func getProfile() async -> Loadable<HomeViewModels>
 	func signOut() async
 }
 
@@ -23,11 +25,12 @@ struct HomeInteractor {
 	let channelStorage: IChannelStorage
 	let authenticationService: IAuthenticationService
 	let groupService: IGroupService
+	let userService: IUserService
 }
 
 extension HomeInteractor: IHomeInteractor {
 	var worker: IHomeWorker {
-		let remoteStore = HomeRemoteStore(authenticationService: authenticationService, groupService: groupService)
+		let remoteStore = HomeRemoteStore(authenticationService: authenticationService, groupService: groupService, userService: userService)
 		let inMemoryStore = HomeInMemoryStore()
 		return HomeWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
@@ -40,13 +43,12 @@ extension HomeInteractor: IHomeInteractor {
 		return worker.servers.compactMap { ServerViewModel($0) }
 	}
 	
-	func getJoinedGroup() async -> Loadable<[GroupViewModel]> {
+	func getJoinedGroup() async -> Loadable<HomeViewModels> {
 		let result = await worker.getJoinedGroup()
 		
 		switch result {
 		case .success(let groups):
-			let groupViewModels = groups.compactMap { GroupViewModel($0) }
-			return .loaded(groupViewModels)
+			return .loaded(HomeViewModels(responseGroup: groups))
 		case .failure(let error):
 			return .failed(error)
 		}
@@ -56,8 +58,19 @@ extension HomeInteractor: IHomeInteractor {
 		return worker.didSelectServer(domain).compactMap { ServerViewModel($0) }
 	}
 	
+	func getProfile() async -> Loadable<HomeViewModels> {
+		let result = await worker.getProfile()
+		
+		switch result {
+		case .success(let user):
+			return .loaded(HomeViewModels(responseUser: user))
+		case .failure(let error):
+			return .failed(error)
+		}
+	}
+	
 	func signOut() async {
-//		let result = await worker.signOut()
+		//		let result = await worker.signOut()
 	}
 }
 
@@ -65,9 +78,10 @@ struct StubHomeInteractor: IHomeInteractor {
 	let channelStorage: IChannelStorage
 	let authenticationService: IAuthenticationService
 	let groupService: IGroupService
+	let userService: IUserService
 	
 	var worker: IHomeWorker {
-		let remoteStore = HomeRemoteStore(authenticationService: authenticationService, groupService: groupService)
+		let remoteStore = HomeRemoteStore(authenticationService: authenticationService, groupService: groupService, userService: userService)
 		let inMemoryStore = HomeInMemoryStore()
 		return HomeWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
@@ -80,7 +94,7 @@ struct StubHomeInteractor: IHomeInteractor {
 		return []
 	}
 	
-	func getJoinedGroup() async -> Loadable<[GroupViewModel]> {
+	func getJoinedGroup() async -> Loadable<HomeViewModels> {
 		return .notRequested
 	}
 	
@@ -88,7 +102,10 @@ struct StubHomeInteractor: IHomeInteractor {
 		return []
 	}
 	
+	func getProfile() async -> Loadable<HomeViewModels> {
+		return .notRequested
+	}
 	func signOut() async {
-//		let result = await worker.signOut()
+		//		let result = await worker.signOut()
 	}
 }

@@ -8,18 +8,18 @@
 import Foundation
 import Networking
 
-protocol IUserService {
+public protocol IUserService {
 	func getProfile(domain: String) async -> Result<User_UserProfileResponse, Error>
 }
 
-class UserService {
+public class UserService {
 	
 	public init() {
 	}
 }
 
 extension UserService: IUserService {
-	func getProfile(domain: String) async -> Result<User_UserProfileResponse, Error> {
+	public func getProfile(domain: String) async -> Result<User_UserProfileResponse, Error> {
 		let request = User_Empty()
 		return await channelStorage.getChannel(domain: domain).getProfile(request)
 	}

@@ -11,17 +11,19 @@ import ChatSecure
 import Model
 
 protocol IHomeRemoteStore {
-	func getJoinedGroup(domain: String) async -> Result<[IGroupModel], Error>
+	func getJoinedGroup(domain: String) async -> Result<IHomeModels, Error>
+	func getProfile(domain: String) async -> Result<IHomeModels, Error>
 	func signOut() async
 }
 
 struct HomeRemoteStore {
 	let authenticationService: IAuthenticationService
 	let groupService: IGroupService
+	let userService: IUserService
 }
 
 extension HomeRemoteStore: IHomeRemoteStore {
-	func getJoinedGroup(domain: String) async -> Result<[IGroupModel], Error> {
+	func getJoinedGroup(domain: String) async -> Result<IHomeModels, Error> {
 		let result = await groupService.getJoinedGroups(domain: domain)
 		
 		switch result {
@@ -29,7 +31,18 @@ extension HomeRemoteStore: IHomeRemoteStore {
 			let groups = realmGroups.compactMap { group in
 				GroupModel(group)
 			}
-			return .success(groups)
+			return .success(HomeModels(responseGroup: groups))
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+	
+	func getProfile(domain: String) async -> Result<IHomeModels, Error> {
+		let result = await userService.getProfile(domain: domain)
+		
+		switch result {
+		case .success(let user):
+			return .success(HomeModels(responseUser: user))
 		case .failure(let error):
 			return .failure(error)
 		}

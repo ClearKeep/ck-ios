@@ -75,7 +75,7 @@ extension GroupService: IGroupService {
 	public func addMember(_ user: Group_ClientInGroupObject, groupId: Int64, domain: String) async -> (Result<Group_BaseResponse, Error>) {
 		let apiService = channelStorage.getChannel(domain: domain)
 		guard let clientId = apiService.owner?.id,
-			  let userName = apiService.owner?.name else { return .failure(ServerError.unknown) }
+			  let userName = apiService.owner?.displayName else { return .failure(ServerError.unknown) }
 		var requestAddingMember = Group_MemberInfo()
 		requestAddingMember.id = user.id
 		requestAddingMember.workspaceDomain = user.workspaceDomain
