@@ -29,6 +29,7 @@ class DependencyResolver {
 	let authenticationService: IAuthenticationService!
 	let socialAuthenticationService: ISocialAuthenticationService!
 	let groupService: IGroupService!
+	let messageService: IMessageService!
 	let signalStore: ISignalProtocolInMemoryStore!
 	let yapDatabaseManager: YapDatabaseManager!
 	
@@ -52,13 +53,16 @@ class DependencyResolver {
 		securedStoreService = SecuredStoreService()
 		persistentStoreService = PersistentStoreService()
 		appTokenService = AppTokenService(securedStoreService: securedStoreService, persistentStoreService: persistentStoreService)
-		authenticationService = CLKAuthenticationService(signalStore: signalStore)
+		let clientStore = ClientStore(persistentStoreService: persistentStoreService)
+		authenticationService = CLKAuthenticationService(signalStore: signalStore, clientStore: clientStore)
 		socialAuthenticationService = SocialAuthenticationService([.facebook,
 																   .google(clientId: ConfigurationProvider.default.googleClientId),
 																   .office(clientId: ConfigurationProvider.default.officeClientId,
 																		   redirectUri: ConfigurationProvider.default.officeRedirectUri)
 																  ])
 		groupService = GroupService()
+		let senderStore = SenderKeyInMemoryStore(storage: yapDatabaseManager)
+		messageService = MessageService(clientStore: clientStore, signalStore: signalStore, senderStore: senderStore)
 		// MARK: - Location
 		locationManager = CLLocationManager()
 		let locationConfiguration = LocationConfigurations()

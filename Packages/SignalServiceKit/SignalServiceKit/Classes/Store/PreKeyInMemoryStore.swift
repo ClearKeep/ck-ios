@@ -19,8 +19,8 @@ final class PreKeyInMemoryStore {
 	}
 	
 	private func getIndex(preKeyId: UInt32) -> UInt32 {
-		let domain = ""
-		let userId = ""
+		let domain = "develop1.clearkeep.org:25000"
+		let userId = "62636bbb-6316-4017-8478-deef55b93a4d"
 		let index = ("\(preKeyId)" + domain + userId).hashCode()
 		return UInt32(bitPattern: index)
 	}

@@ -15,8 +15,12 @@ enum ClientError: LocalizedError {
 	case initKeyPair(message: String)
 }
 
-struct ClientStore {
-	private var persistentStoreService: IPersistentStoreService!
+public struct ClientStore {
+	private let persistentStoreService: IPersistentStoreService!
+	
+	public init(persistentStoreService: IPersistentStoreService) {
+		self.persistentStoreService = persistentStoreService
+	}
 //	let keyHelper: SignalKeyHelper?
 //	let preKey: SignalPreKey?
 //	let signedPreKey: SignalSignedPreKey?

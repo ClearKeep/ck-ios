@@ -39,8 +39,8 @@ public class CLKAuthenticationService {
 	var clientStore: ClientStore
 	private let signalStore: ISignalProtocolInMemoryStore
 	
-	public init(signalStore: ISignalProtocolInMemoryStore) {
-		clientStore = ClientStore()
+	public init(signalStore: ISignalProtocolInMemoryStore, clientStore: ClientStore) {
+		self.clientStore = clientStore
 		self.signalStore = signalStore
 	}
 }

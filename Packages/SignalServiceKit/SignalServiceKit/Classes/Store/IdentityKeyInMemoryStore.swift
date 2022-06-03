@@ -24,8 +24,8 @@ final class IdentityKeyInMemoryStore {
 	
 	private func getIdentityKey() -> SignalIdentityKey? {
 		do {
-			let clientId = ""
-			let domain = ""
+			let clientId = "62636bbb-6316-4017-8478-deef55b93a4d"
+			let domain = "develop1.clearkeep.org:25000"
 			let jsonDecoder = JSONDecoder()
 			if let keyData: Data = storage.object(forKey: clientId + domain) {
 				let key = try jsonDecoder.decode(SignalIdentityKey.self, from: keyData)
@@ -65,6 +65,7 @@ extension IdentityKeyInMemoryStore: IIdentityKeyInMemoryStore {
 	}
 
 	func identityKeyPair(context: StoreContext) throws -> IdentityKeyPair {
+		print("gettttt3")
 		if let indentityKeyPair = identityKey?.identityKeyPair {
 			return try IdentityKeyPair(bytes: indentityKeyPair)
 		}
@@ -72,6 +73,7 @@ extension IdentityKeyInMemoryStore: IIdentityKeyInMemoryStore {
 	}
 	
 	func localRegistrationId(context: StoreContext) throws -> UInt32 {
+		print("gettttt4")
 		if let id = identityKey?.registrationId {
 			return id
 		}
@@ -79,6 +81,7 @@ extension IdentityKeyInMemoryStore: IIdentityKeyInMemoryStore {
 	}
 	
 	func saveIdentity(_ identity: IdentityKey, for address: ProtocolAddress, context: StoreContext) throws -> Bool {
+		print("gettttt")
 		if publicKeys.updateValue(identity, forKey: address) == nil {
 			return false
 		} else {
@@ -87,6 +90,7 @@ extension IdentityKeyInMemoryStore: IIdentityKeyInMemoryStore {
 	}
 	
 	func isTrustedIdentity(_ identity: IdentityKey, for address: ProtocolAddress, direction: Direction, context: StoreContext) throws -> Bool {
+		print("gettttt5")
 		if let publicKey = publicKeys[address] {
 			return publicKey == identity
 		} else {
@@ -95,6 +99,7 @@ extension IdentityKeyInMemoryStore: IIdentityKeyInMemoryStore {
 	}
 	
 	func identity(for address: ProtocolAddress, context: StoreContext) throws -> IdentityKey? {
-		publicKeys[address]
+		print("gettttt2")
+		return publicKeys[address]
 	}
 }

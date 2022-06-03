@@ -23,11 +23,12 @@ struct HomeInteractor {
 	let channelStorage: IChannelStorage
 	let authenticationService: IAuthenticationService
 	let groupService: IGroupService
+	let messageService: IMessageService
 }
 
 extension HomeInteractor: IHomeInteractor {
 	var worker: IHomeWorker {
-		let remoteStore = HomeRemoteStore(authenticationService: authenticationService, groupService: groupService)
+		let remoteStore = HomeRemoteStore(authenticationService: authenticationService, groupService: groupService, messageService: messageService)
 		let inMemoryStore = HomeInMemoryStore()
 		return HomeWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
@@ -57,6 +58,8 @@ extension HomeInteractor: IHomeInteractor {
 	}
 	
 	func signOut() async {
+		print("334")
+		await worker.signOut()
 //		let result = await worker.signOut()
 	}
 }
@@ -65,9 +68,10 @@ struct StubHomeInteractor: IHomeInteractor {
 	let channelStorage: IChannelStorage
 	let authenticationService: IAuthenticationService
 	let groupService: IGroupService
+	let messageService: IMessageService
 	
 	var worker: IHomeWorker {
-		let remoteStore = HomeRemoteStore(authenticationService: authenticationService, groupService: groupService)
+		let remoteStore = HomeRemoteStore(authenticationService: authenticationService, groupService: groupService, messageService: messageService)
 		let inMemoryStore = HomeInMemoryStore()
 		return HomeWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
@@ -89,6 +93,7 @@ struct StubHomeInteractor: IHomeInteractor {
 	}
 	
 	func signOut() async {
+		await worker.signOut()
 //		let result = await worker.signOut()
 	}
 }

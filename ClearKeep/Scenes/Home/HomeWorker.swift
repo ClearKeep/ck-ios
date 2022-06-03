@@ -56,6 +56,9 @@ extension HomeWorker: IHomeWorker {
 	}
 	
 	func signOut() async {
-		await remoteStore.signOut()
+		print("1212")
+		if let current = channelStorage.currentServer {
+			await remoteStore.signOut(server: current)
+		}
 	}
 }

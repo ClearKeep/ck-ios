@@ -10,8 +10,9 @@ import Networking
 import Common
 import SignalServiceKit
 import LibSignalClient
+import SwiftSRP
 
-protocol IMessageService {
+public protocol IMessageService {
 	func sendMessageInPeer(senderId: String,
 						   ownerWorkspace: String,
 						   receiverId: String,
@@ -27,15 +28,15 @@ protocol IMessageService {
 							groupId: Int64,
 							plainMessage: String,
 							cachedMessageId: Int) async -> Result<Bool, Error>
+	
+	func getMessage(server: RealmServer, groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<Message_GetMessagesInGroupResponse, Error>
 }
 
-class MessageService {
-	private let clientStore: ClientStore
-	private let signalStore: ISignalProtocolInMemoryStore
-	private let senderStore: ISenderKeyStore
-	
-	var byteV: UnsafePointer<CUnsignedChar>?
-	
+public class MessageService {
+	 let clientStore: ClientStore
+	 let signalStore: ISignalProtocolInMemoryStore
+	 let senderStore: ISenderKeyStore
+		
 	public init(clientStore: ClientStore, signalStore: ISignalProtocolInMemoryStore, senderStore: ISenderKeyStore) {
 		self.clientStore = clientStore
 		self.signalStore = signalStore
@@ -44,14 +45,15 @@ class MessageService {
 }
 
 extension MessageService: IMessageService {
-	func sendMessageInPeer(senderId: String, ownerWorkspace: String, receiverId: String, receiverWorkSpaceDomain: String, groupId: Int64, plainMessage: String, isForceProcessKey: Bool, cachedMessageId: Int) async -> Result<Bool, Error> {
-		
+	public func sendMessageInPeer(senderId: String, ownerWorkspace: String, receiverId: String, receiverWorkSpaceDomain: String, groupId: Int64, plainMessage: String, isForceProcessKey: Bool, cachedMessageId: Int) async -> Result<Bool, Error> {
+		Debug.DLog("Sending message")
 		do {
 			let receiverAddress = try ProtocolAddress(name: "\(receiverWorkSpaceDomain)_\(receiverId)", deviceId: UInt32(Constants.senderDeviceId))
-			
+			Debug.DLog("Sending message1")
 			let existingSession = try signalStore.sessionStore.loadSession(for: receiverAddress, context: NullContext())
-			
+			Debug.DLog("Sending message2")
 			if existingSession == nil || isForceProcessKey {
+				Debug.DLog("Sending message3")
 				let isSuccess = await requestKeyPeer(senderId: senderId, senderDomain: ownerWorkspace, receiverId: receiverId, receiverDomain: receiverWorkSpaceDomain)
 				if !isSuccess {
 					Debug.DLog("Send message fail - Can't request key peer")
@@ -88,6 +90,7 @@ extension MessageService: IMessageService {
 			switch response {
 			case .success(let messageRespone):
 				// TODO: save message
+				Debug.DLog("Send message success - \(messageRespone)")
 				return .success(true)
 			case .failure(let error):
 				Debug.DLog("Send message fail - \(error.localizedDescription)")
@@ -100,7 +103,7 @@ extension MessageService: IMessageService {
 		
 	}
 	
-	func sendMessageInGroup(senderId: String, ownerWorkspace: String, receiverId: String, groupId: Int64, plainMessage: String, cachedMessageId: Int) async -> Result<Bool, Error> {
+	public func sendMessageInGroup(senderId: String, ownerWorkspace: String, receiverId: String, groupId: Int64, plainMessage: String, cachedMessageId: Int) async -> Result<Bool, Error> {
 		do {
 			// if user hasn't joined this group -> registerSenderKey
 			let result = await registerSenderKeyToGroup(groupID: groupId, clientId: senderId, domain: ownerWorkspace)
@@ -136,7 +139,7 @@ extension MessageService: IMessageService {
 		return .success(true)
 	}
 	
-	func getMessage(server: RealmServer, groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<Message_GetMessagesInGroupResponse, Error> {
+	public func getMessage(server: RealmServer, groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<Message_GetMessagesInGroupResponse, Error> {
 		var request = Message_GetMessagesInGroupRequest()
 		request.groupID = groupId
 		request.lastMessageAt = lastMessageAt
@@ -145,6 +148,16 @@ extension MessageService: IMessageService {
 		let response = await channelStorage.getChannel(domain: server.serverDomain, accessToken: server.accessKey, hashKey: server.hashKey).getMessage(request)
 		switch response {
 		case .success(let messageRespone):
+			Debug.DLog("Get message success - \(messageRespone)")
+			messageRespone.lstMessage.forEach { message in
+				if message.fromClientID == "62636bbb-6316-4017-8478-deef55b93a4d" {
+					let mes = decryptPeerMessage(senderName: "develop1.clearkeep.org:25000_62636bbb-6316-4017-8478-deef55b93a4d", message: message.message)
+					print("1st message: \(mes)")
+				} else {
+					let mes = decryptPeerMessage(senderName: "develop1.clearkeep.org:25000_84e7b891-6022-4881-86b8-92c093ceeb31", message: message.message)
+					print("2st message: \(mes)")
+				}
+			}
 			return .success(messageRespone)
 		case .failure(let error):
 			Debug.DLog("Get message fail - \(error)")
@@ -161,6 +174,7 @@ private extension MessageService {
 	
 	@discardableResult
 	func initSessionUserPeer(byClientId clientId: String, workspaceDomain: String) async -> Bool {
+		Debug.DLog("initSessionUserPeer with \(clientId)")
 		var request = Signal_PeerGetClientKeyRequest()
 		request.clientID = clientId
 		request.workspaceDomain = workspaceDomain
@@ -169,11 +183,13 @@ private extension MessageService {
 		
 		switch response {
 		case .success(let recipientResponse):
+			Debug.DLog("get peerGetClientKey success \(recipientResponse)")
 			do {
 				let preKey = try PreKeyRecord(bytes: recipientResponse.preKey)
 				let signedPreKey = try SignedPreKeyRecord(bytes: recipientResponse.signedPreKey)
+				print("sduuuuu")
 				let identityKeyPublic = try IdentityKey(bytes: recipientResponse.identityKeyPublic)
-				
+				print("sdgsdgsdgsg")
 				let retrievedPreKeyBundle = try PreKeyBundle(
 					registrationId: UInt32(bitPattern: recipientResponse.registrationID),
 					deviceId: UInt32(bitPattern: recipientResponse.deviceID),
@@ -184,17 +200,20 @@ private extension MessageService {
 					signedPrekeySignature: signedPreKey.signature,
 					identity: identityKeyPublic
 				)
+				print("1111")
 				let addressName = "\(workspaceDomain)_\(clientId)"
 				let address = try ProtocolAddress(name: addressName, deviceId: UInt32(Constants.senderDeviceId))
+				print("2222")
 				try processPreKeyBundle(
 					retrievedPreKeyBundle,
 					for: address,
 					sessionStore: signalStore.sessionStore,
 					identityStore: signalStore.identityStore,
 					context: NullContext())
+				print("3333")
 				return true
 			} catch {
-				Debug.DLog("peerGetClientKey exception: \(error)")
+				Debug.DLog("peerGetClientKey processPreKeyBundle exception: \(error)")
 				return false
 			}
 		case .failure(let error):
@@ -244,14 +263,18 @@ private extension MessageService {
 	func decryptPeerMessage(senderName: String, message: Data) -> String? {
 		do {
 			let signalProtocolAddress = try ProtocolAddress(name: senderName, deviceId: UInt32(Constants.receiverDeviceId))
+			print("decrypt 1")
 			let preKeyMessage = try PreKeySignalMessage(bytes: message)
+			print("decrypt 2")
 			let decryptMessage = try signalDecryptPreKey(
 				message: preKeyMessage, from: signalProtocolAddress, sessionStore:
 				signalStore.sessionStore, identityStore: signalStore.identityStore,
 				preKeyStore: signalStore.preKeyStore,
 				signedPreKeyStore: signalStore.signedPreKeyStore, context: NullContext())
+			print("decrypt 3")
 			return String(bytes: decryptMessage, encoding: .utf8)
 		} catch {
+			print("decrypt messageEror \(error)")
 			return nil
 		}
 	}
