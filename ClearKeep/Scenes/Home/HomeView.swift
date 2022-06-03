@@ -38,6 +38,7 @@ struct HomeView: View {
 			}
 		}
 	}
+	
 	@State private(set) var servers: [ServerViewModel] = []
 	@State private(set) var searchKeyword: String = ""
 	@State private(set) var searchInputStyle: TextInputStyle = .default
