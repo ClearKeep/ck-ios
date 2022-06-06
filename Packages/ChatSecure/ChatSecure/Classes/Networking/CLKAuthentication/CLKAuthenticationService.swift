@@ -133,7 +133,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 				var request = User_Empty()
 				
 				let response = await channelStorage.getChannel(domain: domain, accessToken: authenResponse.accessToken, hashKey: authenResponse.hashKey).getProfile(request)
-				
+				print("user profile response: \(response)")
 				switch response {
 				case .success(let profileResponse):
 					await channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse)
@@ -437,7 +437,7 @@ private extension CLKAuthenticationService {
 			let signedPreKeyRecord = try SignedPreKeyRecord(bytes: signedPreKey)
 			let registrationID = response.clientKeyPeer.registrationID
 			let clientId = response.clientKeyPeer.clientID
-			
+            print("client ID: \(clientId)")
 			let publicKey = try PublicKey(response.clientKeyPeer.identityKeyPublic)
 			let privateKey = try PrivateKey(privateKeyDecrypt ?? [])
 			let identityKeyPair = IdentityKeyPair(publicKey: publicKey, privateKey: privateKey)

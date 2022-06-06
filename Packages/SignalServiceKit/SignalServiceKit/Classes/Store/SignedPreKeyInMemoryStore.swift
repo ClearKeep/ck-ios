@@ -21,6 +21,7 @@ final class SignedPreKeyInMemoryStore {
 extension SignedPreKeyInMemoryStore: SignedPreKeyStore {
 	
 	func loadSignedPreKey(id: UInt32, context: StoreContext) throws -> SignedPreKeyRecord {
+        print("load signed prekey with identifier: \(id)")
 		if let record = signedPrekeyMap[id] {
 			return record
 		} else {
@@ -35,6 +36,7 @@ extension SignedPreKeyInMemoryStore: SignedPreKeyStore {
 	}
 	
 	func storeSignedPreKey(_ record: SignedPreKeyRecord, id: UInt32, context: StoreContext) throws {
+        print("store signed prekey with identifier: \(id)")
 		signedPrekeyMap[id] = record
 		let recordData = Data(record.serialize())
 		storage.insert(recordData, forKey: String(id))

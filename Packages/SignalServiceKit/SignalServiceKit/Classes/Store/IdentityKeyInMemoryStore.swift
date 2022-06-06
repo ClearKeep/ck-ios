@@ -24,8 +24,8 @@ final class IdentityKeyInMemoryStore {
 	
 	private func getIdentityKey() -> SignalIdentityKey? {
 		do {
-			let clientId = "62636bbb-6316-4017-8478-deef55b93a4d"
-			let domain = "develop1.clearkeep.org:25000"
+			let clientId = "8a280b5a-9b40-48d8-9af8-6d9ae1fcfc65"
+			let domain = "stag1.clearkeep.org:25000"
 			let jsonDecoder = JSONDecoder()
 			if let keyData: Data = storage.object(forKey: clientId + domain) {
 				let key = try jsonDecoder.decode(SignalIdentityKey.self, from: keyData)

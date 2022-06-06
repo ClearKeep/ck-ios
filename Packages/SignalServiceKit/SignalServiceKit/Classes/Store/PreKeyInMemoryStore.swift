@@ -19,8 +19,8 @@ final class PreKeyInMemoryStore {
 	}
 	
 	private func getIndex(preKeyId: UInt32) -> UInt32 {
-		let domain = "develop1.clearkeep.org:25000"
-		let userId = "62636bbb-6316-4017-8478-deef55b93a4d"
+		let domain = "stag1.clearkeep.org:25000"
+		let userId = "8a280b5a-9b40-48d8-9af8-6d9ae1fcfc65"
 		let index = ("\(preKeyId)" + domain + userId).hashCode()
 		return UInt32(bitPattern: index)
 	}
@@ -29,6 +29,7 @@ final class PreKeyInMemoryStore {
 extension PreKeyInMemoryStore: PreKeyStore {
 	func loadPreKey(id: UInt32, context: StoreContext) throws -> PreKeyRecord {
 		let index = getIndex(preKeyId: id)
+        print("load prekey with id: \(id) and index: \(index)")
 		if let record = prekeyMap[index] {
 			return record
 		} else {
@@ -45,6 +46,7 @@ extension PreKeyInMemoryStore: PreKeyStore {
 	func storePreKey(_ record: PreKeyRecord, id: UInt32, context: StoreContext) throws {
 		let index = getIndex(preKeyId: id)
 		let recordData = Data(record.serialize())
+        print("store prekey with id: \(id) and index: \(index)")
 		prekeyMap[index] = record
 		storage.insert(recordData, forKey: String(index))
 	}
