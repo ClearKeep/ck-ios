@@ -19,7 +19,7 @@ private enum Constants {
 struct NewPasswordContenView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
-
+	
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -29,17 +29,20 @@ struct NewPasswordContenView: View {
 	@State private(set) var passwordStyle: TextInputStyle = .default
 	@State private(set) var rePasswordStyle: TextInputStyle = .default
 	@State private(set) var isLogin: Bool = false
+	@State private var passwordInvalid: Bool = false
+	@State private var confirmPasswordInvvalid: Bool = false
+	@State private var checkInvalid: Bool = false
 	let preAccessToken: String
 	let email: String
 	let domain: String
-
+	
 	// MARK: - Init
 	init(preAccessToken: String, email: String, domain: String) {
 		self.preAccessToken = preAccessToken
 		self.email = email
 		self.domain = domain
 	}
-
+	
 	// MARK: - Body
 	var body: some View {
 		VStack(spacing: Constants.spacing) {
@@ -69,9 +72,8 @@ struct NewPasswordContenView: View {
 					isActive: $isLogin,
 					label: {
 						RoundedButton("General.Save".localized,
-									  disabled: .constant(password.isEmpty || rePassword.isEmpty)) {
-							isLogin = true
-						}
+									  disabled: .constant(password.isEmpty || rePassword.isEmpty),
+									  action: doResetPassword)
 					})
 			}
 			Spacer()
@@ -94,11 +96,24 @@ private extension NewPasswordContenView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
-
+	
 	func doResetPassword() {
-		Task {
-			await injected.interactors.newPasswordInteractor.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: password, domain: domain)
+		invalid()
+		if checkInvalid {
+			Task {
+				await injected.interactors.newPasswordInteractor.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: password, domain: domain)
+			}
 		}
+	}
+	
+	func invalid() {
+		passwordInvalid = injected.interactors.newPasswordInteractor.passwordValid(password: password)
+		passwordStyle = passwordInvalid ? .normal : .error(message: "General.Password.Valid".localized)
+		
+		confirmPasswordInvvalid = injected.interactors.newPasswordInteractor.confirmPasswordValid(password: password, confirmPassword: rePassword)
+		rePasswordStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
+		
+		checkInvalid = injected.interactors.newPasswordInteractor.checkValid(passwordValdid: passwordInvalid, confirmPasswordValid: confirmPasswordInvvalid)
 	}
 }
 

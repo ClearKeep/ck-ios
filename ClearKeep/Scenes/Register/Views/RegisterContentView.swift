@@ -31,6 +31,10 @@ struct RegisterContentView: View {
 	@State private var passwordStyle: TextInputStyle = .default
 	@State private var confirmPassword: String = ""
 	@State private var confirmPasswordStyle: TextInputStyle = .default
+	@State private var emailInvalid: Bool = false
+	@State private var passwordInvalid: Bool = false
+	@State private var confirmPasswordInvvalid: Bool = false
+	@State private var checkInvalid: Bool = false
 	
 	// MARK: - Body
 	var body: some View {
@@ -80,7 +84,7 @@ struct RegisterContentView: View {
 				RoundedGradientButton("Register.SignUp".localized,
 									  disabled: .constant(email.isEmpty || displayName.isEmpty || password.isEmpty || confirmPassword.isEmpty),
 									  action: doRegister)
-				.frame(width: Constants.buttonSize.width)
+					.frame(width: Constants.buttonSize.width)
 			}
 		}
 		.padding(.vertical, Constants.padding.top)
@@ -99,14 +103,30 @@ private extension RegisterContentView {
 // MARK: - Interactor
 private extension RegisterContentView {
 	func doRegister() {
-		loadable = .isLoading(last: nil, cancelBag: CancelBag())
-		Task {
-			loadable = await injected.interactors.registerInteractor.register(displayName: displayName, email: email, password: password, customServer: customServer)
+		invalid()
+		if checkInvalid {
+			loadable = .isLoading(last: nil, cancelBag: CancelBag())
+			Task {
+				loadable = await injected.interactors.registerInteractor.register(displayName: displayName, email: email, password: password, customServer: customServer)
+			}
 		}
 	}
 	
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
+	}
+	
+	func invalid() {
+		emailInvalid = injected.interactors.registerInteractor.emailValid(email: email)
+		emailStyle = emailInvalid ? .normal : .error(message: "General.Email.Valid".localized)
+
+		passwordInvalid = injected.interactors.registerInteractor.passwordValid(password: password)
+		passwordStyle = passwordInvalid ? .normal : .error(message: "General.Password.Valid".localized)
+
+		confirmPasswordInvvalid = injected.interactors.registerInteractor.confirmPasswordValid(password: password, confirmPassword: confirmPassword)
+		confirmPasswordStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
+
+		checkInvalid = injected.interactors.registerInteractor.checkValid(emailValid: emailInvalid, passwordValdid: passwordInvalid, confirmPasswordValid: confirmPasswordInvvalid)
 	}
 }
 
