@@ -16,6 +16,7 @@ PODS:
     - Networking
     - RealmSwift
     - SignalProtocolObjC
+    - SignalServiceKit
     - SocketRocket
     - SwiftSRP
     - YapDatabase/SQLCipher
@@ -27,6 +28,9 @@ PODS:
   - CNIOHTTPParser (2.38.0)
   - CNIOLinux (2.38.0)
   - CNIOWindows (2.38.0)
+  - CocoaLumberjack (3.7.4):
+    - CocoaLumberjack/Core (= 3.7.4)
+  - CocoaLumberjack/Core (3.7.4)
   - Common (1.0.0):
     - KeychainAccess
   - CommonUI (1.0.0):
@@ -143,6 +147,8 @@ PODS:
   - GTMSessionFetcher/Core (1.7.1)
   - Introspect (0.1.4)
   - KeychainAccess (4.2.2)
+  - LibSignalClient (0.17.0):
+    - SignalCoreKit
   - Logging (1.4.0)
   - Mantle (2.2.0):
     - Mantle/extobjc (= 2.2.0)
@@ -169,9 +175,17 @@ PODS:
   - Realm/Headers (10.25.1)
   - RealmSwift (10.25.1):
     - Realm (= 10.25.1)
+  - SignalCoreKit (1.0.0):
+    - CocoaLumberjack
+    - OpenSSL-Universal
   - SignalProtocolC (2.3.1)
   - SignalProtocolObjC (1.0.0):
     - SignalProtocolC (= 2.3.1)
+  - SignalServiceKit (1.0.0):
+    - Common
+    - LibSignalClient
+    - SignalCoreKit
+    - YapDatabase/SQLCipher
   - SocketRocket (0.6.0)
   - SQLCipher (4.5.1):
     - SQLCipher/standard (= 4.5.1)
@@ -354,11 +368,14 @@ DEPENDENCIES:
   - GoogleSignIn
   - GoogleWebRTC
   - KeychainAccess
+  - LibSignalClient (from `https://github.com/signalapp/libsignal.git`)
   - Model (from `./Packages/Model`)
   - MSAL
   - netfox
   - Networking (from `./Packages/Networking`)
+  - SignalCoreKit (from `https://github.com/signalapp/SignalCoreKit.git`)
   - SignalProtocolObjC (from `https://github.com/nohtbook/SignalProtocol-ObjC.git`)
+  - SignalServiceKit (from `./Packages/SignalServiceKit`)
   - SocketRocket
   - SwiftLint
   - SwiftSRP (from `./Packages/SwiftSRP`)
@@ -375,6 +392,7 @@ SPEC REPOS:
     - CNIOHTTPParser
     - CNIOLinux
     - CNIOWindows
+    - CocoaLumberjack
     - CryptoSwift
     - FBAEMKit
     - FBSDKCoreKit
@@ -431,16 +449,28 @@ EXTERNAL SOURCES:
     :path: "./Packages/Common"
   CommonUI:
     :path: "./Packages/CommonUI"
+  LibSignalClient:
+    :git: https://github.com/signalapp/libsignal.git
   Model:
     :path: "./Packages/Model"
   Networking:
     :path: "./Packages/Networking"
+  SignalCoreKit:
+    :git: https://github.com/signalapp/SignalCoreKit.git
   SignalProtocolObjC:
     :git: https://github.com/nohtbook/SignalProtocol-ObjC.git
+  SignalServiceKit:
+    :path: "./Packages/SignalServiceKit"
   SwiftSRP:
     :path: "./Packages/SwiftSRP"
 
 CHECKOUT OPTIONS:
+  LibSignalClient:
+    :commit: 2c32fb802d1f8d6739ade32901a3f5d84e7ec19b
+    :git: https://github.com/signalapp/libsignal.git
+  SignalCoreKit:
+    :commit: 603f75807e30b7fa83843a74e6934563136c3027
+    :git: https://github.com/signalapp/SignalCoreKit.git
   SignalProtocolObjC:
     :commit: 69f3a62db411613a2dc64b67d1acad8602545ef3
     :git: https://github.com/nohtbook/SignalProtocol-ObjC.git
@@ -449,7 +479,7 @@ SPEC CHECKSUMS:
   _NIODataStructures: d8175e5ca5a34ec19b7ff21de298dd2a4d30818d
   AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
   CGRPCZlib: 30d7ed7cd286bf929605052dd64075a694d86d0c
-  ChatSecure: 7f51d80150c1a9fbd753b8192c585ae865c9da82
+  ChatSecure: b8f4d8a017d554315ee96d3579593fbc027b7dfa
   CNIOAtomics: 00b638e1b0dac91d06d4bb089ea9126c117c6650
   CNIOBoringSSL: c99129423da079a9eb74bcfc7cfec41a6775cf94
   CNIOBoringSSLShims: 902ae35fea0b6be5eefb4fdce906751886cfa46f
@@ -457,6 +487,7 @@ SPEC CHECKSUMS:
   CNIOHTTPParser: f3bd2955c9c8669ea2ae0f1f4f03df1fea2ed90d
   CNIOLinux: f8801300bb296d16dee59a82aba1613a08cfbe23
   CNIOWindows: 1cc6fb2af1d445f52f2d39cecf7069873f7d5b0d
+  CocoaLumberjack: 543c79c114dadc3b1aba95641d8738b06b05b646
   Common: 9ca33d62db967fd912890469f5c1ef3b1e9bcc48
   CommonUI: dec98f82f7b33e7242a6b9399c3a53e1991e3063
   CryptoSwift: a0799ee936271bd2253a006f1e4523df21845000
@@ -479,6 +510,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 4577a4cc914a5a07c40a8a0ad0acc22080418c2d
   Introspect: b62c4dd2063072327c21d618ef2bedc3c87bc366
   KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
+  LibSignalClient: 0979e736d85a419b75ecedc36ffcea821a5cea14
   Logging: beeb016c9c80cf77042d62e83495816847ef108b
   Mantle: c5aa8794a29a022dfbbfc9799af95f477a69b62d
   Model: 1874d7c7695319a01f7341e4c3928f510d09679f
@@ -490,8 +522,10 @@ SPEC CHECKSUMS:
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
   Realm: 1a6e9b4f6983711655d8c0bcb6d2d29c3afbb1f3
   RealmSwift: e72669550d27082aa4fad5d176f5076cfe806245
+  SignalCoreKit: 87da14c58d57760793b892ff03838c5ef2ce1167
   SignalProtocolC: e61c89693515347df8ed97961160a36cbe55c441
   SignalProtocolObjC: 35f26e21de41b6c9fbf8ec5087f3e02580df15e3
+  SignalServiceKit: 92872de5e41c508c70210b474ee79302d8edff23
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   SQLCipher: 712e8416685e8e575b9b0706ffee71678b2fdcf8
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
@@ -512,6 +546,6 @@ SPEC CHECKSUMS:
   SwiftSRP: 383b585bae7ed60f824f4959d12ee406a70466c1
   YapDatabase: 350ab72b61f9dcc32504594da1a52a93f5ef1476
 
-PODFILE CHECKSUM: d8ced6a95b8eb3523823e2e8499e2ded1162133b
+PODFILE CHECKSUM: 0079586f5b3730bc3c147af29befdbdfd411e895
 
 COCOAPODS: 1.11.3

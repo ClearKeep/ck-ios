@@ -9,7 +9,7 @@ import SwiftUI
 
 #if canImport(UIKit)
 extension View {
-	func hideKeyboard() {
+	public func hideKeyboard() {
 		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 	}
 	
@@ -33,5 +33,24 @@ public extension View {
 		} else {
 			self
 		}
+	}
+	
+	func bottomSheet<Content: View>(
+		isPresented: Binding<Bool>,
+		isShowHandle: Bool,
+		@ViewBuilder content: @escaping () -> Content
+	) -> some View {
+		self
+			.overlay(
+				Group {
+					if isPresented.wrappedValue {
+						BottomSheet(
+							isPresented: isPresented,
+							content: content,
+							isShowHandle: isShowHandle
+						)
+					}
+				}
+			)
 	}
 }

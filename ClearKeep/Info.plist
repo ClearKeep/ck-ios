@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>APP_GROUP_NAME</key>
+	<string>$(APP_GROUP_NAME)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -48,6 +50,16 @@
 				<string>$(OFFICE_URL_SCHEME)</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLName</key>
+			<string>$(IOS_BUNDLE_ID)</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(URL_SCHEME)</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
@@ -55,6 +67,8 @@
 	<string>$(CLK_DOMAIN)</string>
 	<key>CLK_PORT</key>
 	<string>$(CLK_PORT)</string>
+	<key>DATABASE_PATH</key>
+	<string>$(DATABASE_PATH)</string>
 	<key>FacebookAppID</key>
 	<string>$(FACEBOOK_APP_ID)</string>
 	<key>FacebookClientToken</key>
@@ -87,6 +101,8 @@
 	<string>$(OFFICE_REDIRECT_URI)</string>
 	<key>DATABASE_PATH</key>
 	<string>$(DATABASE_PATH)</string>
+	<key>YAP_DATABASE_PATH</key>
+	<string>$(YAP_DATABASE_PATH)</string>
 	<key>APP_GROUP_NAME</key>
 	<string>$(APP_GROUP_NAME)</string>
 	<key>RECEIVER_DEVICE_ID</key>
@@ -129,5 +145,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>YAP_DATABASE_PATH</key>
+	<string>$(YAP_DATABASE_PATH)</string>
 </dict>
 </plist>

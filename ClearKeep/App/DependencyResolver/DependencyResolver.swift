@@ -9,6 +9,7 @@ import CoreLocation
 import Common
 import CommonUI
 import ChatSecure
+import SignalServiceKit
 
 class DependencyResolver {
 	static let shared = DependencyResolver()
@@ -28,6 +29,8 @@ class DependencyResolver {
 	let authenticationService: IAuthenticationService!
 	let socialAuthenticationService: ISocialAuthenticationService!
 	let groupService: IGroupService!
+	let signalStore: ISignalProtocolInMemoryStore!
+	let yapDatabaseManager: YapDatabaseManager!
 	
 	init() {
 		fontSet = DefaultFontSet()
@@ -41,11 +44,15 @@ class DependencyResolver {
 		channelStorage = ChannelStorage(config: ConfigurationProvider.default)
 		ChatSecure.DependencyResolver.shared = ChatSecure.DependencyResolver(channelStorage)
 		
+		// MARK: - Signal
+		yapDatabaseManager = YapDatabaseManager(databasePath: ConfigurationProvider.default.yapDatabaseURL)
+		signalStore = SignalProtocolInMemoryStore(storage: yapDatabaseManager)
+		
 		// MARK: - Services
 		securedStoreService = SecuredStoreService()
 		persistentStoreService = PersistentStoreService()
 		appTokenService = AppTokenService(securedStoreService: securedStoreService, persistentStoreService: persistentStoreService)
-		authenticationService = CLKAuthenticationService()
+		authenticationService = CLKAuthenticationService(signalStore: signalStore)
 		socialAuthenticationService = SocialAuthenticationService([.facebook,
 																   .google(clientId: ConfigurationProvider.default.googleClientId),
 																   .office(clientId: ConfigurationProvider.default.officeClientId,

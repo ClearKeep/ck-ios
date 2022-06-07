@@ -14,8 +14,10 @@ IOS_APP_NAME = [DEV] ClearKeep
 IOS_APP_ICON = AppIcon-Development
 IOS_BUNDLE_ID = com.telred.clearkeep.dev
 IOS_NOTIFICATION_EXTENSION_BUNDLE_ID = com.telred.clearkeep.dev.notificationextension
+URL_SCHEME = clearkeepdev
 APP_GROUP_NAME =group.com.telred.clearkeep.dev
 DATABASE_PATH = development.db
+YAP_DATABASE_PATH = development.sqlite
 MARKETING_VERSION = 3.0.0
 CURRENT_PROJECT_VERSION = 1
 
