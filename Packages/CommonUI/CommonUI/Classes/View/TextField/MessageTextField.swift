@@ -25,6 +25,7 @@ struct MessageTextField: UIViewRepresentable {
 	@Binding var text: String
 	@Binding var height: CGFloat
 	@Binding var isEditing: Bool
+	@Binding var isReplying: Bool
 				
 	private let textView = UITextView()
 	private let placeholderLabel = UILabel()
@@ -79,6 +80,9 @@ struct MessageTextField: UIViewRepresentable {
 	}
 	
 	func updateUIView(_ uiView: UITextView, context: Context) {
+		if !isEditing && isReplying {
+			uiView.becomeFirstResponder()
+		}
 		if uiView.text != text {
 			if text.isEmpty {
 				uiView.text = ""
