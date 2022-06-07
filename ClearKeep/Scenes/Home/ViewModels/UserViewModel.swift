@@ -8,6 +8,17 @@
 import Foundation
 import Model
 
+protocol IUserViewModels {
+	var viewModelUser: IUser? { get }
+}
+
+struct UserViewModels: IUserViewModels {
+	var viewModelUser: IUser?
+	init(_ model: IHomeModels) {
+		self.viewModelUser = model.userModel
+	}
+}
+
 struct UserViewModel: Identifiable {
 	var id: String
 	var displayName: String
@@ -21,16 +32,5 @@ struct UserViewModel: Identifiable {
 		email = user?.email ?? ""
 		phoneNumber = user?.phoneNumber ?? ""
 		avatar = user?.avatar ?? ""
-	}
-}
-
-protocol IUserViewModels {
-	var viewModelUser: IUser? { get }
-}
-
-struct UserViewModels: IUserViewModels {
-	var viewModelUser: IUser?
-	init(_ model: IHomeModels) {
-		self.viewModelUser = model.userModel
 	}
 }
