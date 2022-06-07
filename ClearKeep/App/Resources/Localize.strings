@@ -212,3 +212,15 @@
 "CurrentPassword.Title" = "Please enter your password to enable 2FA";
 "CurrentPassword.Placeholder" = "Current Password";
 "CurrentPassword.Next" = "Next";
+
+// MARK: - Chat
+"Chat.QuoteButton" = "Quote";
+"Chat.CopyButton" = "Copy";
+"Chat.ForwardButton" = "Forward";
+"Chat.Forward" = "Forward to";
+"Chat.Input.PlaceHolder" = "Search for group or individuals";
+"Chat.Send" = "Send";
+"Chat.Group" = "Group";
+"Chat.User" = "User";
+"Chat.Replying" = "Replying to ";
+"Chat.Cancel" = "Cancel";
