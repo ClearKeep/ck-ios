@@ -168,6 +168,15 @@
 		F5644835283B7A79007846F9 /* CurrentPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = F564482C283B7A79007846F9 /* CurrentPassword.swift */; };
 		F5644836283B7A79007846F9 /* UserProfileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F564482D283B7A79007846F9 /* UserProfileContentView.swift */; };
 		F5644838283B7B9E007846F9 /* locations.json in Resources */ = {isa = PBXBuildFile; fileRef = F5644837283B7B9E007846F9 /* locations.json */; };
+		F5644849283F8562007846F9 /* CallRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F564483E283F8562007846F9 /* CallRemoteStore.swift */; };
+		F564484A283F8562007846F9 /* CallModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5644840283F8562007846F9 /* CallModel.swift */; };
+		F564484B283F8562007846F9 /* CallWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5644841283F8562007846F9 /* CallWorker.swift */; };
+		F564484C283F8562007846F9 /* CallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5644842283F8562007846F9 /* CallView.swift */; };
+		F564484D283F8562007846F9 /* CallingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5644844283F8562007846F9 /* CallingView.swift */; };
+		F564484E283F8562007846F9 /* VoiceCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5644845283F8562007846F9 /* VoiceCall.swift */; };
+		F564484F283F8562007846F9 /* InComingVoiceCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5644846283F8562007846F9 /* InComingVoiceCallView.swift */; };
+		F5644850283F8562007846F9 /* CallInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5644847283F8562007846F9 /* CallInMemoryStore.swift */; };
+		F5644851283F8562007846F9 /* CallInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5644848283F8562007846F9 /* CallInteractor.swift */; };
 		F568DC0F27FD7CC000EE9DF0 /* SettingServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC0627FD7CC000EE9DF0 /* SettingServerView.swift */; };
 		F568DC1027FD7CC000EE9DF0 /* ServerSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC0827FD7CC000EE9DF0 /* ServerSettingModel.swift */; };
 		F568DC1127FD7CC000EE9DF0 /* SettingServerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568DC0927FD7CC000EE9DF0 /* SettingServerInteractor.swift */; };
@@ -415,6 +424,15 @@
 		F564482C283B7A79007846F9 /* CurrentPassword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentPassword.swift; sourceTree = "<group>"; };
 		F564482D283B7A79007846F9 /* UserProfileContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileContentView.swift; sourceTree = "<group>"; };
 		F5644837283B7B9E007846F9 /* locations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = locations.json; sourceTree = "<group>"; };
+		F564483E283F8562007846F9 /* CallRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallRemoteStore.swift; sourceTree = "<group>"; };
+		F5644840283F8562007846F9 /* CallModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallModel.swift; sourceTree = "<group>"; };
+		F5644841283F8562007846F9 /* CallWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallWorker.swift; sourceTree = "<group>"; };
+		F5644842283F8562007846F9 /* CallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallView.swift; sourceTree = "<group>"; };
+		F5644844283F8562007846F9 /* CallingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallingView.swift; sourceTree = "<group>"; };
+		F5644845283F8562007846F9 /* VoiceCall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceCall.swift; sourceTree = "<group>"; };
+		F5644846283F8562007846F9 /* InComingVoiceCallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InComingVoiceCallView.swift; sourceTree = "<group>"; };
+		F5644847283F8562007846F9 /* CallInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallInMemoryStore.swift; sourceTree = "<group>"; };
+		F5644848283F8562007846F9 /* CallInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallInteractor.swift; sourceTree = "<group>"; };
 		F568DC0627FD7CC000EE9DF0 /* SettingServerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerView.swift; sourceTree = "<group>"; };
 		F568DC0827FD7CC000EE9DF0 /* ServerSettingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerSettingModel.swift; sourceTree = "<group>"; };
 		F568DC0927FD7CC000EE9DF0 /* SettingServerInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingServerInteractor.swift; sourceTree = "<group>"; };
@@ -803,6 +821,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				F564483D283F8562007846F9 /* Call */,
 				F5644822283B7A79007846F9 /* Profile */,
 				F5CFCA1B28237CD000A9737F /* GroupCall */,
 				0462C6B12816535C00A9EABB /* Search */,
@@ -1202,6 +1221,38 @@
 				F564482B283B7A79007846F9 /* CountryCode.swift */,
 				F564482C283B7A79007846F9 /* CurrentPassword.swift */,
 				F564482D283B7A79007846F9 /* UserProfileContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F564483D283F8562007846F9 /* Call */ = {
+			isa = PBXGroup;
+			children = (
+				F564483E283F8562007846F9 /* CallRemoteStore.swift */,
+				F564483F283F8562007846F9 /* Models */,
+				F5644841283F8562007846F9 /* CallWorker.swift */,
+				F5644842283F8562007846F9 /* CallView.swift */,
+				F5644843283F8562007846F9 /* Views */,
+				F5644847283F8562007846F9 /* CallInMemoryStore.swift */,
+				F5644848283F8562007846F9 /* CallInteractor.swift */,
+			);
+			path = Call;
+			sourceTree = "<group>";
+		};
+		F564483F283F8562007846F9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F5644840283F8562007846F9 /* CallModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F5644843283F8562007846F9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F5644844283F8562007846F9 /* CallingView.swift */,
+				F5644845283F8562007846F9 /* VoiceCall.swift */,
+				F5644846283F8562007846F9 /* InComingVoiceCallView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1609,6 +1660,7 @@
 				22A1C69A2812B1D500FE957F /* ChatWorker.swift in Sources */,
 				044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */,
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
+				F5644849283F8562007846F9 /* CallRemoteStore.swift in Sources */,
 				CB7F2991282CF11C00BD5049 /* MenuView.swift in Sources */,
 				CB8C3E3427F57FBA0034B3A9 /* AppVersion.swift in Sources */,
 				F556C24228097F6E00D2B149 /* ChatGroupRemoteStore.swift in Sources */,
@@ -1626,12 +1678,15 @@
 				0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */,
 				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
 				F5644836283B7A79007846F9 /* UserProfileContentView.swift in Sources */,
+				F564484D283F8562007846F9 /* CallingView.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				CB23604928333AC300D98F54 /* GroupModel.swift in Sources */,
 				0462C6CC2816535C00A9EABB /* CatalogyView.swift in Sources */,
 				0499343527E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift in Sources */,
 				CB7F2916281BA17300BD5049 /* SocialLoginModel.swift in Sources */,
 				F5644830283B7A79007846F9 /* ProfileRemoteStore.swift in Sources */,
+				F564484B283F8562007846F9 /* CallWorker.swift in Sources */,
+				F5644850283F8562007846F9 /* CallInMemoryStore.swift in Sources */,
 				CB7F2973282A4D6A00BD5049 /* SocialViewError.swift in Sources */,
 				0462C6C42816535C00A9EABB /* SearchModels.swift in Sources */,
 				22A1C69D2812B1D500FE957F /* ChatView.swift in Sources */,
@@ -1652,12 +1707,14 @@
 				0499345727E9A8BE003BD4C4 /* AdvancedSeverView.swift in Sources */,
 				0499344D27E97100003BD4C4 /* ChangePasswordContentView.swift in Sources */,
 				0499345527E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift in Sources */,
+				F564484F283F8562007846F9 /* InComingVoiceCallView.swift in Sources */,
 				F5CFCA2928237CD000A9737F /* GroupCallModel.swift in Sources */,
 				CB40074727E8CCC800DFBE88 /* LoginContentView.swift in Sources */,
 				F5CFCA2D28237CD000A9737F /* InComingVoiceGroupCall.swift in Sources */,
 				F5350E1027FAD57500F54E32 /* TwoFactorModel.swift in Sources */,
 				F5CFCA2728237CD000A9737F /* GroupCallRemoteStore.swift in Sources */,
 				0499345427E9A8BE003BD4C4 /* AdvancedSeverWorker.swift in Sources */,
+				F564484A283F8562007846F9 /* CallModel.swift in Sources */,
 				F5350E2027FAD58F00F54E32 /* TwoFactorView.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
 				F5350E1F27FAD58F00F54E32 /* TwoFactorInteractor.swift in Sources */,
@@ -1722,7 +1779,9 @@
 				F556C23D28097F6E00D2B149 /* ChatGroupWorker.swift in Sources */,
 				F5CFCA2C28237CD000A9737F /* CallingGroup.swift in Sources */,
 				F556C27B280E961E00D2B149 /* ListUser.swift in Sources */,
+				F5644851283F8562007846F9 /* CallInteractor.swift in Sources */,
 				0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */,
+				F564484C283F8562007846F9 /* CallView.swift in Sources */,
 				0499344827E97035003BD4C4 /* ChangePasswordView.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
@@ -1735,6 +1794,7 @@
 				0462C6C82816535C00A9EABB /* SearchAllView.swift in Sources */,
 				CB7F298D282CED4000BD5049 /* ServerViewModel.swift in Sources */,
 				0499343627E96F8A003BD4C4 /* NewPasswordWorker.swift in Sources */,
+				F564484E283F8562007846F9 /* VoiceCall.swift in Sources */,
 				F553F87427E820E600824BE7 /* SocialView.swift in Sources */,
 				047D6B1827F154970098B104 /* MemberView.swift in Sources */,
 				047D6B1C27F154B70098B104 /* RemoveMemberView.swift in Sources */,
