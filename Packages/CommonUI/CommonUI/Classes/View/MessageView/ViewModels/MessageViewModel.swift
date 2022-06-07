@@ -16,6 +16,8 @@ public protocol IMessageViewModel {
 	var message: String { get }
 	var dateCreated: String { get }
 	var isMine: Bool { get }
+	var isQuoteMessage: Bool { get }
+	var isForwardedMessage: Bool { get }
 	var clientWorkspaceDomain: String { get }
 }
 
@@ -29,6 +31,8 @@ public struct MessageViewModel: Identifiable, Equatable, IMessageViewModel {
 	public var message: String
 	public var dateCreated: String
 	public var isMine: Bool
+	public var isQuoteMessage: Bool
+	public var isForwardedMessage: Bool
 	public var clientWorkspaceDomain: String
 	
 	public init(data: IMessageModel) {
@@ -41,6 +45,8 @@ public struct MessageViewModel: Identifiable, Equatable, IMessageViewModel {
 		message = data.message.stringUTF8 ?? ""
 		dateCreated = MessageViewModel.dateString(from: data.createdAt)
 		isMine = MessageViewModel.isMine(clientId: fromClientId)
+		isQuoteMessage = MessageViewModel.isQuote(message: data.message.stringUTF8 ?? "")
+		isForwardedMessage = MessageViewModel.isForwarded(message: data.message.stringUTF8 ?? "")
 		clientWorkspaceDomain = data.clientWorkspaceDomain
 	}
 }
@@ -54,10 +60,18 @@ private extension MessageViewModel {
 	}
 	
 	static func getDisplayName(clientId: String, groupId: Int64) -> String {
-		return ""
+		return "Alissa"
 	}
 	
 	static func isMine(clientId: String) -> Bool {
 		return clientId == "1"
+	}
+	
+	static func isQuote(message: String) -> Bool {
+		return message.starts(with: ">>>")
+	}
+	
+	static func isForwarded(message: String) -> Bool {
+		return message.starts(with: "```")
 	}
 }

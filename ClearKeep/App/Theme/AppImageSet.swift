@@ -21,7 +21,7 @@ struct AppImageSet: IAppImageSet {
 	var chevUpIcon: Image { Image("ic_chev_up") }
 	var chevRightIcon: Image { Image("ic_chev_right").renderingMode(.template) }
 	var chevleftIcon: Image { Image("ic_chev_left").renderingMode(.template) }
-	var chevDownIcon: Image { Image("ic_chev_down") }
+	var chevDownIcon: Image { Image("ic_chev_down").renderingMode(.template) }
 	var microPhoneIcon: Image { Image("ic_microphone") }
 	var phoneCallIcon: Image { Image("ic_phone_call").renderingMode(.template) }
 	var videoIcon: Image { Image("ic_video").renderingMode(.template) }
