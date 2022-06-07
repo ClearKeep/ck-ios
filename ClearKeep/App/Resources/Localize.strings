@@ -154,7 +154,8 @@
 "GroupChat.User.Add.Title" = "Add user from other server";
 "GroupChat.User.Add.Placeholder" = "Paste your friend's link";
 "GroupChat.Group.Name" = "Group Name";
-"GroupChat.User.List" = "Users in this group";
+"GroupChat.Named" = "Name this group";
+"GroupChat.User.Inside" = "Users in this group";
 "GroupChat.Add" = "Add";
 "GroupChat.Next" = "Next";
 "GroupChat.Create" = "Create";

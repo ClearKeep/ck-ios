@@ -19,6 +19,42 @@ private enum Constants {
 	static let paddingButtonNext = 60.0
 }
 
+final class GroupChatData: ObservableObject {
+	@Published var modelList: [GroupChatModel] = []
+
+	init() {
+		loadData()
+	}
+
+	func loadData() {
+		modelList = [GroupChatModel(name: "absbd", checked: false),
+					 GroupChatModel(name: "mvxcvmkdfkgdf", checked: false),
+					 GroupChatModel(name: "kdrgjkerkter", checked: false),
+					 GroupChatModel(name: "absbd", checked: false),
+					 GroupChatModel(name: "kkjgkegjrktekrtert", checked: false),
+					 GroupChatModel(name: "sdkfskfksdf", checked: false),
+					 GroupChatModel(name: "sldfksldfklwelr", checked: false),
+					 GroupChatModel(name: "ewrlwkrlewkr", checked: false),
+					 GroupChatModel(name: "dfgdfgdfg", checked: false)]
+	}
+
+	func setCheckItem(model: GroupChatModel, isChecked: Bool) {
+		let index = modelList.firstIndex(where: { item in
+			item.id == model.id
+		})
+
+		if let index = index {
+			modelList[index].checked = isChecked
+		}
+	}
+
+	func getListUserChecked() -> [GroupChatModel] {
+		return modelList.filter({ item in
+			item.checked == true
+		})
+	}
+}
+
 struct ChatGroupView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
@@ -29,38 +65,45 @@ struct ChatGroupView: View {
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	@State private(set) var samples: Loadable<[IGroupChatModel]>
 	@State private(set) var searchText: String
+	@State private(set) var searchLinkText: String
 	@State private(set) var searchStyle: TextInputStyle = .default
+	@State private(set) var searchLinkStyle: TextInputStyle = .default
 	@State private(set) var isShowingView: Bool = false
 	@State private(set) var isSelectedUser: Bool = false
-	@State private(set) var model: [GroupChatModel] = []
+	@State private var isNextCreateGroup: Bool = false
 	@State private(set) var name: String = ""
+	@StateObject private var groupChatData = GroupChatData()
 	
 	// MARK: - Init
 	public init(samples: Loadable<[IGroupChatModel]> = .notRequested,
-				searchText: String = "") {
-		self._samples = .init(initialValue: samples)
-		self._searchText = .init(initialValue: searchText)
+				searchText: String = "",
+				searchLinkText: String = "") {
+		_samples = .init(initialValue: samples)
+		_searchText = .init(initialValue: searchText)
+		_searchLinkText = .init(initialValue: searchLinkText)
+		_searchStyle = .init(initialValue: searchStyle)
+		_searchLinkStyle = .init(initialValue: searchLinkStyle)
 	}
 	
 	// MARK: - Body
 	var body: some View {
 		NavigationView {
 			VStack(spacing: Constants.paddingVertical) {
-				buttonBack
+
 				inputSearch
 				tagUser
 				checkbox
 
 				if isShowingView {
-					CommonTextField(text: $searchText,
-									inputStyle: $searchStyle,
+					CommonTextField(text: $searchLinkText,
+									inputStyle: $searchLinkStyle,
 									placeHolder: "GroupChat.User.Add.Placeholder".localized,
 									keyboardType: .default,
 									onEditingChanged: { isEditing in
 						if isEditing {
-							searchStyle = .highlighted
+							searchLinkStyle = .highlighted
 						} else {
-							searchStyle = .normal
+							searchLinkStyle = .normal
 						}
 					})
 						.frame(maxHeight: .infinity, alignment: .top)
@@ -73,6 +116,15 @@ struct ChatGroupView: View {
 			.padding(.horizontal, Constants.paddingVertical)
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.edgesIgnoringSafeArea(.all)
+			.applyNavigationBarPlainStyle(title: "",
+										  titleColor: AppTheme.shared.colorSet.offWhite,
+										  backgroundColors: backgroundButtonBack,
+										  leftBarItems: {
+				buttonBackView
+			},
+										  rightBarItems: {
+				Spacer()
+			})
 		}
 	}
 }
@@ -119,7 +171,6 @@ private extension ChatGroupView {
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
 		}
-		.padding(.top, Constants.spacerTopView)
 	}
 	
 	var inputSearchView: some View {
@@ -129,24 +180,24 @@ private extension ChatGroupView {
 						placeHolder: "GroupChat.Search.Placeholder".localized,
 						onEditingChanged: { isEditing in
 			if isEditing {
-				searchStyle = .normal
-			} else {
 				searchStyle = .highlighted
+			} else {
+				searchStyle = .normal
 			}
 		})
 			.padding(.top, Constants.paddingVertical)
 	}
 	
 	var tagView: some View {
-		TagView(groupChatModel: [GroupChatModel(name: "absbd"),
-								 GroupChatModel(name: "mvxcvmkdfkgdf"),
-								 GroupChatModel(name: "kdrgjkerkter"),
-								 GroupChatModel(name: "absbd"),
-								 GroupChatModel(name: "kkjgkegjrktekrtert"),
-								 GroupChatModel(name: "sdkfskfksdf"),
-								 GroupChatModel(name: "sldfksldfklwelr"),
-								 GroupChatModel(name: "ewrlwkrlewkr"),
-								 GroupChatModel(name: "dfgdfgdfg")])
+		TagView(groupChatModel: [GroupChatModel(name: "absbd", checked: false),
+								 GroupChatModel(name: "mvxcvmkdfkgdf", checked: false),
+								 GroupChatModel(name: "kdrgjkerkter", checked: false),
+								 GroupChatModel(name: "absbd", checked: false),
+								 GroupChatModel(name: "kkjgkegjrktekrtert", checked: false),
+								 GroupChatModel(name: "sdkfskfksdf", checked: false),
+								 GroupChatModel(name: "sldfksldfklwelr", checked: false),
+								 GroupChatModel(name: "ewrlwkrlewkr", checked: false),
+								 GroupChatModel(name: "dfgdfgdfg", checked: false)])
 	}
 
 	var checkboxListUser: some View {
@@ -155,17 +206,20 @@ private extension ChatGroupView {
 	}
 
 	var listUserView: some View {
-			List(0..<model.count, id: \.self) { index in
-				ListUser(name: $model[index].name)
+		List(groupChatData.modelList, id: \.id) { item in
+				ListUser(userModel: item, groupData: groupChatData)
 			}
 			.listStyle(PlainListStyle())
 	}
 
 	var buttonNextView: some View {
 		NavigationLink(
-			destination: EmptyView(),
+			destination: CreateGroupView(model: groupChatData.getListUserChecked()),
+			isActive: $isNextCreateGroup,
 			label: {
-				Button(action: { },
+				Button(action: {
+					nextToCreateGroup()
+				},
 					   label: {
 					Text("GroupChat.Next".localized)
 				})
@@ -190,6 +244,10 @@ private extension ChatGroupView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
+
+	func nextToCreateGroup() {
+		isNextCreateGroup.toggle()
+	}
 }
 
 // MARK: - Color func
@@ -200,6 +258,10 @@ private extension ChatGroupView {
 	
 	var backgroundGradientPrimary: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
+	}
+
+	var backgroundButtonBack: [Color] {
+		colorScheme == .light ? [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
 }
 

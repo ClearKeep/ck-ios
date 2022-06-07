@@ -15,6 +15,7 @@ protocol IGroupChatModel {
 struct GroupChatModel: Identifiable {
 	var id = UUID()
 	var name: String
+	var checked: Bool
 }
 
 extension GroupChatModel: IGroupChatModel {}
