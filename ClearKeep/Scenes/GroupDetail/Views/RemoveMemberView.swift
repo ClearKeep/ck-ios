@@ -115,7 +115,7 @@ private extension RemoveMemberView {
 							inputStyle: $inputStyle,
 							inputIcon: AppTheme.shared.imageSet.searchIcon,
 							placeHolder: "General.Search".localized,
-							onEditingChanged: { _ in })
+							onEditingChanged: { _ in }, onTextChanged: { _ in })
 			Text("GroupDetail.UserInitTitle".localized)
 				.font(AppTheme.shared.fontSet.font(style: .input2))
 				.foregroundColor(foregroundColorTitle)

@@ -18,27 +18,38 @@ struct HomeContentView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Binding var groups: [GroupViewModel]
 	@Binding var peers: [GroupViewModel]
-	
+	@State private var isSearchView: Bool = false
+	@State private var isCreatGroup: Bool = false
+	@State private var isCreatMessage: Bool = false
 	// MARK: - Body
 	var body: some View {
 		VStack {
-			Button(action: searchAction, label: {
-				HStack(spacing: Constants.hSpacing) {
-					AppTheme.shared.imageSet.searchIcon
-						.foregroundColor(AppTheme.shared.colorSet.greyLight)
-					Text("Home.Search".localized)
-						.font(AppTheme.shared.fontSet.font(style: .input3))
-						.foregroundColor(AppTheme.shared.colorSet.greyLight)
-				}
-				.padding()
-				.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-			})
-			.frame(height: Constants.searchHeight)
-			.background(colorScheme == .light ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.darkgrey3)
-			.cornerRadius(Constants.cornerRadius)
+			NavigationLink(destination: SearchView(isSearchAction: $isSearchView, searchText: .constant("")),
+						   isActive: $isSearchView) {
+				Button(action: searchAction, label: {
+					HStack(spacing: Constants.hSpacing) {
+						AppTheme.shared.imageSet.searchIcon
+							.foregroundColor(AppTheme.shared.colorSet.greyLight)
+						Text("Home.Search".localized)
+							.font(AppTheme.shared.fontSet.font(style: .input3))
+							.foregroundColor(AppTheme.shared.colorSet.greyLight)
+					}
+					.padding()
+					.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+				})
+					.frame(height: Constants.searchHeight)
+					.background(colorScheme == .light ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.darkgrey3)
+					.cornerRadius(Constants.cornerRadius)
+			}
 			ScrollView {
-				ListGroupView(title: "Home.GroupChat".localized, groups: groups, action: { print("Group") })
-				ListGroupView(title: "Home.DirectMessages".localized, groups: peers, action: { print("Peer") })
+				NavigationLink(destination: ChatGroupView(),
+							   isActive: $isCreatGroup) {
+					ListGroupView(title: "Home.GroupChat".localized, groups: groups, action: { isCreatGroup.toggle() })
+				}
+				NavigationLink(destination: CreateDirectMessageView(),
+							   isActive: $isCreatMessage) {
+					ListGroupView(title: "Home.DirectMessages".localized, groups: peers, action: { isCreatMessage.toggle() })
+				}
 			}
 		}
 	}

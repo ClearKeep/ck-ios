@@ -16,22 +16,13 @@ struct GroupDetailView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.injected) private var injected: DIContainer
-	@State private(set) var imageUser: Image
-	@State private(set) var userName: String
-	@State private(set) var message: String
-	@State private(set) var groupText: String
+	@State private(set) var imageUser: Image = AppTheme.shared.imageSet.userImage
+	@State private(set) var userName: String = ""
+	@State private(set) var message: String = ""
+	@State private(set) var groupText: String = ""
 
 	// MARK: - Init
-	init(imageUser: Image,
-		 userName: String = "",
-		 message: String = "",
-		 groupText: String = "") {
-		self._imageUser = .init(initialValue: imageUser)
-		self._userName = .init(initialValue: userName)
-		self._message = .init(initialValue: message)
-		self._groupText = .init(initialValue: groupText)
-	}
-	
+
 	// MARK: - Body
 	var body: some View {
 		NavigationView {

@@ -7,11 +7,12 @@
 
 import SwiftUI
 
-enum MenuType: Equatable, CaseIterable {
+enum MenuType: String, CaseIterable, Identifiable, RawRepresentable {
+	var id: String { self.rawValue }
 	case profile
 	case server
 	case notification
-	
+
 	var title: String {
 		switch self {
 		case .profile:

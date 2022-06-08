@@ -25,12 +25,14 @@ struct CreateGroupView: View {
 	@Environment(\.presentationMode) var presentationMode
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
-	@State private var nameGroup = ""
+	@State private var nameGroup: String = ""
+	@State private var idClient: String = ""
 	@State private(set) var nameGroupStyle: TextInputStyle = .default
 	@State private(set) var isCreateGroup: Bool = false
-	var model: [GroupChatModel] = []
+	@State private(set) var addMember: [CreatGroupGetUsersViewModel] = []
 
 	let inspection = ViewInspector<Self>()
+	@Binding var profile: [CreatGroupProfieViewModel]
 
 	// MARK: - Body
 	var body: some View {
@@ -47,6 +49,7 @@ struct CreateGroupView: View {
 										  rightBarItems: {
 				Spacer()
 			})
+			.onAppear(perform: addMemmber)
 	}
 }
 
@@ -108,7 +111,7 @@ private extension CreateGroupView {
 	}
 
 	var listUserView: some View {
-		List(model, id: \.id) { item in
+		List(addMember) { item in
 			HStack {
 				ZStack {
 					Circle()
@@ -116,7 +119,7 @@ private extension CreateGroupView {
 						.frame(width: Constants.sizeImage, height: Constants.sizeImage)
 					AppTheme.shared.imageSet.userIcon
 				}
-				Text(item.name)
+				Text(item.displayName)
 					.frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
 					.font(AppTheme.shared.fontSet.font(style: .input2))
 					.foregroundColor(Color.gray)
@@ -129,7 +132,9 @@ private extension CreateGroupView {
 		NavigationLink(
 			destination: EmptyView(),
 			label: {
-				Button(action: { },
+				Button(action: {
+					creatGroup()
+				},
 					   label: {
 					Text("GroupChat.Create".localized)
 				})
@@ -169,13 +174,23 @@ private extension CreateGroupView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
+	func addMemmber() {
+		addMember = injected.interactors.chatGroupInteractor.getClient()
+	}
+
+	func creatGroup() {
+		idClient = profile.first?.id ?? ""
+		Task {
+			await injected.interactors.chatGroupInteractor.createGroup(by: idClient, groupName: nameGroup, groupType: "abc", lstClient: addMember)
+		}
+	}
 }
 
 // MARK: - Preview
 #if DEBUG
 struct CreateGroupView_Previews: PreviewProvider {
 	static var previews: some View {
-		CreateGroupView()
+		CreateGroupView(profile: .constant([]))
 	}
 }
 #endif

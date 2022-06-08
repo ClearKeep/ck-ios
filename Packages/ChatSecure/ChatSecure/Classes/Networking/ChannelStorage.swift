@@ -14,7 +14,7 @@ public protocol IChannelStorage {
 	var channels: [String: APIService] { get }
 	var currentServer: RealmServer? { get }
 	var currentDomain: String { get }
-	
+
 	func getServers() -> [RealmServer]
 	func didSelectServer(_ domain: String?) -> [RealmServer]
 }
@@ -28,7 +28,7 @@ public class ChannelStorage: IChannelStorage {
 	public var currentDomain: String {
 		currentServer?.serverDomain ?? config.clkDomain + ":" + config.clkPort
 	}
-	
+
 	let realmManager: RealmManager
 	
 	public init(config: IChatSecureConfig) {

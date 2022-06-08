@@ -26,6 +26,7 @@ public struct SearchTextField: View {
 	private let placeHolder: String
 	private let keyboardType: UIKeyboardType
 	private let onEditingChanged: (Bool) -> Void
+	private let onTextChanged: (String) -> Void
 
 	// MARK: - Init
 	public init(searchText: Binding<String>,
@@ -33,13 +34,15 @@ public struct SearchTextField: View {
 				inputIcon: Image? = nil,
 				placeHolder: String,
 				keyboardType: UIKeyboardType = .default,
-				onEditingChanged: @escaping (Bool) -> Void) {
+				onEditingChanged: @escaping (Bool) -> Void,
+				onTextChanged: @escaping (String) -> Void) {
 		self._searchText = searchText
 		self._inputStyle = inputStyle
 		self.inputIcon = inputIcon
 		self.placeHolder = placeHolder
 		self.keyboardType = keyboardType
 		self.onEditingChanged = onEditingChanged
+		self.onTextChanged = onTextChanged
 	}
 
 	// MARK: - Body
@@ -53,7 +56,7 @@ public struct SearchTextField: View {
 				Spacer()
 					.frame(width: Constants.spacing)
 			}
-			TextField(placeHolder, text: $searchText, onEditingChanged: onEditingChanged)
+			CustomSearchTextField(placeHolder: placeHolder, text: $searchText, isFocused: onEditingChanged, onTextChanged: onTextChanged)
 				.onChange(of: searchText) {
 					shouldShowCancelButton = $0.count > 0
 				}
@@ -112,11 +115,5 @@ private extension SearchTextField {
 
 	var font: Font {
 		inputStyle.textStyle.font
-	}
-}
-
-struct SearchTextField_Previews: PreviewProvider {
-	static var previews: some View {
-		SearchTextField(searchText: .constant("Test"), inputStyle: .constant(.default), placeHolder: "Phone") { _ in }
 	}
 }

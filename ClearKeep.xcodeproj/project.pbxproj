@@ -14,7 +14,14 @@
 		044351F827D9AFCA0054A78F /* RegisterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F027D9AFCA0054A78F /* RegisterInteractor.swift */; };
 		044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F127D9AFCA0054A78F /* RegisterView.swift */; };
 		044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F327D9AFCA0054A78F /* RegisterContentView.swift */; };
+		044432B728570E5F00276DB3 /* UsersGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044432B628570E5F00276DB3 /* UsersGroupViewModel.swift */; };
+		044432B92857126D00276DB3 /* CreatGroupUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044432B82857126D00276DB3 /* CreatGroupUserModel.swift */; };
+		044432BD285720C900276DB3 /* CreatGroupViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044432BC285720C900276DB3 /* CreatGroupViewModels.swift */; };
+		044432BF28572B9F00276DB3 /* CreatGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044432BE28572B9F00276DB3 /* CreatGroupViewModel.swift */; };
+		044432C32858D6D800276DB3 /* CreatGroupProfieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044432C22858D6D800276DB3 /* CreatGroupProfieViewModel.swift */; };
 		04458C272849BA1300992ECB /* HomeViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04458C262849BA1300992ECB /* HomeViewModels.swift */; };
+		044C18DC2851E4CA00057E16 /* CreatGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C18DB2851E4CA00057E16 /* CreatGroupModel.swift */; };
+		044C18E32851F8B400057E16 /* CreatGroupRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C18E22851F8B400057E16 /* CreatGroupRequestModel.swift */; };
 		0462C6C12816535C00A9EABB /* SearchRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B22816535C00A9EABB /* SearchRemoteStore.swift */; };
 		0462C6C22816535C00A9EABB /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B32816535C00A9EABB /* SearchView.swift */; };
 		0462C6C32816535C00A9EABB /* SearchInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B42816535C00A9EABB /* SearchInMemoryStore.swift */; };
@@ -251,7 +258,14 @@
 		044351F027D9AFCA0054A78F /* RegisterInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterInteractor.swift; sourceTree = "<group>"; };
 		044351F127D9AFCA0054A78F /* RegisterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		044351F327D9AFCA0054A78F /* RegisterContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterContentView.swift; sourceTree = "<group>"; };
+		044432B628570E5F00276DB3 /* UsersGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersGroupViewModel.swift; sourceTree = "<group>"; };
+		044432B82857126D00276DB3 /* CreatGroupUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatGroupUserModel.swift; sourceTree = "<group>"; };
+		044432BC285720C900276DB3 /* CreatGroupViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatGroupViewModels.swift; sourceTree = "<group>"; };
+		044432BE28572B9F00276DB3 /* CreatGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatGroupViewModel.swift; sourceTree = "<group>"; };
+		044432C22858D6D800276DB3 /* CreatGroupProfieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatGroupProfieViewModel.swift; sourceTree = "<group>"; };
 		04458C262849BA1300992ECB /* HomeViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModels.swift; sourceTree = "<group>"; };
+		044C18DB2851E4CA00057E16 /* CreatGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatGroupModel.swift; sourceTree = "<group>"; };
+		044C18E22851F8B400057E16 /* CreatGroupRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatGroupRequestModel.swift; sourceTree = "<group>"; };
 		0462C6B22816535C00A9EABB /* SearchRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRemoteStore.swift; sourceTree = "<group>"; };
 		0462C6B32816535C00A9EABB /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		0462C6B42816535C00A9EABB /* SearchInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchInMemoryStore.swift; sourceTree = "<group>"; };
@@ -524,6 +538,17 @@
 				044351F327D9AFCA0054A78F /* RegisterContentView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		044C18D52851ACCF00057E16 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				044432B628570E5F00276DB3 /* UsersGroupViewModel.swift */,
+				044432BC285720C900276DB3 /* CreatGroupViewModels.swift */,
+				044432BE28572B9F00276DB3 /* CreatGroupViewModel.swift */,
+				044432C22858D6D800276DB3 /* CreatGroupProfieViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		0462C6B12816535C00A9EABB /* Search */ = {
@@ -1182,13 +1207,14 @@
 		F556C23328097F6E00D2B149 /* ChatGroup */ = {
 			isa = PBXGroup;
 			children = (
+				044C18D52851ACCF00057E16 /* ViewModels */,
 				F556C23428097F6E00D2B149 /* ChatGroupWorker.swift */,
 				F556C23528097F6E00D2B149 /* ChatGroupInMemoryStore.swift */,
-				F556C23628097F6E00D2B149 /* Models */,
 				F556C23828097F6E00D2B149 /* ChatGroupView.swift */,
-				F556C23928097F6E00D2B149 /* Views */,
 				F556C23B28097F6E00D2B149 /* ChatGroupRemoteStore.swift */,
 				F556C23C28097F6E00D2B149 /* ChatGroupInteractor.swift */,
+				F556C23628097F6E00D2B149 /* Models */,
+				F556C23928097F6E00D2B149 /* Views */,
 			);
 			path = ChatGroup;
 			sourceTree = "<group>";
@@ -1197,6 +1223,9 @@
 			isa = PBXGroup;
 			children = (
 				F556C23728097F6E00D2B149 /* ChatGroupModel.swift */,
+				044C18DB2851E4CA00057E16 /* CreatGroupModel.swift */,
+				044C18E22851F8B400057E16 /* CreatGroupRequestModel.swift */,
+				044432B82857126D00276DB3 /* CreatGroupUserModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1664,6 +1693,7 @@
 				F5644834283B7A79007846F9 /* CountryCode.swift in Sources */,
 				CB8C3EAB2805D2D60034B3A9 /* AddMemberView.swift in Sources */,
 				0462C6C62816535C00A9EABB /* SearchInteractor.swift in Sources */,
+				044C18DC2851E4CA00057E16 /* CreatGroupModel.swift in Sources */,
 				CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */,
 				044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */,
 				044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */,
@@ -1751,6 +1781,7 @@
 				F568DC2027FD882600EE9DF0 /* NotificationRemoteStore.swift in Sources */,
 				044351F627D9AFCA0054A78F /* RegisterInMemoryStore.swift in Sources */,
 				F564482F283B7A79007846F9 /* ProfileView.swift in Sources */,
+				044432C32858D6D800276DB3 /* CreatGroupProfieViewModel.swift in Sources */,
 				F5CFCA2B28237CD000A9737F /* GroupCallInMemoryStore.swift in Sources */,
 				F568DC2527FD882600EE9DF0 /* NotificationView.swift in Sources */,
 				CB23604728322DAA00D98F54 /* StatusType.swift in Sources */,
@@ -1763,6 +1794,7 @@
 				0499344727E97035003BD4C4 /* ChangePasswordInteractor.swift in Sources */,
 				22A1C69C2812B1D500FE957F /* ChatInteractor.swift in Sources */,
 				047D6B6427F6A3DD0098B104 /* DirectMessageContentView.swift in Sources */,
+				044432B728570E5F00276DB3 /* UsersGroupViewModel.swift in Sources */,
 				047D6B5E27F6A3750098B104 /* CreateDirectMessageInMemoryStore.swift in Sources */,
 				0499341027E96DD7003BD4C4 /* FogotPasswordView.swift in Sources */,
 				0499344427E97035003BD4C4 /* ChangePasswordInMemoryStore.swift in Sources */,
@@ -1779,6 +1811,7 @@
 				0499343D27E96FC5003BD4C4 /* NewPasswordContenView.swift in Sources */,
 				047D6B6027F6A3750098B104 /* CreateDirectMessageRemoteStore.swift in Sources */,
 				F553F87527E820E600824BE7 /* SocialCommonStyle.swift in Sources */,
+				044432B92857126D00276DB3 /* CreatGroupUserModel.swift in Sources */,
 				F5644833283B7A79007846F9 /* ProfileInteractor.swift in Sources */,
 				047D6B6227F6A3750098B104 /* CreateDirectMessageView.swift in Sources */,
 				0499340F27E96DD7003BD4C4 /* FogotPasswordInteractor.swift in Sources */,
@@ -1802,6 +1835,7 @@
 				F556C27B280E961E00D2B149 /* ListUser.swift in Sources */,
 				F5644851283F8562007846F9 /* CallInteractor.swift in Sources */,
 				0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */,
+				044432BD285720C900276DB3 /* CreatGroupViewModels.swift in Sources */,
 				F564484C283F8562007846F9 /* CallView.swift in Sources */,
 				0499344827E97035003BD4C4 /* ChangePasswordView.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
@@ -1824,11 +1858,11 @@
 				F5484D9E2828FF8200F0B43C /* CreateGroupView.swift in Sources */,
 				228F2C84281B9E6F0012B07A /* ForwardView.swift in Sources */,
 				047241A927DB3D2C0043345A /* AuthenticationModel.swift in Sources */,
-
 				0499343827E96F8A003BD4C4 /* NewPasswordInteractor.swift in Sources */,
 				F5350E1E27FAD58F00F54E32 /* TwoFactorRemoteStore.swift in Sources */,
 				0462C6C52816535C00A9EABB /* SearchCatalogy.swift in Sources */,
 				F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */,
+				044C18E32851F8B400057E16 /* CreatGroupRequestModel.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
 				047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */,
 				CB23605128335BAC00D98F54 /* ServerModel.swift in Sources */,
@@ -1838,6 +1872,7 @@
 				CB40073027E74E1900DFBE88 /* Configuration.swift in Sources */,
 				CB7F295B2828BA5900BD5049 /* RegisterViewError.swift in Sources */,
 				CB117EBC27BB7D2F000941D9 /* RootView.swift in Sources */,
+				044432BF28572B9F00276DB3 /* CreatGroupViewModel.swift in Sources */,
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
 				04C854B228489DA300CBA291 /* HomeModels.swift in Sources */,
 				CB23605428337CD400D98F54 /* HomeContentView.swift in Sources */,

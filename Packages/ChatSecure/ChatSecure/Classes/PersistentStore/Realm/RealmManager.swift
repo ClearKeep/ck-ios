@@ -75,7 +75,7 @@ extension RealmManager {
 				
 				realmGroups.append(realmGroup)
 			}
-			
+
 			write { realm in
 				realm.add(realmGroups, update: .modified)
 			}
@@ -163,6 +163,11 @@ extension RealmManager {
 			realm.add(server, update: .modified)
 		}
 		return getServers()
+	}
+
+	func getClient() -> [RealmMember] {
+		let users = load(listOf: RealmMember.self)
+		return users
 	}
 }
 

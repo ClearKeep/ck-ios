@@ -137,7 +137,7 @@ private extension DirectMessageContentView {
 				if isEditing {
 					isShowingLinkUser = false
 				}
-			})
+			}, onTextChanged: { _ in })
 			buttonAddUser
 			if isShowingLinkUser {
 				addSeverTextfieldView

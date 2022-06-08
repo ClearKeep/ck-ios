@@ -124,7 +124,7 @@ private extension AddMemberView {
 								inputStyle: $inputStyle,
 								inputIcon: AppTheme.shared.imageSet.searchIcon,
 								placeHolder: "GroupDetail.Search".localized,
-								onEditingChanged: { _ in })
+								onEditingChanged: { _ in }, onTextChanged: { _ in })
 				buttonAdd
 				if isShowingView {
 					addSeverTextfieldView

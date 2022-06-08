@@ -16,6 +16,7 @@ public protocol IGroupService {
 	func joinGroup(by groupId: Int64, domain: String) async -> (Result<Group_BaseResponse, Error>)
 	func addMember(_ user: Group_ClientInGroupObject, groupId: Int64, domain: String) async -> (Result<Group_BaseResponse, Error>)
 	func leaveGroup(_ user: Group_ClientInGroupObject, groupId: Int64, domain: String) async -> (Result<Group_BaseResponse, Error>)
+
 }
 
 public class GroupService {
@@ -24,7 +25,9 @@ public class GroupService {
 }
 
 extension GroupService: IGroupService {
+
 	public func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [Group_ClientInGroupObject], domain: String) async -> (Result<Group_GroupObjectResponse, Error>) {
+
 		var request = Group_CreateGroupRequest()
 		request.groupName = groupName
 		request.groupType = groupType
@@ -50,7 +53,7 @@ extension GroupService: IGroupService {
 	
 	public func getJoinedGroups(domain: String) async -> (Result<[RealmGroup], Error>) {
 		let request = Group_GetJoinedGroupsRequest()
-		
+
 		let response = await channelStorage.getChannel(domain: domain).getJoinedGroups(request)
 		
 		switch response {

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Common
+import CommonUI
 
 struct ProfileView: View {
 	// MARK: - Constants
@@ -17,12 +18,9 @@ struct ProfileView: View {
 	
 	// MARK: - Body
 	var body: some View {
-		NavigationView {
 		content
-		.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		.navigationBarTitle("")
-		.navigationBarHidden(true)
-		}
+			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.hiddenNavigationBarStyle()
 	}
 }
 
@@ -43,7 +41,7 @@ private extension ProfileView {
 // MARK: - Interactor
 private extension ProfileView {
 }
-	
+
 // MARK: - Preview
 #if DEBUG
 struct ProfileView_Previews: PreviewProvider {

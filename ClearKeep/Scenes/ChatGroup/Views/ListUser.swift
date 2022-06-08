@@ -10,41 +10,40 @@ import Common
 import CommonUI
 
 private enum Constants {
-	static let sizeImage = 64.0
+	static let avatarSize = CGSize(width: 64.0, height: 64.0)
 }
 
 struct ListUser: View {
 	// MARK: - Variables
-	@State private var selectedCheckbox: Bool = false
+
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.injected) private var injected: DIContainer
-	var userModel: GroupChatModel
-	@ObservedObject var groupData: GroupChatData
+	@Binding var user: CreatGroupGetUsersViewModel
+	@Binding var imageUrl: String
+	@Binding var name: String
+	@State private(set) var isSelected: Bool = false
+
+	// MARK: Init
 
 	// MARK: - Body
 	var body: some View {
+		Button(action: {
+			addUser()
+		}, label: {
 			HStack {
-				ZStack {
-					Circle()
-						.fill(backgroundGradientPrimary)
-						.frame(width: Constants.sizeImage, height: Constants.sizeImage)
-					AppTheme.shared.imageSet.userIcon
-				}
-				Text(userModel.name)
+
+				avatarView
+					.frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
+					.clipShape(Circle())
+				Text(name)
 					.frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
 					.font(AppTheme.shared.fontSet.font(style: .input2))
 					.foregroundColor(foregroundTagUser)
+				Spacer()
+				CheckBoxButtons(text: "", isChecked: $isSelected)
 
-				Button(action: {
-					selectedCheckbox.toggle()
-					groupData.setCheckItem(model: userModel, isChecked: selectedCheckbox)
-				}, label: {
-					checkMaskIcon
-						.foregroundColor(focegroundColorImage)
-				})
-			}.onAppear {
-				selectedCheckbox = userModel.checked
 			}
+		})
 	}
 }
 
@@ -53,20 +52,34 @@ private extension ListUser {
 	var foregroundTagUser: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight
 	}
+}
 
-	var backgroundGradientPrimary: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
+// MARK: - Private
+private extension ListUser {
+	var avatarView: AnyView {
+		if imageUrl == "" {
+			return AnyView(avatarDefault)
+		} else {
+			return AnyView(avatar)
+		}
+	}
+}
+
+// MARK: - Displaying Content
+private extension ListUser {
+	var avatar: some View {
+		Image(imageUrl)
+			.frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
+			.clipShape(Circle())
+			.foregroundColor(Color.gray)
 	}
 
-	var focegroundColorImage: Color {
-		selectedCheckbox ? AppTheme.shared.colorSet.primaryDark : AppTheme.shared.colorSet.grey3
+	var avatarDefault: some View {
+		AvatarDefault(title: String(name.prefix(1)))
 	}
 
-	var font: Font {
-		AppTheme.shared.fontSet.font(style: .body3)
-	}
-
-	var checkMaskIcon: Image {
-		selectedCheckbox ? AppTheme.shared.imageSet.checkedIcon : AppTheme.shared.imageSet.unCheckIcon
+	func addUser() {
+		isSelected.toggle()
+			injected.interactors.chatGroupInteractor.addClient(user: user)
 	}
 }
