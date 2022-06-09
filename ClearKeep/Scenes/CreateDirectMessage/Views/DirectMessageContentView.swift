@@ -151,10 +151,10 @@ private extension DirectMessageContentView {
 
 	var userView: some View {
 		ScrollView(showsIndicators: false) {
-			NavigationLink(
-				destination: ChatView(messageText: "", inputStyle: .default, imageUser: imageUser, userName: userName),
-				isActive: $isNext,
-				label: {
+//			NavigationLink(
+//				destination: ChatView(messageText: "", inputStyle: .default, imageUser: imageUser, userName: userName),
+//				isActive: $isNext,
+//				label: {
 					Button(action: chooseUser) {
 						VStack(alignment: .leading, spacing: Constants.spacing) {
 							HStack {
@@ -170,7 +170,7 @@ private extension DirectMessageContentView {
 							}
 						}
 					}
-				})
+	//			})
 		}
 	}
 

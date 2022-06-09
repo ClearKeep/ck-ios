@@ -14,64 +14,16 @@ public protocol IMessageViewModel {
 	var fromClientName: String { get }
 	var clientId: String { get }
 	var message: String { get }
-	var dateCreated: String { get }
+	var dateCreated: Int64 { get }
 	var isMine: Bool { get }
 	var isQuoteMessage: Bool { get }
 	var isForwardedMessage: Bool { get }
 	var clientWorkspaceDomain: String { get }
-}
-
-public struct MessageViewModel: Identifiable, Equatable, IMessageViewModel {
-	public var id: String
-	public var groupId: Int64
-	public var groupType: String
-	public var fromClientId: String
-	public var fromClientName: String
-	public var clientId: String
-	public var message: String
-	public var dateCreated: String
-	public var isMine: Bool
-	public var isQuoteMessage: Bool
-	public var isForwardedMessage: Bool
-	public var clientWorkspaceDomain: String
 	
-	public init(data: IMessageModel) {
-		id = data.id
-		groupId = data.groupID
-		groupType = data.groupType
-		fromClientId = data.fromClientID
-		clientId = data.clientID
-		fromClientName = MessageViewModel.getDisplayName(clientId: fromClientId, groupId: groupId)
-		message = data.message.stringUTF8 ?? ""
-		dateCreated = MessageViewModel.dateString(from: data.createdAt)
-		isMine = MessageViewModel.isMine(clientId: fromClientId)
-		isQuoteMessage = MessageViewModel.isQuote(message: data.message.stringUTF8 ?? "")
-		isForwardedMessage = MessageViewModel.isForwarded(message: data.message.stringUTF8 ?? "")
-		clientWorkspaceDomain = data.clientWorkspaceDomain
-	}
-}
-
-private extension MessageViewModel {
-	static func dateString(from miliseconds: Int64) -> String {
-		let date = NSDate(timeIntervalSince1970: TimeInterval(miliseconds / 1000))
-		let formatDate = DateFormatter()
-		formatDate.dateFormat = "HH:mm"
-		return formatDate.string(from: date as Date)
-	}
+	func dateCreatedString() -> String
+	func getQuoteMessage() -> String
+	func getQuoteMessageReply() -> String
+	func getQuoteMessageTime() -> String
+	func getQuoteMessageName() -> String
 	
-	static func getDisplayName(clientId: String, groupId: Int64) -> String {
-		return "Alissa"
-	}
-	
-	static func isMine(clientId: String) -> Bool {
-		return clientId == "1"
-	}
-	
-	static func isQuote(message: String) -> Bool {
-		return message.starts(with: ">>>")
-	}
-	
-	static func isForwarded(message: String) -> Bool {
-		return message.starts(with: "```")
-	}
 }

@@ -26,8 +26,8 @@ public struct MessageBubbleView: View {
 	
 	var messageViewModel: IMessageViewModel
 	var userName: String?
-	var isGroup: Bool = true
-	var isShowAvatarAndUserName: Bool = true
+	var isGroup: Bool = false
+	var isShowAvatarAndUserName: Bool = false
 	var rectCorner: UIRectCorner
 		
 	public init(messageViewModel: IMessageViewModel,
@@ -85,19 +85,18 @@ private extension MessageBubbleView {
 	}
 	
 	var receiverMessageView: some View {
-		HStack {
-			VStack(alignment: .leading, spacing: Constants.messageDateSpacing) {
-				HStack {
-					if messageViewModel.isForwardedMessage {
-						forwardTitleView
-					}
-					dateCreatedView
+		VStack(alignment: .leading, spacing: Constants.messageDateSpacing) {
+			HStack {
+				if messageViewModel.isForwardedMessage {
+					forwardTitleView
 				}
-				
+				dateCreatedView
+			}
+			HStack {
 				messageContentView
-				
-			}.frame(width: Constants.maxWidthBuble, alignment: .leading)
-			Spacer()
+					.frame(width: Constants.maxWidthBuble, alignment: .leading)
+				Spacer()
+			}
 		}
 	}
 	
@@ -115,6 +114,11 @@ private extension MessageBubbleView {
 						.frame(width: Constants.messageIndicatorWidth)
 						.cornerRadius(Constants.messageIndicatorRadius)
 				}
+				Text(messageViewModel.getQuoteMessageReply())
+					.modifier(MessageTextViewModifier())
+					.background(commonUIConfig.colorSet.grey2)
+					.clipShape(BubbleArrow(rectCorner: rectCorner))
+					.foregroundColor(foregroundText)
 				
 			}.frame(width: Constants.maxWidthBuble, alignment: .trailing)
 		}
@@ -133,6 +137,11 @@ private extension MessageBubbleView {
 					
 					quoteContentView
 				}
+				Text(messageViewModel.getQuoteMessageReply())
+					.modifier(MessageTextViewModifier())
+					.background(commonUIConfig.colorSet.grey2)
+					.clipShape(BubbleArrow(rectCorner: rectCorner))
+					.foregroundColor(foregroundText)
 				
 			}.frame(width: Constants.maxWidthBuble, alignment: .leading)
 			Spacer()
@@ -203,7 +212,7 @@ private extension MessageBubbleView {
 	}
 	
 	var dateCreatedView: some View {
-		Text(messageViewModel.dateCreated)
+		Text(messageViewModel.dateCreatedString())
 			.font(commonUIConfig.fontSet.font(style: .placeholder3))
 			.foregroundColor(foregroundDateText)
 	}
@@ -221,21 +230,22 @@ private extension MessageBubbleView {
 	}
 	
 	var quoteContentView: some View {
-		VStack(alignment: .leading, spacing: 0) {
-			Text(messageViewModel.message)
+		VStack(alignment: .trailing, spacing: 0) {
+			Text(messageViewModel.getQuoteMessage())
 				.modifier(MessageTextViewModifier())
 				.foregroundColor(commonUIConfig.colorSet.grey2)
-			Text(messageViewModel.fromClientName + " " + messageViewModel.dateCreated)
+			Text(messageViewModel.getQuoteMessageName() + " " + messageViewModel.dateCreatedString())
 				.font(commonUIConfig.fontSet.font(style: .placeholder2))
 				.foregroundColor(commonUIConfig.colorSet.grey3)
 				.padding(.bottom, 6)
 				.padding(.leading, Constants.groupMessageLeadingSpacing)
-		}.background(quoteMessageBubbleBackground)
+		}
+		.background(quoteMessageBubbleBackground)
 			.clipShape(BubbleArrow(rectCorner: rectCorner))
 	}
 	
 	var messageContentView: some View {
-		Text(messageViewModel.message)
+		Text(messageViewModel.isForwardedMessage ? String(messageViewModel.message.dropFirst(3)) : messageViewModel.message)
 			.modifier(MessageTextViewModifier())
 			.background(commonUIConfig.colorSet.grey2)
 			.clipShape(BubbleArrow(rectCorner: rectCorner))
