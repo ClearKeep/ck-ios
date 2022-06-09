@@ -22,12 +22,14 @@ struct ListGroupView: View {
 	private let title: String
 	private let groups: [GroupViewModel]
 	private let action: () -> Void
+	private let onChooseGroup: (GroupViewModel) -> Void
 	
 	// MARK: - Init
-	init(title: String, groups: [GroupViewModel], action: @escaping () -> Void) {
+	init(title: String, groups: [GroupViewModel], action: @escaping () -> Void, onChooseGroup: @escaping (GroupViewModel) -> Void) {
 		self.title = title
 		self.groups = groups
 		self.action = action
+		self.onChooseGroup = onChooseGroup
 	}
 	
 	// MARK: Body
@@ -51,11 +53,15 @@ struct ListGroupView: View {
 			
 			if isExpand {
 				ForEach(groups, id: \.groupId) { group in
-					Text(group.groupName)
-						.font(group.hasUnreadMessage ? AppTheme.shared.fontSet.font(style: .body3) : AppTheme.shared.fontSet.font(style: .input3))
-						.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight)
-						.frame(height: Constants.itemHeight)
-						.frame(maxWidth: .infinity, alignment: .leading)
+					Button {
+						onChooseGroup(group)
+					} label: {
+						Text(group.groupName)
+							.font(group.hasUnreadMessage ? AppTheme.shared.fontSet.font(style: .body3) : AppTheme.shared.fontSet.font(style: .input3))
+							.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight)
+							.frame(height: Constants.itemHeight)
+							.frame(maxWidth: .infinity, alignment: .leading)
+					}
 				}.padding([.horizontal], Constants.padding)
 			}
 		}

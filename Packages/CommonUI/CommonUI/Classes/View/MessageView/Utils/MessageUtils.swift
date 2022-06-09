@@ -7,8 +7,9 @@
 
 import UIKit
 import SwiftUI
+import Common
 
-class MessageUtils {
+public class MessageUtils {
 	static func separateMessageList(messages: [IMessageViewModel]) -> [[IMessageViewModel]] {
 		var result: [[IMessageViewModel]] = []
 		var cache: [IMessageViewModel] = []
@@ -84,6 +85,65 @@ class MessageUtils {
 			default:
 				return [.topRight, .bottomRight]
 			}
+		}
+	}
+	
+	public static func getTimeAsString(timeMs: Int64, includeTime: Bool = false) -> String {
+		let nowTime = Date()
+		
+		let inputTime = Date(timeIntervalSince1970: TimeInterval(timeMs / 1000))
+		
+		let time = includeTime ? " at \(dateString(date: inputTime, format: "hh:mm aa"))" : ""
+		
+		if inputTime.year == nowTime.year
+			&& inputTime.month == nowTime.month
+			&& inputTime.weekOfMonth == nowTime.weekOfMonth {
+			if inputTime.day == nowTime.day {
+				return "Today\(time)"
+			} else if nowTime.day - inputTime.day == 1 {
+				return "Yesterday\(time)"
+			} else {
+				return dateString(date: inputTime, format: "EEE")
+			}
+		} else {
+			return dateString(date: inputTime, format: "yyyy/MM/dd")
+		}
+	}
+	
+	static func dateString(date: Date, format: String) -> String {
+		let formatDate = DateFormatter()
+		formatDate.dateFormat = format
+		return formatDate.string(from: date)
+	}
+	
+	static func showMessageDate(
+		for message: MessageDisplayInfoViewModel,
+		in messages: [MessageDisplayInfoViewModel]
+	) -> String? {
+		let index = messages.firstIndex { msg in
+			msg.message.id == message.message.id
+		}
+		guard let index = index else {
+			return nil
+		}
+
+		let message = messages[index]
+		let previousIndex = index + 1
+				
+		if previousIndex < messages.count {
+			let previous = messages[previousIndex]
+			let isDifferentDay = !Calendar.current.isDate(
+				Date(timeIntervalSince1970: TimeInterval(message.message.dateCreated / 1000)),
+				equalTo: Date(timeIntervalSince1970: TimeInterval(previous.message.dateCreated / 1000)),
+				toGranularity: .day
+			)
+			if isDifferentDay {
+				return getTimeAsString(timeMs: message.message.dateCreated)
+			} else {
+				return nil
+			}
+		} else {
+			return getTimeAsString(timeMs: message.message.dateCreated)
 		}
 	}
 }

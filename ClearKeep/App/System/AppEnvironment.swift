@@ -43,7 +43,7 @@ extension AppEnvironment {
 		let fogotPasswordInteractor = FogotPasswordInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService)
 		let newPasswordInteractor = NewPasswordInteractor(appState: appState, authenticationService: DependencyResolver.shared.authenticationService)
 		let changePasswordInteractor = ChangePasswordInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService)
-
+		let chatInteractor = ChatInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, messageService: DependencyResolver.shared.messageService)
 		return .init(homeInteractor: homeInteractor,
 					 loginInteractor: loginInteractor,
 					 twoFactorInteractor: twoFactorInteractor,
@@ -51,7 +51,8 @@ extension AppEnvironment {
 					 socialInteractor: socialInteractor,
 					 fogotPasswordInteractor: fogotPasswordInteractor,
 					 newPasswordInteractor: newPasswordInteractor,
-					 changePasswordInteractor: changePasswordInteractor)
+					 changePasswordInteractor: changePasswordInteractor,
+					 chatInteractor: chatInteractor)
 	}
 }
 
