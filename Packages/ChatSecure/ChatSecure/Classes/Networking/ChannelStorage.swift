@@ -31,9 +31,9 @@ public class ChannelStorage: IChannelStorage {
 	
 	let realmManager: RealmManager
 	
-	public init(config: IChatSecureConfig) {
+	public init(config: IChatSecureConfig, realmManager: RealmManager) {
 		self.config = config
-		realmManager = RealmManager(databasePath: config.databaseURL)
+		self.realmManager = realmManager
 		channels = [config.clkDomain + ":" + config.clkPort: APIService(domain: config.clkDomain + ":" + config.clkPort)]
 	}
 	

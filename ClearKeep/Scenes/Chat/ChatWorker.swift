@@ -16,6 +16,7 @@ protocol IChatWorker {
 	func getGroupWithId(groupId: Int64) async -> Result<IGroupModel, Error>
 	func getMessageList(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
 	func sendMessageInPeer(senderId: String, ownerWorkspace: String, receiverId: String, receiverWorkSpaceDomain: String, groupId: Int64, plainMessage: String, isForceProcessKey: Bool, cachedMessageId: Int) async -> Result<[RealmMessage], Error>
+	func getJoinedGroupsFromLocal(ownerId: String, domain: String) async -> [IGroupModel]
 }
 
 struct ChatWorker {
@@ -59,5 +60,14 @@ extension ChatWorker: IChatWorker {
 	
 	func sendMessageInPeer(senderId: String, ownerWorkspace: String, receiverId: String, receiverWorkSpaceDomain: String, groupId: Int64, plainMessage: String, isForceProcessKey: Bool, cachedMessageId: Int) async -> Result<[RealmMessage], Error> {
 		return await remoteStore.sendMessageInPeer(senderId: senderId, ownerWorkspace: ownerWorkspace, receiverId: receiverId, receiverWorkSpaceDomain: receiverWorkSpaceDomain, groupId: groupId, plainMessage: plainMessage, isForceProcessKey: isForceProcessKey, cachedMessageId: cachedMessageId)
+	}
+	
+	func getJoinedGroupsFromLocal(ownerId: String, domain: String) async -> [IGroupModel] {
+		let result = await inMemoryStore.getJoinedGroupsFromLocal(ownerId: ownerId, domain: domain)
+		print(result)
+		let groups = result.compactMap { group in
+			GroupModel(group)
+		}
+		return groups
 	}
 }

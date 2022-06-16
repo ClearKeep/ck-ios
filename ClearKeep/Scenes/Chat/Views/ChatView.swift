@@ -15,13 +15,13 @@ import UniformTypeIdentifiers
 
 private enum Constants {
 	static let padding = 15.0
-	static let sizeImage = 36.0
 	static let sizeIconCall = 16.0
 	static let sizeBorder = 36.0
 	static let lineBorder = 2.0
 	static let paddingTop = 50.0
 	static let sizeIcon = 24.0
-	static let screenOffset = 400.0
+	static let bottomSheetRadius = 30.0
+	static let sizeImage = CGSize(width: 36.0, height: 36.0)
 	static let forwardViewHeight = UIScreen.main.bounds.height * 0.7
 }
 
@@ -45,7 +45,6 @@ struct ChatView: View {
 				if isNewSentMessage {
 					self.dataMessages.insert(contentsOf: data.messageViewModel, at: 0)
 					isQuoteMessage = false
-					isForwardMessage = false
 					isLatestPeerSignalKeyProcessed = true
 				} else {
 					self.dataMessages.append(contentsOf: data.messageViewModel)
@@ -65,6 +64,9 @@ struct ChatView: View {
 	@State private var selectedMessage: IMessageViewModel?
 	@State private var tempSelectedMessage: IMessageViewModel?
 	
+	@State private var joinedGroups: [ForwardViewModel] = []
+	@State private var joinedPeers: [ForwardViewModel] = []
+	
 	@State private var showingMessageOptions = false
 	@State private var scrollToBottom = false
 	@State private var isShowingQuoteView = false
@@ -76,7 +78,6 @@ struct ChatView: View {
 	@State private var isEndOfPage = false
 	@State private var isNewSentMessage = false
 	@State private var isQuoteMessage = false
-	@State private var isForwardMessage = false
 	@State private var isLatestPeerSignalKeyProcessed = false
 	
 	private let groupId: Int64
@@ -108,10 +109,25 @@ struct ChatView: View {
 						videoButtonView
 					}
 				})
-		}.bottomSheet(isPresented: $showingForwardView, isShowHandle: false) {
-			ForwardView(inputStyle: .default)
-				.frame(height: Constants.forwardViewHeight)
-		}.onAppear {
+		}.bottomSheet(
+			isPresented: $showingForwardView,
+			detents: .custom(Constants.forwardViewHeight),
+			shouldScrollExpandSheet: true,
+			largestUndimmedDetent: .medium,
+			showGrabber: false,
+			cornerRadius: Constants.bottomSheetRadius
+		) {
+			ForwardView(inputStyle: inputStyle, groups: $joinedGroups, users: $joinedPeers, onForwardMessage: { (isGroup, model) in
+				if isGroup {
+					// forward group message
+				} else {
+					forwardPeerMessage(model: model)
+				}
+			}).onAppear {
+				getJoinedGroup()
+			}
+		}
+		.onAppear {
 			updateGroup()
 		}
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
@@ -176,11 +192,11 @@ private extension ChatView {
 	var buttonUserView: some View {
 		Button(action: userAction) {
 			HStack(spacing: 20) {
-				AppTheme.shared.imageSet.faceIcon
-					.resizable()
-					.aspectRatio(contentMode: .fit)
-					.frame(width: Constants.sizeImage, height: Constants.sizeImage)
-					.clipShape(Circle())
+				MessageAvatarView(avatarSize: Constants.sizeImage,
+								  userName: group?.groupName ?? "",
+								  font: AppTheme.shared.fontSet.font(style: .input3),
+								  image: group?.groupAvatar ?? ""
+				)
 				Text(group?.groupName ?? "")
 					.lineLimit(1)
 					.font(AppTheme.shared.fontSet.font(style: .body1))
@@ -207,9 +223,19 @@ private extension ChatView {
 	
 	var quoteMessageView: some View {
 		VStack(alignment: .leading, spacing: 4) {
-			Text("Chat.Replying".localized + (selectedMessage?.fromClientName ?? ""))
-				.font(AppTheme.shared.fontSet.font(style: .placeholder2))
-				.foregroundColor(foregroundFloatingButton)
+			HStack {
+				Text("Chat.Replying".localized + (selectedMessage?.fromClientName ?? ""))
+					.font(AppTheme.shared.fontSet.font(style: .placeholder2))
+					.foregroundColor(foregroundFloatingButton)
+				Spacer()
+				Button(action: closeQuoteView) {
+					AppTheme.shared.imageSet.closeIcon
+						.resizable()
+						.foregroundColor(AppTheme.shared.colorSet.grey2)
+						.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
+				}.padding([.top, .trailing], 10)
+			}
+			
 			HStack(alignment: .center, spacing: 0) {
 				Rectangle()
 					.fill(AppTheme.shared.colorSet.grey2)
@@ -267,6 +293,21 @@ private extension ChatView {
 		
 	}
 	
+	func forwardPeerMessage(model: IForwardViewModel) {
+		Task {
+			let encodedMessage = ">>>\(selectedMessage?.message ?? "")"
+			let result = await injected.interactors.chatInteractor.forwardPeerMessage(message: encodedMessage, group: model.groupModel)
+			if result {
+				DispatchQueue.main.async {
+					joinedPeers.first { group in
+						group.groupModel.groupId == model.groupModel.groupId
+					}?.isSent = true
+				}
+				
+			}
+		}
+	}
+	
 	func sendAction(message: String) {
 		let trimmedMessage = message.trimmingCharacters(in: .whitespacesAndNewlines)
 		if trimmedMessage.isEmpty {
@@ -277,8 +318,6 @@ private extension ChatView {
 			var encodedMessage = ""
 			if isQuoteMessage {
 				encodedMessage = "```\(selectedMessage?.fromClientName ?? "")|\(selectedMessage?.message ?? "")|\(selectedMessage?.dateCreated ?? 0)|\(trimmedMessage)"
-			} else if isForwardMessage {
-				encodedMessage = ">>>\(selectedMessage?.message ?? "")"
 			} else {
 				encodedMessage = trimmedMessage
 			}
@@ -294,6 +333,11 @@ private extension ChatView {
 	
 	func videoAction() {
 		
+	}
+	
+	func closeQuoteView() {
+		isShowingQuoteView = false
+		isReplying = false
 	}
 	
 	func floatingButtonAction() {
@@ -320,7 +364,6 @@ private extension ChatView {
 					Button("Chat.ForwardButton".localized) {
 						selectedMessage = tempSelectedMessage
 						showingForwardView = true
-						isForwardMessage = true
 						hideKeyboard()
 					}
 					Button("Chat.QuoteButton".localized) {
@@ -397,6 +440,16 @@ private extension ChatView {
 	func updateMessages() {
 		Task {
 			loadable = await injected.interactors.chatInteractor.updateMessages(groupId: groupId, group: group, lastMessageAt: dataMessages.last?.dateCreated ?? 0)
+		}
+	}
+	
+	func getJoinedGroup() {
+		Task {
+			let groups = await injected.interactors.chatInteractor.getJoinedGroupsFromLocal()
+			self.joinedGroups = groups.filter { $0.groupType == "group" }.sorted { $0.updatedAt > $1.updatedAt }.compactMap { group in
+				ForwardViewModel(groupModel: group) }
+			self.joinedPeers = groups.filter { $0.groupType == "peer" }.sorted { $0.updatedAt > $1.updatedAt }.compactMap { group in
+				ForwardViewModel(groupModel: group) }
 		}
 	}
 }

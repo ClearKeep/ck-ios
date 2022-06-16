@@ -155,7 +155,8 @@ private extension MessageBubbleView {
 					MessageAvatarView(avatarSize: Constants.avatarSize,
 									  statusSize: Constants.statusSize,
 									  userName: messageViewModel.fromClientName,
-									  font: commonUIConfig.fontSet.font(style: .input3)
+									  font: commonUIConfig.fontSet.font(style: .input3),
+									  image: ""
 					).padding(.trailing, Constants.spacer)
 					
 					if messageViewModel.isForwardedMessage {
@@ -186,7 +187,8 @@ private extension MessageBubbleView {
 					MessageAvatarView(avatarSize: Constants.avatarSize,
 									  statusSize: Constants.statusSize,
 									  userName: messageViewModel.fromClientName,
-									  font: commonUIConfig.fontSet.font(style: .input3)
+									  font: commonUIConfig.fontSet.font(style: .input3),
+									  image: ""
 					).padding(.trailing, Constants.spacer)
 					
 					Text(messageViewModel.fromClientName)
