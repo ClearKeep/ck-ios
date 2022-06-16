@@ -10,6 +10,8 @@ import CommonUI
 
 private enum Constants {
 	static let arrowSize = CGSize(width: 12.0, height: 12.0)
+	static let avatarSize = CGSize(width: 24.0, height: 24.0)
+	static let statusSize = CGSize(width: 8.0, height: 8.0)
 	static let sectionHeight = 28.0
 	static let itemHeight = 24.0
 	static let padding = 20.0
@@ -56,11 +58,21 @@ struct ListGroupView: View {
 					Button {
 						onChooseGroup(group)
 					} label: {
-						Text(group.groupName)
-							.font(group.hasUnreadMessage ? AppTheme.shared.fontSet.font(style: .body3) : AppTheme.shared.fontSet.font(style: .input3))
-							.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight)
-							.frame(height: Constants.itemHeight)
-							.frame(maxWidth: .infinity, alignment: .leading)
+						HStack(spacing: 0) {
+							if group.groupType == "peer" {
+								MessageAvatarView(avatarSize: Constants.avatarSize,
+												  statusSize: Constants.statusSize,
+												  userName: group.groupName,
+												  font: AppTheme.shared.fontSet.font(style: .input3),
+												  image: group.groupAvatar
+								).padding(.trailing, 16)
+							}
+							Text(group.groupName)
+								.font(group.hasUnreadMessage ? AppTheme.shared.fontSet.font(style: .body3) : AppTheme.shared.fontSet.font(style: .input3))
+								.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight)
+								.frame(height: Constants.itemHeight)
+								.frame(maxWidth: .infinity, alignment: .leading)
+						}
 					}
 				}.padding([.horizontal], Constants.padding)
 			}

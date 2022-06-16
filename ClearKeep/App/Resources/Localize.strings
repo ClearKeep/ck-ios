@@ -221,6 +221,7 @@
 "Chat.Forward" = "Forward to";
 "Chat.Input.PlaceHolder" = "Search for group or individuals";
 "Chat.Send" = "Send";
+"Chat.Sent" = "Sent";
 "Chat.Group" = "Group";
 "Chat.User" = "User";
 "Chat.Replying" = "Replying to ";

@@ -19,11 +19,14 @@ protocol IChatInteractor {
 	func updateGroupWithId(groupId: Int64) async -> Loadable<IChatViewModels>
 	func sendMessageInPeer(message: String, groupId: Int64, group: IGroupModel?, isForceProcessKey: Bool) async -> Loadable<IChatViewModels>
 	func updateMessages(groupId: Int64, group: IGroupModel?, lastMessageAt: Int64) async -> Loadable<IChatViewModels>
+	func getJoinedGroupsFromLocal() async -> [IGroupModel]
+	func forwardPeerMessage(message: String, group: IGroupModel) async -> Bool
 }
 
 struct ChatInteractor {
 	let appState: Store<AppState>
 	let channelStorage: IChannelStorage
+	let realmManager: RealmManager
 	let groupService: IGroupService
 	let messageService: IMessageService
 }
@@ -32,7 +35,7 @@ extension ChatInteractor: IChatInteractor {
 	
 	var worker: IChatWorker {
 		let remoteStore = ChatRemoteStore(groupService: groupService, messageService: messageService)
-		let inMemoryStore = ChatInMemoryStore()
+		let inMemoryStore = ChatInMemoryStore(realmManager: realmManager)
 		return ChatWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
@@ -87,16 +90,44 @@ extension ChatInteractor: IChatInteractor {
 			return .failed(error)
 		}
 	}
+	
+	func getJoinedGroupsFromLocal() async -> [IGroupModel] {
+		guard let server = channelStorage.currentServer,
+			  let ownerId = server.profile?.userId
+		else { return [] }
+		return await worker.getJoinedGroupsFromLocal(ownerId: ownerId, domain: server.serverDomain)
+	}
+	
+	func forwardPeerMessage(message: String, group: IGroupModel) async -> Bool {
+		guard let server = channelStorage.currentServer,
+			  let ownerId = server.profile?.userId
+		else { return false }
+		let receiverUser = group.groupMembers.first { member in
+			member.userId != ownerId
+		}
+		let result = await worker.sendMessageInPeer(senderId: ownerId, ownerWorkspace: server.serverDomain, receiverId: receiverUser?.userId ?? "", receiverWorkSpaceDomain: receiverUser?.domain ?? "", groupId: group.groupId, plainMessage: message, isForceProcessKey: false, cachedMessageId: 0)
+		switch result {
+		case .success(let value):
+			print(value)
+			return true
+		case .failure(let error):
+			print(error)
+			return false
+		}
+	}
+	
 }
 
 struct StubChatInteractor: IChatInteractor {
+	
 	let channelStorage: IChannelStorage
 	let groupService: IGroupService
 	let messageService: IMessageService
+	let realmManager: RealmManager
 
 	var worker: IChatWorker {
 		let remoteStore = ChatRemoteStore(groupService: groupService, messageService: messageService)
-		let inMemoryStore = ChatInMemoryStore()
+		let inMemoryStore = ChatInMemoryStore(realmManager: realmManager)
 		return ChatWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
@@ -110,5 +141,13 @@ struct StubChatInteractor: IChatInteractor {
 	
 	func updateMessages(groupId: Int64, group: IGroupModel?, lastMessageAt: Int64) async -> Loadable<IChatViewModels> {
 		return .notRequested
+	}
+	
+	func getJoinedGroupsFromLocal() async -> [IGroupModel] {
+		return []
+	}
+	
+	func forwardPeerMessage(message: String, group: IGroupModel) async -> Bool {
+		return false
 	}
 }

@@ -21,11 +21,11 @@ struct MessagerBannerViewModifier: ViewModifier {
 	struct MessageData {
 		var groupName: String
 		var senderName: String
-		var userIcon: Image?
+		var userIcon: String
 		var message: String
 		private(set) var isGroup: Bool = false
 		
-		init(senderName: String, userIcon: Image? = nil, message: String) {
+		init(senderName: String, userIcon: String, message: String) {
 			self.groupName = ""
 			self.senderName = senderName
 			self.userIcon = userIcon
@@ -33,7 +33,7 @@ struct MessagerBannerViewModifier: ViewModifier {
 			self.isGroup = false
 		}
 		
-		init(groupName: String, senderName: String, userIcon: Image? = nil, message: String) {
+		init(groupName: String, senderName: String, userIcon: String, message: String) {
 			self.groupName = groupName
 			self.senderName = senderName
 			self.userIcon = userIcon
