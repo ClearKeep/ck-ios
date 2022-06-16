@@ -55,7 +55,11 @@ extension RealmManager {
 				let realm = try? Realm(configuration: self.configuration)
 				realmGroup.generateId = oldGroup?.generateId ?? (realm?.objects(RealmGroup.self).max(ofProperty: "generateId") ?? 0) + 1
 				realmGroup.groupId = groupResponse.groupID
-				realmGroup.groupName = groupResponse.groupName
+				if groupResponse.groupType == "group" {
+					realmGroup.groupName = groupResponse.groupName
+				} else {
+					realmGroup.groupName = groupResponse.lstClient.first { $0.id != profile.userId }?.displayName ?? ""
+				}
 				realmGroup.groupAvatar = groupResponse.groupAvatar
 				realmGroup.groupType = groupResponse.groupType
 				realmGroup.createdBy = groupResponse.createdByClientID
@@ -80,6 +84,60 @@ extension RealmManager {
 				realm.add(realmGroups, update: .modified)
 			}
 			continuation.resume(returning: realmGroups)
+		})
+	}
+	
+	func addAndUpdateGroup(group: Group_GroupObjectResponse, domain: String) async -> RealmGroup {
+		return await withCheckedContinuation({ continuation in
+			
+				let server = getServer(by: domain)
+				guard let server = server, let profile = server.profile else {
+					return
+				}
+				let oldGroup = getGroup(by: group.groupID, domain: domain, ownerId: profile.userId)
+				
+				let isRegisteredKey = oldGroup?.isJoined ?? false
+				let lastMessageSyncTime = oldGroup?.lastMessageSyncTimestamp ?? (server.loginTime ?? Int64(Date().timeIntervalSince1970))
+				
+				let realmGroup = RealmGroup()
+				let groupMembers = group.lstClient.map { member -> RealmMember in
+					let realmMember = RealmMember()
+					realmMember.userId = member.id
+					realmMember.userName = member.displayName
+					realmMember.domain = member.workspaceDomain
+					realmMember.userState = member.status
+					return realmMember
+				}
+				
+				let realm = try? Realm(configuration: self.configuration)
+				realmGroup.generateId = oldGroup?.generateId ?? (realm?.objects(RealmGroup.self).max(ofProperty: "generateId") ?? 0) + 1
+				realmGroup.groupId = group.groupID
+				if group.groupType == "group" {
+					realmGroup.groupName = group.groupName
+				} else {
+					realmGroup.groupName = group.lstClient.first { $0.id != profile.userId }?.displayName ?? ""
+				}
+				realmGroup.groupAvatar = group.groupAvatar
+				realmGroup.groupType = group.groupType
+				realmGroup.createdBy = group.createdByClientID
+				realmGroup.createdAt = group.createdAt
+				realmGroup.updatedBy = group.updatedByClientID
+				realmGroup.updatedAt = group.updatedAt
+				realmGroup.rtcToken = group.groupRtcToken
+				realmGroup.groupMembers = groupMembers
+				realmGroup.isJoined = isRegisteredKey
+				realmGroup.ownerDomain = domain
+				realmGroup.ownerClientId = profile.userId
+				realmGroup.lastMessage = nil
+				realmGroup.lastMessageAt = group.lastMessageAt
+				realmGroup.lastMessageSyncTimestamp = lastMessageSyncTime
+				realmGroup.isDeletedUserPeer = false
+				realmGroup.hasUnreadMessage = group.hasUnreadMessage_p
+							
+			write { realm in
+				realm.add(realmGroup, update: .modified)
+			}
+			continuation.resume(returning: realmGroup)
 		})
 	}
 	

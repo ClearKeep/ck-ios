@@ -28,6 +28,12 @@ public extension Date {
 		return Calendar(identifier: .gregorian).component(.year, from: self)
 	}
 	///
+	/// Returns week of month.
+	///
+	var weekOfMonth: Int {
+		return Calendar(identifier: .gregorian).component(.weekOfMonth, from: self)
+	}
+	///
 	/// Returns day of week.
 	///
 	var weekday: Int {

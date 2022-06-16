@@ -26,9 +26,9 @@ struct HomeView: View {
 		didSet {
 			switch loadable {
 			case .loaded(let load):
-				self.groups = load.groupViewModel?.viewModelGroup.compactMap { profile in
+				self.groups = load.groupViewModel?.viewModelGroup.filter { $0.groupType == "group" }.compactMap { profile in
 					GroupViewModel(profile)} ?? [GroupViewModel]()
-				self.peers = load.groupViewModel?.viewModelGroup.compactMap { profile in
+				self.peers = load.groupViewModel?.viewModelGroup.filter { $0.groupType != "group" }.compactMap { profile in
 					GroupViewModel(profile)} ?? [GroupViewModel]()
 				self.user = [load.userViewModel?.viewModelUser].compactMap { profile in
 					UserViewModel(profile)}
@@ -50,46 +50,48 @@ struct HomeView: View {
 	let inspection = ViewInspector<Self>()
 
 	var body: some View {
-		GeometryReader { geometry in
-			ZStack {
-				HStack {
-					ListServerView(servers: $servers, isAddNewServer: $isAddNewServer, action: getServerInfo)
-					VStack {
-						HStack {
-							Text(serverName)
-								.font(AppTheme.shared.fontSet.font(style: .display3))
-								.foregroundColor(titleColor)
-							Spacer()
-							ImageButton(AppTheme.shared.imageSet.menuIcon) {
-								withAnimation {
-									isShowMenu.toggle()
+		NavigationView {
+			GeometryReader { geometry in
+				ZStack {
+					HStack {
+						ListServerView(servers: $servers, isAddNewServer: $isAddNewServer, action: getServerInfo)
+						VStack {
+							HStack {
+								Text(serverName)
+									.font(AppTheme.shared.fontSet.font(style: .display3))
+									.foregroundColor(titleColor)
+								Spacer()
+								ImageButton(AppTheme.shared.imageSet.menuIcon) {
+									withAnimation {
+										isShowMenu.toggle()
+									}
 								}
+								.foregroundColor(titleColor)
 							}
-							.foregroundColor(titleColor)
+							content
+								.padding(.top, Constants.padding)
 						}
-						content
-							.padding(.top, Constants.padding)
+						.padding(Constants.padding)
 					}
-					.padding(Constants.padding)
+					.padding(.top, Constants.padding)
+					.hideKeyboardOnTapped()
 				}
-				.padding(.top, Constants.padding)
-				.hideKeyboardOnTapped()
+				
+				if isShowMenu {
+					LinearGradient(gradient: Gradient(colors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary.compactMap({ $0.opacity(Constants.opacity) }) : AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
+						.blur(radius: Constants.blur)
+						.edgesIgnoringSafeArea(.vertical)
+					MenuView(isShowMenu: $isShowMenu, user: $user)
+						.frame(width: geometry.size.width)
+						.offset(x: isShowMenu ? 0 : geometry.size.width * 2)
+						.transition(.move(edge: .trailing))
+						.animation(.default, value: Constants.duration)
+				}
 			}
-			
-			if isShowMenu {
-				LinearGradient(gradient: Gradient(colors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary.compactMap({ $0.opacity(Constants.opacity) }) : AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
-					.blur(radius: Constants.blur)
-					.edgesIgnoringSafeArea(.vertical)
-				MenuView(isShowMenu: $isShowMenu, user: $user)
-					.frame(width: geometry.size.width)
-					.offset(x: isShowMenu ? 0 : geometry.size.width * 2)
-					.transition(.move(edge: .trailing))
-					.animation(.default, value: Constants.duration)
-			}
+			.onAppear(perform: getServerInfo)
+			.onAppear(perform: getUser)
+			.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
 		}
-		.onAppear(perform: getServers)
-		.onAppear(perform: getUser)
-		.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
 	}
 }
 

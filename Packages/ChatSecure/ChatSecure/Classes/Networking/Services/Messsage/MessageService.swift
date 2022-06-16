@@ -14,13 +14,13 @@ import SwiftSRP
 
 public protocol IMessageService {
 	func sendMessageInPeer(senderId: String,
-						   ownerWorkspace: String,
+						   ownerDomain: String,
 						   receiverId: String,
-						   receiverWorkSpaceDomain: String,
+						   receiverDomain: String,
 						   groupId: Int64,
 						   plainMessage: String,
 						   isForceProcessKey: Bool,
-						   cachedMessageId: Int) async -> Result<Bool, Error>
+						   cachedMessageId: Int) async -> Result<RealmMessage, Error>
 	
 	func sendMessageInGroup(senderId: String,
 							ownerWorkspace: String,
@@ -29,10 +29,11 @@ public protocol IMessageService {
 							plainMessage: String,
 							cachedMessageId: Int) async -> Result<Bool, Error>
 	
-	func getMessage(server: RealmServer,
+	func getMessage(ownerDomain: String,
+					ownerId: String,
 					groupId: Int64,
 					loadSize: Int,
-					lastMessageAt: Int64) async -> Result<Message_GetMessagesInGroupResponse, Error>
+					lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
 
 }
 
@@ -49,15 +50,15 @@ public class MessageService {
 }
 
 extension MessageService: IMessageService {
-	public func sendMessageInPeer(senderId: String, ownerWorkspace: String, receiverId: String, receiverWorkSpaceDomain: String, groupId: Int64, plainMessage: String, isForceProcessKey: Bool, cachedMessageId: Int) async -> Result<Bool, Error> {
+	public func sendMessageInPeer(senderId: String, ownerDomain: String, receiverId: String, receiverDomain: String, groupId: Int64, plainMessage: String, isForceProcessKey: Bool, cachedMessageId: Int) async -> Result<RealmMessage, Error> {
 		Debug.DLog("sendMessageInPeer: receivcerId: \(receiverId), groupID: \(groupId)")
 		do {
-			let receiverAddress = try ProtocolAddress(name: "\(receiverWorkSpaceDomain)_\(receiverId)", deviceId: UInt32(Constants.senderDeviceId))
+			let receiverAddress = try ProtocolAddress(name: "\(receiverDomain)_\(receiverId)", deviceId: UInt32(Constants.senderDeviceId))
 			
 			let existingSession = try signalStore.sessionStore.loadSession(for: receiverAddress, context: NullContext())
 			
 			if existingSession == nil || isForceProcessKey {
-				let isSuccess = await requestKeyPeer(senderId: senderId, senderDomain: ownerWorkspace, receiverId: receiverId, receiverDomain: receiverWorkSpaceDomain)
+				let isSuccess = await requestKeyPeer(senderId: senderId, senderDomain: ownerDomain, receiverId: receiverId, receiverDomain: receiverDomain)
 				if !isSuccess {
 					Debug.DLog("Send message in peer fail - Can't request key peer")
 					return .failure(ServerError.unknown)
@@ -76,7 +77,7 @@ extension MessageService: IMessageService {
 				context: NullContext())
 			let messageSender = try signalEncrypt(
 				message: messageData,
-				for: ProtocolAddress(name: "\(ownerWorkspace)_\(senderId)", deviceId: UInt32(Constants.senderDeviceId)),
+				for: ProtocolAddress(name: "\(ownerDomain)_\(senderId)", deviceId: UInt32(Constants.senderDeviceId)),
 				sessionStore: signalStore.sessionStore,
 				identityStore: signalStore.identityStore,
 				context: NullContext())
@@ -88,14 +89,25 @@ extension MessageService: IMessageService {
 			request.message = Data(message.serialize())
 			request.senderMessage = Data(messageSender.serialize())
 			
-			guard let server = channelStorage.realmManager.getServer(by: ownerWorkspace) else { return .failure(ServerError.unknown) }
+			guard let server = channelStorage.realmManager.getServer(by: ownerDomain) else { return .failure(ServerError.unknown) }
 			let response = await channelStorage.getChannel(domain: server.serverDomain, accessToken: server.accessKey, hashKey: server.hashKey).sendMessage(request)
 			switch response {
 			case .success(let messageRespone):
 				// TODO: save message
-				return .success(true)
+				let realmMessage = RealmMessage()
+				realmMessage.ownerDomain = ownerDomain
+				realmMessage.createdTime = messageRespone.createdAt
+				realmMessage.groupId = messageRespone.groupID
+				realmMessage.receiverId = messageRespone.clientID
+				realmMessage.groupType = messageRespone.groupType
+				realmMessage.senderId = messageRespone.fromClientID
+				realmMessage.messageId = messageRespone.id
+				realmMessage.updatedTime = messageRespone.updatedAt
+				realmMessage.ownerClientId = senderId
+				realmMessage.message = plainMessage
+				return .success(realmMessage)
 			case .failure(let error):
-				Debug.DLog("Send message in peer fail - \(error.localizedDescription)")
+				Debug.DLog("Send message in peer fail - \(error)")
 				return .failure(ServerError(error))
 			}
 		} catch {
@@ -141,26 +153,39 @@ extension MessageService: IMessageService {
 		return .success(true)
 	}
 	
-	public func getMessage(server: RealmServer, groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<Message_GetMessagesInGroupResponse, Error> {
+	public func getMessage(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
 		var request = Message_GetMessagesInGroupRequest()
 		request.groupID = groupId
 		request.lastMessageAt = lastMessageAt
 		request.offSet = Int32(loadSize)
 		
-		let response = await channelStorage.getChannel(domain: server.serverDomain, accessToken: server.accessKey, hashKey: server.hashKey).getMessage(request)
+		let response = await channelStorage.getChannel(domain: ownerDomain).getMessage(request)
 		switch response {
 		case .success(let messageRespone):
-			let ownerUserId = server.profile?.userId ?? ""
+			print(messageRespone)
+			var realmMessages = [RealmMessage]()
 			messageRespone.lstMessage.forEach { message in
-				if message.fromClientID == ownerUserId {
-					let mes = decryptPeerMessage(senderName: "\(server.serverDomain)_\(ownerUserId)", message: message.message)
-					print("sender message: \(mes)")
+				var decryptedMessage = ""
+				if message.fromClientID == ownerId {
+					decryptedMessage = decryptPeerMessage(senderName: "\(ownerDomain)_\(ownerId)", message: message.senderMessage) ?? ""
 				} else {
-					let mes = decryptPeerMessage(senderName: "\(message.fromClientWorkspaceDomain)_\(message.fromClientID)", message: message.message)
-					print("receiver message: \(mes)")
+					decryptedMessage = decryptPeerMessage(senderName: "\(message.fromClientWorkspaceDomain)_\(message.fromClientID)", message: message.message) ?? ""
 				}
+				let realmMessage = RealmMessage()
+				realmMessage.ownerDomain = ownerDomain
+				realmMessage.createdTime = message.createdAt
+				realmMessage.groupId = message.groupID
+				realmMessage.receiverId = message.clientID
+				realmMessage.groupType = message.groupType
+				realmMessage.senderId = message.fromClientID
+				realmMessage.messageId = message.id
+				realmMessage.updatedTime = message.updatedAt
+				realmMessage.ownerClientId = ownerId
+				realmMessage.message = decryptedMessage
+				
+				realmMessages.append(realmMessage)
 			}
-			return .success(messageRespone)
+			return .success(realmMessages)
 		case .failure(let error):
 			Debug.DLog("Get message fail - \(error)")
 			return .failure(ServerError(error))
@@ -272,6 +297,7 @@ private extension MessageService {
 				context: NullContext())
 			return String(bytes: decryptMessage, encoding: .utf8)
 		} catch {
+			Debug.DLog("decrypt peer message fail: \(error)")
 			return nil
 		}
 	}

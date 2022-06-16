@@ -32,53 +32,63 @@ struct ChatView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	
 	// MARK: - Variables
-	@State private(set) var samples: Loadable<[IMessageViewModel]>
+	@State private(set) var loadable: Loadable<IChatViewModels> = .notRequested {
+		didSet {
+			switch loadable {
+			case .loaded(let data):
+				if let groupData = data.groupViewModel {
+					self.group = groupData
+				}
+				if data.messageViewModel.isEmpty {
+					isEndOfPage = true
+				}
+				if isNewSentMessage {
+					self.dataMessages.insert(contentsOf: data.messageViewModel, at: 0)
+					isQuoteMessage = false
+					isForwardMessage = false
+					isLatestPeerSignalKeyProcessed = true
+				} else {
+					self.dataMessages.append(contentsOf: data.messageViewModel)
+				}
+				isNewSentMessage = false
+				isLoading = false
+			default: break
+			}
+		}
+	}
+		
+	@State private(set) var group: IGroupModel?
 	@State private(set) var messageText: String
 	@State private(set) var inputStyle: TextInputStyle = .default
 	
-	@State private(set) var sampleMessages: [MessageViewModel] = createSamplesData()
+	@State private(set) var dataMessages: [IMessageViewModel] = []
 	@State private var selectedMessage: IMessageViewModel?
+	@State private var tempSelectedMessage: IMessageViewModel?
 	
-	@State private var scrollViewOffset: CGFloat = 0
-	@State private var startOffset: CGFloat = 0
 	@State private var showingMessageOptions = false
 	@State private var scrollToBottom = false
 	@State private var isShowingQuoteView = false
 	@State private var showingForwardView = false
 	@State private var isShowingFloatingButton = false
 	@State private var isReplying = false
+	@State private var shouldPaginate = false
+	@State private var isLoading = true
+	@State private var isEndOfPage = false
+	@State private var isNewSentMessage = false
+	@State private var isQuoteMessage = false
+	@State private var isForwardMessage = false
+	@State private var isLatestPeerSignalKeyProcessed = false
 	
-	private let imageUser: Image
-	private let userName: String
+	private let groupId: Int64
 	private let inspection = ViewInspector<Self>()
 
 	// MARK: - Init
-	init(samples: Loadable<[IMessageViewModel]> = .notRequested,
-		 messageText: String = "",
+	init(messageText: String = "",
 		 inputStyle: TextInputStyle,
-		 imageUser: Image,
-		 userName: String) {
-		self._samples = .init(initialValue: samples)
+		 groupId: Int64) {
 		self._messageText = .init(initialValue: messageText)
 		self._inputStyle = .init(initialValue: inputStyle)
-		self.imageUser = imageUser
-		self.userName = userName
-	}
-	
-	// MARK: - Fake data
-	private static func createSamplesData() -> [MessageViewModel] {
-		return	[
-//			MessageViewModel(data: MessageModel(id: "1", groupID: 1, groupType: "", fromClientID: "1", clientID: "2", message: Data("someString".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
-//			MessageViewModel(data: MessageModel(id: "2", groupID: 1, groupType: "", fromClientID: "2", clientID: "2", message: Data(">>>Lorem ipsum dolor sit amet".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
-//			MessageViewModel(data: MessageModel(id: "4", groupID: 1, groupType: "", fromClientID: "2", clientID: "2", message: Data("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
-//			MessageViewModel(data: MessageModel(id: "5", groupID: 1, groupType: "", fromClientID: "1", clientID: "2", message: Data("```Lorem ipsum dolor sit amet".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
-//			MessageViewModel(data: MessageModel(id: "6", groupID: 1, groupType: "", fromClientID: "2", clientID: "2", message: Data("Lorem ipsum dolor sit amet".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
-//			MessageViewModel(data: MessageModel(id: "7", groupID: 1, groupType: "", fromClientID: "1", clientID: "2", message: Data(">>>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
-//			MessageViewModel(data: MessageModel(id: "8", groupID: 1, groupType: "", fromClientID: "1", clientID: "2", message: Data("someString".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
-//			MessageViewModel(data: MessageModel(id: "10", groupID: 1, groupType: "", fromClientID: "2", clientID: "2", message: Data("someString".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
-//			MessageViewModel(data: MessageModel(id: "9", groupID: 1, groupType: "", fromClientID: "2", clientID: "2", message: Data("```Lorem ipsum dolor sit amet".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")),
-//			MessageViewModel(data: MessageModel(id: "11", groupID: 1, groupType: "", fromClientID: "2", clientID: "2", message: Data("someString".utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3"))
-		]
+		self.groupId = groupId
 	}
 	
 	// MARK: - Body
@@ -101,6 +111,8 @@ struct ChatView: View {
 		}.bottomSheet(isPresented: $showingForwardView, isShowHandle: false) {
 			ForwardView(inputStyle: .default)
 				.frame(height: Constants.forwardViewHeight)
+		}.onAppear {
+			updateGroup()
 		}
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 	}
@@ -109,7 +121,7 @@ struct ChatView: View {
 // MARK: - Private
 private extension ChatView {
 	var content: AnyView {
-		switch samples {
+		switch loadable {
 		case .notRequested:
 			return AnyView(notRequestedView)
 		case .isLoading:
@@ -164,12 +176,12 @@ private extension ChatView {
 	var buttonUserView: some View {
 		Button(action: userAction) {
 			HStack(spacing: 20) {
-				imageUser
+				AppTheme.shared.imageSet.faceIcon
 					.resizable()
 					.aspectRatio(contentMode: .fit)
 					.frame(width: Constants.sizeImage, height: Constants.sizeImage)
 					.clipShape(Circle())
-				Text(userName)
+				Text(group?.groupName ?? "")
 					.lineLimit(1)
 					.font(AppTheme.shared.fontSet.font(style: .body1))
 					.frame(maxWidth: .infinity, alignment: .leading)
@@ -204,7 +216,7 @@ private extension ChatView {
 					.frame(width: 4)
 					.cornerRadius(8)
 					.padding(.trailing, 16)
-				Text(selectedMessage?.message ?? "")
+				Text(selectedMessage?.getQuoteMessage() ?? "")
 					.foregroundColor(foregroundFloatingButton)
 					.lineLimit(1)
 			}.frame(height: 24)
@@ -260,7 +272,18 @@ private extension ChatView {
 		if trimmedMessage.isEmpty {
 			return
 		}
-//		sampleMessages.append(MessageViewModel(data: MessageModel(id: "\(UUID())", groupID: 1, groupType: "", fromClientID: "1", clientID: "2", message: Data(trimmedMessage.utf8), createdAt: 1421415235, updatedAt: 121124235235, clientWorkspaceDomain: "3")))
+		isNewSentMessage = true
+		Task {
+			var encodedMessage = ""
+			if isQuoteMessage {
+				encodedMessage = "```\(selectedMessage?.fromClientName ?? "")|\(selectedMessage?.message ?? "")|\(selectedMessage?.dateCreated ?? 0)|\(trimmedMessage)"
+			} else if isForwardMessage {
+				encodedMessage = ">>>\(selectedMessage?.message ?? "")"
+			} else {
+				encodedMessage = trimmedMessage
+			}
+			loadable = await injected.interactors.chatInteractor.sendMessageInPeer(message: encodedMessage, groupId: groupId, group: group, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
+		}
 		isShowingQuoteView = false
 		isReplying = false
 	}
@@ -287,64 +310,26 @@ private extension ChatView {
 	var notRequestedView: some View {
 		VStack(alignment: .leading) {
 			ZStack {
-				ScrollViewReader { scrollView in
-					ScrollView(.vertical) {
-						MessageListView(messages: sampleMessages) { model in
-							MessageBubbleView(messageViewModel: model.message, rectCorner: model.rectCorner).onTapGesture {
-							}.onLongPressGesture(minimumDuration: 0.5) {
-								showingMessageOptions = true
-							}.confirmationDialog("", isPresented: $showingMessageOptions, titleVisibility: .hidden) {
-								Button("Chat.CopyButton".localized) {
-									copyMessage(message: model.message.message)
-								}
-								Button("Chat.ForwardButton".localized) {
-									selectedMessage = model.message
-									showingForwardView = true
-									hideKeyboard()
-								}
-								Button("Chat.QuoteButton".localized) {
-									selectedMessage = model.message
-									isShowingQuoteView = true
-									isReplying = true
-									messageText = messageText
-								}
-								Button("Chat.Cancel".localized, role: .cancel) {
-								}
-							}
-						}.id("MessageListView")
-							.overlay(
-								GeometryReader { proxy -> Color in
-									DispatchQueue.main.async {
-										if startOffset == 0 {
-											startOffset = proxy.frame(in: .global).minY
-										}
-										scrollViewOffset = proxy.frame(in: .global).minY
-										isShowingFloatingButton = scrollViewOffset - startOffset > Constants.screenOffset
-									}
-									return Color.clear
-								}.frame(width: 0, height: 0), alignment: .top)
-						Spacer()
+				MessageListView(messages: dataMessages, hasReachedTop: $shouldPaginate, isShowLoading: $isEndOfPage, showScrollToLatestButton: $isShowingFloatingButton, scrollToLastest: $scrollToBottom) { message in
+					self.tempSelectedMessage = message
+					showingMessageOptions = true
+				}.confirmationDialog("", isPresented: $showingMessageOptions, titleVisibility: .hidden) {
+					Button("Chat.CopyButton".localized) {
+						copyMessage(message: self.tempSelectedMessage?.message ?? "")
 					}
-					.onAppear {
-						withAnimation {
-							scrollView.scrollTo("MessageListView", anchor: .bottom)
-						}
+					Button("Chat.ForwardButton".localized) {
+						selectedMessage = tempSelectedMessage
+						showingForwardView = true
+						isForwardMessage = true
+						hideKeyboard()
 					}
-					.onChange(of: scrollToBottom) { _ in
-						withAnimation {
-							scrollView.scrollTo("MessageListView", anchor: .bottom)
-						}
-						DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-							startOffset = scrollViewOffset
-						}
+					Button("Chat.QuoteButton".localized) {
+						selectedMessage = tempSelectedMessage
+						isShowingQuoteView = true
+						isQuoteMessage = true
+						isReplying = true
 					}
-					.onChange(of: sampleMessages) { _ in
-						withAnimation {
-							scrollView.scrollTo("MessageListView", anchor: .bottom)
-						}
-						DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-							startOffset = scrollViewOffset
-						}
+					Button("Chat.Cancel".localized, role: .cancel) {
 					}
 				}
 				VStack(alignment: .trailing) {
@@ -372,6 +357,13 @@ private extension ChatView {
 				sendAction(message: message)
 			}, sharePhoto: { })
 			.padding(.horizontal, Constants.padding)
+		}.onChange(of: shouldPaginate) { newValue in
+			if newValue {
+				if !isLoading && !isEndOfPage {
+					isLoading.toggle()
+					updateMessages()
+				}
+			}
 		}
 	}
 	
@@ -379,7 +371,7 @@ private extension ChatView {
 		notRequestedView.progressHUD(true)
 	}
 	
-	func loadedView(_ data: [IMessageViewModel]) -> AnyView {
+	func loadedView(_ data: IChatViewModels) -> AnyView {
 		return AnyView(notRequestedView)
 	}
 	
@@ -396,13 +388,15 @@ private extension ChatView {
 
 // MARK: - Interactor
 private extension ChatView {
-}
-
-// MARK: - Preview
-#if DEBUG
-struct ChatView_Previews: PreviewProvider {
-	static var previews: some View {
-		ChatView(messageText: "", inputStyle: .default, imageUser: AppTheme.shared.imageSet.facebookIcon, userName: "Mark")
+	func updateGroup() {
+		Task {
+			loadable = await injected.interactors.chatInteractor.updateGroupWithId(groupId: groupId)
+		}
+	}
+	
+	func updateMessages() {
+		Task {
+			loadable = await injected.interactors.chatInteractor.updateMessages(groupId: groupId, group: group, lastMessageAt: dataMessages.last?.dateCreated ?? 0)
+		}
 	}
 }
-#endif
