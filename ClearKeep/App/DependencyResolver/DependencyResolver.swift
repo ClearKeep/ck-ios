@@ -31,6 +31,7 @@ class DependencyResolver {
 	let groupService: IGroupService!
 	let userService: IUserService!
 	let messageService: IMessageService!
+	let uploadFileService: IUploadFileService!
 	let signalStore: ISignalProtocolInMemoryStore!
 	let yapDatabaseManager: YapDatabaseManager!
 	let realmManager: RealmManager!
@@ -67,6 +68,7 @@ class DependencyResolver {
 																  ])
 		groupService = GroupService()
 		userService = UserService()
+		uploadFileService = UploadFileService()
 		// MARK: - Location
 		locationManager = CLLocationManager()
 		let locationConfiguration = LocationConfigurations()

@@ -17,6 +17,7 @@ protocol IChatWorker {
 	func getMessageList(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
 	func sendMessageInPeer(senderId: String, ownerWorkspace: String, receiverId: String, receiverWorkSpaceDomain: String, groupId: Int64, plainMessage: String, isForceProcessKey: Bool, cachedMessageId: Int) async -> Result<[RealmMessage], Error>
 	func getJoinedGroupsFromLocal(ownerId: String, domain: String) async -> [IGroupModel]
+	func uploadFiles(message: String, fileURLs: [URL], domain: String) async -> String?
 }
 
 struct ChatWorker {
@@ -69,5 +70,34 @@ extension ChatWorker: IChatWorker {
 			GroupModel(group)
 		}
 		return groups
+	}
+	
+	func uploadFiles(message: String, fileURLs: [URL], domain: String) async -> String? {
+		do {
+			var fileUrlsString = ""
+			try await withThrowingTaskGroup(of: String?.self, body: { taskGroup in
+				for url in fileURLs {
+					_ = taskGroup.addTaskUnlessCancelled {
+						let fileName = url.lastPathComponent
+						let mimeType = url.mimeType()
+						let result = await remoteStore.uploadFile(fileName: fileName, mimeType: mimeType, fileURL: url, domain: domain)
+						try Task.checkCancellation()
+						return result
+					}
+				}
+				
+				for try await result in taskGroup {
+					if let resultUrl = result {
+						fileUrlsString.append("\(resultUrl) ")
+					} else {
+						taskGroup.cancelAll()
+					}
+				}
+				fileUrlsString.append(message)
+			})
+			return fileUrlsString
+		} catch {
+			return nil
+		}
 	}
 }

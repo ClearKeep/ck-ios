@@ -77,9 +77,12 @@ private extension MessageBubbleView {
 					}
 					dateCreatedView
 				}
-				
-				messageContentView
-					.frame(width: Constants.maxWidthBuble, alignment: .trailing)
+				if messageViewModel.isImageMessage {
+					imageContentView
+				} else {
+					messageContentView
+						.frame(width: Constants.maxWidthBuble, alignment: .trailing)
+				}
 			}
 		}
 	}
@@ -93,8 +96,12 @@ private extension MessageBubbleView {
 				dateCreatedView
 			}
 			HStack {
-				messageContentView
-					.frame(width: Constants.maxWidthBuble, alignment: .leading)
+				if messageViewModel.isImageMessage {
+					imageContentView
+				} else {
+					messageContentView
+						.frame(width: Constants.maxWidthBuble, alignment: .leading)
+				}
 				Spacer()
 			}
 		}
@@ -252,6 +259,22 @@ private extension MessageBubbleView {
 			.background(commonUIConfig.colorSet.grey2)
 			.clipShape(BubbleArrow(rectCorner: rectCorner))
 			.foregroundColor(foregroundText)
+	}
+	
+	var imageContentView: some View {
+		VStack(alignment: .trailing, spacing: 0) {
+			MessageImageView(listImageURL: MessageUtils.getImageUriStrings(content: messageViewModel.message))
+			if let message = MessageUtils.getImageMessageContent(content: messageViewModel.message) {
+				Text(message)
+					.font(commonUIConfig.fontSet.font(style: .input2))
+					.lineSpacing(10)
+					.padding(.horizontal, 24)
+					.padding(.bottom, 16)
+					.foregroundColor(foregroundText)
+			}
+		}
+		.background(commonUIConfig.colorSet.grey2)
+		.clipShape(BubbleArrow(rectCorner: rectCorner))
 	}
 }
 
