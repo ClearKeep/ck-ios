@@ -15,6 +15,8 @@ protocol IHomeWorker {
 	var servers: [ServerModel] { get }
 	
 	func validateDomain(_ domain: String) -> Bool
+	func registerToken(_ token: Data)
+	func subscribeAndListenServers()
 	func getJoinedGroup() async -> Result<IHomeModels, Error>
 	func didSelectServer(_ domain: String?) -> [ServerModel]
 	func getProfile() async -> Result<IHomeModels, Error>
@@ -43,6 +45,18 @@ extension HomeWorker: IHomeWorker {
 	
 	func validateDomain(_ domain: String) -> Bool {
 		return !domain.isEmpty
+	}
+	
+	func registerToken(_ token: Data) {
+		let tokenParts = token.map { data in String(format: "%02.2hhx", data) }
+		let tokenString = tokenParts.joined()
+		print("Device Token: \(tokenString)")
+		
+		channelStorage.registerToken(tokenString)
+	}
+	
+	func subscribeAndListenServers() {
+		channelStorage.subscribeAndListenServers()
 	}
 	
 	func getJoinedGroup() async -> Result<IHomeModels, Error> {

@@ -21,11 +21,8 @@ struct HomeViewModels {
 }
 
 extension HomeViewModels {
-	init(responseGroup: IHomeModels) {
-		self.init(groupViewModel: GroupViewModels(responseGroup))
-	}
-
-	init(responseUser: IHomeModels) {
-		self.init(userViewModel: UserViewModels(responseUser))
+	init(responseGroup: IHomeModels, responseUser: IHomeModels) {
+		self.groupViewModel = GroupViewModels(responseGroup)
+		self.userViewModel = UserViewModels(responseUser)
 	}
 }

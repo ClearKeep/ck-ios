@@ -185,7 +185,6 @@ PODS:
     - Common
     - LibSignalClient
     - SignalCoreKit
-    - YapDatabase/SQLCipher
   - SocketRocket (0.6.0)
   - SQLCipher (4.5.1):
     - SQLCipher/standard (= 4.5.1)
@@ -525,7 +524,7 @@ SPEC CHECKSUMS:
   SignalCoreKit: 87da14c58d57760793b892ff03838c5ef2ce1167
   SignalProtocolC: e61c89693515347df8ed97961160a36cbe55c441
   SignalProtocolObjC: 35f26e21de41b6c9fbf8ec5087f3e02580df15e3
-  SignalServiceKit: 92872de5e41c508c70210b474ee79302d8edff23
+  SignalServiceKit: acec0970f2e3b17c742b2704ce9ac9a8d8fda4d6
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   SQLCipher: 712e8416685e8e575b9b0706ffee71678b2fdcf8
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef

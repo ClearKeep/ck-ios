@@ -17,6 +17,8 @@ public protocol IChannelStorage {
 	
 	func getServers() -> [RealmServer]
 	func didSelectServer(_ domain: String?) -> [RealmServer]
+	func registerToken(_ token: String)
+	func subscribeAndListenServers() -> [RealmServer]
 }
 
 public class ChannelStorage: IChannelStorage {
@@ -30,15 +32,18 @@ public class ChannelStorage: IChannelStorage {
 	}
 	
 	let realmManager: RealmManager
+	private var servers: [RealmServer] = []
+	private let clientStore: ClientStore
 	
-	public init(config: IChatSecureConfig) {
+	public init(config: IChatSecureConfig, clientStore: ClientStore) {
 		self.config = config
 		realmManager = RealmManager(databasePath: config.databaseURL)
 		channels = [config.clkDomain + ":" + config.clkPort: APIService(domain: config.clkDomain + ":" + config.clkPort)]
+		self.clientStore = clientStore
 	}
 	
 	public func getServers() -> [RealmServer] {
-		let servers = realmManager.getServers()
+		servers = realmManager.getServers()
 		servers.forEach { server in
 			getChannel(domain: server.serverDomain).updateHeaders(accessKey: server.accessKey, hashKey: server.hashKey)
 		}
@@ -47,6 +52,22 @@ public class ChannelStorage: IChannelStorage {
 	
 	public func didSelectServer(_ domain: String?) -> [RealmServer] {
 		return realmManager.activeServer(domain: domain)
+	}
+	
+	public func registerToken(_ token: String) {
+		servers.forEach { server in
+			let notificationService = NotificationService(clientStore: clientStore)
+			notificationService.registerToken(token, domain: server.serverDomain)
+		}
+	}
+	
+	public func subscribeAndListenServers() -> [RealmServer] {
+		servers.forEach { server in
+			let subscribeAndListenService = SubscribeAndListenService(clientStore: clientStore)
+			subscribeAndListenService.subscribe(server)
+		}
+
+		return servers
 	}
 }
 
