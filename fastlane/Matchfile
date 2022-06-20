@@ -44,5 +44,5 @@ for_lane :update_dev_profiles do
   app_identifier([
 	ENV['APP_IDENTIFIER'] + ".dev",
     ENV['APP_IDENTIFIER'] + ".dev.notificationextension"
-  ]),
+  ])
 end
