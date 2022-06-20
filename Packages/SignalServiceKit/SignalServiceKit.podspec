@@ -12,7 +12,7 @@ TODO: Add long description of the pod here.
   s.author           = { 'mq162' => 'pmquang162@gmail.com' }
   s.source           = { :git => 'https://github.com/mq162/SignalServiceKit.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '14.0'
+  s.ios.deployment_target = '15.0'
 
 	s.source_files = 'SignalServiceKit/**/*.{swift,h,m,c}'
 	s.pod_target_xcconfig = {
