@@ -39,13 +39,16 @@ class DependencyResolver {
 		fontSet = DefaultFontSet()
 		colorSet = ColorSet()
 		imageSet = AppImageSet()
+		securedStoreService = SecuredStoreService()
+		persistentStoreService = PersistentStoreService()
+		let clientStore = ClientStore(persistentStoreService: persistentStoreService)
 		
 		// MARK: - CommonUI
 		CommonUI.DependencyResolver.shared = CommonUI.DependencyResolver(CommonUIConfig(fontSet: fontSet, colorSet: colorSet, imageSet: imageSet))
 		
 		// MARK: - Chat Secure
 		realmManager = RealmManager(databasePath: ConfigurationProvider.default.databaseURL)
-		channelStorage = ChannelStorage(config: ConfigurationProvider.default, realmManager: realmManager)
+		channelStorage = ChannelStorage(config: ConfigurationProvider.default, clientStore: clientStore, realmManager: realmManager)
 		ChatSecure.DependencyResolver.shared = ChatSecure.DependencyResolver(channelStorage)
 		
 		// MARK: - Signal
@@ -53,10 +56,7 @@ class DependencyResolver {
 		signalStore = SignalProtocolInMemoryStore(storage: yapDatabaseManager, channelStorage: channelStorage)
 		
 		// MARK: - Services
-		securedStoreService = SecuredStoreService()
-		persistentStoreService = PersistentStoreService()
 		appTokenService = AppTokenService(securedStoreService: securedStoreService, persistentStoreService: persistentStoreService)
-		let clientStore = ClientStore(persistentStoreService: persistentStoreService)
 		authenticationService = CLKAuthenticationService(signalStore: signalStore, clientStore: clientStore)
 		let senderStore = SenderKeyInMemoryStore(storage: yapDatabaseManager)
 		messageService = MessageService(clientStore: clientStore, signalStore: signalStore, senderStore: senderStore)

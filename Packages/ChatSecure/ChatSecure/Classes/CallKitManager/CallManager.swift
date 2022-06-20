@@ -5,8 +5,6 @@
 //  Created by VietAnh on 1/4/21.
 //
 
-// swiftlint:disable file_length
-
 import UIKit
 import CallKit
 import AVFoundation

@@ -88,8 +88,9 @@ struct HomeView: View {
 						.animation(.default, value: Constants.duration)
 				}
 			}
+			.hiddenNavigationBarStyle()
+			.onAppear(perform: getServers)
 			.onAppear(perform: getServerInfo)
-			.onAppear(perform: getUser)
 			.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
 		}
 	}
@@ -132,15 +133,9 @@ private extension HomeView {
 		servers = injected.interactors.homeInteractor.getServers()
 	}
 
-	func getUser() {
-		Task {
-			loadable = await injected.interactors.homeInteractor.getProfile()
-		}
-	}
-
 	func getServerInfo() {
 		Task {
-			loadable = await injected.interactors.homeInteractor.getJoinedGroup()
+			loadable = await injected.interactors.homeInteractor.getServerInfo()
 		}
 	}
 }

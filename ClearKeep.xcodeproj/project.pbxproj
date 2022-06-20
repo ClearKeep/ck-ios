@@ -361,7 +361,7 @@
 		CB117EBD27BB7DE2000941D9 /* RootViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModifier.swift; sourceTree = "<group>"; };
 		CB117EC127BB8DB1000941D9 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CB117EC227BB8DB1000941D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		CB117EC527BB8FEB000941D9 /* ClearKeep.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClearKeep.entitlements; sourceTree = "<group>"; };
+		CB117EC527BB8FEB000941D9 /* ClearKeepDevelopment.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClearKeepDevelopment.entitlements; sourceTree = "<group>"; };
 		CB117ECA27BBA44A000941D9 /* InteractorsContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractorsContainer.swift; sourceTree = "<group>"; };
 		CB117ECC27BBA6E5000941D9 /* HomeWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorker.swift; sourceTree = "<group>"; };
 		CB23604628322DAA00D98F54 /* StatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusType.swift; sourceTree = "<group>"; };
@@ -369,6 +369,8 @@
 		CB23604C28334CFD00D98F54 /* GroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
 		CB23605028335BAC00D98F54 /* ServerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerModel.swift; sourceTree = "<group>"; };
 		CB23605328337CD400D98F54 /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
+		CB32742F285DD03400DA7AAD /* ClearKeepQA.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClearKeepQA.entitlements; sourceTree = "<group>"; };
+		CB327430285DD05000DA7AAD /* ClearKeepProduction.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClearKeepProduction.entitlements; sourceTree = "<group>"; };
 		CB3F78F627C4CC0000E569B0 /* FontSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontSet.swift; sourceTree = "<group>"; };
 		CB3F78F727C4CC0000E569B0 /* AppImageSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppImageSet.swift; sourceTree = "<group>"; };
 		CB3F78F827C4CC0000E569B0 /* ColorSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
@@ -798,7 +800,6 @@
 			isa = PBXGroup;
 			children = (
 				CB117E5827BB63CD000941D9 /* App */,
-				CB117EC527BB8FEB000941D9 /* ClearKeep.entitlements */,
 				CB40072127E7488600DFBE88 /* Environments */,
 				CB117E5727BB6026000941D9 /* Info.plist */,
 				CB117E2827BB5283000941D9 /* Preview Content */,
@@ -987,6 +988,7 @@
 		CB40072227E7489000DFBE88 /* Development */ = {
 			isa = PBXGroup;
 			children = (
+				CB117EC527BB8FEB000941D9 /* ClearKeepDevelopment.entitlements */,
 				CBF3351727EEBC6C00F8EE63 /* GoogleService-Info-Development.plist */,
 				CB40072627E748EF00DFBE88 /* Development.xcconfig */,
 				CB40072A27E74C7D00DFBE88 /* NotificationExtension-Development.xcconfig */,
@@ -997,6 +999,7 @@
 		CB40072327E7489500DFBE88 /* QA */ = {
 			isa = PBXGroup;
 			children = (
+				CB32742F285DD03400DA7AAD /* ClearKeepQA.entitlements */,
 				CBF3351927EEBCB400F8EE63 /* GoogleService-Info-QA.plist */,
 				CB40072727E749D800DFBE88 /* QA.xcconfig */,
 				CB40072B27E74CA500DFBE88 /* NotificationExtension-QA.xcconfig */,
@@ -1007,6 +1010,7 @@
 		CB40072427E7489A00DFBE88 /* Production */ = {
 			isa = PBXGroup;
 			children = (
+				CB327430285DD05000DA7AAD /* ClearKeepProduction.entitlements */,
 				CBF3351B27EEBCE200F8EE63 /* GoogleService-Info-Production.plist */,
 				CB40072827E749EA00DFBE88 /* Production.xcconfig */,
 				CB40072C27E74CAD00DFBE88 /* NotificationExtension-Production.xcconfig */,
@@ -1395,6 +1399,7 @@
 				CB117E5427BB56D3000941D9 /* Swiftlint */,
 				CB3F77F627C372B000E569B0 /* Embed App Extensions */,
 				E47EE06396B21D28D9E21B59 /* [CP] Embed Pods Frameworks */,
+				CB327437285DD92000DA7AAD /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1631,6 +1636,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		CB327437285DD92000DA7AAD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nGOOGLE_SERVICE_INFO_PLIST_SOURCE=${PROJECT_DIR}/${TARGET_NAME}/${GOOGLE_SERVICE_INFO_PLIST}\n\nif [ ! -f $GOOGLE_SERVICE_INFO_PLIST_SOURCE ]\nthen\n    echo \"${GOOGLE_SERVICE_INFO_PLIST_SOURCE} not found.\"\n    exit 1\nfi\n\nGOOGLE_SERVICE_INFO_PLIST_DESTINATION=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\"\n\ncp \"${GOOGLE_SERVICE_INFO_PLIST_SOURCE}\" \"${GOOGLE_SERVICE_INFO_PLIST_DESTINATION}\"\n";
 		};
 		E2D939A156AC36124037E219 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2034,7 +2056,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "${IOS_APP_ICON}";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = ClearKeep/ClearKeep.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "$(CODE_SIGNING_ENTITLEMENTS)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "${CURRENT_PROJECT_VERSION}";
@@ -2070,7 +2092,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "${IOS_APP_ICON}";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = ClearKeep/ClearKeep.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "$(CODE_SIGNING_ENTITLEMENTS)";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "${CURRENT_PROJECT_VERSION}";
@@ -2259,7 +2281,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "${IOS_APP_ICON}";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = ClearKeep/ClearKeep.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "$(CODE_SIGNING_ENTITLEMENTS)";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "${CURRENT_PROJECT_VERSION}";

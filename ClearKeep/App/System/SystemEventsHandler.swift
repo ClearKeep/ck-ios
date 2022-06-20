@@ -50,6 +50,16 @@ struct SystemEventsHandler: ISystemEventsHandler {
 	}
 	
 	private func installPushNotificationsSubscriberOnLaunch() {
+		UNUserNotificationCenter.current()
+			.requestAuthorization(
+				options: [.alert, .sound, .badge]) { granted, _ in
+					print("Permission granted: \(granted)")
+					guard granted else { return }
+					DispatchQueue.main.async {
+						UIApplication.shared.registerForRemoteNotifications()
+					}
+					
+				}
 	}
 	
 	func sceneOpenURLContexts(_ urlContexts: Set<UIOpenURLContext>) {
@@ -71,6 +81,12 @@ struct SystemEventsHandler: ISystemEventsHandler {
 	}
 	
 	func handlePushRegistration(result: Result<Data, Error>) {
+		switch result {
+		case .success(let token):
+			container.interactors.homeInteractor.registerToken(token)
+		case .failure(let error):
+			print(error)
+		}
 	}
 	
 	func appDidReceiveRemoteNotification(payload: NotificationPayload,
