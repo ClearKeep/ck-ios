@@ -20,7 +20,7 @@ iOS client with end to end encryption messaging
    ```
 4. Copy folder to Packages/ChatServices
 
-### Install rust for Libsignal
-1. brew install rust
+### Install rust for Mac M1 
+1. brew install rustup
 2. rustc --version
 3. rustup-init
