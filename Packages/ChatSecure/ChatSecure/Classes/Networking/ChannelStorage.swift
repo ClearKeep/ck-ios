@@ -35,11 +35,11 @@ public class ChannelStorage: IChannelStorage {
 	private var servers: [RealmServer] = []
 	private let clientStore: ClientStore
 	
-	public init(config: IChatSecureConfig, clientStore: ClientStore) {
+	public init(config: IChatSecureConfig, clientStore: ClientStore, realmManager: RealmManager) {
 		self.config = config
-		realmManager = RealmManager(databasePath: config.databaseURL)
-		channels = [config.clkDomain + ":" + config.clkPort: APIService(domain: config.clkDomain + ":" + config.clkPort)]
 		self.clientStore = clientStore
+		self.realmManager = realmManager
+		channels = [config.clkDomain + ":" + config.clkPort: APIService(domain: config.clkDomain + ":" + config.clkPort)]
 	}
 	
 	public func getServers() -> [RealmServer] {

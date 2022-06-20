@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 import Networking
 
-class RealmManager {
+public class RealmManager {
 	// MARK: - Variables
 	private var configuration = Realm.Configuration()
 	private var backgroundQueue = DispatchQueue(label: "realm.queue",
@@ -17,7 +17,7 @@ class RealmManager {
 												target: nil)
 	
 	// MARK: - Init
-	init(databasePath: URL?) {
+	public init(databasePath: URL?) {
 		configuration.fileURL = databasePath
 	}
 }
@@ -144,6 +144,11 @@ extension RealmManager {
 	func getGroup(by groupId: Int64, domain: String, ownerId: String) -> RealmGroup? {
 		let groups = load(listOf: RealmGroup.self, filter: NSPredicate(format: "groupId == %ld && ownerDomain == %@ && ownerClientId == %@", groupId, domain, ownerId))
 		return groups.first
+	}
+	
+	public func getJoinedGroup(ownerId: String, domain: String) -> [RealmGroup] {
+		let groups = load(listOf: RealmGroup.self, filter: NSPredicate(format: "ownerDomain == %@ && ownerClientId == %@", domain, ownerId))
+		return groups
 	}
 }
 

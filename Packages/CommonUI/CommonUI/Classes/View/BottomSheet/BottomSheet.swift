@@ -7,87 +7,106 @@
 
 import SwiftUI
 
-private enum Distances {
-	static let hidden: CGFloat = 800
-	static let dismiss: CGFloat = 200
-}
+public struct BottomSheet {
 
-public struct BottomSheet<Content: View>: View {
-	@Environment(\.colorScheme) var colorScheme: ColorScheme
-	
-	@Binding var isPresented: Bool
-	@ViewBuilder let content: Content
-	
-	@State private var translation = Distances.hidden
-	
-	let isShowHandle: Bool
-	
-	public var body: some View {
-		ZStack {
-			backgroundColor.onTapGesture {
-					isPresented = false
-				}
-			VStack {
-				Spacer()
-				contentView
-					.offset(y: translation)
-					.animation(.interactiveSpring(), value: isPresented)
-					.animation(.interactiveSpring(), value: translation)
-					.gesture(
-						DragGesture()
-							.onChanged { value in
-								guard value.translation.height > 0 else { return }
-								translation = value.translation.height
-							}
-							.onEnded { value in
-								if value.translation.height > Distances.dismiss {
-									translation = Distances.hidden
-									isPresented = false
-								} else {
-									translation = 0
-								}
-							}
-					)
-			}
-			.background(
-				VStack {
-					Spacer()
-					contentBackgroundColor
-						.frame(height: translation > 200 ? 0 : 50)
-				}
-			)
-		}
-		.ignoresSafeArea()
-		.onAppear {
-			withAnimation {
-				translation = 0
+	/// Wraps the UIKit's detents (UISheetPresentationController.Detent)
+	public enum Detents {
+
+		/// Creates a system detent for a sheet that's approximately half the height of the screen, and is inactive in compact height.
+		case medium
+		/// Creates a system detent for a sheet at full height.
+		case large
+		/// Allows both medium and large detents. Opens in medium first
+		case mediumAndLarge
+		/// Allows both large and medium detents. Opens in large first
+		case largeAndMedium
+		
+		case custom(CGFloat)
+
+		var value: [UISheetPresentationController.Detent] {
+			switch self {
+			case .medium:
+				return [.medium()]
+
+			case .large:
+				return [.large()]
+
+			case .mediumAndLarge, .largeAndMedium:
+				return [.medium(), .large()]
+			case .custom(let height):
+				return [._detent(withIdentifier: "custom", constant: height)]
 			}
 		}
 	}
-	
-	private var contentView: some View {
-		ZStack(alignment: .top) {
-			content
-			handle
-				.padding(.top, 9)
-				.opacity(isShowHandle ? 1 : 0)
+
+	/// Wraps the UIKit's largestUndimmedDetentIdentifier.
+	/// *"The largest detent that doesn’t dim the view underneath the sheet."*
+	public enum LargestUndimmedDetent: CaseIterable, Identifiable {
+		case medium
+		case large
+
+		fileprivate var value: UISheetPresentationController.Detent.Identifier {
+			switch self {
+			case .medium:
+				return .medium
+
+			case .large:
+				return .large
+			}
 		}
-		.background(contentBackgroundColor)
-		.frame(maxWidth: .infinity)
-		.cornerRadius(30)
+
+		public var description: String {
+			switch self {
+			case .medium:
+				return "Medium"
+
+			case .large:
+				return "Large"
+			}
+		}
+
+		public var id: Int {
+			self.hashValue
+		}
 	}
-	
-	private var handle: some View {
-		RoundedRectangle(cornerRadius: 2.5)
-			.fill(commonUIConfig.colorSet.greyLight)
-			.frame(width: 47, height: 6)
+
+	private static var ref: UINavigationController?
+
+	public static func dismiss() {
+		ref?.dismiss(animated: true, completion: { ref = nil })
 	}
-	
-	private var backgroundColor: Color {
-		colorScheme == .light ? commonUIConfig.colorSet.black.opacity(0.4) : commonUIConfig.colorSet.black.opacity(0.2)
-	}
-	
-	var contentBackgroundColor: Color {
-		colorScheme == .light ? Color.white : commonUIConfig.colorSet.darkGrey2
+
+	/// Handles the presentation logic of the new UIKit's pageSheet modal presentation style.
+	///
+	/// *Sarun's* blog article source: https://sarunw.com/posts/bottom-sheet-in-ios-15-with-uisheetpresentationcontroller/
+	static func present<ContentView: View>(detents: Detents, shouldScrollExpandSheet: Bool, largestUndimmedDetent: LargestUndimmedDetent?, showGrabber: Bool, cornerRadius: CGFloat?, @ViewBuilder _ contentView: @escaping () -> ContentView) {
+		let detailViewController = UIHostingController(rootView: contentView())
+		let nav = UINavigationController(rootViewController: detailViewController)
+
+		ref = nav
+
+		nav.modalPresentationStyle = .pageSheet
+		
+		if let sheet = nav.sheetPresentationController {
+			sheet.detents = detents.value
+			sheet.prefersScrollingExpandsWhenScrolledToEdge = shouldScrollExpandSheet
+			sheet.largestUndimmedDetentIdentifier = largestUndimmedDetent?.value ?? .none
+			sheet.prefersGrabberVisible = showGrabber
+			sheet.preferredCornerRadius = cornerRadius
+			
+			// Missing artice's section "Switch between available detents" section
+			// Missing property sheet.prefersEdgeAttachedInCompactHeight
+			switch detents {
+			case .largeAndMedium:
+				sheet.selectedDetentIdentifier = .large
+
+			case .mediumAndLarge:
+				sheet.selectedDetentIdentifier = .medium
+
+			default: break
+			}
+		}
+
+		UIApplication.shared.windows.first?.rootViewController?.present(nav, animated: true, completion: nil)
 	}
 }

@@ -33,6 +33,7 @@ class DependencyResolver {
 	let messageService: IMessageService!
 	let signalStore: ISignalProtocolInMemoryStore!
 	let yapDatabaseManager: YapDatabaseManager!
+	let realmManager: RealmManager!
 	
 	init() {
 		fontSet = DefaultFontSet()
@@ -46,7 +47,8 @@ class DependencyResolver {
 		CommonUI.DependencyResolver.shared = CommonUI.DependencyResolver(CommonUIConfig(fontSet: fontSet, colorSet: colorSet, imageSet: imageSet))
 		
 		// MARK: - Chat Secure
-		channelStorage = ChannelStorage(config: ConfigurationProvider.default, clientStore: clientStore)
+		realmManager = RealmManager(databasePath: ConfigurationProvider.default.databaseURL)
+		channelStorage = ChannelStorage(config: ConfigurationProvider.default, clientStore: clientStore, realmManager: realmManager)
 		ChatSecure.DependencyResolver.shared = ChatSecure.DependencyResolver(channelStorage)
 		
 		// MARK: - Signal
