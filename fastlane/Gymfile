@@ -2,6 +2,7 @@ for_platform :ios do
     workspace("ClearKeep.xcworkspace")
     include_bitcode(true)
     clean(true)
+    output_directory("./build")
     output_name("ClearKeep")
     derived_data_path("./DerivedData")
 end
