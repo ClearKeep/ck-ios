@@ -53,8 +53,8 @@ struct HomeView: View {
 	let inspection = ViewInspector<Self>()
 	
 	var body: some View {
-		NavigationView {
-			GeometryReader { geometry in
+		GeometryReader { geometry in
+			NavigationView {
 				ZStack {
 					HStack {
 						ListServerView(servers: $servers, isAddNewServer: $isAddNewServer, action: getServerInfo)
@@ -76,25 +76,29 @@ struct HomeView: View {
 						}
 						.padding(Constants.padding)
 					}
-					.padding(.top, Constants.padding)
 					.hideKeyboardOnTapped()
-				}
-				
-				if isShowMenu {
-					LinearGradient(gradient: Gradient(colors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary.compactMap({ $0.opacity(Constants.opacity) }) : AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
-						.blur(radius: Constants.blur)
-						.edgesIgnoringSafeArea(.vertical)
-					MenuView(isShowMenu: $isShowMenu, user: $user)
-						.frame(width: geometry.size.width)
-						.offset(x: isShowMenu ? 0 : geometry.size.width * 2)
-						.transition(.move(edge: .trailing))
-						.animation(.default, value: Constants.duration)
+					.hiddenNavigationBarStyle()
+					.padding(.top, Constants.paddingTop)
+
+					if isShowMenu {
+						LinearGradient(gradient: Gradient(colors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary.compactMap({ $0.opacity(Constants.opacity) }) : AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
+							.blur(radius: Constants.blur)
+							.edgesIgnoringSafeArea(.vertical)
+
+						MenuView(isShowMenu: $isShowMenu, user: $user)
+							.frame(width: geometry.size.width)
+							.padding(.top, Constants.paddingMenu)
+							.offset(x: isShowMenu ? 0 : geometry.size.width * 2)
+							.transition(.move(edge: .trailing))
+							.animation(.default, value: Constants.duration)
+					}
+
 				}
 			}
-			.hiddenNavigationBarStyle()
 			.onAppear(perform: getServers)
 			.onAppear(perform: getServerInfo)
 			.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
+			.hiddenNavigationBarStyle()
 		}
 	}
 }

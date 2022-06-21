@@ -35,7 +35,7 @@ struct CreateGroupView: View {
 	@Binding var loadable: Loadable<CreatGroupViewModels>
 	@Binding var getProfile: CreatGroupProfieViewModel?
 	@Binding var clientInGroup: [CreatGroupGetUsersViewModel]
-
+	
 	// MARK: - Body
 	var body: some View {
 		VStack {
@@ -61,14 +61,15 @@ struct CreateGroupView: View {
 					ListUser(imageUrl: .constant(""), name: .constant(item.displayName))
 				}
 			}
-			NavigationLink(
-				destination: EmptyView(),
-				label: {
+//			NavigationLink(
+//				destination: ChatView(messageText: "", inputStyle: .default, groupId: 0),
+//				isActive: $isCreateGroup,
+//				label: {
 					RoundedGradientButton("GroupChat.Create".localized,
 										  disabled: .constant(nameGroup.isEmpty),
 										  action: creatGroup)
 						.frame(width: Constants.buttonSize.width)
-				})
+//				})
 				.padding(.bottom, Constants.paddingButtonNext)
 		}
 		.padding(.horizontal, Constants.paddingVertical)
@@ -115,16 +116,11 @@ private extension CreateGroupView {
 		self.presentationMode.wrappedValue.dismiss()
 	}
 
-	func getMyprofile() {
-		Task {
-			loadable = await injected.interactors.chatGroupInteractor.getProfile()
-		}
-	}
-
 	func creatGroup() {
 		Task {
-			await injected.interactors.chatGroupInteractor.createGroup(by: getProfile?.id ?? "fail", groupName: nameGroup, groupType: "abc", lstClient: clientInGroup)
+			loadable = await injected.interactors.chatGroupInteractor.createGroup(by: getProfile?.id ?? "fail", groupName: nameGroup, groupType: "group", lstClient: clientInGroup)
 		}
+		isCreateGroup.toggle()
 	}
 }
 

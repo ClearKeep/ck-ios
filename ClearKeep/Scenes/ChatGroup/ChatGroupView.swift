@@ -22,17 +22,7 @@ struct ChatGroupView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) private var colorScheme
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
-	@State private(set) var loadable: Loadable<CreatGroupViewModels> = .notRequested {
-		didSet {
-			switch loadable {
-			case .loaded(let load):
-				self.myProfile = load.getProfiles
-			case .failed(let error):
-				print(error)
-			default: break
-			}
-		}
-	}
+	@State private(set) var loadable: Loadable<CreatGroupViewModels> = .notRequested
 	@State private(set) var myProfile: CreatGroupProfieViewModel?
 
 	// MARK: - Init
@@ -84,16 +74,17 @@ private extension ChatGroupView {
 	}
 
 	func loadedView(_ data: CreatGroupViewModels) -> AnyView {
-		if data.getProfiles != nil {
-			return AnyView(ChatGroupContentView(loadable: $loadable, search: .constant([]), getUser: .constant([]), getProfile: .constant(data.getProfiles)))
-		}
 
 		if let searchUser = data.searchUser {
 			let userData = searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
 			return AnyView(ChatGroupContentView(loadable: $loadable, search: .constant(userData), getUser: .constant([]), getProfile: .constant(myProfile)))
 		}
 
-		return AnyView(errorView(LoginViewError.unknownError(errorCode: nil)))
+		if let groupData = data.creatGroup {
+			return AnyView(ChatView(messageText: "", inputStyle: .default, groupId: groupData.groupID))
+		}
+
+		return AnyView(ChatGroupContentView(loadable: $loadable, search: .constant([]), getUser: .constant([]), getProfile: .constant(data.getProfiles)))
 	}
 
 	func errorView(_ error: LoginViewError) -> some View {
