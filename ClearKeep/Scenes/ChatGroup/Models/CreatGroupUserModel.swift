@@ -9,19 +9,6 @@ import Model
 import ChatSecure
 import Networking
 
-struct CreatGroupGetUserModel: IGetUserResponse {
-	var lstUser: [IUserInfoResponse]
-}
-
-extension CreatGroupGetUserModel {
-	init(_ userResponse: User_GetUsersResponse) {
-		let users = userResponse.lstUser.map { member in
-			CreatGroupUserInfoModel(member)
-		}
-		self.init(lstUser: users)
-	}
-}
-
 struct CreatGroupSearchUserModel: ISearchUserResponse {
 	var lstUser: [IUserInfoResponse]
 }

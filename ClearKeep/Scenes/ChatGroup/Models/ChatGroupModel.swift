@@ -24,25 +24,18 @@ struct GroupChatModel: Identifiable {
 extension GroupChatModel: IGroupChatModel {}
 
 protocol IGroupChatModels {
-	var getUserModel: IGetUserResponse? { get }
 	var searchUserModel: ISearchUserResponse? { get }
 	var creatGroupModel: IGroupResponseModel? { get }
 	var getProfileModel: IUser? { get }
-	var clientInGroup: [IUserInfoResponse]? { get }
 }
 
 struct GroupChatModels: IGroupChatModels {
-	var getUserModel: IGetUserResponse?
 	var searchUserModel: ISearchUserResponse?
 	var creatGroupModel: IGroupResponseModel?
 	var getProfileModel: IUser?
-	var clientInGroup: [IUserInfoResponse]?
 }
 
 extension GroupChatModels {
-	init(getUser: User_GetUsersResponse) {
-		self.init(getUserModel: CreatGroupGetUserModel(getUser))
-	}
 
 	init(searchUser: User_SearchUserResponse) {
 		self.init(searchUserModel: CreatGroupSearchUserModel(searchUser))
@@ -56,10 +49,4 @@ extension GroupChatModels {
 		self.init(getProfileModel: CreatGroupProfieModel(getProfile))
 	}
 
-	init(client: [User_UserInfoResponse]) {
-		let clients = client.map { member in
-			CreatGroupUserInfoModel(member)
-		}
-		self.init(clientInGroup: clients)
-	}
 }

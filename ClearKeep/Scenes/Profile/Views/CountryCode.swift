@@ -96,7 +96,7 @@ private extension CountryCode {
 			} else {
 				searchStyle = .highlighted
 			}
-		}, onTextChanged: { _ in })
+		})
 	}
 
 	var listCountryCode: some View {

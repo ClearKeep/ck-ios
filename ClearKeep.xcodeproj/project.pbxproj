@@ -78,6 +78,7 @@
 		0499345527E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499345027E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift */; };
 		0499345627E9A8BE003BD4C4 /* AdvancedSeverInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499345127E9A8BE003BD4C4 /* AdvancedSeverInteractor.swift */; };
 		0499345727E9A8BE003BD4C4 /* AdvancedSeverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499345227E9A8BE003BD4C4 /* AdvancedSeverView.swift */; };
+		04B81FBD285F7B2000BD07A1 /* ChatGroupContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B81FBC285F7B2000BD07A1 /* ChatGroupContentView.swift */; };
 		04C854AE284873C300CBA291 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C854AD284873C300CBA291 /* UserViewModel.swift */; };
 		04C854B228489DA300CBA291 /* HomeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C854B128489DA300CBA291 /* HomeModels.swift */; };
 		111CDB183DAC665A08A0F9AE /* Pods_ClearKeepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 762B17389323AE09C354C456 /* Pods_ClearKeepTests.framework */; };
@@ -323,6 +324,7 @@
 		0499345027E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSeverRemoteStore.swift; sourceTree = "<group>"; };
 		0499345127E9A8BE003BD4C4 /* AdvancedSeverInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSeverInteractor.swift; sourceTree = "<group>"; };
 		0499345227E9A8BE003BD4C4 /* AdvancedSeverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSeverView.swift; sourceTree = "<group>"; };
+		04B81FBC285F7B2000BD07A1 /* ChatGroupContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGroupContentView.swift; sourceTree = "<group>"; };
 		04C854AD284873C300CBA291 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		04C854B128489DA300CBA291 /* HomeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModels.swift; sourceTree = "<group>"; };
 		1D2080FC782DE43A5ADFC387 /* Pods-ClearKeepTests.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.production.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.production.xcconfig"; sourceTree = "<group>"; };
@@ -1236,6 +1238,7 @@
 				F556C276280E502500D2B149 /* TagView.swift */,
 				F556C27A280E961E00D2B149 /* ListUser.swift */,
 				F5484D9D2828FF8200F0B43C /* CreateGroupView.swift */,
+				04B81FBC285F7B2000BD07A1 /* ChatGroupContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1851,6 +1854,7 @@
 				0499343627E96F8A003BD4C4 /* NewPasswordWorker.swift in Sources */,
 				F564484E283F8562007846F9 /* VoiceCall.swift in Sources */,
 				F553F87427E820E600824BE7 /* SocialView.swift in Sources */,
+				04B81FBD285F7B2000BD07A1 /* ChatGroupContentView.swift in Sources */,
 				047D6B1827F154970098B104 /* MemberView.swift in Sources */,
 				047D6B1C27F154B70098B104 /* RemoveMemberView.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,

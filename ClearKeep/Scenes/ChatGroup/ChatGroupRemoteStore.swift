@@ -12,7 +12,6 @@ import Networking
 
 protocol IChatGroupRemoteStore {
 	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [CreatGroupGetUsersViewModel], domain: String) async -> (Result<IGroupChatModels, Error>)
-	func getUsers(domain: String) async -> (Result<IGroupChatModels, Error>)
 	func searchUser(keyword: String, domain: String) async -> (Result<IGroupChatModels, Error>)
 	func getProfile(domain: String) async -> Result<IGroupChatModels, Error>
 }
@@ -39,16 +38,6 @@ extension ChatGroupRemoteStore: IChatGroupRemoteStore {
 		switch result {
 		case .success(let createdGroups):
 			return .success(GroupChatModels(creatGroups: createdGroups))
-		case .failure(let error):
-			return .failure(error)
-		}
-	}
-
-	func getUsers(domain: String) async -> (Result<IGroupChatModels, Error>) {
-		let result = await userService.getUsers(domain: domain)
-		switch result {
-		case .success(let getUser):
-			return .success(GroupChatModels(getUser: getUser))
 		case .failure(let error):
 			return .failure(error)
 		}

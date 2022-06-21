@@ -11,12 +11,7 @@ import Common
 import CommonUI
 
 private enum Constants {
-	static let spacerTopView = 90.0
-	static let spacer = 25.0
 	static let paddingVertical = 14.0
-	static let heightButton = 40.0
-	static let cornerRadiusButtonNext = 40.0
-	static let paddingButtonNext = 60.0
 }
 
 struct ChatGroupView: View {
@@ -31,28 +26,15 @@ struct ChatGroupView: View {
 		didSet {
 			switch loadable {
 			case .loaded(let load):
-				self.getUser = load.getUser ?? []
-//				self.profile = [load.getProfiles?.viewModelUser].compactMap { member in
-//					CreatGroupProfieViewModel(member)}
-
+				self.myProfile = load.getProfiles
 			case .failed(let error):
 				print(error)
 			default: break
 			}
 		}
 	}
-	@State private(set) var searchText: String = ""
-	@State private(set) var searchLinkText: String = ""
-	@State private(set) var searchStyle: TextInputStyle = .default
-	@State private(set) var searchLinkStyle: TextInputStyle = .default
-	@State private(set) var isShowingView: Bool = false
-	@State private(set) var isSelectedUser: Bool = false
-	@State private var isNextCreateGroup: Bool = false
-	@State private(set) var name: String = ""
-	@State private(set) var getUser: [CreatGroupGetUsersViewModel] = []
-	@State private(set) var profile: [CreatGroupProfieViewModel] = []
-	@State private(set) var search: [CreatGroupGetUsersViewModel] = []
-	@State private(set) var isSearch: Bool = false
+	@State private(set) var myProfile: CreatGroupProfieViewModel?
+
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -61,7 +43,7 @@ struct ChatGroupView: View {
 			.padding(.horizontal, Constants.paddingVertical)
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.edgesIgnoringSafeArea(.all)
-			.applyNavigationBarPlainStyle(title: "CreatGroup",
+			.applyNavigationBarPlainStyle(title: "GroupChat.Back.Button".localized,
 										  titleColor: titleColor,
 										  backgroundColors: backgroundButtonBack,
 										  leftBarItems: {
@@ -70,7 +52,7 @@ struct ChatGroupView: View {
 										  rightBarItems: {
 				Spacer()
 			})
-			.onAppear(perform: getUsers)
+			.onAppear(perform: getMyprofile)
 	}
 }
 
@@ -94,70 +76,7 @@ private extension ChatGroupView {
 // MARK: - Loading Content
 private extension ChatGroupView {
 	var notRequestedView: some View {
-		VStack(spacing: Constants.paddingVertical) {
-			SearchTextField(searchText: $searchText,
-							inputStyle: $searchStyle,
-							inputIcon: AppTheme.shared.imageSet.searchIcon,
-							placeHolder: "GroupChat.Search.Placeholder".localized,
-							onEditingChanged: { isEditing in
-				if isEditing {
-					searchStyle = .highlighted
-				} else {
-					searchStyle = .normal
-				}
-			}, onTextChanged: searchAction)
-				.padding(.top, Constants.paddingVertical)
-			TagView(groupChatModel: [GroupChatModel(name: "absbd", checked: false),
-									 GroupChatModel(name: "mvxcvmkdfkgdf", checked: false),
-									 GroupChatModel(name: "kdrgjkerkter", checked: false),
-									 GroupChatModel(name: "absbd", checked: false),
-									 GroupChatModel(name: "kkjgkegjrktekrtert", checked: false),
-									 GroupChatModel(name: "sdkfskfksdf", checked: false),
-									 GroupChatModel(name: "sldfksldfklwelr", checked: false),
-									 GroupChatModel(name: "ewrlwkrlewkr", checked: false),
-									 GroupChatModel(name: "dfgdfgdfg", checked: false)])
-			CheckBoxButtons(text: "GroupChat.User.Add.Title".localized, isChecked: $isShowingView)
-				.frame(maxWidth: .infinity, alignment: .leading)
-			if isShowingView {
-				CommonTextField(text: $searchLinkText,
-								inputStyle: $searchLinkStyle,
-								placeHolder: "GroupChat.User.Add.Placeholder".localized,
-								keyboardType: .default,
-								onEditingChanged: { isEditing in
-					if isEditing {
-						searchLinkStyle = .highlighted
-					} else {
-						searchLinkStyle = .normal
-					}
-				})
-					.frame(maxHeight: .infinity, alignment: .top)
-				Spacer()
-			} else {
-				List($getUser, id: \.id) { item in
-					ListUser(user: item, imageUrl: .constant(""), name: item.displayName)
-				}
-				.listStyle(PlainListStyle())
-			}
-			NavigationLink(
-				destination: CreateGroupView(profile: $profile),
-				isActive: $isNextCreateGroup,
-				label: {
-					Button(action: {
-						nextToCreateGroup()
-					},
-						   label: {
-						Text("GroupChat.Next".localized)
-					})
-						.frame(maxWidth: .infinity)
-						.frame(height: Constants.heightButton)
-						.font(AppTheme.shared.fontSet.font(style: .body3))
-						.background(backgroundGradientPrimary)
-						.foregroundColor(AppTheme.shared.colorSet.offWhite)
-						.cornerRadius(Constants.cornerRadiusButtonNext)
-						.padding(.horizontal, Constants.spacerTopView)
-				})
-				.padding(.bottom, Constants.paddingButtonNext)
-		}
+		ChatGroupContentView(loadable: $loadable, search: .constant([]), getUser: .constant([]), getProfile: .constant(nil))
 	}
 
 	var loadingView: some View {
@@ -165,14 +84,16 @@ private extension ChatGroupView {
 	}
 
 	func loadedView(_ data: CreatGroupViewModels) -> AnyView {
-		if isSearch {
-			return AnyView(ScrollView {
-				notRequestedView
-				listView(data)
-			})
-		} else {
-		return AnyView(errorView(LoginViewError.unknownError(errorCode: nil)))
+		if data.getProfiles != nil {
+			return AnyView(ChatGroupContentView(loadable: $loadable, search: .constant([]), getUser: .constant([]), getProfile: .constant(data.getProfiles)))
 		}
+
+		if let searchUser = data.searchUser {
+			let userData = searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
+			return AnyView(ChatGroupContentView(loadable: $loadable, search: .constant(userData), getUser: .constant([]), getProfile: .constant(myProfile)))
+		}
+
+		return AnyView(errorView(LoginViewError.unknownError(errorCode: nil)))
 	}
 
 	func errorView(_ error: LoginViewError) -> some View {
@@ -182,14 +103,6 @@ private extension ChatGroupView {
 					  message: Text(error.message),
 					  dismissButton: .default(Text(error.primaryButtonTitle)))
 			}
-	}
-
-	func listView(_ data: CreatGroupViewModels) -> some View {
-		
-		List(data.searchUser ?? [], id: \.id) { item in
-			ListUser(user: .constant(item), imageUrl: .constant(""), name: .constant(item.displayName))
-		}
-		.listStyle(PlainListStyle())
 	}
 }
 
@@ -201,10 +114,6 @@ private extension ChatGroupView {
 private extension ChatGroupView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
-	}
-
-	func nextToCreateGroup() {
-		isNextCreateGroup.toggle()
 	}
 }
 
@@ -229,29 +138,10 @@ private extension ChatGroupView {
 
 // MARK: - Interactors
 private extension ChatGroupView {
-
-	func getUsers() {
-		loadable = .isLoading(last: nil, cancelBag: CancelBag())
-		Task {
-			loadable = await injected.interactors.chatGroupInteractor.getUsers()
-		}
-	}
-
-	func getProfile() {
-		loadable = .isLoading(last: nil, cancelBag: CancelBag())
+	func getMyprofile() {
 		Task {
 			loadable = await injected.interactors.chatGroupInteractor.getProfile()
 		}
-	}
-
-	func searchAction(for searchText: String) {
-		isSearch = true
-		   if !searchText.isEmpty {
-			   Task {
-				  await injected.interactors.chatGroupInteractor.searchUser(keyword: searchText)
-			   }
-
-		   }
 	}
 }
 

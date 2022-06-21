@@ -9,29 +9,21 @@ import Foundation
 import Model
 
 protocol ICreatGroupViewModels {
-	var getUser: [CreatGroupGetUsersViewModel]? { get }
 	var searchUser: [CreatGroupGetUsersViewModel]? { get }
 	var creatGroup: CreatGroupViewModel? { get }
-	var getProfile: ICreatGroupProfieViewModels? { get }
+	var getProfile: CreatGroupProfieViewModel? { get }
 	var clientInGroup: [CreatGroupGetUsersViewModel]? { get }
 }
 
 struct CreatGroupViewModels {
-	var getUser: [CreatGroupGetUsersViewModel]?
 	var searchUser: [CreatGroupGetUsersViewModel]?
 	var creatGroup: CreatGroupViewModel?
-	var getProfiles: ICreatGroupProfieViewModels?
+	var getProfiles: CreatGroupProfieViewModel?
 	var clientInGroup: [CreatGroupGetUsersViewModel]?
 }
 
 extension CreatGroupViewModels {
-	init(getUsers: IGroupChatModels) {
-		let getUser = getUsers.getUserModel?.lstUser.map { member in
-			CreatGroupGetUsersViewModel(member)
-		}
-		self.init(getUser: getUser)
-	}
-	
+
 	init(users: IGroupChatModels) {
 		let searchUsers = users.searchUserModel?.lstUser.map { member in
 			CreatGroupGetUsersViewModel(member)
@@ -47,7 +39,8 @@ extension CreatGroupViewModels {
 	}
 
 	init(profile: IGroupChatModels) {
-		self.init(getProfiles: CreatGroupProfieViewModels(profile))
+		let myprofile = profile.getProfileModel
+		self.init(getProfiles: CreatGroupProfieViewModel(myprofile))
 	}
 
 	init(clients: [IUserInfoResponse]) {

@@ -15,35 +15,21 @@ private enum Constants {
 
 struct ListUser: View {
 	// MARK: - Variables
-
 	@Environment(\.colorScheme) var colorScheme
-	@Environment(\.injected) private var injected: DIContainer
-	@Binding var user: CreatGroupGetUsersViewModel
 	@Binding var imageUrl: String
 	@Binding var name: String
-	@State private(set) var isSelected: Bool = false
-
-	// MARK: Init
-
+	
 	// MARK: - Body
 	var body: some View {
-		Button(action: {
-			addUser()
-		}, label: {
-			HStack {
-
-				avatarView
-					.frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
-					.clipShape(Circle())
-				Text(name)
-					.frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-					.font(AppTheme.shared.fontSet.font(style: .input2))
-					.foregroundColor(foregroundTagUser)
-				Spacer()
-				CheckBoxButtons(text: "", isChecked: $isSelected)
-
-			}
-		})
+		HStack {
+			avatarView
+				.frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
+				.clipShape(Circle())
+			Text(name)
+				.frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+				.font(AppTheme.shared.fontSet.font(style: .input2))
+				.foregroundColor(foregroundTagUser)
+		}
 	}
 }
 
@@ -73,13 +59,8 @@ private extension ListUser {
 			.clipShape(Circle())
 			.foregroundColor(Color.gray)
 	}
-
+	
 	var avatarDefault: some View {
 		AvatarDefault(title: String(name.prefix(1)))
-	}
-
-	func addUser() {
-		isSelected.toggle()
-			injected.interactors.chatGroupInteractor.addClient(user: user)
 	}
 }

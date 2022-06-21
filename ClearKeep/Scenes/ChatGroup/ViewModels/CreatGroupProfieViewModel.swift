@@ -8,17 +8,6 @@
 import Foundation
 import Model
 
-protocol ICreatGroupProfieViewModels {
-	var viewModelUser: IUser? { get }
-}
-
-struct CreatGroupProfieViewModels: ICreatGroupProfieViewModels {
-	var viewModelUser: IUser?
-	init(_ model: IGroupChatModels) {
-		self.viewModelUser = model.getProfileModel
-	}
-}
-
 struct CreatGroupProfieViewModel {
 	var id: String
 	var displayName: String
@@ -27,10 +16,10 @@ struct CreatGroupProfieViewModel {
 	var avatar: String
 
 	init(_ user: IUser?) {
-		id = user?.id ?? ""
-		displayName = user?.displayName ?? ""
-		email = user?.email ?? ""
-		phoneNumber = user?.phoneNumber ?? ""
-		avatar = user?.avatar ?? ""
+		self.id = user?.id ?? ""
+		self.displayName = user?.displayName ?? ""
+		self.email = user?.email ?? ""
+		self.phoneNumber = user?.phoneNumber ?? ""
+		self.avatar = user?.avatar ?? ""
 	}
 }
