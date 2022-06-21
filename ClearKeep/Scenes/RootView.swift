@@ -30,6 +30,7 @@ struct RootView: View {
 				if !servers.isEmpty && (newServerDomain?.isEmpty ?? true) {
 					HomeView()
 						.inject(container)
+						.onAppear(perform: subscribeAndListen)
 				} else {
 					LoginView()
 						.inject(container)
@@ -53,6 +54,12 @@ private extension RootView {
 	
 	var newServerDomainUpdate: AnyPublisher<String?, Never> {
 		container.appState.updates(for: \.authentication.newServerDomain)
+	}
+}
+
+private extension RootView {
+	func subscribeAndListen() {
+		container.interactors.homeInteractor.subscribeAndListenServers()
 	}
 }
 

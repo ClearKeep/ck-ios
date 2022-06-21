@@ -5,6 +5,7 @@ iOS client with end to end encryption messaging
 * Xcode:  Version 13.2.1
 * Swift-protobuf:  Version 1.18.0
 * Grpc-swift: Version 1.7.1
+* Rust
 
 ## Build & Run
 ### Clone source from github
@@ -19,4 +20,7 @@ iOS client with end to end encryption messaging
    ```
 4. Copy folder to Packages/ChatServices
 
-
+### Install rust for Mac M1 
+1. brew install rustup
+2. rustc --version
+3. rustup-init

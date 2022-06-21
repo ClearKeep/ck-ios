@@ -10,9 +10,9 @@ import Foundation
 public protocol INotifyAPIService {
 	func readNotify(_ request: Notification_ReadNotifyRequest) async -> Result<Notification_BaseResponse, Error>
 	func getUnreadNotifies(_ request: Notification_Empty) async -> Result<Notification_GetNotifiesResponse, Error>
-	func subscribe(_ request: Notification_SubscribeRequest) async -> Result<Notification_BaseResponse, Error>
-	func unSubscribe(_ request: Notification_UnSubscribeRequest) async -> Result<Notification_BaseResponse, Error>
-	func listen(_ request: Notification_ListenRequest) async -> Result<Notification_NotifyObjectResponse, Error>
+	func subscribe(_ request: Notification_SubscribeRequest, completion: @escaping (Result<Notification_BaseResponse, Error>) -> Void)
+	func unSubscribe(_ request: Notification_UnSubscribeRequest, completion: @escaping (Result<Notification_BaseResponse, Error>) -> Void)
+	func listen(_ request: Notification_ListenRequest, completion: @escaping (Result<Notification_NotifyObjectResponse, Error>) -> Void)
 }
 
 extension APIService: INotifyAPIService {
@@ -58,61 +58,69 @@ extension APIService: INotifyAPIService {
 		})
 	}
 	
-	public func subscribe(_ request: Notification_SubscribeRequest) async -> Result<Notification_BaseResponse, Error> {
-		return await withCheckedContinuation({ continuation in
-			let caller = clientNotify.subscribe(request, callOptions: callOptions)
-			
-			caller.status.whenComplete({ result in
-				switch result {
-				case .success(let status):
-					if status.isOk {
-						caller.response.whenComplete { result in
-							continuation.resume(returning: result)
+	public func subscribe(_ request: Notification_SubscribeRequest, completion: @escaping (Result<Notification_BaseResponse, Error>) -> Void) {
+		let caller = clientNotify.subscribe(request, callOptions: callOptions)
+		
+		caller.status.whenComplete({ [weak self] result in
+			switch result {
+			case .success(let status):
+				if status.isOk {
+					caller.response.whenComplete { result in
+						switch result {
+						case .success:
+							var listenRequest = Notification_ListenRequest()
+							listenRequest.deviceID = request.deviceID
+							self?.listen(listenRequest) { result in
+								print(result)
+							}
+						case .failure(let error):
+							completion(.failure(ServerError(error)))
 						}
-					} else {
-						continuation.resume(returning: .failure(ServerError(status)))
 					}
-				case .failure(let error):
-					continuation.resume(returning: .failure(ServerError(error)))
+				} else {
+					completion(.failure(ServerError(status)))
 				}
-			})
-		})
-	}
-	
-	public func unSubscribe(_ request: Notification_UnSubscribeRequest) async -> Result<Notification_BaseResponse, Error> {
-		return await withCheckedContinuation({ continuation in
-			let caller = clientNotify.un_subscribe(request, callOptions: callOptions)
-			
-			caller.status.whenComplete({ result in
-				switch result {
-				case .success(let status):
-					if status.isOk {
-						caller.response.whenComplete { result in
-							continuation.resume(returning: result)
-						}
-					} else {
-						continuation.resume(returning: .failure(ServerError(status)))
-					}
-				case .failure(let error):
-					continuation.resume(returning: .failure(ServerError(error)))
-				}
-			})
-		})
-	}
-	
-	public func listen(_ request: Notification_ListenRequest) async -> Result<Notification_NotifyObjectResponse, Error> {
-		return await withCheckedContinuation({ continuation in
-			do {
-				try clientNotify.listen(request, callOptions: callOptions) { publication in
-					guard let data = try? publication.serializedData(),
-						  let response = try? Notification_NotifyObjectResponse(serializedData: data) else {
-						continuation.resume(returning: .failure(ServerError.unknown))
-						return }
-					continuation.resume(returning: .success(response))
-				}.status.wait()
-			} catch {
-				continuation.resume(returning: .failure(error))
+			case .failure(let error):
+				completion(.failure(ServerError(error)))
 			}
 		})
+	}
+	
+	public func unSubscribe(_ request: Notification_UnSubscribeRequest, completion: @escaping (Result<Notification_BaseResponse, Error>) -> Void) {
+		let caller = clientNotify.un_subscribe(request, callOptions: callOptions)
+		
+		caller.status.whenComplete({ result in
+			switch result {
+			case .success(let status):
+				if status.isOk {
+					caller.response.whenComplete { result in
+						completion(result)
+					}
+				} else {
+					completion(.failure(ServerError(status)))
+				}
+			case .failure(let error):
+				completion(.failure(ServerError(error)))
+			}
+		})
+	}
+	
+	public func listen(_ request: Notification_ListenRequest, completion: @escaping (Result<Notification_NotifyObjectResponse, Error>) -> Void) {
+		DispatchQueue.global(qos: .background).async {
+			do {
+				let caller = self.clientNotify.listen(request, callOptions: self.callOptions) { publication in
+					guard let data = try? publication.serializedData(),
+						  let response = try? Notification_NotifyObjectResponse(serializedData: data) else {
+						completion(.failure(ServerError.unknown))
+						return
+					}
+					completion(.success(response))
+				}
+				let status = try caller.status.wait()
+				print(status)
+			} catch {
+				completion(.failure(error))
+			}
+		}
 	}
 }

@@ -82,6 +82,9 @@
 		04C854AE284873C300CBA291 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C854AD284873C300CBA291 /* UserViewModel.swift */; };
 		04C854B228489DA300CBA291 /* HomeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C854B128489DA300CBA291 /* HomeModels.swift */; };
 		111CDB183DAC665A08A0F9AE /* Pods_ClearKeepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 762B17389323AE09C354C456 /* Pods_ClearKeepTests.framework */; };
+		226732A72853173500C07852 /* ChatViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226732A62853173500C07852 /* ChatViewModels.swift */; };
+		226732A928534C1900C07852 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226732A828534C1900C07852 /* MessageViewModel.swift */; };
+		228C49ED285B28C6003C4FA0 /* ForwardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228C49EC285B28C6003C4FA0 /* ForwardViewModel.swift */; };
 		228F2C84281B9E6F0012B07A /* ForwardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228F2C83281B9E6F0012B07A /* ForwardView.swift */; };
 		22A1C6992812B1D500FE957F /* ChatInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6942812B1D500FE957F /* ChatInMemoryStore.swift */; };
 		22A1C69A2812B1D500FE957F /* ChatWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6952812B1D500FE957F /* ChatWorker.swift */; };
@@ -328,6 +331,9 @@
 		04C854AD284873C300CBA291 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		04C854B128489DA300CBA291 /* HomeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModels.swift; sourceTree = "<group>"; };
 		1D2080FC782DE43A5ADFC387 /* Pods-ClearKeepTests.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.production.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.production.xcconfig"; sourceTree = "<group>"; };
+		226732A62853173500C07852 /* ChatViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModels.swift; sourceTree = "<group>"; };
+		226732A828534C1900C07852 /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
+		228C49EC285B28C6003C4FA0 /* ForwardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardViewModel.swift; sourceTree = "<group>"; };
 		228F2C83281B9E6F0012B07A /* ForwardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardView.swift; sourceTree = "<group>"; };
 		22A1C6942812B1D500FE957F /* ChatInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInMemoryStore.swift; sourceTree = "<group>"; };
 		22A1C6952812B1D500FE957F /* ChatWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatWorker.swift; sourceTree = "<group>"; };
@@ -371,7 +377,7 @@
 		CB117EBD27BB7DE2000941D9 /* RootViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModifier.swift; sourceTree = "<group>"; };
 		CB117EC127BB8DB1000941D9 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CB117EC227BB8DB1000941D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		CB117EC527BB8FEB000941D9 /* ClearKeep.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClearKeep.entitlements; sourceTree = "<group>"; };
+		CB117EC527BB8FEB000941D9 /* ClearKeepDevelopment.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClearKeepDevelopment.entitlements; sourceTree = "<group>"; };
 		CB117ECA27BBA44A000941D9 /* InteractorsContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractorsContainer.swift; sourceTree = "<group>"; };
 		CB117ECC27BBA6E5000941D9 /* HomeWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorker.swift; sourceTree = "<group>"; };
 		CB23604628322DAA00D98F54 /* StatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusType.swift; sourceTree = "<group>"; };
@@ -379,6 +385,8 @@
 		CB23604C28334CFD00D98F54 /* GroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
 		CB23605028335BAC00D98F54 /* ServerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerModel.swift; sourceTree = "<group>"; };
 		CB23605328337CD400D98F54 /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
+		CB32742F285DD03400DA7AAD /* ClearKeepQA.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClearKeepQA.entitlements; sourceTree = "<group>"; };
+		CB327430285DD05000DA7AAD /* ClearKeepProduction.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClearKeepProduction.entitlements; sourceTree = "<group>"; };
 		CB3F78F627C4CC0000E569B0 /* FontSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontSet.swift; sourceTree = "<group>"; };
 		CB3F78F727C4CC0000E569B0 /* AppImageSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppImageSet.swift; sourceTree = "<group>"; };
 		CB3F78F827C4CC0000E569B0 /* ColorSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
@@ -759,9 +767,20 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		226732A52853172100C07852 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				226732A62853173500C07852 /* ChatViewModels.swift */,
+				226732A828534C1900C07852 /* MessageViewModel.swift */,
+				228C49EC285B28C6003C4FA0 /* ForwardViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		22A1C6932812B0D700FE957F /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				226732A52853172100C07852 /* ViewModels */,
 				22A1C6942812B1D500FE957F /* ChatInMemoryStore.swift */,
 				22A1C6952812B1D500FE957F /* ChatWorker.swift */,
 				22A1C6962812B1D500FE957F /* ChatRemoteStore.swift */,
@@ -808,7 +827,6 @@
 			isa = PBXGroup;
 			children = (
 				CB117E5827BB63CD000941D9 /* App */,
-				CB117EC527BB8FEB000941D9 /* ClearKeep.entitlements */,
 				CB40072127E7488600DFBE88 /* Environments */,
 				CB117E5727BB6026000941D9 /* Info.plist */,
 				CB117E2827BB5283000941D9 /* Preview Content */,
@@ -997,6 +1015,7 @@
 		CB40072227E7489000DFBE88 /* Development */ = {
 			isa = PBXGroup;
 			children = (
+				CB117EC527BB8FEB000941D9 /* ClearKeepDevelopment.entitlements */,
 				CBF3351727EEBC6C00F8EE63 /* GoogleService-Info-Development.plist */,
 				CB40072627E748EF00DFBE88 /* Development.xcconfig */,
 				CB40072A27E74C7D00DFBE88 /* NotificationExtension-Development.xcconfig */,
@@ -1007,6 +1026,7 @@
 		CB40072327E7489500DFBE88 /* QA */ = {
 			isa = PBXGroup;
 			children = (
+				CB32742F285DD03400DA7AAD /* ClearKeepQA.entitlements */,
 				CBF3351927EEBCB400F8EE63 /* GoogleService-Info-QA.plist */,
 				CB40072727E749D800DFBE88 /* QA.xcconfig */,
 				CB40072B27E74CA500DFBE88 /* NotificationExtension-QA.xcconfig */,
@@ -1017,6 +1037,7 @@
 		CB40072427E7489A00DFBE88 /* Production */ = {
 			isa = PBXGroup;
 			children = (
+				CB327430285DD05000DA7AAD /* ClearKeepProduction.entitlements */,
 				CBF3351B27EEBCE200F8EE63 /* GoogleService-Info-Production.plist */,
 				CB40072827E749EA00DFBE88 /* Production.xcconfig */,
 				CB40072C27E74CAD00DFBE88 /* NotificationExtension-Production.xcconfig */,
@@ -1410,6 +1431,7 @@
 				CB117E5427BB56D3000941D9 /* Swiftlint */,
 				CB3F77F627C372B000E569B0 /* Embed App Extensions */,
 				E47EE06396B21D28D9E21B59 /* [CP] Embed Pods Frameworks */,
+				CB327437285DD92000DA7AAD /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1647,6 +1669,23 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
+		CB327437285DD92000DA7AAD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nGOOGLE_SERVICE_INFO_PLIST_SOURCE=${PROJECT_DIR}/${TARGET_NAME}/${GOOGLE_SERVICE_INFO_PLIST}\n\nif [ ! -f $GOOGLE_SERVICE_INFO_PLIST_SOURCE ]\nthen\n    echo \"${GOOGLE_SERVICE_INFO_PLIST_SOURCE} not found.\"\n    exit 1\nfi\n\nGOOGLE_SERVICE_INFO_PLIST_DESTINATION=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\"\n\ncp \"${GOOGLE_SERVICE_INFO_PLIST_SOURCE}\" \"${GOOGLE_SERVICE_INFO_PLIST_DESTINATION}\"\n";
+		};
 		E2D939A156AC36124037E219 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1744,6 +1783,7 @@
 				0462C6C42816535C00A9EABB /* SearchModels.swift in Sources */,
 				22A1C69D2812B1D500FE957F /* ChatView.swift in Sources */,
 				CB7F29232823C53E00BD5049 /* LoginViewError.swift in Sources */,
+				228C49ED285B28C6003C4FA0 /* ForwardViewModel.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				047D6B1127F1544D0098B104 /* GroupDetailInteractor.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
@@ -1752,6 +1792,7 @@
 				0462C6CB2816535C00A9EABB /* SearchUserView.swift in Sources */,
 				F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */,
 				0462C6C72816535C00A9EABB /* SearchWorker.swift in Sources */,
+				226732A928534C1900C07852 /* MessageViewModel.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
 				F564482E283B7A79007846F9 /* ProfileWorker.swift in Sources */,
 				0499344527E97035003BD4C4 /* ChangePasswordWorker.swift in Sources */,
@@ -1840,6 +1881,7 @@
 				0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */,
 				044432BD285720C900276DB3 /* CreatGroupViewModels.swift in Sources */,
 				F564484C283F8562007846F9 /* CallView.swift in Sources */,
+				226732A72853173500C07852 /* ChatViewModels.swift in Sources */,
 				0499344827E97035003BD4C4 /* ChangePasswordView.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
 				CB3F78FB27C4CC0000E569B0 /* ColorSet.swift in Sources */,
@@ -2054,7 +2096,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "${IOS_APP_ICON}";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = ClearKeep/ClearKeep.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "$(CODE_SIGNING_ENTITLEMENTS)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "${CURRENT_PROJECT_VERSION}";
@@ -2090,7 +2132,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "${IOS_APP_ICON}";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = ClearKeep/ClearKeep.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "$(CODE_SIGNING_ENTITLEMENTS)";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "${CURRENT_PROJECT_VERSION}";
@@ -2099,6 +2141,7 @@
 				DEVELOPMENT_TEAM = H4C7478UQW;
 				ENABLE_BITCODE = NO;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -2126,6 +2169,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = NO;
 			};
 			name = QA;
 		};
@@ -2279,7 +2323,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "${IOS_APP_ICON}";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = ClearKeep/ClearKeep.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "$(CODE_SIGNING_ENTITLEMENTS)";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "${CURRENT_PROJECT_VERSION}";
@@ -2299,7 +2343,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = "${MARKETING_VERSION}";
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(IOS_BUNDLE_ID)";
 				PRODUCT_NAME = "$(IOS_APP_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.telred.clearkeep";

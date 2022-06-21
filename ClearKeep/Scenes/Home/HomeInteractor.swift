@@ -13,10 +13,11 @@ protocol IHomeInteractor {
 	var worker: IHomeWorker { get }
 	
 	func validateDomain(_ domain: String) -> Bool
+	func registerToken(_ token: Data)
+	func subscribeAndListenServers()
 	func getServers() -> [ServerViewModel]
-	func getJoinedGroup() async -> Loadable<HomeViewModels>
+	func getServerInfo() async -> Loadable<HomeViewModels>
 	func didSelectServer(_ domain: String?) -> [ServerViewModel]
-	func getProfile() async -> Loadable<HomeViewModels>
 	func signOut() async
 }
 
@@ -39,16 +40,31 @@ extension HomeInteractor: IHomeInteractor {
 		return worker.validateDomain(domain)
 	}
 	
+	func registerToken(_ token: Data) {
+		worker.registerToken(token)
+	}
+	
+	func subscribeAndListenServers() {
+		worker.subscribeAndListenServers()
+	}
+	
 	func getServers() -> [ServerViewModel] {
 		return worker.servers.compactMap { ServerViewModel($0) }
 	}
 	
-	func getJoinedGroup() async -> Loadable<HomeViewModels> {
+	func getServerInfo() async -> Loadable<HomeViewModels> {
 		let result = await worker.getJoinedGroup()
 		
 		switch result {
 		case .success(let groups):
-			return .loaded(HomeViewModels(responseGroup: groups))
+			let result = await worker.getProfile()
+			
+			switch result {
+			case .success(let user):
+				return .loaded(HomeViewModels(responseGroup: groups, responseUser: user))
+			case .failure(let error):
+				return .failed(error)
+			}
 		case .failure(let error):
 			return .failed(error)
 		}
@@ -56,17 +72,6 @@ extension HomeInteractor: IHomeInteractor {
 	
 	func didSelectServer(_ domain: String?) -> [ServerViewModel] {
 		return worker.didSelectServer(domain).compactMap { ServerViewModel($0) }
-	}
-	
-	func getProfile() async -> Loadable<HomeViewModels> {
-		let result = await worker.getProfile()
-		
-		switch result {
-		case .success(let user):
-			return .loaded(HomeViewModels(responseUser: user))
-		case .failure(let error):
-			return .failed(error)
-		}
 	}
 	
 	func signOut() async {
@@ -90,11 +95,19 @@ struct StubHomeInteractor: IHomeInteractor {
 		return true
 	}
 	
+	func registerToken(_ token: Data) {
+		worker.registerToken(token)
+	}
+	
+	func subscribeAndListenServers() {
+		worker.subscribeAndListenServers()
+	}
+	
 	func getServers() -> [ServerViewModel] {
 		return []
 	}
 	
-	func getJoinedGroup() async -> Loadable<HomeViewModels> {
+	func getServerInfo() async -> Loadable<HomeViewModels> {
 		return .notRequested
 	}
 	
@@ -102,9 +115,6 @@ struct StubHomeInteractor: IHomeInteractor {
 		return []
 	}
 	
-	func getProfile() async -> Loadable<HomeViewModels> {
-		return .notRequested
-	}
 	func signOut() async {
 		//		let result = await worker.signOut()
 	}

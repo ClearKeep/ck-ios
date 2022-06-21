@@ -35,22 +35,35 @@ public extension View {
 		}
 	}
 	
-	func bottomSheet<Content: View>(
+	/// Presents a bottomSheet when a binding to a Boolean value that you provide is true.
+	public func bottomSheet<Content: View>(
 		isPresented: Binding<Bool>,
-		isShowHandle: Bool,
+		detents: BottomSheet.Detents = .medium,
+		shouldScrollExpandSheet: Bool = true,
+		largestUndimmedDetent: BottomSheet.LargestUndimmedDetent? = nil,
+		showGrabber: Bool = false,
+		cornerRadius: CGFloat? = nil,
 		@ViewBuilder content: @escaping () -> Content
 	) -> some View {
-		self
-			.overlay(
-				Group {
-					if isPresented.wrappedValue {
-						BottomSheet(
-							isPresented: isPresented,
-							content: content,
-							isShowHandle: isShowHandle
-						)
+		background {
+			Color.clear
+				.onChange(of: isPresented.wrappedValue) { show in
+					if show {
+						BottomSheet.present(
+							detents: detents,
+							shouldScrollExpandSheet: shouldScrollExpandSheet,
+							largestUndimmedDetent: largestUndimmedDetent,
+							showGrabber: showGrabber,
+							cornerRadius: cornerRadius
+						) {
+							content()
+								.onDisappear {
+									isPresented.projectedValue.wrappedValue = false
+								}
+						}
 					}
 				}
-			)
+		}
 	}
+	
 }

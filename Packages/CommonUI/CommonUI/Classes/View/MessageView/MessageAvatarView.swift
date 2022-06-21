@@ -10,20 +10,20 @@ import SwiftUI
 private enum Constants {
 }
 
-struct MessageAvatarView: View {
+public struct MessageAvatarView: View {
 	// MARK: - Variables
 	let userName: String
-	let image: Image?
+	let image: String
 	var font: Font
 	let avatarSize: CGSize
-	let statusSize: CGSize
+	let statusSize: CGSize?
 	
 	// MARK: - Init
-	init(avatarSize: CGSize,
-		 statusSize: CGSize,
+	public init(avatarSize: CGSize,
+		 statusSize: CGSize? = nil,
 		 userName: String,
 		 font: Font,
-		 image: Image? = nil) {
+		 image: String) {
 		self.avatarSize = avatarSize
 		self.statusSize = statusSize
 		self.userName = userName
@@ -32,19 +32,16 @@ struct MessageAvatarView: View {
 	}
 	
 	// MARK: - Body
-	var body: some View {
+	public var body: some View {
 		ZStack(alignment: .topTrailing) {
 			Group {
-				if let loadedImage = image {
-					loadedImage
-						.resizable()
-						.scaledToFill()
-						.frame(width: avatarSize.width, height: avatarSize.height, alignment: .center)
+				if !image.isEmpty {
+					CachedAsyncImage(url: URL(string: image))
 				} else {
 					ZStack(alignment: .center) {
 						LinearGradient(gradient: Gradient(colors: commonUIConfig.colorSet.gradientAccent), startPoint: .leading, endPoint: .trailing)
 							.frame(width: avatarSize.width, height: avatarSize.height, alignment: .center)
-						
+
 						Text(userName.first?.uppercased() ?? "")
 							.font(font)
 							.frame(alignment: .center)
@@ -53,6 +50,7 @@ struct MessageAvatarView: View {
 					}
 				}
 			}
+			.frame(width: avatarSize.width, height: avatarSize.height, alignment: .center)
 			.clipShape(Circle())
 			
 //			Group {

@@ -6,29 +6,43 @@ username(ENV['APPLE_ID'])
 
 # DEV
 for_lane :dev do
-  app_identifier([ENV['APP_IDENTIFIER'] + ".dev"])
+  app_identifier([
+	ENV['APP_IDENTIFIER'] + ".dev",
+	ENV['APP_IDENTIFIER'] + ".dev.notificationextension"
+  ])
 end
 
 # QA
 for_lane :qa do
-  app_identifier([ENV['APP_IDENTIFIER'] + ".qa"])
+  app_identifier([
+	ENV['APP_IDENTIFIER'] + ".qa",
+	ENV['APP_IDENTIFIER'] + ".qa.notificationextension"
+  ])
 end
 
 
 # PROD
 for_lane :production do
-  app_identifier([ENV['APP_IDENTIFIER']])
+  app_identifier([
+	ENV['APP_IDENTIFIER'],
+    ENV['APP_IDENTIFIER'] + ".notificationextension"
+  ])
 end
 
 # PROVISION ADHOC
 for_lane :update_adhoc_profiles do
   app_identifier([
     ENV['APP_IDENTIFIER'] + ".qa",
-    ENV['APP_IDENTIFIER']
+    ENV['APP_IDENTIFIER'] + ".qa.notificationextension",
+    ENV['APP_IDENTIFIER'],
+    ENV['APP_IDENTIFIER'] + ".notificationextension",
   ])
 end
 
 # PROVISION DEV
 for_lane :update_dev_profiles do
-  app_identifier([ENV['APP_IDENTIFIER'] + ".dev"])
+  app_identifier([
+	ENV['APP_IDENTIFIER'] + ".dev",
+    ENV['APP_IDENTIFIER'] + ".dev.notificationextension"
+  ])
 end
