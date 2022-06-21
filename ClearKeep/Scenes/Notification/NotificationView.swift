@@ -44,7 +44,6 @@ struct NotificationView: View {
 			VStack(spacing: Constants.spacer) {
 				HStack {
 					Button(action: {
-						self.presentationMode.wrappedValue.dismiss()
 					}, label: {
 						AppTheme.shared.imageSet.crossIcon
 							.foregroundColor(foregroundCrossButton)

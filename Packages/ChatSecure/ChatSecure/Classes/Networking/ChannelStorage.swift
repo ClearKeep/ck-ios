@@ -30,7 +30,7 @@ public class ChannelStorage: IChannelStorage {
 	public var currentDomain: String {
 		currentServer?.serverDomain ?? config.clkDomain + ":" + config.clkPort
 	}
-
+	
 	let realmManager: RealmManager
 	private var servers: [RealmServer] = []
 	private let clientStore: ClientStore

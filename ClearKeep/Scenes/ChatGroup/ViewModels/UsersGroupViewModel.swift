@@ -13,7 +13,7 @@ struct CreatGroupGetUsersViewModel: Identifiable {
 	var displayName: String
 	var workspaceDomain: String
 	
-	init(_ user: IUserInfoResponse?) {
+	init(_ user: IUserInfo?) {
 		id = user?.id ?? ""
 		displayName = user?.displayName ?? ""
 		workspaceDomain = user?.workspaceDomain ?? ""

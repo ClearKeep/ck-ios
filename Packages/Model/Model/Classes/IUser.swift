@@ -22,14 +22,10 @@ public protocol IOwner {
 }
 
 public protocol IGetUserResponse {
-	var lstUser: [IUserInfoResponse] { get }
+	var lstUser: [IUserInfo] { get }
 }
 
-public protocol ISearchUserResponse {
-	var lstUser: [IUserInfoResponse] { get }
-}
-
-public protocol IUserInfoResponse {
+public protocol IUserInfo {
 	var id: String { get }
 	var displayName: String { get }
 	var workspaceDomain: String { get }

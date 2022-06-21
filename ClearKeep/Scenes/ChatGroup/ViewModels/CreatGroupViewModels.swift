@@ -43,7 +43,7 @@ extension CreatGroupViewModels {
 		self.init(getProfiles: CreatGroupProfieViewModel(myprofile))
 	}
 
-	init(clients: [IUserInfoResponse]) {
+	init(clients: [IUserInfo]) {
 		
 		let getUser = clients.map { member in
 			CreatGroupGetUsersViewModel(member)

@@ -16,10 +16,15 @@ struct CreateDirectMessageView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.injected) private var injected: DIContainer
-	@State private(set) var imageUser: Image = AppTheme.shared.imageSet.userImage
-	@State private(set) var userName: String = ""
+	@State private(set) var imageUser: Image
+	@State private(set) var userName: String
 
 	// MARK: - Init
+	init(imageUser: Image,
+		 userName: String = "") {
+		self._imageUser = .init(initialValue: imageUser)
+		self._userName = .init(initialValue: userName)
+	}
 
 	// MARK: - Body
 	var body: some View {

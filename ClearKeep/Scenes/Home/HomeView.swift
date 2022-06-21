@@ -12,8 +12,6 @@ import CommonUI
 import Model
 
 private enum Constants {
-	static let paddingTop = 49.0
-	static let paddingMenu = 44.0
 	static let padding = 20.0
 	static let opacity = 0.72
 	static let blur = 10.0
@@ -49,12 +47,11 @@ struct HomeView: View {
 	@State private(set) var groups: [GroupViewModel] = []
 	@State private(set) var peers: [GroupViewModel] = []
 	@State private(set) var user: [UserViewModel] = [UserViewModel]()
-	@State private var changeView: Bool = false
 	let inspection = ViewInspector<Self>()
-	
+
 	var body: some View {
-		GeometryReader { geometry in
-			NavigationView {
+		NavigationView {
+			GeometryReader { geometry in
 				ZStack {
 					HStack {
 						ListServerView(servers: $servers, isAddNewServer: $isAddNewServer, action: getServerInfo)
@@ -76,29 +73,25 @@ struct HomeView: View {
 						}
 						.padding(Constants.padding)
 					}
+					.padding(.top, Constants.padding)
 					.hideKeyboardOnTapped()
-					.hiddenNavigationBarStyle()
-					.padding(.top, Constants.paddingTop)
-
-					if isShowMenu {
-						LinearGradient(gradient: Gradient(colors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary.compactMap({ $0.opacity(Constants.opacity) }) : AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
-							.blur(radius: Constants.blur)
-							.edgesIgnoringSafeArea(.vertical)
-
-						MenuView(isShowMenu: $isShowMenu, user: $user)
-							.frame(width: geometry.size.width)
-							.padding(.top, Constants.paddingMenu)
-							.offset(x: isShowMenu ? 0 : geometry.size.width * 2)
-							.transition(.move(edge: .trailing))
-							.animation(.default, value: Constants.duration)
-					}
-
+				}
+				
+				if isShowMenu {
+					LinearGradient(gradient: Gradient(colors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary.compactMap({ $0.opacity(Constants.opacity) }) : AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
+						.blur(radius: Constants.blur)
+						.edgesIgnoringSafeArea(.vertical)
+					MenuView(isShowMenu: $isShowMenu, user: $user)
+						.frame(width: geometry.size.width)
+						.offset(x: isShowMenu ? 0 : geometry.size.width * 2)
+						.transition(.move(edge: .trailing))
+						.animation(.default, value: Constants.duration)
 				}
 			}
+			.hiddenNavigationBarStyle()
 			.onAppear(perform: getServers)
 			.onAppear(perform: getServerInfo)
 			.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
-			.hiddenNavigationBarStyle()
 		}
 	}
 }

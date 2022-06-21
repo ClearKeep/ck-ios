@@ -7,6 +7,10 @@
 
 import Foundation
 
+public protocol IGroupsModel {
+	var lstGroup: [IGroupResponseModel] { get }
+}
+
 public protocol IGroupResponseModel {
 	var groupID: Int64 { get }
 	var groupName: String { get }
@@ -30,6 +34,7 @@ public protocol IClientInGroupModel {
 	var id: String { get }
 	var displayName: String { get }
 	var workspaceDomain: String { get }
+	var status: String { get }
 }
 
 public protocol IGroupMessageResponse {
@@ -65,10 +70,4 @@ public protocol IGroupClientKey {
 
 public protocol IGroupBaseResponse {
 	var error: String { get }
-}
-
-public protocol IGroupClientRequest {
-	var id: String { get }
-	var displayName: String { get }
-	var workspaceDomain: String { get }
 }

@@ -52,8 +52,8 @@ struct HomeContentView: View {
 							isNext.toggle()
 						})
 					}
-					NavigationLink(destination: ChatGroupView(),
-								   isActive: $isCreatGroup) {
+					NavigationLink(destination: CreateDirectMessageView(imageUser: AppTheme.shared.imageSet.userImage),
+								   isActive: $isCreatMessage) {
 						ListGroupView(title: "Home.DirectMessages".localized, groups: peers, action: { isCreatMessage.toggle() }, onChooseGroup: { group in
 							print(group)
 							selectedGroup = group

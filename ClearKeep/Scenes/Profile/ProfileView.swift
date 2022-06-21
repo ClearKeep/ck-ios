@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Common
-import CommonUI
 
 struct ProfileView: View {
 	// MARK: - Constants
@@ -18,9 +17,12 @@ struct ProfileView: View {
 	
 	// MARK: - Body
 	var body: some View {
+		NavigationView {
 		content
-			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.hiddenNavigationBarStyle()
+		.onReceive(inspection.notice) { inspection.visit(self, $0) }
+		.navigationBarTitle("")
+		.navigationBarHidden(true)
+		}
 	}
 }
 

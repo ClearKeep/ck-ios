@@ -102,9 +102,7 @@ private extension UserProfileContentView {
 	
 	var buttonTop: some View {
 		HStack {
-			Button(action: {
-				self.presentationMode.wrappedValue.dismiss()
-			}, label: {
+			Button(action: { }, label: {
 				AppTheme.shared.imageSet.crossIcon
 					.foregroundColor(foregroundCrossButton)
 			})

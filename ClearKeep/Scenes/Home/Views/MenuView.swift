@@ -32,8 +32,6 @@ struct MenuView: View {
 	@Binding var isShowMenu: Bool
 	@State private var userProfile: String = ""
 	@Binding var user: [UserViewModel]
-	@State private var changeView: Bool = false
-	@State var menuView: MenuType = .profile
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -43,10 +41,13 @@ struct MenuView: View {
 				Spacer()
 				VStack(alignment: .trailing) {
 					ImageButton(AppTheme.shared.imageSet.closeIcon.renderingMode(.template)) { isShowMenu.toggle() }
-					.foregroundColor(AppTheme.shared.colorSet.grey1)
+						.foregroundColor(AppTheme.shared.colorSet.grey1)
 					HStack {
 						ZStack {
-							avatarView
+							Image(user.first?.avatar ?? "")
+								.frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
+								.clipShape(Circle())
+								.foregroundColor(Color.gray)
 							Circle()
 								.frame(width: Constants.statusSize.width, height: Constants.statusSize.height)
 								.offset(x: Constants.statusOffset.vertical, y: Constants.statusOffset.horizontal)
@@ -89,12 +90,9 @@ struct MenuView: View {
 						.background(colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight)
 						.padding(.vertical, Constants.padding)
 					ForEach(MenuType.allCases, id: \.self) { menu in
-						NavigationLink(destination: didSelectMenu(),
-									   isActive: $changeView) {
-							LinkButton(menu.title, icon: menu.icon, alignment: .leading) { didMenu(menu) }
+						LinkButton(menu.title, icon: menu.icon, alignment: .leading) { didSelectMenu(menu) }
 							.foregroundColor(Color.gray)
 							.frame(height: Constants.itemHeight)
-						}
 					}
 					Spacer()
 					LinkButton("Home.SignOut".localized, icon: AppTheme.shared.imageSet.logoutIcon, alignment: .center, action: signOutAction)
@@ -110,7 +108,6 @@ struct MenuView: View {
 				.frame(maxHeight: .infinity)
 				.padding(.vertical, Constants.padding)
 			}
-			.hiddenNavigationBarStyle()
 			.frame(maxWidth: .infinity, maxHeight: .infinity)
 		}
 	}
@@ -129,53 +126,8 @@ private extension MenuView {
 	func statusAction() {
 		
 	}
-
-	func didMenu(_ menu: MenuType) {
-		switch menu {
-		case .profile:
-			menuView = .profile
-			changeView.toggle()
-		case .server:
-			menuView = .server
-			changeView.toggle()
-		case .notification:
-			menuView = .notification
-			changeView.toggle()
-		}
-	}
-
-	@ViewBuilder func didSelectMenu() -> some View {
-		if menuView == .profile {
-			ProfileView()
-		} else if menuView == .server {
-			SettingServerView()
-		} else if menuView == .notification {
-			NotificationView()
-		}
-	}
-}
-
-// MARK: - Private
-private extension MenuView {
-	var avatarView: AnyView {
-		if user.first?.avatar == "" {
-			return AnyView(avatarDefault)
-		} else {
-			return AnyView(avatar)
-		}
-	}
-}
-
-// MARK: - Displaying Content
-private extension MenuView {
-	var avatar: some View {
-		Image(user.first?.avatar ?? "")
-			.frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
-			.clipShape(Circle())
-			.foregroundColor(Color.gray)
-	}
-
-	var avatarDefault: some View {
-		AvatarDefault(title: String(user.first?.displayName.prefix(1) ?? "N"))
+	
+	func didSelectMenu(_ menu: MenuType) {
+		
 	}
 }

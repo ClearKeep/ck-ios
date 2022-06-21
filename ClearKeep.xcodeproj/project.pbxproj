@@ -15,13 +15,16 @@
 		044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F127D9AFCA0054A78F /* RegisterView.swift */; };
 		044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044351F327D9AFCA0054A78F /* RegisterContentView.swift */; };
 		044432B728570E5F00276DB3 /* UsersGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044432B628570E5F00276DB3 /* UsersGroupViewModel.swift */; };
-		044432B92857126D00276DB3 /* CreatGroupUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044432B82857126D00276DB3 /* CreatGroupUserModel.swift */; };
 		044432BD285720C900276DB3 /* CreatGroupViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044432BC285720C900276DB3 /* CreatGroupViewModels.swift */; };
 		044432BF28572B9F00276DB3 /* CreatGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044432BE28572B9F00276DB3 /* CreatGroupViewModel.swift */; };
 		044432C32858D6D800276DB3 /* CreatGroupProfieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044432C22858D6D800276DB3 /* CreatGroupProfieViewModel.swift */; };
 		04458C272849BA1300992ECB /* HomeViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04458C262849BA1300992ECB /* HomeViewModels.swift */; };
-		044C18DC2851E4CA00057E16 /* CreatGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C18DB2851E4CA00057E16 /* CreatGroupModel.swift */; };
-		044C18E32851F8B400057E16 /* CreatGroupRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C18E22851F8B400057E16 /* CreatGroupRequestModel.swift */; };
+		0459996E28641887006754DF /* UserInfoResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459996828641887006754DF /* UserInfoResponseModel.swift */; };
+		0459996F28641887006754DF /* GroupsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459996928641887006754DF /* GroupsModel.swift */; };
+		0459997028641887006754DF /* UserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459996A28641887006754DF /* UserInfoModel.swift */; };
+		0459997128641887006754DF /* GroupBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459996B28641887006754DF /* GroupBaseModel.swift */; };
+		0459997228641887006754DF /* GroupResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459996C28641887006754DF /* GroupResponseModel.swift */; };
+		0459997328641887006754DF /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459996D28641887006754DF /* ProfileModel.swift */; };
 		0462C6C12816535C00A9EABB /* SearchRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B22816535C00A9EABB /* SearchRemoteStore.swift */; };
 		0462C6C22816535C00A9EABB /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B32816535C00A9EABB /* SearchView.swift */; };
 		0462C6C32816535C00A9EABB /* SearchInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B42816535C00A9EABB /* SearchInMemoryStore.swift */; };
@@ -263,13 +266,16 @@
 		044351F127D9AFCA0054A78F /* RegisterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		044351F327D9AFCA0054A78F /* RegisterContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterContentView.swift; sourceTree = "<group>"; };
 		044432B628570E5F00276DB3 /* UsersGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersGroupViewModel.swift; sourceTree = "<group>"; };
-		044432B82857126D00276DB3 /* CreatGroupUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatGroupUserModel.swift; sourceTree = "<group>"; };
 		044432BC285720C900276DB3 /* CreatGroupViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatGroupViewModels.swift; sourceTree = "<group>"; };
 		044432BE28572B9F00276DB3 /* CreatGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatGroupViewModel.swift; sourceTree = "<group>"; };
 		044432C22858D6D800276DB3 /* CreatGroupProfieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatGroupProfieViewModel.swift; sourceTree = "<group>"; };
 		04458C262849BA1300992ECB /* HomeViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModels.swift; sourceTree = "<group>"; };
-		044C18DB2851E4CA00057E16 /* CreatGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatGroupModel.swift; sourceTree = "<group>"; };
-		044C18E22851F8B400057E16 /* CreatGroupRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatGroupRequestModel.swift; sourceTree = "<group>"; };
+		0459996828641887006754DF /* UserInfoResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoResponseModel.swift; sourceTree = "<group>"; };
+		0459996928641887006754DF /* GroupsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsModel.swift; sourceTree = "<group>"; };
+		0459996A28641887006754DF /* UserInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoModel.swift; sourceTree = "<group>"; };
+		0459996B28641887006754DF /* GroupBaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupBaseModel.swift; sourceTree = "<group>"; };
+		0459996C28641887006754DF /* GroupResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupResponseModel.swift; sourceTree = "<group>"; };
+		0459996D28641887006754DF /* ProfileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		0462C6B22816535C00A9EABB /* SearchRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRemoteStore.swift; sourceTree = "<group>"; };
 		0462C6B32816535C00A9EABB /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		0462C6B42816535C00A9EABB /* SearchInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchInMemoryStore.swift; sourceTree = "<group>"; };
@@ -559,6 +565,20 @@
 				044432C22858D6D800276DB3 /* CreatGroupProfieViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		0459996728641887006754DF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0459996828641887006754DF /* UserInfoResponseModel.swift */,
+				0459996928641887006754DF /* GroupsModel.swift */,
+				0459996A28641887006754DF /* UserInfoModel.swift */,
+				0459996B28641887006754DF /* GroupBaseModel.swift */,
+				0459996C28641887006754DF /* GroupResponseModel.swift */,
+				0459996D28641887006754DF /* ProfileModel.swift */,
+			);
+			name = Models;
+			path = "../../../../../Downloads/ck-ios-feature-Update-Model/ClearKeep/App/Models";
 			sourceTree = "<group>";
 		};
 		0462C6B12816535C00A9EABB /* Search */ = {
@@ -863,6 +883,7 @@
 		CB117E5827BB63CD000941D9 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				0459996728641887006754DF /* Models */,
 				CB8C3E3227F57FA00034B3A9 /* Helper */,
 				CB40072E27E74E0100DFBE88 /* Configuration */,
 				CBCF495027D4671E006D84FE /* Resources */,
@@ -1246,9 +1267,6 @@
 			isa = PBXGroup;
 			children = (
 				F556C23728097F6E00D2B149 /* ChatGroupModel.swift */,
-				044C18DB2851E4CA00057E16 /* CreatGroupModel.swift */,
-				044C18E22851F8B400057E16 /* CreatGroupRequestModel.swift */,
-				044432B82857126D00276DB3 /* CreatGroupUserModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1735,12 +1753,12 @@
 				F5644834283B7A79007846F9 /* CountryCode.swift in Sources */,
 				CB8C3EAB2805D2D60034B3A9 /* AddMemberView.swift in Sources */,
 				0462C6C62816535C00A9EABB /* SearchInteractor.swift in Sources */,
-				044C18DC2851E4CA00057E16 /* CreatGroupModel.swift in Sources */,
 				CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */,
 				044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */,
 				044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */,
 				F568DC2227FD882600EE9DF0 /* NotificationInMemoryStore.swift in Sources */,
 				F5644832283B7A79007846F9 /* ProfileInMemoryStore.swift in Sources */,
+				0459997028641887006754DF /* UserInfoModel.swift in Sources */,
 				F556C23F28097F6E00D2B149 /* ChatGroupModel.swift in Sources */,
 				0462C6C22816535C00A9EABB /* SearchView.swift in Sources */,
 				0462C6C32816535C00A9EABB /* SearchInMemoryStore.swift in Sources */,
@@ -1827,6 +1845,7 @@
 				F564482F283B7A79007846F9 /* ProfileView.swift in Sources */,
 				044432C32858D6D800276DB3 /* CreatGroupProfieViewModel.swift in Sources */,
 				F5CFCA2B28237CD000A9737F /* GroupCallInMemoryStore.swift in Sources */,
+				0459997128641887006754DF /* GroupBaseModel.swift in Sources */,
 				F568DC2527FD882600EE9DF0 /* NotificationView.swift in Sources */,
 				CB23604728322DAA00D98F54 /* StatusType.swift in Sources */,
 				F5644831283B7A79007846F9 /* CountryCodeModel.swift in Sources */,
@@ -1837,6 +1856,7 @@
 				04458C272849BA1300992ECB /* HomeViewModels.swift in Sources */,
 				0499344727E97035003BD4C4 /* ChangePasswordInteractor.swift in Sources */,
 				22A1C69C2812B1D500FE957F /* ChatInteractor.swift in Sources */,
+				0459996E28641887006754DF /* UserInfoResponseModel.swift in Sources */,
 				047D6B6427F6A3DD0098B104 /* DirectMessageContentView.swift in Sources */,
 				044432B728570E5F00276DB3 /* UsersGroupViewModel.swift in Sources */,
 				047D6B5E27F6A3750098B104 /* CreateDirectMessageInMemoryStore.swift in Sources */,
@@ -1855,7 +1875,6 @@
 				0499343D27E96FC5003BD4C4 /* NewPasswordContenView.swift in Sources */,
 				047D6B6027F6A3750098B104 /* CreateDirectMessageRemoteStore.swift in Sources */,
 				F553F87527E820E600824BE7 /* SocialCommonStyle.swift in Sources */,
-				044432B92857126D00276DB3 /* CreatGroupUserModel.swift in Sources */,
 				F5644833283B7A79007846F9 /* ProfileInteractor.swift in Sources */,
 				047D6B6227F6A3750098B104 /* CreateDirectMessageView.swift in Sources */,
 				0499340F27E96DD7003BD4C4 /* FogotPasswordInteractor.swift in Sources */,
@@ -1864,6 +1883,7 @@
 				0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */,
 				F556C277280E502500D2B149 /* TagView.swift in Sources */,
 				044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */,
+				0459997328641887006754DF /* ProfileModel.swift in Sources */,
 				0462C6C12816535C00A9EABB /* SearchRemoteStore.swift in Sources */,
 				0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */,
 				F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */,
@@ -1899,6 +1919,7 @@
 				04B81FBD285F7B2000BD07A1 /* ChatGroupContentView.swift in Sources */,
 				047D6B1827F154970098B104 /* MemberView.swift in Sources */,
 				047D6B1C27F154B70098B104 /* RemoveMemberView.swift in Sources */,
+				0459997228641887006754DF /* GroupResponseModel.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
 				047241A927DB3D2C0043345A /* AuthenticationModel.swift in Sources */,
 				F5484D9E2828FF8200F0B43C /* CreateGroupView.swift in Sources */,
@@ -1908,8 +1929,8 @@
 				F5350E1E27FAD58F00F54E32 /* TwoFactorRemoteStore.swift in Sources */,
 				0462C6C52816535C00A9EABB /* SearchCatalogy.swift in Sources */,
 				F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */,
-				044C18E32851F8B400057E16 /* CreatGroupRequestModel.swift in Sources */,
 				CB117E8227BB6633000941D9 /* HomeInteractor.swift in Sources */,
+				0459996F28641887006754DF /* GroupsModel.swift in Sources */,
 				047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */,
 				CB23605128335BAC00D98F54 /* ServerModel.swift in Sources */,
 				22A1C69B2812B1D500FE957F /* ChatRemoteStore.swift in Sources */,

@@ -114,3 +114,9 @@ private extension SearchTextField {
 		inputStyle.textStyle.font
 	}
 }
+
+struct SearchTextField_Previews: PreviewProvider {
+	static var previews: some View {
+		SearchTextField(searchText: .constant("Test"), inputStyle: .constant(.default), placeHolder: "Phone") { _ in }
+	}
+}
