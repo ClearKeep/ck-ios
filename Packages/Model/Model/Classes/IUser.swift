@@ -20,3 +20,13 @@ public protocol IOwner {
 	var clientUserName: String { get }
 	var domain: String { get }
 }
+
+public protocol IGetUserResponse {
+	var lstUser: [IUserInfo] { get }
+}
+
+public protocol IUserInfo {
+	var id: String { get }
+	var displayName: String { get }
+	var workspaceDomain: String { get }
+}
