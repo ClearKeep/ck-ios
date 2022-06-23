@@ -25,6 +25,10 @@
 		0459997128641887006754DF /* GroupBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459996B28641887006754DF /* GroupBaseModel.swift */; };
 		0459997228641887006754DF /* GroupResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459996C28641887006754DF /* GroupResponseModel.swift */; };
 		0459997328641887006754DF /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459996D28641887006754DF /* ProfileModel.swift */; };
+		0459997828641F25006754DF /* CreatePeerUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459997628641F25006754DF /* CreatePeerUserViewModel.swift */; };
+		0459997928641F25006754DF /* CreatePeerViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459997728641F25006754DF /* CreatePeerViewModels.swift */; };
+		0459997C28641F32006754DF /* CreatePeerModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459997A28641F32006754DF /* CreatePeerModels.swift */; };
+		0459997F286446CE006754DF /* CreatePeerChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459997E286446CE006754DF /* CreatePeerChatViewModel.swift */; };
 		0462C6C12816535C00A9EABB /* SearchRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B22816535C00A9EABB /* SearchRemoteStore.swift */; };
 		0462C6C22816535C00A9EABB /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B32816535C00A9EABB /* SearchView.swift */; };
 		0462C6C32816535C00A9EABB /* SearchInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B42816535C00A9EABB /* SearchInMemoryStore.swift */; };
@@ -276,6 +280,10 @@
 		0459996B28641887006754DF /* GroupBaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupBaseModel.swift; sourceTree = "<group>"; };
 		0459996C28641887006754DF /* GroupResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupResponseModel.swift; sourceTree = "<group>"; };
 		0459996D28641887006754DF /* ProfileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		0459997628641F25006754DF /* CreatePeerUserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePeerUserViewModel.swift; sourceTree = "<group>"; };
+		0459997728641F25006754DF /* CreatePeerViewModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePeerViewModels.swift; sourceTree = "<group>"; };
+		0459997A28641F32006754DF /* CreatePeerModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePeerModels.swift; sourceTree = "<group>"; };
+		0459997E286446CE006754DF /* CreatePeerChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePeerChatViewModel.swift; sourceTree = "<group>"; };
 		0462C6B22816535C00A9EABB /* SearchRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRemoteStore.swift; sourceTree = "<group>"; };
 		0462C6B32816535C00A9EABB /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		0462C6B42816535C00A9EABB /* SearchInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchInMemoryStore.swift; sourceTree = "<group>"; };
@@ -581,6 +589,24 @@
 			path = "../../../../../Downloads/ck-ios-feature-Update-Model/ClearKeep/App/Models";
 			sourceTree = "<group>";
 		};
+		0459997428641E85006754DF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0459997A28641F32006754DF /* CreatePeerModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0459997528641E8E006754DF /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				0459997628641F25006754DF /* CreatePeerUserViewModel.swift */,
+				0459997728641F25006754DF /* CreatePeerViewModels.swift */,
+				0459997E286446CE006754DF /* CreatePeerChatViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		0462C6B12816535C00A9EABB /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -677,7 +703,8 @@
 		047D6B5627F6A3240098B104 /* CreateDirectMessage */ = {
 			isa = PBXGroup;
 			children = (
-				047D6B5827F6A3450098B104 /* Models */,
+				0459997528641E8E006754DF /* ViewModels */,
+				0459997428641E85006754DF /* Models */,
 				047D6B5727F6A3400098B104 /* Views */,
 				047D6B5927F6A3750098B104 /* CreateDirectMessageInMemoryStore.swift */,
 				047D6B5A27F6A3750098B104 /* CreateDirectMessageWorker.swift */,
@@ -694,13 +721,6 @@
 				047D6B6327F6A3DD0098B104 /* DirectMessageContentView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		047D6B5827F6A3450098B104 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		0499340627E96D9B003BD4C4 /* FogotPassWord */ = {
@@ -1789,6 +1809,7 @@
 				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
 				F5644836283B7A79007846F9 /* UserProfileContentView.swift in Sources */,
 				F564484D283F8562007846F9 /* CallingView.swift in Sources */,
+				0459997828641F25006754DF /* CreatePeerUserViewModel.swift in Sources */,
 				CB117ECB27BBA44A000941D9 /* InteractorsContainer.swift in Sources */,
 				CB23604928333AC300D98F54 /* GroupModel.swift in Sources */,
 				0462C6CC2816535C00A9EABB /* CatalogyView.swift in Sources */,
@@ -1800,6 +1821,7 @@
 				CB7F2973282A4D6A00BD5049 /* SocialViewError.swift in Sources */,
 				0462C6C42816535C00A9EABB /* SearchModels.swift in Sources */,
 				22A1C69D2812B1D500FE957F /* ChatView.swift in Sources */,
+				0459997928641F25006754DF /* CreatePeerViewModels.swift in Sources */,
 				CB7F29232823C53E00BD5049 /* LoginViewError.swift in Sources */,
 				228C49ED285B28C6003C4FA0 /* ForwardViewModel.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
@@ -1845,6 +1867,7 @@
 				F564482F283B7A79007846F9 /* ProfileView.swift in Sources */,
 				044432C32858D6D800276DB3 /* CreatGroupProfieViewModel.swift in Sources */,
 				F5CFCA2B28237CD000A9737F /* GroupCallInMemoryStore.swift in Sources */,
+				0459997F286446CE006754DF /* CreatePeerChatViewModel.swift in Sources */,
 				0459997128641887006754DF /* GroupBaseModel.swift in Sources */,
 				F568DC2527FD882600EE9DF0 /* NotificationView.swift in Sources */,
 				CB23604728322DAA00D98F54 /* StatusType.swift in Sources */,
@@ -1923,6 +1946,7 @@
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
 				047241A927DB3D2C0043345A /* AuthenticationModel.swift in Sources */,
 				F5484D9E2828FF8200F0B43C /* CreateGroupView.swift in Sources */,
+				0459997C28641F32006754DF /* CreatePeerModels.swift in Sources */,
 				228F2C84281B9E6F0012B07A /* ForwardView.swift in Sources */,
 				047241A927DB3D2C0043345A /* AuthenticationModel.swift in Sources */,
 				0499343827E96F8A003BD4C4 /* NewPasswordInteractor.swift in Sources */,

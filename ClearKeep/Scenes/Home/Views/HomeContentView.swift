@@ -23,7 +23,8 @@ struct HomeContentView: View {
 	@State private(set) var isCreatMessage: Bool = false
 	@State private(set) var isNext: Bool = false
 	@State private var selectedGroup: GroupViewModel?
-	
+	@State private(set) var user: [UserViewModel] = [UserViewModel]()
+
 	// MARK: - Body
 	var body: some View {
 		VStack {
@@ -52,7 +53,7 @@ struct HomeContentView: View {
 							isNext.toggle()
 						})
 					}
-					NavigationLink(destination: CreateDirectMessageView(imageUser: AppTheme.shared.imageSet.userImage),
+					NavigationLink(destination: CreateDirectMessageView(idUser: $user.first?.id ?? ""),
 								   isActive: $isCreatMessage) {
 						ListGroupView(title: "Home.DirectMessages".localized, groups: peers, action: { isCreatMessage.toggle() }, onChooseGroup: { group in
 							print(group)

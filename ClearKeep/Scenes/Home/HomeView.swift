@@ -102,7 +102,7 @@ private extension HomeView {
 		if isAddNewServer {
 			return AnyView(JoinServerView())
 		} else {
-			return AnyView(HomeContentView(groups: $groups, peers: $peers))
+			return AnyView(HomeContentView(groups: $groups, peers: $peers, user: user))
 		}
 	}
 	

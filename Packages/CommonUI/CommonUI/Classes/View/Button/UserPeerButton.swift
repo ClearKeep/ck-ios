@@ -20,20 +20,20 @@ public struct UserPeerButton: View {
 	// MARK: - Variables
 	
 	@Environment(\.colorScheme) var colorScheme
-	private var title: String
+	@Binding var title: String
 	private var imageUrl: URL?
 	private var action: () -> Void
 	
 	// MARK: Init
-	public init(_ title: String, imageUrl: String, action: @escaping() -> Void) {
-		self.title = title
+	public init(_ title: Binding<String>, imageUrl: String, action: @escaping() -> Void) {
+		self._title = title
 		self.action = action
 		self.imageUrl = URL(string: imageUrl)
 	}
 	
-	init(_ title: String, action: @escaping() -> Void) {
+	init(_ title: Binding<String>, action: @escaping() -> Void) {
 		self.imageUrl = nil
-		self.title = title
+		self._title = title
 		self.action = action
 	}
 	

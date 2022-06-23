@@ -27,32 +27,32 @@ struct DirectMessageContentView: View {
 
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
-	@Binding var imageUser: Image
-	@Binding var userName: String
 	@State private(set) var searchText: String = ""
 	@State private(set) var severText: String = ""
-	@Binding var inputStyle: TextInputStyle
+	@State private(set) var inputStyle: TextInputStyle = .default
 	@State private(set) var isShowingLinkUser: Bool = false
-	@State private(set) var isShowingUser: Bool = false
-	@State private(set) var isNext: Bool = false
+	@Binding var loadable: Loadable<CreatePeerViewModels>
+	@Binding var userData: [CreatePeerUserViewModel]
+	@State private(set) var idUser: String = ""
 	
 	// MARK: - Init
-	init(imageUser: Binding<Image>,
-		 userName: Binding<String>,
-		 inputStyle: Binding<TextInputStyle>) {
-		self._imageUser = imageUser
-		self._userName = userName
-		self._inputStyle = inputStyle
-	}
 
 	// MARK: - Body
 	var body: some View {
 		NavigationView {
 			content
-				.navigationBarTitle("")
-				.navigationBarHidden(true)
 				.background(backgroundColorView)
 				.edgesIgnoringSafeArea(.all)
+				.hiddenNavigationBarStyle()
+				.applyNavigationBarPlainStyle(title: "DirectMessages.TitleButton".localized,
+											  titleColor: titleColor,
+											  backgroundColors: backgroundButtonBack,
+											  leftBarItems: {
+					BackButtonStandard(customBack)
+				},
+											  rightBarItems: {
+					Spacer()
+				})
 		}
 	}
 }
@@ -61,18 +61,6 @@ struct DirectMessageContentView: View {
 private extension DirectMessageContentView {
 	var content: AnyView {
 		AnyView(contentView)
-	}
-
-	var buttonBack: AnyView {
-		AnyView(buttonBackView)
-	}
-
-	var buttonAddUser: AnyView {
-		AnyView(checkMaskButton)
-	}
-
-	var user: AnyView {
-		AnyView(userView)
 	}
 
 	var addSeverTextfield: AnyView {
@@ -105,6 +93,14 @@ private extension DirectMessageContentView {
 	var foregroundCheckmask: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
 	}
+
+	var backgroundButtonBack: [Color] {
+		colorScheme == .light ? [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
+	}
+
+	var titleColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
+	}
 }
 
 // MARK: - Private func
@@ -114,11 +110,16 @@ private extension DirectMessageContentView {
 	}
 
 	func nextAction() {
-
+		loadable = .isLoading(last: nil, cancelBag: CancelBag())
+		Task {
+			loadable = await injected.interactors.createDirectMessageInteractor.createGroup(by: idUser, groupName: userData.first?.displayName ?? "", groupType: "peer", lstClient: userData)
+		}
 	}
 
-	func chooseUser() {
-		isNext = true
+	func search(text: String) {
+		Task {
+			loadable = await injected.interactors.createDirectMessageInteractor.searchUser(keyword: text)
+		}
 	}
 }
 
@@ -126,23 +127,21 @@ private extension DirectMessageContentView {
 private extension DirectMessageContentView {
 	var contentView: some View {
 		VStack(alignment: .leading, spacing: Constants.spacing) {
-			buttonBack
-				.padding(.top, Constants.paddingTop)
-				.frame(maxWidth: .infinity, alignment: .leading)
 			SearchTextField(searchText: $searchText,
 							inputStyle: $inputStyle,
 							inputIcon: AppTheme.shared.imageSet.searchIcon,
 							placeHolder: "General.Search".localized,
 							onEditingChanged: { isEditing in
-				if isEditing {
-					isShowingLinkUser = false
+				inputStyle = isEditing ? .highlighted : .normal })
+				.onChange(of: searchText) { text in
+					search(text: text)
 				}
-			})
-			buttonAddUser
+			CheckBoxButtons(text: "DirectMessages.AddUserTitle".localized, isChecked: $isShowingLinkUser)
+				.foregroundColor(foregroundCheckmask)
 			if isShowingLinkUser {
 				addSeverTextfieldView
 			} else {
-				user
+				userView
 			}
 			Spacer()
 		}
@@ -151,32 +150,10 @@ private extension DirectMessageContentView {
 
 	var userView: some View {
 		ScrollView(showsIndicators: false) {
-//			NavigationLink(
-//				destination: ChatView(messageText: "", inputStyle: .default, imageUser: imageUser, userName: userName),
-//				isActive: $isNext,
-//				label: {
-					Button(action: chooseUser) {
-						VStack(alignment: .leading, spacing: Constants.spacing) {
-							HStack {
-								imageUser
-									.resizable()
-									.aspectRatio(contentMode: .fit)
-									.frame(width: Constants.sizeImage, height: Constants.sizeImage)
-									.clipShape(Circle())
-								Text(userName)
-									.font(AppTheme.shared.fontSet.font(style: .body2))
-									.foregroundColor(foregroundColorUserName)
-								Spacer()
-							}
-						}
-					}
-	//			})
+			ForEach($userData, id: \.id) { item in
+				UserPeerButton(item.displayName, imageUrl: "", action: nextAction)
+			}
 		}
-	}
-
-	var checkMaskButton: some View {
-		CheckBoxButtons(text: "DirectMessages.AddUserTitle".localized, isChecked: $isShowingLinkUser)
-			.foregroundColor(foregroundCheckmask)
 	}
 
 	var addSeverTextfieldView: some View {
@@ -200,21 +177,6 @@ private extension DirectMessageContentView {
 			.cornerRadius(Constants.radius)
 		}
 	}
-
-	var buttonBackView: some View {
-		Button(action: customBack) {
-			HStack(spacing: Constants.spacing) {
-				AppTheme.shared.imageSet.chevleftIcon
-					.renderingMode(.template)
-					.aspectRatio(contentMode: .fit)
-					.foregroundColor(foregroundBackButton)
-				Text("DirectMessages.TitleButton".localized)
-					.padding(.all)
-					.font(AppTheme.shared.fontSet.font(style: .body2))
-			}
-			.foregroundColor(foregroundBackButton)
-		}
-	}
 }
 
 // MARK: - Interactor
@@ -225,7 +187,7 @@ private extension DirectMessageContentView {
 #if DEBUG
 struct DirectMessageContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		DirectMessageContentView(imageUser: .constant(AppTheme.shared.imageSet.faceIcon), userName: .constant("Test"), inputStyle: .constant(.default))
+		DirectMessageContentView(loadable: .constant(.notRequested), userData: .constant([]))
 	}
 }
 #endif
