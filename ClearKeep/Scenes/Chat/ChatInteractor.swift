@@ -9,6 +9,7 @@ import Common
 import ChatSecure
 import Networking
 import Model
+import CommonUI
 
 private enum Constants {
 	static let loadSize = 20
@@ -24,6 +25,7 @@ protocol IChatInteractor {
 	func getJoinedGroupsFromLocal() async -> [IGroupModel]
 	func forwardPeerMessage(message: String, group: IGroupModel) async -> Bool
 	func uploadFiles(message: String, fileURLs: [URL], group: IGroupModel?, isForceProcessKey: Bool) async -> Loadable<IChatViewModels>
+	func downloadFile(urlString: String) async
 }
 
 struct ChatInteractor {
@@ -124,29 +126,33 @@ extension ChatInteractor: IChatInteractor {
 		if fileURLs.count > 10 {
 			return .failed(ServerError.unknown)
 		}
-
-		if !isValidFileSizes(urls: fileURLs) {
-			return .failed(ServerError.unknown)
-		}
+		
+		guard let filesInfo = processFileSizes(urls: fileURLs) else { return .failed(ServerError.unknown) }
 		guard let domain = channelStorage.currentServer?.serverDomain else { return .failed(ServerError.unknown) }
 		
-		guard let messageContent = await worker.uploadFiles(message: message, fileURLs: fileURLs, domain: domain) else { return .failed(ServerError.unknown) }
-		
+		guard let messageContent = await worker.uploadFiles(message: message, files: filesInfo, domain: domain, appendFileSize: true) else { return .failed(ServerError.unknown) }
+		print(messageContent)
 		return await self.sendMessageInPeer(message: messageContent, groupId: group?.groupId ?? 0, group: group, isForceProcessKey: isForceProcessKey)
 	}
 	
-	private func isValidFileSizes(urls: [URL]) -> Bool {
+	func downloadFile(urlString: String) async {
+		_ = await worker.downloadFile(urlString: MessageUtils.getFileDownloadURL(content: urlString))
+	}
+	
+	private func processFileSizes(urls: [URL]) -> [FileModel]? {
 		do {
 			var totalFileSize: Int64 = 0
+			var filesInfo = [FileModel]()
 			try urls.forEach { url in
 				_ = url.startAccessingSecurityScopedResource()
 				let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
 				let size = attributes[.size] as? Int64 ?? 0
+				filesInfo.append(FileModel(url: url, size: size))
 				totalFileSize += size
 			}
-			return totalFileSize < Constants.maxFilesizes
+			return totalFileSize < Constants.maxFilesizes ? filesInfo : nil
 		} catch {
-			return false
+			return nil
 		}
 	}
 	
@@ -187,6 +193,14 @@ struct StubChatInteractor: IChatInteractor {
 	}
 	
 	func uploadFiles(message: String, fileURLs: [URL], group: IGroupModel?, isForceProcessKey: Bool) async -> Loadable<IChatViewModels> {
+		return .notRequested
+	}
+	
+	func downloadFile(urlString: String) async {
+		
+	}
+	
+	func uploadFiles(message: String, filesUrl: [URL], group: IGroupModel?, isForceProcessKey: Bool) async -> Loadable<IChatViewModels> {
 		return .notRequested
 	}
 }
