@@ -96,6 +96,7 @@
 		22A1C69B2812B1D500FE957F /* ChatRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6962812B1D500FE957F /* ChatRemoteStore.swift */; };
 		22A1C69C2812B1D500FE957F /* ChatInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6972812B1D500FE957F /* ChatInteractor.swift */; };
 		22A1C69D2812B1D500FE957F /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6982812B1D500FE957F /* ChatView.swift */; };
+		22B80E11288111D1008D680F /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B80E10288111D1008D680F /* String+Extensions.swift */; };
 		22C507F1287E64BA009F92A7 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C507F0287E64BA009F92A7 /* Toast.swift */; };
 		22DAEF7428640B6B00C3E377 /* FilePickerContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DAEF7328640B6B00C3E377 /* FilePickerContainerView.swift */; };
 		A6B2FA2375D2B93118FCC576 /* Pods_notificationextension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7261DD92456D4CFB93133C7 /* Pods_notificationextension.framework */; };
@@ -352,6 +353,7 @@
 		22A1C6962812B1D500FE957F /* ChatRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRemoteStore.swift; sourceTree = "<group>"; };
 		22A1C6972812B1D500FE957F /* ChatInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInteractor.swift; sourceTree = "<group>"; };
 		22A1C6982812B1D500FE957F /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		22B80E10288111D1008D680F /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		22C507F0287E64BA009F92A7 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		22DAEF7328640B6B00C3E377 /* FilePickerContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePickerContainerView.swift; sourceTree = "<group>"; };
 		25FDB2207725F29CF682E252 /* Pods-ClearKeep.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.development.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.development.xcconfig"; sourceTree = "<group>"; };
@@ -837,6 +839,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		22B80E0F288111D1008D680F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				22B80E10288111D1008D680F /* String+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		CB117E1627BB5281000941D9 = {
 			isa = PBXGroup;
 			children = (
@@ -901,6 +911,7 @@
 		CB117E5827BB63CD000941D9 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				22B80E0F288111D1008D680F /* Extensions */,
 				0459993028630EF0006754DF /* Models */,
 				CB8C3E3227F57FA00034B3A9 /* Helper */,
 				CB40072E27E74E0100DFBE88 /* Configuration */,
@@ -1909,6 +1920,7 @@
 				044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */,
 				0459993E286312ED006754DF /* GroupBaseModel.swift in Sources */,
 				0462C6C12816535C00A9EABB /* SearchRemoteStore.swift in Sources */,
+				22B80E11288111D1008D680F /* String+Extensions.swift in Sources */,
 				0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */,
 				F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */,
 				F568DC2127FD882600EE9DF0 /* NotificationInteractor.swift in Sources */,
