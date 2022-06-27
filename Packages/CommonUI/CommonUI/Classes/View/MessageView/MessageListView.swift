@@ -20,6 +20,7 @@ public struct MessageListView: View {
 	@State private var scrollOffset: CGFloat = 0
 	
 	var onPressFile: (String) -> Void
+	var onClickLink: (URL) -> Void
 	var onLongPress: (IMessageViewModel) -> Void
 	
 	// MARK: - Constants
@@ -32,6 +33,7 @@ public struct MessageListView: View {
 				showScrollToLatestButton: Binding<Bool>,
 				scrollToLastest: Binding<Bool>,
 				onPressFile: @escaping (String) -> Void,
+				onClickLink: @escaping (URL) -> Void,
 				onLongPress: @escaping (IMessageViewModel) -> Void) {
 		self.listMessages = messages
 		self._hasReachedTop = hasReachedTop
@@ -39,6 +41,7 @@ public struct MessageListView: View {
 		self._showScrollToLatestButton = showScrollToLatestButton
 		self._scrollToLastest = scrollToLastest
 		self.onPressFile = onPressFile
+		self.onClickLink = onClickLink
 		self.onLongPress = onLongPress
 	}
 	
@@ -56,9 +59,14 @@ public struct MessageListView: View {
 						let listDisplayMessage = MessageUtils.getListRectCorner(messages: listMessages)
 						ForEach(listDisplayMessage, id: \.message.id) { message in
 							let messageDate: String? = MessageUtils.showMessageDate(for: message, in: listDisplayMessage)
-							MessageBubbleView(messageViewModel: message.message, rectCorner: message.rectCorner, onTapFile: { fileUrl in
+							MessageBubbleView(messageViewModel: message.message,
+											  rectCorner: message.rectCorner,
+											  onTapFile: { fileUrl in
 								onPressFile(fileUrl)
-							}).onTapGesture { }
+							}, onTapLink: { url in
+								onClickLink(url)
+							})
+							.onTapGesture { }
 								.onLongPressGesture(perform: { onLongPress(message.message) })
 								.overlay(
 									messageDate != nil ?
