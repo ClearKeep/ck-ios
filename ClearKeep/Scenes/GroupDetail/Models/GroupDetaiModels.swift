@@ -10,17 +10,17 @@ import Networking
 import ChatSecure
 
 protocol IGroupDetaiModels {
-	var groupModel: [IGroupModel]? { get }
+	var groupModel: IGroupModel? { get }
 	var groupBase: IGroupBaseResponse? { get }
 }
 
-struct GroupDetaiModels: IGroupDetaiModels{
-	var groupModel: [IGroupModel]?
+struct GroupDetaiModels: IGroupDetaiModels {
+	var groupModel: IGroupModel?
 	var groupBase: IGroupBaseResponse?
 }
 
 extension GroupDetaiModels {
-	init(responseGroup: [GroupModel]) {
+	init(responseGroup: GroupModel) {
 		self.init(groupModel: responseGroup)
 	}
 

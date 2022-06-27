@@ -5,124 +5,74 @@
 //  Created by MinhDev on 23/06/2022.
 //
 
-import Foundation
 import Model
+import ChatSecure
 
 struct GroupDetailViewModel {
-	var groupID: Int64
+	var groupId: Int64
 	var groupName: String
 	var groupAvatar: String
 	var groupType: String
-	var lstClient: [GroupDetailClientViewModel]
-	var lastMessageAt: Int64
-	var lastMessage: GroupDetailMessageViewModel
-	var hasLastMessage: Bool
-	var createdByClientID: String
+	var createdBy: String
 	var createdAt: Int64
-	var updatedByClientID: String
+	var updatedBy: String
 	var updatedAt: Int64
-	var groupRtcToken: String
+	var rtcToken: String
+	var groupMembers: [GroupDetailClientViewModel]
+	var isJoined: Bool
+	var ownerDomain: String
+	var ownerClientId: String
+	var lastMessageAt: Int64
+	var lastMessageSyncTimestamp: Int64
+	var isDeletedUserPeer: Bool
 	var hasUnreadMessage: Bool
-	var clientKey: GroupDeatailClientKeyViewModel
-	var hasClientKey: Bool
+}
 
-	init(_ group: IGroupResponseModel?) {
-		let groupMembers = group?.lstClient.map { member in
+extension GroupDetailViewModel {
+	init(_ realmGroup: IGroupModel?) {
+		let groupMembers = realmGroup?.groupMembers.map { member in
 			GroupDetailClientViewModel(member)
 		}
-
-		let lastMessages = GroupDetailMessageViewModel(group?.lastMessage)
-		let clientKeys = GroupDeatailClientKeyViewModel(group?.clientKey)
-
-		groupID = group?.groupID ?? 0
-		groupName = group?.groupName ?? ""
-		groupAvatar = group?.groupAvatar ?? ""
-		groupType = group?.groupType ?? ""
-		lstClient = groupMembers ?? []
-		lastMessageAt = group?.lastMessageAt ?? 0
-		lastMessage = lastMessages
-		hasLastMessage = group?.hasLastMessage ?? false
-		createdByClientID = group?.createdByClientID ?? ""
-		createdAt = group?.createdAt ?? 0
-		updatedByClientID = group?.updatedByClientID ?? ""
-		updatedAt = group?.updatedAt ?? 0
-		groupRtcToken = group?.groupRtcToken ?? ""
-		hasUnreadMessage = group?.hasUnreadMessage ?? false
-		clientKey = clientKeys
-		hasClientKey = group?.hasClientKey ?? false
+		self.init(groupId: realmGroup?.groupId ?? 0,
+				  groupName: realmGroup?.groupName ?? "",
+				  groupAvatar: realmGroup?.groupAvatar ?? "",
+				  groupType: realmGroup?.groupType ?? "",
+				  createdBy: realmGroup?.createdBy ?? "",
+				  createdAt: realmGroup?.createdAt ?? 0,
+				  updatedBy: realmGroup?.updatedBy ?? "",
+				  updatedAt: realmGroup?.updatedAt ?? 0,
+				  rtcToken: realmGroup?.rtcToken ?? "",
+				  groupMembers: groupMembers ?? [],
+				  isJoined: realmGroup?.isJoined ?? false,
+				  ownerDomain: realmGroup?.ownerDomain ?? "",
+				  ownerClientId: realmGroup?.ownerClientId ?? "",
+				  lastMessageAt: realmGroup?.lastMessageAt ?? 0,
+				  lastMessageSyncTimestamp: realmGroup?.lastMessageSyncTimestamp ?? 0,
+				  isDeletedUserPeer: realmGroup?.isDeletedUserPeer ?? false,
+				  hasUnreadMessage: realmGroup?.hasUnreadMessage ?? false)
 	}
 }
 
 struct GroupDetailClientViewModel: Identifiable {
 	var id: String
-	var displayName: String
-	var workspaceDomain: String
-	init(_ clientInGroup: IClientInGroupModel?) {
-		id = clientInGroup?.id ?? ""
-		displayName = clientInGroup?.displayName ?? ""
-		workspaceDomain = clientInGroup?.workspaceDomain ?? ""
-	}
-}
-
-struct GroupDetailMessageViewModel: Identifiable {
-	var id: String
-	var groupID: Int64
-	var groupType: String
-	var fromClientID: String
-	var clientID: String
-	var message: Data
-	var lstClientRead: [GroupDetailReadViewModel]
-	var createdAt: Int64
-	var updatedAt: Int64
-	var senderMessage: Data
-
-	init(_ messageResponse: IGroupMessageResponse?) {
-		let lstClientReads = messageResponse?.lstClientRead.map { member in
-			GroupDetailReadViewModel(member)
-		}
-		id = messageResponse?.id ?? ""
-		groupID = messageResponse?.groupID ?? 0
-		groupType = messageResponse?.groupType ?? ""
-		fromClientID = messageResponse?.fromClientID ?? ""
-		clientID = messageResponse?.clientID ?? ""
-		message = messageResponse?.message ?? Data()
-		lstClientRead = lstClientReads ?? []
-		createdAt = messageResponse?.createdAt ?? 0
-		updatedAt = messageResponse?.updatedAt ?? 0
-		senderMessage = messageResponse?.senderMessage ?? Data()
-	}
-}
-
-struct GroupDetailReadViewModel: Identifiable {
-	var id: String
-	var displayName: String
+	var userName: String
+	var domain: String
+	var userState: String
+	var userStatus: String
+	var phoneNumber: String
 	var avatar: String
-
-	init(_ clientRead: IGroupClientRead?) {
-		id = clientRead?.id ?? ""
-		displayName = clientRead?.displayName ?? ""
-		avatar = clientRead?.avatar ?? ""
-	}
+	var email: String
 }
 
-struct GroupDeatailClientKeyViewModel {
-	var workspaceDomain: String
-	var clientID: String
-	var deviceID: Int32
-	var clientKeyDistribution: Data
-	var senderKeyID: Int64
-	var senderKey: Data
-	var publicKey: Data
-	var privateKey: String
-
-	init(_ clientKey: IGroupClientKey?) {
-		workspaceDomain = clientKey?.workspaceDomain ?? ""
-		clientID = clientKey?.clientID ?? ""
-		deviceID = clientKey?.deviceID ?? 0
-		clientKeyDistribution = clientKey?.clientKeyDistribution ?? Data()
-		senderKeyID = clientKey?.senderKeyID ?? 0
-		senderKey = clientKey?.senderKey ?? Data()
-		publicKey = clientKey?.publicKey ?? Data()
-		privateKey = clientKey?.privateKey ?? ""
+extension GroupDetailClientViewModel {
+	init(_ member: IMemberModel) {
+		self.init(id: member.userId,
+				  userName: member.userName,
+				  domain: member.domain,
+				  userState: member.userState,
+				  userStatus: member.userStatus,
+				  phoneNumber: member.phoneNumber,
+				  avatar: member.avatar,
+				  email: member.email)
 	}
 }

@@ -14,40 +14,37 @@ struct GroupDetailView: View {
 	private let inspection = ViewInspector<Self>()
 	
 	// MARK: - Variables
-	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.injected) private var injected: DIContainer
-	@State private(set) var imageUser: Image
-	@State private(set) var userName: String
-	@State private(set) var message: String
-	@State private(set) var groupText: String
+	@Environment(\.colorScheme) private var colorScheme
+	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
+	@State private(set) var loadable: Loadable<GroupDetailViewModels> = .notRequested
+	@State private(set) var groupId: Int64 = 0
 	// MARK: - Init
-	init(imageUser: Image,
-		 userName: String = "",
-		 message: String = "",
-		 groupText: String = "") {
-		self._imageUser = .init(initialValue: imageUser)
-		self._userName = .init(initialValue: userName)
-		self._message = .init(initialValue: message)
-		self._groupText = .init(initialValue: groupText)
-	}
 
 	// MARK: - Body
 	var body: some View {
-		NavigationView {
 			content
 				.onReceive(inspection.notice) { inspection.visit(self, $0) }
-				.navigationBarTitle("")
-				.navigationBarHidden(true)
 				.background(backgroundColorView)
 				.edgesIgnoringSafeArea(.all)
-		}
+				.hiddenNavigationBarStyle()
+				.onAppear(perform: getGroup)
 	}
 }
 
 // MARK: - Private
 private extension GroupDetailView {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		switch loadable {
+		case .notRequested:
+			return AnyView(notRequestedView)
+		case .isLoading:
+			return AnyView(loadingView)
+		case .loaded(let data):
+			return loadedView(data)
+		case .failed(let error):
+			return AnyView(errorView(LoginViewError(error)))
+		}
 	}
 }
 
@@ -60,19 +57,46 @@ private extension GroupDetailView {
 // MARK: - Loading Content
 private extension GroupDetailView {
 	var notRequestedView: some View {
-		DetailContentView(imageUser: $imageUser, userName: $userName, groupText: $groupText)
+		DetailContentView(groupData: .constant(nil), member: .constant([]))
+	}
+
+	var loadingView: some View {
+		notRequestedView.progressHUD(true)
+	}
+
+	func loadedView(_ data: GroupDetailViewModels) -> AnyView {
+		if let groupData = data.getGroup {
+			let members = groupData.groupMembers
+			return AnyView(DetailContentView(groupData: .constant(groupData), member: .constant(members)))
+		}
+
+		return AnyView(DetailContentView(groupData: .constant(nil), member: .constant([])))
+	}
+
+	func errorView(_ error: LoginViewError) -> some View {
+		return notRequestedView
+			.alert(isPresented: .constant(true)) {
+				Alert(title: Text(error.title),
+					  message: Text(error.message),
+					  dismissButton: .default(Text(error.primaryButtonTitle)))
+			}
 	}
 }
 
 // MARK: - Interactor
 private extension GroupDetailView {
+	func getGroup() {
+		Task {
+			loadable = await injected.interactors.groupDetailInteractor.getGroup(by: groupId)
+		}
+	}
 }
 
 // MARK: - Preview
 #if DEBUG
 struct GroupDetailView_Previews: PreviewProvider {
 	static var previews: some View {
-		GroupDetailView(imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes", groupText: "CK Development")
+		GroupDetailView()
 	}
 }
 #endif

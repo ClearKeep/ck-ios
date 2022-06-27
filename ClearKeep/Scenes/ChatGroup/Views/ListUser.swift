@@ -22,7 +22,7 @@ struct ListUser: View {
 	// MARK: - Body
 	var body: some View {
 		HStack {
-			avatarView
+			AvatarDefault(.constant(name), imageUrl: imageUrl)
 				.frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
 				.clipShape(Circle())
 			Text(name)
@@ -42,13 +42,7 @@ private extension ListUser {
 
 // MARK: - Private
 private extension ListUser {
-	var avatarView: AnyView {
-		if imageUrl == "" {
-			return AnyView(avatarDefault)
-		} else {
-			return AnyView(avatar)
-		}
-	}
+
 }
 
 // MARK: - Displaying Content
@@ -58,9 +52,5 @@ private extension ListUser {
 			.frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
 			.clipShape(Circle())
 			.foregroundColor(Color.gray)
-	}
-	
-	var avatarDefault: some View {
-		AvatarDefault(title: String(name.prefix(1)))
 	}
 }

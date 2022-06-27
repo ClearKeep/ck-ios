@@ -11,17 +11,17 @@ protocol IGroupDetailViewModels {
 	var getGroup: GroupDetailViewModel? { get }
 }
 
-struct GroupDetailViewModels {
+struct GroupDetailViewModels: IGroupDetailViewModels {
 	var getGroup: GroupDetailViewModel?
 }
 
 extension GroupDetailViewModels {
 
-	init(groups: IGroupChatModels) {
-		let creatGroups = groups.creatGroupModel.map { member in
-			CreatGroupViewModel(member)
+	init(groups: IGroupDetaiModels) {
+		let group = groups.groupModel.map { member in
+			GroupDetailViewModel(member)
 		}
-		self.init(getGroup: creatGroups)
+		self.init(getGroup: group)
 	}
 
 }

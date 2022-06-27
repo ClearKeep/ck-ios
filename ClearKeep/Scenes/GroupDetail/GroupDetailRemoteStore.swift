@@ -24,14 +24,10 @@ struct GroupDetailRemoteStore {
 
 extension GroupDetailRemoteStore: IGroupDetailRemoteStore {
 	func getGroup(by groupId: Int64, domain: String) async -> (Result<IGroupDetaiModels, Error>) {
-		let result = await groupService.getJoinedGroups(domain: domain)
-
+		let result = await groupService.getGroup(by: groupId, domain: domain)
 		switch result {
 		case .success(let realmGroups):
-			let groups = realmGroups.compactMap { group in
-				GroupModel(group)
-			}
-			return .success(GroupDetaiModels(responseGroup: groups))
+			return .success(GroupDetaiModels(responseGroup: GroupModel(realmGroups)))
 		case .failure(let error):
 			return .failure(error)
 		}
@@ -40,8 +36,8 @@ extension GroupDetailRemoteStore: IGroupDetailRemoteStore {
 	func addMember(_ user: GroupDetailClientViewModel, groupId: Int64, domain: String) async -> (Result<IGroupDetaiModels, Error>) {
 		var client = Group_ClientInGroupObject()
 		client.id = user.id
-		client.displayName = user.displayName
-		client.workspaceDomain = user.workspaceDomain
+		client.displayName = user.userName
+		client.workspaceDomain = user.domain
 
 		let result = await groupService.addMember(client, groupId: groupId, domain: domain)
 
@@ -56,9 +52,8 @@ extension GroupDetailRemoteStore: IGroupDetailRemoteStore {
 	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64, domain: String) async -> (Result<IGroupDetaiModels, Error>) {
 		var client = Group_ClientInGroupObject()
 		client.id = user.id
-		client.displayName = user.displayName
-		client.workspaceDomain = user.workspaceDomain
-
+		client.displayName = user.userName
+		client.workspaceDomain = user.domain
 		let result = await groupService.addMember(client, groupId: groupId, domain: domain)
 
 		switch result {
