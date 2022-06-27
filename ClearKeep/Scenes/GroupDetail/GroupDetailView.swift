@@ -57,7 +57,7 @@ private extension GroupDetailView {
 // MARK: - Loading Content
 private extension GroupDetailView {
 	var notRequestedView: some View {
-		DetailContentView(groupData: .constant(nil), member: .constant([]))
+		DetailContentView(loadable: $loadable, groupData: .constant(nil), member: .constant([]))
 	}
 
 	var loadingView: some View {
@@ -67,10 +67,14 @@ private extension GroupDetailView {
 	func loadedView(_ data: GroupDetailViewModels) -> AnyView {
 		if let groupData = data.getGroup {
 			let members = groupData.groupMembers
-			return AnyView(DetailContentView(groupData: .constant(groupData), member: .constant(members)))
+			return AnyView(DetailContentView(loadable: $loadable, groupData: .constant(groupData), member: .constant(members)))
 		}
 
-		return AnyView(DetailContentView(groupData: .constant(nil), member: .constant([])))
+		if let client = data.getClientInGroup {
+			return AnyView(MemberView(loadable: $loadable, clientData: .constant(client)))
+		}
+
+		return AnyView(DetailContentView(loadable: $loadable, groupData: .constant(nil), member: .constant([])))
 	}
 
 	func errorView(_ error: LoginViewError) -> some View {

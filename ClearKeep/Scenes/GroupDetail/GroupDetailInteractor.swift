@@ -12,7 +12,8 @@ import Model
 protocol IGroupDetailInteractor {
 	var worker: IGroupDetailWorker { get }
 
-	func getGroup(by groupId: Int64) async ->Loadable<GroupDetailViewModels>
+	func getGroup(by groupId: Int64) async -> Loadable<GroupDetailViewModels>
+	func getClientInGroup(by groupId: Int64) async -> Loadable<GroupDetailViewModels>
 }
 
 struct GroupDetailInteractor {
@@ -38,9 +39,20 @@ extension GroupDetailInteractor: IGroupDetailInteractor {
 			return .failed(error)
 		}
 	}
+
+	func getClientInGroup(by groupId: Int64) async -> Loadable<GroupDetailViewModels> {
+		let result = await worker.getGroup(by: groupId)
+		switch result {
+		case .success(let getGroup):
+			return .loaded(GroupDetailViewModels(clients: getGroup))
+		case .failure(let error):
+			return .failed(error)
+		}
+	}
 }
 
 struct StubGroupDetailInteractor: IGroupDetailInteractor {
+
 	let groupService: IGroupService
 	let channelStorage: IChannelStorage
 
@@ -50,7 +62,11 @@ struct StubGroupDetailInteractor: IGroupDetailInteractor {
 		return GroupDetailWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
-	func getGroup(by groupId: Int64) async ->Loadable<GroupDetailViewModels> {
+	func getGroup(by groupId: Int64) async -> Loadable<GroupDetailViewModels> {
+		return .notRequested
+	}
+
+	func getClientInGroup(by groupId: Int64) async -> Loadable<GroupDetailViewModels> {
 		return .notRequested
 	}
 }

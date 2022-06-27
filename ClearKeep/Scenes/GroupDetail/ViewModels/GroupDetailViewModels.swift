@@ -9,10 +9,12 @@ import Model
 
 protocol IGroupDetailViewModels {
 	var getGroup: GroupDetailViewModel? { get }
+	var getClientInGroup: [GroupDetailClientViewModel]? { get }
 }
 
 struct GroupDetailViewModels: IGroupDetailViewModels {
 	var getGroup: GroupDetailViewModel?
+	var getClientInGroup: [GroupDetailClientViewModel]?
 }
 
 extension GroupDetailViewModels {
@@ -24,4 +26,10 @@ extension GroupDetailViewModels {
 		self.init(getGroup: group)
 	}
 
+	init(clients: IGroupDetaiModels) {
+		let client = clients.groupModel?.groupMembers.map { member in
+			GroupDetailClientViewModel(member)
+		}
+		self.init(getClientInGroup: client)
+	}
 }
