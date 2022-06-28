@@ -14,7 +14,7 @@ public protocol IGroupService {
 	func getGroup(by groupId: Int64, domain: String) async -> (Result<RealmGroup, Error>)
 	func getJoinedGroups(domain: String) async -> (Result<[RealmGroup], Error>)
 	func joinGroup(by groupId: Int64, domain: String) async -> (Result<Group_BaseResponse, Error>)
-	func addMember(_ user: Group_ClientInGroupObject, groupId: Int64, domain: String) async -> (Result<Group_BaseResponse, Error>)
+	func addMember(_ user: Group_ClientInGroupObject, groupId: Int64, domain: String, clientId: String, displayName: String) async -> (Result<Group_BaseResponse, Error>)
 	func leaveGroup(_ user: Group_ClientInGroupObject, groupId: Int64, domain: String) async -> (Result<Group_BaseResponse, Error>)
 
 }
@@ -83,10 +83,10 @@ extension GroupService: IGroupService {
 		return await apiService.joinGroup(request)
 	}
 	
-	public func addMember(_ user: Group_ClientInGroupObject, groupId: Int64, domain: String) async -> (Result<Group_BaseResponse, Error>) {
+	public func addMember(_ user: Group_ClientInGroupObject, groupId: Int64, domain: String, clientId: String, displayName: String) async -> (Result<Group_BaseResponse, Error>) {
 		let apiService = channelStorage.getChannel(domain: domain)
-		guard let clientId = apiService.owner?.id,
-			  let userName = apiService.owner?.displayName else { return .failure(ServerError.unknown) }
+//		guard let clientId = apiService.owner?.id,
+//			  let userName = apiService.owner?.displayName else { return .failure(ServerError.unknown) }
 		var requestAddingMember = Group_MemberInfo()
 		requestAddingMember.id = user.id
 		requestAddingMember.workspaceDomain = user.workspaceDomain
@@ -96,7 +96,7 @@ extension GroupService: IGroupService {
 		var requestAddedMember = Group_MemberInfo()
 		requestAddingMember.id = clientId
 		requestAddingMember.workspaceDomain = domain
-		requestAddingMember.displayName = userName
+		requestAddingMember.displayName = displayName
 		requestAddingMember.status = ""
 		
 		var request = Group_AddMemberRequest()

@@ -23,6 +23,7 @@ struct MemberView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Binding var loadable: Loadable<GroupDetailViewModels>
 	@Binding var clientData: [GroupDetailClientViewModel]
+	@State private(set) var groupId: Int64 = 0
 
 	// MARK: - Init
 
@@ -77,11 +78,12 @@ private extension MemberView {
 // MARK: - Private func
 private extension MemberView {
 	func customBack() {
-		self.presentationMode.wrappedValue.dismiss()
+		Task {
+			loadable = await injected.interactors.groupDetailInteractor.getGroup(by: groupId)
+		}
 	}
 
 	func action() {
-
 	}
 }
 

@@ -9,22 +9,34 @@ import Model
 import Networking
 import ChatSecure
 
-protocol IGroupDetaiModels {
+protocol IGroupDetailModels {
 	var groupModel: IGroupModel? { get }
+	var searchUser: IGetUserResponse? { get }
 	var groupBase: IGroupBaseResponse? { get }
+	var getProfile: IUser? { get }
 }
 
-struct GroupDetaiModels: IGroupDetaiModels {
+struct GroupDetailModels: IGroupDetailModels {
 	var groupModel: IGroupModel?
+	var searchUser: IGetUserResponse?
 	var groupBase: IGroupBaseResponse?
+	var getProfile: IUser?
 }
 
-extension GroupDetaiModels {
+extension GroupDetailModels {
 	init(responseGroup: GroupModel) {
 		self.init(groupModel: responseGroup)
 	}
 
+	init(searchUser: User_SearchUserResponse) {
+		self.init(searchUser: UserResponseModel(searchUser: searchUser))
+	}
+
 	init(responseError: Group_BaseResponse) {
 		self.init(groupBase: GroupBaseModel(responseError))
+	}
+
+	init(getProfile: User_UserProfileResponse) {
+		self.init(getProfile: ProfieModel(profile: getProfile))
 	}
 }

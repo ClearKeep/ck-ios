@@ -42,7 +42,7 @@ struct ChatGroupContentView: View {
 	
 	// MARK: - Body
 	var body: some View {
-		VStack(spacing: Constants.paddingVertical) {
+		VStack {
 			SearchTextField(searchText: $searchText,
 							inputStyle: $searchStyle,
 							inputIcon: AppTheme.shared.imageSet.searchIcon,

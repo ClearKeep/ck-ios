@@ -30,7 +30,8 @@ struct DetailContentView: View {
 	@Binding var loadable: Loadable<GroupDetailViewModels>
 	@Binding var groupData: GroupDetailViewModel?
 	@Binding var member: [GroupDetailClientViewModel]
-
+	@State private(set) var profile: GroupDetailUserViewModels?
+	
 	// MARK: - Init
 
 	// MARK: - Body
@@ -128,7 +129,12 @@ private extension DetailContentView {
 	func didSelect(_ detail: DetailType) {
 		if detail == .seeMember {
 			Task {
-			loadable = await injected.interactors.groupDetailInteractor.getClientInGroup(by: groupData?.groupId ?? 0)
+				loadable = await injected.interactors.groupDetailInteractor.getClientInGroup(by: groupData?.groupId ?? 0)
+			}
+		}
+		if detail == .addMember {
+			Task {
+				loadable = await injected.interactors.groupDetailInteractor.getProfile()
 			}
 		}
 

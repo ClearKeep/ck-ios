@@ -53,7 +53,7 @@ public struct AvatarDefault: View {
 						.fill(backgroundColor)
 					Text(title.capitalized.prefix(1))
 						.foregroundColor(commonUIConfig.colorSet.offWhite)
-						.font(commonUIConfig.fontSet.font(style: .display3))
+						.font(commonUIConfig.fontSet.font(style: .body4))
 			}
 		}
 	}

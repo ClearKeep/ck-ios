@@ -20,6 +20,8 @@
 		044432C32858D6D800276DB3 /* CreatGroupProfieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044432C22858D6D800276DB3 /* CreatGroupProfieViewModel.swift */; };
 		04458C272849BA1300992ECB /* HomeViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04458C262849BA1300992ECB /* HomeViewModels.swift */; };
 		0458985C2865A7EE00A0631C /* DetailType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458985B2865A7EE00A0631C /* DetailType.swift */; };
+		0458986028698FA000A0631C /* GroupDetailUserViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458985F28698FA000A0631C /* GroupDetailUserViewModels.swift */; };
+		0458986228699F8100A0631C /* GroupDetailBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458986128699F8100A0631C /* GroupDetailBaseViewModel.swift */; };
 		0459996E28641887006754DF /* UserInfoResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459996828641887006754DF /* UserInfoResponseModel.swift */; };
 		0459996F28641887006754DF /* GroupsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459996928641887006754DF /* GroupsModel.swift */; };
 		0459997028641887006754DF /* UserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459996A28641887006754DF /* UserInfoModel.swift */; };
@@ -30,7 +32,7 @@
 		0459997928641F25006754DF /* CreatePeerViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459997728641F25006754DF /* CreatePeerViewModels.swift */; };
 		0459997C28641F32006754DF /* CreatePeerModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459997A28641F32006754DF /* CreatePeerModels.swift */; };
 		0459997F286446CE006754DF /* CreatePeerChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459997E286446CE006754DF /* CreatePeerChatViewModel.swift */; };
-		0459998328645BC5006754DF /* GroupDetaiModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459998228645BC5006754DF /* GroupDetaiModels.swift */; };
+		0459998328645BC5006754DF /* GroupDetailModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459998228645BC5006754DF /* GroupDetailModels.swift */; };
 		0459998528645C3C006754DF /* GroupDetailViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459998428645C3B006754DF /* GroupDetailViewModels.swift */; };
 		0459998728645C8C006754DF /* GroupDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459998628645C8B006754DF /* GroupDetailViewModel.swift */; };
 		0462C6C12816535C00A9EABB /* SearchRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6B22816535C00A9EABB /* SearchRemoteStore.swift */; };
@@ -279,6 +281,8 @@
 		044432C22858D6D800276DB3 /* CreatGroupProfieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatGroupProfieViewModel.swift; sourceTree = "<group>"; };
 		04458C262849BA1300992ECB /* HomeViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModels.swift; sourceTree = "<group>"; };
 		0458985B2865A7EE00A0631C /* DetailType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailType.swift; sourceTree = "<group>"; };
+		0458985F28698FA000A0631C /* GroupDetailUserViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailUserViewModels.swift; sourceTree = "<group>"; };
+		0458986128699F8100A0631C /* GroupDetailBaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailBaseViewModel.swift; sourceTree = "<group>"; };
 		0459996828641887006754DF /* UserInfoResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoResponseModel.swift; sourceTree = "<group>"; };
 		0459996928641887006754DF /* GroupsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsModel.swift; sourceTree = "<group>"; };
 		0459996A28641887006754DF /* UserInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoModel.swift; sourceTree = "<group>"; };
@@ -289,7 +293,7 @@
 		0459997728641F25006754DF /* CreatePeerViewModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePeerViewModels.swift; sourceTree = "<group>"; };
 		0459997A28641F32006754DF /* CreatePeerModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePeerModels.swift; sourceTree = "<group>"; };
 		0459997E286446CE006754DF /* CreatePeerChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePeerChatViewModel.swift; sourceTree = "<group>"; };
-		0459998228645BC5006754DF /* GroupDetaiModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetaiModels.swift; sourceTree = "<group>"; };
+		0459998228645BC5006754DF /* GroupDetailModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailModels.swift; sourceTree = "<group>"; };
 		0459998428645C3B006754DF /* GroupDetailViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailViewModels.swift; sourceTree = "<group>"; };
 		0459998628645C8B006754DF /* GroupDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailViewModel.swift; sourceTree = "<group>"; };
 		0462C6B22816535C00A9EABB /* SearchRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRemoteStore.swift; sourceTree = "<group>"; };
@@ -619,7 +623,7 @@
 			isa = PBXGroup;
 			children = (
 				0458985B2865A7EE00A0631C /* DetailType.swift */,
-				0459998228645BC5006754DF /* GroupDetaiModels.swift */,
+				0459998228645BC5006754DF /* GroupDetailModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -629,6 +633,8 @@
 			children = (
 				0459998428645C3B006754DF /* GroupDetailViewModels.swift */,
 				0459998628645C8B006754DF /* GroupDetailViewModel.swift */,
+				0458985F28698FA000A0631C /* GroupDetailUserViewModels.swift */,
+				0458986128699F8100A0631C /* GroupDetailBaseViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1855,6 +1861,7 @@
 				0462C6C72816535C00A9EABB /* SearchWorker.swift in Sources */,
 				226732A928534C1900C07852 /* MessageViewModel.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
+				0458986228699F8100A0631C /* GroupDetailBaseViewModel.swift in Sources */,
 				F564482E283B7A79007846F9 /* ProfileWorker.swift in Sources */,
 				0499344527E97035003BD4C4 /* ChangePasswordWorker.swift in Sources */,
 				CB23604D28334CFD00D98F54 /* GroupViewModel.swift in Sources */,
@@ -1918,7 +1925,7 @@
 				F556C24028097F6E00D2B149 /* ChatGroupView.swift in Sources */,
 				CB7F291C281BC1A300BD5049 /* NormalLoginModel.swift in Sources */,
 				F556C23E28097F6E00D2B149 /* ChatGroupInMemoryStore.swift in Sources */,
-				0459998328645BC5006754DF /* GroupDetaiModels.swift in Sources */,
+				0459998328645BC5006754DF /* GroupDetailModels.swift in Sources */,
 				0499343D27E96FC5003BD4C4 /* NewPasswordContenView.swift in Sources */,
 				047D6B6027F6A3750098B104 /* CreateDirectMessageRemoteStore.swift in Sources */,
 				F553F87527E820E600824BE7 /* SocialCommonStyle.swift in Sources */,
@@ -1965,6 +1972,7 @@
 				F553F87427E820E600824BE7 /* SocialView.swift in Sources */,
 				04B81FBD285F7B2000BD07A1 /* ChatGroupContentView.swift in Sources */,
 				047D6B1827F154970098B104 /* MemberView.swift in Sources */,
+				0458986028698FA000A0631C /* GroupDetailUserViewModels.swift in Sources */,
 				047D6B1C27F154B70098B104 /* RemoveMemberView.swift in Sources */,
 				0459997228641887006754DF /* GroupResponseModel.swift in Sources */,
 				CB117EA927BB7856000941D9 /* SystemEventsHandler.swift in Sources */,
