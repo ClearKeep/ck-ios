@@ -18,7 +18,8 @@ public protocol IChannelStorage {
 	func getServers() -> [RealmServer]
 	func didSelectServer(_ domain: String?) -> [RealmServer]
 	func registerToken(_ token: String)
-	func subscribeAndListenServers() -> [RealmServer]
+	func subscribeAndListenServers()
+	func updateServerToken(token: ITokenModel, domain: String)
 }
 
 public class ChannelStorage: IChannelStorage {
@@ -61,13 +62,15 @@ public class ChannelStorage: IChannelStorage {
 		}
 	}
 	
-	public func subscribeAndListenServers() -> [RealmServer] {
-		servers.forEach { server in
-			let subscribeAndListenService = SubscribeAndListenService(clientStore: clientStore)
-			subscribeAndListenService.subscribe(server)
+	public func subscribeAndListenServers() {
+		self.servers.forEach { server in
+			let subscribeAndListenService = SubscribeAndListenService(clientStore: self.clientStore)
+			subscribeAndListenService.subscribe(server.serverDomain)
 		}
-
-		return servers
+	}
+	
+	public func updateServerToken(token: ITokenModel, domain: String) {
+		realmManager.updateServerToken(token: token, domain: domain)
 	}
 }
 

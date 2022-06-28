@@ -40,10 +40,12 @@ struct HomeView: View {
 	}
 	
 	@State private(set) var servers: [ServerViewModel] = []
+	@State private(set) var selectedServers: [ServerViewModel] = []
 	@State private(set) var searchKeyword: String = ""
 	@State private(set) var searchInputStyle: TextInputStyle = .default
 	@State private(set) var isShowMenu: Bool = false
 	@State private(set) var isAddNewServer: Bool = false
+	@State private(set) var isFirstLoad: Bool = true
 	@State private(set) var groups: [GroupViewModel] = []
 	@State private(set) var peers: [GroupViewModel] = []
 	@State private(set) var user: [UserViewModel] = [UserViewModel]()
@@ -54,7 +56,9 @@ struct HomeView: View {
 			GeometryReader { geometry in
 				ZStack {
 					HStack {
-						ListServerView(servers: $servers, isAddNewServer: $isAddNewServer, action: getServerInfo)
+						ListServerView(servers: $servers, isAddNewServer: $isAddNewServer, action: { server in
+							getServerInfo(server: server)
+						})
 						VStack {
 							HStack {
 								Text(serverName)
@@ -90,7 +94,6 @@ struct HomeView: View {
 			}
 			.hiddenNavigationBarStyle()
 			.onAppear(perform: getServers)
-			.onAppear(perform: getServerInfo)
 			.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
 		}
 	}
@@ -130,12 +133,42 @@ private extension HomeView {
 // MARK: - Interactors
 private extension HomeView {
 	func getServers() {
-		servers = injected.interactors.homeInteractor.getServers()
+		Task {
+			if isFirstLoad {
+				servers = injected.interactors.homeInteractor.getServers()
+				if let currentServer = servers.first(where: { $0.isActive }) {
+					selectedServers.append(currentServer)
+				}
+				let result = await injected.interactors.homeInteractor.refreshToken()
+				if result {
+					injected.interactors.homeInteractor.subscribeAndListenServers()
+					loadable = await injected.interactors.homeInteractor.getServerInfo()
+					isFirstLoad = false
+				} else {
+					// force logout
+				}
+			} else {
+				loadable = await injected.interactors.homeInteractor.getServerInfo()
+			}
+		}
 	}
 
-	func getServerInfo() {
-		Task {
-			loadable = await injected.interactors.homeInteractor.getServerInfo()
+	func getServerInfo(server: ServerViewModel) {
+		if selectedServers.first(where: { $0.serverDomain == server.serverDomain }) != nil {
+			Task {
+				loadable = await injected.interactors.homeInteractor.getServerInfo()
+			}
+		} else {
+			Task {
+				let result = await injected.interactors.homeInteractor.refreshToken()
+				if result {
+					injected.interactors.homeInteractor.subscribeAndListenServers()
+					loadable = await injected.interactors.homeInteractor.getServerInfo()
+					selectedServers.append(server)
+				} else {
+					// force logout
+				}
+			}
 		}
 	}
 }

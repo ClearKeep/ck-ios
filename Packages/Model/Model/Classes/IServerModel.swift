@@ -28,3 +28,8 @@ public protocol IProfileModel {
 	var updatedAt: Int8 { get set }
 	var avatar: String? { get set }
 }
+
+public protocol ITokenModel {
+	var accessKey: String { get set }
+	var refreshToken: String { get set }
+}

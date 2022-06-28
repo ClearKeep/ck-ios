@@ -20,7 +20,8 @@ protocol IHomeWorker {
 	func getJoinedGroup() async -> Result<IHomeModels, Error>
 	func didSelectServer(_ domain: String?) -> [ServerModel]
 	func getProfile() async -> Result<IHomeModels, Error>
-	func signOut() async
+	func signOut() async -> Bool
+	func refreshToken() async -> Bool
 }
 
 class HomeWorker {
@@ -56,7 +57,9 @@ extension HomeWorker: IHomeWorker {
 	}
 	
 	func subscribeAndListenServers() {
-		channelStorage.subscribeAndListenServers()
+		self.servers.forEach { server in
+			remoteStore.subscribeAndListenServers(domain: server.serverDomain)
+		}
 	}
 	
 	func getJoinedGroup() async -> Result<IHomeModels, Error> {
@@ -81,7 +84,30 @@ extension HomeWorker: IHomeWorker {
 		}
 	}
 	
-	func signOut() async {
-		await remoteStore.signOut()
+	func signOut() async -> Bool {
+		let result = await remoteStore.signOut(domain: currentDomain ?? channelStorage.currentDomain)
+		
+		switch result {
+		case .success(let data):
+			print(data)
+			return true
+		case .failure(let error):
+			print(error)
+			return false
+		}
+	}
+	
+	func refreshToken() async -> Bool {
+		let domain = currentDomain ?? channelStorage.currentDomain
+		let result = await remoteStore.refreshToken(domain: domain)
+		
+		switch result {
+		case .success(let token):
+			channelStorage.updateServerToken(token: token, domain: domain)
+			return true
+		case .failure(let error):
+			print(error)
+			return false
+		}
 	}
 }

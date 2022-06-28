@@ -75,6 +75,11 @@ internal protocol Auth_AuthClientProtocol: GRPCClient {
     callOptions: CallOptions?
   ) -> UnaryCall<Auth_AuthenticateReq, Auth_AuthRes>
 
+  func refresh_token(
+    _ request: Auth_RefreshTokenReq,
+    callOptions: CallOptions?
+  ) -> UnaryCall<Auth_RefreshTokenReq, Auth_RefreshTokenRes>
+
   func logout(
     _ request: Auth_LogoutReq,
     callOptions: CallOptions?
@@ -274,6 +279,24 @@ extension Auth_AuthClientProtocol {
     )
   }
 
+  /// Unary call to refresh_token
+  ///
+  /// - Parameters:
+  ///   - request: Request to send to refresh_token.
+  ///   - callOptions: Call options.
+  /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
+  internal func refresh_token(
+    _ request: Auth_RefreshTokenReq,
+    callOptions: CallOptions? = nil
+  ) -> UnaryCall<Auth_RefreshTokenReq, Auth_RefreshTokenRes> {
+    return self.makeUnaryCall(
+      path: "/auth.Auth/refresh_token",
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makerefresh_tokenInterceptors() ?? []
+    )
+  }
+
   ///logout
   ///
   /// - Parameters:
@@ -413,6 +436,9 @@ internal protocol Auth_AuthClientInterceptorFactoryProtocol {
   /// - Returns: Interceptors to use when invoking 'login_authenticate'.
   func makelogin_authenticateInterceptors() -> [ClientInterceptor<Auth_AuthenticateReq, Auth_AuthRes>]
 
+  /// - Returns: Interceptors to use when invoking 'refresh_token'.
+  func makerefresh_tokenInterceptors() -> [ClientInterceptor<Auth_RefreshTokenReq, Auth_RefreshTokenRes>]
+
   /// - Returns: Interceptors to use when invoking 'logout'.
   func makelogoutInterceptors() -> [ClientInterceptor<Auth_LogoutReq, Auth_BaseResponse>]
 
@@ -480,6 +506,8 @@ internal protocol Auth_AuthProvider: CallHandlerProvider {
 
   /// authenticated challange
   func login_authenticate(request: Auth_AuthenticateReq, context: StatusOnlyCallContext) -> EventLoopFuture<Auth_AuthRes>
+
+  func refresh_token(request: Auth_RefreshTokenReq, context: StatusOnlyCallContext) -> EventLoopFuture<Auth_RefreshTokenRes>
 
   ///logout
   func logout(request: Auth_LogoutReq, context: StatusOnlyCallContext) -> EventLoopFuture<Auth_BaseResponse>
@@ -589,6 +617,15 @@ extension Auth_AuthProvider {
         userFunction: self.login_authenticate(request:context:)
       )
 
+    case "refresh_token":
+      return UnaryServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_RefreshTokenReq>(),
+        responseSerializer: ProtobufSerializer<Auth_RefreshTokenRes>(),
+        interceptors: self.interceptors?.makerefresh_tokenInterceptors() ?? [],
+        userFunction: self.refresh_token(request:context:)
+      )
+
     case "logout":
       return UnaryServerHandler(
         context: context,
@@ -686,6 +723,10 @@ internal protocol Auth_AuthServerInterceptorFactoryProtocol {
   /// - Returns: Interceptors to use when handling 'login_authenticate'.
   ///   Defaults to calling `self.makeInterceptors()`.
   func makelogin_authenticateInterceptors() -> [ServerInterceptor<Auth_AuthenticateReq, Auth_AuthRes>]
+
+  /// - Returns: Interceptors to use when handling 'refresh_token'.
+  ///   Defaults to calling `self.makeInterceptors()`.
+  func makerefresh_tokenInterceptors() -> [ServerInterceptor<Auth_RefreshTokenReq, Auth_RefreshTokenRes>]
 
   /// - Returns: Interceptors to use when handling 'logout'.
   ///   Defaults to calling `self.makeInterceptors()`.

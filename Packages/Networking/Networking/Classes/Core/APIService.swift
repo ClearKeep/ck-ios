@@ -95,4 +95,9 @@ extension APIService: IAPIService {
 			callOptions.customMetadata.add(name: "hash_key", value: hashKey)
 		}
 	}
+	
+	public func updateHeaders(accessKey: String) {
+		print("accesskey: \(accessKey)")
+		callOptions.customMetadata.add(name: "access_token", value: accessKey)
+	}
 }

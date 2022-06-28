@@ -23,6 +23,7 @@ public protocol IAuthenticationAPIService {
 	func logout(_ request: Auth_LogoutReq) async -> (Result<Auth_BaseResponse, Error>)
 	func validateOTP(_ request: Auth_MfaValidateOtpRequest) async -> (Result<Auth_AuthRes, Error>)
 	func mfaResendOTP(_ request: Auth_MfaResendOtpReq) async -> (Result<Auth_MfaResendOtpRes, Error>)
+	func refreshToken(_ request: Auth_RefreshTokenReq) async -> (Result<Auth_RefreshTokenRes, Error>)
 }
 
 extension APIService: IAuthenticationAPIService {
@@ -289,6 +290,26 @@ extension APIService: IAuthenticationAPIService {
 	public func mfaResendOTP(_ request: Auth_MfaResendOtpReq) async -> (Result<Auth_MfaResendOtpRes, Error>) {
 		return await withCheckedContinuation({ continuation in
 			let caller = clientAuth.resend_otp(request, callOptions: callOptions)
+			caller.status.whenComplete({ result in
+				switch result {
+				case .success(let status):
+					if status.isOk {
+						caller.response.whenComplete { result in
+							continuation.resume(returning: result)
+						}
+					} else {
+						continuation.resume(returning: .failure(ServerError(status)))
+					}
+				case .failure(let error):
+					continuation.resume(returning: .failure(ServerError(error)))
+				}
+			})
+		})
+	}
+	
+	public func refreshToken(_ request: Auth_RefreshTokenReq) async -> (Result<Auth_RefreshTokenRes, Error>) {
+		return await withCheckedContinuation({ continuation in
+			let caller = clientAuth.refresh_token(request, callOptions: callOptions)
 			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):

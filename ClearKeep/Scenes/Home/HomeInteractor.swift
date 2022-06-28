@@ -19,6 +19,7 @@ protocol IHomeInteractor {
 	func getServerInfo() async -> Loadable<HomeViewModels>
 	func didSelectServer(_ domain: String?) -> [ServerViewModel]
 	func signOut() async
+	func refreshToken() async -> Bool
 }
 
 struct HomeInteractor {
@@ -27,11 +28,12 @@ struct HomeInteractor {
 	let authenticationService: IAuthenticationService
 	let groupService: IGroupService
 	let userService: IUserService
+	let clientStore: ClientStore
 }
 
 extension HomeInteractor: IHomeInteractor {
 	var worker: IHomeWorker {
-		let remoteStore = HomeRemoteStore(authenticationService: authenticationService, groupService: groupService, userService: userService)
+		let remoteStore = HomeRemoteStore(authenticationService: authenticationService, groupService: groupService, userService: userService, clientStore: clientStore)
 		let inMemoryStore = HomeInMemoryStore()
 		return HomeWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
@@ -75,7 +77,17 @@ extension HomeInteractor: IHomeInteractor {
 	}
 	
 	func signOut() async {
-		//		let result = await worker.signOut()
+		let result = await worker.signOut()
+		if result {
+			print("logout success")
+		} else {
+			print("logout fail")
+		}
+	}
+	
+	func refreshToken() async -> Bool {
+		let result = await worker.refreshToken()
+		return result
 	}
 }
 
@@ -84,9 +96,10 @@ struct StubHomeInteractor: IHomeInteractor {
 	let authenticationService: IAuthenticationService
 	let groupService: IGroupService
 	let userService: IUserService
+	let clientStore: ClientStore
 	
 	var worker: IHomeWorker {
-		let remoteStore = HomeRemoteStore(authenticationService: authenticationService, groupService: groupService, userService: userService)
+		let remoteStore = HomeRemoteStore(authenticationService: authenticationService, groupService: groupService, userService: userService, clientStore: clientStore)
 		let inMemoryStore = HomeInMemoryStore()
 		return HomeWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
@@ -117,5 +130,9 @@ struct StubHomeInteractor: IHomeInteractor {
 	
 	func signOut() async {
 		//		let result = await worker.signOut()
+	}
+	
+	func refreshToken() async -> Bool {
+		return true
 	}
 }

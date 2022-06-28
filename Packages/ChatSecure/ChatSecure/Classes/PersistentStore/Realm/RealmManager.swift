@@ -8,6 +8,7 @@
 import Foundation
 import RealmSwift
 import Networking
+import Model
 
 public class RealmManager {
 	// MARK: - Variables
@@ -226,6 +227,15 @@ extension RealmManager {
 			realm.add(server, update: .modified)
 		}
 		return getServers()
+	}
+	
+	func updateServerToken(token: ITokenModel, domain: String) {
+		if let server = getServer(by: domain) {
+			write { _ in
+				server.accessKey = token.accessKey
+				server.refreshToken = token.refreshToken
+			}
+		}
 	}
 }
 

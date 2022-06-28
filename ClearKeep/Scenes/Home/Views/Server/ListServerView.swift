@@ -26,10 +26,10 @@ struct ListServerView: View {
 	@Binding var servers: [ServerViewModel]
 	@Binding var isAddNewServer: Bool
 	@State private var selectedServer: ServerViewModel?
-	let action: () -> Void
+	let action: (ServerViewModel) -> Void
 	
 	// MARK: - Init
-	init(servers: Binding<[ServerViewModel]>, isAddNewServer: Binding<Bool>, action: @escaping () -> Void) {
+	init(servers: Binding<[ServerViewModel]>, isAddNewServer: Binding<Bool>, action: @escaping (ServerViewModel) -> Void) {
 		self._servers = servers
 		self._isAddNewServer = isAddNewServer
 		self.action = action
@@ -76,7 +76,7 @@ private extension ListServerView {
 	func didSelectServer(_ server: ServerViewModel) {
 		isAddNewServer = false
 		servers = injected.interactors.homeInteractor.didSelectServer(server.serverDomain)
-		action()
+		action(server)
 	}
 	
 	func addServerAction() {

@@ -13,13 +13,16 @@ import Model
 protocol IHomeRemoteStore {
 	func getJoinedGroup(domain: String) async -> Result<IHomeModels, Error>
 	func getProfile(domain: String) async -> Result<IHomeModels, Error>
-	func signOut() async
+	func signOut(domain: String) async -> Result <Bool, Error>
+	func refreshToken(domain: String) async -> Result<ITokenModel, Error>
+	func subscribeAndListenServers(domain: String)
 }
 
 struct HomeRemoteStore {
 	let authenticationService: IAuthenticationService
 	let groupService: IGroupService
 	let userService: IUserService
+	let clientStore: ClientStore
 }
 
 extension HomeRemoteStore: IHomeRemoteStore {
@@ -48,6 +51,33 @@ extension HomeRemoteStore: IHomeRemoteStore {
 		}
 	}
 	
-	func signOut() async {
+	func signOut(domain: String) async -> Result<Bool, Error> {
+		let result = await authenticationService.logoutFromAPI(domain: domain)
+		
+		switch result {
+		case .success(let value):
+			print(value)
+			return .success(true)
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+	
+	func refreshToken(domain: String) async -> Result<ITokenModel, Error> {
+		let result = await authenticationService.refreshToken(domain: domain)
+		
+		switch result {
+		case .success(let data):
+			print("Refresh token success \(data)")
+			return .success(TokenModel(accessKey: data.accessToken, refreshToken: data.refreshToken))
+		case .failure(let error):
+			print("Refresh token fail \(error)")
+			return .failure(error)
+		}
+	}
+	
+	func subscribeAndListenServers(domain: String) {
+		let subscribeAndListenService = SubscribeAndListenService(clientStore: self.clientStore)
+		subscribeAndListenService.subscribe(domain)
 	}
 }

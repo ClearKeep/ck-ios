@@ -116,7 +116,9 @@ struct MenuView: View {
 // MARK: - Actions
 private extension MenuView {
 	func signOutAction() {
-		
+		Task {
+			await injected.interactors.homeInteractor.signOut()
+		}
 	}
 	
 	func copyAction() {

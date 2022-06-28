@@ -31,6 +31,7 @@ public protocol IAuthenticationService {
 	func logoutFromAPI(domain: String) async -> Result<Auth_BaseResponse, Error>
 	func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async -> Result<Auth_AuthRes, Error>
 	func mfaResendOTP(userId: String, otpHash: String, domain: String) async -> Result<Auth_MfaResendOtpRes, Error>
+	func refreshToken(domain: String) async -> Result<Auth_RefreshTokenRes, Error>
 }
 
 public class CLKAuthenticationService {
@@ -131,7 +132,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 			switch response {
 			case .success(let authenResponse):
 				var request = User_Empty()
-				
+				print(authenResponse)
 				let response = await channelStorage.getChannel(domain: domain, accessToken: authenResponse.accessToken, hashKey: authenResponse.hashKey).getProfile(request)
 				
 				switch response {
@@ -417,6 +418,24 @@ extension CLKAuthenticationService: IAuthenticationService {
 			return(.failure(error))
 		}
 	}
+	
+	public func refreshToken(domain: String) async -> Result<Auth_RefreshTokenRes, Error> {
+		guard let server = channelStorage.realmManager.getServer(by: domain) else { return .failure(ServerError.unknown) }
+
+		var request = Auth_RefreshTokenReq()
+		request.refreshToken = server.refreshToken
+		
+		let response = await channelStorage.getChannel(domain: domain).refreshToken(request)
+		switch response {
+		case .success(let data):
+			print("refresh token success \(data)")
+			updateServerToken(response: data, domain: domain)
+			return(.success(data))
+		case .failure(let error):
+			print("refresh token fail \(error)")
+			return(.failure(error))
+		}
+	}
 }
 
 // MARK: - Private
@@ -457,8 +476,8 @@ private extension CLKAuthenticationService {
 		}
 	}
 	
-	func getProfile(userGRPC: String) {
-		
+	func updateServerToken(response: Auth_RefreshTokenRes, domain: String) {
+		channelStorage.getChannel(domain: domain).updateHeaders(accessKey: response.accessToken)
 	}
 	
 	func bytesConvertToHexString(bytes: [UInt8]) -> String {

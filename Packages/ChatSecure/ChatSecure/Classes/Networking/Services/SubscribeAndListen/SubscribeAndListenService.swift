@@ -9,29 +9,29 @@ import Foundation
 import Networking
 
 public protocol ISubscribeAndListenService {
-	func subscribe(_ server: RealmServer)
+	func subscribe(_ serverDomain: String)
 }
 
-class SubscribeAndListenService {
+public class SubscribeAndListenService {
 	private let clientStore: ClientStore
 
-	init(clientStore: ClientStore) {
+	public init(clientStore: ClientStore) {
 		self.clientStore = clientStore
 	}
 }
 
 extension SubscribeAndListenService: ISubscribeAndListenService {
-	func subscribe(_ server: RealmServer) {
+	public func subscribe(_ serverDomain: String) {
 		var messageRequest = Message_SubscribeRequest()
 		messageRequest.deviceID = clientStore.getUniqueDeviceId()
-		channelStorage.getChannel(domain: server.serverDomain).subscribe(messageRequest) { result in
-			print(result)
+		channelStorage.getChannel(domain: serverDomain).subscribe(messageRequest) { result in
+			print("message subscribe for \(serverDomain) \(result)")
 		}
 		
 		var notifyRequest = Notification_SubscribeRequest()
 		notifyRequest.deviceID = clientStore.getUniqueDeviceId()
-		channelStorage.getChannel(domain: server.serverDomain).subscribe(notifyRequest) { result in
-			print(result)
+		channelStorage.getChannel(domain: serverDomain).subscribe(notifyRequest) { result in
+			print("notification subscribe for \(serverDomain) \(result)")
 		}
 	}
 }

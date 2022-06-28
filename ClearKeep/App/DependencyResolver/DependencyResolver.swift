@@ -34,6 +34,7 @@ class DependencyResolver {
 	let signalStore: ISignalProtocolInMemoryStore!
 	let yapDatabaseManager: YapDatabaseManager!
 	let realmManager: RealmManager!
+	let clientStore: ClientStore
 	
 	init() {
 		fontSet = DefaultFontSet()
@@ -41,7 +42,7 @@ class DependencyResolver {
 		imageSet = AppImageSet()
 		securedStoreService = SecuredStoreService()
 		persistentStoreService = PersistentStoreService()
-		let clientStore = ClientStore(persistentStoreService: persistentStoreService)
+		clientStore = ClientStore(persistentStoreService: persistentStoreService)
 		
 		// MARK: - CommonUI
 		CommonUI.DependencyResolver.shared = CommonUI.DependencyResolver(CommonUIConfig(fontSet: fontSet, colorSet: colorSet, imageSet: imageSet))
