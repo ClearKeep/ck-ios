@@ -19,7 +19,7 @@ struct GroupDetailView: View {
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	@State private(set) var loadable: Loadable<GroupDetailViewModels> = .notRequested
 	@State private(set) var groupId: Int64 = 0
-	
+	@State private(set) var member: [GroupDetailClientViewModel] = []
 	// MARK: - Init
 
 	// MARK: - Body

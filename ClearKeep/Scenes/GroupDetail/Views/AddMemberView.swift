@@ -10,7 +10,7 @@ import Common
 import CommonUI
 
 private enum Constants {
-	static let spacing = 10.0
+	static let spacing = 23.0
 	static let padding = 20.0
 	static let sizeImage = 64.0
 	static let paddingTop = 50.0
@@ -46,7 +46,7 @@ struct AddMemberView: View {
 	// MARK: - Body
 	var body: some View {
 		VStack(alignment: .center, spacing: Constants.spacing) {
-			VStack(alignment: .leading) {
+			VStack(alignment: .leading, spacing: Constants.spacing) {
 				SearchTextField(searchText: $searchText,
 								inputStyle: $searchStyle,
 								inputIcon: AppTheme.shared.imageSet.searchIcon,
@@ -66,7 +66,7 @@ struct AddMemberView: View {
 									placeHolder: "GroupDetail.Title.PlaceHoder".localized,
 									onEditingChanged: { isEditing in
 						searchLinkStyle = isEditing ? .highlighted : .normal })
-						.padding(.top, Constants.padding)
+						.frame(maxHeight: .infinity, alignment: .top)
 					Spacer()
 				}
 			} else {
