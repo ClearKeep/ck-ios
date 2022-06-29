@@ -27,9 +27,11 @@
 		04589876286BFB2A00A0631C /* CreatePeerViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589873286BFB2900A0631C /* CreatePeerViewModels.swift */; };
 		04589878286BFEB000A0631C /* CreatePeerProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589877286BFEB000A0631C /* CreatePeerProfileViewModel.swift */; };
 		0458987C286C0C2C00A0631C /* DetailType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458987A286C0C2C00A0631C /* DetailType.swift */; };
-		0458987D286C0C2C00A0631C /* GroupDetaiModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458987B286C0C2C00A0631C /* GroupDetaiModels.swift */; };
+		0458987D286C0C2C00A0631C /* GroupDetailModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458987B286C0C2C00A0631C /* GroupDetailModels.swift */; };
 		04589881286C0C3300A0631C /* GroupDetailViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458987F286C0C3300A0631C /* GroupDetailViewModels.swift */; };
 		04589882286C0C3300A0631C /* GroupDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589880286C0C3300A0631C /* GroupDetailViewModel.swift */; };
+		04589886286C315A00A0631C /* GroupDetailBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589885286C315A00A0631C /* GroupDetailBaseViewModel.swift */; };
+		04589888286C316B00A0631C /* GroupDetailUserViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589887286C316B00A0631C /* GroupDetailUserViewModels.swift */; };
 		0459993528630EF0006754DF /* UserInfoResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459993128630EF0006754DF /* UserInfoResponseModel.swift */; };
 		0459993628630EF0006754DF /* UserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459993228630EF0006754DF /* UserInfoModel.swift */; };
 		0459993728630EF1006754DF /* GroupResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459993328630EF0006754DF /* GroupResponseModel.swift */; };
@@ -292,9 +294,11 @@
 		04589873286BFB2900A0631C /* CreatePeerViewModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePeerViewModels.swift; sourceTree = "<group>"; };
 		04589877286BFEB000A0631C /* CreatePeerProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePeerProfileViewModel.swift; sourceTree = "<group>"; };
 		0458987A286C0C2C00A0631C /* DetailType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailType.swift; sourceTree = "<group>"; };
-		0458987B286C0C2C00A0631C /* GroupDetaiModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetaiModels.swift; sourceTree = "<group>"; };
+		0458987B286C0C2C00A0631C /* GroupDetailModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailModels.swift; sourceTree = "<group>"; };
 		0458987F286C0C3300A0631C /* GroupDetailViewModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailViewModels.swift; sourceTree = "<group>"; };
 		04589880286C0C3300A0631C /* GroupDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailViewModel.swift; sourceTree = "<group>"; };
+		04589885286C315A00A0631C /* GroupDetailBaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailBaseViewModel.swift; sourceTree = "<group>"; };
+		04589887286C316B00A0631C /* GroupDetailUserViewModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailUserViewModels.swift; sourceTree = "<group>"; };
 		0459993128630EF0006754DF /* UserInfoResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoResponseModel.swift; sourceTree = "<group>"; };
 		0459993228630EF0006754DF /* UserInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoModel.swift; sourceTree = "<group>"; };
 		0459993328630EF0006754DF /* GroupResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupResponseModel.swift; sourceTree = "<group>"; };
@@ -633,7 +637,7 @@
 			isa = PBXGroup;
 			children = (
 				0458987A286C0C2C00A0631C /* DetailType.swift */,
-				0458987B286C0C2C00A0631C /* GroupDetaiModels.swift */,
+				0458987B286C0C2C00A0631C /* GroupDetailModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -641,6 +645,8 @@
 		0458987E286C0C3300A0631C /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				04589887286C316B00A0631C /* GroupDetailUserViewModels.swift */,
+				04589885286C315A00A0631C /* GroupDetailBaseViewModel.swift */,
 				0458987F286C0C3300A0631C /* GroupDetailViewModels.swift */,
 				04589880286C0C3300A0631C /* GroupDetailViewModel.swift */,
 			);
@@ -1898,6 +1904,7 @@
 				0462C6CB2816535C00A9EABB /* SearchUserView.swift in Sources */,
 				F553F87027E820E600824BE7 /* SocialRemoteStore.swift in Sources */,
 				0462C6C72816535C00A9EABB /* SearchWorker.swift in Sources */,
+				04589886286C315A00A0631C /* GroupDetailBaseViewModel.swift in Sources */,
 				226732A928534C1900C07852 /* MessageViewModel.swift in Sources */,
 				CB117EBE27BB7DE2000941D9 /* RootViewModifier.swift in Sources */,
 				F564482E283B7A79007846F9 /* ProfileWorker.swift in Sources */,
@@ -1980,7 +1987,7 @@
 				0462C6C12816535C00A9EABB /* SearchRemoteStore.swift in Sources */,
 				0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */,
 				F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */,
-				0458987D286C0C2C00A0631C /* GroupDetaiModels.swift in Sources */,
+				0458987D286C0C2C00A0631C /* GroupDetailModels.swift in Sources */,
 				F568DC2127FD882600EE9DF0 /* NotificationInteractor.swift in Sources */,
 				CB7F29632828D36300BD5049 /* CustomServer.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
@@ -2031,6 +2038,7 @@
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
 				F568DC2427FD882600EE9DF0 /* NotificationWorker.swift in Sources */,
 				CB40073027E74E1900DFBE88 /* Configuration.swift in Sources */,
+				04589888286C316B00A0631C /* GroupDetailUserViewModels.swift in Sources */,
 				CB7F295B2828BA5900BD5049 /* RegisterViewError.swift in Sources */,
 				CB117EBC27BB7D2F000941D9 /* RootView.swift in Sources */,
 				044432BF28572B9F00276DB3 /* CreatGroupViewModel.swift in Sources */,

@@ -131,7 +131,11 @@ private extension DetailContentView {
 			loadable = await injected.interactors.groupDetailInteractor.getClientInGroup(by: groupData?.groupId ?? 0)
 			}
 		}
-
+		if detail == .addMember {
+			Task {
+				loadable = await injected.interactors.groupDetailInteractor.getProfile()
+			}
+		}
 	}
 }
 

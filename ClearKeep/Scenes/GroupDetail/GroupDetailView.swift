@@ -73,7 +73,16 @@ private extension GroupDetailView {
 		if let client = data.getClientInGroup {
 			return AnyView(MemberView(loadable: $loadable, clientData: .constant(client), groupId: groupId))
 		}
+		
+		if let profile = data.getProfile {
+			return AnyView(AddMemberView(loadable: $loadable, search: .constant([]), groupId: groupId, dataMember: profile))
+		}
 
+		if let search = data.searchUser {
+			let userData = search.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
+			return AnyView(AddMemberView(loadable: $loadable, search: .constant(userData), groupId: groupId))
+		}
+		
 		return AnyView(DetailContentView(loadable: $loadable, groupData: .constant(nil), member: .constant([])))
 	}
 
