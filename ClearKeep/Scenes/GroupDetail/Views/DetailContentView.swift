@@ -27,6 +27,7 @@ struct DetailContentView: View {
 
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
+	@Binding var loadable: Loadable<IGroupDetailViewModels>
 	@Binding var groupData: GroupDetailViewModel?
 	@Binding var member: [GroupDetailClientViewModel]
 
@@ -125,6 +126,11 @@ private extension DetailContentView {
 	}
 
 	func didSelect(_ detail: DetailType) {
+		if detail == .seeMember {
+			Task {
+			loadable = await injected.interactors.groupDetailInteractor.getClientInGroup(by: groupData?.groupId ?? 0)
+			}
+		}
 
 	}
 }
@@ -142,7 +148,7 @@ private extension DetailContentView {
 #if DEBUG
 struct DetailContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		DetailContentView(groupData: .constant(nil), member: .constant([]))
+		DetailContentView(loadable: .constant(.notRequested), groupData: .constant(nil), member: .constant([]))
 	}
 }
 #endif
