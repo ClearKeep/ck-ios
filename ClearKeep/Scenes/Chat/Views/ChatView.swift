@@ -230,20 +230,23 @@ private extension ChatView {
 	}
 	
 	var buttonUserView: some View {
-		Button(action: userAction) {
-			HStack(spacing: 20) {
-				MessageAvatarView(avatarSize: Constants.sizeImage,
-								  userName: group?.groupName ?? "",
-								  font: AppTheme.shared.fontSet.font(style: .input3),
-								  image: group?.groupAvatar ?? ""
-				)
-				Text(group?.groupName ?? "")
-					.lineLimit(1)
-					.font(AppTheme.shared.fontSet.font(style: .body1))
-					.frame(maxWidth: .infinity, alignment: .leading)
-					.foregroundColor(foregroundBackButton)
+		NavigationLink(destination: GroupDetailView(groupId: group?.groupId ?? 0),
+					   isActive: $isDetail) {
+			Button(action: userAction) {
+				HStack(spacing: 20) {
+					MessageAvatarView(avatarSize: Constants.sizeImage,
+									  userName: group?.groupName ?? "",
+									  font: AppTheme.shared.fontSet.font(style: .input3),
+									  image: group?.groupAvatar ?? ""
+					)
+					Text(group?.groupName ?? "")
+						.lineLimit(1)
+						.font(AppTheme.shared.fontSet.font(style: .body1))
+						.frame(maxWidth: .infinity, alignment: .leading)
+						.foregroundColor(foregroundBackButton)
+				}
+				.foregroundColor(foregroundBackButton)
 			}
-			.foregroundColor(foregroundBackButton)
 		}
 	}
 	
@@ -351,7 +354,7 @@ private extension ChatView {
 	}
 	
 	func userAction() {
-		
+		isDetail.toggle()
 	}
 	
 	func forwardPeerMessage(model: IForwardViewModel) {
