@@ -69,7 +69,7 @@ private extension GroupDetailView {
 			let members = groupData.groupMembers
 			return AnyView(DetailContentView(loadable: $loadable, groupData: .constant(groupData), member: .constant(members)))
 		}
-		
+
 		if let client = data.getClientInGroup {
 			return AnyView(MemberView(loadable: $loadable, clientData: .constant(client), groupId: groupId))
 		}
