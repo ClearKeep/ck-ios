@@ -83,6 +83,7 @@ struct ChatView: View {
 	@State private var isNewSentMessage = false
 	@State private var isQuoteMessage = false
 	@State private var isLatestPeerSignalKeyProcessed = false
+	@State private var isDetail: Bool = false
 	
 	@State private var showingImageOptions = false
 	@State private var isImagePickerPresented = false

@@ -14,9 +14,10 @@ private enum Constants {
 	static let paddingTralling = 60.0
 	static let paddingHorizontal = 61.75
 	static let paddingVertical = 14.0
-	static let spaceHstack = -10.0
+	static let frameList = CGSize(width: 120.0, height: 36.0)
 	static let imageSize = CGSize(width: 36.0, height: 36.0)
 	static let itemHeight = 32.0
+	static let imageOffset = UIOffset(horizontal: -25.0, vertical: 25.0)
 }
 
 struct DetailContentView: View {
@@ -26,7 +27,6 @@ struct DetailContentView: View {
 
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
-	@Binding var loadable: Loadable<IGroupDetailViewModels>
 	@Binding var groupData: GroupDetailViewModel?
 	@Binding var member: [GroupDetailClientViewModel]
 
@@ -35,22 +35,8 @@ struct DetailContentView: View {
 	// MARK: - Body
 	var body: some View {
 		VStack {
-			if member.count < 5 {
-				HStack(spacing: Constants.spaceHstack) {
-						Spacer()
-						ForEach(0..<member.prefix(4).count, id: \.self) { user in
-							AvatarDefault(.constant(member[user].userName), imageUrl: member[user].avatar)
-								.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
-						}
-						Spacer()
-					}
-			} else {
-				HStack(spacing: Constants.spaceHstack) {
-					Spacer()
-				ForEach(0..<member.prefix(4).count, id: \.self) { user in
-					AvatarDefault(.constant(member[user].userName), imageUrl: member[user].avatar)
-						.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
-				}
+			ZStack(alignment: .center, content: {
+				if member.count > 3 {
 					ZStack {
 						Circle()
 							.fill(foregroundButtonImage)
@@ -58,9 +44,16 @@ struct DetailContentView: View {
 						Text("+\(member.count - 4)")
 							.font(AppTheme.shared.fontSet.font(style: .body3))
 							.foregroundColor(AppTheme.shared.colorSet.offWhite)
-					}
+					}.offset(x: Constants.imageOffset.vertical)
 				}
-			}
+				ForEach(0..<member.prefix(4).count, id: \.self) { user in
+					AvatarDefault(.constant(member[user].userName), imageUrl: member[user].avatar)
+						.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
+						.offset(x: CGFloat(user) * Constants.imageOffset.horizontal)
+				}
+			})
+				.frame(width: Constants.frameList.width, height: Constants.frameList.height, alignment: .trailing)
+				.padding(.trailing, Constants.paddingTralling)
 			HStack(alignment: .center) {
 				ImageButtonCircleCall("General.Audio".localized, image: AppTheme.shared.imageSet.phoneCallIcon, action: audioAction)
 				Spacer()
@@ -132,18 +125,7 @@ private extension DetailContentView {
 	}
 
 	func didSelect(_ detail: DetailType) {
-		switch detail {
-		case .seeMember:
-			Task {
-				loadable = await injected.interactors.groupDetailInteractor.getClientInGroup(by: groupData?.groupId ?? 0)
-			}
-		case .addMember:
-			return
-		case .removeMember:
-			return
-		case .leaveGroup:
-			return
-		}
+
 	}
 }
 
@@ -160,7 +142,7 @@ private extension DetailContentView {
 #if DEBUG
 struct DetailContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		DetailContentView(loadable: .constant(.notRequested), groupData: .constant(nil), member: .constant([]))
+		DetailContentView(groupData: .constant(nil), member: .constant([]))
 	}
 }
 #endif
