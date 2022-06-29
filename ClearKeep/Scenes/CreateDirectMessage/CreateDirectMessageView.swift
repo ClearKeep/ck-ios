@@ -16,31 +16,33 @@ struct CreateDirectMessageView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.injected) private var injected: DIContainer
-	@State private(set) var imageUser: Image
-	@State private(set) var userName: String
-
+	@State private(set) var loadable: Loadable<ICreatePeerViewModels> = .notRequested
+	
 	// MARK: - Init
-	init(imageUser: Image,
-		 userName: String = "") {
-		self._imageUser = .init(initialValue: imageUser)
-		self._userName = .init(initialValue: userName)
-	}
 
 	// MARK: - Body
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.navigationBarTitle("")
-			.navigationBarHidden(true)
 			.edgesIgnoringSafeArea(.all)
 			.background(backgroundColorView)
+			.hiddenNavigationBarStyle()
 	}
 }
 
 // MARK: - Private
 private extension CreateDirectMessageView {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		switch loadable {
+		case .notRequested:
+			return AnyView(notRequestedView)
+		case .isLoading:
+			return AnyView(loadingView)
+		case .loaded(let data):
+			return loadedView(data)
+		case .failed(let error):
+			return AnyView(errorView(LoginViewError(error)))
+		}
 	}
 }
 
@@ -54,8 +56,35 @@ private extension CreateDirectMessageView {
 // MARK: - Loading Content
 private extension CreateDirectMessageView {
 	var notRequestedView: some View {
-		DirectMessageContentView(imageUser: $imageUser, userName: $userName, inputStyle: .constant(.default))
+		DirectMessageContentView(loadable: $loadable, userData: .constant([]))
 	}
+
+	var loadingView: some View {
+		notRequestedView.progressHUD(true)
+	}
+
+	func loadedView(_ data: ICreatePeerViewModels) -> AnyView {
+		if let searchUser = data.searchUser {
+			let userData = searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
+			return AnyView(DirectMessageContentView(loadable: $loadable, userData: .constant(userData), profile: data.getProfile))
+		}
+
+		if let groupData = data.creatGroup {
+			return AnyView(ChatView(messageText: "", inputStyle: .default, groupId: groupData.groupID))
+		}
+
+		return AnyView(DirectMessageContentView(loadable: $loadable, userData: .constant([])))
+	}
+
+	func errorView(_ error: LoginViewError) -> some View {
+		return notRequestedView
+			.alert(isPresented: .constant(true)) {
+				Alert(title: Text(error.title),
+					  message: Text(error.message),
+					  dismissButton: .default(Text(error.primaryButtonTitle)))
+			}
+	}
+
 }
 
 // MARK: - Interactor
@@ -66,7 +95,7 @@ private extension CreateDirectMessageView {
 #if DEBUG
 struct CreateDirectMessageView_Previews: PreviewProvider {
 	static var previews: some View {
-		CreateDirectMessageView(imageUser: AppTheme.shared.imageSet.faceIcon, userName: "Alex Mendes")
+		CreateDirectMessageView()
 	}
 }
 #endif

@@ -29,7 +29,7 @@ public struct AvatarDefault: View {
 				.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
 			Text(title)
 				.foregroundColor(commonUIConfig.colorSet.offWhite)
-				.font(commonUIConfig.fontSet.font(style: .display3))
+				.font(commonUIConfig.fontSet.font(style: .body3))
 		}
 	}
 }

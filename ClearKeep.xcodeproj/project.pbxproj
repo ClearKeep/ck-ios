@@ -20,6 +20,11 @@
 		044432C32858D6D800276DB3 /* CreatGroupProfieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044432C22858D6D800276DB3 /* CreatGroupProfieViewModel.swift */; };
 		04458C272849BA1300992ECB /* HomeViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04458C262849BA1300992ECB /* HomeViewModels.swift */; };
 		0458986C286BED7900A0631C /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458986B286BED7900A0631C /* ProfileModel.swift */; };
+		0458986F286BFB2100A0631C /* CreatePeerModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458986E286BFB2100A0631C /* CreatePeerModels.swift */; };
+		04589874286BFB2A00A0631C /* CreatePeerChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589871286BFB2900A0631C /* CreatePeerChatViewModel.swift */; };
+		04589875286BFB2A00A0631C /* CreatePeerUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589872286BFB2900A0631C /* CreatePeerUserViewModel.swift */; };
+		04589876286BFB2A00A0631C /* CreatePeerViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589873286BFB2900A0631C /* CreatePeerViewModels.swift */; };
+		04589878286BFEB000A0631C /* CreatePeerProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589877286BFEB000A0631C /* CreatePeerProfileViewModel.swift */; };
 		0459993528630EF0006754DF /* UserInfoResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459993128630EF0006754DF /* UserInfoResponseModel.swift */; };
 		0459993628630EF0006754DF /* UserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459993228630EF0006754DF /* UserInfoModel.swift */; };
 		0459993728630EF1006754DF /* GroupResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459993328630EF0006754DF /* GroupResponseModel.swift */; };
@@ -271,6 +276,11 @@
 		044432C22858D6D800276DB3 /* CreatGroupProfieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatGroupProfieViewModel.swift; sourceTree = "<group>"; };
 		04458C262849BA1300992ECB /* HomeViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModels.swift; sourceTree = "<group>"; };
 		0458986B286BED7900A0631C /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		0458986E286BFB2100A0631C /* CreatePeerModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePeerModels.swift; sourceTree = "<group>"; };
+		04589871286BFB2900A0631C /* CreatePeerChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePeerChatViewModel.swift; sourceTree = "<group>"; };
+		04589872286BFB2900A0631C /* CreatePeerUserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePeerUserViewModel.swift; sourceTree = "<group>"; };
+		04589873286BFB2900A0631C /* CreatePeerViewModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePeerViewModels.swift; sourceTree = "<group>"; };
+		04589877286BFEB000A0631C /* CreatePeerProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePeerProfileViewModel.swift; sourceTree = "<group>"; };
 		0459993128630EF0006754DF /* UserInfoResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoResponseModel.swift; sourceTree = "<group>"; };
 		0459993228630EF0006754DF /* UserInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoModel.swift; sourceTree = "<group>"; };
 		0459993328630EF0006754DF /* GroupResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupResponseModel.swift; sourceTree = "<group>"; };
@@ -567,6 +577,25 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		0458986D286BFB2100A0631C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0458986E286BFB2100A0631C /* CreatePeerModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		04589870286BFB2900A0631C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				04589871286BFB2900A0631C /* CreatePeerChatViewModel.swift */,
+				04589872286BFB2900A0631C /* CreatePeerUserViewModel.swift */,
+				04589873286BFB2900A0631C /* CreatePeerViewModels.swift */,
+				04589877286BFEB000A0631C /* CreatePeerProfileViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		0459993028630EF0006754DF /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -676,7 +705,8 @@
 		047D6B5627F6A3240098B104 /* CreateDirectMessage */ = {
 			isa = PBXGroup;
 			children = (
-				047D6B5827F6A3450098B104 /* Models */,
+				04589870286BFB2900A0631C /* ViewModels */,
+				0458986D286BFB2100A0631C /* Models */,
 				047D6B5727F6A3400098B104 /* Views */,
 				047D6B5927F6A3750098B104 /* CreateDirectMessageInMemoryStore.swift */,
 				047D6B5A27F6A3750098B104 /* CreateDirectMessageWorker.swift */,
@@ -693,13 +723,6 @@
 				047D6B6327F6A3DD0098B104 /* DirectMessageContentView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		047D6B5827F6A3450098B104 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		0499340627E96D9B003BD4C4 /* FogotPassWord */ = {
@@ -1774,16 +1797,19 @@
 				CB8C3E3427F57FBA0034B3A9 /* AppVersion.swift in Sources */,
 				F556C24228097F6E00D2B149 /* ChatGroupRemoteStore.swift in Sources */,
 				CB117E7B27BB65E2000941D9 /* LocationConfigurations.swift in Sources */,
+				04589878286BFEB000A0631C /* CreatePeerProfileViewModel.swift in Sources */,
 				CB117EC427BB8DB1000941D9 /* SceneDelegate.swift in Sources */,
 				CB7F299F282D5FF700BD5049 /* JoinServerView.swift in Sources */,
 				F5350E1D27FAD58F00F54E32 /* TwoFactorWorker.swift in Sources */,
 				CB117ECD27BBA6E5000941D9 /* HomeWorker.swift in Sources */,
 				F568DC1027FD7CC000EE9DF0 /* ServerSettingModel.swift in Sources */,
+				04589876286BFB2A00A0631C /* CreatePeerViewModels.swift in Sources */,
 				F5644835283B7A79007846F9 /* CurrentPassword.swift in Sources */,
 				F568DC1127FD7CC000EE9DF0 /* SettingServerInteractor.swift in Sources */,
 				F568DC1227FD7CC000EE9DF0 /* SettingServerWorker.swift in Sources */,
 				F556C24328097F6E00D2B149 /* ChatGroupInteractor.swift in Sources */,
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
+				04589875286BFB2A00A0631C /* CreatePeerUserViewModel.swift in Sources */,
 				0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */,
 				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
 				F5644836283B7A79007846F9 /* UserProfileContentView.swift in Sources */,
@@ -1879,6 +1905,7 @@
 				047D6B6227F6A3750098B104 /* CreateDirectMessageView.swift in Sources */,
 				0499340F27E96DD7003BD4C4 /* FogotPasswordInteractor.swift in Sources */,
 				047D6B5F27F6A3750098B104 /* CreateDirectMessageWorker.swift in Sources */,
+				04589874286BFB2A00A0631C /* CreatePeerChatViewModel.swift in Sources */,
 				F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */,
 				0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */,
 				F556C277280E502500D2B149 /* TagView.swift in Sources */,
@@ -1890,6 +1917,7 @@
 				F568DC2127FD882600EE9DF0 /* NotificationInteractor.swift in Sources */,
 				CB7F29632828D36300BD5049 /* CustomServer.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
+				0458986F286BFB2100A0631C /* CreatePeerModels.swift in Sources */,
 				047D6B0E27F1544D0098B104 /* GroupDetailInMemoryStore.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
 				F5CFCA2A28237CD000A9737F /* GroupCallView.swift in Sources */,
