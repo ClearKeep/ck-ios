@@ -41,23 +41,23 @@ struct DetailContentView: View {
 						Circle()
 							.fill(foregroundButtonImage)
 							.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
-						Text("+\(member.count - 3)")
+						Text("+\(member.count - 4)")
 							.font(AppTheme.shared.fontSet.font(style: .body3))
 							.foregroundColor(AppTheme.shared.colorSet.offWhite)
 					}.offset(x: Constants.imageOffset.vertical)
 				}
-//				ForEach(0..<member.prefix(3).count, id: \.self) { user in
-//					AvatarDefault(.constant(member[user].userName), imageUrl: member[user].avatar)
-//						.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
-//						.offset(x: CGFloat(user) * Constants.imageOffset.horizontal)
-//				}
+				ForEach(0..<member.prefix(4).count, id: \.self) { user in
+					AvatarDefault(.constant(member[user].userName), imageUrl: member[user].avatar)
+						.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
+						.offset(x: CGFloat(user) * Constants.imageOffset.horizontal)
+				}
 			})
 				.frame(width: Constants.frameList.width, height: Constants.frameList.height, alignment: .trailing)
 				.padding(.trailing, Constants.paddingTralling)
 			HStack(alignment: .center) {
-//				ImageButtonCircleCall("General.Audio".localized, image: AppTheme.shared.imageSet.phoneCallIcon, action: audioAction)
+				ImageButtonCircleCall("General.Audio".localized, image: AppTheme.shared.imageSet.phoneCallIcon, action: audioAction)
 				Spacer()
-//				ImageButtonCircleCall("General.Video".localized, image: AppTheme.shared.imageSet.videoIcon, action: videoAction)
+				ImageButtonCircleCall("General.Video".localized, image: AppTheme.shared.imageSet.videoIcon, action: videoAction)
 			}
 			.padding(.horizontal, Constants.paddingHorizontal)
 			.padding(.vertical, Constants.paddingVertical)
