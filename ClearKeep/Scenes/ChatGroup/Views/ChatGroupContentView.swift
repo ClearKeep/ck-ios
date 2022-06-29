@@ -27,7 +27,7 @@ struct ChatGroupContentView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) private var colorScheme
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
-	@Binding var loadable: Loadable<CreatGroupViewModels>
+	@Binding var loadable: Loadable<ICreatGroupViewModels>
 	@Binding var search: [CreatGroupGetUsersViewModel]
 	@Binding var getUser: [CreatGroupGetUsersViewModel]
 	@Binding var getProfile: CreatGroupProfieViewModel?

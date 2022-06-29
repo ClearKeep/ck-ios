@@ -12,9 +12,8 @@ import Model
 protocol IChatGroupInteractor {
 	var worker: IChatGroupWorker { get }
 	
-	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [CreatGroupGetUsersViewModel]) async -> Loadable<CreatGroupViewModels>
-	func searchUser(keyword: String) async -> Loadable<CreatGroupViewModels>
-	func getProfile() async -> Loadable<CreatGroupViewModels>
+	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [CreatGroupGetUsersViewModel]) async -> Loadable<ICreatGroupViewModels>
+	func searchUser(keyword: String) async -> Loadable<ICreatGroupViewModels>
 }
 
 struct ChatGroupInteractor {
@@ -32,7 +31,7 @@ extension ChatGroupInteractor: IChatGroupInteractor {
 		return ChatGroupWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
-	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [CreatGroupGetUsersViewModel]) async -> Loadable<CreatGroupViewModels> {
+	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [CreatGroupGetUsersViewModel]) async -> Loadable<ICreatGroupViewModels> {
 		let result = await worker.createGroup(by: clientId, groupName: groupName, groupType: groupType, lstClient: lstClient)
 		
 		switch result {
@@ -43,27 +42,24 @@ extension ChatGroupInteractor: IChatGroupInteractor {
 		}
 	}
 	
-	func searchUser(keyword: String) async -> Loadable<CreatGroupViewModels> {
+	func searchUser(keyword: String) async -> Loadable<ICreatGroupViewModels> {
 		let result = await worker.searchUser(keyword: keyword)
 		
 		switch result {
 		case .success(let searchUser):
-			return .loaded(CreatGroupViewModels(users: searchUser))
+			let result = await worker.getProfile()
+
+			switch result {
+			case .success(let user):
+				return .loaded(CreatGroupViewModels(users: searchUser, profile: user))
+			case .failure(let error):
+				return .failed(error)
+			}
 		case .failure(let error):
 			return .failed(error)
 		}
 	}
-	
-	func getProfile() async -> Loadable<CreatGroupViewModels> {
-		let result = await worker.getProfile()
-		
-		switch result {
-		case .success(let user):
-			return .loaded(CreatGroupViewModels(profile: user))
-		case .failure(let error):
-			return .failed(error)
-		}
-	}
+
 }
 
 struct StubChatGroupInteractor: IChatGroupInteractor {
@@ -78,15 +74,12 @@ struct StubChatGroupInteractor: IChatGroupInteractor {
 		return ChatGroupWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
-	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [CreatGroupGetUsersViewModel]) async -> Loadable<CreatGroupViewModels> {
+	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [CreatGroupGetUsersViewModel]) async -> Loadable<ICreatGroupViewModels> {
 		return .notRequested
 	}
 	
-	func searchUser(keyword: String) async -> Loadable<CreatGroupViewModels> {
+	func searchUser(keyword: String) async -> Loadable<ICreatGroupViewModels> {
 		return .notRequested
 	}
 	
-	func getProfile() async -> Loadable<CreatGroupViewModels> {
-		return.notRequested
-	}
 }

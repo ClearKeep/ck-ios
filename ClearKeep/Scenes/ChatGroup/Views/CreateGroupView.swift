@@ -27,12 +27,12 @@ struct CreateGroupView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	let inspection = ViewInspector<Self>()
 	@Environment(\.colorScheme) var colorScheme
-
+	
 	@State private var nameGroup: String = ""
 	@State private var idClient: String = ""
 	@State private(set) var nameGroupStyle: TextInputStyle = .default
 	@State private(set) var isCreateGroup: Bool = false
-	@Binding var loadable: Loadable<CreatGroupViewModels>
+	@Binding var loadable: Loadable<ICreatGroupViewModels>
 	@Binding var getProfile: CreatGroupProfieViewModel?
 	@Binding var clientInGroup: [CreatGroupGetUsersViewModel]
 	
@@ -43,7 +43,7 @@ struct CreateGroupView: View {
 				Text("GroupChat.Group.Name".localized)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundButtonBack)
-
+				
 				CommonTextField(text: $nameGroup,
 								inputStyle: $nameGroupStyle,
 								inputIcon: Image(""),
@@ -61,15 +61,10 @@ struct CreateGroupView: View {
 					ListUser(imageUrl: .constant(""), name: .constant(item.displayName))
 				}
 			}
-//			NavigationLink(
-//				destination: ChatView(messageText: "", inputStyle: .default, groupId: 0),
-//				isActive: $isCreateGroup,
-//				label: {
-					RoundedGradientButton("GroupChat.Create".localized,
-										  disabled: .constant(nameGroup.isEmpty),
-										  action: creatGroup)
-						.frame(width: Constants.buttonSize.width)
-//				})
+			RoundedGradientButton("GroupChat.Create".localized,
+								  disabled: .constant(nameGroup.isEmpty),
+								  action: creatGroup)
+				.frame(width: Constants.buttonSize.width)
 				.padding(.bottom, Constants.paddingButtonNext)
 		}
 		.padding(.horizontal, Constants.paddingVertical)
@@ -92,19 +87,19 @@ private extension CreateGroupView {
 	var foregroundButtonBack: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
 	}
-
+	
 	var backgroundGradientPrimary: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundButtonBack: [Color] {
 		colorScheme == .light ? [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
-
+	
 	var foregroundText: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight
 	}
-
+	
 	var titleColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
 	}
@@ -115,7 +110,7 @@ private extension CreateGroupView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
-
+	
 	func creatGroup() {
 		Task {
 			loadable = await injected.interactors.chatGroupInteractor.createGroup(by: getProfile?.id ?? "fail", groupName: nameGroup, groupType: "group", lstClient: clientInGroup)

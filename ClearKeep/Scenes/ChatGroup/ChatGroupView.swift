@@ -22,9 +22,9 @@ struct ChatGroupView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) private var colorScheme
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
-	@State private(set) var loadable: Loadable<CreatGroupViewModels> = .notRequested
+	@State private(set) var loadable: Loadable<ICreatGroupViewModels> = .notRequested
 	@State private(set) var myProfile: CreatGroupProfieViewModel?
-
+	
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -42,13 +42,12 @@ struct ChatGroupView: View {
 										  rightBarItems: {
 				Spacer()
 			})
-			.onAppear(perform: getMyprofile)
 	}
 }
 
 // MARK: - Private
 private extension ChatGroupView {
-
+	
 	var content: AnyView {
 		switch loadable {
 		case .notRequested:
@@ -68,25 +67,25 @@ private extension ChatGroupView {
 	var notRequestedView: some View {
 		ChatGroupContentView(loadable: $loadable, search: .constant([]), getUser: .constant([]), getProfile: .constant(nil))
 	}
-
+	
 	var loadingView: some View {
 		notRequestedView.progressHUD(true)
 	}
-
-	func loadedView(_ data: CreatGroupViewModels) -> AnyView {
-
+	
+	func loadedView(_ data: ICreatGroupViewModels) -> AnyView {
+		
 		if let searchUser = data.searchUser {
 			let userData = searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
-			return AnyView(ChatGroupContentView(loadable: $loadable, search: .constant(userData), getUser: .constant([]), getProfile: .constant(myProfile)))
+			return AnyView(ChatGroupContentView(loadable: $loadable, search: .constant(userData), getUser: .constant([]), getProfile: .constant(data.getProfile)))
 		}
-
+		
 		if let groupData = data.creatGroup {
 			return AnyView(ChatView(messageText: "", inputStyle: .default, groupId: groupData.groupID))
 		}
-
-		return AnyView(ChatGroupContentView(loadable: $loadable, search: .constant([]), getUser: .constant([]), getProfile: .constant(data.getProfiles)))
+		
+		return AnyView(ChatGroupContentView(loadable: $loadable, search: .constant([]), getUser: .constant([]), getProfile: .constant(data.getProfile)))
 	}
-
+	
 	func errorView(_ error: LoginViewError) -> some View {
 		return notRequestedView
 			.alert(isPresented: .constant(true)) {
@@ -117,11 +116,11 @@ private extension ChatGroupView {
 	var backgroundGradientPrimary: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundButtonBack: [Color] {
 		colorScheme == .light ? [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
-
+	
 	var titleColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
 	}
@@ -129,11 +128,6 @@ private extension ChatGroupView {
 
 // MARK: - Interactors
 private extension ChatGroupView {
-	func getMyprofile() {
-		Task {
-			loadable = await injected.interactors.chatGroupInteractor.getProfile()
-		}
-	}
 }
 
 // MARK: - Preview

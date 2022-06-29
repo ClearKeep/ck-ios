@@ -15,34 +15,31 @@ protocol ICreatGroupViewModels {
 	var clientInGroup: [CreatGroupGetUsersViewModel]? { get }
 }
 
-struct CreatGroupViewModels {
+struct CreatGroupViewModels: ICreatGroupViewModels {
 	var searchUser: [CreatGroupGetUsersViewModel]?
 	var creatGroup: CreatGroupViewModel?
-	var getProfiles: CreatGroupProfieViewModel?
+	var getProfile: CreatGroupProfieViewModel?
 	var clientInGroup: [CreatGroupGetUsersViewModel]?
 }
 
 extension CreatGroupViewModels {
-
-	init(users: IGroupChatModels) {
+	
+	init(users: IGroupChatModels, profile: IGroupChatModels) {
 		let searchUsers = users.searchUserModel?.lstUser.map { member in
 			CreatGroupGetUsersViewModel(member)
 		}
-		self.init(searchUser: searchUsers)
+		let myprofile = profile.getProfileModel
+		self.searchUser = searchUsers
+		self.getProfile = CreatGroupProfieViewModel(myprofile)
 	}
 	
 	init(groups: IGroupChatModels) {
 		let creatGroups = groups.creatGroupModel.map { member in
 			CreatGroupViewModel(member)
 		}
-		self.init(creatGroup: creatGroups)
+		self.creatGroup = creatGroups
 	}
-
-	init(profile: IGroupChatModels) {
-		let myprofile = profile.getProfileModel
-		self.init(getProfiles: CreatGroupProfieViewModel(myprofile))
-	}
-
+	
 	init(clients: [IUserInfo]) {
 		
 		let getUser = clients.map { member in
