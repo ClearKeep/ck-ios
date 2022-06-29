@@ -79,7 +79,6 @@ extension RealmManager {
 				
 				realmGroups.append(realmGroup)
 			}
-			
 			write { realm in
 				realm.add(realmGroups, update: .modified)
 			}

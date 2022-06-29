@@ -43,7 +43,7 @@ private extension ProfileView {
 // MARK: - Interactor
 private extension ProfileView {
 }
-	
+
 // MARK: - Preview
 #if DEBUG
 struct ProfileView_Previews: PreviewProvider {

@@ -18,130 +18,67 @@ private enum Constants {
 	static let cornerRadiusButtonNext = 40.0
 	static let paddingButtonNext = 60.0
 	static let sizeImage = 64.0
+	static let buttonSize = CGSize(width: 196.0, height: 40.0)
 }
 
 struct CreateGroupView: View {
 	// MARK: - Variables
 	@Environment(\.presentationMode) var presentationMode
 	@Environment(\.injected) private var injected: DIContainer
+	let inspection = ViewInspector<Self>()
 	@Environment(\.colorScheme) var colorScheme
-	@State private var nameGroup = ""
+	
+	@State private var nameGroup: String = ""
+	@State private var idClient: String = ""
 	@State private(set) var nameGroupStyle: TextInputStyle = .default
 	@State private(set) var isCreateGroup: Bool = false
-	var model: [GroupChatModel] = []
-
-	let inspection = ViewInspector<Self>()
-
+	@Binding var loadable: Loadable<ICreatGroupViewModels>
+	@Binding var getProfile: CreatGroupProfieViewModel?
+	@Binding var clientInGroup: [CreatGroupGetUsersViewModel]
+	
 	// MARK: - Body
 	var body: some View {
-		content
-			.padding(.horizontal, Constants.paddingVertical)
-			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.edgesIgnoringSafeArea(.all)
-			.applyNavigationBarPlainStyle(title: "",
-										  titleColor: AppTheme.shared.colorSet.offWhite,
-										  backgroundColors: backgroundButtonBack,
-										  leftBarItems: {
-				buttonBackView
-			},
-										  rightBarItems: {
-				Spacer()
-			})
-	}
-}
-
-// MARK: - Private
-private extension CreateGroupView {
-	var content: AnyView {
-		AnyView(contentView)
-	}
-}
-
-// MARK: - Loading Content
-private extension CreateGroupView {
-	var contentView: some View {
 		VStack {
-			groupNameView
-			listUserView
-			buttonNextView
-			Spacer()
-		}
-	}
-	
-	var buttonBackView: some View {
-		Button(action: customBack) {
-			HStack(spacing: Constants.spacer) {
-				AppTheme.shared.imageSet.chevleftIcon
-					.aspectRatio(contentMode: .fit)
+			VStack(alignment: .leading) {
+				Text("GroupChat.Group.Name".localized)
+					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundButtonBack)
-				Text("GroupChat.Back.Button".localized)
-					.padding(.all)
-					.font(AppTheme.shared.fontSet.font(style: .body1))
-					.foregroundColor(foregroundButtonBack)
-			}
-			.frame(maxWidth: .infinity, alignment: .leading)
-		}
-	}
-
-	var groupNameView: some View {
-		VStack(alignment: .leading) {
-			Text("GroupChat.Group.Name".localized)
-				.font(AppTheme.shared.fontSet.font(style: .body2))
-				.foregroundColor(foregroundButtonBack)
-
-			CommonTextField(text: $nameGroup,
-							inputStyle: $nameGroupStyle,
-							inputIcon: Image(""),
-							placeHolder: "GroupChat.Named".localized,
-							keyboardType: .default,
-							onEditingChanged: { isEditing in
-				if isEditing {
-					nameGroupStyle = .normal
-				} else {
-					nameGroupStyle = .highlighted
-				}
-			})
-			Text("GroupChat.User.Inside".localized)
-				.foregroundColor(foregroundText)
-				.font(AppTheme.shared.fontSet.font(style: .input2))
-		}
-	}
-
-	var listUserView: some View {
-		List(model, id: \.id) { item in
-			HStack {
-				ZStack {
-					Circle()
-						.fill(backgroundGradientPrimary)
-						.frame(width: Constants.sizeImage, height: Constants.sizeImage)
-					AppTheme.shared.imageSet.userIcon
-				}
-				Text(item.name)
-					.frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-					.font(AppTheme.shared.fontSet.font(style: .input2))
-					.foregroundColor(Color.gray)
-			}
-		}
-		.listStyle(PlainListStyle())
-	}
-
-	var buttonNextView: some View {
-		NavigationLink(
-			destination: EmptyView(),
-			label: {
-				Button(action: { },
-					   label: {
-					Text("GroupChat.Create".localized)
+				
+				CommonTextField(text: $nameGroup,
+								inputStyle: $nameGroupStyle,
+								inputIcon: Image(""),
+								placeHolder: "GroupChat.Named".localized,
+								keyboardType: .default,
+								onEditingChanged: { isEditing in
+					nameGroupStyle = isEditing ? .normal : .highlighted
 				})
-					.frame(maxWidth: .infinity)
-					.frame(height: Constants.heightButton)
-					.font(AppTheme.shared.fontSet.font(style: .body3))
-					.background(backgroundGradientPrimary)
-					.foregroundColor(AppTheme.shared.colorSet.offWhite)
-					.cornerRadius(Constants.cornerRadiusButtonNext)
-					.padding(.horizontal, Constants.spacerTopView)
-			})
-			.padding(.bottom, Constants.paddingButtonNext)
+				Text("GroupChat.User.Inside".localized)
+					.foregroundColor(foregroundText)
+					.font(AppTheme.shared.fontSet.font(style: .input2))
+			}
+			ScrollView {
+				ForEach(clientInGroup) { item in
+					ListUser(imageUrl: .constant(""), name: .constant(item.displayName))
+				}
+			}
+			RoundedGradientButton("GroupChat.Create".localized,
+								  disabled: .constant(nameGroup.isEmpty),
+								  action: creatGroup)
+				.frame(width: Constants.buttonSize.width)
+				.padding(.bottom, Constants.paddingButtonNext)
+		}
+		.padding(.horizontal, Constants.paddingVertical)
+		.onReceive(inspection.notice) { inspection.visit(self, $0) }
+		.edgesIgnoringSafeArea(.all)
+		.applyNavigationBarPlainStyle(title: "GroupChat.Back.Button".localized,
+									  titleColor: titleColor,
+									  backgroundColors: backgroundButtonBack,
+									  leftBarItems: {
+			BackButtonStandard(customBack)
+		},
+									  rightBarItems: {
+			Spacer()
+		})
 	}
 }
 
@@ -150,17 +87,21 @@ private extension CreateGroupView {
 	var foregroundButtonBack: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.offWhite
 	}
-
+	
 	var backgroundGradientPrimary: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundButtonBack: [Color] {
 		colorScheme == .light ? [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
-
+	
 	var foregroundText: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight
+	}
+	
+	var titleColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
 	}
 }
 
@@ -169,13 +110,20 @@ private extension CreateGroupView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
+	
+	func creatGroup() {
+		Task {
+			loadable = await injected.interactors.chatGroupInteractor.createGroup(by: getProfile?.id ?? "fail", groupName: nameGroup, groupType: "group", lstClient: clientInGroup)
+		}
+		isCreateGroup.toggle()
+	}
 }
 
 // MARK: - Preview
 #if DEBUG
 struct CreateGroupView_Previews: PreviewProvider {
 	static var previews: some View {
-		CreateGroupView()
+		CreateGroupView(loadable: .constant(.notRequested), getProfile: .constant(nil), clientInGroup: .constant([]))
 	}
 }
 #endif

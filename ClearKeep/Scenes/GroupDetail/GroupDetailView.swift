@@ -20,7 +20,6 @@ struct GroupDetailView: View {
 	@State private(set) var userName: String
 	@State private(set) var message: String
 	@State private(set) var groupText: String
-
 	// MARK: - Init
 	init(imageUser: Image,
 		 userName: String = "",
@@ -31,7 +30,7 @@ struct GroupDetailView: View {
 		self._message = .init(initialValue: message)
 		self._groupText = .init(initialValue: groupText)
 	}
-	
+
 	// MARK: - Body
 	var body: some View {
 		NavigationView {

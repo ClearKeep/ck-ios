@@ -14,7 +14,7 @@ public protocol IChannelStorage {
 	var channels: [String: APIService] { get }
 	var currentServer: RealmServer? { get }
 	var currentDomain: String { get }
-	
+
 	func getServers() -> [RealmServer]
 	func didSelectServer(_ domain: String?) -> [RealmServer]
 	func registerToken(_ token: String)
