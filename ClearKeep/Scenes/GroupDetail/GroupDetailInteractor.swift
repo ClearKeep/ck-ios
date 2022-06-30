@@ -16,6 +16,8 @@ protocol IGroupDetailInteractor {
 	func getClientInGroup(by groupId: Int64) async -> Loadable<IGroupDetailViewModels>
 	func searchUser(keyword: String) async -> Loadable<IGroupDetailViewModels>
 	func addMember(_ user: GroupDetailUserViewModels, groupId: Int64) async -> Loadable<IGroupDetailViewModels>
+	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels>
+	func getRemoveMember(by groupId: Int64) async -> Loadable<IGroupDetailViewModels>
 	func getProfile() async -> Loadable<IGroupDetailViewModels>
 }
 
@@ -87,6 +89,26 @@ extension GroupDetailInteractor: IGroupDetailInteractor {
 			return .failed(error)
 		}
 	}
+
+	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
+		let result = await worker.leaveGroup(user, groupId: groupId)
+		switch result {
+		case .success(let errorBase):
+			return .loaded(GroupDetailViewModels(removeClient: errorBase))
+		case .failure(let error):
+			return .failed(error)
+		}
+	}
+
+	func getRemoveMember(by groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
+		let result = await worker.getGroup(by: groupId)
+		switch result {
+		case .success(let getGroup):
+			return .loaded(GroupDetailViewModels(members: getGroup))
+		case .failure(let error):
+			return .failed(error)
+		}
+	}
 }
 
 struct StubGroupDetailInteractor: IGroupDetailInteractor {
@@ -118,6 +140,14 @@ struct StubGroupDetailInteractor: IGroupDetailInteractor {
 	}
 
 	func getProfile() async -> Loadable<IGroupDetailViewModels> {
+		return .notRequested
+	}
+
+	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
+		return .notRequested
+	}
+	
+	func getRemoveMember(by groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
 		return .notRequested
 	}
 }

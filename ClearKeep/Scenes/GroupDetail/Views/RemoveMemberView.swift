@@ -21,53 +21,53 @@ struct RemoveMemberView: View {
 	// MARK: - Constants
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-	
+
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
-	@Binding var imageUser: Image
-	@Binding var userName: String
-	@Binding var searchText: String
-	@Binding var inputStyle: TextInputStyle
-	
+	@Binding var loadable: Loadable<IGroupDetailViewModels>
+	@Binding var clientData: [GroupDetailClientViewModel]
+	@State private(set) var groupId: Int64 = 0
+	@State private(set) var searchStyle: TextInputStyle = .default
+	@State private(set) var searchText: String = ""
+
 	// MARK: - Init
-	init(imageUser: Binding<Image>,
-		 userName: Binding<String>,
-		 searchText: Binding<String>,
-		 inputStyle: Binding<TextInputStyle>) {
-		self._imageUser = imageUser
-		self._userName = userName
-		self._searchText = searchText
-		self._inputStyle = inputStyle
-	}
-	
+
 	// MARK: - Body
 	var body: some View {
-		content
-			.padding(.horizontal, Constants.padding)
-			.navigationBarTitle("")
-			.navigationBarHidden(true)
-			.background(backgroundColorView)
-			.edgesIgnoringSafeArea(.all)
+		ScrollView(showsIndicators: false) {
+			VStack(alignment: .leading, spacing: Constants.spacing) {
+				SearchTextField(searchText: $searchText,
+								inputStyle: $searchStyle,
+								inputIcon: AppTheme.shared.imageSet.searchIcon,
+								placeHolder: "GroupDetail.Search".localized,
+								onEditingChanged: { isEditing in
+					searchStyle = isEditing ? .highlighted : .normal })
+					.onChange(of: searchText) { text in
+						search(text: text)
+					}
+				ForEach(clientData) { client in
+					RemoveButtonView(.constant(client.userName), imageUrl: client.avatar, action: { deleteUser(client) })
+				}
+			}
+		}
+		.padding(.horizontal, Constants.padding)
+		.background(backgroundColorView)
+		.edgesIgnoringSafeArea(.all)
+		.hiddenNavigationBarStyle()
+		.applyNavigationBarPlainStyle(title: "GroupDetail.RemoveMember".localized,
+									  titleColor: titleColor,
+									  backgroundColors: backgroundButtonBack,
+									  leftBarItems: {
+			BackButtonStandard(customBack)
+		},
+									  rightBarItems: {
+			Spacer()
+		})
 	}
 }
 
 // MARK: - Private
 private extension RemoveMemberView {
-	var content: AnyView {
-		AnyView(contentView)
-	}
-	
-	var buttonBack: AnyView {
-		AnyView(buttonBackView)
-	}
-	
-	var groupDetail: AnyView {
-		AnyView(groupDetailView)
-	}
-	
-	var buttonDelete: AnyView {
-		AnyView(buttonDeleteView)
-	}
 }
 
 // MARK: - Private Variables
@@ -75,102 +75,39 @@ private extension RemoveMemberView {
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
 	}
-	
-	var foregroundColorUserName: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight
+
+	var backgroundButtonBack: [Color] {
+		colorScheme == .light ? [AppTheme.shared.colorSet.background, AppTheme.shared.colorSet.background] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
-	
-	var foregroundColorTitle: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight
-	}
-	
-	var foregroundBackButton: Color {
+
+	var titleColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
-	}
-	
-	var foregroundDelete: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.errorDefault : AppTheme.shared.colorSet.primaryDefault
 	}
 }
 
 // MARK: - Private func
 private extension RemoveMemberView {
 	func customBack() {
+		Task {
+			loadable = await injected.interactors.groupDetailInteractor.getGroup(by: groupId)
+		}
+	}
+
+	func deleteUser(_ data: GroupDetailClientViewModel) {
+		Task {
+			loadable = await injected.interactors.groupDetailInteractor.leaveGroup(data, groupId: groupId)
+		}
 		self.presentationMode.wrappedValue.dismiss()
 	}
-	
-	func deleteUser() {
-		
+
+	func search(text: String) {
+		self.clientData = clientData.filter { $0.userName.lowercased().prefix(1) == text.lowercased().prefix(1) }
 	}
 }
 
 // MARK: - Loading Content
 private extension RemoveMemberView {
-	var contentView: some View {
-		VStack(alignment: .leading, spacing: Constants.spacing) {
-			buttonBack
-				.padding(.top, Constants.paddingTop)
-				.frame(maxWidth: .infinity, alignment: .leading)
-			SearchTextField(searchText: $searchText,
-							inputStyle: $inputStyle,
-							inputIcon: AppTheme.shared.imageSet.searchIcon,
-							placeHolder: "General.Search".localized,
-							onEditingChanged: { _ in })
-			Text("GroupDetail.UserInitTitle".localized)
-				.font(AppTheme.shared.fontSet.font(style: .input2))
-				.foregroundColor(foregroundColorTitle)
-			groupDetail
-			Spacer()
-		}
-	}
-	
-	var groupDetailView: some View {
-		VStack(alignment: .leading, spacing: Constants.spacing) {
-			HStack {
-				imageUser
-					.resizable()
-					.aspectRatio(contentMode: .fit)
-					.frame(width: Constants.sizeImage, height: Constants.sizeImage)
-					.clipShape(Circle())
-				Text(userName)
-					.font(AppTheme.shared.fontSet.font(style: .body2))
-					.foregroundColor(foregroundColorUserName)
-				Spacer()
-				AppTheme.shared.imageSet.crossIcon
-					.resizable()
-					.renderingMode(.template)
-					.aspectRatio(contentMode: .fit)
-					.frame(width: Constants.sizeIcon)
-					.foregroundColor(foregroundDelete)
-			}
-		}
-	}
-	
-	var buttonDeleteView: some View {
-		Button(action: deleteUser) {
-			AppTheme.shared.imageSet.crossIcon
-				.resizable()
-				.renderingMode(.template)
-				.aspectRatio(contentMode: .fit)
-				.frame(width: Constants.sizeIcon)
-				.foregroundColor(foregroundDelete)
-		}
-	}
-	
-	var buttonBackView: some View {
-		Button(action: customBack) {
-			HStack(spacing: Constants.spacing) {
-				AppTheme.shared.imageSet.chevleftIcon
-					.renderingMode(.template)
-					.aspectRatio(contentMode: .fit)
-					.foregroundColor(foregroundBackButton)
-				Text("GroupDetail.RemoveMember".localized)
-					.padding(.all)
-					.font(AppTheme.shared.fontSet.font(style: .body2))
-			}
-			.foregroundColor(foregroundBackButton)
-		}
-	}
+
 }
 
 // MARK: - Interactor
@@ -181,7 +118,7 @@ private extension RemoveMemberView {
 #if DEBUG
 struct RemoveMemberView_Previews: PreviewProvider {
 	static var previews: some View {
-		RemoveMemberView(imageUser: .constant(Image("")), userName: .constant(""), searchText: .constant(""), inputStyle: .constant(.default))
+		RemoveMemberView(loadable: .constant(.notRequested), clientData: .constant([]))
 	}
 }
 #endif

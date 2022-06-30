@@ -47,7 +47,7 @@ public struct UserPeerButton: View {
 										 urlCache: Constants.imageCache,
 										 content: { image in image.resizable() },
 										 placeholder: { ProgressView() })
-							.frame(maxWidth: .infinity, maxHeight: .infinity)
+							.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
 							.cornerRadius(Constants.cornerRadius)
 							.padding(Constants.padding)
 					} else {

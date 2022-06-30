@@ -13,6 +13,7 @@ protocol IGroupDetailViewModels {
 	var searchUser: [GroupDetailUserViewModels]? { get }
 	var groupBase: GroupDetailBaseViewModel? { get }
 	var getProfile: GroupDetailUserViewModels? { get }
+	var removeMember: [GroupDetailClientViewModel]? { get }
 }
 
 struct GroupDetailViewModels: IGroupDetailViewModels {
@@ -21,6 +22,7 @@ struct GroupDetailViewModels: IGroupDetailViewModels {
 	var searchUser: [GroupDetailUserViewModels]?
 	var groupBase: GroupDetailBaseViewModel?
 	var getProfile: GroupDetailUserViewModels?
+	var removeMember: [GroupDetailClientViewModel]?
 }
 
 extension GroupDetailViewModels {
@@ -58,5 +60,19 @@ extension GroupDetailViewModels {
 			GroupDetailUserViewModels(profile: member)
 		}
 		self.init(getProfile: user)
+	}
+
+	init(removeClient: IGroupDetailModels) {
+		let errorGroup = removeClient.groupBase.map { errors in
+			GroupDetailBaseViewModel(errors)
+		}
+		self.init(groupBase: errorGroup)
+	}
+
+	init(members: IGroupDetailModels) {
+		let client = members.groupModel?.groupMembers.map { member in
+			GroupDetailClientViewModel(member)
+		}
+		self.init(removeMember: client)
 	}
 }

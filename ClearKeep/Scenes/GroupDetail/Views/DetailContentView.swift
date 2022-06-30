@@ -126,14 +126,22 @@ private extension DetailContentView {
 	}
 
 	func didSelect(_ detail: DetailType) {
-		if detail == .seeMember {
-			Task {
-			loadable = await injected.interactors.groupDetailInteractor.getClientInGroup(by: groupData?.groupId ?? 0)
-			}
-		}
-		if detail == .addMember {
+		switch detail {
+		case .addMember:
 			Task {
 				loadable = await injected.interactors.groupDetailInteractor.getProfile()
+			}
+		case .seeMember:
+			Task {
+				loadable = await injected.interactors.groupDetailInteractor.getClientInGroup(by: groupData?.groupId ?? 0)
+			}
+		case .removeMember:
+			Task {
+				loadable = await injected.interactors.groupDetailInteractor.getRemoveMember(by: groupData?.groupId ?? 0)
+			}
+		case .leaveGroup:
+			Task {
+				print("remove")
 			}
 		}
 	}

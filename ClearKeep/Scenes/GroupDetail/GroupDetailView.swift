@@ -82,7 +82,11 @@ private extension GroupDetailView {
 			let userData = search.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
 			return AnyView(AddMemberView(loadable: $loadable, search: .constant(userData), groupId: groupId))
 		}
-		
+
+		if let member = data.removeMember {
+			return AnyView(RemoveMemberView(loadable: $loadable, clientData: .constant(member), groupId: groupId))
+		}
+
 		return AnyView(DetailContentView(loadable: $loadable, groupData: .constant(nil), member: .constant([])))
 	}
 

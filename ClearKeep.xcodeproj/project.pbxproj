@@ -735,8 +735,8 @@
 				047D6B1327F154510098B104 /* Views */,
 				047D6B0927F1544C0098B104 /* GroupDetailInMemoryStore.swift */,
 				047D6B0A27F1544C0098B104 /* GroupDetailWorker.swift */,
-				047D6B0B27F1544D0098B104 /* GroupDetailRemoteStore.swift */,
 				047D6B0C27F1544D0098B104 /* GroupDetailInteractor.swift */,
+				047D6B0B27F1544D0098B104 /* GroupDetailRemoteStore.swift */,
 				047D6B0D27F1544D0098B104 /* GroupDetailView.swift */,
 			);
 			path = GroupDetail;
