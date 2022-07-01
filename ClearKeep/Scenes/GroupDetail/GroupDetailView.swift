@@ -19,6 +19,7 @@ struct GroupDetailView: View {
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	@State private(set) var loadable: Loadable<IGroupDetailViewModels> = .notRequested
 	@State private(set) var groupId: Int64 = 0
+
 	// MARK: - Init
 
 	// MARK: - Body
@@ -57,7 +58,7 @@ private extension GroupDetailView {
 // MARK: - Loading Content
 private extension GroupDetailView {
 	var notRequestedView: some View {
-		DetailContentView(loadable: $loadable, groupData: .constant(nil), member: .constant([]))
+		DetailContentView(loadable: $loadable, groupData: .constant(nil), member: .constant([]), myProfile: .constant(nil))
 	}
 
 	var loadingView: some View {
@@ -65,29 +66,31 @@ private extension GroupDetailView {
 	}
 
 	func loadedView(_ data: IGroupDetailViewModels) -> AnyView {
-		if let groupData = data.getGroup {
+		if let groupData = data.getGroup, let myprofile = data.getProfile {
 			let members = groupData.groupMembers
-			return AnyView(DetailContentView(loadable: $loadable, groupData: .constant(groupData), member: .constant(members)))
+			return AnyView(DetailContentView(loadable: $loadable, groupData: .constant(groupData), member: .constant(members), myProfile: .constant(myprofile)))
 		}
 
 		if let client = data.getClientInGroup {
 			return AnyView(MemberView(loadable: $loadable, clientData: .constant(client), groupId: groupId))
 		}
-		
-		if let profile = data.getProfile {
-			return AnyView(AddMemberView(loadable: $loadable, search: .constant([]), groupId: groupId, dataMember: profile))
-		}
 
-		if let search = data.searchUser {
-			let userData = search.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
+		if let search = data.searchUser, let datagroup = data.searchClientInGroup {
+			var client = search
+			datagroup.forEach { member in
+				client.removeAll(where: { $0.id == member.id })
+			}
+			
+			let userData = client.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
 			return AnyView(AddMemberView(loadable: $loadable, search: .constant(userData), groupId: groupId))
 		}
 
-		if let member = data.removeMember {
-			return AnyView(RemoveMemberView(loadable: $loadable, clientData: .constant(member), groupId: groupId))
+		if let member = data.removeMember, let myprofile = data.getProfile {
+			let clientRemove = member.filter { $0.id != myprofile.id }
+			return AnyView(RemoveMemberView(loadable: $loadable, clientData: .constant(clientRemove), groupId: groupId))
 		}
-
-		return AnyView(DetailContentView(loadable: $loadable, groupData: .constant(nil), member: .constant([])))
+		
+		return AnyView(DetailContentView(loadable: $loadable, groupData: .constant(nil), member: .constant([]), myProfile: .constant(nil)))
 	}
 
 	func errorView(_ error: LoginViewError) -> some View {

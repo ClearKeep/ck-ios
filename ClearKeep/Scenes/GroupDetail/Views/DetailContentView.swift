@@ -24,15 +24,16 @@ struct DetailContentView: View {
 	// MARK: - Constants
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
+	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Binding var loadable: Loadable<IGroupDetailViewModels>
 	@Binding var groupData: GroupDetailViewModel?
 	@Binding var member: [GroupDetailClientViewModel]
-
+	@Binding var myProfile: GroupDetailUserViewModels?
+	
 	// MARK: - Init
-
+	
 	// MARK: - Body
 	var body: some View {
 		VStack {
@@ -67,7 +68,7 @@ struct DetailContentView: View {
 				.foregroundColor(detail.color)
 				.frame(height: Constants.itemHeight)
 			}
-
+			
 			Spacer()
 		}
 		.padding(.horizontal, Constants.padding)
@@ -89,7 +90,7 @@ struct DetailContentView: View {
 
 // MARK: - Private
 private extension DetailContentView {
-
+	
 }
 
 // MARK: - Private Variables
@@ -97,15 +98,15 @@ private extension DetailContentView {
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
 	}
-
+	
 	var foregroundButtonImage: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientLinear), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundButtonBack: [Color] {
 		colorScheme == .light ? [AppTheme.shared.colorSet.background, AppTheme.shared.colorSet.background] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
-
+	
 	var titleColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
 	}
@@ -116,51 +117,54 @@ private extension DetailContentView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
-
+	
 	func audioAction() {
-
+		
 	}
-
+	
 	func videoAction() {
-
+		
 	}
-
-	func didSelect(_ detail: DetailType) {
-		switch detail {
-		case .addMember:
-			Task {
-				loadable = await injected.interactors.groupDetailInteractor.getProfile()
-			}
-		case .seeMember:
-			Task {
-				loadable = await injected.interactors.groupDetailInteractor.getClientInGroup(by: groupData?.groupId ?? 0)
-			}
-		case .removeMember:
-			Task {
-				loadable = await injected.interactors.groupDetailInteractor.getRemoveMember(by: groupData?.groupId ?? 0)
-			}
-		case .leaveGroup:
-			Task {
-				print("remove")
-			}
-		}
-	}
+	
 }
 
 // MARK: - Loading Content
 private extension DetailContentView {
-
 }
 
 // MARK: - Interactor
 private extension DetailContentView {
+	func didSelect(_ detail: DetailType) {
+		switch detail {
+		case .seeMember:
+			Task {
+				loadable = await injected.interactors.groupDetailInteractor.getClientInGroup(by: groupData?.groupId ?? 0)
+			}
+		case .addMember:
+			Task {
+				loadable = await injected.interactors.groupDetailInteractor.searchUser(keyword: "", groupId: groupData?.groupId ?? 0)
+			}
+		case .removeMember:
+			Task {
+				loadable = await injected.interactors.groupDetailInteractor.getListMember(by: groupData?.groupId ?? 0)
+			}
+		case .leaveGroup:
+			let result = groupData?.groupMembers.filter({ $0.id == myProfile?.id ?? "" })
+			result?.forEach { member in
+				Task {
+					loadable = await injected.interactors.groupDetailInteractor.leaveGroup(member, groupId: groupData?.groupId ?? 0)
+				}
+			}
+			self.presentationMode.wrappedValue.dismiss()
+		}
+	}
 }
 
 // MARK: - Preview
 #if DEBUG
 struct DetailContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		DetailContentView(loadable: .constant(.notRequested), groupData: .constant(nil), member: .constant([]))
+		DetailContentView(loadable: .constant(.notRequested), groupData: .constant(nil), member: .constant([]), myProfile: .constant(nil))
 	}
 }
 #endif

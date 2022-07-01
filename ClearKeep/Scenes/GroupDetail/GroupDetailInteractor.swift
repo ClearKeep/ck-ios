@@ -14,11 +14,10 @@ protocol IGroupDetailInteractor {
 
 	func getGroup(by groupId: Int64) async -> Loadable<IGroupDetailViewModels>
 	func getClientInGroup(by groupId: Int64) async -> Loadable<IGroupDetailViewModels>
-	func searchUser(keyword: String) async -> Loadable<IGroupDetailViewModels>
+	func searchUser(keyword: String, groupId: Int64) async -> Loadable<IGroupDetailViewModels>
 	func addMember(_ user: GroupDetailUserViewModels, groupId: Int64) async -> Loadable<IGroupDetailViewModels>
 	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels>
-	func getRemoveMember(by groupId: Int64) async -> Loadable<IGroupDetailViewModels>
-	func getProfile() async -> Loadable<IGroupDetailViewModels>
+	func getListMember(by groupId: Int64) async -> Loadable<IGroupDetailViewModels>
 }
 
 struct GroupDetailInteractor {
@@ -41,18 +40,32 @@ extension GroupDetailInteractor: IGroupDetailInteractor {
 
 		switch result {
 		case .success(let getGroup):
-			return .loaded(GroupDetailViewModels(groups: getGroup))
+			let result = await worker.getProfile()
+
+			switch result {
+			case .success(let user):
+				return .loaded(GroupDetailViewModels(groups: getGroup, profile: user))
+			case .failure(let error):
+				return .failed(error)
+			}
 		case .failure(let error):
 			return .failed(error)
 		}
 	}
 
-	func searchUser(keyword: String) async -> Loadable<IGroupDetailViewModels> {
+	func searchUser(keyword: String, groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
 		let result = await worker.searchUser(keyword: keyword)
 
 		switch result {
 		case .success(let searchUser):
-			return .loaded(GroupDetailViewModels(users: searchUser))
+			let result = await worker.getGroup(by: groupId)
+
+			switch result {
+			case .success(let group):
+				return .loaded(GroupDetailViewModels(users: searchUser, groups: group))
+			case .failure(let error):
+				return .failed(error)
+			}
 		case .failure(let error):
 			return .failed(error)
 		}
@@ -79,17 +92,6 @@ extension GroupDetailInteractor: IGroupDetailInteractor {
 		}
 	}
 
-	func getProfile() async -> Loadable<IGroupDetailViewModels> {
-		let result = await worker.getProfile()
-
-		switch result {
-		case .success(let user):
-			return .loaded(GroupDetailViewModels(profile: user))
-		case .failure(let error):
-			return .failed(error)
-		}
-	}
-
 	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
 		let result = await worker.leaveGroup(user, groupId: groupId)
 		switch result {
@@ -100,11 +102,18 @@ extension GroupDetailInteractor: IGroupDetailInteractor {
 		}
 	}
 
-	func getRemoveMember(by groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
+	func getListMember(by groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
 		let result = await worker.getGroup(by: groupId)
 		switch result {
 		case .success(let getGroup):
-			return .loaded(GroupDetailViewModels(members: getGroup))
+			let result = await worker.getProfile()
+
+			switch result {
+			case .success(let user):
+				return .loaded(GroupDetailViewModels(members: getGroup, profile: user))
+			case .failure(let error):
+				return .failed(error)
+			}
 		case .failure(let error):
 			return .failed(error)
 		}
@@ -127,7 +136,7 @@ struct StubGroupDetailInteractor: IGroupDetailInteractor {
 		return .notRequested
 	}
 
-	func searchUser(keyword: String) async -> Loadable<IGroupDetailViewModels> {
+	func searchUser(keyword: String, groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
 		return .notRequested
 	}
 
@@ -139,15 +148,11 @@ struct StubGroupDetailInteractor: IGroupDetailInteractor {
 		return .notRequested
 	}
 
-	func getProfile() async -> Loadable<IGroupDetailViewModels> {
-		return .notRequested
-	}
-
 	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
 		return .notRequested
 	}
 	
-	func getRemoveMember(by groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
+	func getListMember(by groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
 		return .notRequested
 	}
 }

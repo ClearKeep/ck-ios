@@ -21,7 +21,7 @@ struct RemoveMemberView: View {
 	// MARK: - Constants
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
+	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Binding var loadable: Loadable<IGroupDetailViewModels>
@@ -29,9 +29,9 @@ struct RemoveMemberView: View {
 	@State private(set) var groupId: Int64 = 0
 	@State private(set) var searchStyle: TextInputStyle = .default
 	@State private(set) var searchText: String = ""
-
+	
 	// MARK: - Init
-
+	
 	// MARK: - Body
 	var body: some View {
 		ScrollView(showsIndicators: false) {
@@ -75,11 +75,11 @@ private extension RemoveMemberView {
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
 	}
-
+	
 	var backgroundButtonBack: [Color] {
 		colorScheme == .light ? [AppTheme.shared.colorSet.background, AppTheme.shared.colorSet.background] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
-
+	
 	var titleColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
 	}
@@ -92,14 +92,13 @@ private extension RemoveMemberView {
 			loadable = await injected.interactors.groupDetailInteractor.getGroup(by: groupId)
 		}
 	}
-
+	
 	func deleteUser(_ data: GroupDetailClientViewModel) {
 		Task {
 			loadable = await injected.interactors.groupDetailInteractor.leaveGroup(data, groupId: groupId)
 		}
-		self.presentationMode.wrappedValue.dismiss()
 	}
-
+	
 	func search(text: String) {
 		self.clientData = clientData.filter { $0.userName.lowercased().prefix(1) == text.lowercased().prefix(1) }
 	}
@@ -107,7 +106,7 @@ private extension RemoveMemberView {
 
 // MARK: - Loading Content
 private extension RemoveMemberView {
-
+	
 }
 
 // MARK: - Interactor

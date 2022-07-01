@@ -26,7 +26,7 @@ struct AddMemberView: View {
 	// MARK: - Constants
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
+	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Binding var loadable: Loadable<IGroupDetailViewModels>
@@ -39,10 +39,9 @@ struct AddMemberView: View {
 	@State private(set) var isShowingView: Bool = false
 	@State private(set) var isSelectedUser: Bool = false
 	@State private(set) var addMember: [GroupDetailUserViewModels] = []
-	@State private(set) var dataMember: GroupDetailUserViewModels?
-	@State private(set) var getProfile: GroupDetailUserViewModels?
+	
 	// MARK: - Init
-
+	
 	// MARK: - Body
 	var body: some View {
 		VStack(alignment: .center, spacing: Constants.spacing) {
@@ -79,7 +78,7 @@ struct AddMemberView: View {
 			RoundedGradientButton("General.Next".localized, disabled: .constant(self.addMember.isEmpty), action: nextAction)
 				.frame(width: Constants.buttonSize.width)
 				.padding(.bottom, Constants.paddingButtonNext)
-
+			
 		}
 		.padding(.horizontal, Constants.padding)
 		.background(backgroundColorView)
@@ -99,7 +98,7 @@ struct AddMemberView: View {
 
 // MARK: - Private
 private extension AddMemberView {
-
+	
 }
 
 // MARK: - Private Variables
@@ -107,15 +106,15 @@ private extension AddMemberView {
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
 	}
-
+	
 	var foregroundCheckmask: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
 	}
-
+	
 	var backgroundButtonBack: [Color] {
 		colorScheme == .light ? [AppTheme.shared.colorSet.background, AppTheme.shared.colorSet.background] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
-
+	
 	var titleColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
 	}
@@ -123,7 +122,7 @@ private extension AddMemberView {
 
 // MARK: - Private func
 private extension AddMemberView {
-
+	
 	func addClient(_ data: GroupDetailUserViewModels) {
 		isSelectedUser.toggle()
 		if isSelectedUser == true {
@@ -137,23 +136,23 @@ private extension AddMemberView {
 
 // MARK: - Loading Content
 private extension AddMemberView {
-
+	
 }
 
 // MARK: - Interactor
 private extension AddMemberView {
 	func search(text: String) {
 		Task {
-			loadable = await injected.interactors.groupDetailInteractor.searchUser(keyword: text)
+			loadable = await injected.interactors.groupDetailInteractor.searchUser(keyword: text, groupId: groupId )
 		}
 	}
-
+	
 	func customBack() {
 		Task {
 			loadable = await injected.interactors.groupDetailInteractor.getGroup(by: groupId)
 		}
 	}
-
+	
 	func nextAction() {
 		addMember.forEach { member in
 			Task {
