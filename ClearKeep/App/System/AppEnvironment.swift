@@ -21,7 +21,7 @@ extension AppEnvironment {
 	
 	static func bootstrap() -> AppEnvironment {
 		let appState = Store<AppState>(AppState())
-		appState[\.authentication.servers] = DependencyResolver.shared.channelStorage.getServers().compactMap { ServerModel($0) }
+		appState[\.authentication.servers] = DependencyResolver.shared.channelStorage.getServers(isFirstLoad: true).compactMap { ServerModel($0) }
 		let interactors = configuredInteractors(appState: appState)
 		let diContainer = DIContainer(appState: appState, interactors: interactors)
 		let deepLinksHandler = DeepLinksHandler(container: diContainer)
