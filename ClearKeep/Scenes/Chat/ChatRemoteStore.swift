@@ -40,7 +40,6 @@ extension ChatRemoteStore: IChatRemoteStore {
 		let result = await messageService.getMessage(ownerDomain: ownerDomain, ownerId: ownerId, groupId: groupId, loadSize: loadSize, lastMessageAt: lastMessageAt)
 		switch result {
 		case .success(let realmMessage):
-			print(realmMessage)
 			return .success(realmMessage)
 		case .failure(let error):
 			return .failure(error)
