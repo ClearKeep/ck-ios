@@ -22,10 +22,12 @@ struct ListGroupView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@State private var isExpand: Bool = false
+	@State private var isNext: Bool = false
 	private let title: String
 	private let groups: [GroupViewModel]
 	private let action: () -> Void
 	private let onChooseGroup: (GroupViewModel) -> Void
+	@State private var selectedGroup: GroupViewModel?
 	
 	// MARK: - Init
 	init(title: String, groups: [GroupViewModel], action: @escaping () -> Void, onChooseGroup: @escaping (GroupViewModel) -> Void) {
@@ -56,40 +58,30 @@ struct ListGroupView: View {
 			
 			if isExpand {
 				ForEach(groups, id: \.groupId) { group in
-					Button {
-						onChooseGroup(group)
-					} label: {
-						HStack(spacing: 0) {
-							if group.groupType == "peer" {
-								ZStack {
+					NavigationLink(destination: ChatView(messageText: "", inputStyle: .default, groupId: selectedGroup?.groupId ?? 0),
+								   isActive: $isNext) {
+						Button {
+							selectedGroup = group
+							isNext.toggle()
+						} label: {
+							HStack(spacing: 0) {
+								if group.groupType == "peer" {
 									MessageAvatarView(avatarSize: Constants.avatarSize,
 													  statusSize: Constants.statusSize,
 													  userName: group.groupName,
-													  font: AppTheme.shared.fontSet.font(style: .input1),
-													  image: self.getPartnerUser(group: group)?.avatar ?? ""
+													  font: AppTheme.shared.fontSet.font(style: .input3),
+													  image: group.groupAvatar
 									).padding(.trailing, 16)
-									Group {
-										VStack {
-											Spacer()
-											HStack {
-												Spacer()
-												Circle()
-													.fill(getPartnerUserStatusColor(group: group))
-													.frame(width: 10, height: 10)
-													.padding(16)
-											}
-										}
-									}.frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
 								}
+								Text(group.groupName)
+									.font(group.hasUnreadMessage ? AppTheme.shared.fontSet.font(style: .body3) : AppTheme.shared.fontSet.font(style: .input3))
+									.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight)
+									.frame(height: Constants.itemHeight)
+									.frame(maxWidth: .infinity, alignment: .leading)
 							}
-							Text(group.groupName)
-								.font(group.hasUnreadMessage ? AppTheme.shared.fontSet.font(style: .body3) : AppTheme.shared.fontSet.font(style: .input3))
-								.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight)
-								.frame(height: Constants.itemHeight)
-								.frame(maxWidth: .infinity, alignment: .leading)
-						}
-					}
-				}.padding([.horizontal], Constants.padding)
+						}.padding([.horizontal], Constants.padding)
+					}.buttonStyle(.plain)
+				}
 			}
 		}
 	}
