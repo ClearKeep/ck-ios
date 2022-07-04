@@ -31,9 +31,7 @@ struct GroupModel: IGroupModel {
 
 extension GroupModel {
 	init(_ realmGroup: RealmGroup) {
-		let groupMembers = realmGroup.groupMembers.map { member in
-			MemberModel(member)
-		}
+		let groupMembers = realmGroup.groupMembers.lazyList.map({ MemberModel($0) })
 		
 		self.init(groupId: realmGroup.groupId,
 				  groupName: realmGroup.groupName,

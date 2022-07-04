@@ -20,8 +20,8 @@ struct HomeContentView: View {
 	@Binding var groups: [GroupViewModel]
 	@Binding var peers: [GroupViewModel]
 	@State private(set) var isSearchView: Bool = false
-	@State private(set) var isCreatGroup: Bool = false
-	@State private(set) var isCreatMessage: Bool = false
+	@State private(set) var isCreateGroup: Bool = false
+	@State private(set) var isCreateMessage: Bool = false
 	@State private(set) var isNext: Bool = false
 	@State private var selectedGroup: GroupViewModel?
 	
@@ -43,12 +43,12 @@ struct HomeContentView: View {
 			.background(colorScheme == .light ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.darkgrey3)
 			.cornerRadius(Constants.cornerRadius)
 			ScrollView {
-				ListGroupView(title: "Home.GroupChat".localized, groups: groups, action: { isCreatGroup.toggle() }, onChooseGroup: { group in
+				ListGroupView(title: "Home.GroupChat".localized, groups: groups, action: { isCreateGroup.toggle() }, onChooseGroup: { group in
 					selectedGroup = group
 					isNext.toggle()
 				})
 				
-				ListGroupView(title: "Home.DirectMessages".localized, groups: peers, action: { isCreatMessage.toggle() }, onChooseGroup: { group in
+				ListGroupView(title: "Home.DirectMessages".localized, groups: peers, action: { isCreateMessage.toggle() }, onChooseGroup: { group in
 					selectedGroup = group
 					isNext.toggle()
 				})
@@ -60,10 +60,10 @@ struct HomeContentView: View {
 		}.buttonStyle(.plain)
 		
 		NavigationLink(destination: CreateDirectMessageView(groups: peers),
-					   isActive: $isCreatMessage) {}
+					   isActive: $isCreateMessage) {}
 		
 		NavigationLink(destination: ChatGroupView(),
-					   isActive: $isCreatGroup) {}
+					   isActive: $isCreateGroup) {}
 	}
 }
 

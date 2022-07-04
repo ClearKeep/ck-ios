@@ -8,8 +8,7 @@
 import Foundation
 import RealmSwift
 
-public class RealmMessage: Object, RealmOptionalType {
-	@objc public dynamic var generateId: Int
+public class RealmMessage: Object, RealmOptionalType, Identifiable {
 	@objc public dynamic var messageId: String
 	@objc public dynamic var groupId: Int64
 	@objc public dynamic var groupType: String
@@ -22,11 +21,10 @@ public class RealmMessage: Object, RealmOptionalType {
 	@objc public dynamic var ownerClientId: String
 	
 	public override class func primaryKey() -> String? {
-		return "generateId"
+		return "messageId"
 	}
-	
+		
 	required override init() {
-		generateId = Int()
 		messageId = String()
 		groupId = Int64()
 		groupType = String()
