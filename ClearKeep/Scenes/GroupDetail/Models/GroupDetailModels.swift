@@ -12,14 +12,14 @@ import ChatSecure
 protocol IGroupDetailModels {
 	var groupModel: IGroupModel? { get }
 	var searchUser: IGetUserResponse? { get }
-	var groupBase: IGroupBaseResponse? { get }
+	var groupBase: IBaseResponse? { get }
 	var getProfile: IUser? { get }
 }
 
 struct GroupDetailModels: IGroupDetailModels {
 	var groupModel: IGroupModel?
 	var searchUser: IGetUserResponse?
-	var groupBase: IGroupBaseResponse?
+	var groupBase: IBaseResponse?
 	var getProfile: IUser?
 }
 
@@ -33,7 +33,7 @@ extension GroupDetailModels {
 	}
 
 	init(responseError: Group_BaseResponse) {
-		self.init(groupBase: GroupBaseModel(responseError))
+		self.init(groupBase: BaseModel(responseGroup: responseError))
 	}
 
 	init(getProfile: User_UserProfileResponse) {

@@ -68,6 +68,6 @@ public protocol IGroupClientKey {
 	var privateKey: String { get }
 }
 
-public protocol IGroupBaseResponse {
+public protocol IBaseResponse {
 	var error: String { get }
 }

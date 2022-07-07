@@ -14,7 +14,7 @@ struct GroupDetailBaseViewModel {
 }
 
 extension GroupDetailBaseViewModel {
-	init(_ response: IGroupBaseResponse) {
+	init(_ response: IBaseResponse) {
 		self.init(error: response.error)
 	}
 }
