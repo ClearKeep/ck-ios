@@ -25,9 +25,11 @@ extension CreatePeerViewModels {
 		let searchUsers = users.searchUserModel?.lstUser.map { member in
 			CreatePeerUserViewModel(member)
 		}
-		let myprofile = profile.getProfileModel
+		let myprofile = profile.getProfileModel.map { member in
+			CreatePeerProfileViewModel(member)
+		}
 		self.searchUser = searchUsers
-		self.getProfile = CreatePeerProfileViewModel(myprofile)
+		self.getProfile = myprofile
 	}
 
 	init(groups: ICreatePeerModels) {

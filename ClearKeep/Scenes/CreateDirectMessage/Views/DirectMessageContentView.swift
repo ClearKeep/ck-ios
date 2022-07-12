@@ -35,7 +35,7 @@ struct DirectMessageContentView: View {
 	@State private(set) var isShowingLinkUser: Bool = false
 	@Binding var loadable: Loadable<ICreatePeerViewModels>
 	@Binding var userData: [CreatePeerUserViewModel]
-	@State private(set) var profile: CreatePeerProfileViewModel?
+	@Binding var profile: CreatePeerProfileViewModel?
 	@State private(set) var clientInGroup: [CreatePeerUserViewModel] = []
 
 	// MARK: - Init
@@ -120,7 +120,10 @@ private extension DirectMessageContentView {
 		clientInGroup.append(data)
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			loadable = await injected.interactors.createDirectMessageInteractor.createGroup(by: profile?.id ?? "fail", groupName: clientInGroup.first?.displayName ?? "", groupType: "peer", lstClient: clientInGroup)
+			var clientGroup = clientInGroup
+			let client = CreatePeerUserViewModel(id: self.profile?.id ?? "", displayName: self.profile?.displayName ?? "", workspaceDomain: "")
+			clientGroup.append(client)
+			loadable = await injected.interactors.createDirectMessageInteractor.createGroup(by: profile?.id ?? "fail", groupName: data.displayName, groupType: "peer", lstClient: clientGroup)
 		}
 	}
 
@@ -139,7 +142,7 @@ private extension DirectMessageContentView {
 #if DEBUG
 struct DirectMessageContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		DirectMessageContentView(loadable: .constant(.notRequested), userData: .constant([]))
+		DirectMessageContentView(loadable: .constant(.notRequested), userData: .constant([]), profile: .constant(nil))
 	}
 }
 #endif

@@ -18,6 +18,7 @@ private enum Constants {
 	static let heightButton = 40.0
 	static let cornerRadiusButtonNext = 40.0
 	static let paddingButtonNext = 48.0
+	static let buttonSize = CGSize(width: 196.0, height: 40.0)
 }
 
 struct ChatGroupContentView: View {

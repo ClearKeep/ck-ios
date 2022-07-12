@@ -13,9 +13,12 @@ import Model
 
 private enum Constants {
 	static let padding = 20.0
+	static let paddingTop = 49.0
 	static let opacity = 0.72
 	static let blur = 10.0
 	static let duration = 0.2
+	static let spacing = 18.0
+	static let paddingMenu = 34.0
 }
 
 struct HomeView: View {
@@ -74,7 +77,7 @@ struct HomeView: View {
 				ZStack {
 					HStack {
 						ListServerView(servers: $servers, isAddNewServer: $isAddNewServer, action: getServerInfo)
-						VStack {
+						VStack(spacing: Constants.spacing) {
 							HStack {
 								Text(serverName)
 									.font(AppTheme.shared.fontSet.font(style: .display3))
@@ -92,7 +95,7 @@ struct HomeView: View {
 						}
 						.padding(Constants.padding)
 					}
-					.padding(.top, Constants.padding)
+					.padding(.top, Constants.paddingTop)
 					.hideKeyboardOnTapped()
 				}
 				
@@ -107,6 +110,8 @@ struct HomeView: View {
 						.offset(x: isShowMenu ? 0 : geometry.size.width * 2)
 						.transition(.move(edge: .trailing))
 						.animation(.default, value: Constants.duration)
+						.ignoresSafeArea()
+						.padding(.top, Constants.paddingMenu) 
 				}
 			}
 			.hiddenNavigationBarStyle()
