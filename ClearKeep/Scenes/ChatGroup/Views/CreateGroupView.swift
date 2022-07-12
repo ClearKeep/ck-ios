@@ -31,7 +31,6 @@ struct CreateGroupView: View {
 	@State private var nameGroup: String = ""
 	@State private var idClient: String = ""
 	@State private(set) var nameGroupStyle: TextInputStyle = .default
-	@State private(set) var isCreateGroup: Bool = false
 	@Binding var loadable: Loadable<ICreatGroupViewModels>
 	@Binding var getProfile: CreatGroupProfieViewModel?
 	@Binding var clientInGroup: [CreatGroupGetUsersViewModel]
@@ -70,6 +69,7 @@ struct CreateGroupView: View {
 		.padding(.horizontal, Constants.paddingVertical)
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 		.edgesIgnoringSafeArea(.all)
+		.hiddenNavigationBarStyle()
 		.applyNavigationBarPlainStyle(title: "GroupChat.Back.Button".localized,
 									  titleColor: titleColor,
 									  backgroundColors: backgroundButtonBack,
@@ -112,10 +112,14 @@ private extension CreateGroupView {
 	}
 	
 	func creatGroup() {
+		self.presentationMode.wrappedValue.dismiss()
+		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			loadable = await injected.interactors.chatGroupInteractor.createGroup(by: getProfile?.id ?? "fail", groupName: nameGroup, groupType: "group", lstClient: clientInGroup)
+			var clientGroup = clientInGroup
+			let client = CreatGroupGetUsersViewModel(id: self.getProfile?.id ?? "", displayName: self.getProfile?.displayName ?? "", workspaceDomain: "")
+			clientGroup.append(client)
+			loadable = await injected.interactors.chatGroupInteractor.createGroup(by: getProfile?.id ?? "fail", groupName: nameGroup, groupType: "group", lstClient: clientGroup)
 		}
-		isCreateGroup.toggle()
 	}
 }
 

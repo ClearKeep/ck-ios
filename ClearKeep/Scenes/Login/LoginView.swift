@@ -98,7 +98,7 @@ private extension LoginView {
 	
 	func loadedView(_ data: IAuthenticationModel) -> AnyView {
 		if let normalLogin = data.normalLogin {
-			return AnyView(Text(normalLogin.workspaceDomain ?? ""))
+			return AnyView(HomeView())
 		}
 		
 		if let socialLogin = data.socialLogin,

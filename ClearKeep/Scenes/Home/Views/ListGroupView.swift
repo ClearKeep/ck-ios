@@ -63,7 +63,7 @@ struct ListGroupView: View {
 								MessageAvatarView(avatarSize: Constants.avatarSize,
 												  statusSize: Constants.statusSize,
 												  userName: group.groupName,
-												  font: AppTheme.shared.fontSet.font(style: .input3),
+												  font: AppTheme.shared.fontSet.font(style: .input1),
 												  image: group.groupAvatar
 								).padding(.trailing, 16)
 							}

@@ -11,6 +11,7 @@ private enum Constants {
 	static let cornerRadius = 16.0
 	static let hSpacing = 28.0
 	static let searchHeight = 52.0
+	static let spacing = 24.0
 }
 
 struct HomeContentView: View {
@@ -26,7 +27,7 @@ struct HomeContentView: View {
 	
 	// MARK: - Body
 	var body: some View {
-		VStack {
+		VStack(spacing: Constants.spacing) {
 			Button(action: searchAction, label: {
 				HStack(spacing: Constants.hSpacing) {
 					AppTheme.shared.imageSet.searchIcon
@@ -41,6 +42,7 @@ struct HomeContentView: View {
 				.frame(height: Constants.searchHeight)
 				.background(colorScheme == .light ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.darkgrey3)
 				.cornerRadius(Constants.cornerRadius)
+
 			NavigationLink(destination: ChatView(messageText: "", inputStyle: .default, groupId: selectedGroup?.groupId ?? 0),
 						   isActive: $isNext) {
 				ScrollView {

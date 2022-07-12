@@ -56,7 +56,7 @@ private extension CreateDirectMessageView {
 // MARK: - Loading Content
 private extension CreateDirectMessageView {
 	var notRequestedView: some View {
-		DirectMessageContentView(loadable: $loadable, userData: .constant([]))
+		DirectMessageContentView(loadable: $loadable, userData: .constant([]), profile: .constant(nil))
 	}
 
 	var loadingView: some View {
@@ -66,14 +66,14 @@ private extension CreateDirectMessageView {
 	func loadedView(_ data: ICreatePeerViewModels) -> AnyView {
 		if let searchUser = data.searchUser {
 			let userData = searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
-			return AnyView(DirectMessageContentView(loadable: $loadable, userData: .constant(userData), profile: data.getProfile))
+			return AnyView(DirectMessageContentView(loadable: $loadable, userData: .constant(userData), profile: .constant(data.getProfile)))
 		}
 
 		if let groupData = data.creatGroup {
 			return AnyView(ChatView(messageText: "", inputStyle: .default, groupId: groupData.groupID))
 		}
 
-		return AnyView(DirectMessageContentView(loadable: $loadable, userData: .constant([])))
+		return AnyView(DirectMessageContentView(loadable: $loadable, userData: .constant([]), profile: .constant(nil)))
 	}
 
 	func errorView(_ error: LoginViewError) -> some View {

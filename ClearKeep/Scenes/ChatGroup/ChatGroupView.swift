@@ -30,18 +30,9 @@ struct ChatGroupView: View {
 	// MARK: - Body
 	var body: some View {
 		content
-			.padding(.horizontal, Constants.paddingVertical)
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.edgesIgnoringSafeArea(.all)
-			.applyNavigationBarPlainStyle(title: "GroupChat.Back.Button".localized,
-										  titleColor: titleColor,
-										  backgroundColors: backgroundButtonBack,
-										  leftBarItems: {
-				BackButtonStandard(customBack)
-			},
-										  rightBarItems: {
-				Spacer()
-			})
+			.hiddenNavigationBarStyle()
 	}
 }
 

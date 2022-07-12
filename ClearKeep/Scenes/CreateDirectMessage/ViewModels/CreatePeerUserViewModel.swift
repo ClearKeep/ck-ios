@@ -18,4 +18,10 @@ struct CreatePeerUserViewModel: Identifiable {
 		displayName = user?.displayName ?? ""
 		workspaceDomain = user?.workspaceDomain ?? ""
 	}
+
+	init(id: String, displayName: String, workspaceDomain: String) {
+		self.id = id
+		self.displayName = displayName
+		self.workspaceDomain = workspaceDomain
+	}
 }

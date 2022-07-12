@@ -17,6 +17,7 @@ private enum Constants {
 	static let heightButton = 40.0
 	static let cornerRadiusButtonNext = 40.0
 	static let paddingButtonNext = 48.0
+	static let buttonSize = CGSize(width: 196.0, height: 40.0)
 }
 
 struct ChatGroupContentView: View {
@@ -52,7 +53,6 @@ struct ChatGroupContentView: View {
 				.onChange(of: searchText) { text in
 					search(text: text)
 				}
-				.padding(.top, Constants.paddingVertical)
 			TagView(groupChatModel: [GroupChatModel(name: "absbd", checked: false),
 									 GroupChatModel(name: "mvxcvmkdfkgdf", checked: false),
 									 GroupChatModel(name: "kdrgjkerkter", checked: false),
@@ -72,7 +72,6 @@ struct ChatGroupContentView: View {
 								onEditingChanged: { isEditing in
 					searchLinkStyle = isEditing ? .highlighted : .normal
 				})
-					.frame(maxHeight: .infinity, alignment: .top)
 				Spacer()
 			} else {
 				ScrollView(showsIndicators: false) {
@@ -85,25 +84,25 @@ struct ChatGroupContentView: View {
 				destination: CreateGroupView(loadable: $loadable, getProfile: $getProfile, clientInGroup: $addMember),
 				isActive: $isNextCreateGroup,
 				label: {
-					Button(action: {
-						nextToCreateGroup()
-					},
-						   label: {
-						Text("GroupChat.Next".localized)
-					})
-						.frame(maxWidth: .infinity)
-						.frame(height: Constants.heightButton)
-						.font(AppTheme.shared.fontSet.font(style: .body3))
-						.background(backgroundGradientPrimary)
-						.foregroundColor(AppTheme.shared.colorSet.offWhite)
-						.cornerRadius(Constants.cornerRadiusButtonNext)
-						.padding(.horizontal, Constants.spacerTopView)
+					RoundedGradientButton("GroupChat.Next".localized,
+										  disabled: .constant(addMember.isEmpty),
+										  action: nextToCreateGroup)
+						.frame(width: Constants.buttonSize.width)
+						.padding(.bottom, Constants.paddingButtonNext)
 				})
-				.padding(.bottom, Constants.paddingButtonNext)
 		}
 		.padding(.horizontal, Constants.paddingVertical)
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 		.edgesIgnoringSafeArea(.all)
+		.applyNavigationBarPlainStyle(title: "GroupChat.Back.Button".localized,
+									  titleColor: titleColor,
+									  backgroundColors: backgroundButtonBack,
+									  leftBarItems: {
+			BackButtonStandard(customBack)
+		},
+									  rightBarItems: {
+			Spacer()
+		})
 	}
 }
 
