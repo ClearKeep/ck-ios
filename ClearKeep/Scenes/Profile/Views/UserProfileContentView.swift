@@ -25,18 +25,22 @@ private enum Constants {
 }
 
 struct UserProfileContentView: View {
+
 	// MARK: - Variables
 	let inspection = ViewInspector<Self>()
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-	@State var countryCode = ""
+//	@EnvironmetObject private var countryCode = ReadData()
+	@AppStorage("countryCode") var countryCode: String = ""
 	@Binding var loadable: Loadable<IProfileViewModels>
 	@Binding var myProfile: UserProfileViewModel?
 	@State private(set) var urlAvatar: String = ""
 	@State private(set) var usernameStyle: TextInputStyle = .default
+	@State private(set) var username: String = ""
 	@State private(set) var emailStyle: TextInputStyle = .default
 	@State private(set) var phoneStyle: TextInputStyle = .default
+	@State private(set) var phoneNumber: String = ""
 	@State private(set) var isExpand = false
 	@State private(set) var isShowCountryCode: Bool = false
 	@State private var isEnable2FA: Bool = false
@@ -49,7 +53,7 @@ struct UserProfileContentView: View {
 	@State private var selectedImages = [SelectedImageModel]()
 	
 	// MARK: - Init
-	
+
 	// MARK: - Body
 	var body: some View {
 		ScrollView {
@@ -84,7 +88,7 @@ struct UserProfileContentView: View {
 							.font(AppTheme.shared.fontSet.font(style: .input3))
 							.foregroundColor(foregroundColor)
 						
-						CommonTextField(text: .constant(myProfile?.displayName ?? ""),
+						CommonTextField(text: $username,
 										inputStyle: $usernameStyle,
 										placeHolder: "UserProfile.Username".localized,
 										keyboardType: .default,
@@ -110,7 +114,7 @@ struct UserProfileContentView: View {
 							.foregroundColor(foregroundColor)
 						
 						HStack(spacing: Constants.spacerSetting) {
-							NavigationLink(destination: CountryCode(selectedNum: $countryCode, isShowing: $isShowCountryCode),
+							NavigationLink(destination: CountryCode(selectedNum: $countryCode),
 										   isActive: $isShowCountryCode) {
 								Button {
 									isShowCountryCode = true
@@ -118,7 +122,7 @@ struct UserProfileContentView: View {
 									HStack {
 										Text(countryCode)
 											.font(AppTheme.shared.fontSet.font(style: .input3))
-											.foregroundColor(foregroundColor)
+											.foregroundColor(Color.red)
 											.padding(.leading, Constants.paddingVertical)
 										Spacer()
 										AppTheme.shared.imageSet.chevDownIcon
@@ -136,10 +140,10 @@ struct UserProfileContentView: View {
 									)
 								}
 							}
-							CommonTextField(text: .constant(myProfile?.phoneNumber ?? ""),
+							CommonTextField(text: $phoneNumber,
 											inputStyle: $phoneStyle,
 											placeHolder: "UserProfile.PhoneNumber".localized,
-											keyboardType: .default,
+											keyboardType: .numberPad,
 											onEditingChanged: { isEditing in
 								self.phoneStyle = isEditing ? .highlighted : .default })
 						}
@@ -244,14 +248,13 @@ private extension UserProfileContentView {
 		Task {
 			loadable = await injected.interactors.profileInteractor.uploadAvatar(url: url, imageData: data)
 		}
-		myProfile?.avatar = urlAvatar
 	}
 	
 	func saveAction() {
 		
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			loadable = await injected.interactors.profileInteractor.updateProfile(displayName: myProfile?.displayName ?? "", avatar: myProfile?.avatar ?? "", phoneNumber: myProfile?.phoneNumber ?? "", clearPhoneNumber: false)
+			loadable = await injected.interactors.profileInteractor.updateProfile(displayName: username, avatar: urlAvatar, phoneNumber: phoneNumber, clearPhoneNumber: false)
 		}
 		presentationMode.wrappedValue.dismiss()
 	}

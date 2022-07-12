@@ -23,27 +23,20 @@ struct CountryCode: View {
 	@Environment(\.colorScheme) private var colorScheme
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 
-	@Binding var isShowing: Bool
 	@ObservedObject var datas = ReadData()
-	@State private(set) var samples: Loadable<[String]>
-	@State private(set) var search: String
+	@State private(set) var data = [CountryCodeJSON]()
+	@State private(set) var search: String = ""
 	@State private(set) var searchStyle: TextInputStyle = .default
-	@State private(set) var isShowUserProfile = false
+	@State private(set) var isShowUserProfile: Bool = false
 	@Binding var selectedNum: String
-
-	// MARK: - Init
-	init(selectedNum: Binding<String>, isShowing: Binding<Bool>, samples: Loadable<[String]> = .notRequested, search: String = "", inputStyle: TextInputStyle = .default) {
-		self._selectedNum = selectedNum
-		self._isShowing = isShowing
-		self._samples = .init(initialValue: samples)
-		self._search = .init(initialValue: search)
-		self._searchStyle = .init(initialValue: inputStyle)
-	}
+	@AppStorage("countryCode") var countryCode: String = ""
 
 	// MARK: Body
 	var body: some View {
 			content
 		.background(background)
+		.hiddenNavigationBarStyle()
+		.onAppear(perform: { self.data = self.datas.countryCodes })
 	}
 }
 
@@ -69,7 +62,7 @@ private extension CountryCode {
 	var buttonTop: some View {
 		HStack {
 			Button(action: {
-				isShowing = false
+				presentationMode.wrappedValue.dismiss()
 			}, label: {
 				AppTheme.shared.imageSet.crossIcon
 					.foregroundColor(foregroundCrossButton)
@@ -97,20 +90,22 @@ private extension CountryCode {
 				searchStyle = .highlighted
 			}
 		})
+			.onChange(of: self.search, perform: { text in
+				self.data = datas.countryCodes.filter { $0.name.lowercased().contains(text) }
+			})
 	}
 
 	var listCountryCode: some View {
-		List(datas.countryCodes) { item in
+		List(data) { item in
 			Button {
-				self.selectedNum = "\(item.code)"
-				isShowing = false
+				countryCode = "\(item.code)"
+				presentationMode.wrappedValue.dismiss()
 			} label: {
 				HStack {
 					Text("\(item.name)")
 					Spacer()
 					Text("\(item.code)")
 				}
-
 			}
 		}
 		.frame(maxWidth: .infinity, alignment: .leading)
@@ -135,6 +130,6 @@ private extension CountryCode {
 
 struct CountryCode_Previews: PreviewProvider {
 	static var previews: some View {
-		CountryCode(selectedNum: .init(projectedValue: .constant("")), isShowing: .init(projectedValue: .constant(false)))
+		CountryCode(selectedNum: .init(projectedValue: .constant("")))
 	}
 }

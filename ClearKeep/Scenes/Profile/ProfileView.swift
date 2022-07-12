@@ -64,7 +64,7 @@ private extension ProfileView {
 	
 	func loadedView(_ data: IProfileViewModels) -> AnyView {
 		if let myProfile = data.userProfileViewModel {
-			return AnyView(UserProfileContentView(loadable: $loadable, myProfile: .constant(myProfile), urlAvatar: myProfile.avatar))
+			return AnyView(UserProfileContentView(loadable: $loadable, myProfile: .constant(myProfile), urlAvatar: myProfile.avatar, username: myProfile.displayName, phoneNumber: myProfile.phoneNumber))
 		}
 		
 		if let imageData = data.urlAvatarViewModel {
