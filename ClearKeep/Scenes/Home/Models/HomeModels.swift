@@ -22,4 +22,8 @@ extension HomeModels {
 	init(responseUser: User_UserProfileResponse) {
 		self.init(userModel: UserModel(response: responseUser))
 	}
+	
+	init(responseUser: User_MemberInfoRes?) {
+		self.init(userModel: UserModel(response: responseUser))
+	}
 }

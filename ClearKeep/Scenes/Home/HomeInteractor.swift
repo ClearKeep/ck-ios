@@ -57,7 +57,7 @@ extension HomeInteractor: IHomeInteractor {
 		
 		switch result {
 		case .success(let groups):
-			let result = await worker.getProfile()
+			let result = await worker.getListStatus()
 			
 			switch result {
 			case .success(let user):

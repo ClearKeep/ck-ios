@@ -17,49 +17,46 @@ private enum Constants {
 
 struct TagView: View {
 	// MARK: - Variables
-	@State private(set) var groupChatModel: [GroupChatModel]
+	@Binding var groupChatModel: [CreatGroupGetUsersViewModel]
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.injected) private var injected: DIContainer
-
-	// MARK: - Init
-	init(groupChatModel: [GroupChatModel]) {
-		self._groupChatModel = .init(initialValue: groupChatModel)
+	var deleteSelect: (CreatGroupGetUsersViewModel) -> Void
+	
+	init(groupChatModel: Binding<[CreatGroupGetUsersViewModel]>, deleteSelect: @escaping (CreatGroupGetUsersViewModel) -> Void) {
+		_groupChatModel = groupChatModel
+		self.deleteSelect = deleteSelect
 	}
-
+	
 	// MARK: - Body
 	var body: some View {
 		ScrollView(.horizontal, showsIndicators: false) {
-			HStack {
+			LazyHStack {
 				ForEach(0..<groupChatModel.count, id: \.self) { index in
-					tagView(for: groupChatModel[index].name)
+                    tagView(for: groupChatModel[index])
 				}
 			}
-		}
+        }.frame(height: self.groupChatModel.isEmpty ? 0 : Constants.heightTagUser)
 	}
 
-	private func tagView(for text: String) -> some View {
-		HStack {
-			Text(text)
-				.font(AppTheme.shared.fontSet.font(style: .body3))
-				.foregroundColor(foregroundTagUser)
-				.padding([.leading, .top, .bottom], Constants.paddingTagUser)
+	private func tagView(for model: CreatGroupGetUsersViewModel) -> some View {
+        Button {
+            self.deleteSelect(model)
+        } label: {
+            HStack {
+                Text(model.displayName)
+                    .font(AppTheme.shared.fontSet.font(style: .body3))
+                    .foregroundColor(foregroundTagUser)
+                    .padding([.leading, .top, .bottom], Constants.paddingTagUser)
 
-			Button(action: {
-
-			}, label: {
-				Button {
-
-				} label: {
-					AppTheme.shared.imageSet.crossIcon
-						.foregroundColor(foregroundCrossIcon)
-						.padding(.trailing, Constants.paddingTagUser)
-				}
-			})
-		}
-		.background(backgroundTagUser)
-		.cornerRadius(Constants.cornerRadiusTagUser)
-		.frame(alignment: .leading)
-		.frame(height: Constants.heightTagUser)
+                AppTheme.shared.imageSet.crossIcon
+                    .foregroundColor(foregroundCrossIcon)
+                    .padding(.trailing, Constants.paddingTagUser)
+            }
+            .background(backgroundTagUser)
+            .cornerRadius(Constants.cornerRadiusTagUser)
+            .frame(alignment: .leading)
+            .frame(height: Constants.heightTagUser)
+        }
 	}
 }
 

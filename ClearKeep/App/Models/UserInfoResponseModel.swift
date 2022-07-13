@@ -27,4 +27,25 @@ extension UserResponseModel {
 		}
 		self.init(lstUser: users)
 	}
+	
+	init(searchUser: User_FindUserByEmailResponse) {
+		let users = searchUser.lstUser.map { member in
+			UserInfoModel(userResponse: member)
+		}
+		self.init(lstUser: users)
+	}
+}
+
+struct UserInforModel: IUserInfo {
+	var id: String
+	var displayName: String
+	var workspaceDomain: String
+}
+
+extension UserInforModel {
+	init(userInfor: User_UserInfoResponse) {
+		self.id = userInfor.id
+		self.workspaceDomain = userInfor.workspaceDomain
+		self.displayName = userInfor.displayName
+	}
 }

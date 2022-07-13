@@ -32,6 +32,7 @@ struct MenuView: View {
 	@Binding var isShowMenu: Bool
 	@State private var userProfile: String = ""
 	@Binding var user: [UserViewModel]
+	@State private var isShowToastCopy: Bool = false
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -43,29 +44,43 @@ struct MenuView: View {
 					ImageButton(AppTheme.shared.imageSet.closeIcon.renderingMode(.template)) { isShowMenu.toggle() }
 						.foregroundColor(AppTheme.shared.colorSet.grey1)
 					HStack {
-						ZStack {
-							Image(user.first?.avatar ?? "")
-								.frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
-								.clipShape(Circle())
-								.foregroundColor(Color.gray)
-							Circle()
-								.frame(width: Constants.statusSize.width, height: Constants.statusSize.height)
-								.offset(x: Constants.statusOffset.vertical, y: Constants.statusOffset.horizontal)
-								.foregroundColor(Color.green)
-						}
+                        if let avatar = user.first?.avatar,
+                           !avatar.isEmpty {
+                            ZStack {
+                                Image(user.first?.avatar ?? "")
+                                    .frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
+                                    .clipShape(Circle())
+                                    .foregroundColor(Color.gray)
+                                Circle()
+                                    .frame(width: Constants.statusSize.width, height: Constants.statusSize.height)
+                                    .offset(x: Constants.statusOffset.vertical, y: Constants.statusOffset.horizontal)
+                                    .foregroundColor(Color.green)
+                            }
+                        } else {
+                            ZStack {
+                                Circle()
+                                    .fill(backgroundColor)
+                                    .frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
+                                    .foregroundColor(Color.gray)
+                                Text(user.first?.displayName.capitalized.prefix(1) ?? "")
+                                    .foregroundColor(AppTheme.shared.colorSet.offWhite)
+                                    .font(AppTheme.shared.fontSet.font(style: .display3))
+                            }
+                        }
+						
 						VStack(alignment: .leading, spacing: Constants.spacing) {
 							Text(user.first?.displayName ?? "name")
 								.font(AppTheme.shared.fontSet.font(style: .body2))
 								.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 								.frame(height: Constants.nameHeight)
 							Menu {
-								ForEach(StatusType.allCases, id: \.self) { status in
+                                ForEach([StatusType.online, StatusType.busy], id: \.self) { status in
 									LinkButton(status.title, alignment: .leading, action: { print(status) })
 										.foregroundColor(AppTheme.shared.colorSet.black)
 										.frame(height: Constants.itemHeight)
 								}
 							} label: {
-								Text("Status")
+                                Text(self.user.first?.status.title ?? "")
 									.font(AppTheme.shared.fontSet.font(style: .input3))
 									.foregroundColor(AppTheme.shared.colorSet.successDefault)
 								AppTheme.shared.imageSet.chevDownIcon
@@ -76,7 +91,7 @@ struct MenuView: View {
 							}
 							.frame(height: Constants.statusHeight)
 							HStack {
-								Text("urlString")
+								Text(getLinkUrl())
 									.font(AppTheme.shared.fontSet.font(style: .input3))
 									.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight)
 								Spacer()
@@ -109,7 +124,7 @@ struct MenuView: View {
 				.padding(.vertical, Constants.padding)
 			}
 			.frame(maxWidth: .infinity, maxHeight: .infinity)
-		}
+		}.toast(message: "Menu.Copy.Title".localized, isShowing: $isShowToastCopy, duration: Toast.short)
 	}
 }
 
@@ -120,7 +135,10 @@ private extension MenuView {
 	}
 	
 	func copyAction() {
-		
+		let currentDomain = DependencyResolver.shared.channelStorage.currentDomain
+		let user = DependencyResolver.shared.channelStorage.currentServer?.profile
+		UIPasteboard.general.string = "\(currentDomain)/\(user?.userName.replacingOccurrences(of: " ", with: "") ?? "name")/\(user?.userId ?? "id")"
+		self.isShowToastCopy = true
 	}
 	
 	func statusAction() {
@@ -130,4 +148,16 @@ private extension MenuView {
 	func didSelectMenu(_ menu: MenuType) {
 		
 	}
+    
+    func getLinkUrl() -> String {
+        let currentDomain = DependencyResolver.shared.channelStorage.currentDomain
+        let user = DependencyResolver.shared.channelStorage.currentServer?.profile
+        return "\(currentDomain)/\(user?.userName ?? "name")/\(user?.userId ?? "id")"
+    }
+}
+
+private extension MenuView {
+    var backgroundColor: LinearGradient {
+        LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
+    }
 }

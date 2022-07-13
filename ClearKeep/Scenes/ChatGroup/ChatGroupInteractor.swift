@@ -14,6 +14,10 @@ protocol IChatGroupInteractor {
 	
 	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [CreatGroupGetUsersViewModel]) async -> Loadable<ICreatGroupViewModels>
 	func searchUser(keyword: String) async -> Loadable<ICreatGroupViewModels>
+	func getUserInfor(clientId: String, workSpace: String) async -> Loadable<ICreatGroupViewModels>
+	func searchUserWithEmail(email: String) async -> Loadable<ICreatGroupViewModels>
+	func checkPeopleLink(link: String) -> Bool
+	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)?
 }
 
 struct ChatGroupInteractor {
@@ -60,10 +64,36 @@ extension ChatGroupInteractor: IChatGroupInteractor {
 		}
 	}
 
+	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)? {
+		self.worker.getPeopleFromLink(link: link)
+	}
+	
+	func checkPeopleLink(link: String) -> Bool {
+		self.checkPeopleLink(link: link)
+	}
+	
+	func getUserInfor(clientId: String, workSpace: String) async -> Loadable<ICreatGroupViewModels> {
+		let result = await worker.getUserInfor(clientId: clientId, workspaceDomain: workSpace)
+		switch result {
+		case .success(let createGroup):
+			return .loaded(CreatGroupViewModels(profileInforWithLink: createGroup))
+		case .failure(let error):
+			return .failed(error)
+		}
+	}
+	
+	func searchUserWithEmail(email: String) async -> Loadable<ICreatGroupViewModels> {
+		let result = await worker.searchUserWithEmail(email: email)
+		switch result {
+		case .success(let createGroup):
+			return .loaded(CreatGroupViewModels(usersWithEmail: createGroup))
+		case .failure(let error):
+			return .failed(error)
+		}
+	}
 }
 
 struct StubChatGroupInteractor: IChatGroupInteractor {
-	
 	let channelStorage: IChannelStorage
 	let groupService: IGroupService
 	let userService: IUserService
@@ -82,4 +112,19 @@ struct StubChatGroupInteractor: IChatGroupInteractor {
 		return .notRequested
 	}
 	
+	func getUserInfor(clientId: String, workSpace: String) async -> Loadable<ICreatGroupViewModels> {
+		return .notRequested
+	}
+	
+	func searchUserWithEmail(email: String) async -> Loadable<ICreatGroupViewModels> {
+		return .notRequested
+	}
+	
+	func checkPeopleLink(link: String) -> Bool {
+		false
+	}
+	
+	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)? {
+		nil
+	}
 }
