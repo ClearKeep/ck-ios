@@ -30,8 +30,7 @@ struct HomeView: View {
 					GroupViewModel(profile)} ?? [GroupViewModel]()
 				self.peers = load.groupViewModel?.viewModelGroup.filter { $0.groupType != "group" }.compactMap { profile in
 					GroupViewModel(profile)} ?? [GroupViewModel]()
-				self.user = [load.userViewModel?.viewModelUser].compactMap { profile in
-					UserViewModel(profile)}
+				self.user = [UserViewModel(load.userViewModel?.viewModelUser)]
 			case .failed(let error):
 				print(error)
 			default: break

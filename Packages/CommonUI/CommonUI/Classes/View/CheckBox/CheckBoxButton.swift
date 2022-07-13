@@ -17,16 +17,19 @@ public struct CheckBoxButtons: View {
 	// MARK: - Variables
 	@Binding var isChecked: Bool
 	private let text: String
+	private let action: (() -> Void)?
 	
 	// MARK: - Init
-	public init(text: String, isChecked: Binding<Bool>) {
+	public init(text: String, isChecked: Binding<Bool>, action: (() -> Void)? = nil) {
 		self.text = text
 		self._isChecked = isChecked
+		self.action = action
 	}
 	// MARK: - Body
 	public var body: some View {
 		Button(action: {
 			isChecked.toggle()
+			self.action?()
 		}, label: {
 			HStack {
 				checkMaskIcon

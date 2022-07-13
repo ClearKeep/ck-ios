@@ -13,6 +13,7 @@ public protocol IUser {
 	var email: String { get }
 	var phoneNumber: String { get }
 	var avatar: String { get }
+	var status: String { get set }
 }
 
 public protocol IOwner {

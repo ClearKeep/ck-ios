@@ -25,12 +25,14 @@ struct UserViewModel: Identifiable {
 	var email: String
 	var phoneNumber: String
 	var avatar: String
-
+	var status: StatusType
+	
 	init(_ user: IUser?) {
 		id = user?.id ?? ""
 		displayName = user?.displayName ?? ""
 		email = user?.email ?? ""
 		phoneNumber = user?.phoneNumber ?? ""
 		avatar = user?.avatar ?? ""
+		status = StatusType(rawValue: user?.status ?? "") ?? .undefined
 	}
 }

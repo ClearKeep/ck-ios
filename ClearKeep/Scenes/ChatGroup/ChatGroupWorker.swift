@@ -17,6 +17,10 @@ protocol IChatGroupWorker {
 	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [CreatGroupGetUsersViewModel]) async -> (Result<IGroupChatModels, Error>)
 	func searchUser(keyword: String) async -> (Result<IGroupChatModels, Error>)
 	func getProfile() async -> Result<IGroupChatModels, Error>
+	func getUserInfor(clientId: String, workspaceDomain: String) async -> (Result<IGroupChatModels, Error>)
+	func searchUserWithEmail(email: String) async -> (Result<IGroupChatModels, Error>)
+	func checkPeopleLink(link: String) -> Bool
+	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)?
 }
 
 struct ChatGroupWorker {
@@ -62,4 +66,37 @@ extension ChatGroupWorker: IChatGroupWorker {
 		}
 	}
 
+	func getUserInfor(clientId: String, workspaceDomain: String) async -> (Result<IGroupChatModels, Error>) {
+		let result = await remoteStore.getUserProfile(clientId: clientId, workspaceDomain: workspaceDomain, domain: currentDomain ?? channelStorage.currentDomain)
+		switch result {
+		case .success(let user):
+			return .success(user)
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+	
+	func searchUserWithEmail(email: String) async -> (Result<IGroupChatModels, Error>) {
+		let result = await remoteStore.searchUserWithEmail(keyword: email, domain: currentDomain ?? channelStorage.currentDomain)
+		
+		switch result {
+		case .success(let user):
+			return .success(user)
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+	
+	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)? {
+		let args = link.split(separator: "/")
+		if args.count != 3 {
+			return nil
+		}
+		
+		return (String(args[2]), String(args[1]), String(args[0]))
+	}
+	
+	func checkPeopleLink(link: String) -> Bool {
+		return self.getPeopleFromLink(link: link)?.id == channelStorage.currentServer?.profile?.userId
+	}
 }
