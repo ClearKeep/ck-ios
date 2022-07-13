@@ -29,7 +29,7 @@ extension ChatGroupRemoteStore: IChatGroupRemoteStore {
 			var clientInGroup = Group_ClientInGroupObject()
 			clientInGroup.id = users.id
 			clientInGroup.displayName = users.displayName
-			clientInGroup.workspaceDomain = domain
+			clientInGroup.workspaceDomain = users.workspaceDomain
 			clientInGroups.append(clientInGroup)
 		}
 
