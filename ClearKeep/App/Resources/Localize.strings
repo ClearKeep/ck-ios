@@ -226,3 +226,6 @@
 "Chat.User" = "User";
 "Chat.Replying" = "Replying to ";
 "Chat.Cancel" = "Cancel";
+"Chat.TakePhoto" = "Take a photo";
+"Chat.Albums" = "Albums";
+"Chat.UploadButton" = "Upload";

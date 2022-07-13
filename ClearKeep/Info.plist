@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCameraUsageDescription</key>
+	<string>&quot;&quot;</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>&quot;&quot;</string>
 	<key>APP_GROUP_NAME</key>
 	<string>$(APP_GROUP_NAME)</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -101,6 +107,8 @@
 	<string>$(OFFICE_CLIENT_ID)</string>
 	<key>OFFICE_REDIRECT_URI</key>
 	<string>$(OFFICE_REDIRECT_URI)</string>
+	<key>YAP_DATABASE_PATH</key>
+	<string>$(YAP_DATABASE_PATH)</string>
 	<key>RECEIVER_DEVICE_ID</key>
 	<string>${RECEIVER_DEVICE_ID}</string>
 	<key>SENDER_DEVICE_ID</key>
@@ -141,7 +149,5 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>YAP_DATABASE_PATH</key>
-	<string>$(YAP_DATABASE_PATH)</string>
 </dict>
 </plist>

@@ -44,8 +44,7 @@ extension AppEnvironment {
 		let newPasswordInteractor = NewPasswordInteractor(appState: appState, authenticationService: DependencyResolver.shared.authenticationService)
 		let changePasswordInteractor = ChangePasswordInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService)
 		let chatGroupInteractor = ChatGroupInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService)
-		let chatInteractor = ChatInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, realmManager: DependencyResolver.shared.realmManager, groupService: DependencyResolver.shared.groupService, messageService: DependencyResolver.shared.messageService)
-		
+		let chatInteractor = ChatInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, realmManager: DependencyResolver.shared.realmManager, groupService: DependencyResolver.shared.groupService, messageService: DependencyResolver.shared.messageService, uploadFileService: DependencyResolver.shared.uploadFileService)
 		return .init(homeInteractor: homeInteractor,
 					 loginInteractor: loginInteractor,
 					 twoFactorInteractor: twoFactorInteractor,
