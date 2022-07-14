@@ -38,4 +38,8 @@ extension CreatePeerViewModels {
 		}
 		self.init(creatGroup: creatGroups)
 	}
+	
+	init(groups: [CreatePeerUserViewModel]?) {
+		self.searchUser = groups
+	}
 }

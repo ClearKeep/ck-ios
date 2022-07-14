@@ -64,6 +64,7 @@ struct ChatGroupContentView: View {
 			CheckBoxButtons(text: "GroupChat.User.Add.Title".localized, isChecked: $useCustomServerChecked, action: {
 				self.useFindByEmail = false
 			})
+			.foregroundColor(foregroundCheckmask)
 				.frame(maxWidth: .infinity, alignment: .leading)
 			
 			if useCustomServerChecked {
@@ -79,6 +80,7 @@ struct ChatGroupContentView: View {
 			CheckBoxButtons(text: "GroupChat.AddUserFromEmail.Title".localized, isChecked: $useFindByEmail, action: {
 				self.useCustomServerChecked = false
 			})
+			.foregroundColor(foregroundCheckmask)
 				.frame(maxWidth: .infinity, alignment: .leading)
 			if useFindByEmail {
 				CommonTextField(text: $searchEmailText,
@@ -205,6 +207,10 @@ private extension ChatGroupContentView {
 	}
 	
 	var titleColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
+	}
+	
+	var foregroundCheckmask: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
 	}
 }

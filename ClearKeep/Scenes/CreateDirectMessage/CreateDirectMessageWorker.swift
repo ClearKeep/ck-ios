@@ -16,6 +16,8 @@ protocol ICreateDirectMessageWorker {
 	func searchUser(keyword: String) async -> (Result<ICreatePeerModels, Error>)
 	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [CreatePeerUserViewModel]) async -> (Result<ICreatePeerModels, Error>)
 	func getProfile() async -> Result<ICreatePeerModels, Error>
+	func checkPeopleLink(link: String) -> Bool
+	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)?
 }
 
 struct CreateDirectMessageWorker {
@@ -58,6 +60,19 @@ extension CreateDirectMessageWorker: ICreateDirectMessageWorker {
 		case .failure(let error):
 			return .failure(error)
 		}
+	}
+	
+	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)? {
+		let args = link.split(separator: "/")
+		if args.count != 3 {
+			return nil
+		}
+		
+		return (String(args[2]), String(args[1]), String(args[0]))
+	}
+	
+	func checkPeopleLink(link: String) -> Bool {
+		return self.getPeopleFromLink(link: link)?.id == channelStorage.currentServer?.profile?.userId
 	}
 
 }
