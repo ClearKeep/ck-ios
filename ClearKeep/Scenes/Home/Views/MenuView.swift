@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CommonUI
+import Common
 
 private enum Constants {
 	static let cornerRadius = 32.0
@@ -33,6 +34,8 @@ struct MenuView: View {
 	@State private var userProfile: String = ""
 	@Binding var user: [UserViewModel]
 	@State private var isShowToastCopy: Bool = false
+	var chageStatus: (StatusType) -> Void
+	let profile = DependencyResolver.shared.channelStorage.currentServer?.profile
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -62,27 +65,27 @@ struct MenuView: View {
                                     .fill(backgroundColor)
                                     .frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
                                     .foregroundColor(Color.gray)
-                                Text(user.first?.displayName.capitalized.prefix(1) ?? "")
+                                Text(user.first?.displayName.capitalized.prefix(1) ?? (profile?.userName ?? "Name").capitalized.prefix(1))
                                     .foregroundColor(AppTheme.shared.colorSet.offWhite)
                                     .font(AppTheme.shared.fontSet.font(style: .display3))
                             }
                         }
 						
 						VStack(alignment: .leading, spacing: Constants.spacing) {
-							Text(user.first?.displayName ?? "name")
+							Text(user.first?.displayName ?? (profile?.userName ?? "Name"))
 								.font(AppTheme.shared.fontSet.font(style: .body2))
 								.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 								.frame(height: Constants.nameHeight)
 							Menu {
                                 ForEach([StatusType.online, StatusType.busy], id: \.self) { status in
-									LinkButton(status.title, alignment: .leading, action: { print(status) })
+									LinkButton(status.title, alignment: .leading, action: { self.didSelectStatus(status) })
 										.foregroundColor(AppTheme.shared.colorSet.black)
 										.frame(height: Constants.itemHeight)
 								}
 							} label: {
                                 Text(self.user.first?.status.title ?? "")
 									.font(AppTheme.shared.fontSet.font(style: .input3))
-									.foregroundColor(AppTheme.shared.colorSet.successDefault)
+									.foregroundColor(self.user.first?.status.color ?? AppTheme.shared.colorSet.successDefault)
 								AppTheme.shared.imageSet.chevDownIcon
 									.renderingMode(.template)
 									.aspectRatio(contentMode: .fit)
@@ -147,6 +150,13 @@ private extension MenuView {
 	
 	func didSelectMenu(_ menu: MenuType) {
 		
+	}
+	
+	func didSelectStatus(_ status: StatusType) {
+		if self.user.first?.status == status {
+			return
+		}
+		self.chageStatus(status)
 	}
     
     func getLinkUrl() -> String {

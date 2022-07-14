@@ -15,6 +15,8 @@ public protocol IUserService {
 	func getUserInfo(clientID: String, workspaceDomain: String, domain: String) async -> (Result<User_UserInfoResponse, Error>)
 	func getListStatus(clientID: String, workspaceDomain: String, domain: String) async -> (Result<User_GetClientsStatusResponse, Error>)
 	func searchUserWithEmail(emailHash: String, domain: String) async -> (Result<User_FindUserByEmailResponse, Error>)
+	func pingRequest(domain: String) async -> Result<User_BaseResponse, Error>
+	func updateStatus(status: String, domain: String) async -> Result<User_BaseResponse, Error>
 }
 
 public class UserService {
@@ -67,5 +69,16 @@ extension UserService: IUserService {
 		request.emailHash = emailHash
 		
 		return await channelStorage.getChannel(domain: domain).searchUserWithEmail(request)
+	}
+	
+	public func pingRequest(domain: String) async -> Result<User_BaseResponse, Error> {
+		let request = User_PingRequest()
+		return await channelStorage.getChannel(domain: domain).pingRequest(request)
+	}
+	
+	public func updateStatus(status: String, domain: String) async -> Result<User_BaseResponse, Error> {
+		var request = User_SetUserStatusRequest()
+		request.status = status
+		return await channelStorage.getChannel(domain: domain).updateStatus(request)
 	}
 }

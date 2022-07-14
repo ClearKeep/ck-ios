@@ -22,7 +22,7 @@ enum StatusType: String, Equatable, CaseIterable {
 		case .ofline:
 			return "Status.Offline.Title".localized
 		case .undefined:
-			return "Status.Busy.Title".localized
+			return "Status.Offline.Title".localized
 		}
 	}
 	
@@ -33,16 +33,9 @@ enum StatusType: String, Equatable, CaseIterable {
 		case .busy:
 			return AppTheme.shared.colorSet.errorDefault
 		case .ofline:
-			return AppTheme.shared.colorSet.darkgrey3
+			return AppTheme.shared.colorSet.grey3
 		case .undefined:
-			return AppTheme.shared.colorSet.errorDefault
+			return AppTheme.shared.colorSet.grey3
 		}
-	}
-	
-	var image: Image {
-		let image = Image("")
-		image.frame(width: 10, height: 10, alignment: .center)
-		image.background(self.color)
-		return image
 	}
 }
