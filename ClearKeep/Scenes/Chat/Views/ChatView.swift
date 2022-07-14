@@ -12,6 +12,7 @@ import Combine
 import Model
 import Networking
 import UniformTypeIdentifiers
+// swiftlint:disable file_length
 
 private enum Constants {
 	static let padding = 15.0
@@ -74,12 +75,17 @@ struct ChatView: View {
 	@State private var isShowingFloatingButton = false
 	@State private var isReplying = false
 	@State private var shouldPaginate = false
-	@State private var isLoading = true
+	@State private var isLoading = false
 	@State private var isEndOfPage = false
 	@State private var isNewSentMessage = false
 	@State private var isQuoteMessage = false
 	@State private var isLatestPeerSignalKeyProcessed = false
 	@State private var isDetail: Bool = false
+	
+	@State private var showingImageOptions = false
+	@State private var isImagePickerPresented = false
+	@State private var showingCameraPicker = false
+	@State private var selectedImages = [SelectedImageModel]()
 	
 	private let groupId: Int64
 	private let inspection = ViewInspector<Self>()
@@ -128,6 +134,12 @@ struct ChatView: View {
 				getJoinedGroup()
 			}
 		}
+		.fullScreenCover(isPresented: $showingCameraPicker, content: {
+			CameraImagePicker(sourceType: .camera) { addImage in
+				self.selectedImages.append(addImage)
+			}
+			.edgesIgnoringSafeArea(.all)
+		})
 		.onAppear {
 			updateGroup()
 		}
@@ -252,6 +264,27 @@ private extension ChatView {
 			}.frame(height: 24)
 		}.padding(.horizontal, Constants.padding)
 	}
+	
+	var imagesListView: some View {
+		ScrollView(.horizontal, showsIndicators: false) {
+			HStack(spacing: 8) {
+				ForEach(self.selectedImages) { image in
+					if let thumbnail = image.thumbnail {
+						PreviewImage(image: thumbnail) {
+							let selectedIndex = selectedImages.firstIndex(of: image)
+							if let index = selectedIndex {
+								self.selectedImages.remove(at: index)
+							}
+						}
+					}
+				}
+			}
+			.padding(.horizontal, 16)
+		}.introspectScrollView { scrollView in
+			scrollView.clipsToBounds = false
+		}
+	}
+
 }
 
 // MARK: - Color Variables
@@ -286,7 +319,7 @@ private extension ChatView {
 	}
 	
 	func photoAction() {
-		
+		showingImageOptions = true
 	}
 	
 	func linkAction() {
@@ -314,9 +347,21 @@ private extension ChatView {
 	
 	func sendAction(message: String) {
 		let trimmedMessage = message.trimmingCharacters(in: .whitespacesAndNewlines)
+		if !selectedImages.isEmpty {
+			isNewSentMessage = true
+			Task {
+				let selectedImageURL = selectedImages.compactMap { $0.url }
+				print(selectedImageURL)
+				selectedImages.removeAll()
+				loadable = await injected.interactors.chatInteractor.uploadFiles(message: trimmedMessage, fileURLs: selectedImageURL, group: group, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
+			}
+			return
+		}
+		
 		if trimmedMessage.isEmpty {
 			return
 		}
+		
 		isNewSentMessage = true
 		Task {
 			var encodedMessage = ""
@@ -391,6 +436,9 @@ private extension ChatView {
 				hideKeyboard()
 				isReplying = false
 			}
+			if !selectedImages.isEmpty {
+				imagesListView
+			}
 			if isShowingQuoteView {
 				withAnimation {
 					quoteMessageView
@@ -402,8 +450,23 @@ private extension ChatView {
 							placeholder: "DirectMessages.Placeholder".localized,
 							sendAction: { message in
 				sendAction(message: message)
-			}, sharePhoto: { })
+			}, sharePhoto: { photoAction() })
 			.padding(.horizontal, Constants.padding)
+			.confirmationDialog("", isPresented: $showingImageOptions, titleVisibility: .hidden) {
+				Button("Chat.TakePhoto".localized) {
+					showingCameraPicker = true
+				}
+				Button("Chat.Albums".localized, role: .destructive) {
+					isImagePickerPresented = true
+				}
+				Button("Chat.Cancel".localized, role: .cancel) {
+				}
+			}
+			.fullScreenCover(isPresented: $isImagePickerPresented) {
+				MultipleImagePicker(doneAction: { photo in
+					selectedImages = photo.filter { $0.url != nil }
+				})
+			}
 		}.onChange(of: shouldPaginate) { newValue in
 			if newValue {
 				if !isLoading && !isEndOfPage {

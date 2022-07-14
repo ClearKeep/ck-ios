@@ -17,6 +17,7 @@ public protocol IUserAPIService {
 	func getMFAState(_ request: User_MfaGetStateRequest) async -> (Result<User_MfaStateResponse, Error>)
 	func getUsers(_ request: User_Empty) async -> (Result<User_GetUsersResponse, Error>)
 	func searchUser(_ request: User_SearchUserRequest) async -> (Result<User_SearchUserResponse, Error>)
+	func searchUserWithEmail(_ request: User_FindUserByEmailRequest) async -> (Result<User_FindUserByEmailResponse, Error>)
 	func getUserInfo(_ request: User_GetUserRequest) async -> (Result<User_UserInfoResponse, Error>)
 	func getClientsStatus(_ request: User_GetClientsStatusRequest) async -> (Result<User_GetClientsStatusResponse, Error>)
 	func updateStatus(_ request: User_SetUserStatusRequest) async -> (Result<User_BaseResponse, Error>)
@@ -200,6 +201,27 @@ extension APIService: IUserAPIService {
 	public func searchUser(_ request: User_SearchUserRequest) async -> (Result<User_SearchUserResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
 			let caller = clientUser.search_user(request, callOptions: callOptions)
+			
+			caller.status.whenComplete({ result in
+				switch result {
+				case .success(let status):
+					if status.isOk {
+						caller.response.whenComplete { result in
+							continuation.resume(returning: result)
+						}
+					} else {
+						continuation.resume(returning: .failure(ServerError(status)))
+					}
+				case .failure(let error):
+					continuation.resume(returning: .failure(ServerError(error)))
+				}
+			})
+		})
+	}
+	
+	public func searchUserWithEmail(_ request: User_FindUserByEmailRequest) async -> (Result<User_FindUserByEmailResponse, Error>) {
+		return await withCheckedContinuation({ continuation in
+			let caller = clientUser.find_user_by_email(request, callOptions: callOptions)
 			
 			caller.status.whenComplete({ result in
 				switch result {

@@ -146,4 +146,30 @@ public class MessageUtils {
 			return getTimeAsString(timeMs: message.message.dateCreated)
 		}
 	}
+	
+	static func getImageUriStrings(content: String) -> [String] {
+		let regex = "(https://s3.amazonaws.com/storage.clearkeep.io/[a-zA-Z0-9\\/\\_\\-\\.]+(\\.png|\\.jpeg|\\.jpg|\\.gif|\\.PNG|\\.JPEG|\\.JPG|\\.GIF))"
+		do {
+			let regex = try NSRegularExpression(pattern: regex, options: [])
+			let nsString = NSString(string: content)
+			let results = regex.matches(in: content, options: [], range: NSRange(location: 0, length: nsString.length))
+			return results.map { nsString.substring(with: $0.range) }.filter { !$0.isEmpty }
+		} catch let error {
+			print("invalid regex: \(error.localizedDescription)")
+			return []
+		}
+	}
+	
+	static func getImageMessageContent(content: String) -> String? {
+		let regex = "(https://s3.amazonaws.com/storage.clearkeep.io/[a-zA-Z0-9\\/\\_\\-\\.]+(\\.png|\\.jpeg|\\.jpg|\\.gif|\\.PNG|\\.JPEG|\\.JPG|\\.GIF))"
+		do {
+			let regex = try NSRegularExpression(pattern: regex, options: [])
+			let nsString = NSString(string: content)
+			let result = regex.stringByReplacingMatches(in: content, range: NSRange(location: 0, length: nsString.length), withTemplate: "").trimmingCharacters(in: .whitespaces)
+			return result.isEmpty ? nil : result
+		} catch let error {
+			print("invalid regex: \(error.localizedDescription)")
+			return nil
+		}
+	}
 }

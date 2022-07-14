@@ -21,6 +21,9 @@ protocol IHomeWorker {
 	func didSelectServer(_ domain: String?) -> [ServerModel]
 	func getProfile() async -> Result<IHomeModels, Error>
 	func signOut() async
+	func getListStatus() async -> Result<IHomeModels, Error>
+	func pingRequest() async
+	func updateStatus(status: String) async -> Result<IHomeModels?, Error>
 }
 
 class HomeWorker {
@@ -73,6 +76,30 @@ extension HomeWorker: IHomeWorker {
 	func getProfile() async -> Result<IHomeModels, Error> {
 		let result = await remoteStore.getProfile(domain: currentDomain ?? channelStorage.currentDomain)
 		
+		switch result {
+		case .success(let user):
+			return .success(user)
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+
+	func getListStatus() async -> Result<IHomeModels, Error> {
+		let result = await remoteStore.getListStatus(domain: self.channelStorage.currentDomain, userId: self.channelStorage.currentServer?.profile?.userId ?? "")
+		switch result {
+		case .success(let user):
+			return .success(user)
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+	
+	func pingRequest() async {
+		await remoteStore.pingServer(domain: self.channelStorage.currentDomain)
+	}
+	
+	func updateStatus(status: String) async -> Result<IHomeModels?, Error> {
+		let result = await remoteStore.changeStatus(domain: self.channelStorage.currentDomain, status: status)
 		switch result {
 		case .success(let user):
 			return .success(user)

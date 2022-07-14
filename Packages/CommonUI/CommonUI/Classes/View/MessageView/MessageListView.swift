@@ -42,7 +42,7 @@ public struct MessageListView: View {
 	public var body: some View {
 		GeometryReader { contentsGeometry in
 			ScrollViewReader { scrollView in
-				ScrollView(.vertical) {
+				ScrollView {
 					GeometryReader { proxy in
 						let frame = proxy.frame(in: .named(scrollAreaId))
 						let offset = frame.minY
@@ -54,6 +54,7 @@ public struct MessageListView: View {
 						ForEach(listDisplayMessage, id: \.message.id) { message in
 							let messageDate: String? = MessageUtils.showMessageDate(for: message, in: listDisplayMessage)
 							MessageBubbleView(messageViewModel: message.message, rectCorner: message.rectCorner)
+								.onTapGesture { }
 								.onLongPressGesture(perform: { onLongPress(message.message) })
 								.overlay(
 									messageDate != nil ?
