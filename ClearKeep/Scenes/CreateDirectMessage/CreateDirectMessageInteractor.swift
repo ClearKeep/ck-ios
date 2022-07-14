@@ -13,6 +13,8 @@ protocol ICreateDirectMessageInteractor {
 	var worker: ICreateDirectMessageWorker { get }
 	func searchUser(keyword: String) async -> Loadable<ICreatePeerViewModels>
 	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [CreatePeerUserViewModel]) async -> Loadable<ICreatePeerViewModels>
+	func checkPeopleLink(link: String) -> Bool
+	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)?
 }
 
 struct CreateDirectMessageInteractor {
@@ -30,8 +32,11 @@ extension CreateDirectMessageInteractor: ICreateDirectMessageInteractor {
 	}
 
 	func searchUser(keyword: String) async -> Loadable<ICreatePeerViewModels> {
+		if keyword.removeCharacters(characterSet: .whitespacesAndNewlines).isEmpty {
+			return .loaded(CreatePeerViewModels(groups: []))
+		}
+		
 		let result = await worker.searchUser(keyword: keyword)
-
 		switch result {
 		case .success(let searchUser):
 			let result = await worker.getProfile()
@@ -57,6 +62,14 @@ extension CreateDirectMessageInteractor: ICreateDirectMessageInteractor {
 			return .failed(error)
 		}
 	}
+	
+	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)? {
+		self.worker.getPeopleFromLink(link: link)
+	}
+	
+	func checkPeopleLink(link: String) -> Bool {
+		self.worker.checkPeopleLink(link: link)
+	}
 }
 
 struct StubCreateDirectMessageInteractor: ICreateDirectMessageInteractor {
@@ -76,5 +89,13 @@ struct StubCreateDirectMessageInteractor: ICreateDirectMessageInteractor {
 
 	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [CreatePeerUserViewModel]) async -> Loadable<ICreatePeerViewModels> {
 		return .notRequested
+	}
+	
+	func checkPeopleLink(link: String) -> Bool {
+		false
+	}
+	
+	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)? {
+		nil
 	}
 }

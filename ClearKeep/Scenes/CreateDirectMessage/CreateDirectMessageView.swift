@@ -17,7 +17,8 @@ struct CreateDirectMessageView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.injected) private var injected: DIContainer
 	@State private(set) var loadable: Loadable<ICreatePeerViewModels> = .notRequested
-	
+	@State private(set) var searchText: String = ""
+	@State private(set) var searchData: [CreatePeerUserViewModel] = []
 	// MARK: - Init
 
 	// MARK: - Body
@@ -56,7 +57,7 @@ private extension CreateDirectMessageView {
 // MARK: - Loading Content
 private extension CreateDirectMessageView {
 	var notRequestedView: some View {
-		DirectMessageContentView(loadable: $loadable, userData: .constant([]), profile: .constant(nil))
+		DirectMessageContentView(loadable: $loadable, userData: $searchData, profile: .constant(nil), searchText: $searchText)
 	}
 
 	var loadingView: some View {
@@ -65,15 +66,17 @@ private extension CreateDirectMessageView {
 
 	func loadedView(_ data: ICreatePeerViewModels) -> AnyView {
 		if let searchUser = data.searchUser {
-			let userData = searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
-			return AnyView(DirectMessageContentView(loadable: $loadable, userData: .constant(userData), profile: .constant(data.getProfile)))
+			let userData = self.searchText.isEmpty ? [] : searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+				searchData = userData
+			})
 		}
 
 		if let groupData = data.creatGroup {
 			return AnyView(ChatView(messageText: "", inputStyle: .default, groupId: groupData.groupID))
 		}
 
-		return AnyView(DirectMessageContentView(loadable: $loadable, userData: .constant([]), profile: .constant(nil)))
+		return AnyView(DirectMessageContentView(loadable: $loadable, userData: $searchData, profile: .constant(data.getProfile), searchText: $searchText))
 	}
 
 	func errorView(_ error: LoginViewError) -> some View {
