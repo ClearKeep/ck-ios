@@ -22,17 +22,19 @@ public struct UserGroupButton: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Binding var title: String
 	private var imageUrl: URL?
-	private var action: () -> Void
-	@State private(set) var isChecked: Bool = false
-
+	private var action: (Bool) -> Void
+	private var isChecked: Bool = false
+    
 	// MARK: Init
-	public init(_ title: Binding<String>, imageUrl: String, action: @escaping() -> Void) {
+    public init(_ title: Binding<String>, imageUrl: String, isChecked: Bool, action: @escaping(Bool) -> Void) {
 		self._title = title
 		self.action = action
+        self.isChecked = isChecked
 		self.imageUrl = URL(string: imageUrl)
+        
 	}
 
-	init(_ title: Binding<String>, action: @escaping() -> Void) {
+	init(_ title: Binding<String>, action: @escaping(Bool) -> Void) {
 		self.imageUrl = nil
 		self._title = title
 		self.action = action
@@ -41,7 +43,7 @@ public struct UserGroupButton: View {
 	// MARK: - Body
 	public var body: some View {
 		Button(action: {
-			action(); self.isChecked.toggle()
+            action(!self.isChecked)
 		}, label: {
 			if let imageURL = imageUrl {
 				HStack(spacing: Constants.spacing) {
@@ -103,7 +105,7 @@ private extension UserGroupButton {
 	}
 
 	var checkMaskIcon: Image {
-		isChecked ? commonUIConfig.imageSet.checkedIcon : commonUIConfig.imageSet.unCheckIcon
+		return isChecked ? commonUIConfig.imageSet.checkedIcon : commonUIConfig.imageSet.unCheckIcon
 	}
 
 }

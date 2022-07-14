@@ -95,6 +95,7 @@
 		22A1C69B2812B1D500FE957F /* ChatRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6962812B1D500FE957F /* ChatRemoteStore.swift */; };
 		22A1C69C2812B1D500FE957F /* ChatInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6972812B1D500FE957F /* ChatInteractor.swift */; };
 		22A1C69D2812B1D500FE957F /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6982812B1D500FE957F /* ChatView.swift */; };
+		22C507F1287E64BA009F92A7 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C507F0287E64BA009F92A7 /* Toast.swift */; };
 		A6B2FA2375D2B93118FCC576 /* Pods_notificationextension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7261DD92456D4CFB93133C7 /* Pods_notificationextension.framework */; };
 		BC792611F654074DCC1211EA /* Pods_ClearKeep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A61EB3B14466BFECDD5168C3 /* Pods_ClearKeep.framework */; };
 		CB117E2727BB5283000941D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB117E2627BB5283000941D9 /* Assets.xcassets */; };
@@ -348,6 +349,7 @@
 		22A1C6962812B1D500FE957F /* ChatRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRemoteStore.swift; sourceTree = "<group>"; };
 		22A1C6972812B1D500FE957F /* ChatInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInteractor.swift; sourceTree = "<group>"; };
 		22A1C6982812B1D500FE957F /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		22C507F0287E64BA009F92A7 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		25FDB2207725F29CF682E252 /* Pods-ClearKeep.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.development.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.development.xcconfig"; sourceTree = "<group>"; };
 		5707AA6299C058BD2617D441 /* Pods-notificationextension.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notificationextension.qa.xcconfig"; path = "Target Support Files/Pods-notificationextension/Pods-notificationextension.qa.xcconfig"; sourceTree = "<group>"; };
 		60010434D295F5F8CB1BEA97 /* Pods-ClearKeep.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.production.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.production.xcconfig"; sourceTree = "<group>"; };
@@ -1010,6 +1012,7 @@
 				CB7F2990282CF11C00BD5049 /* MenuView.swift */,
 				CB7F299A282D5FB300BD5049 /* ListGroupView.swift */,
 				CB23605328337CD400D98F54 /* HomeContentView.swift */,
+				22C507F0287E64BA009F92A7 /* Toast.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1822,6 +1825,7 @@
 				CB7F2993282D0CEA00BD5049 /* MenuType.swift in Sources */,
 				0499345727E9A8BE003BD4C4 /* AdvancedSeverView.swift in Sources */,
 				0499344D27E97100003BD4C4 /* ChangePasswordContentView.swift in Sources */,
+				22C507F1287E64BA009F92A7 /* Toast.swift in Sources */,
 				0499345527E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift in Sources */,
 				F564484F283F8562007846F9 /* InComingVoiceCallView.swift in Sources */,
 				F5CFCA2928237CD000A9737F /* GroupCallModel.swift in Sources */,
@@ -2142,7 +2146,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.dev;
 				PRODUCT_NAME = "$(IOS_APP_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.telred.clearkeep.dev";
+				PROVISIONING_PROFILE_SPECIFIER = "clk-ios-dev";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

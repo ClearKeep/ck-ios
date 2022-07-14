@@ -25,7 +25,9 @@ public struct CommonTextField: View {
 	private let inputIcon: Image?
 	private let placeHolder: String
 	private let keyboardType: UIKeyboardType
+	private let submitLabel: SubmitLabel
 	private let onEditingChanged: (Bool) -> Void
+	private let onSubmit: (() -> Void)
 
 	// MARK: - Init
 	public init(text: Binding<String>,
@@ -33,13 +35,18 @@ public struct CommonTextField: View {
 				inputIcon: Image? = nil,
 				placeHolder: String,
 				keyboardType: UIKeyboardType = .default,
-				onEditingChanged: @escaping (Bool) -> Void) {
+				onEditingChanged: @escaping (Bool) -> Void,
+				submitLabel: SubmitLabel = .continue,
+				onSubmit: @escaping (() -> Void) = {}
+	) {
 		self._text = text
 		self._inputStyle = inputStyle
 		self.inputIcon = inputIcon
 		self.placeHolder = placeHolder
 		self.keyboardType = keyboardType
 		self.onEditingChanged = onEditingChanged
+		self.submitLabel = submitLabel
+		self.onSubmit = onSubmit
 	}
 
 	// MARK: - Body
@@ -56,10 +63,13 @@ public struct CommonTextField: View {
 				}
 				TextField(placeHolder, text: $text, onEditingChanged: onEditingChanged)
 					.font(font)
+					.keyboardType(self.keyboardType)
 					.foregroundColor(textColor)
 					.padding(.vertical, Constants.paddingVertical)
 					.padding(.trailing, Constants.paddingHorizontal)
 					.autocapitalization(.none)
+					.submitLabel(submitLabel)
+					.onSubmit(self.onSubmit)
 			}
 			.frame(height: Constants.textFieldHeight)
 			.background(backgroundColor)

@@ -24,7 +24,9 @@ struct ChatGroupView: View {
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	@State private(set) var loadable: Loadable<ICreatGroupViewModels> = .notRequested
 	@State private(set) var myProfile: CreatGroupProfieViewModel?
-	
+	@State private(set) var addMember: [CreatGroupGetUsersViewModel] = []
+	@State private(set) var searchText: String = ""
+	@State private(set) var searchData: [CreatGroupGetUsersViewModel] = []
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -65,7 +67,7 @@ private extension ChatGroupView {
 // MARK: - Loading Content
 private extension ChatGroupView {
 	var notRequestedView: some View {
-		ChatGroupContentView(loadable: $loadable, search: .constant([]), getUser: .constant([]), getProfile: .constant(nil))
+		ChatGroupContentView(loadable: $loadable, search: $searchData, getUser: .constant([]), getProfile: .constant(nil), addMember: $addMember, searchText: $searchText)
 	}
 	
 	var loadingView: some View {
@@ -75,15 +77,34 @@ private extension ChatGroupView {
 	func loadedView(_ data: ICreatGroupViewModels) -> AnyView {
 		
 		if let searchUser = data.searchUser {
+			var userData = self.searchText.isEmpty ? [] : searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
+			userData = searchUser.map { item in
+				return CreatGroupGetUsersViewModel(id: item.id, displayName: item.displayName, workspaceDomain: DependencyResolver.shared.channelStorage.currentDomain)
+			}
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+				self.searchData = userData
+			})
+		}
+		
+		if let searchUser = data.searchUserWithEmail {
 			let userData = searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
-			return AnyView(ChatGroupContentView(loadable: $loadable, search: .constant(userData), getUser: .constant([]), getProfile: .constant(data.getProfile)))
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+				self.searchData = userData
+			})
 		}
 		
 		if let groupData = data.creatGroup {
 			return AnyView(ChatView(messageText: "", inputStyle: .default, groupId: groupData.groupID))
 		}
 		
-		return AnyView(ChatGroupContentView(loadable: $loadable, search: .constant([]), getUser: .constant([]), getProfile: .constant(data.getProfile)))
+		if let profileWithLink = data.profileWithLink,
+		   !addMember.contains(where: { $0.id == profileWithLink.id }) {
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+				addMember.append(profileWithLink)
+			})
+		}
+		
+		return AnyView(ChatGroupContentView(loadable: $loadable, search: $searchData, getUser: .constant(self.searchData), getProfile: .constant(data.getProfile), addMember: $addMember, searchText: $searchText))
 	}
 	
 	func errorView(_ error: LoginViewError) -> some View {

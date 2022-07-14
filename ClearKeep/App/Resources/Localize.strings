@@ -119,10 +119,14 @@
 "Menu.Profile.Title" = "Profile";
 "Menu.Server.Title" = "Sever";
 "Menu.Notification.Title" = "Notification";
+"Menu.Copy.Title" = "You copied";
 
 // MARK: - Status
 "Status.Online.Title" = "Online";
 "Status.Busy.Title" = "Busy";
+"Status.Offline.Title" = "Offline";
+"Status.Undefined.Title" = "Undefined";
+
 
 // MARK: - DirectMessages
 "DirectMessages.AddUserTitle" = "Add user from other server";
@@ -162,6 +166,12 @@
 "GroupChat.Add" = "Add";
 "GroupChat.Next" = "Next";
 "GroupChat.Create" = "Create";
+"GroupChat.YouCantCreateConversationWithYouSelf" = "You can't create conversation with yourself";
+"GroupChat.Warning" = "Warning";
+"GroupChat.Ok" = "OK";
+"GroupChat.PasteYourFriendEmail" = "Paste your friend's email";
+"GroupChat.AddUserFromEmail.Title" = "Add user from email";
+"GroupChat.EmailIsIncorrect" = "Email is incorrect.";
 
 // MARK: - Call
 "Call.Calling" = "Calling";

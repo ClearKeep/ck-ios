@@ -7,9 +7,11 @@
 
 import SwiftUI
 
-enum StatusType: Equatable, CaseIterable {
-	case online
-	case busy
+enum StatusType: String, Equatable, CaseIterable {
+	case online = "Online"
+	case ofline = "Offline"
+	case busy = "Busy"
+	case undefined = "Undefined"
 	
 	var title: String {
 		switch self {
@@ -17,6 +19,10 @@ enum StatusType: Equatable, CaseIterable {
 			return "Status.Online.Title".localized
 		case .busy:
 			return "Status.Busy.Title".localized
+		case .ofline:
+			return "Status.Offline.Title".localized
+		case .undefined:
+			return "Status.Offline.Title".localized
 		}
 	}
 	
@@ -26,6 +32,10 @@ enum StatusType: Equatable, CaseIterable {
 			return AppTheme.shared.colorSet.successDefault
 		case .busy:
 			return AppTheme.shared.colorSet.errorDefault
+		case .ofline:
+			return AppTheme.shared.colorSet.grey3
+		case .undefined:
+			return AppTheme.shared.colorSet.grey3
 		}
 	}
 }
