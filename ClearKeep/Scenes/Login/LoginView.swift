@@ -98,7 +98,8 @@ private extension LoginView {
 	
 	func loadedView(_ data: IAuthenticationModel) -> AnyView {
 		if let normalLogin = data.normalLogin {
-			return AnyView(HomeView())
+			return AnyView(HomeView()
+				.onAppear(perform: subscribeAndListen))
 		}
 		
 		if let socialLogin = data.socialLogin,
@@ -145,6 +146,12 @@ private extension LoginView {
 private extension LoginView {
 	var backgroundArlert: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.warningLight : AppTheme.shared.colorSet.primaryDefault
+	}
+}
+
+private extension LoginView {
+	func subscribeAndListen() {
+		injected.interactors.homeInteractor.subscribeAndListenServers()
 	}
 }
 

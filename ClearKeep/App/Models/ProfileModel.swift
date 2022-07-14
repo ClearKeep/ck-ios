@@ -15,6 +15,7 @@ struct ProfieModel: IUser {
 	var email: String
 	var phoneNumber: String
 	var avatar: String
+	var status: String = ""
 }
 
 extension ProfieModel {

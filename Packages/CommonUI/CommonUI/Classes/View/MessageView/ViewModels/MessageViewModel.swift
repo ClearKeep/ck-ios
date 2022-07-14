@@ -18,6 +18,7 @@ public protocol IMessageViewModel {
 	var isMine: Bool { get }
 	var isQuoteMessage: Bool { get }
 	var isForwardedMessage: Bool { get }
+	var isImageMessage: Bool { get }
 	var clientWorkspaceDomain: String { get }
 	
 	func dateCreatedString() -> String

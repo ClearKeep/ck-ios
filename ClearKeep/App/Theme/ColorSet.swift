@@ -8,7 +8,7 @@
 import CommonUI
 import SwiftUI
 
-protocol IAppColorSet: IColorSet & ICommonUIColorSet {}
+protocol IAppColorSet: IColorSet, ICommonUIColorSet {}
 
 struct ColorSet: IAppColorSet {
 	// MARK: - Grayscale

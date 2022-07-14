@@ -13,7 +13,10 @@ import Model
 protocol IHomeRemoteStore {
 	func getJoinedGroup(domain: String) async -> Result<IHomeModels, Error>
 	func getProfile(domain: String) async -> Result<IHomeModels, Error>
+	func getListStatus(domain: String, userId: String) async -> Result<IHomeModels, Error>
 	func signOut() async
+	func pingServer(domain: String) async
+	func changeStatus(domain: String, status: String) async -> Result<IHomeModels?, Error>
 }
 
 struct HomeRemoteStore {
@@ -43,6 +46,31 @@ extension HomeRemoteStore: IHomeRemoteStore {
 		switch result {
 		case .success(let user):
 			return .success(HomeModels(responseUser: user))
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+	
+	func getListStatus(domain: String, userId: String) async -> Result<IHomeModels, Error> {
+		let result = await userService.getListStatus(clientID: userId, workspaceDomain: domain, domain: domain)
+		switch result {
+		case .success(let response):
+			let client = response.lstClient.first(where: { $0.clientID == userId })
+			return .success(HomeModels(responseUser: client))
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+	
+	func pingServer(domain: String) async {
+		_ = await userService.pingRequest(domain: domain)
+	}
+	
+	func changeStatus(domain: String, status: String) async -> Result<IHomeModels?, Error> {
+		let result = await userService.updateStatus(status: status, domain: domain)
+		switch result {
+		case .success:
+			return .success(nil)
 		case .failure(let error):
 			return .failure(error)
 		}

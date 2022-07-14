@@ -33,10 +33,26 @@ struct HomeView: View {
 					GroupViewModel(profile)} ?? [GroupViewModel]()
 				self.peers = load.groupViewModel?.viewModelGroup.filter { $0.groupType != "group" }.compactMap { profile in
 					GroupViewModel(profile)} ?? [GroupViewModel]()
-				self.user = [load.userViewModel?.viewModelUser].compactMap { profile in
-					UserViewModel(profile)}
+				self.user = [UserViewModel(load.userViewModel?.viewModelUser)]
 			case .failed(let error):
 				print(error)
+			default: break
+			}
+		}
+	}
+	
+	@State private var loadableStatus: Loadable<UserViewModels> = .notRequested {
+		didSet {
+			switch loadableStatus {
+			case .loaded(let load):
+				isLoading = false
+				self.user = [UserViewModel(load.viewModelUser)]
+			case .failed(let error):
+				isLoading = false
+				self.error = LoginViewError(error)
+				self.isShowError = true
+			case .isLoading:
+				isLoading = true
 			default: break
 			}
 		}
@@ -50,6 +66,9 @@ struct HomeView: View {
 	@State private(set) var groups: [GroupViewModel] = []
 	@State private(set) var peers: [GroupViewModel] = []
 	@State private(set) var user: [UserViewModel] = [UserViewModel]()
+	@State private var isLoading: Bool = false
+	@State private var isShowError: Bool = false
+	@State private var error: LoginViewError?
 	let inspection = ViewInspector<Self>()
 
 	var body: some View {
@@ -84,20 +103,27 @@ struct HomeView: View {
 					LinearGradient(gradient: Gradient(colors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary.compactMap({ $0.opacity(Constants.opacity) }) : AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
 						.blur(radius: Constants.blur)
 						.edgesIgnoringSafeArea(.vertical)
-					MenuView(isShowMenu: $isShowMenu, user: $user)
-						.frame(width: geometry.size.width)
-						.offset(x: isShowMenu ? 0 : geometry.size.width * 2)
-						.transition(.move(edge: .trailing))
-						.animation(.default, value: Constants.duration)
-						.ignoresSafeArea()
-						.padding(.top, Constants.paddingMenu) 
+					MenuView(isShowMenu: $isShowMenu, user: $user, chageStatus: { status in
+						self.changeStatus(status: status)
+					})
+					.frame(width: geometry.size.width)
+					.offset(x: isShowMenu ? 0 : geometry.size.width * 2)
+					.transition(.move(edge: .trailing))
+					.animation(.default, value: Constants.duration)
+					.ignoresSafeArea()
+					.padding(.top, Constants.paddingMenu)
 				}
 			}
 			.hiddenNavigationBarStyle()
 			.onAppear(perform: getServers)
 			.onAppear(perform: getServerInfo)
 			.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
-		}
+		}.progressHUD(isLoading)
+			.alert(isPresented: $isShowError) {
+				Alert(title: Text(self.error?.title ?? ""),
+					  message: Text(self.error?.message ?? ""),
+					  dismissButton: .default(Text(error?.primaryButtonTitle ?? "")))
+			}
 	}
 }
 
@@ -141,6 +167,13 @@ private extension HomeView {
 	func getServerInfo() {
 		Task {
 			loadable = await injected.interactors.homeInteractor.getServerInfo()
+		}
+	}
+	
+	func changeStatus(status: StatusType) {
+		self.loadableStatus = .isLoading(last: nil, cancelBag: CancelBag())
+		Task {
+			loadableStatus = await injected.interactors.homeInteractor.updateStatus(status: status.rawValue)
 		}
 	}
 }

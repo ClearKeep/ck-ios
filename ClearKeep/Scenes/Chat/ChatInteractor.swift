@@ -12,6 +12,8 @@ import Model
 
 private enum Constants {
 	static let loadSize = 20
+	static let maxImageCount = 10
+	static let maxFilesizes = 1_000_000_000 // 1GB
 }
 
 protocol IChatInteractor {
@@ -21,6 +23,7 @@ protocol IChatInteractor {
 	func updateMessages(groupId: Int64, group: IGroupModel?, lastMessageAt: Int64) async -> Loadable<IChatViewModels>
 	func getJoinedGroupsFromLocal() async -> [IGroupModel]
 	func forwardPeerMessage(message: String, group: IGroupModel) async -> Bool
+	func uploadFiles(message: String, fileURLs: [URL], group: IGroupModel?, isForceProcessKey: Bool) async -> Loadable<IChatViewModels>
 }
 
 struct ChatInteractor {
@@ -29,12 +32,13 @@ struct ChatInteractor {
 	let realmManager: RealmManager
 	let groupService: IGroupService
 	let messageService: IMessageService
+	let uploadFileService: IUploadFileService
 }
 
 extension ChatInteractor: IChatInteractor {
 	
 	var worker: IChatWorker {
-		let remoteStore = ChatRemoteStore(groupService: groupService, messageService: messageService)
+		let remoteStore = ChatRemoteStore(groupService: groupService, messageService: messageService, uploadFileService: uploadFileService)
 		let inMemoryStore = ChatInMemoryStore(realmManager: realmManager)
 		return ChatWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
@@ -116,6 +120,36 @@ extension ChatInteractor: IChatInteractor {
 		}
 	}
 	
+	func uploadFiles(message: String, fileURLs: [URL], group: IGroupModel?, isForceProcessKey: Bool) async -> Loadable<IChatViewModels> {
+		if fileURLs.count > 10 {
+			return .failed(ServerError.unknown)
+		}
+
+		if !isValidFileSizes(urls: fileURLs) {
+			return .failed(ServerError.unknown)
+		}
+		guard let domain = channelStorage.currentServer?.serverDomain else { return .failed(ServerError.unknown) }
+		
+		guard let messageContent = await worker.uploadFiles(message: message, fileURLs: fileURLs, domain: domain) else { return .failed(ServerError.unknown) }
+		
+		return await self.sendMessageInPeer(message: messageContent, groupId: group?.groupId ?? 0, group: group, isForceProcessKey: isForceProcessKey)
+	}
+	
+	private func isValidFileSizes(urls: [URL]) -> Bool {
+		do {
+			var totalFileSize: Int64 = 0
+			try urls.forEach { url in
+				_ = url.startAccessingSecurityScopedResource()
+				let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
+				let size = attributes[.size] as? Int64 ?? 0
+				totalFileSize += size
+			}
+			return totalFileSize < Constants.maxFilesizes
+		} catch {
+			return false
+		}
+	}
+	
 }
 
 struct StubChatInteractor: IChatInteractor {
@@ -123,10 +157,11 @@ struct StubChatInteractor: IChatInteractor {
 	let channelStorage: IChannelStorage
 	let groupService: IGroupService
 	let messageService: IMessageService
+	let uploadFileService: IUploadFileService
 	let realmManager: RealmManager
 
 	var worker: IChatWorker {
-		let remoteStore = ChatRemoteStore(groupService: groupService, messageService: messageService)
+		let remoteStore = ChatRemoteStore(groupService: groupService, messageService: messageService, uploadFileService: uploadFileService)
 		let inMemoryStore = ChatInMemoryStore(realmManager: realmManager)
 		return ChatWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
@@ -149,5 +184,9 @@ struct StubChatInteractor: IChatInteractor {
 	
 	func forwardPeerMessage(message: String, group: IGroupModel) async -> Bool {
 		return false
+	}
+	
+	func uploadFiles(message: String, fileURLs: [URL], group: IGroupModel?, isForceProcessKey: Bool) async -> Loadable<IChatViewModels> {
+		return .notRequested
 	}
 }
