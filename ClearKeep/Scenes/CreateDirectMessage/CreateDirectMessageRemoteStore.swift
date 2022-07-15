@@ -14,6 +14,8 @@ protocol ICreateDirectMessageRemoteStore {
 	func searchUser(keyword: String, domain: String) async -> (Result<ICreatePeerModels, Error>)
 	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [CreatePeerUserViewModel], domain: String) async -> (Result<ICreatePeerModels, Error>)
 	func getProfile(domain: String) async -> Result<ICreatePeerModels, Error>
+	func getUserProfile(clientId: String, workspaceDomain: String, domain: String) async -> Result<ICreatePeerModels, Error>
+	func searchUserWithEmail(keyword: String, domain: String) async -> (Result<ICreatePeerModels, Error>)
 }
 
 struct CreateDirectMessageRemoteStore {
@@ -39,7 +41,7 @@ extension CreateDirectMessageRemoteStore: ICreateDirectMessageRemoteStore {
 			var clientInGroup = Group_ClientInGroupObject()
 			clientInGroup.id = users.id
 			clientInGroup.displayName = users.displayName
-			clientInGroup.workspaceDomain = domain
+			clientInGroup.workspaceDomain = users.workspaceDomain
 			clientInGroups.append(clientInGroup)
 		}
 
@@ -59,6 +61,26 @@ extension CreateDirectMessageRemoteStore: ICreateDirectMessageRemoteStore {
 		switch result {
 		case .success(let user):
 			return .success(CreatePeerModels(getProfile: user))
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+	
+	func getUserProfile(clientId: String, workspaceDomain: String, domain: String) async -> Result<ICreatePeerModels, Error> {
+		let result = await userService.getUserInfo(clientID: clientId, workspaceDomain: workspaceDomain, domain: domain)
+		switch result {
+		case .success(let user):
+			return .success(CreatePeerModels(userProfileWithLink: user))
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+	
+	func searchUserWithEmail(keyword: String, domain: String) async -> (Result<ICreatePeerModels, Error>) {
+		let result = await userService.searchUserWithEmail(emailHash: keyword.sha256(), domain: domain)
+		switch result {
+		case .success(let user):
+			return .success(CreatePeerModels(searchUserWithEmail: user))
 		case .failure(let error):
 			return .failure(error)
 		}

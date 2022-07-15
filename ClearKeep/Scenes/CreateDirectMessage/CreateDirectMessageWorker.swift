@@ -16,6 +16,8 @@ protocol ICreateDirectMessageWorker {
 	func searchUser(keyword: String) async -> (Result<ICreatePeerModels, Error>)
 	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [CreatePeerUserViewModel]) async -> (Result<ICreatePeerModels, Error>)
 	func getProfile() async -> Result<ICreatePeerModels, Error>
+	func getUserInfor(clientId: String, workspaceDomain: String) async -> (Result<ICreatePeerModels, Error>)
+	func searchUserWithEmail(email: String) async -> (Result<ICreatePeerModels, Error>)
 	func checkPeopleLink(link: String) -> Bool
 	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)?
 }
@@ -54,6 +56,27 @@ extension CreateDirectMessageWorker: ICreateDirectMessageWorker {
 	func getProfile() async -> Result<ICreatePeerModels, Error> {
 		let result = await remoteStore.getProfile(domain: currentDomain ?? channelStorage.currentDomain)
 
+		switch result {
+		case .success(let user):
+			return .success(user)
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+	
+	func getUserInfor(clientId: String, workspaceDomain: String) async -> (Result<ICreatePeerModels, Error>) {
+		let result = await remoteStore.getUserProfile(clientId: clientId, workspaceDomain: workspaceDomain, domain: currentDomain ?? channelStorage.currentDomain)
+		switch result {
+		case .success(let user):
+			return .success(user)
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+	
+	func searchUserWithEmail(email: String) async -> (Result<ICreatePeerModels, Error>) {
+		let result = await remoteStore.searchUserWithEmail(keyword: email, domain: currentDomain ?? channelStorage.currentDomain)
+		
 		switch result {
 		case .success(let user):
 			return .success(user)

@@ -14,17 +14,17 @@ struct CreatePeerChatViewModel {
 	var groupAvatar: String
 	var groupType: String
 	var lstClient: [ClientInPeerViewModel]
-	var lastMessageAt: Int64
-	var lastMessage: PeerMessageResponseViewModel
-	var hasLastMessage: Bool
-	var createdByClientID: String
-	var createdAt: Int64
-	var updatedByClientID: String
-	var updatedAt: Int64
-	var groupRtcToken: String
+	var lastMessageAt: Int64 = 0
+	var lastMessage: PeerMessageResponseViewModel?
+	var hasLastMessage: Bool = false
+	var createdByClientID: String = ""
+	var createdAt: Int64 = 0
+	var updatedByClientID: String = ""
+	var updatedAt: Int64 = 0
+	var groupRtcToken: String = ""
 	var hasUnreadMessage: Bool
-	var clientKey: PeerClientKeyViewModel
-	var hasClientKey: Bool
+	var clientKey: PeerClientKeyViewModel?
+	var hasClientKey: Bool = false
 
 	init(_ group: IGroupResponseModel?) {
 		let groupMembers = group?.lstClient.map { member in
@@ -51,6 +51,18 @@ struct CreatePeerChatViewModel {
 		clientKey = clientKeys
 		hasClientKey = group?.hasClientKey ?? false
 	}
+	
+	init(_ group: GroupViewModel) {
+		self.groupID = group.groupId
+		self.groupName = group.groupName
+		self.groupAvatar = group.groupAvatar
+		self.groupType = group.groupType
+		self.hasUnreadMessage = group.hasUnreadMessage
+		let groupMembers = group.groupMembers.map { member in
+			ClientInPeerViewModel(member)
+		}
+		self.lstClient = groupMembers
+	}
 }
 
 struct ClientInPeerViewModel: Identifiable {
@@ -61,6 +73,12 @@ struct ClientInPeerViewModel: Identifiable {
 		id = clientInGroup?.id ?? ""
 		displayName = clientInGroup?.displayName ?? ""
 		workspaceDomain = clientInGroup?.workspaceDomain ?? ""
+	}
+	
+	init(_ clientInGroup: IMemberModel?) {
+		id = clientInGroup?.userId ?? ""
+		displayName = clientInGroup?.userName ?? ""
+		workspaceDomain = clientInGroup?.domain ?? ""
 	}
 }
 
