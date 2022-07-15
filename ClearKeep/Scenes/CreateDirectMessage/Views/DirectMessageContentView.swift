@@ -31,6 +31,8 @@ struct DirectMessageContentView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@State private(set) var searchLinkText: String = ""
 	@State private(set) var inputStyle: TextInputStyle = .default
+	@State private(set) var inputLinkStyle: TextInputStyle = .default
+	@State private(set) var inputEmailStyle: TextInputStyle = .default
 	@State private(set) var isShowingLinkUser: Bool = false
 	@Binding var loadable: Loadable<ICreatePeerViewModels>
 	@Binding var userData: [CreatePeerUserViewModel]
@@ -40,7 +42,8 @@ struct DirectMessageContentView: View {
 	@State private var messageAlert: String = ""
 	@State private var isShowAlert: Bool = false
 	@State private var useFindByEmail: Bool = false
-
+	@State private var searchEmailText: String = ""
+	let groups: [GroupViewModel]
 	// MARK: - Init
 
 	// MARK: - Body
@@ -55,14 +58,37 @@ struct DirectMessageContentView: View {
 				.onChange(of: searchText) { text in
 					search(text: text)
 				}
-			CheckBoxButtons(text: "DirectMessages.AddUserTitle".localized, isChecked: $isShowingLinkUser)
+			CheckBoxButtons(text: "DirectMessages.AddUserTitle".localized, isChecked: $isShowingLinkUser, action: {
+				self.useFindByEmail = false
+				self.searchEmailText = ""
+			})
 				.foregroundColor(foregroundCheckmask)
+			
+			CheckBoxButtons(text: "GroupChat.AddUserFromEmail.Title".localized, isChecked: $useFindByEmail, action: {
+				self.isShowingLinkUser = false
+				self.searchLinkText = ""
+			})
+			.foregroundColor(foregroundCheckmask)
+			
+			if useFindByEmail {
+				CommonTextField(text: $searchEmailText,
+								inputStyle: $inputEmailStyle,
+								placeHolder: "GroupChat.PasteYourFriendEmail".localized,
+								onEditingChanged: { isEditing in
+					inputEmailStyle = isEditing ? .highlighted : .normal
+				},
+								submitLabel: .done,
+								onSubmit: searchEmail)
+			}
+			
 			if isShowingLinkUser {
 				VStack {
 					CommonTextField(text: $searchLinkText,
-									inputStyle: $inputStyle,
+									inputStyle: $inputLinkStyle,
 									placeHolder: "DirectMessages.LinkTitle".localized,
-									onEditingChanged: { _ in })
+									onEditingChanged: { isEditing in
+						inputLinkStyle = isEditing ? .highlighted : .normal
+					})
 					Spacer()
 					RoundedGradientButton("DirectMessages.Next".localized,
 										  disabled: .constant(searchLinkText.isEmpty),
@@ -125,6 +151,10 @@ private extension DirectMessageContentView {
 	}
 
 	func nextAction(_ data: CreatePeerUserViewModel) {
+		if self.checkUserIsAdded(id: data.id) {
+			return
+		}
+		
 		clientInGroup.append(data)
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
@@ -145,13 +175,49 @@ private extension DirectMessageContentView {
 	func createUserByLink() {
 		if !injected.interactors.createDirectMessageInteractor.checkPeopleLink(link: searchLinkText) {
 			let people = injected.interactors.chatGroupInteractor.getPeopleFromLink(link: searchLinkText)
-			
+			if self.checkUserIsAdded(id: people?.id ?? "") {
+				return
+			}
+			loadable = .isLoading(last: nil, cancelBag: CancelBag())
+			Task {
+				let profile = DependencyResolver.shared.channelStorage.currentServer?.profile
+				let client = CreatePeerUserViewModel(id: profile?.userId ?? "", displayName: profile?.userName ?? "", workspaceDomain: DependencyResolver.shared.channelStorage.currentDomain)
+				let clientInGroup: [CreatePeerUserViewModel] = [client]
+				loadable = await injected.interactors.createDirectMessageInteractor.createGroupWithOrtherLink(by: profile?.userId ?? "fail",
+																											  groupName: "",
+																											  groupType: "peer",
+																											  lstClient: clientInGroup,
+																											  clientIdOther: people?.id ?? "id",
+																											  workSpace: people?.domain ?? "")
+			}
 		} else {
 			self.messageAlert = "GroupChat.YouCantCreateConversationWithYouSelf".localized
 			self.isShowAlert = true
 			self.searchLinkText = ""
 			self.isShowingLinkUser = false
 		}
+	}
+	
+	func searchEmail() {
+		if searchEmailText.validEmail {
+			Task {
+				loadable = await self.injected.interactors.createDirectMessageInteractor.searchUserWithEmail(email: searchEmailText)
+			}
+		} else {
+			self.messageAlert = "GroupChat.EmailIsIncorrect".localized
+			self.isShowAlert = true
+		}
+	}
+	
+	private func checkUserIsAdded(id: String) -> Bool {
+		if let group = groups.first(where: { item in
+			item.groupMembers.contains(where: { $0.userId == id })
+		}) {
+			loadable = .loaded(CreatePeerViewModels(creatGroup: CreatePeerChatViewModel(group)))
+			return true
+		}
+		
+		return false
 	}
 }
 
@@ -163,7 +229,7 @@ private extension DirectMessageContentView {
 #if DEBUG
 struct DirectMessageContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		DirectMessageContentView(loadable: .constant(.notRequested), userData: .constant([]), profile: .constant(nil), searchText: .constant(""))
+		DirectMessageContentView(loadable: .constant(.notRequested), userData: .constant([]), profile: .constant(nil), searchText: .constant(""), groups: [])
 	}
 }
 #endif

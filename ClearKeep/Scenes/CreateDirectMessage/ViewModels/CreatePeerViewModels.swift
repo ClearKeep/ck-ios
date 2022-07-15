@@ -12,12 +12,16 @@ protocol ICreatePeerViewModels {
 	var searchUser: [CreatePeerUserViewModel]? { get }
 	var creatGroup: CreatePeerChatViewModel? { get }
 	var getProfile: CreatePeerProfileViewModel? { get }
+	var profileWithLink: CreatePeerUserViewModel? { get }
+	var searchUserWithEmail: [CreatePeerUserViewModel]? { get }
 }
 
 struct CreatePeerViewModels: ICreatePeerViewModels {
 	var searchUser: [CreatePeerUserViewModel]?
 	var creatGroup: CreatePeerChatViewModel?
 	var getProfile: CreatePeerProfileViewModel?
+	var profileWithLink: CreatePeerUserViewModel?
+	var searchUserWithEmail: [CreatePeerUserViewModel]?
 }
 
 extension CreatePeerViewModels {
@@ -41,5 +45,16 @@ extension CreatePeerViewModels {
 	
 	init(groups: [CreatePeerUserViewModel]?) {
 		self.searchUser = groups
+	}
+	
+	init(profileInforWithLink: ICreatePeerModels) {
+		self.profileWithLink = CreatePeerUserViewModel.init(profileInforWithLink.getProfileModelWithLink)
+	}
+	
+	init(usersWithEmail: ICreatePeerModels) {
+		let searchUsers = usersWithEmail.searchUserModelWithEmail?.lstUser.map { member in
+			CreatePeerUserViewModel(member)
+		}
+		self.searchUserWithEmail = searchUsers
 	}
 }

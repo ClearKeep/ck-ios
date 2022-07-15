@@ -61,6 +61,6 @@ private extension ListUser {
 	}
 	
 	var avatarDefault: some View {
-		AvatarDefault(title: String(name.prefix(1)))
+		AvatarDefault(.constant(String(name.prefix(1))), imageUrl: "")
 	}
 }

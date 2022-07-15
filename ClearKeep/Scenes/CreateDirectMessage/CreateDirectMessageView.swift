@@ -19,8 +19,12 @@ struct CreateDirectMessageView: View {
 	@State private(set) var loadable: Loadable<ICreatePeerViewModels> = .notRequested
 	@State private(set) var searchText: String = ""
 	@State private(set) var searchData: [CreatePeerUserViewModel] = []
+	private let groups: [GroupViewModel]
 	// MARK: - Init
-
+	init (groups: [GroupViewModel]) {
+		self.groups = groups
+	}
+	
 	// MARK: - Body
 	var body: some View {
 		content
@@ -57,7 +61,7 @@ private extension CreateDirectMessageView {
 // MARK: - Loading Content
 private extension CreateDirectMessageView {
 	var notRequestedView: some View {
-		DirectMessageContentView(loadable: $loadable, userData: $searchData, profile: .constant(nil), searchText: $searchText)
+		DirectMessageContentView(loadable: $loadable, userData: $searchData, profile: .constant(nil), searchText: $searchText, groups: self.groups)
 	}
 
 	var loadingView: some View {
@@ -66,9 +70,19 @@ private extension CreateDirectMessageView {
 
 	func loadedView(_ data: ICreatePeerViewModels) -> AnyView {
 		if let searchUser = data.searchUser {
-			let userData = self.searchText.isEmpty ? [] : searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
+			var userData = self.searchText.isEmpty ? [] : searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
+			userData = searchUser.map { item in
+				return CreatePeerUserViewModel(id: item.id, displayName: item.displayName, workspaceDomain: DependencyResolver.shared.channelStorage.currentDomain)
+			}
 			DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
 				searchData = userData
+			})
+		}
+		
+		if let searchUser = data.searchUserWithEmail {
+			let userData = searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+				self.searchData = userData
 			})
 		}
 
@@ -76,7 +90,7 @@ private extension CreateDirectMessageView {
 			return AnyView(ChatView(messageText: "", inputStyle: .default, groupId: groupData.groupID))
 		}
 
-		return AnyView(DirectMessageContentView(loadable: $loadable, userData: $searchData, profile: .constant(data.getProfile), searchText: $searchText))
+		return AnyView(DirectMessageContentView(loadable: $loadable, userData: $searchData, profile: .constant(data.getProfile), searchText: $searchText, groups: self.groups))
 	}
 
 	func errorView(_ error: LoginViewError) -> some View {
@@ -98,7 +112,7 @@ private extension CreateDirectMessageView {
 #if DEBUG
 struct CreateDirectMessageView_Previews: PreviewProvider {
 	static var previews: some View {
-		CreateDirectMessageView()
+		CreateDirectMessageView(groups: [])
 	}
 }
 #endif

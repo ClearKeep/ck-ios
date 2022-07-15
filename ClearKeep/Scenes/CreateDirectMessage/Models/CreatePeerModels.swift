@@ -13,12 +13,16 @@ protocol ICreatePeerModels {
 	var searchUserModel: IGetUserResponse? { get }
 	var creatGroupModel: IGroupResponseModel? { get }
 	var getProfileModel: IUser? { get }
+	var getProfileModelWithLink: IUserInfo? { get }
+	var searchUserModelWithEmail: IGetUserResponse? { get }
 }
 
 struct CreatePeerModels: ICreatePeerModels {
 	var searchUserModel: IGetUserResponse?
 	var creatGroupModel: IGroupResponseModel?
 	var getProfileModel: IUser?
+	var getProfileModelWithLink: IUserInfo?
+	var searchUserModelWithEmail: IGetUserResponse?
 }
 
 extension CreatePeerModels {
@@ -32,5 +36,13 @@ extension CreatePeerModels {
 	
 	init(getProfile: User_UserProfileResponse) {
 		self.init(getProfileModel: ProfieModel(profile: getProfile))
+	}
+	
+	init(userProfileWithLink: User_UserInfoResponse) {
+		self.init(getProfileModelWithLink: UserInforModel(userInfor: userProfileWithLink))
+	}
+	
+	init(searchUserWithEmail: User_FindUserByEmailResponse) {
+		self.init(searchUserModelWithEmail: UserResponseModel(searchUser: searchUserWithEmail))
 	}
 }

@@ -853,8 +853,7 @@
 			children = (
 				22C507FA28800578009F92A7 /* String+Extensions.swift */,
 			);
-			name = Extensions;
-			path = App/Extensions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		CB117E1627BB5281000941D9 = {
@@ -884,7 +883,6 @@
 		CB117E2127BB5281000941D9 /* ClearKeep */ = {
 			isa = PBXGroup;
 			children = (
-				22C507F928800578009F92A7 /* Extensions */,
 				CB117E5827BB63CD000941D9 /* App */,
 				CB40072127E7488600DFBE88 /* Environments */,
 				CB117E5727BB6026000941D9 /* Info.plist */,
@@ -922,6 +920,7 @@
 		CB117E5827BB63CD000941D9 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				22C507F928800578009F92A7 /* Extensions */,
 				0459993028630EF0006754DF /* Models */,
 				CB8C3E3227F57FA00034B3A9 /* Helper */,
 				CB40072E27E74E0100DFBE88 /* Configuration */,
