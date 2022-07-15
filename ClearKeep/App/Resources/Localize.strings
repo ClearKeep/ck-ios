@@ -239,3 +239,6 @@
 "Chat.TakePhoto" = "Take a photo";
 "Chat.Albums" = "Albums";
 "Chat.UploadButton" = "Upload";
+"Chat.YourFile" = "Your File";
+"Chat.AddFile" = "Add File";
+"Chat.NextButton" = "Next";

@@ -22,7 +22,6 @@ struct MessageImageView: View {
 	
 	init(listImageURL: [String]) {
 		self.listImageURL = listImageURL
-		print(listImageURL)
 	}
 	
 	var body: some View {

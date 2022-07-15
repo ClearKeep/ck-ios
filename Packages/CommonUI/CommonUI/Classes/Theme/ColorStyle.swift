@@ -63,6 +63,10 @@ public protocol IColorSet {
 	var gradientLinear: [Color] { get }
 	
 	func color(of label: ColorStyle) -> Color
+	
+	// MARK: - Seperator
+	var seperatorDefault: Color { get }
+
 }
 
 public enum ColorStyle {

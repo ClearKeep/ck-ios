@@ -29,11 +29,14 @@ public struct MessageBubbleView: View {
 	var isGroup: Bool = false
 	var isShowAvatarAndUserName: Bool = false
 	var rectCorner: UIRectCorner
+	var onTapFile: (String) -> Void
 		
 	public init(messageViewModel: IMessageViewModel,
-				rectCorner: UIRectCorner) {
+				rectCorner: UIRectCorner,
+				onTapFile: @escaping (String) -> Void) {
 		self.messageViewModel = messageViewModel
 		self.rectCorner = rectCorner
+		self.onTapFile = onTapFile
 	}
 	
 	public var body: some View {
@@ -79,6 +82,8 @@ private extension MessageBubbleView {
 				}
 				if messageViewModel.isImageMessage {
 					imageContentView
+				} else if messageViewModel.isFileMessage {
+					fileContentView
 				} else {
 					messageContentView
 						.frame(width: Constants.maxWidthBuble, alignment: .trailing)
@@ -98,6 +103,8 @@ private extension MessageBubbleView {
 			HStack {
 				if messageViewModel.isImageMessage {
 					imageContentView
+				} else if messageViewModel.isFileMessage {
+					fileContentView
 				} else {
 					messageContentView
 						.frame(width: Constants.maxWidthBuble, alignment: .leading)
@@ -275,6 +282,31 @@ private extension MessageBubbleView {
 		}
 		.background(commonUIConfig.colorSet.grey2)
 		.clipShape(BubbleArrow(rectCorner: rectCorner))
+	}
+	
+	var fileContentView: some View {
+		let listFileUrl = MessageUtils.getFileUriStrings(content: messageViewModel.message)
+		return VStack(alignment: .leading, spacing: 16) {
+			ForEach(listFileUrl, id: \.self) { fileUrl in
+				VStack(alignment: .leading, spacing: 6) {
+					HStack(spacing: 6) {
+						commonUIConfig.imageSet.downloadIcon
+							.foregroundColor(commonUIConfig.colorSet.offWhite)
+						Text(MessageUtils.getFileNameFromUrl(url: fileUrl))
+							.font(commonUIConfig.fontSet.font(style: .input2))
+							.foregroundColor(commonUIConfig.colorSet.offWhite)
+					}
+					Text(MessageUtils.getFileSizeInMegabytesString(url: fileUrl))
+						.font(commonUIConfig.fontSet.font(style: .placeholder3))
+						.foregroundColor(commonUIConfig.colorSet.grey4)
+				}.onTapGesture {
+					onTapFile(fileUrl)
+				}
+			}
+		}.padding(.horizontal, 24)
+			.padding(.vertical, 16)
+			.background(commonUIConfig.colorSet.grey2)
+			.clipShape(BubbleArrow(rectCorner: rectCorner))
 	}
 }
 
