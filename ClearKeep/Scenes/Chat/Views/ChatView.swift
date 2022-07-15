@@ -24,8 +24,10 @@ private enum Constants {
 	static let bottomSheetRadius = 30.0
 	static let sizeImage = CGSize(width: 36.0, height: 36.0)
 	static let forwardViewHeight = UIScreen.main.bounds.height * 0.7
+	static let filePickerViewHeight = UIScreen.main.bounds.height * 0.6
 }
 
+// swiftlint:disable file_length
 struct ChatView: View {
 	// MARK: - Environment Variables
 	@Environment(\.colorScheme) var colorScheme
@@ -68,6 +70,7 @@ struct ChatView: View {
 	@State private var joinedGroups: [ForwardViewModel] = []
 	@State private var joinedPeers: [ForwardViewModel] = []
 	
+	@State private var showingFilePicker = false
 	@State private var showingMessageOptions = false
 	@State private var scrollToBottom = false
 	@State private var isShowingQuoteView = false
@@ -119,7 +122,6 @@ struct ChatView: View {
 			isPresented: $showingForwardView,
 			detents: .custom(Constants.forwardViewHeight),
 			shouldScrollExpandSheet: true,
-			largestUndimmedDetent: .medium,
 			showGrabber: false,
 			cornerRadius: Constants.bottomSheetRadius
 		) {
@@ -131,6 +133,22 @@ struct ChatView: View {
 				}
 			}).onAppear {
 				getJoinedGroup()
+			}
+		}
+		.bottomSheet(
+			isPresented: $showingFilePicker,
+			detents: .custom(Constants.filePickerViewHeight),
+			shouldScrollExpandSheet: true,
+			showGrabber: true,
+			cornerRadius: Constants.bottomSheetRadius
+		) {
+			FilePickerContainerView { files in
+				if files.isEmpty { return }
+				print(files)
+				isNewSentMessage = true
+				Task {
+					loadable = await injected.interactors.chatInteractor.uploadFiles(message: "", fileURLs: files, group: group, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
+				}
 			}
 		}
 		.fullScreenCover(isPresented: $showingCameraPicker, content: {
@@ -318,8 +336,8 @@ private extension ChatView {
 		showingImageOptions = true
 	}
 	
-	func linkAction() {
-		
+	func fileAction() {
+		showingFilePicker = true
 	}
 	
 	func userAction() {
@@ -399,10 +417,20 @@ private extension ChatView {
 	var notRequestedView: some View {
 		VStack(alignment: .leading) {
 			ZStack {
-				MessageListView(messages: dataMessages, hasReachedTop: $shouldPaginate, isShowLoading: $isEndOfPage, showScrollToLatestButton: $isShowingFloatingButton, scrollToLastest: $scrollToBottom) { message in
-					self.tempSelectedMessage = message
+				MessageListView(messages: dataMessages,
+								hasReachedTop: $shouldPaginate,
+								isShowLoading: $isEndOfPage,
+								showScrollToLatestButton: $isShowingFloatingButton,
+								scrollToLastest: $scrollToBottom,
+								onPressFile: { url in
+					Task {
+						await injected.interactors.chatInteractor.downloadFile(urlString: url)
+					}
+				}, onLongPress: { message in
+					tempSelectedMessage = message
 					showingMessageOptions = true
-				}.confirmationDialog("", isPresented: $showingMessageOptions, titleVisibility: .hidden) {
+				})
+				.confirmationDialog("", isPresented: $showingMessageOptions, titleVisibility: .hidden) {
 					Button("Chat.CopyButton".localized) {
 						copyMessage(message: self.tempSelectedMessage?.message ?? "")
 					}
@@ -446,7 +474,9 @@ private extension ChatView {
 							placeholder: "DirectMessages.Placeholder".localized,
 							sendAction: { message in
 				sendAction(message: message)
-			}, sharePhoto: { photoAction() })
+			}, sharePhoto: { photoAction() },
+							shareFile: { fileAction() }
+			)
 			.padding(.horizontal, Constants.padding)
 			.confirmationDialog("", isPresented: $showingImageOptions, titleVisibility: .hidden) {
 				Button("Chat.TakePhoto".localized) {

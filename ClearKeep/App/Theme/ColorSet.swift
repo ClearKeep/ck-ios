@@ -73,4 +73,7 @@ struct ColorSet: IAppColorSet {
 	func color(of label: ColorStyle) -> Color {
 		return Color(UIColor(hex: "#"))
 	}
+	
+	// MARK: - Seperator
+	var seperatorDefault: Color { Color(UIColor(hex: "#545458")).opacity(0.65) }
 }

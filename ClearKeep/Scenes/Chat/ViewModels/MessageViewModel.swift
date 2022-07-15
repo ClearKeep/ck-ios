@@ -22,6 +22,7 @@ public struct MessageViewModel: Identifiable, Equatable, IMessageViewModel {
 	public var isQuoteMessage: Bool
 	public var isForwardedMessage: Bool
 	public var isImageMessage: Bool
+	public var isFileMessage: Bool
 	public var clientWorkspaceDomain: String
 	
 	public init(data: IMessageModel, members: [IMemberModel]) {
@@ -36,7 +37,8 @@ public struct MessageViewModel: Identifiable, Equatable, IMessageViewModel {
 		isMine = MessageViewModel.isMine(senderID: fromClientId, ownerID: data.ownerClientId)
 		isQuoteMessage = MessageViewModel.isQuote(message: data.message)
 		isForwardedMessage = MessageViewModel.isForwarded(message: data.message)
-		isImageMessage = MessageViewModel.isImageMessage(message: data.message)
+		isImageMessage = MessageUtils.isImageMessage(message: data.message)
+		isFileMessage = MessageUtils.isFileMessage(message: data.message)
 		clientWorkspaceDomain = data.ownerDomain
 	}
 	
@@ -52,7 +54,8 @@ public struct MessageViewModel: Identifiable, Equatable, IMessageViewModel {
 		isMine = MessageViewModel.isMine(senderID: fromClientId, ownerID: data.ownerClientId)
 		isQuoteMessage = MessageViewModel.isQuote(message: data.message)
 		isForwardedMessage = MessageViewModel.isForwarded(message: data.message)
-		isImageMessage = MessageViewModel.isImageMessage(message: data.message)
+		isImageMessage = MessageUtils.isImageMessage(message: data.message)
+		isFileMessage = MessageUtils.isFileMessage(message: data.message)
 		clientWorkspaceDomain = data.ownerDomain
 	}
 	
@@ -125,11 +128,5 @@ private extension MessageViewModel {
 	
 	static func isForwarded(message: String) -> Bool {
 		return message.starts(with: ">>>")
-	}
-	
-	static func isImageMessage(message: String) -> Bool {
-		let regexString = "(https://s3.amazonaws.com/storage.clearkeep.io/[a-zA-Z0-9\\/\\_\\-\\.]+(\\.png|\\.jpeg|\\.jpg|\\.gif|\\.PNG|\\.JPEG|\\.JPG|\\.GIF))"
-		let regex = NSRegularExpression(regexString)
-		return regex.matches(message)
 	}
 }

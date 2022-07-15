@@ -9,6 +9,13 @@ import UIKit
 import SwiftUI
 import Common
 
+private enum Constants {
+	static let remoteImageRegex = "(https://s3.amazonaws.com/storage.clearkeep.io/[a-zA-Z0-9\\/\\_\\-\\.]+(\\.png|\\.jpeg|\\.jpg|\\.gif|\\.PNG|\\.JPEG|\\.JPG|\\.GIF))"
+	static let remoteFileRegex = "(https://s3.amazonaws.com/storage.clearkeep.io/.+)"
+	static let fileNameRegex = "(?:.(?!\\/))+$"
+	static let fileSizeRegex = "\\|.+"
+}
+
 public class MessageUtils {
 	static func separateMessageList(messages: [IMessageViewModel]) -> [[IMessageViewModel]] {
 		var result: [[IMessageViewModel]] = []
@@ -148,28 +155,97 @@ public class MessageUtils {
 	}
 	
 	static func getImageUriStrings(content: String) -> [String] {
-		let regex = "(https://s3.amazonaws.com/storage.clearkeep.io/[a-zA-Z0-9\\/\\_\\-\\.]+(\\.png|\\.jpeg|\\.jpg|\\.gif|\\.PNG|\\.JPEG|\\.JPG|\\.GIF))"
-		do {
-			let regex = try NSRegularExpression(pattern: regex, options: [])
-			let nsString = NSString(string: content)
-			let results = regex.matches(in: content, options: [], range: NSRange(location: 0, length: nsString.length))
-			return results.map { nsString.substring(with: $0.range) }.filter { !$0.isEmpty }
-		} catch let error {
-			print("invalid regex: \(error.localizedDescription)")
-			return []
-		}
+		let regex = NSRegularExpression(Constants.remoteImageRegex)
+		return regex.matchList(content)
 	}
 	
 	static func getImageMessageContent(content: String) -> String? {
-		let regex = "(https://s3.amazonaws.com/storage.clearkeep.io/[a-zA-Z0-9\\/\\_\\-\\.]+(\\.png|\\.jpeg|\\.jpg|\\.gif|\\.PNG|\\.JPEG|\\.JPG|\\.GIF))"
 		do {
-			let regex = try NSRegularExpression(pattern: regex, options: [])
+			let regex = try NSRegularExpression(pattern: Constants.remoteImageRegex, options: [])
 			let nsString = NSString(string: content)
 			let result = regex.stringByReplacingMatches(in: content, range: NSRange(location: 0, length: nsString.length), withTemplate: "").trimmingCharacters(in: .whitespaces)
 			return result.isEmpty ? nil : result
 		} catch let error {
 			print("invalid regex: \(error.localizedDescription)")
 			return nil
+		}
+	}
+	
+	public static func isImageMessage(message: String) -> Bool {
+		let regex = NSRegularExpression(Constants.remoteImageRegex)
+		return regex.matches(message)
+	}
+	
+	public static func isFileMessage(message: String) -> Bool {
+		let regex = NSRegularExpression(Constants.remoteFileRegex)
+		return regex.matches(message)
+	}
+	
+	static func getFileUriStrings(content: String) -> [String] {
+		return content.components(separatedBy: " ")
+	}
+	
+	public static func getFileDownloadURL(content: String) -> String {
+		do {
+			let regex = try NSRegularExpression(pattern: Constants.fileSizeRegex, options: [])
+			return regex.stringByReplacingMatches(in: content, range: NSRange(location: 0, length: content.utf16.count), withTemplate: "")
+		} catch let error {
+			print("invalid regex: \(error.localizedDescription)")
+			return ""
+		}
+	}
+	
+	static func getFileSizeInBytesFromUrl(url: String) -> Int64 {
+		do {
+			let regex = try NSRegularExpression(pattern: Constants.fileSizeRegex, options: [])
+			let nsString = NSString(string: url)
+			if let result = regex.firstMatch(in: url, range: NSRange(location: 0, length: nsString.length)) {
+				let sizeString = nsString.substring(with: result.range)
+				return Int64(sizeString.dropFirst()) ?? 0
+			} else {
+				return 0
+			}
+		} catch let error {
+			print("invalid regex: \(error.localizedDescription)")
+			return 0
+		}
+	}
+	
+	static func getFileSizeInMegabytesString(url: String) -> String {
+		let fileSizeInBytes = getFileSizeInBytesFromUrl(url: url)
+		
+		var unit = ""
+		var fileSizeInMegabytes: Double = 0
+		
+		if fileSizeInBytes < 1024 {
+			unit = "B"
+			return "\(fileSizeInBytes) \(unit)"
+		} else if fileSizeInBytes < 1024 * 1_000 {
+			unit = "kB"
+			fileSizeInMegabytes = Double(fileSizeInBytes) / 1_000
+			return String(format: "%.2f \(unit)", fileSizeInMegabytes)
+		} else {
+			unit = "MB"
+			fileSizeInMegabytes = Double(fileSizeInBytes) / 1_000_000
+			return String(format: "%.2f \(unit)", fileSizeInMegabytes)
+		}
+	}
+	
+	static func getFileNameFromUrl(url: String) -> String {
+		do {
+			let regex = try NSRegularExpression(pattern: Constants.fileNameRegex, options: [])
+			let nsString = NSString(string: url)
+			if let result = regex.firstMatch(in: url, range: NSRange(location: 0, length: nsString.length)) {
+				let resultString = nsString.substring(with: result.range)
+				let sizeRegex = try NSRegularExpression(pattern: Constants.fileSizeRegex, options: [])
+				var fileName = sizeRegex.stringByReplacingMatches(in: resultString, range: NSRange(location: 0, length: NSString(string: resultString).length), withTemplate: "")
+				return String(fileName.dropFirst())
+			} else {
+				return ""
+			}
+		} catch let error {
+			print("invalid regex: \(error.localizedDescription)")
+			return ""
 		}
 	}
 }
