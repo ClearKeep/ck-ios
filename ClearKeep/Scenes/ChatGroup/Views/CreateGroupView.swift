@@ -117,9 +117,11 @@ private extension CreateGroupView {
 		Task {
 			var clientGroup = clientInGroup
 			let domain = DependencyResolver.shared.channelStorage.currentDomain
-			let client = CreatGroupGetUsersViewModel(id: self.getProfile?.id ?? "", displayName: self.getProfile?.displayName ?? "", workspaceDomain: domain)
+			let profile = DependencyResolver.shared.channelStorage.currentServer?.profile
+			let client = CreatGroupGetUsersViewModel(id: profile?.userId ?? "", displayName: profile?.userName ?? "", workspaceDomain: domain)
 			clientGroup.append(client)
-			loadable = await injected.interactors.chatGroupInteractor.createGroup(by: getProfile?.id ?? "fail", groupName: nameGroup, groupType: "group", lstClient: clientGroup)
+			loadable = await injected.interactors.chatGroupInteractor.createGroup(by: profile?.userId ?? "fail", groupName: nameGroup, groupType: "group", lstClient: clientGroup)
+
 		}
 	}
 }

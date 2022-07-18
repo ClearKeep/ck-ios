@@ -107,6 +107,7 @@
 		22A1C69C2812B1D500FE957F /* ChatInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6972812B1D500FE957F /* ChatInteractor.swift */; };
 		22A1C69D2812B1D500FE957F /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6982812B1D500FE957F /* ChatView.swift */; };
 		22C507F1287E64BA009F92A7 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C507F0287E64BA009F92A7 /* Toast.swift */; };
+		22C507FB28800578009F92A7 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C507FA28800578009F92A7 /* String+Extensions.swift */; };
 		22DAEF7428640B6B00C3E377 /* FilePickerContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DAEF7328640B6B00C3E377 /* FilePickerContainerView.swift */; };
 		A6B2FA2375D2B93118FCC576 /* Pods_notificationextension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7261DD92456D4CFB93133C7 /* Pods_notificationextension.framework */; };
 		BC792611F654074DCC1211EA /* Pods_ClearKeep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A61EB3B14466BFECDD5168C3 /* Pods_ClearKeep.framework */; };
@@ -373,6 +374,7 @@
 		22A1C6972812B1D500FE957F /* ChatInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInteractor.swift; sourceTree = "<group>"; };
 		22A1C6982812B1D500FE957F /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		22C507F0287E64BA009F92A7 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		22C507FA28800578009F92A7 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		22DAEF7328640B6B00C3E377 /* FilePickerContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePickerContainerView.swift; sourceTree = "<group>"; };
 		25FDB2207725F29CF682E252 /* Pods-ClearKeep.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.development.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.development.xcconfig"; sourceTree = "<group>"; };
 		5707AA6299C058BD2617D441 /* Pods-notificationextension.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notificationextension.qa.xcconfig"; path = "Target Support Files/Pods-notificationextension/Pods-notificationextension.qa.xcconfig"; sourceTree = "<group>"; };
@@ -882,7 +884,7 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		22B80E0F288111D1008D680F /* Extensions */ = {
+		22C507F928800578009F92A7 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				048009722885651600E5F6D0 /* String+Extensions.swift */,
@@ -954,7 +956,7 @@
 		CB117E5827BB63CD000941D9 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				22B80E0F288111D1008D680F /* Extensions */,
+				22C507F928800578009F92A7 /* Extensions */,
 				0459993028630EF0006754DF /* Models */,
 				CB8C3E3227F57FA00034B3A9 /* Helper */,
 				CB40072E27E74E0100DFBE88 /* Configuration */,
@@ -1999,6 +2001,7 @@
 				CB7F298A282CE9C900BD5049 /* ListServerView.swift in Sources */,
 				F5CFCA2F28237CD000A9737F /* GroupCallWorker.swift in Sources */,
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
+				22C507FB28800578009F92A7 /* String+Extensions.swift in Sources */,
 				0462C6C82816535C00A9EABB /* SearchAllView.swift in Sources */,
 				CB7F298D282CED4000BD5049 /* ServerViewModel.swift in Sources */,
 				0499343627E96F8A003BD4C4 /* NewPasswordWorker.swift in Sources */,
@@ -2577,7 +2580,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(IOS_NOTIFICATION_EXTENSION_BUNDLE_ID)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.telred.clearkeep.dev.notificationextension";
+				PROVISIONING_PROFILE_SPECIFIER = "dev-notificationextension";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;

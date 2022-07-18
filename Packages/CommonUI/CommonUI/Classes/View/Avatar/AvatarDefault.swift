@@ -55,7 +55,6 @@ public struct AvatarDefault: View {
             }
         }
     }
-
 }
 
 private extension AvatarDefault {

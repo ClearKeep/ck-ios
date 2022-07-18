@@ -69,7 +69,7 @@ extension ChatGroupInteractor: IChatGroupInteractor {
 	}
 	
 	func checkPeopleLink(link: String) -> Bool {
-		self.checkPeopleLink(link: link)
+		self.worker.checkPeopleLink(link: link)
 	}
 	
 	func getUserInfor(clientId: String, workSpace: String) async -> Loadable<ICreatGroupViewModels> {
