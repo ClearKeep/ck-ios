@@ -40,9 +40,8 @@ public struct AvatarDefault: View {
 								 urlCache: Constants.imageCache,
 								 content: { image in image.resizable() },
 								 placeholder: { ProgressView() })
-					.frame(maxWidth: .infinity, maxHeight: .infinity)
-					.cornerRadius(Constants.cornerRadius)
-					.padding(Constants.padding)
+					.aspectRatio(contentMode: .fill)
+					.clipShape(Circle())
 			} else {
 				// Fallback on earlier versions
 			}
