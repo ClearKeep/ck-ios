@@ -88,7 +88,7 @@ struct ChatView: View {
 	@State private var isImagePickerPresented = false
 	@State private var showingCameraPicker = false
 	@State private var selectedImages = [SelectedImageModel]()
-	
+	@State private var isDetail = false
 	private let groupId: Int64
 	private let inspection = ViewInspector<Self>()
 

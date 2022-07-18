@@ -35,6 +35,15 @@ struct ChatGroupView: View {
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.edgesIgnoringSafeArea(.all)
 			.hiddenNavigationBarStyle()
+			.applyNavigationBarPlainStyle(title: "GroupChat.Back.Button".localized,
+										  titleColor: titleColor,
+										  backgroundColors: backgroundButtonBack,
+										  leftBarItems: {
+				BackButtonStandard(customBack)
+			},
+										  rightBarItems: {
+				Spacer()
+			})
 	}
 }
 

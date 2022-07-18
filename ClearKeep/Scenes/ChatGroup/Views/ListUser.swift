@@ -39,4 +39,3 @@ private extension ListUser {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight
 	}
 }
-
