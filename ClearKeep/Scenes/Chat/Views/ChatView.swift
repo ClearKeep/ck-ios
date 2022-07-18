@@ -42,7 +42,7 @@ struct ChatView: View {
 				if let groupData = data.groupViewModel {
 					self.group = groupData
 				}
-				if data.messageViewModel.isEmpty {
+				if data.messageViewModel.count < 20 {
 					isEndOfPage = true
 				}
 				if isNewSentMessage {
@@ -52,6 +52,7 @@ struct ChatView: View {
 				} else {
 					self.dataMessages.append(contentsOf: data.messageViewModel)
 				}
+				scrollToBottom = true
 				isNewSentMessage = false
 				isLoading = false
 			default: break
@@ -83,11 +84,14 @@ struct ChatView: View {
 	@State private var isNewSentMessage = false
 	@State private var isQuoteMessage = false
 	@State private var isLatestPeerSignalKeyProcessed = false
-	
+	@State private var showingLinkWebView = false
 	@State private var showingImageOptions = false
 	@State private var isImagePickerPresented = false
 	@State private var showingCameraPicker = false
+	@State private var isFirstLoad = true
+	
 	@State private var selectedImages = [SelectedImageModel]()
+	@State private var selectedLink: URL?
 	
 	private let groupId: Int64
 	private let inspection = ViewInspector<Self>()
@@ -156,6 +160,12 @@ struct ChatView: View {
 				self.selectedImages.append(addImage)
 			}
 			.edgesIgnoringSafeArea(.all)
+		})
+		.sheet(isPresented: $showingLinkWebView, content: {
+			if let url = selectedLink {
+				WebView(url: url)
+					.edgesIgnoringSafeArea(.all)
+			}
 		})
 		.onAppear {
 			updateGroup()
@@ -426,6 +436,9 @@ private extension ChatView {
 					Task {
 						await injected.interactors.chatInteractor.downloadFile(urlString: url)
 					}
+				}, onClickLink: { url in
+					showingLinkWebView = true
+					selectedLink = url
 				}, onLongPress: { message in
 					tempSelectedMessage = message
 					showingMessageOptions = true
@@ -494,6 +507,10 @@ private extension ChatView {
 				})
 			}
 		}.onChange(of: shouldPaginate) { newValue in
+			if isFirstLoad {
+				isFirstLoad = false
+				return
+			}
 			if newValue {
 				if !isLoading && !isEndOfPage {
 					isLoading.toggle()

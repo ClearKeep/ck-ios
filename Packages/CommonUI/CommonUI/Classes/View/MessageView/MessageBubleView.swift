@@ -24,19 +24,23 @@ private enum Constants {
 public struct MessageBubbleView: View {
 	@Environment(\.colorScheme) var colorScheme
 	
+	@State private var contentSizeThatFits: CGSize = .zero
 	var messageViewModel: IMessageViewModel
 	var userName: String?
 	var isGroup: Bool = false
 	var isShowAvatarAndUserName: Bool = false
 	var rectCorner: UIRectCorner
 	var onTapFile: (String) -> Void
+	var onTapLink: (URL) -> Void
 		
 	public init(messageViewModel: IMessageViewModel,
 				rectCorner: UIRectCorner,
-				onTapFile: @escaping (String) -> Void) {
+				onTapFile: @escaping (String) -> Void,
+				onTapLink: @escaping (URL) -> Void) {
 		self.messageViewModel = messageViewModel
 		self.rectCorner = rectCorner
 		self.onTapFile = onTapFile
+		self.onTapLink = onTapLink
 	}
 	
 	public var body: some View {
@@ -122,7 +126,6 @@ private extension MessageBubbleView {
 				
 				HStack(spacing: 0) {
 					quoteContentView
-					
 					Rectangle()
 						.fill(commonUIConfig.colorSet.grey2)
 						.frame(width: Constants.messageIndicatorWidth)
@@ -246,31 +249,57 @@ private extension MessageBubbleView {
 	}
 	
 	var quoteContentView: some View {
-		VStack(alignment: .trailing, spacing: 0) {
-			Text(messageViewModel.getQuoteMessage())
-				.modifier(MessageTextViewModifier())
-				.foregroundColor(commonUIConfig.colorSet.grey2)
+		VStack(alignment: .leading, spacing: 10) {
+			clickableText(content: messageViewModel.getQuoteMessage(), textColor: UIColor(commonUIConfig.colorSet.grey2))
 			Text(messageViewModel.getQuoteMessageName() + " " + messageViewModel.dateCreatedString())
 				.font(commonUIConfig.fontSet.font(style: .placeholder2))
 				.foregroundColor(commonUIConfig.colorSet.grey3)
-				.padding(.bottom, 6)
-				.padding(.leading, Constants.groupMessageLeadingSpacing)
 		}
+		.padding(.vertical, 8.0)
+		.padding(.horizontal, 24.0)
 		.background(quoteMessageBubbleBackground)
-			.clipShape(BubbleArrow(rectCorner: rectCorner))
+		.clipShape(BubbleArrow(rectCorner: rectCorner))
 	}
 	
 	var messageContentView: some View {
-		Text(messageViewModel.isForwardedMessage ? String(messageViewModel.message.dropFirst(3)) : messageViewModel.message)
-			.modifier(MessageTextViewModifier())
+		clickableText(content: messageViewModel.isForwardedMessage ? String(messageViewModel.message.dropFirst(3)) : messageViewModel.message, textColor: UIColor(foregroundText))
+			.padding(.vertical, 16.0)
+			.padding(.horizontal, 24.0)
 			.background(commonUIConfig.colorSet.grey2)
 			.clipShape(BubbleArrow(rectCorner: rectCorner))
-			.foregroundColor(foregroundText)
+	}
+	
+	func clickableText(content: String, textColor: UIColor) -> some View {
+		GeometryReader { geometry in
+			let size = MessageTextViewContent(content: content,
+											  maxSize: geometry.size,
+											  textColor: textColor).intrinsicContentSize
+			Group {
+				if colorScheme == .light {
+					MessageTextView(content: content, maxSize: geometry.size, textColor: textColor) { url in
+						onTapLink(url)
+					}
+				} else {
+					MessageTextView(content: content, maxSize: geometry.size, textColor: textColor) { url in
+						onTapLink(url)
+					}
+				}
+			}.preference(key: ContentSizeThatFitsKey.self, value: size)
+		}
+		.onPreferenceChange(ContentSizeThatFitsKey.self) {
+			contentSizeThatFits = $0
+		}
+		.frame(
+			maxWidth: self.contentSizeThatFits.width,
+			minHeight: self.contentSizeThatFits.height,
+			maxHeight: self.contentSizeThatFits.height,
+			alignment: .leading
+		)
 	}
 	
 	var imageContentView: some View {
-		VStack(alignment: .trailing, spacing: 0) {
-			MessageImageView(listImageURL: MessageUtils.getImageUriStrings(content: messageViewModel.message))
+		VStack(alignment: messageViewModel.isMine ? .trailing : .leading, spacing: 0) {
+			MessageImageView(listImageURL: MessageUtils.getImageUriStrings(content: messageViewModel.message), fromClientName: messageViewModel.fromClientName)
 			if let message = MessageUtils.getImageMessageContent(content: messageViewModel.message) {
 				Text(message)
 					.font(commonUIConfig.fontSet.font(style: .input2))
@@ -291,14 +320,14 @@ private extension MessageBubbleView {
 				VStack(alignment: .leading, spacing: 6) {
 					HStack(spacing: 6) {
 						commonUIConfig.imageSet.downloadIcon
-							.foregroundColor(commonUIConfig.colorSet.offWhite)
+							.foregroundColor(foregroundText)
 						Text(MessageUtils.getFileNameFromUrl(url: fileUrl))
 							.font(commonUIConfig.fontSet.font(style: .input2))
-							.foregroundColor(commonUIConfig.colorSet.offWhite)
+							.foregroundColor(foregroundText)
 					}
 					Text(MessageUtils.getFileSizeInMegabytesString(url: fileUrl))
 						.font(commonUIConfig.fontSet.font(style: .placeholder3))
-						.foregroundColor(commonUIConfig.colorSet.grey4)
+						.foregroundColor(fileSizeForeground)
 				}.onTapGesture {
 					onTapFile(fileUrl)
 				}
@@ -323,5 +352,17 @@ private extension MessageBubbleView {
 	
 	private var quoteMessageBubbleBackground: Color {
 		colorScheme == .light ? commonUIConfig.colorSet.grey5 : commonUIConfig.colorSet.greyLight
+	}
+	
+	private var fileSizeForeground: Color {
+		colorScheme == .light ? commonUIConfig.colorSet.grey4 : commonUIConfig.colorSet.greyLight
+	}
+}
+
+struct ContentSizeThatFitsKey: PreferenceKey {
+	static var defaultValue: CGSize = .zero
+
+	static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+		value = nextValue()
 	}
 }
