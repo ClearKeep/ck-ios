@@ -64,6 +64,7 @@ struct ChatGroupContentView: View {
 			CheckBoxButtons(text: "GroupChat.User.Add.Title".localized, isChecked: $useCustomServerChecked, action: {
 				self.useFindByEmail = false
 			})
+			.foregroundColor(foregroundCheckmask)
 				.frame(maxWidth: .infinity, alignment: .leading)
 			
 			if useCustomServerChecked {
@@ -79,6 +80,7 @@ struct ChatGroupContentView: View {
 			CheckBoxButtons(text: "GroupChat.AddUserFromEmail.Title".localized, isChecked: $useFindByEmail, action: {
 				self.useCustomServerChecked = false
 			})
+			.foregroundColor(foregroundCheckmask)
 				.frame(maxWidth: .infinity, alignment: .leading)
 			if useFindByEmail {
 				CommonTextField(text: $searchEmailText,
@@ -100,7 +102,7 @@ struct ChatGroupContentView: View {
 				   }
 			   }
 			
-			RoundedGradientButton("GroupChat.Next".localized, disabled: .constant(addMember.isEmpty), action: nextToCreateGroup)
+			RoundedGradientButton("GroupChat.Next".localized, disabled: .constant(addMember.isEmpty && searchLinkText.isEmpty), action: nextToCreateGroup)
 			.frame(maxWidth: .infinity)
 			.frame(height: Constants.heightButton)
 			.font(AppTheme.shared.fontSet.font(style: .body3))
@@ -116,7 +118,15 @@ struct ChatGroupContentView: View {
 			Alert(title: Text("GroupChat.Warning".localized),
 				  message: Text(self.messageAlert),
 				  dismissButton: .default(Text("GroupChat.Ok".localized)))
-		}
+		}.applyNavigationBarPlainStyle(title: "GroupChat.Back.Button".localized,
+									   titleColor: titleColor,
+									   backgroundColors: backgroundButtonBack,
+									   leftBarItems: {
+			BackButtonStandard(customBack)
+		},
+									   rightBarItems: {
+			Spacer()
+		})
 		NavigationLink(
 			destination: CreateGroupView(loadable: $loadable, getProfile: $getProfile, clientInGroup: $addMember),
 			isActive: $isNextCreateGroup,
@@ -156,7 +166,7 @@ private extension ChatGroupContentView {
 	}
 	
 	private func createGroupWithLink() {
-		if injected.interactors.chatGroupInteractor.checkPeopleLink(link: searchLinkText) {
+		if !injected.interactors.chatGroupInteractor.checkPeopleLink(link: searchLinkText) {
 			let people = injected.interactors.chatGroupInteractor.getPeopleFromLink(link: searchLinkText)
 			loadable = .isLoading(last: nil, cancelBag: CancelBag())
 			Task {
@@ -197,6 +207,10 @@ private extension ChatGroupContentView {
 	}
 	
 	var titleColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
+	}
+	
+	var foregroundCheckmask: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
 	}
 }

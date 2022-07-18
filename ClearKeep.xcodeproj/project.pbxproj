@@ -20,6 +20,11 @@
 		044432C32858D6D800276DB3 /* CreatGroupProfieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044432C22858D6D800276DB3 /* CreatGroupProfieViewModel.swift */; };
 		04458C272849BA1300992ECB /* HomeViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04458C262849BA1300992ECB /* HomeViewModels.swift */; };
 		0458986C286BED7900A0631C /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458986B286BED7900A0631C /* ProfileModel.swift */; };
+		0458986F286BFB2100A0631C /* CreatePeerModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458986E286BFB2100A0631C /* CreatePeerModels.swift */; };
+		04589874286BFB2A00A0631C /* CreatePeerChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589871286BFB2900A0631C /* CreatePeerChatViewModel.swift */; };
+		04589875286BFB2A00A0631C /* CreatePeerUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589872286BFB2900A0631C /* CreatePeerUserViewModel.swift */; };
+		04589876286BFB2A00A0631C /* CreatePeerViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589873286BFB2900A0631C /* CreatePeerViewModels.swift */; };
+		04589878286BFEB000A0631C /* CreatePeerProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589877286BFEB000A0631C /* CreatePeerProfileViewModel.swift */; };
 		0459993528630EF0006754DF /* UserInfoResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459993128630EF0006754DF /* UserInfoResponseModel.swift */; };
 		0459993628630EF0006754DF /* UserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459993228630EF0006754DF /* UserInfoModel.swift */; };
 		0459993728630EF1006754DF /* GroupResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459993328630EF0006754DF /* GroupResponseModel.swift */; };
@@ -96,8 +101,8 @@
 		22A1C69B2812B1D500FE957F /* ChatRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6962812B1D500FE957F /* ChatRemoteStore.swift */; };
 		22A1C69C2812B1D500FE957F /* ChatInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6972812B1D500FE957F /* ChatInteractor.swift */; };
 		22A1C69D2812B1D500FE957F /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6982812B1D500FE957F /* ChatView.swift */; };
-		22B80E11288111D1008D680F /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B80E10288111D1008D680F /* String+Extensions.swift */; };
 		22C507F1287E64BA009F92A7 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C507F0287E64BA009F92A7 /* Toast.swift */; };
+		22C507FB28800578009F92A7 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C507FA28800578009F92A7 /* String+Extensions.swift */; };
 		22DAEF7428640B6B00C3E377 /* FilePickerContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DAEF7328640B6B00C3E377 /* FilePickerContainerView.swift */; };
 		A6B2FA2375D2B93118FCC576 /* Pods_notificationextension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7261DD92456D4CFB93133C7 /* Pods_notificationextension.framework */; };
 		BC792611F654074DCC1211EA /* Pods_ClearKeep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A61EB3B14466BFECDD5168C3 /* Pods_ClearKeep.framework */; };
@@ -276,6 +281,11 @@
 		044432C22858D6D800276DB3 /* CreatGroupProfieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatGroupProfieViewModel.swift; sourceTree = "<group>"; };
 		04458C262849BA1300992ECB /* HomeViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModels.swift; sourceTree = "<group>"; };
 		0458986B286BED7900A0631C /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		0458986E286BFB2100A0631C /* CreatePeerModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePeerModels.swift; sourceTree = "<group>"; };
+		04589871286BFB2900A0631C /* CreatePeerChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePeerChatViewModel.swift; sourceTree = "<group>"; };
+		04589872286BFB2900A0631C /* CreatePeerUserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePeerUserViewModel.swift; sourceTree = "<group>"; };
+		04589873286BFB2900A0631C /* CreatePeerViewModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePeerViewModels.swift; sourceTree = "<group>"; };
+		04589877286BFEB000A0631C /* CreatePeerProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePeerProfileViewModel.swift; sourceTree = "<group>"; };
 		0459993128630EF0006754DF /* UserInfoResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoResponseModel.swift; sourceTree = "<group>"; };
 		0459993228630EF0006754DF /* UserInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoModel.swift; sourceTree = "<group>"; };
 		0459993328630EF0006754DF /* GroupResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupResponseModel.swift; sourceTree = "<group>"; };
@@ -353,8 +363,8 @@
 		22A1C6962812B1D500FE957F /* ChatRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRemoteStore.swift; sourceTree = "<group>"; };
 		22A1C6972812B1D500FE957F /* ChatInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInteractor.swift; sourceTree = "<group>"; };
 		22A1C6982812B1D500FE957F /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
-		22B80E10288111D1008D680F /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		22C507F0287E64BA009F92A7 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		22C507FA28800578009F92A7 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		22DAEF7328640B6B00C3E377 /* FilePickerContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePickerContainerView.swift; sourceTree = "<group>"; };
 		25FDB2207725F29CF682E252 /* Pods-ClearKeep.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.development.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.development.xcconfig"; sourceTree = "<group>"; };
 		5707AA6299C058BD2617D441 /* Pods-notificationextension.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notificationextension.qa.xcconfig"; path = "Target Support Files/Pods-notificationextension/Pods-notificationextension.qa.xcconfig"; sourceTree = "<group>"; };
@@ -577,6 +587,25 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		0458986D286BFB2100A0631C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0458986E286BFB2100A0631C /* CreatePeerModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		04589870286BFB2900A0631C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				04589871286BFB2900A0631C /* CreatePeerChatViewModel.swift */,
+				04589872286BFB2900A0631C /* CreatePeerUserViewModel.swift */,
+				04589873286BFB2900A0631C /* CreatePeerViewModels.swift */,
+				04589877286BFEB000A0631C /* CreatePeerProfileViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		0459993028630EF0006754DF /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -686,7 +715,8 @@
 		047D6B5627F6A3240098B104 /* CreateDirectMessage */ = {
 			isa = PBXGroup;
 			children = (
-				047D6B5827F6A3450098B104 /* Models */,
+				04589870286BFB2900A0631C /* ViewModels */,
+				0458986D286BFB2100A0631C /* Models */,
 				047D6B5727F6A3400098B104 /* Views */,
 				047D6B5927F6A3750098B104 /* CreateDirectMessageInMemoryStore.swift */,
 				047D6B5A27F6A3750098B104 /* CreateDirectMessageWorker.swift */,
@@ -703,13 +733,6 @@
 				047D6B6327F6A3DD0098B104 /* DirectMessageContentView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		047D6B5827F6A3450098B104 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		0499340627E96D9B003BD4C4 /* FogotPassWord */ = {
@@ -839,10 +862,10 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		22B80E0F288111D1008D680F /* Extensions */ = {
+		22C507F928800578009F92A7 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				22B80E10288111D1008D680F /* String+Extensions.swift */,
+				22C507FA28800578009F92A7 /* String+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -911,7 +934,7 @@
 		CB117E5827BB63CD000941D9 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				22B80E0F288111D1008D680F /* Extensions */,
+				22C507F928800578009F92A7 /* Extensions */,
 				0459993028630EF0006754DF /* Models */,
 				CB8C3E3227F57FA00034B3A9 /* Helper */,
 				CB40072E27E74E0100DFBE88 /* Configuration */,
@@ -1805,16 +1828,19 @@
 				CB8C3E3427F57FBA0034B3A9 /* AppVersion.swift in Sources */,
 				F556C24228097F6E00D2B149 /* ChatGroupRemoteStore.swift in Sources */,
 				CB117E7B27BB65E2000941D9 /* LocationConfigurations.swift in Sources */,
+				04589878286BFEB000A0631C /* CreatePeerProfileViewModel.swift in Sources */,
 				CB117EC427BB8DB1000941D9 /* SceneDelegate.swift in Sources */,
 				CB7F299F282D5FF700BD5049 /* JoinServerView.swift in Sources */,
 				F5350E1D27FAD58F00F54E32 /* TwoFactorWorker.swift in Sources */,
 				CB117ECD27BBA6E5000941D9 /* HomeWorker.swift in Sources */,
 				F568DC1027FD7CC000EE9DF0 /* ServerSettingModel.swift in Sources */,
+				04589876286BFB2A00A0631C /* CreatePeerViewModels.swift in Sources */,
 				F5644835283B7A79007846F9 /* CurrentPassword.swift in Sources */,
 				F568DC1127FD7CC000EE9DF0 /* SettingServerInteractor.swift in Sources */,
 				F568DC1227FD7CC000EE9DF0 /* SettingServerWorker.swift in Sources */,
 				F556C24328097F6E00D2B149 /* ChatGroupInteractor.swift in Sources */,
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
+				04589875286BFB2A00A0631C /* CreatePeerUserViewModel.swift in Sources */,
 				0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */,
 				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
 				F5644836283B7A79007846F9 /* UserProfileContentView.swift in Sources */,
@@ -1914,18 +1940,19 @@
 				047D6B6227F6A3750098B104 /* CreateDirectMessageView.swift in Sources */,
 				0499340F27E96DD7003BD4C4 /* FogotPasswordInteractor.swift in Sources */,
 				047D6B5F27F6A3750098B104 /* CreateDirectMessageWorker.swift in Sources */,
+				04589874286BFB2A00A0631C /* CreatePeerChatViewModel.swift in Sources */,
 				F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */,
 				0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */,
 				F556C277280E502500D2B149 /* TagView.swift in Sources */,
 				044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */,
 				0459993E286312ED006754DF /* GroupBaseModel.swift in Sources */,
 				0462C6C12816535C00A9EABB /* SearchRemoteStore.swift in Sources */,
-				22B80E11288111D1008D680F /* String+Extensions.swift in Sources */,
 				0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */,
 				F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */,
 				F568DC2127FD882600EE9DF0 /* NotificationInteractor.swift in Sources */,
 				CB7F29632828D36300BD5049 /* CustomServer.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,
+				0458986F286BFB2100A0631C /* CreatePeerModels.swift in Sources */,
 				047D6B0E27F1544D0098B104 /* GroupDetailInMemoryStore.swift in Sources */,
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
 				F5CFCA2A28237CD000A9737F /* GroupCallView.swift in Sources */,
@@ -1947,6 +1974,7 @@
 				CB7F298A282CE9C900BD5049 /* ListServerView.swift in Sources */,
 				F5CFCA2F28237CD000A9737F /* GroupCallWorker.swift in Sources */,
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
+				22C507FB28800578009F92A7 /* String+Extensions.swift in Sources */,
 				0462C6C82816535C00A9EABB /* SearchAllView.swift in Sources */,
 				CB7F298D282CED4000BD5049 /* ServerViewModel.swift in Sources */,
 				0499343627E96F8A003BD4C4 /* NewPasswordWorker.swift in Sources */,
@@ -2525,7 +2553,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(IOS_NOTIFICATION_EXTENSION_BUNDLE_ID)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.telred.clearkeep.dev.notificationextension";
+				PROVISIONING_PROFILE_SPECIFIER = "dev-notificationextension";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;

@@ -8,7 +8,7 @@
 import SwiftUI
 import CommonUI
 
-protocol IAppImageSet: IImageSet & ICommonUIImageSet {}
+protocol IAppImageSet: IImageSet, ICommonUIImageSet {}
 
 struct AppImageSet: IAppImageSet {
 	var splashLogo: Image { Image("logo_Clearkeep") }

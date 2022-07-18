@@ -19,23 +19,13 @@ private enum Constants {
 struct MessageImageView: View {
 	
 	var listImageURL: [String]
-	var fromClientName: String
 	
-	init(listImageURL: [String], fromClientName: String) {
+	init(listImageURL: [String]) {
 		self.listImageURL = listImageURL
-		self.fromClientName = fromClientName
 	}
-	
-	@State var showingGallery = false
 	
 	var body: some View {
 		content
-			.onTapGesture {
-				showingGallery = true
-			}
-			.fullScreenCover(isPresented: $showingGallery, content: {
-				GalleryView(imageURLs: listImageURL, fromClientName: fromClientName, isShown: $showingGallery)
-			})
 	}
 	
 	var content: AnyView {

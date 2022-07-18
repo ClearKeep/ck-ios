@@ -26,6 +26,7 @@ struct GroupViewModel: Identifiable {
 	var groupAvatar: String
 	var groupType: String
 	var hasUnreadMessage: Bool = false
+	var groupMembers: [IMemberModel] = []
 
 	init(_ model: IGroupModel) {
 		self.groupId = model.groupId
@@ -33,5 +34,6 @@ struct GroupViewModel: Identifiable {
 		self.groupAvatar = model.groupAvatar
 		self.groupType = model.groupType
 		self.hasUnreadMessage = model.hasUnreadMessage
+		self.groupMembers = model.groupMembers
 	}
 }

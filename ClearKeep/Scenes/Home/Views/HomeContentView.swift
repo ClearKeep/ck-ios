@@ -11,6 +11,7 @@ private enum Constants {
 	static let cornerRadius = 16.0
 	static let hSpacing = 28.0
 	static let searchHeight = 52.0
+	static let spacing = 24.0
 }
 
 struct HomeContentView: View {
@@ -26,7 +27,7 @@ struct HomeContentView: View {
 	
 	// MARK: - Body
 	var body: some View {
-		VStack {
+		VStack(spacing: Constants.spacing) {
 			Button(action: searchAction, label: {
 				HStack(spacing: Constants.hSpacing) {
 					AppTheme.shared.imageSet.searchIcon
@@ -38,31 +39,31 @@ struct HomeContentView: View {
 				.padding()
 				.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
 			})
-				.frame(height: Constants.searchHeight)
-				.background(colorScheme == .light ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.darkgrey3)
-				.cornerRadius(Constants.cornerRadius)
-			NavigationLink(destination: ChatView(messageText: "", inputStyle: .default, groupId: selectedGroup?.groupId ?? 0),
-						   isActive: $isNext) {
-				ScrollView {
-					NavigationLink(destination: ChatGroupView(),
-								   isActive: $isCreatGroup) {
-						ListGroupView(title: "Home.GroupChat".localized, groups: groups, action: { isCreatGroup.toggle() }, onChooseGroup: { group in
-							print(group)
-							selectedGroup = group
-							isNext.toggle()
-						})
-					}
-					NavigationLink(destination: CreateDirectMessageView(imageUser: AppTheme.shared.imageSet.userImage),
-								   isActive: $isCreatMessage) {
-						ListGroupView(title: "Home.DirectMessages".localized, groups: peers, action: { isCreatMessage.toggle() }, onChooseGroup: { group in
-							print(group)
-							selectedGroup = group
-							isNext.toggle()
-						})
-					}
-				}
-			}.buttonStyle(.plain)
+			.frame(height: Constants.searchHeight)
+			.background(colorScheme == .light ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.darkgrey3)
+			.cornerRadius(Constants.cornerRadius)
+			ScrollView {
+				ListGroupView(title: "Home.GroupChat".localized, groups: groups, action: { isCreatGroup.toggle() }, onChooseGroup: { group in
+					selectedGroup = group
+					isNext.toggle()
+				})
+				
+				ListGroupView(title: "Home.DirectMessages".localized, groups: peers, action: { isCreatMessage.toggle() }, onChooseGroup: { group in
+					selectedGroup = group
+					isNext.toggle()
+				})
+			}
 		}
+		NavigationLink(destination: ChatView(messageText: "", inputStyle: .default, groupId: selectedGroup?.groupId ?? 0),
+					   isActive: $isNext) {
+			
+		}.buttonStyle(.plain)
+		
+		NavigationLink(destination: CreateDirectMessageView(groups: peers),
+					   isActive: $isCreatMessage) {}
+		
+		NavigationLink(destination: ChatGroupView(),
+					   isActive: $isCreatGroup) {}
 	}
 }
 

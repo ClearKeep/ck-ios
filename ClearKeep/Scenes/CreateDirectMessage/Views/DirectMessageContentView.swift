@@ -10,7 +10,7 @@ import Common
 import CommonUI
 
 private enum Constants {
-	static let spacing = 10.0
+	static let spacing = 23.0
 	static let padding = 20.0
 	static let sizeImage = 64.0
 	static let paddingTop = 50.0
@@ -18,6 +18,8 @@ private enum Constants {
 	static let radius = 80.0
 	static let paddingHorizontal = 80.0
 	static let paddingButton = 12.0
+	static let buttonSize = CGSize(width: 196.0, height: 40.0)
+	static let paddingButtonNext = 60.0
 }
 
 struct DirectMessageContentView: View {
@@ -27,56 +29,99 @@ struct DirectMessageContentView: View {
 
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
-	@Binding var imageUser: Image
-	@Binding var userName: String
-	@State private(set) var searchText: String = ""
-	@State private(set) var severText: String = ""
-	@Binding var inputStyle: TextInputStyle
+	@State private(set) var searchLinkText: String = ""
+	@State private(set) var inputStyle: TextInputStyle = .default
+	@State private(set) var inputLinkStyle: TextInputStyle = .default
+	@State private(set) var inputEmailStyle: TextInputStyle = .default
 	@State private(set) var isShowingLinkUser: Bool = false
-	@State private(set) var isShowingUser: Bool = false
-	@State private(set) var isNext: Bool = false
-	
+	@Binding var loadable: Loadable<ICreatePeerViewModels>
+	@Binding var userData: [CreatePeerUserViewModel]
+	@Binding var profile: CreatePeerProfileViewModel?
+	@State private(set) var clientInGroup: [CreatePeerUserViewModel] = []
+	@Binding var searchText: String
+	@State private var messageAlert: String = ""
+	@State private var isShowAlert: Bool = false
+	@State private var useFindByEmail: Bool = false
+	@State private var searchEmailText: String = ""
+	let groups: [GroupViewModel]
 	// MARK: - Init
-	init(imageUser: Binding<Image>,
-		 userName: Binding<String>,
-		 inputStyle: Binding<TextInputStyle>) {
-		self._imageUser = imageUser
-		self._userName = userName
-		self._inputStyle = inputStyle
-	}
 
 	// MARK: - Body
 	var body: some View {
-		NavigationView {
-			content
-				.navigationBarTitle("")
-				.navigationBarHidden(true)
-				.background(backgroundColorView)
-				.edgesIgnoringSafeArea(.all)
+		VStack(alignment: .leading, spacing: Constants.spacing) {
+			SearchTextField(searchText: $searchText,
+							inputStyle: $inputStyle,
+							inputIcon: AppTheme.shared.imageSet.searchIcon,
+							placeHolder: "General.Search".localized,
+							onEditingChanged: { isEditing in
+				inputStyle = isEditing ? .highlighted : .normal })
+				.onChange(of: searchText) { text in
+					search(text: text)
+				}
+			CheckBoxButtons(text: "DirectMessages.AddUserTitle".localized, isChecked: $isShowingLinkUser, action: {
+				self.useFindByEmail = false
+				self.searchEmailText = ""
+			})
+				.foregroundColor(foregroundCheckmask)
+			
+			CheckBoxButtons(text: "GroupChat.AddUserFromEmail.Title".localized, isChecked: $useFindByEmail, action: {
+				self.isShowingLinkUser = false
+				self.searchLinkText = ""
+			})
+			.foregroundColor(foregroundCheckmask)
+			
+			if useFindByEmail {
+				CommonTextField(text: $searchEmailText,
+								inputStyle: $inputEmailStyle,
+								placeHolder: "GroupChat.PasteYourFriendEmail".localized,
+								onEditingChanged: { isEditing in
+					inputEmailStyle = isEditing ? .highlighted : .normal
+				},
+								submitLabel: .done,
+								onSubmit: searchEmail)
+			}
+			
+			if isShowingLinkUser {
+				VStack {
+					CommonTextField(text: $searchLinkText,
+									inputStyle: $inputLinkStyle,
+									placeHolder: "DirectMessages.LinkTitle".localized,
+									onEditingChanged: { isEditing in
+						inputLinkStyle = isEditing ? .highlighted : .normal
+					})
+					Spacer()
+					RoundedGradientButton("DirectMessages.Next".localized,
+										  disabled: .constant(searchLinkText.isEmpty),
+										  action: createUserByLink)
+						.frame(width: Constants.buttonSize.width)
+						.padding(.bottom, Constants.paddingButtonNext)
+				}
+			} else {
+				ScrollView(showsIndicators: false) {
+					ForEach(userData) { item in
+						UserPeerButton(item.displayName, imageUrl: "", action: { nextAction(item) })
+					}
+				}
+			}
 		}
-	}
-}
-
-// MARK: - Private
-private extension DirectMessageContentView {
-	var content: AnyView {
-		AnyView(contentView)
-	}
-
-	var buttonBack: AnyView {
-		AnyView(buttonBackView)
-	}
-
-	var buttonAddUser: AnyView {
-		AnyView(checkMaskButton)
-	}
-
-	var user: AnyView {
-		AnyView(userView)
-	}
-
-	var addSeverTextfield: AnyView {
-		AnyView(addSeverTextfieldView)
+		.padding(.horizontal, Constants.padding)
+		.background(backgroundColorView)
+		.edgesIgnoringSafeArea(.all)
+		.hiddenNavigationBarStyle()
+		.alert(isPresented: self.$isShowAlert) {
+			Alert(title: Text("GroupChat.Warning".localized),
+				  message: Text(self.messageAlert),
+				  dismissButton: .default(Text("GroupChat.Ok".localized)))
+		}
+		.applyNavigationBarPlainStyle(title: "DirectMessages.TitleButton".localized,
+									  titleColor: titleColor,
+									  backgroundColors: backgroundButtonBack,
+									  leftBarItems: {
+			BackButtonStandard(customBack)
+		},
+									  rightBarItems: {
+			Spacer()
+		})
 	}
 }
 
@@ -86,23 +131,15 @@ private extension DirectMessageContentView {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
 	}
 
-	var backgroundButtonImage: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var foregroundColorUserName: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight
-	}
-
-	var foregroundBackButton: Color {
+	var foregroundCheckmask: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
 	}
 
-	var backgroundNextButton: LinearGradient {
-		colorScheme == .light ? backgroundButtonImage : backgroundButtonImage
+	var backgroundButtonBack: [Color] {
+		colorScheme == .light ? [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
 
-	var foregroundCheckmask: Color {
+	var titleColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
 	}
 }
@@ -113,107 +150,74 @@ private extension DirectMessageContentView {
 		self.presentationMode.wrappedValue.dismiss()
 	}
 
-	func nextAction() {
-
+	func nextAction(_ data: CreatePeerUserViewModel) {
+		if self.checkUserIsAdded(id: data.id) {
+			return
+		}
+		
+		clientInGroup.append(data)
+		loadable = .isLoading(last: nil, cancelBag: CancelBag())
+		Task {
+			var clientGroup = clientInGroup
+			let profile = DependencyResolver.shared.channelStorage.currentServer?.profile
+			let client = CreatePeerUserViewModel(id: profile?.userId ?? "", displayName: profile?.userName ?? "", workspaceDomain: DependencyResolver.shared.channelStorage.currentDomain)
+			clientGroup.append(client)
+			loadable = await injected.interactors.createDirectMessageInteractor.createGroup(by: profile?.userId ?? "fail", groupName: data.displayName, groupType: "peer", lstClient: clientGroup)
+		}
 	}
 
-	func chooseUser() {
-		isNext = true
+	func search(text: String) {
+		Task {
+			loadable = await injected.interactors.createDirectMessageInteractor.searchUser(keyword: text)
+		}
 	}
-}
-
-// MARK: - Loading Content
-private extension DirectMessageContentView {
-	var contentView: some View {
-		VStack(alignment: .leading, spacing: Constants.spacing) {
-			buttonBack
-				.padding(.top, Constants.paddingTop)
-				.frame(maxWidth: .infinity, alignment: .leading)
-			SearchTextField(searchText: $searchText,
-							inputStyle: $inputStyle,
-							inputIcon: AppTheme.shared.imageSet.searchIcon,
-							placeHolder: "General.Search".localized,
-							onEditingChanged: { isEditing in
-				if isEditing {
-					isShowingLinkUser = false
-				}
-			})
-			buttonAddUser
-			if isShowingLinkUser {
-				addSeverTextfieldView
-			} else {
-				user
+	
+	func createUserByLink() {
+		if !injected.interactors.createDirectMessageInteractor.checkPeopleLink(link: searchLinkText) {
+			let people = injected.interactors.chatGroupInteractor.getPeopleFromLink(link: searchLinkText)
+			if self.checkUserIsAdded(id: people?.id ?? "") {
+				return
 			}
-			Spacer()
-		}
-		.padding([.horizontal, .bottom], Constants.padding)
-	}
-
-	var userView: some View {
-		ScrollView(showsIndicators: false) {
-//			NavigationLink(
-//				destination: ChatView(messageText: "", inputStyle: .default, imageUser: imageUser, userName: userName),
-//				isActive: $isNext,
-//				label: {
-					Button(action: chooseUser) {
-						VStack(alignment: .leading, spacing: Constants.spacing) {
-							HStack {
-								imageUser
-									.resizable()
-									.aspectRatio(contentMode: .fit)
-									.frame(width: Constants.sizeImage, height: Constants.sizeImage)
-									.clipShape(Circle())
-								Text(userName)
-									.font(AppTheme.shared.fontSet.font(style: .body2))
-									.foregroundColor(foregroundColorUserName)
-								Spacer()
-							}
-						}
-					}
-	//			})
-		}
-	}
-
-	var checkMaskButton: some View {
-		CheckBoxButtons(text: "DirectMessages.AddUserTitle".localized, isChecked: $isShowingLinkUser)
-			.foregroundColor(foregroundCheckmask)
-	}
-
-	var addSeverTextfieldView: some View {
-		VStack {
-			CommonTextField(text: $severText,
-							inputStyle: $inputStyle,
-							placeHolder: "DirectMessages.LinkTitle".localized,
-							onEditingChanged: { _ in })
-			Spacer()
-			Button(action: nextAction) {
-				HStack(spacing: Constants.spacing) {
-					Text("DirectMessages.Next".localized)
-						.padding(.vertical, Constants.paddingButton)
-						.padding(.horizontal, Constants.paddingHorizontal)
-						.font(AppTheme.shared.fontSet.font(style: .body2))
-						.foregroundColor(AppTheme.shared.colorSet.offWhite)
-						.cornerRadius(Constants.radius)
-				}
+			loadable = .isLoading(last: nil, cancelBag: CancelBag())
+			Task {
+				let profile = DependencyResolver.shared.channelStorage.currentServer?.profile
+				let client = CreatePeerUserViewModel(id: profile?.userId ?? "", displayName: profile?.userName ?? "", workspaceDomain: DependencyResolver.shared.channelStorage.currentDomain)
+				let clientInGroup: [CreatePeerUserViewModel] = [client]
+				loadable = await injected.interactors.createDirectMessageInteractor.createGroupWithOrtherLink(by: profile?.userId ?? "fail",
+																											  groupName: "",
+																											  groupType: "peer",
+																											  lstClient: clientInGroup,
+																											  clientIdOther: people?.id ?? "id",
+																											  workSpace: people?.domain ?? "")
 			}
-			.background(backgroundNextButton)
-			.cornerRadius(Constants.radius)
+		} else {
+			self.messageAlert = "GroupChat.YouCantCreateConversationWithYouSelf".localized
+			self.isShowAlert = true
+			self.searchLinkText = ""
+			self.isShowingLinkUser = false
 		}
 	}
-
-	var buttonBackView: some View {
-		Button(action: customBack) {
-			HStack(spacing: Constants.spacing) {
-				AppTheme.shared.imageSet.chevleftIcon
-					.renderingMode(.template)
-					.aspectRatio(contentMode: .fit)
-					.foregroundColor(foregroundBackButton)
-				Text("DirectMessages.TitleButton".localized)
-					.padding(.all)
-					.font(AppTheme.shared.fontSet.font(style: .body2))
+	
+	func searchEmail() {
+		if searchEmailText.validEmail {
+			Task {
+				loadable = await self.injected.interactors.createDirectMessageInteractor.searchUserWithEmail(email: searchEmailText)
 			}
-			.foregroundColor(foregroundBackButton)
+		} else {
+			self.messageAlert = "GroupChat.EmailIsIncorrect".localized
+			self.isShowAlert = true
 		}
+	}
+	
+	private func checkUserIsAdded(id: String) -> Bool {
+		if let group = groups.first(where: { item in
+			item.groupMembers.contains(where: { $0.userId == id })
+		}) {
+			loadable = .loaded(CreatePeerViewModels(creatGroup: CreatePeerChatViewModel(group)))
+			return true
+		}
+		
+		return false
 	}
 }
 
@@ -225,7 +229,7 @@ private extension DirectMessageContentView {
 #if DEBUG
 struct DirectMessageContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		DirectMessageContentView(imageUser: .constant(AppTheme.shared.imageSet.faceIcon), userName: .constant("Test"), inputStyle: .constant(.default))
+		DirectMessageContentView(loadable: .constant(.notRequested), userData: .constant([]), profile: .constant(nil), searchText: .constant(""), groups: [])
 	}
 }
 #endif
