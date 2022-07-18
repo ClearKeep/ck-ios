@@ -15,6 +15,7 @@ struct UserModel: IUser {
 	var email: String
 	var phoneNumber: String
 	var avatar: String
+	var status: String = ""
 }
 
 extension UserModel {
@@ -25,4 +26,13 @@ extension UserModel {
 					  phoneNumber: response.phoneNumber,
 					  avatar: response.avatar)
 		}
+	
+	init(response: User_MemberInfoRes?) {
+		self.init(id: response?.clientID ?? "",
+				  displayName: response?.displayName ?? "",
+				  email: response?.displayName ?? "",
+				  phoneNumber: "",
+				  avatar: response?.avatar ?? "",
+				  status: response?.status ?? "")
+	}
 }

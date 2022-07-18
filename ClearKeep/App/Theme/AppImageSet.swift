@@ -14,7 +14,7 @@ struct AppImageSet: IAppImageSet {
 	var splashLogo: Image { Image("logo_Clearkeep") }
 	var logo: Image { Image("logo_Clearkeep2") }
 	var homeIcon: Image { Image("ic_home") }
-	var plusIcon: Image { Image("ic_plus") }
+	var plusIcon: Image { Image("ic_plus").renderingMode(.template) }
 	var noteIcon: Image { Image("ic_notes") }
 	var gearIcon: Image { Image("ic_gear") }
 	var logoutIcon: Image { Image("ic_logout") }
@@ -26,7 +26,7 @@ struct AppImageSet: IAppImageSet {
 	var phoneCallIcon: Image { Image("ic_phone_call").renderingMode(.template) }
 	var videoIcon: Image { Image("ic_video").renderingMode(.template) }
 	var sendIcon: Image { Image("ic_send_plane").renderingMode(.template) }
-	var downloadIcon: Image { Image("ic_file_download") }
+	var downloadIcon: Image { Image("ic_file_download").renderingMode(.template) }
 	var messagePlusIcon: Image { Image("ic_message_plus") }
 	var phoneIncommingIcon: Image { Image("ic_phone_incomming") }
 	var phoneOffIcon: Image { Image("ic_phone_off").renderingMode(.template) }
@@ -78,6 +78,7 @@ struct AppImageSet: IAppImageSet {
 	var speakerIcon2: Image { Image("ic_speaker-1") }
 	var speakerOffIcon2: Image { Image("ic_speaker_off-1") }
 	var userImage: Image { Image("ic_user_image") }
+	var fileDocIcon: Image { Image("ic_file_doc") }
 }
 
 extension AppImageSet: ICommonUIImageSet {

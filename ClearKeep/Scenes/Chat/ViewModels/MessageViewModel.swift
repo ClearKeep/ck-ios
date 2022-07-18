@@ -21,6 +21,8 @@ public struct MessageViewModel: Identifiable, Equatable, IMessageViewModel {
 	public var isMine: Bool
 	public var isQuoteMessage: Bool
 	public var isForwardedMessage: Bool
+	public var isImageMessage: Bool
+	public var isFileMessage: Bool
 	public var clientWorkspaceDomain: String
 	
 	public init(data: IMessageModel, members: [IMemberModel]) {
@@ -35,6 +37,8 @@ public struct MessageViewModel: Identifiable, Equatable, IMessageViewModel {
 		isMine = MessageViewModel.isMine(senderID: fromClientId, ownerID: data.ownerClientId)
 		isQuoteMessage = MessageViewModel.isQuote(message: data.message)
 		isForwardedMessage = MessageViewModel.isForwarded(message: data.message)
+		isImageMessage = MessageUtils.isImageMessage(message: data.message)
+		isFileMessage = MessageUtils.isFileMessage(message: data.message)
 		clientWorkspaceDomain = data.ownerDomain
 	}
 	
@@ -50,6 +54,8 @@ public struct MessageViewModel: Identifiable, Equatable, IMessageViewModel {
 		isMine = MessageViewModel.isMine(senderID: fromClientId, ownerID: data.ownerClientId)
 		isQuoteMessage = MessageViewModel.isQuote(message: data.message)
 		isForwardedMessage = MessageViewModel.isForwarded(message: data.message)
+		isImageMessage = MessageUtils.isImageMessage(message: data.message)
+		isFileMessage = MessageUtils.isFileMessage(message: data.message)
 		clientWorkspaceDomain = data.ownerDomain
 	}
 	

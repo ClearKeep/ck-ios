@@ -20,7 +20,8 @@ public struct MessagerToolBar: View {
 	private let placeholder: String
 	public var sendAction: (String) -> Void
 	public var sharePhoto: () -> Void
-	
+	public var shareFile: () -> Void
+
 	// MARK: - State
 	@Binding private var messageText: String
 	@Binding private var isReplying: Bool
@@ -32,10 +33,12 @@ public struct MessagerToolBar: View {
 				isReplying: Binding<Bool>,
 				placeholder: String = "",
 				sendAction: @escaping (String) -> Void,
-				sharePhoto: @escaping () -> Void) {
+				sharePhoto: @escaping () -> Void,
+				shareFile: @escaping () -> Void) {
 		self.placeholder = placeholder
 		self.sendAction = sendAction
 		self.sharePhoto = sharePhoto
+		self.shareFile = shareFile
 		self._isReplying = isReplying
 		self._messageText = message
 	}
@@ -85,7 +88,7 @@ public struct MessagerToolBar: View {
 					.foregroundColor(buttonColor)
 			}
 			Button {
-				
+				shareFile()
 			} label: {
 				commonUIConfig.imageSet.linkIcon
 					.foregroundColor(buttonColor)

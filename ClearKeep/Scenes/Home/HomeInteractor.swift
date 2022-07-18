@@ -19,6 +19,7 @@ protocol IHomeInteractor {
 	func getServerInfo() async -> Loadable<HomeViewModels>
 	func didSelectServer(_ domain: String?) -> [ServerViewModel]
 	func signOut() async
+	func updateStatus(status: String) async -> Loadable<UserViewModels>
 }
 
 struct HomeInteractor {
@@ -54,14 +55,31 @@ extension HomeInteractor: IHomeInteractor {
 	
 	func getServerInfo() async -> Loadable<HomeViewModels> {
 		let result = await worker.getJoinedGroup()
+		await worker.pingRequest()
 		
 		switch result {
 		case .success(let groups):
-			let result = await worker.getProfile()
+			let result = await worker.getListStatus()
 			
 			switch result {
 			case .success(let user):
 				return .loaded(HomeViewModels(responseGroup: groups, responseUser: user))
+			case .failure(let error):
+				return .failed(error)
+			}
+		case .failure(let error):
+			return .failed(error)
+		}
+	}
+	
+	func updateStatus(status: String) async -> Loadable<UserViewModels> {
+		let result = await worker.updateStatus(status: status)
+		switch result {
+		case .success:
+			let result = await worker.getListStatus()
+			switch result {
+			case .success(let user):
+				return .loaded(UserViewModels(user))
 			case .failure(let error):
 				return .failed(error)
 			}
@@ -117,5 +135,9 @@ struct StubHomeInteractor: IHomeInteractor {
 	
 	func signOut() async {
 		//		let result = await worker.signOut()
+	}
+	
+	func updateStatus(status: String) async -> Loadable<UserViewModels> {
+		return .notRequested
 	}
 }

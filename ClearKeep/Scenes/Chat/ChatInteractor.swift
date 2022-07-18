@@ -9,9 +9,12 @@ import Common
 import ChatSecure
 import Networking
 import Model
+import CommonUI
 
 private enum Constants {
 	static let loadSize = 20
+	static let maxImageCount = 10
+	static let maxFilesizes = 1_000_000_000 // 1GB
 }
 
 protocol IChatInteractor {
@@ -21,6 +24,8 @@ protocol IChatInteractor {
 	func updateMessages(groupId: Int64, group: IGroupModel?, lastMessageAt: Int64) async -> Loadable<IChatViewModels>
 	func getJoinedGroupsFromLocal() async -> [IGroupModel]
 	func forwardPeerMessage(message: String, group: IGroupModel) async -> Bool
+	func uploadFiles(message: String, fileURLs: [URL], group: IGroupModel?, isForceProcessKey: Bool) async -> Loadable<IChatViewModels>
+	func downloadFile(urlString: String) async
 }
 
 struct ChatInteractor {
@@ -29,12 +34,13 @@ struct ChatInteractor {
 	let realmManager: RealmManager
 	let groupService: IGroupService
 	let messageService: IMessageService
+	let uploadFileService: IUploadFileService
 }
 
 extension ChatInteractor: IChatInteractor {
 	
 	var worker: IChatWorker {
-		let remoteStore = ChatRemoteStore(groupService: groupService, messageService: messageService)
+		let remoteStore = ChatRemoteStore(groupService: groupService, messageService: messageService, uploadFileService: uploadFileService)
 		let inMemoryStore = ChatInMemoryStore(realmManager: realmManager)
 		return ChatWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
@@ -116,6 +122,40 @@ extension ChatInteractor: IChatInteractor {
 		}
 	}
 	
+	func uploadFiles(message: String, fileURLs: [URL], group: IGroupModel?, isForceProcessKey: Bool) async -> Loadable<IChatViewModels> {
+		if fileURLs.count > 10 {
+			return .failed(ServerError.unknown)
+		}
+		
+		guard let filesInfo = processFileSizes(urls: fileURLs) else { return .failed(ServerError.unknown) }
+		guard let domain = channelStorage.currentServer?.serverDomain else { return .failed(ServerError.unknown) }
+		
+		guard let messageContent = await worker.uploadFiles(message: message, files: filesInfo, domain: domain, appendFileSize: true) else { return .failed(ServerError.unknown) }
+		print(messageContent)
+		return await self.sendMessageInPeer(message: messageContent, groupId: group?.groupId ?? 0, group: group, isForceProcessKey: isForceProcessKey)
+	}
+	
+	func downloadFile(urlString: String) async {
+		_ = await worker.downloadFile(urlString: MessageUtils.getFileDownloadURL(content: urlString))
+	}
+	
+	private func processFileSizes(urls: [URL]) -> [FileModel]? {
+		do {
+			var totalFileSize: Int64 = 0
+			var filesInfo = [FileModel]()
+			try urls.forEach { url in
+				_ = url.startAccessingSecurityScopedResource()
+				let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
+				let size = attributes[.size] as? Int64 ?? 0
+				filesInfo.append(FileModel(url: url, size: size))
+				totalFileSize += size
+			}
+			return totalFileSize < Constants.maxFilesizes ? filesInfo : nil
+		} catch {
+			return nil
+		}
+	}
+	
 }
 
 struct StubChatInteractor: IChatInteractor {
@@ -123,10 +163,11 @@ struct StubChatInteractor: IChatInteractor {
 	let channelStorage: IChannelStorage
 	let groupService: IGroupService
 	let messageService: IMessageService
+	let uploadFileService: IUploadFileService
 	let realmManager: RealmManager
 
 	var worker: IChatWorker {
-		let remoteStore = ChatRemoteStore(groupService: groupService, messageService: messageService)
+		let remoteStore = ChatRemoteStore(groupService: groupService, messageService: messageService, uploadFileService: uploadFileService)
 		let inMemoryStore = ChatInMemoryStore(realmManager: realmManager)
 		return ChatWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
@@ -149,5 +190,17 @@ struct StubChatInteractor: IChatInteractor {
 	
 	func forwardPeerMessage(message: String, group: IGroupModel) async -> Bool {
 		return false
+	}
+	
+	func uploadFiles(message: String, fileURLs: [URL], group: IGroupModel?, isForceProcessKey: Bool) async -> Loadable<IChatViewModels> {
+		return .notRequested
+	}
+	
+	func downloadFile(urlString: String) async {
+		
+	}
+	
+	func uploadFiles(message: String, filesUrl: [URL], group: IGroupModel?, isForceProcessKey: Bool) async -> Loadable<IChatViewModels> {
+		return .notRequested
 	}
 }

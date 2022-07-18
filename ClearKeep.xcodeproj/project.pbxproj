@@ -94,8 +94,10 @@
 		04C854AE284873C300CBA291 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C854AD284873C300CBA291 /* UserViewModel.swift */; };
 		04C854B228489DA300CBA291 /* HomeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C854B128489DA300CBA291 /* HomeModels.swift */; };
 		111CDB183DAC665A08A0F9AE /* Pods_ClearKeepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 762B17389323AE09C354C456 /* Pods_ClearKeepTests.framework */; };
+		2245C21A285C70B3008F6C73 /* PreviewImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2245C219285C70B3008F6C73 /* PreviewImage.swift */; };
 		226732A72853173500C07852 /* ChatViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226732A62853173500C07852 /* ChatViewModels.swift */; };
 		226732A928534C1900C07852 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226732A828534C1900C07852 /* MessageViewModel.swift */; };
+		226977FA28694A000000D0AE /* FileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226977F928694A000000D0AE /* FileModel.swift */; };
 		228C49ED285B28C6003C4FA0 /* ForwardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228C49EC285B28C6003C4FA0 /* ForwardViewModel.swift */; };
 		228F2C84281B9E6F0012B07A /* ForwardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228F2C83281B9E6F0012B07A /* ForwardView.swift */; };
 		22A1C6992812B1D500FE957F /* ChatInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6942812B1D500FE957F /* ChatInMemoryStore.swift */; };
@@ -103,6 +105,8 @@
 		22A1C69B2812B1D500FE957F /* ChatRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6962812B1D500FE957F /* ChatRemoteStore.swift */; };
 		22A1C69C2812B1D500FE957F /* ChatInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6972812B1D500FE957F /* ChatInteractor.swift */; };
 		22A1C69D2812B1D500FE957F /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6982812B1D500FE957F /* ChatView.swift */; };
+		22C507F1287E64BA009F92A7 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C507F0287E64BA009F92A7 /* Toast.swift */; };
+		22DAEF7428640B6B00C3E377 /* FilePickerContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DAEF7328640B6B00C3E377 /* FilePickerContainerView.swift */; };
 		A6B2FA2375D2B93118FCC576 /* Pods_notificationextension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7261DD92456D4CFB93133C7 /* Pods_notificationextension.framework */; };
 		BC792611F654074DCC1211EA /* Pods_ClearKeep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A61EB3B14466BFECDD5168C3 /* Pods_ClearKeep.framework */; };
 		CB117E2727BB5283000941D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB117E2627BB5283000941D9 /* Assets.xcassets */; };
@@ -355,8 +359,10 @@
 		04C854AD284873C300CBA291 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		04C854B128489DA300CBA291 /* HomeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModels.swift; sourceTree = "<group>"; };
 		1D2080FC782DE43A5ADFC387 /* Pods-ClearKeepTests.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.production.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.production.xcconfig"; sourceTree = "<group>"; };
+		2245C219285C70B3008F6C73 /* PreviewImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImage.swift; sourceTree = "<group>"; };
 		226732A62853173500C07852 /* ChatViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModels.swift; sourceTree = "<group>"; };
 		226732A828534C1900C07852 /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
+		226977F928694A000000D0AE /* FileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileModel.swift; sourceTree = "<group>"; };
 		228C49EC285B28C6003C4FA0 /* ForwardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardViewModel.swift; sourceTree = "<group>"; };
 		228F2C83281B9E6F0012B07A /* ForwardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardView.swift; sourceTree = "<group>"; };
 		22A1C6942812B1D500FE957F /* ChatInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInMemoryStore.swift; sourceTree = "<group>"; };
@@ -364,6 +370,8 @@
 		22A1C6962812B1D500FE957F /* ChatRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRemoteStore.swift; sourceTree = "<group>"; };
 		22A1C6972812B1D500FE957F /* ChatInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInteractor.swift; sourceTree = "<group>"; };
 		22A1C6982812B1D500FE957F /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		22C507F0287E64BA009F92A7 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		22DAEF7328640B6B00C3E377 /* FilePickerContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePickerContainerView.swift; sourceTree = "<group>"; };
 		25FDB2207725F29CF682E252 /* Pods-ClearKeep.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.development.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.development.xcconfig"; sourceTree = "<group>"; };
 		5707AA6299C058BD2617D441 /* Pods-notificationextension.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notificationextension.qa.xcconfig"; path = "Target Support Files/Pods-notificationextension/Pods-notificationextension.qa.xcconfig"; sourceTree = "<group>"; };
 		60010434D295F5F8CB1BEA97 /* Pods-ClearKeep.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.production.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.production.xcconfig"; sourceTree = "<group>"; };
@@ -839,9 +847,18 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		226977F828694A000000D0AE /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				226977F928694A000000D0AE /* FileModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		22A1C6932812B0D700FE957F /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				226977F828694A000000D0AE /* Models */,
 				226732A52853172100C07852 /* ViewModels */,
 				22A1C6942812B1D500FE957F /* ChatInMemoryStore.swift */,
 				22A1C6952812B1D500FE957F /* ChatWorker.swift */,
@@ -857,6 +874,8 @@
 			children = (
 				22A1C6982812B1D500FE957F /* ChatView.swift */,
 				228F2C83281B9E6F0012B07A /* ForwardView.swift */,
+				2245C219285C70B3008F6C73 /* PreviewImage.swift */,
+				22DAEF7328640B6B00C3E377 /* FilePickerContainerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1050,6 +1069,7 @@
 				CB7F2990282CF11C00BD5049 /* MenuView.swift */,
 				CB7F299A282D5FB300BD5049 /* ListGroupView.swift */,
 				CB23605328337CD400D98F54 /* HomeContentView.swift */,
+				22C507F0287E64BA009F92A7 /* Toast.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1842,6 +1862,7 @@
 				0499343527E96F8A003BD4C4 /* NewPasswordInMemoryStore.swift in Sources */,
 				CB7F2916281BA17300BD5049 /* SocialLoginModel.swift in Sources */,
 				F5644830283B7A79007846F9 /* ProfileRemoteStore.swift in Sources */,
+				22DAEF7428640B6B00C3E377 /* FilePickerContainerView.swift in Sources */,
 				F564484B283F8562007846F9 /* CallWorker.swift in Sources */,
 				F5644850283F8562007846F9 /* CallInMemoryStore.swift in Sources */,
 				CB7F2973282A4D6A00BD5049 /* SocialViewError.swift in Sources */,
@@ -1850,6 +1871,7 @@
 				CB7F29232823C53E00BD5049 /* LoginViewError.swift in Sources */,
 				228C49ED285B28C6003C4FA0 /* ForwardViewModel.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
+				2245C21A285C70B3008F6C73 /* PreviewImage.swift in Sources */,
 				047D6B1127F1544D0098B104 /* GroupDetailInteractor.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				047D6B0F27F1544D0098B104 /* GroupDetailWorker.swift in Sources */,
@@ -1865,6 +1887,7 @@
 				CB7F2993282D0CEA00BD5049 /* MenuType.swift in Sources */,
 				0499345727E9A8BE003BD4C4 /* AdvancedSeverView.swift in Sources */,
 				0499344D27E97100003BD4C4 /* ChangePasswordContentView.swift in Sources */,
+				22C507F1287E64BA009F92A7 /* Toast.swift in Sources */,
 				0499345527E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift in Sources */,
 				F564484F283F8562007846F9 /* InComingVoiceCallView.swift in Sources */,
 				F5CFCA2928237CD000A9737F /* GroupCallModel.swift in Sources */,
@@ -1883,6 +1906,7 @@
 				044351F827D9AFCA0054A78F /* RegisterInteractor.swift in Sources */,
 				F553F86F27E820E600824BE7 /* SocialModel.swift in Sources */,
 				047D6B6127F6A3750098B104 /* CreateDirectMessageInteractor.swift in Sources */,
+				226977FA28694A000000D0AE /* FileModel.swift in Sources */,
 				F568DC1527FD7CC000EE9DF0 /* SettingServerInMemoryStore.swift in Sources */,
 				CB7F2911281A6EA000BD5049 /* AppState.swift in Sources */,
 				0462C6C92816535C00A9EABB /* SearchContentView.swift in Sources */,
@@ -2190,7 +2214,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.dev;
 				PRODUCT_NAME = "$(IOS_APP_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.telred.clearkeep.dev";
+				PROVISIONING_PROFILE_SPECIFIER = "clk-ios-dev";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

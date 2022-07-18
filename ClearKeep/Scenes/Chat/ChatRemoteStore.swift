@@ -13,11 +13,14 @@ protocol IChatRemoteStore {
 	func getGroupById(domain: String, id: Int64) async -> Result<IGroupModel, Error>
 	func getMessageList(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
 	func sendMessageInPeer(senderId: String, ownerWorkspace: String, receiverId: String, receiverWorkSpaceDomain: String, groupId: Int64, plainMessage: String, isForceProcessKey: Bool, cachedMessageId: Int) async -> Result<[RealmMessage], Error>
+	func uploadFile(file: FileModel, isAppendSize: Bool, domain: String) async -> String?
+	func downloadFile(urlString: String) async -> Result<String, Error>
 }
 
 struct ChatRemoteStore {
 	let groupService: IGroupService
 	let messageService: IMessageService
+	let uploadFileService: IUploadFileService
 }
 
 extension ChatRemoteStore: IChatRemoteStore {
@@ -53,5 +56,13 @@ extension ChatRemoteStore: IChatRemoteStore {
 		case .failure(let error):
 			return .failure(error)
 		}
+	}
+	
+	func uploadFile(file: FileModel, isAppendSize: Bool, domain: String) async -> String? {
+		return await uploadFileService.uploadFile(mimeType: file.mimeType, fileName: file.name, fileURL: file.url, fileSize: file.size, isAppendSize: isAppendSize, domain: domain)
+	}
+	
+	func downloadFile(urlString: String) async -> Result<String, Error> {
+		return await uploadFileService.downloadFile(urlString: urlString)
 	}
 }

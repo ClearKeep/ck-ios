@@ -22,6 +22,7 @@
 //
 import GRPC
 import NIO
+import NIOConcurrencyHelpers
 import SwiftProtobuf
 
 
@@ -84,6 +85,16 @@ internal protocol User_UserClientProtocol: GRPCClient {
     _ request: User_Empty,
     callOptions: CallOptions?
   ) -> UnaryCall<User_Empty, User_GetUsersResponse>
+
+  func find_user_by_email(
+    _ request: User_FindUserByEmailRequest,
+    callOptions: CallOptions?
+  ) -> UnaryCall<User_FindUserByEmailRequest, User_FindUserByEmailResponse>
+
+  func find_user_detail_info_from_email_hash(
+    _ request: User_FindUserByEmailRequest,
+    callOptions: CallOptions?
+  ) -> UnaryCall<User_FindUserByEmailRequest, User_UserInfoResponse>
 
   func get_mfa_state(
     _ request: User_MfaGetStateRequest,
@@ -325,6 +336,42 @@ extension User_UserClientProtocol {
     )
   }
 
+  /// Unary call to find_user_by_email
+  ///
+  /// - Parameters:
+  ///   - request: Request to send to find_user_by_email.
+  ///   - callOptions: Call options.
+  /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
+  internal func find_user_by_email(
+    _ request: User_FindUserByEmailRequest,
+    callOptions: CallOptions? = nil
+  ) -> UnaryCall<User_FindUserByEmailRequest, User_FindUserByEmailResponse> {
+    return self.makeUnaryCall(
+      path: "/user.User/find_user_by_email",
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makefind_user_by_emailInterceptors() ?? []
+    )
+  }
+
+  /// Unary call to find_user_detail_info_from_email_hash
+  ///
+  /// - Parameters:
+  ///   - request: Request to send to find_user_detail_info_from_email_hash.
+  ///   - callOptions: Call options.
+  /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
+  internal func find_user_detail_info_from_email_hash(
+    _ request: User_FindUserByEmailRequest,
+    callOptions: CallOptions? = nil
+  ) -> UnaryCall<User_FindUserByEmailRequest, User_UserInfoResponse> {
+    return self.makeUnaryCall(
+      path:  "/user.User/find_user_detail_info_from_email_hash",
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makefind_user_detail_info_from_email_hashInterceptors() ?? []
+    )
+  }
+
   ///----- MFA ENABLE FLOW -----
   ///
   /// - Parameters:
@@ -487,6 +534,12 @@ internal protocol User_UserClientInterceptorFactoryProtocol {
   /// - Returns: Interceptors to use when invoking 'get_users'.
   func makeget_usersInterceptors() -> [ClientInterceptor<User_Empty, User_GetUsersResponse>]
 
+  /// - Returns: Interceptors to use when invoking 'find_user_by_email'.
+  func makefind_user_by_emailInterceptors() -> [ClientInterceptor<User_FindUserByEmailRequest, User_FindUserByEmailResponse>]
+
+  /// - Returns: Interceptors to use when invoking 'find_user_detail_info_from_email_hash'.
+  func makefind_user_detail_info_from_email_hashInterceptors() -> [ClientInterceptor<User_FindUserByEmailRequest, User_UserInfoResponse>]
+
   /// - Returns: Interceptors to use when invoking 'get_mfa_state'.
   func makeget_mfa_stateInterceptors() -> [ClientInterceptor<User_MfaGetStateRequest, User_MfaStateResponse>]
 
@@ -559,6 +612,10 @@ internal protocol User_UserProvider: CallHandlerProvider {
   func search_user(request: User_SearchUserRequest, context: StatusOnlyCallContext) -> EventLoopFuture<User_SearchUserResponse>
 
   func get_users(request: User_Empty, context: StatusOnlyCallContext) -> EventLoopFuture<User_GetUsersResponse>
+
+  func find_user_by_email(request: User_FindUserByEmailRequest, context: StatusOnlyCallContext) -> EventLoopFuture<User_FindUserByEmailResponse>
+
+  func find_user_detail_info_from_email_hash(request: User_FindUserByEmailRequest, context: StatusOnlyCallContext) -> EventLoopFuture<User_UserInfoResponse>
 
   ///----- MFA ENABLE FLOW -----
   func get_mfa_state(request: User_MfaGetStateRequest, context: StatusOnlyCallContext) -> EventLoopFuture<User_MfaStateResponse>
@@ -685,6 +742,24 @@ extension User_UserProvider {
         userFunction: self.get_users(request:context:)
       )
 
+    case "find_user_by_email":
+      return UnaryServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<User_FindUserByEmailRequest>(),
+        responseSerializer: ProtobufSerializer<User_FindUserByEmailResponse>(),
+        interceptors: self.interceptors?.makefind_user_by_emailInterceptors() ?? [],
+        userFunction: self.find_user_by_email(request:context:)
+      )
+
+    case "find_user_detail_info_from_email_hash":
+      return UnaryServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<User_FindUserByEmailRequest>(),
+        responseSerializer: ProtobufSerializer<User_UserInfoResponse>(),
+        interceptors: self.interceptors?.makefind_user_detail_info_from_email_hashInterceptors() ?? [],
+        userFunction: self.find_user_detail_info_from_email_hash(request:context:)
+      )
+
     case "get_mfa_state":
       return UnaryServerHandler(
         context: context,
@@ -799,6 +874,14 @@ internal protocol User_UserServerInterceptorFactoryProtocol {
   /// - Returns: Interceptors to use when handling 'get_users'.
   ///   Defaults to calling `self.makeInterceptors()`.
   func makeget_usersInterceptors() -> [ServerInterceptor<User_Empty, User_GetUsersResponse>]
+
+  /// - Returns: Interceptors to use when handling 'find_user_by_email'.
+  ///   Defaults to calling `self.makeInterceptors()`.
+  func makefind_user_by_emailInterceptors() -> [ServerInterceptor<User_FindUserByEmailRequest, User_FindUserByEmailResponse>]
+
+  /// - Returns: Interceptors to use when handling 'find_user_detail_info_from_email_hash'.
+  ///   Defaults to calling `self.makeInterceptors()`.
+  func makefind_user_detail_info_from_email_hashInterceptors() -> [ServerInterceptor<User_FindUserByEmailRequest, User_UserInfoResponse>]
 
   /// - Returns: Interceptors to use when handling 'get_mfa_state'.
   ///   Defaults to calling `self.makeInterceptors()`.

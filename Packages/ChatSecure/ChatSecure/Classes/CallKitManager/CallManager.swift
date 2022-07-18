@@ -239,7 +239,7 @@ extension CallManager {
 	}
 	
 	func sendFakeAudioInterruptionNotificationToStartAudioResources() {
-		var userInfo = Dictionary<AnyHashable, Any>()
+		var userInfo = [AnyHashable: Any]()
 		let interrupttioEndedRaw = AVAudioSession.InterruptionType.ended.rawValue
 		userInfo[AVAudioSessionInterruptionTypeKey] = interrupttioEndedRaw
 		NotificationCenter.default.post(name: AVAudioSession.interruptionNotification, object: self, userInfo: userInfo)

@@ -75,4 +75,5 @@ public protocol IImageSet {
 	var speakerIcon2: Image { get }
 	var speakerOffIcon2: Image { get }
 	var userImage: Image { get }
+	var fileDocIcon: Image { get }
 }
