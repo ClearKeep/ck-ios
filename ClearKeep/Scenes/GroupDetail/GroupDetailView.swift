@@ -19,16 +19,20 @@ struct GroupDetailView: View {
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	@State private(set) var loadable: Loadable<IGroupDetailViewModels> = .notRequested
 	@State private(set) var groupId: Int64 = 0
+	@State private(set) var myProfile: GroupDetailUserViewModels?
+	@State private(set) var addMember: [GroupDetailUserViewModels] = []
+	@State private(set) var searchText: String = ""
+	@State private(set) var searchData: [GroupDetailUserViewModels] = []
 	// MARK: - Init
 
 	// MARK: - Body
 	var body: some View {
-			content
-				.onReceive(inspection.notice) { inspection.visit(self, $0) }
-				.background(backgroundColorView)
-				.edgesIgnoringSafeArea(.all)
-				.hiddenNavigationBarStyle()
-				.onAppear(perform: getGroup)
+		content
+			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.background(backgroundColorView)
+			.edgesIgnoringSafeArea(.all)
+			.hiddenNavigationBarStyle()
+			.onAppear(perform: getGroup)
 	}
 }
 
@@ -69,9 +73,33 @@ private extension GroupDetailView {
 			let members = groupData.groupMembers
 			return AnyView(DetailContentView(loadable: $loadable, groupData: .constant(groupData), member: .constant(members)))
 		}
-		
+
 		if let client = data.getClientInGroup {
 			return AnyView(MemberView(loadable: $loadable, clientData: .constant(client), groupId: groupId))
+		}
+
+		if let profile = data.myProfile {
+			return AnyView(AddMemberView(loadable: $loadable, search: .constant([]), groupId: groupId, myProfile: profile))
+		}
+
+		if let search = data.searchUser {
+			var searchData = search.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
+			searchData = search.map { item in
+				return GroupDetailUserViewModels(id: item.id, displayName: item.displayName, workspaceDomain: DependencyResolver.shared.channelStorage.currentDomain)
+			}
+			return AnyView(AddMemberView(loadable: $loadable, search: .constant(searchData), groupId: groupId))
+		}
+
+		if let searchUser = data.searchUserWithEmail {
+			let userData = searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
+			return AnyView(AddMemberView(loadable: $loadable, search: .constant(userData), groupId: groupId))
+		}
+
+		if let profileWithLink = data.profileWithLink,
+		   !addMember.contains(where: { $0.id == profileWithLink.id }) {
+			var user = [GroupDetailUserViewModels]()
+			user.append(profileWithLink)
+			return AnyView(AddMemberView(loadable: $loadable, search: .constant(user), groupId: groupId, addMember: user))
 		}
 
 		return AnyView(DetailContentView(loadable: $loadable, groupData: .constant(nil), member: .constant([])))

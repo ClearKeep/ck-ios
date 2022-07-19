@@ -59,6 +59,7 @@ struct DetailContentView: View {
 							.font(AppTheme.shared.fontSet.font(style: .body3))
 							.foregroundColor(AppTheme.shared.colorSet.offWhite)
 					}
+					Spacer()
 				}
 			}
 			HStack(alignment: .center) {
@@ -138,7 +139,9 @@ private extension DetailContentView {
 				loadable = await injected.interactors.groupDetailInteractor.getClientInGroup(by: groupData?.groupId ?? 0)
 			}
 		case .addMember:
-			return
+			Task {
+				loadable = await injected.interactors.groupDetailInteractor.getProfile()
+			}
 		case .removeMember:
 			return
 		case .leaveGroup:
