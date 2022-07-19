@@ -17,7 +17,7 @@ struct GroupDetailView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) private var colorScheme
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
-	@State private(set) var loadable: Loadable<GroupDetailViewModels> = .notRequested
+	@State private(set) var loadable: Loadable<IGroupDetailViewModels> = .notRequested
 	@State private(set) var groupId: Int64 = 0
 	// MARK: - Init
 
@@ -57,20 +57,24 @@ private extension GroupDetailView {
 // MARK: - Loading Content
 private extension GroupDetailView {
 	var notRequestedView: some View {
-		DetailContentView(groupData: .constant(nil), member: .constant([]))
+		DetailContentView(loadable: $loadable, groupData: .constant(nil), member: .constant([]))
 	}
 
 	var loadingView: some View {
 		notRequestedView.progressHUD(true)
 	}
 
-	func loadedView(_ data: GroupDetailViewModels) -> AnyView {
+	func loadedView(_ data: IGroupDetailViewModels) -> AnyView {
 		if let groupData = data.getGroup {
 			let members = groupData.groupMembers
-			return AnyView(DetailContentView(groupData: .constant(groupData), member: .constant(members)))
+			return AnyView(DetailContentView(loadable: $loadable, groupData: .constant(groupData), member: .constant(members)))
+		}
+		
+		if let client = data.getClientInGroup {
+			return AnyView(MemberView(loadable: $loadable, clientData: .constant(client), groupId: groupId))
 		}
 
-		return AnyView(DetailContentView(groupData: .constant(nil), member: .constant([])))
+		return AnyView(DetailContentView(loadable: $loadable, groupData: .constant(nil), member: .constant([])))
 	}
 
 	func errorView(_ error: LoginViewError) -> some View {
