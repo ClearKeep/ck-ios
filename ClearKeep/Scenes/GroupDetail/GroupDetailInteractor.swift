@@ -6,19 +6,51 @@
 //
 
 import Common
+import ChatSecure
+import Model
 
 protocol IGroupDetailInteractor {
 	var worker: IGroupDetailWorker { get }
+
+	func getGroup(by groupId: Int64) async ->Loadable<GroupDetailViewModels>
 }
 
 struct GroupDetailInteractor {
 	let appState: Store<AppState>
+	let groupService: IGroupService
+	let channelStorage: IChannelStorage
 }
 
 extension GroupDetailInteractor: IGroupDetailInteractor {
 	var worker: IGroupDetailWorker {
-		let remoteStore = GroupDetailRemoteStore()
+		let remoteStore = GroupDetailRemoteStore(groupService: groupService)
 		let inMemoryStore = GroupDetailInMemoryStore()
-		return GroupDetailWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+		return GroupDetailWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+	}
+
+	func getGroup(by groupId: Int64) async -> Loadable<GroupDetailViewModels> {
+		let result = await worker.getGroup(by: groupId)
+
+		switch result {
+		case .success(let getGroup):
+			return .loaded(GroupDetailViewModels(groups: getGroup))
+		case .failure(let error):
+			return .failed(error)
+		}
+	}
+}
+
+struct StubGroupDetailInteractor: IGroupDetailInteractor {
+	let groupService: IGroupService
+	let channelStorage: IChannelStorage
+
+	var worker: IGroupDetailWorker {
+		let remoteStore = GroupDetailRemoteStore(groupService: groupService)
+		let inMemoryStore = GroupDetailInMemoryStore()
+		return GroupDetailWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+	}
+
+	func getGroup(by groupId: Int64) async ->Loadable<GroupDetailViewModels> {
+		return .notRequested
 	}
 }

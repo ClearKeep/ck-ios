@@ -121,6 +121,7 @@ private extension CreateGroupView {
 			let client = CreatGroupGetUsersViewModel(id: profile?.userId ?? "", displayName: profile?.userName ?? "", workspaceDomain: domain)
 			clientGroup.append(client)
 			loadable = await injected.interactors.chatGroupInteractor.createGroup(by: profile?.userId ?? "fail", groupName: nameGroup, groupType: "group", lstClient: clientGroup)
+
 		}
 	}
 }

@@ -80,7 +80,7 @@ public struct UserGroupButton: View {
 						.frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
 						.font(commonUIConfig.fontSet.font(style: .body2))
 						.foregroundColor(foregroundTitle)
-						.lineLimit(2)
+						.lineLimit(1)
 					Spacer()
 					checkMaskIcon
 						.foregroundColor(focegroundColorImage)

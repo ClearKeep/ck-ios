@@ -25,6 +25,10 @@
 		04589875286BFB2A00A0631C /* CreatePeerUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589872286BFB2900A0631C /* CreatePeerUserViewModel.swift */; };
 		04589876286BFB2A00A0631C /* CreatePeerViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589873286BFB2900A0631C /* CreatePeerViewModels.swift */; };
 		04589878286BFEB000A0631C /* CreatePeerProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589877286BFEB000A0631C /* CreatePeerProfileViewModel.swift */; };
+		0458987C286C0C2C00A0631C /* DetailType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458987A286C0C2C00A0631C /* DetailType.swift */; };
+		0458987D286C0C2C00A0631C /* GroupDetaiModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458987B286C0C2C00A0631C /* GroupDetaiModels.swift */; };
+		04589881286C0C3300A0631C /* GroupDetailViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458987F286C0C3300A0631C /* GroupDetailViewModels.swift */; };
+		04589882286C0C3300A0631C /* GroupDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589880286C0C3300A0631C /* GroupDetailViewModel.swift */; };
 		0459993528630EF0006754DF /* UserInfoResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459993128630EF0006754DF /* UserInfoResponseModel.swift */; };
 		0459993628630EF0006754DF /* UserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459993228630EF0006754DF /* UserInfoModel.swift */; };
 		0459993728630EF1006754DF /* GroupResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459993328630EF0006754DF /* GroupResponseModel.swift */; };
@@ -63,6 +67,7 @@
 		047D6B6127F6A3750098B104 /* CreateDirectMessageInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B5C27F6A3750098B104 /* CreateDirectMessageInteractor.swift */; };
 		047D6B6227F6A3750098B104 /* CreateDirectMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B5D27F6A3750098B104 /* CreateDirectMessageView.swift */; };
 		047D6B6427F6A3DD0098B104 /* DirectMessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B6327F6A3DD0098B104 /* DirectMessageContentView.swift */; };
+		048009732885651600E5F6D0 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048009722885651600E5F6D0 /* String+Extensions.swift */; };
 		0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340727E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift */; };
 		0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340827E96DD7003BD4C4 /* FogotPasswordWorker.swift */; };
 		0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340927E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift */; };
@@ -286,6 +291,10 @@
 		04589872286BFB2900A0631C /* CreatePeerUserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePeerUserViewModel.swift; sourceTree = "<group>"; };
 		04589873286BFB2900A0631C /* CreatePeerViewModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePeerViewModels.swift; sourceTree = "<group>"; };
 		04589877286BFEB000A0631C /* CreatePeerProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePeerProfileViewModel.swift; sourceTree = "<group>"; };
+		0458987A286C0C2C00A0631C /* DetailType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailType.swift; sourceTree = "<group>"; };
+		0458987B286C0C2C00A0631C /* GroupDetaiModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetaiModels.swift; sourceTree = "<group>"; };
+		0458987F286C0C3300A0631C /* GroupDetailViewModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailViewModels.swift; sourceTree = "<group>"; };
+		04589880286C0C3300A0631C /* GroupDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailViewModel.swift; sourceTree = "<group>"; };
 		0459993128630EF0006754DF /* UserInfoResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoResponseModel.swift; sourceTree = "<group>"; };
 		0459993228630EF0006754DF /* UserInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoModel.swift; sourceTree = "<group>"; };
 		0459993328630EF0006754DF /* GroupResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupResponseModel.swift; sourceTree = "<group>"; };
@@ -325,6 +334,7 @@
 		047D6B5C27F6A3750098B104 /* CreateDirectMessageInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDirectMessageInteractor.swift; sourceTree = "<group>"; };
 		047D6B5D27F6A3750098B104 /* CreateDirectMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDirectMessageView.swift; sourceTree = "<group>"; };
 		047D6B6327F6A3DD0098B104 /* DirectMessageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectMessageContentView.swift; sourceTree = "<group>"; };
+		048009722885651600E5F6D0 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		0499340727E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordInMemoryStore.swift; sourceTree = "<group>"; };
 		0499340827E96DD7003BD4C4 /* FogotPasswordWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordWorker.swift; sourceTree = "<group>"; };
 		0499340927E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordRemoteStore.swift; sourceTree = "<group>"; };
@@ -606,6 +616,24 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		04589879286C0C2C00A0631C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0458987A286C0C2C00A0631C /* DetailType.swift */,
+				0458987B286C0C2C00A0631C /* GroupDetaiModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0458987E286C0C3300A0631C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				0458987F286C0C3300A0631C /* GroupDetailViewModels.swift */,
+				04589880286C0C3300A0631C /* GroupDetailViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		0459993028630EF0006754DF /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -683,7 +711,8 @@
 		047D6B0827F14D3E0098B104 /* GroupDetail */ = {
 			isa = PBXGroup;
 			children = (
-				047D6B1427F154580098B104 /* Models */,
+				0458987E286C0C3300A0631C /* ViewModels */,
+				04589879286C0C2C00A0631C /* Models */,
 				047D6B1327F154510098B104 /* Views */,
 				047D6B0927F1544C0098B104 /* GroupDetailInMemoryStore.swift */,
 				047D6B0A27F1544C0098B104 /* GroupDetailWorker.swift */,
@@ -703,13 +732,6 @@
 				047D6B1B27F154B70098B104 /* RemoveMemberView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		047D6B1427F154580098B104 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		047D6B5627F6A3240098B104 /* CreateDirectMessage */ = {
@@ -865,7 +887,7 @@
 		22C507F928800578009F92A7 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				22C507FA28800578009F92A7 /* String+Extensions.swift */,
+				048009722885651600E5F6D0 /* String+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1809,6 +1831,7 @@
 				0462C6C62816535C00A9EABB /* SearchInteractor.swift in Sources */,
 				CB3F78FA27C4CC0000E569B0 /* AppImageSet.swift in Sources */,
 				044351FA27D9AFCA0054A78F /* RegisterContentView.swift in Sources */,
+				0458987C286C0C2C00A0631C /* DetailType.swift in Sources */,
 				044351F927D9AFCA0054A78F /* RegisterView.swift in Sources */,
 				F568DC2227FD882600EE9DF0 /* NotificationInMemoryStore.swift in Sources */,
 				F5644832283B7A79007846F9 /* ProfileInMemoryStore.swift in Sources */,
@@ -1891,6 +1914,7 @@
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
 				F5350E1F27FAD58F00F54E32 /* TwoFactorInteractor.swift in Sources */,
 				047241AE27DB3D2C0043345A /* LoginWorker.swift in Sources */,
+				048009732885651600E5F6D0 /* String+Extensions.swift in Sources */,
 				047D6B1E27F158520098B104 /* DetailContentView.swift in Sources */,
 				0499343927E96F8A003BD4C4 /* NewPasswordView.swift in Sources */,
 				044351F827D9AFCA0054A78F /* RegisterInteractor.swift in Sources */,
@@ -1919,6 +1943,7 @@
 				047D6B6427F6A3DD0098B104 /* DirectMessageContentView.swift in Sources */,
 				044432B728570E5F00276DB3 /* UsersGroupViewModel.swift in Sources */,
 				047D6B5E27F6A3750098B104 /* CreateDirectMessageInMemoryStore.swift in Sources */,
+				04589882286C0C3300A0631C /* GroupDetailViewModel.swift in Sources */,
 				0499341027E96DD7003BD4C4 /* FogotPasswordView.swift in Sources */,
 				0499344427E97035003BD4C4 /* ChangePasswordInMemoryStore.swift in Sources */,
 				0462C6CD2816535C00A9EABB /* SearchGroupView.swift in Sources */,
@@ -1943,12 +1968,14 @@
 				04589874286BFB2A00A0631C /* CreatePeerChatViewModel.swift in Sources */,
 				F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */,
 				0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */,
+				04589881286C0C3300A0631C /* GroupDetailViewModels.swift in Sources */,
 				F556C277280E502500D2B149 /* TagView.swift in Sources */,
 				044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */,
 				0459993E286312ED006754DF /* GroupBaseModel.swift in Sources */,
 				0462C6C12816535C00A9EABB /* SearchRemoteStore.swift in Sources */,
 				0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */,
 				F553F87827E820E600824BE7 /* SocialInteractor.swift in Sources */,
+				0458987D286C0C2C00A0631C /* GroupDetaiModels.swift in Sources */,
 				F568DC2127FD882600EE9DF0 /* NotificationInteractor.swift in Sources */,
 				CB7F29632828D36300BD5049 /* CustomServer.swift in Sources */,
 				CB117E7C27BB65E2000941D9 /* LocationService.swift in Sources */,

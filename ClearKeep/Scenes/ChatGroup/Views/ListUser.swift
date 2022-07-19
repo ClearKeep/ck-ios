@@ -22,7 +22,7 @@ struct ListUser: View {
 	// MARK: - Body
 	var body: some View {
 		HStack {
-			avatarView
+			AvatarDefault($name, imageUrl: "")
 				.frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
 				.clipShape(Circle())
 			Text(name)
@@ -37,30 +37,5 @@ struct ListUser: View {
 private extension ListUser {
 	var foregroundTagUser: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight
-	}
-}
-
-// MARK: - Private
-private extension ListUser {
-	var avatarView: AnyView {
-		if imageUrl == "" {
-			return AnyView(avatarDefault)
-		} else {
-			return AnyView(avatar)
-		}
-	}
-}
-
-// MARK: - Displaying Content
-private extension ListUser {
-	var avatar: some View {
-		Image(imageUrl)
-			.frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
-			.clipShape(Circle())
-			.foregroundColor(Color.gray)
-	}
-	
-	var avatarDefault: some View {
-		AvatarDefault(.constant(String(name.prefix(1))), imageUrl: "")
 	}
 }
