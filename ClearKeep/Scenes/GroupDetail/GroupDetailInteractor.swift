@@ -21,6 +21,9 @@ protocol IGroupDetailInteractor {
 	func searchUserWithEmail(email: String) async -> Loadable<IGroupDetailViewModels>
 	func checkPeopleLink(link: String) -> Bool
 	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)?
+	func lstMemberRemove(by groupId: Int64) async -> Loadable<IGroupDetailViewModels>
+	func removeMember(_ user: GroupDetailClientViewModel, groupId: Int64) async -> (Result<IGroupDetailViewModels, Error>)
+	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels>
 }
 
 struct GroupDetailInteractor {
@@ -119,6 +122,38 @@ extension GroupDetailInteractor: IGroupDetailInteractor {
 			return .failed(error)
 		}
 	}
+
+	func lstMemberRemove(by groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
+		let result = await worker.getGroup(by: groupId)
+		switch result {
+		case .success(let getGroup):
+			return .loaded(GroupDetailViewModels(members: getGroup))
+		case .failure(let error):
+			return .failed(error)
+		}
+	}
+
+	func removeMember(_ user: GroupDetailClientViewModel, groupId: Int64) async -> (Result<IGroupDetailViewModels, Error>) {
+		let result = await worker.leaveGroup(user, groupId: groupId)
+
+		switch result {
+		case .success(let user):
+			return .success(GroupDetailViewModels(leaveGroup: user))
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+
+	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
+		let result = await worker.leaveGroup(user, groupId: groupId)
+		switch result {
+		case .success(let member):
+			return .loaded(GroupDetailViewModels(leaveGroup: member))
+		case .failure(let error):
+			return .failed(error)
+		}
+	}
+
 }
 
 struct StubGroupDetailInteractor: IGroupDetailInteractor {
@@ -167,5 +202,24 @@ struct StubGroupDetailInteractor: IGroupDetailInteractor {
 
 	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)? {
 		self.worker.getPeopleFromLink(link: link)
+	}
+
+	func lstMemberRemove(by groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
+		return .notRequested
+	}
+
+	func removeMember(_ user: GroupDetailClientViewModel, groupId: Int64) async -> (Result<IGroupDetailViewModels, Error>) {
+		let result = await worker.leaveGroup(user, groupId: groupId)
+
+		switch result {
+		case .success(let users):
+			return .success(GroupDetailViewModels(leaveGroup: users))
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+
+	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
+		return .notRequested
 	}
 }

@@ -8,6 +8,7 @@
 import Foundation
 import RealmSwift
 import Networking
+import Model
 
 public class RealmManager {
 	// MARK: - Variables
@@ -225,6 +226,32 @@ extension RealmManager {
 			realm.add(server, update: .modified)
 		}
 		return getServers()
+	}
+}
+
+extension RealmManager {
+	public func getOwnerServer(domain: String) -> IUser? {
+		struct User: IUser {
+			var id: String
+			var displayName: String
+			var email: String
+			var phoneNumber: String
+			var avatar: String
+			var status: String
+
+			init(profile: RealmProfile?) {
+				self.id = profile?.userId ?? ""
+				self.displayName = profile?.userName ?? ""
+				self.avatar = profile?.avatar ?? ""
+				self.email = profile?.email ?? ""
+				self.status = ""
+				self.phoneNumber = profile?.phoneNumber ?? ""
+			}
+		}
+
+		let servers = load(listOf: RealmServer.self, filter: NSPredicate(format: "%K == %@", #keyPath(RealmServer.serverDomain), domain))
+		let server = servers.first
+		return User(profile: server?.profile)
 	}
 }
 

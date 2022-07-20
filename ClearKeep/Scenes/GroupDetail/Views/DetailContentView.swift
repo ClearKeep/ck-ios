@@ -29,7 +29,8 @@ struct DetailContentView: View {
 	@Binding var loadable: Loadable<IGroupDetailViewModels>
 	@Binding var groupData: GroupDetailViewModel?
 	@Binding var member: [GroupDetailClientViewModel]
-
+	@State private var messageAlert: String = ""
+	@State private var isShowAlert: Bool = false
 	// MARK: - Init
 
 	// MARK: - Body
@@ -37,20 +38,20 @@ struct DetailContentView: View {
 		VStack {
 			if member.count < 5 {
 				HStack(spacing: Constants.spaceHstack) {
-						Spacer()
-						ForEach(0..<member.prefix(4).count, id: \.self) { user in
-							AvatarDefault(.constant(member[user].userName), imageUrl: member[user].avatar)
-								.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
-						}
-						Spacer()
+					Spacer()
+					ForEach(0..<member.prefix(4).count, id: \.self) { user in
+						AvatarDefault(.constant(member[user].userName), imageUrl: member[user].avatar)
+							.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
 					}
+					Spacer()
+				}
 			} else {
 				HStack(spacing: Constants.spaceHstack) {
 					Spacer()
-				ForEach(0..<member.prefix(4).count, id: \.self) { user in
-					AvatarDefault(.constant(member[user].userName), imageUrl: member[user].avatar)
-						.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
-				}
+					ForEach(0..<member.prefix(4).count, id: \.self) { user in
+						AvatarDefault(.constant(member[user].userName), imageUrl: member[user].avatar)
+							.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
+					}
 					ZStack {
 						Circle()
 							.fill(foregroundButtonImage)
@@ -91,6 +92,11 @@ struct DetailContentView: View {
 									  rightBarItems: {
 			Spacer()
 		})
+		.alert(isPresented: self.$isShowAlert) {
+			Alert(title: Text("GroupChat.Warning".localized),
+				  message: Text(self.messageAlert),
+				  dismissButton: .default(Text("GroupChat.Ok".localized)))
+		}
 	}
 }
 
@@ -143,9 +149,16 @@ private extension DetailContentView {
 				loadable = await injected.interactors.groupDetailInteractor.getProfile()
 			}
 		case .removeMember:
-			return
+			Task {
+				loadable = await injected.interactors.groupDetailInteractor.lstMemberRemove(by: groupData?.groupId ?? 0)
+			}
 		case .leaveGroup:
-			return
+			let user = member.filter { $0.id == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "" }
+			user.forEach { profile in
+				Task {
+					loadable = await injected.interactors.groupDetailInteractor.leaveGroup(profile, groupId: groupData?.groupId ?? 0)
+				}
+			}
 		}
 	}
 }

@@ -52,7 +52,8 @@ public class APIService {
 	let clientWorkspace: Workspace_WorkspaceClient
 	
 	// MARK: - Init & Deinit
-	public init(domain: String) {
+	public init(domain: String, owner: IUser?) {
+
 		self.domain = domain
 		callOptions = CallOptions()
 		var headers: HPACKHeaders = ["domain": "localhost",
@@ -78,6 +79,7 @@ public class APIService {
 		clientServerInfo = ServerInfo_ServerInfoClient(channel: connection)
 		clientUploadFile = UploadFile_UploadFileClient(channel: connection)
 		clientWorkspace = Workspace_WorkspaceClient(channel: connection)
+		self.owner = owner
 	}
 	
 	deinit {
