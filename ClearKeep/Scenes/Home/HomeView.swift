@@ -58,6 +58,8 @@ struct HomeView: View {
 		}
 	}
 	
+	@StateObject var callViewModel: CallViewModel = CallViewModel()
+	
 	@State private(set) var servers: [ServerViewModel] = []
 	@State private(set) var searchKeyword: String = ""
 	@State private(set) var searchInputStyle: TextInputStyle = .default
@@ -69,6 +71,8 @@ struct HomeView: View {
 	@State private var isLoading: Bool = false
 	@State private var isShowError: Bool = false
 	@State private var error: LoginViewError?
+	@State private var isInCall = false
+	
 	let inspection = ViewInspector<Self>()
 
 	var body: some View {
@@ -124,6 +128,7 @@ struct HomeView: View {
 					  message: Text(self.error?.message ?? ""),
 					  dismissButton: .default(Text(error?.primaryButtonTitle ?? "")))
 			}
+			.inCallModifier(callViewModel: callViewModel, isInCall: $isInCall)
 	}
 }
 

@@ -36,11 +36,11 @@ extension JanusVideoRoomDelegate {
 	func janusVideoRoom(janusRoom: JanusVideoRoom, didReceiveData data: Data) {}
 }
 
-class JanusVideoRoom: NSObject {
+public class JanusVideoRoom: NSObject {
 	var delegate: JanusVideoRoomDelegate?
-	var remotes = [Int: JanusRoleListen]()
+	public var remotes = [Int: JanusRoleListen]()
 	///  TODO: add config
-	var publisher: JanusRolePublish?
+	public var publisher: JanusRolePublish?
 	var canvas = [Int: RTCCanvas]()
 	
 	private var userId: Int = 0

@@ -8,7 +8,7 @@
 import SwiftUI
 import Introspect
 
-func globalSafeAreaInsets() -> UIEdgeInsets {
+public func globalSafeAreaInsets() -> UIEdgeInsets {
 	return UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.safeAreaInsets ?? UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 }
 

@@ -10,7 +10,7 @@ import CallKit
 import AVFoundation
 import PushKit
 
-enum CallType: String {
+public enum CallType: String {
 	case audio
 	case video
 }
@@ -26,7 +26,7 @@ final public class CallManager: NSObject {
 	let callController = CXCallController()
 	static let CallsChangedNotification = Notification.Name("CallManagerCallsChangedNotification")
 	private let provider: CXProvider
-	private(set) var calls = [CallBox]()
+	public var calls = [CallBox]()
 	/// The app's provider configuration, representing its CallKit capabilities
 	static var providerConfiguration: CXProviderConfiguration {
 		let localizedName = NSLocalizedString("ClearKeep", comment: "Name of application")
@@ -39,7 +39,7 @@ final public class CallManager: NSObject {
 		return providerConfiguration
 	}
 	
-	static let shared = CallManager()
+	public static let shared = CallManager()
 	
 	override init() {
 		provider = CXProvider(configuration: type(of: self).providerConfiguration)
@@ -84,7 +84,7 @@ final public class CallManager: NSObject {
 		requestTransaction(transaction, action: Call.start.rawValue)
 	}
 	
-	func end(call: CallBox) {
+	public func end(call: CallBox) {
 		let endCallAction = CXEndCallAction(call: call.uuid)
 		let transaction = CXTransaction()
 		transaction.addAction(endCallAction)
@@ -153,7 +153,8 @@ final public class CallManager: NSObject {
 		NotificationCenter.default.post(name: type(of: self).CallsChangedNotification, object: self, userInfo: userInfo)
 	}
 	
-	func handleIncomingPushEvent(payload: PKPushPayload, completion: ((NSError?) -> Void)? = nil) {
+	public func handleIncomingPushEvent(payload: PKPushPayload, completion: ((NSError?) -> Void)? = nil) {
+		print("Payload: \(payload.dictionaryPayload)")
 		//        let jsonData = JSON(payload.dictionaryPayload)
 		//        print("Payload: \(payload.dictionaryPayload)")
 		//        if let currentUserId = jsonData["client_id"].string, let savedCurrentUserId = Multiserver.instance.currentServer.getUserLogin()?.id, currentUserId != savedCurrentUserId {
@@ -423,9 +424,10 @@ extension CallManager: CXProviderDelegate {
 	}
 }
 
-extension Notification.Name {
+public extension Notification.Name {
 	public enum CallService {
 		public static let receiveCall = Notification.Name("CallService.receiveCall")
 		public static let endCall = Notification.Name("CallService.endCall")
+		public static let notification = NSNotification.Name.init("notification")
 	}
 }

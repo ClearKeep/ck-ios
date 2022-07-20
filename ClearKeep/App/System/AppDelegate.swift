@@ -12,6 +12,8 @@ import FBSDKCoreKit
 import GoogleSignIn
 import FirebaseCore
 import MSAL
+import PushKit
+import ChatSecure
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,8 +24,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions
 					 launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-		
 		FirebaseApp.configure()
+		
+		//PushKit
+		registrationPushRegistry()
 		
 		// Facebook
 		ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -98,5 +102,41 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 		
 		// If not handled by this app, return false.
 		return false
+	}
+}
+
+extension AppDelegate: PKPushRegistryDelegate {
+	fileprivate func registrationPushRegistry() {
+		let voipRegistry: PKPushRegistry = PKPushRegistry(queue: .main)
+		
+		voipRegistry.delegate = self
+		
+		voipRegistry.desiredPushTypes = [PKPushType.voIP]
+	}
+	
+	func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
+		systemEventsHandler?.handlePushRegistration(pushCredentials: pushCredentials)
+	}
+	
+	func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType, completion: @escaping () -> Void) {
+		if type != PKPushType.voIP || DependencyResolver.shared.channelStorage.currentServer?.accessKey.isEmpty ?? false {
+			return
+		}
+		
+		guard let notifiType = payload.dictionaryPayload["notify_type"] as? String else {
+			return
+		}
+		
+		if notifiType == "cancel_request_call" {
+			guard let roomId = payload.dictionaryPayload["group_id"] as? String else {
+				return
+			}
+			
+			return
+		}
+		let backGroundTaskIndet = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
+		CallManager.shared.handleIncomingPushEvent(payload: payload) { _ in
+			UIApplication.shared.endBackgroundTask(backGroundTaskIndet)
+		}
 	}
 }
