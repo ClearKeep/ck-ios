@@ -60,15 +60,15 @@ class DependencyResolver {
 		
 		// MARK: - Services
 		appTokenService = AppTokenService(securedStoreService: securedStoreService, persistentStoreService: persistentStoreService)
-		authenticationService = CLKAuthenticationService(signalStore: signalStore, clientStore: clientStore)
 		let senderStore = SenderKeyInMemoryStore(storage: yapDatabaseManager)
+		authenticationService = CLKAuthenticationService(signalStore: signalStore, clientStore: clientStore, senderKeyStore: senderStore)
 		messageService = MessageService(clientStore: clientStore, signalStore: signalStore, senderStore: senderStore)
 		socialAuthenticationService = SocialAuthenticationService([.facebook,
 																   .google(clientId: ConfigurationProvider.default.googleClientId),
 																   .office(clientId: ConfigurationProvider.default.officeClientId,
 																		   redirectUri: ConfigurationProvider.default.officeRedirectUri)
 																  ])
-		groupService = GroupService()
+		groupService = GroupService(senderStore: senderStore, signalStore: signalStore)
 		userService = UserService(clientStore: clientStore)
 		uploadFileService = UploadFileService()
 		callService = CallService()

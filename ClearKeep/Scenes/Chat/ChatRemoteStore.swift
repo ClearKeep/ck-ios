@@ -11,8 +11,9 @@ import CommonUI
 
 protocol IChatRemoteStore {
 	func getGroupById(domain: String, id: Int64) async -> Result<IGroupModel, Error>
-	func getMessageList(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
+	func getMessageList(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
 	func sendMessageInPeer(senderId: String, ownerWorkspace: String, receiverId: String, receiverWorkSpaceDomain: String, groupId: Int64, plainMessage: String, isForceProcessKey: Bool, cachedMessageId: Int) async -> Result<[RealmMessage], Error>
+	func sendMessageInGroup(senderId: String, ownerWorkspace: String, groupId: Int64, isJoined: Bool, plainMessage: String, cachedMessageId: Int, isForward: Bool) async -> Result<[RealmMessage], Error>
 	func uploadFile(file: FileModel, isAppendSize: Bool, domain: String) async -> String?
 	func downloadFile(urlString: String) async -> Result<String, Error>
 	func requestCall(groupId: Int64, isAudioCall: Bool, domain: String) async -> Result<CallServer, Error>
@@ -26,6 +27,7 @@ struct ChatRemoteStore {
 }
 
 extension ChatRemoteStore: IChatRemoteStore {
+	
 	func getGroupById(domain: String, id: Int64) async -> Result<IGroupModel, Error> {
 		let result = await groupService.getGroup(by: id, domain: domain)
 		
@@ -38,8 +40,8 @@ extension ChatRemoteStore: IChatRemoteStore {
 		}
 	}
 	
-	func getMessageList(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
-		let result = await messageService.getMessage(ownerDomain: ownerDomain, ownerId: ownerId, groupId: groupId, loadSize: loadSize, lastMessageAt: lastMessageAt)
+	func getMessageList(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
+		let result = await messageService.getMessage(ownerDomain: ownerDomain, ownerId: ownerId, groupId: groupId, loadSize: loadSize, isGroup: isGroup, lastMessageAt: lastMessageAt)
 		switch result {
 		case .success(let realmMessage):
 			return .success(realmMessage)
@@ -50,6 +52,17 @@ extension ChatRemoteStore: IChatRemoteStore {
 	
 	func sendMessageInPeer(senderId: String, ownerWorkspace: String, receiverId: String, receiverWorkSpaceDomain: String, groupId: Int64, plainMessage: String, isForceProcessKey: Bool, cachedMessageId: Int) async -> Result<[RealmMessage], Error> {
 		let result = await messageService.sendMessageInPeer(senderId: senderId, ownerDomain: ownerWorkspace, receiverId: receiverId, receiverDomain: receiverWorkSpaceDomain, groupId: groupId, plainMessage: plainMessage, isForceProcessKey: isForceProcessKey, cachedMessageId: cachedMessageId)
+		switch result {
+		case .success(let realmMessage):
+			print(realmMessage)
+			return .success([realmMessage])
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+	
+	func sendMessageInGroup(senderId: String, ownerWorkspace: String, groupId: Int64, isJoined: Bool, plainMessage: String, cachedMessageId: Int, isForward: Bool) async -> Result<[RealmMessage], Error> {
+		let result = await messageService.sendMessageInGroup(senderId: senderId, ownerWorkspace: ownerWorkspace, groupId: groupId, isJoined: isJoined, plainMessage: plainMessage, cachedMessageId: cachedMessageId, isForward: isForward)
 		switch result {
 		case .success(let realmMessage):
 			print(realmMessage)

@@ -10,11 +10,14 @@ import YapDatabase
 
 enum YapDatabaseCollection {
 	case `default`
+	case domain(String)
 	
 	var name: String {
 		switch self {
 		case .default:
 			return "default"
+		case .domain(let name):
+			return name
 		}
 	}
 }

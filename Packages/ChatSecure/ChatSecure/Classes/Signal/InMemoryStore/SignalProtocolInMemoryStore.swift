@@ -16,6 +16,7 @@ public protocol ISignalProtocolInMemoryStore {
 	func saveUserPreKey(preKey: PreKeyRecord, id: UInt32) throws
 	func saveUserSignedPreKey(signedPreKey: SignedPreKeyRecord, id: UInt32) throws
 	func saveUserIdentity(identity: SignalIdentityKey) throws
+	func deleteKeys(domain: String)
 }
 
 public final class SignalProtocolInMemoryStore: ISignalProtocolInMemoryStore {
@@ -43,5 +44,9 @@ public final class SignalProtocolInMemoryStore: ISignalProtocolInMemoryStore {
 	
 	public func saveUserIdentity(identity: SignalIdentityKey) throws {
 		try identityStore.saveUserIdentity(identity: identity)
+	}
+	
+	public func deleteKeys(domain: String) {
+		identityStore.deleteUserIdentity(domain: domain)
 	}
 }

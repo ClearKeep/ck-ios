@@ -64,60 +64,12 @@ extension RealmManager {
 
 // MARK: - Group
 extension RealmManager {
-	func addAndUpdateGroups(group: Group_GetJoinedGroupsResponse, domain: String) async -> [RealmGroup] {
+	func addAndUpdateGroups(groups: [RealmGroup]) async {
 		return await withCheckedContinuation({ continuation in
-			var realmGroups: [RealmGroup] = []
-			
-			group.lstGroup.forEach { groupResponse in
-				let server = getServer(by: domain)
-				guard let server = server, let profile = server.profile else {
-					return
-				}
-				let oldGroup = getGroup(by: groupResponse.groupID, domain: domain, ownerId: profile.userId)
-				
-				let isRegisteredKey = oldGroup?.isJoined ?? false
-				let lastMessageSyncTime = oldGroup?.lastMessageSyncTimestamp ?? (server.loginTime ?? Int64(Date().timeIntervalSince1970))
-				
-				let realmGroup = RealmGroup()
-				let groupMembers = groupResponse.lstClient.map { member -> RealmMember in
-					let realmMember = RealmMember()
-					realmMember.userId = member.id
-					realmMember.userName = member.displayName
-					realmMember.domain = member.workspaceDomain
-					realmMember.userState = member.status
-					return realmMember
-				}
-				
-				realmGroup.generateId = oldGroup?.generateId ?? UUID().uuidString
-				realmGroup.groupId = groupResponse.groupID
-				if groupResponse.groupType == "group" {
-					realmGroup.groupName = groupResponse.groupName
-				} else {
-					realmGroup.groupName = groupResponse.lstClient.first { $0.id != profile.userId }?.displayName ?? ""
-				}
-				realmGroup.groupAvatar = groupResponse.groupAvatar
-				realmGroup.groupType = groupResponse.groupType
-				realmGroup.createdBy = groupResponse.createdByClientID
-				realmGroup.createdAt = groupResponse.createdAt
-				realmGroup.updatedBy = groupResponse.updatedByClientID
-				realmGroup.updatedAt = groupResponse.updatedAt
-				realmGroup.rtcToken = groupResponse.groupRtcToken
-				realmGroup.groupMembers.append(objectsIn: groupMembers)
-				realmGroup.isJoined = isRegisteredKey
-				realmGroup.ownerDomain = domain
-				realmGroup.ownerClientId = profile.userId
-				realmGroup.lastMessage = nil
-				realmGroup.lastMessageAt = groupResponse.lastMessageAt
-				realmGroup.lastMessageSyncTimestamp = lastMessageSyncTime
-				realmGroup.isDeletedUserPeer = false
-				realmGroup.hasUnreadMessage = groupResponse.hasUnreadMessage_p
-				
-				realmGroups.append(realmGroup)
-			}
 			write { realm in
-				realm.add(realmGroups, update: .modified)
+				realm.add(groups, update: .modified)
 			}
-			continuation.resume(returning: realmGroups)
+			continuation.resume()
 		})
 	}
 	
@@ -174,6 +126,18 @@ extension RealmManager {
 		})
 	}
 	
+	func removeGroups(domain: String) {
+		delete(listOf: RealmGroup.self, filter: NSPredicate(format: "ownerDomain == %@", domain))
+	}
+	
+	func updateGroupJoinedStatus(groupId: Int64, domain: String, ownerId: String) {
+		if let group = getGroup(by: groupId, domain: domain, ownerId: ownerId) {
+			write { _ in
+				group.isJoined = true
+			}
+		}
+	}
+	
 	func getGroup(by groupId: Int64, domain: String, ownerId: String) -> RealmGroup? {
 		let groups = load(listOf: RealmGroup.self, filter: NSPredicate(format: "groupId == %ld && ownerDomain == %@ && ownerClientId == %@", groupId, domain, ownerId))
 		return groups.first
@@ -203,6 +167,8 @@ extension RealmManager {
 			realmServer.hashKey = authenResponse.hashKey
 			realmServer.refreshToken = authenResponse.refreshToken
 			realmServer.isActive = true
+			realmServer.salt = authenResponse.salt
+			realmServer.iv = authenResponse.ivParameter
 			
 			let profile = RealmProfile()
 			profile.userId = profileResponse.id
