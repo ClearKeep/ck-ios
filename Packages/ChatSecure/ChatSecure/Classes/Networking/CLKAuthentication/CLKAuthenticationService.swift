@@ -38,10 +38,12 @@ public class CLKAuthenticationService {
 	var usr: OpaquePointer?
 	var clientStore: ClientStore
 	private let signalStore: ISignalProtocolInMemoryStore
+	private let senderKeyStore: ISenderKeyStore
 	
-	public init(signalStore: ISignalProtocolInMemoryStore, clientStore: ClientStore) {
+	public init(signalStore: ISignalProtocolInMemoryStore, clientStore: ClientStore, senderKeyStore: ISenderKeyStore) {
 		self.clientStore = clientStore
 		self.signalStore = signalStore
+		self.senderKeyStore = senderKeyStore
 	}
 }
 
@@ -391,12 +393,15 @@ extension CLKAuthenticationService: IAuthenticationService {
 	
 	public func logoutFromAPI(domain: String) async -> Result<Auth_BaseResponse, Error> {
 		guard let server = channelStorage.realmManager.getServer(by: domain) else { return .failure(ServerError.unknown) }
-		
+		let ownerId = server.ownerClientId
 		var request = Auth_LogoutReq()
 		request.deviceID = clientStore.getUniqueDeviceId()
 		request.refreshToken = server.refreshToken
 		
-		let response = await channelStorage.getChannel(domain: server.serverDomain, accessToken: server.accessKey, hashKey: server.hashKey).logout(request)
+		let response = await channelStorage.getChannel(domain: server.serverDomain).logout(request)
+		channelStorage.realmManager.deleteMessagesByDomain(domain: domain, ownerId: ownerId)
+		signalStore.deleteKeys(domain: domain)
+		senderKeyStore.removeSenderKey()
 		switch response {
 		case .success(let data):
 			return(.success(data))

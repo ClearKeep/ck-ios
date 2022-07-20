@@ -15,8 +15,9 @@ protocol IChatWorker {
 	var inMemoryStore: IChatInMemoryStore { get }
 	
 	func getGroupWithId(groupId: Int64) async -> Result<IGroupModel, Error>
-	func getMessageList(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
+	func getMessageList(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
 	func sendMessageInPeer(senderId: String, ownerWorkspace: String, receiverId: String, receiverWorkSpaceDomain: String, groupId: Int64, plainMessage: String, isForceProcessKey: Bool, cachedMessageId: Int) async -> Result<[RealmMessage], Error>
+	func sendMessageInGroup(senderId: String, ownerWorkspace: String, groupId: Int64, isJoined: Bool, plainMessage: String, cachedMessageId: Int, isForward: Bool) async -> Result<[RealmMessage], Error>
 	func getJoinedGroupsFromLocal(ownerId: String, domain: String) async -> [IGroupModel]
 	func uploadFiles(message: String, files: [FileModel], domain: String, appendFileSize: Bool) async -> String?
 	func downloadFile(urlString: String) async -> Result<String, Error>
@@ -52,8 +53,8 @@ extension ChatWorker: IChatWorker {
 		}
 	}
 	
-	func getMessageList(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
-		let result = await remoteStore.getMessageList(ownerDomain: ownerDomain, ownerId: ownerId, groupId: groupId, loadSize: loadSize, lastMessageAt: lastMessageAt)
+	func getMessageList(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
+		let result = await remoteStore.getMessageList(ownerDomain: ownerDomain, ownerId: ownerId, groupId: groupId, loadSize: loadSize, isGroup: isGroup, lastMessageAt: lastMessageAt)
 		
 		switch result {
 		case .success(let user):
@@ -65,6 +66,10 @@ extension ChatWorker: IChatWorker {
 	
 	func sendMessageInPeer(senderId: String, ownerWorkspace: String, receiverId: String, receiverWorkSpaceDomain: String, groupId: Int64, plainMessage: String, isForceProcessKey: Bool, cachedMessageId: Int) async -> Result<[RealmMessage], Error> {
 		return await remoteStore.sendMessageInPeer(senderId: senderId, ownerWorkspace: ownerWorkspace, receiverId: receiverId, receiverWorkSpaceDomain: receiverWorkSpaceDomain, groupId: groupId, plainMessage: plainMessage, isForceProcessKey: isForceProcessKey, cachedMessageId: cachedMessageId)
+	}
+	
+	func sendMessageInGroup(senderId: String, ownerWorkspace: String, groupId: Int64, isJoined: Bool, plainMessage: String, cachedMessageId: Int, isForward: Bool) async -> Result<[RealmMessage], Error> {
+		return await remoteStore.sendMessageInGroup(senderId: senderId, ownerWorkspace: ownerWorkspace, groupId: groupId, isJoined: isJoined, plainMessage: plainMessage, cachedMessageId: cachedMessageId, isForward: isForward)
 	}
 	
 	func getJoinedGroupsFromLocal(ownerId: String, domain: String) async -> [IGroupModel] {

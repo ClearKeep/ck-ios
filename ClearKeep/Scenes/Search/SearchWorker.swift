@@ -15,7 +15,7 @@ protocol ISearchWorker {
 	var remoteStore: ISearchRemoteStore { get }
 	var inMemoryStore: ISearchInMemoryStore { get }
 	func getJoinedGroup() async -> Result<ISearchModels, Error>
-	func getMessageList(groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
+	func getMessageList(groupId: Int64, loadSize: Int, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
 	func getListStatus(data: [[String: String]]) async -> Result<ISearchModels, Error>
 }
 
@@ -39,11 +39,11 @@ extension SearchWorker: ISearchWorker {
 		return await remoteStore.getJoinedGroup(domain: currentDomain ?? channelStorage.currentDomain)
 	}
 	
-	func getMessageList(groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
+	func getMessageList(groupId: Int64, loadSize: Int, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
 		guard let server = channelStorage.currentServer,
 			  let ownerId = server.profile?.userId else { return .failure(ServerError.unknown) }
 		let ownerDomain = server.serverDomain
-		let result = await remoteStore.getMessageList(ownerDomain: ownerDomain, ownerId: ownerId, groupId: groupId, loadSize: loadSize, lastMessageAt: lastMessageAt)
+		let result = await remoteStore.getMessageList(ownerDomain: ownerDomain, ownerId: ownerId, groupId: groupId, loadSize: loadSize, isGroup: isGroup, lastMessageAt: lastMessageAt)
 		
 		switch result {
 		case .success(let user):

@@ -13,7 +13,7 @@ import Networking
 
 protocol ISearchRemoteStore {
 	func getJoinedGroup(domain: String) async -> Result<ISearchModels, Error>
-	func getMessageList(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
+	func getMessageList(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
 	func getListStatus(domain: String, data: [[String: String]]) async -> Result<ISearchModels, Error>
 }
 
@@ -38,8 +38,8 @@ extension SearchRemoteStore: ISearchRemoteStore {
 		}
 	}
 	
-	func getMessageList(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
-		let result = await messageService.getMessage(ownerDomain: ownerDomain, ownerId: ownerId, groupId: groupId, loadSize: loadSize, lastMessageAt: lastMessageAt)
+	func getMessageList(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
+		let result = await messageService.getMessage(ownerDomain: ownerDomain, ownerId: ownerId, groupId: groupId, loadSize: loadSize, isGroup: isGroup, lastMessageAt: lastMessageAt)
 		switch result {
 		case .success(let realmMessage):
 			print(realmMessage)

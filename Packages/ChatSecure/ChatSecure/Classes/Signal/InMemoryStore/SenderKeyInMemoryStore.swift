@@ -6,9 +6,12 @@
 //
 
 import LibSignalClient
+import Foundation
 
 public protocol ISenderKeyStore: SenderKeyStore {
-	func getSenderDistributionID(from sender: ProtocolAddress, groupId: Int64) -> UUID
+	func getSenderDistributionID(senderID: String, groupId: Int64, isCreateNew: Bool) -> UUID?
+	func removeSenderKey()
+	func saveSenderDistributionID(senderID: String, groupId: Int64)
 }
 
 private struct SenderKeyName: Hashable {
@@ -21,7 +24,7 @@ public final class SenderKeyInMemoryStore {
 	private let storage: YapDatabaseManager
 	private var senderKeyMap: [SenderKeyName: SenderKeyRecord] = [:]
 	private var senderUuidMap: [String: UUID] = [:]
-	
+
 	// MARK: - Init
 	public init(storage: YapDatabaseManager) {
 		self.storage = storage
@@ -36,14 +39,16 @@ extension SenderKeyInMemoryStore: ISenderKeyStore {
 	public func storeSenderKey(from sender: ProtocolAddress, distributionId: UUID, record: SenderKeyRecord, context: StoreContext) throws {
 		senderKeyMap[SenderKeyName(sender: sender, distributionId: distributionId)] = record
 		let data = Data(record.serialize())
-		storage.insert(data, forKey: getKey(distributionId: distributionId, name: sender.name))
+		let key = getKey(distributionId: distributionId, name: sender.name)
+		storage.insert(data, forKey: key, collection: .domain(channelStorage.currentDomain))
 	}
 	
 	public func loadSenderKey(from sender: ProtocolAddress, distributionId: UUID, context: StoreContext) throws -> SenderKeyRecord? {
 		if let record = senderKeyMap[SenderKeyName(sender: sender, distributionId: distributionId)] {
 			return record
 		} else {
-			if let data: Data = storage.object(forKey: getKey(distributionId: distributionId, name: sender.name)) {
+			let key = getKey(distributionId: distributionId, name: sender.name)
+			if let data: Data = storage.object(forKey: key, collection: .domain(channelStorage.currentDomain)) {
 				let senderKeyRecord = try SenderKeyRecord(bytes: data)
 				senderKeyMap[SenderKeyName(sender: sender, distributionId: distributionId)] = senderKeyRecord
 				return senderKeyRecord
@@ -53,21 +58,29 @@ extension SenderKeyInMemoryStore: ISenderKeyStore {
 		}
 	}
 	
-	public func getSenderDistributionID(from sender: ProtocolAddress, groupId: Int64) -> UUID {
-		let key = "\(groupId).\(sender.name)"
+	public func getSenderDistributionID(senderID: String, groupId: Int64, isCreateNew: Bool) -> UUID? {
+		let key = "\(groupId).\(senderID)"
 		if let existingId = senderUuidMap[key] {
 			return existingId
 		} else {
-			if let persistedString: String = storage.object(forKey: key),
-			   let persistedUUID = UUID(uuidString: persistedString) {
-				senderUuidMap[key] = persistedUUID
-				return persistedUUID
+			if isCreateNew {
+				let uuidString = "\(groupId)" + senderID.dropFirst(String(groupId).count)
+				let uuid = UUID(uuidString: uuidString)
+				senderUuidMap[key] = uuid
+				return uuid
 			} else {
-				let distributionId = UUID()
-				storage.insert(distributionId.uuidString, forKey: key)
-				senderUuidMap[key] = distributionId
-				return distributionId
+				return nil
 			}
 		}
+	}
+	
+	public func saveSenderDistributionID(senderID: String, groupId: Int64) {
+		_ = getSenderDistributionID(senderID: senderID, groupId: groupId, isCreateNew: true)
+	}
+	
+	public func removeSenderKey() {
+		senderUuidMap.removeAll()
+		senderKeyMap.removeAll()
+		storage.removeAllObjects(collection: .domain(channelStorage.currentDomain))
 	}
 }

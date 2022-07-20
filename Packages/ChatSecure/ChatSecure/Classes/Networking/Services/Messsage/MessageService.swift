@@ -24,15 +24,17 @@ public protocol IMessageService {
 	
 	func sendMessageInGroup(senderId: String,
 							ownerWorkspace: String,
-							receiverId: String,
 							groupId: Int64,
+							isJoined: Bool,
 							plainMessage: String,
-							cachedMessageId: Int) async -> Result<Bool, Error>
+							cachedMessageId: Int,
+							isForward: Bool) async -> Result<RealmMessage, Error>
 	
 	func getMessage(ownerDomain: String,
 					ownerId: String,
 					groupId: Int64,
 					loadSize: Int,
+					isGroup: Bool,
 					lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
 	
 }
@@ -113,45 +115,23 @@ extension MessageService: IMessageService {
 			Debug.DLog("Send message in peer fail - Can't encrypt message")
 			return .failure(ServerError.unknown)
 		}
-		
 	}
 	
-	public func sendMessageInGroup(senderId: String, ownerWorkspace: String, receiverId: String, groupId: Int64, plainMessage: String, cachedMessageId: Int) async -> Result<Bool, Error> {
-		do {
-			// if user hasn't joined this group -> registerSenderKey
+	public func sendMessageInGroup(senderId: String, ownerWorkspace: String, groupId: Int64, isJoined: Bool, plainMessage: String, cachedMessageId: Int, isForward: Bool) async -> Result<RealmMessage, Error> {
+		if isJoined {
+			return await sendGroupMessage(senderId: senderId, ownerWorkspace: ownerWorkspace, groupId: groupId, plainMessage: plainMessage, cachedMessageId: cachedMessageId, isForward: isForward)
+		} else {
 			let result = await registerSenderKeyToGroup(groupID: groupId, clientId: senderId, domain: ownerWorkspace)
 			if result {
-				let senderAddress = try ProtocolAddress(name: "\(ownerWorkspace)_\(senderId)", deviceId: UInt32(Constants.senderDeviceId))
-				guard let messageData = plainMessage.data(using: .utf8) else {
-					return .failure(ServerError.unknown)
-				}
-				let distributionId = senderStore.getSenderDistributionID(from: senderAddress, groupId: groupId)
-				let ciphertext = try groupEncrypt(messageData, from: senderAddress, distributionId: distributionId, store: senderStore, context: NullContext())
-				
-				var request = Message_PublishRequest()
-				request.clientID = receiverId
-				request.fromClientDeviceID = clientStore.getUniqueDeviceId()
-				request.groupID = groupId
-				request.message = Data(ciphertext.serialize())
-				request.senderMessage = Data(ciphertext.serialize())
-				let response = await channelStorage.getChannel(domain: ownerWorkspace).sendMessage(request)
-				switch response {
-				case .success(let messageRespone):
-					// TODO: save message
-					return .success(true)
-				case .failure(let error):
-					Debug.DLog("Send message fail - \(error.localizedDescription)")
-					return .failure(ServerError(error))
-				}
+				return await sendGroupMessage(senderId: senderId, ownerWorkspace: ownerWorkspace, groupId: groupId, plainMessage: plainMessage, cachedMessageId: cachedMessageId, isForward: isForward)
+			} else {
+				Debug.DLog("Send group message fail - cannot register key")
+				return .failure(ServerError.unknown)
 			}
-		} catch {
-			Debug.DLog("Send message fail - Can't encrypt message")
-			return .failure(ServerError.unknown)
 		}
-		return .success(true)
 	}
 	
-	public func getMessage(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
+	public func getMessage(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
 		var request = Message_GetMessagesInGroupRequest()
 		request.groupID = groupId
 		request.lastMessageAt = lastMessageAt
@@ -162,16 +142,25 @@ extension MessageService: IMessageService {
 		case .success(let messageRespone):
 			print(messageRespone)
 			var realmMessages = [RealmMessage]()
-			messageRespone.lstMessage.forEach { message in
+			if messageRespone.lstMessage.count == 0 {
+				return .success(realmMessages)
+			}
+			
+			await messageRespone.lstMessage.asyncForEach({ message in
 				if let oldMessage = channelStorage.realmManager.getMessage(messageId: message.id) {
 					realmMessages.append(oldMessage)
 				} else {
 					var decryptedMessage = ""
-					if message.fromClientID == ownerId {
-						decryptedMessage = decryptPeerMessage(senderName: "\(ownerDomain)_\(ownerId)", message: message.senderMessage) ?? ""
+					if isGroup {
+						decryptedMessage = await decryptGroupMessage(senderId: message.fromClientID, senderDomain: message.fromClientWorkspaceDomain, ownerId: ownerId, ownerDomain: ownerDomain, groupID: groupId, message: message.message) ?? ""
 					} else {
-						decryptedMessage = decryptPeerMessage(senderName: "\(message.fromClientWorkspaceDomain)_\(message.fromClientID)", message: message.message) ?? ""
+						if message.fromClientID == ownerId {
+							decryptedMessage = decryptPeerMessage(senderName: "\(ownerDomain)_\(ownerId)", message: message.senderMessage) ?? ""
+						} else {
+							decryptedMessage = decryptPeerMessage(senderName: "\(message.fromClientWorkspaceDomain)_\(message.fromClientID)", message: message.message) ?? ""
+						}
 					}
+					
 					let realmMessage = RealmMessage()
 					realmMessage.ownerDomain = ownerDomain
 					realmMessage.createdTime = message.createdAt
@@ -183,11 +172,9 @@ extension MessageService: IMessageService {
 					realmMessage.updatedTime = message.updatedAt
 					realmMessage.ownerClientId = ownerId
 					realmMessage.message = decryptedMessage
-					
 					realmMessages.append(realmMessage)
 				}
-			}
-			
+			})
 			if !realmMessages.isEmpty {
 				channelStorage.realmManager.saveMessages(messages: realmMessages)
 			}
@@ -250,36 +237,81 @@ private extension MessageService {
 		}
 	}
 	
+	func sendGroupMessage(senderId: String, ownerWorkspace: String, groupId: Int64, plainMessage: String, cachedMessageId: Int, isForward: Bool) async -> Result<RealmMessage, Error> {
+		do {
+			let senderAddress = try ProtocolAddress(name: "\(ownerWorkspace)_\(senderId)", deviceId: UInt32(Constants.senderDeviceId))
+			guard let messageData = plainMessage.data(using: .utf8) else {
+				Debug.DLog("Send message fail - cannot decode message")
+				return .failure(ServerError.unknown)
+			}
+			guard let distributionId = senderStore.getSenderDistributionID(senderID: senderId, groupId: groupId, isCreateNew: false) else {
+				Debug.DLog("Send message fail - cannot get sender distribution")
+				return .failure(ServerError.unknown)
+			}
+			let ciphertext = try groupEncrypt(messageData, from: senderAddress, distributionId: distributionId, store: senderStore, context: NullContext())
+			
+			var request = Message_PublishRequest()
+			request.clientID = senderId
+			request.fromClientDeviceID = clientStore.getUniqueDeviceId()
+			request.groupID = groupId
+			request.message = Data(ciphertext.serialize())
+			request.senderMessage = Data(ciphertext.serialize())
+			let response = await channelStorage.getChannel(domain: ownerWorkspace).sendMessage(request)
+			switch response {
+			case .success(let messageRespone):
+				let realmMessage = RealmMessage()
+				if isForward {
+					return .success(realmMessage)
+				}
+				realmMessage.ownerDomain = ownerWorkspace
+				realmMessage.createdTime = messageRespone.createdAt
+				realmMessage.groupId = messageRespone.groupID
+				realmMessage.receiverId = messageRespone.clientID
+				realmMessage.groupType = messageRespone.groupType
+				realmMessage.senderId = messageRespone.fromClientID
+				realmMessage.messageId = messageRespone.id
+				realmMessage.updatedTime = messageRespone.updatedAt
+				realmMessage.ownerClientId = senderId
+				realmMessage.message = plainMessage
+				channelStorage.realmManager.saveMessage(message: realmMessage)
+				return .success(realmMessage)
+			case .failure(let error):
+				Debug.DLog("Send message fail - \(error.localizedDescription)")
+				return .failure(ServerError(error))
+			}
+		} catch {
+			Debug.DLog("Send message fail - Can't encrypt message", error)
+			return .failure(ServerError.unknown)
+		}
+	}
+	
 	func registerSenderKeyToGroup(groupID: Int64, clientId: String, domain: String) async -> Bool {
 		do {
+			guard let server = channelStorage.currentServer else { return false }
 			let identityKey = try signalStore.identityStore.identityKeyPair(context: NullContext())
 			let privateKey = identityKey.privateKey
 			
 			let senderAddress = try ProtocolAddress(name: "\(domain)_\(clientId)", deviceId: UInt32(Constants.senderDeviceId))
-			let distributionId = senderStore.getSenderDistributionID(from: senderAddress, groupId: groupID)
+			guard let distributionId = senderStore.getSenderDistributionID(senderID: clientId, groupId: groupID, isCreateNew: true) else { return false }
 			let sentAliceDistributionMessage = try SenderKeyDistributionMessage(from: senderAddress, distributionId: distributionId, store: senderStore, context: NullContext())
-			
 			let pbkdf2 = PBKDF2(passPharse: bytesConvertToHexString(bytes: privateKey.serialize()))
 			
-			let key = KeyHelper.generateIdentityKeyPair()
-			let encryptedGroupPrivateKey = pbkdf2.encrypt(data: key.privateKey.serialize(), saltHex: "") // retrieve saltHex from database
-			
-			let senderKey = try senderStore.loadSenderKey(from: senderAddress, distributionId: distributionId, context: NullContext())
+			guard let senderKey = try senderStore.loadSenderKey(from: senderAddress, distributionId: distributionId, context: NullContext()) else { return false }
+			let encryptedSenderKey = pbkdf2.encrypt(data: senderKey.serialize(), saltHex: server.salt)
 			
 			var request = Signal_GroupRegisterClientKeyRequest()
-			request.privateKey = bytesConvertToHexString(bytes: encryptedGroupPrivateKey ?? [])
 			request.groupID = groupID
 			request.deviceID = Int32(Constants.senderDeviceId)
-			request.publicKey = Data(key.publicKey.serialize())
 			request.clientKeyDistribution = Data(sentAliceDistributionMessage.serialize())
-			request.senderKey = Data(senderKey?.serialize() ?? [])
-			request.senderKeyID = Int64(distributionId.uuidString) ?? 0
+			request.senderKey = Data(encryptedSenderKey ?? [])
 			
 			let response = await channelStorage.getChannel(domain: domain).groupRegisterClientKey(request)
 			switch response {
 			case .success(let result):
+				channelStorage.realmManager.updateGroupJoinedStatus(groupId: groupID, domain: domain, ownerId: clientId)
 				return true
 			case .failure(let error):
+				print(error)
 				return false
 			}
 		} catch {
@@ -323,24 +355,32 @@ private extension MessageService {
 	func decryptGroupMessage(senderId: String, senderDomain: String, ownerId: String, ownerDomain: String, groupID: Int64, message: Data) async -> String? {
 		do {
 			let senderAddress: ProtocolAddress
-			let distributionId: UUID
+			let distributionId: UUID?
 			if senderId == ownerId {
 				senderAddress = try ProtocolAddress(name: "\(senderDomain)_\(senderId)", deviceId: UInt32(Constants.senderDeviceId))
-				distributionId = senderStore.getSenderDistributionID(from: senderAddress, groupId: groupID)
+				distributionId = senderStore.getSenderDistributionID(senderID: senderId, groupId: groupID, isCreateNew: false)
 			} else {
 				senderAddress = try ProtocolAddress(name: "\(senderDomain)_\(senderId)", deviceId: UInt32(Constants.receiverDeviceId))
-				distributionId = senderStore.getSenderDistributionID(from: senderAddress, groupId: groupID)
+				distributionId = senderStore.getSenderDistributionID(senderID: senderId, groupId: groupID, isCreateNew: false)
 			}
-			await initSessionUserInGroup(address: senderAddress,
+			let result = await initSessionUserInGroup(address: senderAddress,
 										 distributionId: distributionId,
 										 domain: ownerDomain,
 										 groupID: groupID,
 										 clientID: senderId,
 										 isForceProcess: false)
+			if !result {
+				return nil
+			}
 			do {
 				let plaintextFromAlice = try groupDecrypt(message, from: senderAddress, store: senderStore, context: NullContext())
+				Debug.DLog("decrypt group message success")
 				return String(bytes: plaintextFromAlice, encoding: .utf8)
+			} catch SignalError.duplicatedMessage {
+				Debug.DLog("decrypt group message fail duplicate message")
+				return nil
 			} catch {
+				Debug.DLog("decrypt group message 1st time fail \(error)")
 				let initSessionAgain = await initSessionUserInGroup(address: senderAddress,
 																	distributionId: distributionId,
 																	domain: ownerDomain,
@@ -351,20 +391,19 @@ private extension MessageService {
 					let plainText = try groupDecrypt(message, from: senderAddress, store: senderStore, context: NullContext())
 					return String(bytes: plainText, encoding: .utf8)
 				} else {
+					Debug.DLog("decrypt group fail")
 					return nil
 				}
 			}
-			return nil
 		} catch {
+			Debug.DLog("decrypt group fail \(error)")
 			return nil
 		}
 	}
 	
-	@discardableResult
-	func initSessionUserInGroup(address: ProtocolAddress, distributionId: UUID, domain: String, groupID: Int64, clientID: String, isForceProcess: Bool) async -> Bool {
+	func initSessionUserInGroup(address: ProtocolAddress, distributionId: UUID?, domain: String, groupID: Int64, clientID: String, isForceProcess: Bool) async -> Bool {
 		do {
-			let senderKeyRecord = try senderStore.loadSenderKey(from: address, distributionId: distributionId, context: NullContext())
-			if senderKeyRecord == nil || isForceProcess {
+			if distributionId == nil || isForceProcess {
 				guard let server = channelStorage.realmManager.getServer(by: domain) else { return false }
 				var request = Signal_GroupGetClientKeyRequest()
 				request.groupID = groupID
@@ -372,19 +411,26 @@ private extension MessageService {
 				let response = await channelStorage.getChannel(domain: domain).groupGetClientKey(request)
 				switch response {
 				case .success(let result):
+					print(result)
 					let receivedAliceDistributionMessage = try SenderKeyDistributionMessage(bytes: [UInt8](result.clientKey.clientKeyDistribution))
 					try processSenderKeyDistributionMessage(receivedAliceDistributionMessage,
 															from: address,
 															store: senderStore,
 															context: NullContext())
+					senderStore.saveSenderDistributionID(senderID: clientID, groupId: groupID)
+					Debug.DLog("init session user in group get sender key success")
 					return true
 				case .failure(let error):
+					Debug.DLog("init session user in group get sender key false \(error)")
 					return false
 				}
 				
+			} else {
+				Debug.DLog("init session user in group success")
+				return true
 			}
-			return true
 		} catch {
+			Debug.DLog("init session user in group error \(error)")
 			return false
 		}
 	}
@@ -393,5 +439,15 @@ private extension MessageService {
 		return bytes.compactMap {
 			String(format: "%02x", $0)
 		}.joined()
+	}
+}
+
+extension Sequence {
+	func asyncForEach(
+		_ operation: (Element) async throws -> Void
+	) async rethrows {
+		for element in self {
+			try await operation(element)
+		}
 	}
 }

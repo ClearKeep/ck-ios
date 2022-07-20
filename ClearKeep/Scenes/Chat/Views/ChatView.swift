@@ -120,7 +120,7 @@ struct ChatView: View {
 		) {
 			ForwardView(inputStyle: inputStyle, groups: $joinedGroups, users: $joinedPeers, onForwardMessage: { (isGroup, model) in
 				if isGroup {
-					// forward group message
+					forwardGroupMessage(model: model)
 				} else {
 					forwardPeerMessage(model: model)
 				}
@@ -159,8 +159,9 @@ struct ChatView: View {
 		.onAppear {
 			if isFirstLoadData {
 				updateGroup()
-				loadLocalMessage()
+				isFirstLoadData = false
 			}
+			loadLocalMessage()
 		}
 		.onDisappear {
 			notificationToken?.invalidate()
@@ -389,6 +390,21 @@ private extension ChatView {
 		}
 	}
 	
+	func forwardGroupMessage(model: IForwardViewModel) {
+		Task {
+			let encodedMessage = ">>>\(selectedMessage?.message ?? "")"
+			let isJoined = model.groupModel.isJoined
+			let result = await injected.interactors.chatInteractor.forwardGroupMessage(message: encodedMessage, groupId: model.groupModel.groupId, isJoined: isJoined)
+			if result {
+				DispatchQueue.main.async {
+					joinedGroups.first { group in
+						group.groupModel.groupId == model.groupModel.groupId
+					}?.isSent = true
+				}
+			}
+		}
+	}
+	
 	func sendAction(message: String) {
 		let trimmedMessage = message.trimmingCharacters(in: .whitespacesAndNewlines)
 		if !selectedImages.isEmpty {
@@ -414,7 +430,12 @@ private extension ChatView {
 			} else {
 				encodedMessage = trimmedMessage
 			}
-			await injected.interactors.chatInteractor.sendMessageInPeer(loadable: $loadable, message: encodedMessage, groupId: groupId, group: group, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
+			if group?.groupType == "peer" {
+				await injected.interactors.chatInteractor.sendMessageInPeer(loadable: $loadable, message: encodedMessage, groupId: groupId, group: group, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
+			} else {
+				let isJoined = group?.isJoined ?? false
+				await injected.interactors.chatInteractor.sendMessageInGroup(loadable: $loadable, message: encodedMessage, groupId: groupId, isJoined: isJoined, isForward: false)
+			}
 		}
 		isShowingQuoteView = false
 		isReplying = false
@@ -594,10 +615,6 @@ private extension ChatView {
 	
 	func loadedView(_ data: IGroupModel) -> some View {
 		return notRequestedView
-			.onAppear {
-				group = data
-				isFirstLoadData = false
-			}
 	}
 	
 	func errorView(_ error: IServerError) -> some View {
@@ -615,7 +632,7 @@ private extension ChatView {
 private extension ChatView {
 	func updateGroup() {
 		Task {
-			await injected.interactors.chatInteractor.updateGroupWithId(loadable: $loadable, groupId: groupId)
+			group = await injected.interactors.chatInteractor.updateGroupWithId(loadable: $loadable, groupId: groupId)
 		}
 	}
 	
@@ -632,7 +649,7 @@ private extension ChatView {
 					dataMessages.append(MessageViewModel(data: message, members: group?.groupMembers ?? []))
 				})
 			case .update(_, _, insertions: let insertions, _):
-				print(insertions)
+				print("messages update: \(insertions)")
 				if insertions.count >= 20 {
 					isEndOfPage = false
 				}
@@ -662,7 +679,8 @@ private extension ChatView {
 	
 	func updateMessages() {
 		Task {
-			await injected.interactors.chatInteractor.updateMessages(loadable: $loadable, isEndOfPage: $isEndOfPage, groupId: groupId, lastMessageAt: dataMessages.last?.dateCreated ?? 0)
+			let isGroup = group?.groupType == "group"
+			await injected.interactors.chatInteractor.updateMessages(loadable: $loadable, isEndOfPage: $isEndOfPage, groupId: groupId, isGroup: isGroup, lastMessageAt: dataMessages.last?.dateCreated ?? 0)
 		}
 	}
 	

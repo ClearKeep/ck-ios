@@ -25,11 +25,13 @@ private enum Constants {
 
 protocol IChatInteractor {
 	var worker: IChatWorker { get }
-	func updateGroupWithId(loadable: LoadableSubject<IGroupModel>, groupId: Int64) async
+	func updateGroupWithId(loadable: LoadableSubject<IGroupModel>, groupId: Int64) async -> IGroupModel?
 	func sendMessageInPeer(loadable: LoadableSubject<IGroupModel>, message: String, groupId: Int64, group: IGroupModel?, isForceProcessKey: Bool) async
-	func updateMessages(loadable: LoadableSubject<IGroupModel>, isEndOfPage: Binding<Bool>, groupId: Int64, lastMessageAt: Int64) async
+	func sendMessageInGroup(loadable: LoadableSubject<IGroupModel>, message: String, groupId: Int64, isJoined: Bool, isForward: Bool) async
+	func updateMessages(loadable: LoadableSubject<IGroupModel>, isEndOfPage: Binding<Bool>, groupId: Int64, isGroup: Bool, lastMessageAt: Int64) async
 	func getJoinedGroupsFromLocal() async -> [IGroupModel]
 	func forwardPeerMessage(message: String, group: IGroupModel) async -> Bool
+	func forwardGroupMessage(message: String, groupId: Int64, isJoined: Bool) async -> Bool
 	func uploadFiles(loadable: LoadableSubject<IGroupModel>, message: String, fileURLs: [URL], group: IGroupModel?, appendFileSize: Bool, isForceProcessKey: Bool) async
 	func downloadFile(urlString: String) async
 	func getMessageFromLocal(groupId: Int64) -> Results<RealmMessage>?
@@ -54,7 +56,7 @@ extension ChatInteractor: IChatInteractor {
 		return ChatWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
-	func updateGroupWithId(loadable: LoadableSubject<IGroupModel>, groupId: Int64) async {
+	func updateGroupWithId(loadable: LoadableSubject<IGroupModel>, groupId: Int64) async -> IGroupModel? {
 		let cancelBag = CancelBag()
 		loadable.wrappedValue.setIsLoading(cancelBag: cancelBag)
 		
@@ -62,21 +64,25 @@ extension ChatInteractor: IChatInteractor {
 		
 		switch result {
 		case .success(let group):
-			let messagesResult = await getMessageList(groupId: groupId, loadSize: Constants.loadSize, lastMessageAt: 0)
+			let isGroup = group.groupType == "group"
+			let messagesResult = await getMessageList(groupId: groupId, loadSize: Constants.loadSize, isGroup: isGroup, lastMessageAt: 0)
 			switch messagesResult {
 			case .success(let message):
 				print(message)
 				loadable.wrappedValue = .loaded(group)
+				return group
 			case .failure(let error):
 				loadable.wrappedValue = .failed(error)
+				return nil
 			}
 		case .failure(let error):
 			loadable.wrappedValue = .failed(error)
+			return nil
 		}
 	}
 	
-	func updateMessages(loadable: LoadableSubject<IGroupModel>, isEndOfPage: Binding<Bool>, groupId: Int64, lastMessageAt: Int64) async {
-		let messagesResult = await getMessageList(groupId: groupId, loadSize: Constants.loadSize, lastMessageAt: lastMessageAt)
+	func updateMessages(loadable: LoadableSubject<IGroupModel>, isEndOfPage: Binding<Bool>, groupId: Int64, isGroup: Bool, lastMessageAt: Int64) async {
+		let messagesResult = await getMessageList(groupId: groupId, loadSize: Constants.loadSize, isGroup: isGroup, lastMessageAt: lastMessageAt)
 		switch messagesResult {
 		case .success(let message):
 			if message.count < 20 {
@@ -87,10 +93,10 @@ extension ChatInteractor: IChatInteractor {
 		}
 	}
 	
-	func getMessageList(groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
+	func getMessageList(groupId: Int64, loadSize: Int, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
 		guard let server = channelStorage.currentServer,
 			  let ownerId = server.profile?.userId else { return .failure(ServerError.unknown) }
-		let result = await worker.getMessageList(ownerDomain: server.serverDomain, ownerId: ownerId, groupId: groupId, loadSize: loadSize, lastMessageAt: lastMessageAt)
+		let result = await worker.getMessageList(ownerDomain: server.serverDomain, ownerId: ownerId, groupId: groupId, loadSize: loadSize, isGroup: isGroup, lastMessageAt: lastMessageAt)
 		return result
 	}
 	
@@ -106,6 +112,23 @@ extension ChatInteractor: IChatInteractor {
 			member.userId != ownerId
 		}
 		let result = await worker.sendMessageInPeer(senderId: ownerId, ownerWorkspace: server.serverDomain, receiverId: receiverUser?.userId ?? "", receiverWorkSpaceDomain: receiverUser?.domain ?? "", groupId: groupId, plainMessage: message, isForceProcessKey: isForceProcessKey, cachedMessageId: 0)
+		
+		switch result {
+		case .success(let message):
+			print(message)
+		case .failure(let error):
+			loadable.wrappedValue = .failed(error)
+		}
+	}
+	
+	func sendMessageInGroup(loadable: LoadableSubject<IGroupModel>, message: String, groupId: Int64, isJoined: Bool, isForward: Bool) async {
+		guard let server = channelStorage.currentServer,
+			  let ownerId = server.profile?.userId
+		else {
+			loadable.wrappedValue = .failed(ServerError.unknown)
+			return
+		}
+		let result = await worker.sendMessageInGroup(senderId: ownerId, ownerWorkspace: server.serverDomain, groupId: groupId, isJoined: isJoined, plainMessage: message, cachedMessageId: 0, isForward: isForward)
 		
 		switch result {
 		case .success(let message):
@@ -140,6 +163,21 @@ extension ChatInteractor: IChatInteractor {
 		}
 	}
 	
+	func forwardGroupMessage(message: String, groupId: Int64, isJoined: Bool) async -> Bool {
+		guard let server = channelStorage.currentServer,
+			  let ownerId = server.profile?.userId
+		else { return false }
+		let result = await worker.sendMessageInGroup(senderId: ownerId, ownerWorkspace: server.serverDomain, groupId: groupId, isJoined: isJoined, plainMessage: message, cachedMessageId: 0, isForward: true)
+		switch result {
+		case .success(let value):
+			print(value)
+			return true
+		case .failure(let error):
+			print(error)
+			return false
+		}
+	}
+	
 	func uploadFiles(loadable: LoadableSubject<IGroupModel>, message: String, fileURLs: [URL], group: IGroupModel?, appendFileSize: Bool, isForceProcessKey: Bool) async {
 		if fileURLs.count > 10 {
 			loadable.wrappedValue = .failed(ServerError.unknown)
@@ -156,12 +194,17 @@ extension ChatInteractor: IChatInteractor {
 			return
 		}
 		
-		guard let messageContent = await worker.uploadFiles(message: message, files: filesInfo, domain: domain, appendFileSize: true) else {
+		guard let messageContent = await worker.uploadFiles(message: message, files: filesInfo, domain: domain, appendFileSize: appendFileSize) else {
 			loadable.wrappedValue = .failed(ServerError.unknown)
 			return
 		}
 		print(messageContent)
-		await self.sendMessageInPeer(loadable: loadable, message: messageContent, groupId: group?.groupId ?? 0, group: group, isForceProcessKey: isForceProcessKey)
+		if group?.groupType == "group" {
+			let isJoined = group?.isJoined ?? false
+			await self.sendMessageInGroup(loadable: loadable, message: messageContent, groupId: group?.groupId ?? 0, isJoined: isJoined, isForward: false)
+		} else {
+			await self.sendMessageInPeer(loadable: loadable, message: messageContent, groupId: group?.groupId ?? 0, group: group, isForceProcessKey: isForceProcessKey)
+		}
 	}
 	
 	func downloadFile(urlString: String) async {
@@ -231,13 +274,18 @@ struct StubChatInteractor: IChatInteractor {
 		return ChatWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
-	func updateGroupWithId(loadable: LoadableSubject<IGroupModel>, groupId: Int64) async {
+	func updateGroupWithId(loadable: LoadableSubject<IGroupModel>, groupId: Int64) async -> IGroupModel? {
+		return nil
 	}
 	
 	func sendMessageInPeer(loadable: LoadableSubject<IGroupModel>, message: String, groupId: Int64, group: IGroupModel?, isForceProcessKey: Bool) async {
 	}
 	
-	func updateMessages(loadable: LoadableSubject<IGroupModel>, isEndOfPage: Binding<Bool>, groupId: Int64, lastMessageAt: Int64) async {
+	func sendMessageInGroup(loadable: LoadableSubject<IGroupModel>, message: String, groupId: Int64, isJoined: Bool, isForward: Bool) async {
+		
+	}
+	
+	func updateMessages(loadable: LoadableSubject<IGroupModel>, isEndOfPage: Binding<Bool>, groupId: Int64, isGroup: Bool, lastMessageAt: Int64) async {
 	}
 	
 	func getJoinedGroupsFromLocal() async -> [IGroupModel] {
@@ -261,5 +309,9 @@ struct StubChatInteractor: IChatInteractor {
 	
 	func requestVideoCall(isCallGroup: Bool, clientId: String, clientName: String, avatar: String, groupId: Int64, callType type: CallType = .audio) async -> Result<Bool, Error> {
 		return .success(true)
+	}
+	
+	func forwardGroupMessage(message: String, groupId: Int64, isJoined: Bool) async -> Bool {
+		return false
 	}
 }

@@ -15,7 +15,7 @@ private enum Constants {
 
 protocol ISearchInteractor {
 	func getJoinedGroup() async -> Loadable<ISearchViewModels>
-	func getMessageList(_ keyword: String, groupId: Int64, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
+	func getMessageList(_ keyword: String, groupId: Int64, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
 }
 
 struct SearchInteractor {
@@ -57,8 +57,8 @@ extension SearchInteractor: ISearchInteractor {
 		}
 	}
 	
-	func getMessageList(_ keyword: String, groupId: Int64, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
-		let result = await worker.getMessageList(groupId: groupId, loadSize: Constants.loadSize, lastMessageAt: lastMessageAt)
+	func getMessageList(_ keyword: String, groupId: Int64, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
+		let result = await worker.getMessageList(groupId: groupId, loadSize: Constants.loadSize, isGroup: isGroup, lastMessageAt: lastMessageAt)
 		return result
 	}
 }
@@ -80,8 +80,8 @@ struct StubSearchInteractor: ISearchInteractor {
 		return .notRequested
 	}
 	
-	func getMessageList(_ keyword: String, groupId: Int64, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
-		let result = await worker.getMessageList(groupId: groupId, loadSize: Constants.loadSize, lastMessageAt: lastMessageAt)
+	func getMessageList(_ keyword: String, groupId: Int64, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
+		let result = await worker.getMessageList(groupId: groupId, loadSize: Constants.loadSize, isGroup: isGroup, lastMessageAt: lastMessageAt)
 		return result
 	}
 }
