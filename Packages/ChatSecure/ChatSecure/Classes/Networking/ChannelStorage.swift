@@ -15,11 +15,10 @@ public protocol IChannelStorage {
 	var currentServer: RealmServer? { get }
 	var currentDomain: String { get }
 
-	func getServers(isFirstLoad: Bool) -> [RealmServer]
+	func getServers() -> [RealmServer]
 	func didSelectServer(_ domain: String?) -> [RealmServer]
 	func registerToken(_ token: String)
 	func subscribeAndListenServers() -> [RealmServer]
-	func removeServer(_ domain: String)
 }
 
 public class ChannelStorage: IChannelStorage {
@@ -43,23 +42,17 @@ public class ChannelStorage: IChannelStorage {
 		self.channels = [config.clkDomain + ":" + config.clkPort: APIService(domain: config.clkDomain + ":" + config.clkPort,
 																			 owner: realmManager.getOwnerServer(domain: config.clkDomain + ":" + config.clkPort))]
 	}
-	
-	public func getServers(isFirstLoad: Bool) -> [RealmServer] {
+
+	public func getServers() -> [RealmServer] {
 		servers = realmManager.getServers()
-		if isFirstLoad {
-			servers.forEach { server in
-				getChannel(domain: server.serverDomain).updateHeaders(accessKey: server.accessKey, hashKey: server.hashKey)
-			}
+		servers.forEach { server in
+			getChannel(domain: server.serverDomain).updateHeaders(accessKey: server.accessKey, hashKey: server.hashKey)
 		}
 		return servers
 	}
 
 	public func didSelectServer(_ domain: String?) -> [RealmServer] {
 		return realmManager.activeServer(domain: domain)
-	}
-
-	public func removeServer(_ domain: String) {
-		return realmManager.removeServer(domain: domain)
 	}
 
 	public func registerToken(_ token: String) {
@@ -84,17 +77,13 @@ extension ChannelStorage {
 	func getChannel(domain: String, accessToken: String? = nil, hashKey: String? = nil) -> APIService {
 		if channels.contains(where: { $0.key == domain }) {
 			let channel = channels[domain]
-			if accessToken != nil {
-				channel?.updateHeaders(accessKey: accessToken, hashKey: hashKey)
-			}
-            return channel ?? APIService(domain: domain, owner: realmManager.getOwnerServer(domain: domain))
+			channel?.updateHeaders(accessKey: accessToken, hashKey: hashKey)
+			return channel ?? APIService(domain: domain, owner: realmManager.getOwnerServer(domain: domain))
 		} else if domain.isEmpty {
 			return channels[config.clkDomain + ":" + config.clkPort] ?? APIService(domain: config.clkDomain + ":" + config.clkPort, owner: realmManager.getOwnerServer(domain: config.clkDomain + ":" + config.clkPort))
 		} else {
 			let channel = APIService(domain: domain, owner: realmManager.getOwnerServer(domain: domain))
-			if accessToken != nil {
-				channel.updateHeaders(accessKey: accessToken, hashKey: hashKey)
-			}
+			channel.updateHeaders(accessKey: accessToken, hashKey: hashKey)
 			channels[domain] = channel
 			return channels[domain] ?? APIService(domain: domain, owner: realmManager.getOwnerServer(domain: domain))
 		}
