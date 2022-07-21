@@ -123,15 +123,26 @@ extension AppDelegate: PKPushRegistryDelegate {
 			return
 		}
 		
-		guard let notifiType = payload.dictionaryPayload["notify_type"] as? String else {
+		guard let notification = payload.dictionaryPayload["publication"] as? [String: Any],
+			  let notifiType = notification["notify_type"] as? String else {
 			return
 		}
 		
 		if notifiType == "cancel_request_call" {
-			guard let roomId = payload.dictionaryPayload["group_id"] as? String else {
+			guard let roomId = notification["group_id"] as? String else {
 				return
 			}
-			
+			let calls = CallManager.shared.calls.filter{ $0.roomId == Int(roomId) ?? 0 }
+			calls.forEach { (call) in
+				if call.isCallGroup {
+					// TODO: handle for group call
+					if call.status != .answered {
+						CallManager.shared.end(call: call)
+					}
+				} else {
+					CallManager.shared.end(call: call)
+				}
+			}
 			return
 		}
 		let backGroundTaskIndet = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)

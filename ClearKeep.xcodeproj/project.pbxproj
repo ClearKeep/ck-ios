@@ -124,10 +124,10 @@
 		22B1EA6C2887FE6C008026DC /* VoiceGroupCalled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1EA632887FE6C008026DC /* VoiceGroupCalled.swift */; };
 		22B1EA6D2887FE6C008026DC /* GroupCallWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1EA642887FE6C008026DC /* GroupCallWorker.swift */; };
 		22C507F1287E64BA009F92A7 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C507F0287E64BA009F92A7 /* Toast.swift */; };
+		22CDFF312889267E00B8213D /* CGSize+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CDFF302889267E00B8213D /* CGSize+Extensions.swift */; };
 		22DAEF7428640B6B00C3E377 /* FilePickerContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DAEF7328640B6B00C3E377 /* FilePickerContainerView.swift */; };
 		22E4DBA72886906000652B58 /* CallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E4DBA62886906000652B58 /* CallViewModel.swift */; };
 		22E4DBA9288692F100652B58 /* CustomVideoViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E4DBA8288692F100652B58 /* CustomVideoViewConfig.swift */; };
-		22E4DBAB288698C300652B58 /* CGSize+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E4DBAA288698C300652B58 /* CGSize+Extensions.swift */; };
 		22E4DBAE28869F0D00652B58 /* InCallModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E4DBAD28869F0D00652B58 /* InCallModifier.swift */; };
 		A6B2FA2375D2B93118FCC576 /* Pods_notificationextension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7261DD92456D4CFB93133C7 /* Pods_notificationextension.framework */; };
 		BC792611F654074DCC1211EA /* Pods_ClearKeep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A61EB3B14466BFECDD5168C3 /* Pods_ClearKeep.framework */; };
@@ -402,10 +402,10 @@
 		22B1EA632887FE6C008026DC /* VoiceGroupCalled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceGroupCalled.swift; sourceTree = "<group>"; };
 		22B1EA642887FE6C008026DC /* GroupCallWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCallWorker.swift; sourceTree = "<group>"; };
 		22C507F0287E64BA009F92A7 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		22CDFF302889267E00B8213D /* CGSize+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Extensions.swift"; sourceTree = "<group>"; };
 		22DAEF7328640B6B00C3E377 /* FilePickerContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePickerContainerView.swift; sourceTree = "<group>"; };
 		22E4DBA62886906000652B58 /* CallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallViewModel.swift; sourceTree = "<group>"; };
 		22E4DBA8288692F100652B58 /* CustomVideoViewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVideoViewConfig.swift; sourceTree = "<group>"; };
-		22E4DBAA288698C300652B58 /* CGSize+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+Extensions.swift"; sourceTree = "<group>"; };
 		22E4DBAD28869F0D00652B58 /* InCallModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InCallModifier.swift; sourceTree = "<group>"; };
 		25FDB2207725F29CF682E252 /* Pods-ClearKeep.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeep.development.xcconfig"; path = "Target Support Files/Pods-ClearKeep/Pods-ClearKeep.development.xcconfig"; sourceTree = "<group>"; };
 		5707AA6299C058BD2617D441 /* Pods-notificationextension.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notificationextension.qa.xcconfig"; path = "Target Support Files/Pods-notificationextension/Pods-notificationextension.qa.xcconfig"; sourceTree = "<group>"; };
@@ -629,6 +629,7 @@
 		045726FF28868C7E001EF5F2 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				22CDFF302889267E00B8213D /* CGSize+Extensions.swift */,
 				0457270028868C7E001EF5F2 /* String+Extensions.swift */,
 			);
 			path = Extensions;
@@ -966,15 +967,6 @@
 				22B1EA632887FE6C008026DC /* VoiceGroupCalled.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		22C507F928800578009F92A7 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				22C507FA28800578009F92A7 /* String+Extensions.swift */,
-				22E4DBAA288698C300652B58 /* CGSize+Extensions.swift */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		22E4DBAC28869EFA00652B58 /* Modifiers */ = {
@@ -2064,7 +2056,6 @@
 				22B1EA5728879D66008026DC /* CallVideoActionView.swift in Sources */,
 				0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */,
 				044432BD285720C900276DB3 /* CreatGroupViewModels.swift in Sources */,
-				22E4DBAB288698C300652B58 /* CGSize+Extensions.swift in Sources */,
 				F564484C283F8562007846F9 /* CallView.swift in Sources */,
 				226732A72853173500C07852 /* ChatViewModels.swift in Sources */,
 				0499344827E97035003BD4C4 /* ChangePasswordView.swift in Sources */,
@@ -2106,6 +2097,7 @@
 				CB7F295B2828BA5900BD5049 /* RegisterViewError.swift in Sources */,
 				CB117EBC27BB7D2F000941D9 /* RootView.swift in Sources */,
 				044432BF28572B9F00276DB3 /* CreatGroupViewModel.swift in Sources */,
+				22CDFF312889267E00B8213D /* CGSize+Extensions.swift in Sources */,
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
 				04C854B228489DA300CBA291 /* HomeModels.swift in Sources */,
 				CB23605428337CD400D98F54 /* HomeContentView.swift in Sources */,

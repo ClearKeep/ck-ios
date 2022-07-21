@@ -66,7 +66,7 @@ struct InCallModifier: ViewModifier {
 					
 					isInMinimizeMode = false
 					
-					let viewController = UIHostingController(rootView: InCallView(viewModel: .init()))
+					let viewController = UIHostingController(rootView: InCallView(viewModel: callViewModel))
 					viewController.modalPresentationStyle = .overFullScreen
 					let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 					sceneDelegate?.window?.rootViewController?.present(viewController, animated: true)
@@ -105,7 +105,7 @@ struct InCallModifier: ViewModifier {
 					isInMinimizeMode = true
 				}
 			}
-			let viewController = UIHostingController(rootView: CallView(viewModel: callViewModel))
+			let viewController = UIHostingController(rootView: InCallView(viewModel: callViewModel))
 			viewController.modalPresentationStyle = .overFullScreen
 			let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 			sceneDelegate?.window?.rootViewController?.present(viewController, animated: true)

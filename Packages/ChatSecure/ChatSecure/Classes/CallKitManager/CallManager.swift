@@ -155,53 +155,58 @@ final public class CallManager: NSObject {
 	
 	public func handleIncomingPushEvent(payload: PKPushPayload, completion: ((NSError?) -> Void)? = nil) {
 		print("Payload: \(payload.dictionaryPayload)")
-		//        let jsonData = JSON(payload.dictionaryPayload)
-		//        print("Payload: \(payload.dictionaryPayload)")
-		//        if let currentUserId = jsonData["client_id"].string, let savedCurrentUserId = Multiserver.instance.currentServer.getUserLogin()?.id, currentUserId != savedCurrentUserId {
-		//            print("This call is not belong to me")
-		//            print("\(currentUserId) # \(savedCurrentUserId)")
-		//            return
-		//        }
-		//
-		//        if let username = jsonData["from_client_name"].string,
-		//           let roomId = jsonData["group_id"].string,
-		//           let clientId = jsonData["from_client_id"].string,
-		//           let callType = jsonData["call_type"].string {
-		//            let avatar = jsonData["from_client_avatar"].string
-		//            let token = jsonData["group_rtc_token"].string
-		//            let groupType = jsonData["group_type"].string
-		//            let groupName = jsonData["group_name"].string
-		//
-		//            // Save turnUser and turnPwd
-		//            let turnString = jsonData["turn_server"].stringValue
-		//            let turnData = Data(turnString.utf8)
-		//            do {
-		//                // make sure this JSON is in the format we expect
-		//                if let turnJson = try JSONSerialization.jsonObject(with: turnData, options: []) as? [String: Any] {
-		//                    let turnUser = turnJson["user"] as? String
-		//                    let turnPwd = turnJson["pwd"] as? String
-		//
-		//                    UserDefaults.standard.setValue(turnUser, forKey: Constants.keySaveTurnServerUser)
-		//                    UserDefaults.standard.setValue(turnPwd, forKey: Constants.keySaveTurnServerPWD)
-		//                    UserDefaults.standard.synchronize()
-		//                }
-		//            } catch let error as NSError {
-		//                print("Failed to load: \(error.localizedDescription)")
-		//            }
-		//
-		//            let hasVideo = callType == "video"
-		//            let isGroupCall = groupType == "group"
-		//            let callerName = isGroupCall ? groupName : username
-		//
-		//            reportIncomingCall(isCallGroup: isGroupCall,
-		//                               roomId: roomId,
-		//                               clientId: clientId,
-		//                               avatar: avatar,
-		//                               token: token,
-		//                               callerName: callerName ?? "",
-		//                               hasVideo: hasVideo,
-		//                               completion: completion)
-		//        }
+		let decoder = JSONDecoder()
+		guard let data = try? JSONSerialization.data(withJSONObject: payload.dictionaryPayload, options: []),
+				  let callNotification = try? decoder.decode(CallNotification.self, from: data) else {
+					  return
+				  }
+		
+		if let currentUserId = callNotification.publication?.clientID,
+			let savedCurrentUserId = DependencyResolver.shared.channelStorage.currentServer?.profile?.userId, currentUserId != savedCurrentUserId {
+			print("This call is not belong to me")
+			print("\(currentUserId) # \(savedCurrentUserId)")
+			return
+		}
+		
+		if let username = callNotification.publication?.fromClientName,
+		   let roomId = callNotification.publication?.groupID,
+		   let clientId = callNotification.publication?.fromClientID,
+		   let callType = callNotification.publication?.callType {
+			let avatar = callNotification.publication?.fromClientAvatar
+			let token = callNotification.publication?.groupRTCToken
+			let groupType = callNotification.publication?.groupType
+			let groupName = callNotification.publication?.groupName
+			
+			// Save turnUser and turnPwd
+			let turnString = callNotification.publication?.turnServer ?? ""
+			let turnData = Data(turnString.utf8)
+			do {
+				// make sure this JSON is in the format we expect
+				if let turnJson = try JSONSerialization.jsonObject(with: turnData, options: []) as? [String: Any] {
+					let turnUser = turnJson["user"] as? String
+					let turnPwd = turnJson["pwd"] as? String
+					
+					UserDefaults.standard.setValue(turnUser, forKey: Constants.keySaveTurnServerUser)
+					UserDefaults.standard.setValue(turnPwd, forKey: Constants.keySaveTurnServerPWD)
+					UserDefaults.standard.synchronize()
+				}
+			} catch let error as NSError {
+				print("Failed to load: \(error.localizedDescription)")
+			}
+			
+			let hasVideo = callType == "video"
+			let isGroupCall = groupType == "group"
+			let callerName = isGroupCall ? groupName : username
+			
+			reportIncomingCall(isCallGroup: isGroupCall,
+							   roomId: roomId,
+							   clientId: clientId,
+							   avatar: avatar,
+							   token: token,
+							   callerName: callerName ?? "",
+							   hasVideo: hasVideo,
+							   completion: completion)
+		}
 	}
 }
 
@@ -393,9 +398,9 @@ extension CallManager: CXProviderDelegate {
 		answerCall?.answerCall(withAudioSession: audioSession) { [weak self] isSuccess in
 			guard let self = self else { return }
 			if isSuccess {
-				DispatchQueue.main.async {
-					NotificationCenter.default.post(name: NSNotification.Name.CallService.receiveCall, object: nil)
-				}
+//				DispatchQueue.main.async {
+//					NotificationCenter.default.post(name: NSNotification.Name.CallService.receiveCall, object: nil)
+//				}
 				self.answerCall?.startJoinRoom()
 			}
 		}
