@@ -15,6 +15,7 @@
 "General.Next" = "Next";
 "General.Error" = "Error";
 "General.OK" = "OK";
+"General.Warning" = "Warning";
 
 // MARK: - Error
 "Error.Unknow.Message" = "Unknow message (%ld)";
