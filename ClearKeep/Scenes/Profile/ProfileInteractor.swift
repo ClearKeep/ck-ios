@@ -15,7 +15,6 @@ protocol IProfileInteractor {
 	func getProfile() async -> Loadable<IProfileViewModels>
 	func uploadAvatar(url: URL, imageData: UIImage) async -> (Result<IProfileViewModels, Error>)
 	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool) async -> Loadable<IProfileViewModels>
-	func validate(phoneNumber: String) -> Bool
 }
 
 struct ProfileInteractor {
@@ -25,16 +24,16 @@ struct ProfileInteractor {
 }
 
 extension ProfileInteractor: IProfileInteractor {
-	
+
 	var worker: IProfileWorker {
 		let remoteStore = ProfileRemoteStore(userService: userService)
 		let inMemoryStore = ProfileInMemoryStore()
 		return ProfileWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
-	
+
 	func getProfile() async -> Loadable<IProfileViewModels> {
 		let result = await worker.getProfile()
-		
+
 		switch result {
 		case .success(let user):
 			return .loaded(ProfileViewModels(responseUser: user))
@@ -44,7 +43,9 @@ extension ProfileInteractor: IProfileInteractor {
 	}
 
 	func uploadAvatar(url: URL, imageData: UIImage) async -> (Result<IProfileViewModels, Error>) {
+
 		let result = await worker.uploadAvatar(url: url, imageData: imageData)
+
 		switch result {
 		case .success(let imageData):
 			return .success(ProfileViewModels(responseAvatar: imageData))
@@ -52,7 +53,7 @@ extension ProfileInteractor: IProfileInteractor {
 			return .failure(error)
 		}
 	}
-	
+
 	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool) async -> Loadable<IProfileViewModels> {
 		let result = await worker.updateProfile(displayName: displayName, avatar: avatar, phoneNumber: phoneNumber, clearPhoneNumber: clearPhoneNumber)
 		switch result {
@@ -62,31 +63,27 @@ extension ProfileInteractor: IProfileInteractor {
 			return .failed(error)
 		}
 	}
-	
-	func validate(phoneNumber: String) -> Bool {
-		return worker.validate(phoneNumber: phoneNumber)
-	}
 }
 
 struct StubProfileInteractor: IProfileInteractor {
-	
+
 	let channelStorage: IChannelStorage
 	let userService: IUserService
-	
+
 	var worker: IProfileWorker {
 		let remoteStore = ProfileRemoteStore(userService: userService)
 		let inMemoryStore = ProfileInMemoryStore()
 		return ProfileWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
-	
+
 	func getProfile() async -> Loadable<IProfileViewModels> {
 		return .notRequested
 	}
-	
+
 	func uploadAvatar(imageData: ProfileUploadImageViewModel) async -> Loadable<IProfileViewModels> {
 		return .notRequested
 	}
-	
+
 	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool) async -> Loadable<IProfileViewModels> {
 		return .notRequested
 	}
@@ -102,7 +99,4 @@ struct StubProfileInteractor: IProfileInteractor {
 		}
 	}
 
-	func validate(phoneNumber: String) -> Bool {
-		return worker.validate(phoneNumber: phoneNumber)
-	}
 }

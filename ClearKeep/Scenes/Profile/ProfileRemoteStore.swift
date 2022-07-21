@@ -30,10 +30,10 @@ extension ProfileRemoteStore: IProfileRemoteStore {
 			return .failure(error)
 		}
 	}
-	
+
 	func getProfile(domain: String) async -> Result<IProfileModels, Error> {
 		let result = await userService.getProfile(domain: domain)
-		
+
 		switch result {
 		case .success(let user):
 			return .success(ProfileModels(responseProfile: user))
@@ -41,10 +41,10 @@ extension ProfileRemoteStore: IProfileRemoteStore {
 			return .failure(error)
 		}
 	}
-	
+
 	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool, domain: String) async -> (Result<IProfileModels, Error>) {
 		let result = await userService.updateProfile(displayName: displayName, avatar: avatar, phoneNumber: phoneNumber, clearPhoneNumber: clearPhoneNumber, domain: domain)
-		
+
 		switch result {
 		case .success(let user):
 			return .success(ProfileModels(responseError: user))

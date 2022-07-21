@@ -25,7 +25,7 @@ extension ProfileModels {
 	init(responseAvatar: User_UploadAvatarResponse) {
 		self.init(avatarModel: AvatarModel(response: responseAvatar))
 	}
-	
+
 	init(responseProfile: User_UserProfileResponse) {
 		self.init(userProfileModel: ProfieModel(profile: responseProfile))
 	}

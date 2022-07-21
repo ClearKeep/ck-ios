@@ -21,8 +21,4 @@ extension GroupBaseModel {
 	init(useResponse: User_BaseResponse) {
 		self.init(error: useResponse.error)
 	}
-
-	init(responseAuthen: Auth_BaseResponse) {
-		self.init(error: responseAuthen.error)
-	}
 }
