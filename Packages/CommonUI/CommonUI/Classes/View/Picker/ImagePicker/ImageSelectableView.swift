@@ -14,16 +14,18 @@ private enum Constants {
 
 struct AssetImageSelectableView: View {
 	@Binding var selected: [ImageModel]
-	
+	private var select: () -> Void
+
 	var asset: ImageModel
 	var size: CGSize
-	
-	init(asset: ImageModel, size: CGSize, selected: Binding<[ImageModel]>) {
+
+	init(asset: ImageModel, size: CGSize, selected: Binding<[ImageModel]>, select: @escaping() -> Void) {
 		self.size = size
 		self.asset = asset
 		self._selected = selected
+		self.select = select
 	}
-	
+
 	var body: some View {
 		ZStack(alignment: .bottomTrailing) {
 			if let thumbnail = asset.thumbnail {
@@ -44,8 +46,8 @@ struct AssetImageSelectableView: View {
 					commonUIConfig.imageSet.unCheckIcon
 				}
 			}.frame(width: Constants.iconSize, height: Constants.iconSize)
-			.offset(x: -12, y: -12)
-			
+				.offset(x: -12, y: -12)
+
 			// Needed because of SwiftUI bug with tap area of Image.
 			Rectangle()
 				.opacity(0.000001)
@@ -57,6 +59,7 @@ struct AssetImageSelectableView: View {
 					} else {
 						self.selected.append(self.asset)
 					}
+					select()
 				}
 		}
 		.border(commonUIConfig.colorSet.primaryDefault, width: selected.contains(self.asset) ? 2 : 0)
