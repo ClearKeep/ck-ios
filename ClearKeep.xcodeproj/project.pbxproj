@@ -20,6 +20,10 @@
 		044432C32858D6D800276DB3 /* CreatGroupProfieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044432C22858D6D800276DB3 /* CreatGroupProfieViewModel.swift */; };
 		04458C272849BA1300992ECB /* HomeViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04458C262849BA1300992ECB /* HomeViewModels.swift */; };
 		0457270128868C7E001EF5F2 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457270028868C7E001EF5F2 /* String+Extensions.swift */; };
+		04572705288690F6001EF5F2 /* GroupDetailProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04572702288690F5001EF5F2 /* GroupDetailProfileViewModel.swift */; };
+		04572706288690F6001EF5F2 /* GroupDetailUserViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04572703288690F6001EF5F2 /* GroupDetailUserViewModels.swift */; };
+		04572707288690F6001EF5F2 /* GroupDetailBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04572704288690F6001EF5F2 /* GroupDetailBaseViewModel.swift */; };
+		04572709288691B1001EF5F2 /* TagDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04572708288691B1001EF5F2 /* TagDetailView.swift */; };
 		0458986C286BED7900A0631C /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458986B286BED7900A0631C /* ProfileModel.swift */; };
 		0458986F286BFB2100A0631C /* CreatePeerModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458986E286BFB2100A0631C /* CreatePeerModels.swift */; };
 		04589874286BFB2A00A0631C /* CreatePeerChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589871286BFB2900A0631C /* CreatePeerChatViewModel.swift */; };
@@ -285,6 +289,10 @@
 		044432C22858D6D800276DB3 /* CreatGroupProfieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatGroupProfieViewModel.swift; sourceTree = "<group>"; };
 		04458C262849BA1300992ECB /* HomeViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModels.swift; sourceTree = "<group>"; };
 		0457270028868C7E001EF5F2 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		04572702288690F5001EF5F2 /* GroupDetailProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailProfileViewModel.swift; sourceTree = "<group>"; };
+		04572703288690F6001EF5F2 /* GroupDetailUserViewModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailUserViewModels.swift; sourceTree = "<group>"; };
+		04572704288690F6001EF5F2 /* GroupDetailBaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailBaseViewModel.swift; sourceTree = "<group>"; };
+		04572708288691B1001EF5F2 /* TagDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagDetailView.swift; sourceTree = "<group>"; };
 		0458986B286BED7900A0631C /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		0458986E286BFB2100A0631C /* CreatePeerModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePeerModels.swift; sourceTree = "<group>"; };
 		04589871286BFB2900A0631C /* CreatePeerChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePeerChatViewModel.swift; sourceTree = "<group>"; };
@@ -641,6 +649,9 @@
 		0458987E286C0C3300A0631C /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				04572704288690F6001EF5F2 /* GroupDetailBaseViewModel.swift */,
+				04572702288690F5001EF5F2 /* GroupDetailProfileViewModel.swift */,
+				04572703288690F6001EF5F2 /* GroupDetailUserViewModels.swift */,
 				0458987F286C0C3300A0631C /* GroupDetailViewModels.swift */,
 				04589880286C0C3300A0631C /* GroupDetailViewModel.swift */,
 			);
@@ -739,6 +750,7 @@
 		047D6B1327F154510098B104 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				04572708288691B1001EF5F2 /* TagDetailView.swift */,
 				047D6B1D27F158520098B104 /* DetailContentView.swift */,
 				047D6B1727F154970098B104 /* MemberView.swift */,
 				047D6B1927F154A60098B104 /* AddMemberView.swift */,
@@ -1852,6 +1864,7 @@
 				04C854AE284873C300CBA291 /* UserViewModel.swift in Sources */,
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,
 				F5644849283F8562007846F9 /* CallRemoteStore.swift in Sources */,
+				04572706288690F6001EF5F2 /* GroupDetailUserViewModels.swift in Sources */,
 				CB7F2991282CF11C00BD5049 /* MenuView.swift in Sources */,
 				043A041D28486C8700FFCAD2 /* UserModel.swift in Sources */,
 				CB8C3E3427F57FBA0034B3A9 /* AppVersion.swift in Sources */,
@@ -1890,6 +1903,7 @@
 				CB7F29232823C53E00BD5049 /* LoginViewError.swift in Sources */,
 				228C49ED285B28C6003C4FA0 /* ForwardViewModel.swift in Sources */,
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
+				04572707288690F6001EF5F2 /* GroupDetailBaseViewModel.swift in Sources */,
 				2245C21A285C70B3008F6C73 /* PreviewImage.swift in Sources */,
 				047D6B1127F1544D0098B104 /* GroupDetailInteractor.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
@@ -1974,6 +1988,7 @@
 				F553F86E27E820E600824BE7 /* SocialWorker.swift in Sources */,
 				0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */,
 				04589881286C0C3300A0631C /* GroupDetailViewModels.swift in Sources */,
+				04572709288691B1001EF5F2 /* TagDetailView.swift in Sources */,
 				F556C277280E502500D2B149 /* TagView.swift in Sources */,
 				044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */,
 				0459993E286312ED006754DF /* GroupBaseModel.swift in Sources */,
@@ -2018,6 +2033,7 @@
 				047241A927DB3D2C0043345A /* AuthenticationModel.swift in Sources */,
 				F5484D9E2828FF8200F0B43C /* CreateGroupView.swift in Sources */,
 				228F2C84281B9E6F0012B07A /* ForwardView.swift in Sources */,
+				04572705288690F6001EF5F2 /* GroupDetailProfileViewModel.swift in Sources */,
 				047241A927DB3D2C0043345A /* AuthenticationModel.swift in Sources */,
 				0499343827E96F8A003BD4C4 /* NewPasswordInteractor.swift in Sources */,
 				0457270128868C7E001EF5F2 /* String+Extensions.swift in Sources */,

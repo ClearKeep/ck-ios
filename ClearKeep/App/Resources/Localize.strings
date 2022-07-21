@@ -14,7 +14,9 @@
 "Unknow.Message" = "Unknow message";
 "General.Next" = "Next";
 "General.Error" = "Error";
+"General.Warning" = "Warning";
 "General.OK" = "OK";
+"General.Add" = "Add";
 "General.Email.Valid" = "Email is invalid";
 "General.Password.Valid" = "Password must be between 6-12 characters";
 "General.ConfirmPassword.Valid" = "Password and Confirm password do not match. Please try again";
