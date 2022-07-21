@@ -23,27 +23,20 @@ struct CountryCode: View {
 	@Environment(\.colorScheme) private var colorScheme
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 
-	@Binding var isShowing: Bool
 	@ObservedObject var datas = ReadData()
-	@State private(set) var samples: Loadable<[String]>
-	@State private(set) var search: String
+	@State private(set) var search: String = ""
 	@State private(set) var searchStyle: TextInputStyle = .default
 	@State private(set) var isShowUserProfile = false
 	@Binding var selectedNum: String
 
 	// MARK: - Init
-	init(selectedNum: Binding<String>, isShowing: Binding<Bool>, samples: Loadable<[String]> = .notRequested, search: String = "", inputStyle: TextInputStyle = .default) {
-		self._selectedNum = selectedNum
-		self._isShowing = isShowing
-		self._samples = .init(initialValue: samples)
-		self._search = .init(initialValue: search)
-		self._searchStyle = .init(initialValue: inputStyle)
-	}
-
+	
 	// MARK: Body
 	var body: some View {
-			content
-		.background(background)
+		content
+			.background(background)
+			.hiddenNavigationBarStyle()
+//			.onAppear(perform: { self.data = self.datas.countryCodes })
 	}
 }
 
@@ -65,11 +58,11 @@ private extension CountryCode {
 		}
 		.padding(.horizontal, Constant.paddingHorizontal)
 	}
-
+	
 	var buttonTop: some View {
 		HStack {
 			Button(action: {
-				isShowing = false
+				presentationMode.wrappedValue.dismiss()
 			}, label: {
 				AppTheme.shared.imageSet.crossIcon
 					.foregroundColor(foregroundCrossButton)
@@ -78,32 +71,28 @@ private extension CountryCode {
 		}
 		.frame(maxWidth: .infinity)
 	}
-
+	
 	var title: some View {
 		Text("Country.Code".localized)
 			.frame(maxWidth: .infinity, alignment: .leading)
 			.font(AppTheme.shared.fontSet.font(style: .body1))
 	}
-
+	
 	var searchInput: some View {
 		SearchTextField(searchText: $search,
 						inputStyle: $searchStyle,
 						inputIcon: AppTheme.shared.imageSet.searchIcon,
 						placeHolder: "Country.Search".localized,
 						onEditingChanged: { isEditing in
-			if isEditing {
-				searchStyle = .normal
-			} else {
-				searchStyle = .highlighted
-			}
+			searchStyle = isEditing ? .normal : .highlighted
 		})
 	}
-
+	
 	var listCountryCode: some View {
 		List(datas.countryCodes) { item in
 			Button {
-				self.selectedNum = "\(item.code)"
-				isShowing = false
+				selectedNum = "\(item.code)"
+				presentationMode.wrappedValue.dismiss()
 			} label: {
 				HStack {
 					Text("\(item.name)")
@@ -123,11 +112,11 @@ private extension CountryCode {
 	var background: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.black
 	}
-
+	
 	var foregroundCrossButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight
 	}
-
+	
 	var backgroundButtonBack: [Color] {
 		colorScheme == .light ? [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
@@ -135,6 +124,6 @@ private extension CountryCode {
 
 struct CountryCode_Previews: PreviewProvider {
 	static var previews: some View {
-		CountryCode(selectedNum: .init(projectedValue: .constant("")), isShowing: .init(projectedValue: .constant(false)))
+		CountryCode(selectedNum: .constant(""))
 	}
 }

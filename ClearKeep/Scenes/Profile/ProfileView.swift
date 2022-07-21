@@ -8,6 +8,7 @@
 import SwiftUI
 import Common
 import CommonUI
+import PhoneNumberKit
 
 struct ProfileView: View {
 	// MARK: - Constants
@@ -19,12 +20,15 @@ struct ProfileView: View {
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@State private(set) var loadable: Loadable<IProfileViewModels> = .notRequested
 	@State private(set) var profile: UserProfileViewModel?
+	let phoneNumberKit = PhoneNumberKit()
+	
 	// MARK: - Body
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.hiddenNavigationBarStyle()
 			.onAppear(perform: getProfile)
+			.hideKeyboardOnTapped()
 	}
 }
 
@@ -55,7 +59,7 @@ private extension ProfileView {
 // MARK: - Loading Content
 private extension ProfileView {
 	var notRequestedView: some View {
-		UserProfileContentView(loadable: $loadable, myProfile: .constant(nil))
+		UserProfileContentView(loadable: $loadable)
 	}
 	
 	var loadingView: some View {
@@ -64,15 +68,18 @@ private extension ProfileView {
 	
 	func loadedView(_ data: IProfileViewModels) -> AnyView {
 		if let myProfile = data.userProfileViewModel {
-			return AnyView(UserProfileContentView(loadable: $loadable, myProfile: .constant(myProfile), urlAvatar: myProfile.avatar))
+			do {
+				let phoneNumber = try phoneNumberKit.parse(myProfile.phoneNumber)
+				let countrycode = "+\(phoneNumber.countryCode)"
+				let number = String(phoneNumber.nationalNumber)
+				return AnyView(UserProfileContentView(countryCode: countrycode, loadable: $loadable, urlAvatar: myProfile.avatar, username: myProfile.displayName, email: myProfile.email, phoneNumber: number))
+			} catch {
+				return AnyView(UserProfileContentView(countryCode: "", loadable: $loadable, urlAvatar: myProfile.avatar, username: myProfile.displayName, email: myProfile.email, phoneNumber: myProfile.phoneNumber))
+			}
 		}
 		
-		if let imageData = data.urlAvatarViewModel {
-			let myProfile = data.userProfileViewModel
-			return AnyView(UserProfileContentView(loadable: $loadable, myProfile: .constant(myProfile), urlAvatar: imageData.fileURL))
-		}
-		
-		return AnyView(UserProfileContentView(loadable: $loadable, myProfile: .constant(nil)))
+		return AnyView(UserProfileContentView(loadable: $loadable))
+
 	}
 	
 	func errorView(_ error: LoginViewError) -> some View {

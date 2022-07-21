@@ -8,8 +8,8 @@
 import Common
 import ChatSecure
 import Model
-import Foundation
 import CommonUI
+import PhoneNumberKit
 
 protocol IProfileWorker {
 	var remoteStore: IProfileRemoteStore { get }
@@ -17,6 +17,7 @@ protocol IProfileWorker {
 	func getProfile() async -> Result<IProfileModels, Error>
 	func uploadAvatar(url: URL, imageData: UIImage) async -> (Result<IProfileModels, Error>)
 	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool) async -> (Result<IProfileModels, Error>)
+	func validate(phoneNumber: String) -> Bool
 }
 
 struct ProfileWorker {
@@ -24,6 +25,7 @@ struct ProfileWorker {
 	let remoteStore: IProfileRemoteStore
 	let inMemoryStore: IProfileInMemoryStore
 	var currentDomain: String?
+	let phoneNumberKit = PhoneNumberKit()
 	
 	init(channelStorage: IChannelStorage,
 		 remoteStore: IProfileRemoteStore,
@@ -70,6 +72,15 @@ extension ProfileWorker: IProfileWorker {
 			return .success(profile)
 		case .failure(let error):
 			return .failure(error)
+		}
+	}
+	
+	func validate(phoneNumber: String) -> Bool {
+		do {
+			_ = try phoneNumberKit.parse(phoneNumber)
+			return true
+		} catch {
+			return false
 		}
 	}
 }
