@@ -52,6 +52,14 @@
 		0462C6CB2816535C00A9EABB /* SearchUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6BE2816535C00A9EABB /* SearchUserView.swift */; };
 		0462C6CC2816535C00A9EABB /* CatalogyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6BF2816535C00A9EABB /* CatalogyView.swift */; };
 		0462C6CD2816535C00A9EABB /* SearchGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6C02816535C00A9EABB /* SearchGroupView.swift */; };
+		0465645E2887DA8000A329D5 /* ProfileBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046564592887DA8000A329D5 /* ProfileBaseViewModel.swift */; };
+		0465645F2887DA8000A329D5 /* ProfileViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0465645A2887DA8000A329D5 /* ProfileViewModels.swift */; };
+		046564602887DA8000A329D5 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0465645B2887DA8000A329D5 /* UserProfileViewModel.swift */; };
+		046564612887DA8000A329D5 /* AvatarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0465645C2887DA8000A329D5 /* AvatarViewModel.swift */; };
+		046564622887DA8000A329D5 /* ProfileUploadImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0465645D2887DA8000A329D5 /* ProfileUploadImageViewModel.swift */; };
+		046564652887DA9B00A329D5 /* ProfileModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046564632887DA9B00A329D5 /* ProfileModels.swift */; };
+		046564662887DA9B00A329D5 /* AvatarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046564642887DA9B00A329D5 /* AvatarModel.swift */; };
+		0465646A2887E5C400A329D5 /* UploadImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046564692887E5C400A329D5 /* UploadImageModel.swift */; };
 		047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419927DB3D2C0043345A /* LoginRemoteStore.swift */; };
 		047241A627DB3D2C0043345A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419A27DB3D2C0043345A /* LoginView.swift */; };
 		047241A727DB3D2C0043345A /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419B27DB3D2C0043345A /* LoginInteractor.swift */; };
@@ -321,6 +329,14 @@
 		0462C6BE2816535C00A9EABB /* SearchUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchUserView.swift; sourceTree = "<group>"; };
 		0462C6BF2816535C00A9EABB /* CatalogyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogyView.swift; sourceTree = "<group>"; };
 		0462C6C02816535C00A9EABB /* SearchGroupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchGroupView.swift; sourceTree = "<group>"; };
+		046564592887DA8000A329D5 /* ProfileBaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileBaseViewModel.swift; sourceTree = "<group>"; };
+		0465645A2887DA8000A329D5 /* ProfileViewModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewModels.swift; sourceTree = "<group>"; };
+		0465645B2887DA8000A329D5 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
+		0465645C2887DA8000A329D5 /* AvatarViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarViewModel.swift; sourceTree = "<group>"; };
+		0465645D2887DA8000A329D5 /* ProfileUploadImageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileUploadImageViewModel.swift; sourceTree = "<group>"; };
+		046564632887DA9B00A329D5 /* ProfileModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileModels.swift; sourceTree = "<group>"; };
+		046564642887DA9B00A329D5 /* AvatarModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarModel.swift; sourceTree = "<group>"; };
+		046564692887E5C400A329D5 /* UploadImageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadImageModel.swift; sourceTree = "<group>"; };
 		0472419927DB3D2C0043345A /* LoginRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRemoteStore.swift; sourceTree = "<group>"; };
 		0472419A27DB3D2C0043345A /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		0472419B27DB3D2C0043345A /* LoginInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
@@ -661,6 +677,7 @@
 		0459993028630EF0006754DF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				046564692887E5C400A329D5 /* UploadImageModel.swift */,
 				0459993128630EF0006754DF /* UserInfoResponseModel.swift */,
 				0459993228630EF0006754DF /* UserInfoModel.swift */,
 				0459993328630EF0006754DF /* GroupResponseModel.swift */,
@@ -705,6 +722,18 @@
 				0462C6C02816535C00A9EABB /* SearchGroupView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		046564582887DA8000A329D5 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				046564592887DA8000A329D5 /* ProfileBaseViewModel.swift */,
+				0465645A2887DA8000A329D5 /* ProfileViewModels.swift */,
+				0465645B2887DA8000A329D5 /* UserProfileViewModel.swift */,
+				0465645C2887DA8000A329D5 /* AvatarViewModel.swift */,
+				0465645D2887DA8000A329D5 /* ProfileUploadImageViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		0472419827DB3D2C0043345A /* Login */ = {
@@ -1378,6 +1407,7 @@
 		F5644822283B7A79007846F9 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				046564582887DA8000A329D5 /* ViewModels */,
 				F5644823283B7A79007846F9 /* ProfileWorker.swift */,
 				F5644824283B7A79007846F9 /* ProfileView.swift */,
 				F5644825283B7A79007846F9 /* ProfileRemoteStore.swift */,
@@ -1392,6 +1422,8 @@
 		F5644826283B7A79007846F9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				046564642887DA9B00A329D5 /* AvatarModel.swift */,
+				046564632887DA9B00A329D5 /* ProfileModels.swift */,
 				F5644827283B7A79007846F9 /* CountryCodeModel.swift */,
 			);
 			path = Models;
@@ -1855,6 +1887,7 @@
 				F5644832283B7A79007846F9 /* ProfileInMemoryStore.swift in Sources */,
 				F556C23F28097F6E00D2B149 /* ChatGroupModel.swift in Sources */,
 				0462C6C22816535C00A9EABB /* SearchView.swift in Sources */,
+				046564662887DA9B00A329D5 /* AvatarModel.swift in Sources */,
 				0462C6C32816535C00A9EABB /* SearchInMemoryStore.swift in Sources */,
 				F5CFCA2E28237CD000A9737F /* VoiceGroupCalled.swift in Sources */,
 				047D6B1227F1544D0098B104 /* GroupDetailView.swift in Sources */,
@@ -1884,6 +1917,7 @@
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
 				04589875286BFB2A00A0631C /* CreatePeerUserViewModel.swift in Sources */,
 				0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */,
+				046564622887DA8000A329D5 /* ProfileUploadImageViewModel.swift in Sources */,
 				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
 				F5644836283B7A79007846F9 /* UserProfileContentView.swift in Sources */,
 				F564484D283F8562007846F9 /* CallingView.swift in Sources */,
@@ -1932,6 +1966,7 @@
 				F564484A283F8562007846F9 /* CallModel.swift in Sources */,
 				F5350E2027FAD58F00F54E32 /* TwoFactorView.swift in Sources */,
 				CB117E8A27BB66E7000941D9 /* HomeInMemoryStore.swift in Sources */,
+				046564602887DA8000A329D5 /* UserProfileViewModel.swift in Sources */,
 				F5350E1F27FAD58F00F54E32 /* TwoFactorInteractor.swift in Sources */,
 				047241AE27DB3D2C0043345A /* LoginWorker.swift in Sources */,
 				047D6B1E27F158520098B104 /* DetailContentView.swift in Sources */,
@@ -1961,6 +1996,7 @@
 				22A1C69C2812B1D500FE957F /* ChatInteractor.swift in Sources */,
 				047D6B6427F6A3DD0098B104 /* DirectMessageContentView.swift in Sources */,
 				044432B728570E5F00276DB3 /* UsersGroupViewModel.swift in Sources */,
+				046564612887DA8000A329D5 /* AvatarViewModel.swift in Sources */,
 				047D6B5E27F6A3750098B104 /* CreateDirectMessageInMemoryStore.swift in Sources */,
 				04589882286C0C3300A0631C /* GroupDetailViewModel.swift in Sources */,
 				0499341027E96DD7003BD4C4 /* FogotPasswordView.swift in Sources */,
@@ -1974,6 +2010,7 @@
 				0459993628630EF0006754DF /* UserInfoModel.swift in Sources */,
 				22A1C6992812B1D500FE957F /* ChatInMemoryStore.swift in Sources */,
 				F556C24028097F6E00D2B149 /* ChatGroupView.swift in Sources */,
+				0465645F2887DA8000A329D5 /* ProfileViewModels.swift in Sources */,
 				CB7F291C281BC1A300BD5049 /* NormalLoginModel.swift in Sources */,
 				0459993728630EF1006754DF /* GroupResponseModel.swift in Sources */,
 				F556C23E28097F6E00D2B149 /* ChatGroupInMemoryStore.swift in Sources */,
@@ -1990,6 +2027,7 @@
 				04589881286C0C3300A0631C /* GroupDetailViewModels.swift in Sources */,
 				04572709288691B1001EF5F2 /* TagDetailView.swift in Sources */,
 				F556C277280E502500D2B149 /* TagView.swift in Sources */,
+				0465645E2887DA8000A329D5 /* ProfileBaseViewModel.swift in Sources */,
 				044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */,
 				0459993E286312ED006754DF /* GroupBaseModel.swift in Sources */,
 				0462C6C12816535C00A9EABB /* SearchRemoteStore.swift in Sources */,
@@ -2033,9 +2071,11 @@
 				047241A927DB3D2C0043345A /* AuthenticationModel.swift in Sources */,
 				F5484D9E2828FF8200F0B43C /* CreateGroupView.swift in Sources */,
 				228F2C84281B9E6F0012B07A /* ForwardView.swift in Sources */,
+				0465646A2887E5C400A329D5 /* UploadImageModel.swift in Sources */,
 				04572705288690F6001EF5F2 /* GroupDetailProfileViewModel.swift in Sources */,
 				047241A927DB3D2C0043345A /* AuthenticationModel.swift in Sources */,
 				0499343827E96F8A003BD4C4 /* NewPasswordInteractor.swift in Sources */,
+				046564652887DA9B00A329D5 /* ProfileModels.swift in Sources */,
 				0457270128868C7E001EF5F2 /* String+Extensions.swift in Sources */,
 				F5350E1E27FAD58F00F54E32 /* TwoFactorRemoteStore.swift in Sources */,
 				0462C6C52816535C00A9EABB /* SearchCatalogy.swift in Sources */,

@@ -1,8 +1,8 @@
 //
-//  MultipleImagePicker.swift
+//  ImagePicker.swift
 //  CommonUI
 //
-//  Created by Quang Pham on 17/06/2022.
+//  Created by MinhDev on 05/07/2022.
 //
 
 import SwiftUI
@@ -15,15 +15,15 @@ private enum Constants {
 	static let paddingHorizontal = 17.0
 }
 
-public struct MultipleImagePicker: View {
+public struct ImagePicker: View {
 	
 	@Environment(\.presentationMode) var presentationMode
 	@Environment(\.colorScheme) var colorScheme
 	
 	var doneAction: ([SelectedImageModel]) -> Void
-		
+	
 	@StateObject private var viewModel = ImagePickerViewModel()
-		
+	
 	private var columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 2)
 	// MARK: - Init
 	public init(doneAction: @escaping ([SelectedImageModel]) -> Void) {
@@ -41,7 +41,7 @@ public struct MultipleImagePicker: View {
 								asset: photo,
 								size: getImageSize(width: geometryReader.size.width),
 								selected: $viewModel.selectedImages,
-								select: {}
+								select: chooseAction
 							).onAppear {
 								viewModel.asyncThumbnail(asset: photo.asset, size: getImageSize(width: geometryReader.size.width)) { image in
 									photo.thumbnail = image
@@ -75,15 +75,6 @@ public struct MultipleImagePicker: View {
 					.foregroundColor(foregroundButton)
 					.frame(width: Constants.sizeIcon, height: Constants.sizeIcon)
 			})
-			Spacer()
-			Button(action: {
-				self.doneAction(viewModel.selectedImages.map { $0.toSelectedImageModel() })
-				presentationMode.wrappedValue.dismiss()
-			}, label: {
-				Text("Chat.UploadButton".localized + " (\(viewModel.selectedImages.count))")
-					.font(commonUIConfig.fontSet.font(style: .body3))
-					.foregroundColor(foregroundButton)
-			}).disabled(viewModel.selectedImages.count == 0)
 		}
 		.padding(.top, Constants.paddingTop)
 		.padding([.leading, .trailing, .bottom], Constants.padding)
@@ -94,6 +85,11 @@ public struct MultipleImagePicker: View {
 	private func getImageSize(width: CGFloat) -> CGSize {
 		let size = width / CGFloat(2)
 		return CGSize(width: size, height: size)
+	}
+	
+	private func chooseAction() {
+		self.doneAction(viewModel.selectedImages.map { $0.toSelectedImageModel() })
+		presentationMode.wrappedValue.dismiss()
 	}
 	
 	var backgroundGradientPrimary: AnyView {
