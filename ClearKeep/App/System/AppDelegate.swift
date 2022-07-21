@@ -12,6 +12,7 @@ import FBSDKCoreKit
 import GoogleSignIn
 import FirebaseCore
 import MSAL
+import ChatSecure
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,7 +23,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions
 					 launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-		
+		_ = CallManager.shared
+
 		FirebaseApp.configure()
 		
 		// Facebook

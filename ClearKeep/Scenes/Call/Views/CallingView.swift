@@ -92,6 +92,7 @@ struct CallingView: View {
 			VStack {
 				Button {
 					isTappedEndCall.toggle()
+					presentationMode.wrappedValue.dismiss()
 				} label: {
 					ZStack {
 						Circle()

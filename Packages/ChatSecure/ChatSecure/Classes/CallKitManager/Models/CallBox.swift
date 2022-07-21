@@ -21,11 +21,10 @@ final class CallBox: NSObject {
 	// MARK: Metadata Properties
 	let uuid: UUID
 	let clientId: String
-	var groupToken: String?
 	var clientName: String?
-	var roomId: Int64 = 0
 	var avatar: String?
 	let isOutgoing: Bool
+	let callServer: CallServer
 	var status = CallStatus.calling
 	var type: CallType = .audio
 	var isCallGroup = false
@@ -111,9 +110,10 @@ final class CallBox: NSObject {
 	
 	// MARK: Initialization
 	
-	init(uuid: UUID, clientId: String, isOutgoing: Bool = false) {
+	init(uuid: UUID, clientId: String, callServer: CallServer, isOutgoing: Bool = false) {
 		self.uuid = uuid
 		self.clientId = clientId
+		self.callServer = callServer
 		self.isOutgoing = isOutgoing
 	}
 	
@@ -124,7 +124,7 @@ final class CallBox: NSObject {
 	func startCall(withAudioSession audioSession: AVAudioSession?, completion: ((_ success: Bool) -> Void)?) {
 		//        OTAudioDeviceManager.setAudioDevice(OTDefaultAudioDevice.sharedInstance(with: audioSession))
 		if videoRoom == nil {
-			videoRoom = JanusVideoRoom(delegate: self, token: groupToken)
+			videoRoom = JanusVideoRoom(delegate: self, callServer: callServer)
 		}
 		canStartCall = completion
 		
@@ -143,7 +143,7 @@ final class CallBox: NSObject {
 	func answerCall(withAudioSession audioSession: AVAudioSession, completion: ((_ success: Bool) -> Void)?) {
 		//        OTAudioDeviceManager.setAudioDevice(OTDefaultAudioDevice.sharedInstance(with: audioSession))
 		if videoRoom == nil {
-			videoRoom = JanusVideoRoom(delegate: self, token: groupToken)
+			videoRoom = JanusVideoRoom(delegate: self, callServer: callServer)
 		}
 		
 		canAnswerCall = completion
@@ -160,7 +160,7 @@ final class CallBox: NSObject {
 	}
 	
 	func startJoinRoom() {
-		videoRoom?.joinRoom(withRoomId: roomId, username: clientName ?? "iOS", completeCallback: { [weak self] isSuccess, error in
+		videoRoom?.joinRoom(withRoomId: callServer.groupRtcId, username: clientName ?? "iOS", completeCallback: { [weak self] isSuccess, error in
 			guard let self = self else { return }
 			if error != nil || !isSuccess {
 				print(error?.localizedDescription ?? "")

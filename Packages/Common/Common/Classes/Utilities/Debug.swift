@@ -14,9 +14,9 @@ public struct Debug {
 	///   - object: Object to log
 	///   - function: Function's name
 	///   - line: Line number of function
-	static public func DLog(_ message: String, _ object: Any? = "", function: String = #function, line: Int = #line) {
+	static public func DLog(_ message: String, _ object: Any? = nil, function: String = #function, line: Int = #line) {
 #if DEBUG
-		print("- [", function, "] - [ LINE", line, "] -", message, object as Any)
+		print("- [", function, "] - [ LINE", line, "] -", message, object == nil ? "" : object as Any)
 #endif
 	}
 }

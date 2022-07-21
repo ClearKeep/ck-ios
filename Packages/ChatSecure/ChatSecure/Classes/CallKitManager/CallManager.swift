@@ -10,7 +10,7 @@ import CallKit
 import AVFoundation
 import PushKit
 
-enum CallType: String {
+public enum CallType: String {
 	case audio
 	case video
 }
@@ -39,7 +39,7 @@ final public class CallManager: NSObject {
 		return providerConfiguration
 	}
 	
-	static let shared = CallManager()
+	public static let shared = CallManager()
 	
 	override init() {
 		provider = CXProvider(configuration: type(of: self).providerConfiguration)
@@ -48,18 +48,15 @@ final public class CallManager: NSObject {
 	}
 	
 	// MARK: Actions
-	func startCall(clientId: String,
+	public func startCall(clientId: String,
 				   clientName: String?,
 				   avatar: String? = nil,
-				   groupId: Int64,
-				   groupToken: String,
+				   callserver: CallServer,
 				   callType type: CallType = .audio ,
 				   isCallGroup: Bool) {
-		let call = CallBox(uuid: UUID(), clientId: clientId, isOutgoing: true)
+		let call = CallBox(uuid: UUID(), clientId: clientId, callServer: callserver, isOutgoing: true)
 		call.clientName = clientName
-		call.groupToken = groupToken
 		call.avatar = avatar
-		call.roomId = groupId
 		call.type = type
 		call.isCallGroup = isCallGroup
 		call.hasStartedConnectingDidChange = { [weak self] in
@@ -224,10 +221,13 @@ extension CallManager {
 			 since calls may be "denied" for various legitimate reasons. See CXErrorCodeIncomingCallError.
 			 */
 			if error == nil {
-				let call = CallBox(uuid: uuid, clientId: clientId)
+				let callServer = CallServer(groupRtcUrl: "",
+											groupRtcId: 0,
+											groupRtcToken: "",
+											stunServer: StunServer(server: "", port: 0),
+											turnServer: TurnServer(server: "", port: 0, type: "", user: "", pwd: ""))
+				let call = CallBox(uuid: uuid, clientId: clientId, callServer: callServer)
 				call.clientName = callerName
-				call.roomId = Int64(roomId) ?? 0
-				call.groupToken = token
 				call.avatar = avatar
 				call.isCallGroup = isCallGroup
 				call.type = hasVideo ? .video : .audio
