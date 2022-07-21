@@ -17,7 +17,6 @@ PODS:
     - RealmSwift
     - SignalProtocolObjC
     - SignalServiceKit
-    - SocketRocket
     - SwiftSRP
     - YapDatabase/SQLCipher
   - CNIOAtomics (2.38.0)
@@ -191,7 +190,6 @@ PODS:
     - Common
     - LibSignalClient
     - SignalCoreKit
-  - SocketRocket (0.6.0)
   - SQLCipher (4.5.1):
     - SQLCipher/standard (= 4.5.1)
   - SQLCipher/common (4.5.1)
@@ -382,7 +380,6 @@ DEPENDENCIES:
   - SignalCoreKit (from `https://github.com/signalapp/SignalCoreKit.git`)
   - SignalProtocolObjC (from `https://github.com/nohtbook/SignalProtocol-ObjC.git`)
   - SignalServiceKit (from `./Packages/SignalServiceKit`)
-  - SocketRocket
   - SwiftLint
   - SwiftSRP (from `./Packages/SwiftSRP`)
 
@@ -430,7 +427,6 @@ SPEC REPOS:
     - Realm
     - RealmSwift
     - SignalProtocolC
-    - SocketRocket
     - SQLCipher
     - SwiftLint
     - SwiftNIO
@@ -486,7 +482,7 @@ SPEC CHECKSUMS:
   _NIODataStructures: d8175e5ca5a34ec19b7ff21de298dd2a4d30818d
   AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
   CGRPCZlib: 30d7ed7cd286bf929605052dd64075a694d86d0c
-  ChatSecure: 061179a0392c68fd3941238d88021860a6eb2103
+  ChatSecure: 4132b5067aa474c781b435235636701cf3531412
   CNIOAtomics: 00b638e1b0dac91d06d4bb089ea9126c117c6650
   CNIOBoringSSL: c99129423da079a9eb74bcfc7cfec41a6775cf94
   CNIOBoringSSLShims: 902ae35fea0b6be5eefb4fdce906751886cfa46f
@@ -534,7 +530,6 @@ SPEC CHECKSUMS:
   SignalProtocolC: e61c89693515347df8ed97961160a36cbe55c441
   SignalProtocolObjC: 35f26e21de41b6c9fbf8ec5087f3e02580df15e3
   SignalServiceKit: ed4b0d05096bf1c50d9ab9f793a07c94b52d5a94
-  SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   SQLCipher: 712e8416685e8e575b9b0706ffee71678b2fdcf8
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
   SwiftNIO: 9bc23fada7254a38f1417533a4514aabdcb7cf31
@@ -554,6 +549,6 @@ SPEC CHECKSUMS:
   SwiftSRP: 98943ac8497e2e7fb1ab1b63f68810aefc28010c
   YapDatabase: 350ab72b61f9dcc32504594da1a52a93f5ef1476
 
-PODFILE CHECKSUM: 0079586f5b3730bc3c147af29befdbdfd411e895
+PODFILE CHECKSUM: 8c9d7a7bd9b7a7b80eeacdad88400ab71c765947
 
 COCOAPODS: 1.11.3

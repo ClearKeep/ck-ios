@@ -49,7 +49,6 @@ end
 
 def callmanager
 	pod 'GoogleWebRTC'
-	pod 'SocketRocket'
 end
 
 def utilities

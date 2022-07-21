@@ -21,7 +21,6 @@ Pod::Spec.new do |spec|
   
 	spec.dependency 'Networking'
 	spec.dependency 'SwiftSRP'
-	spec.dependency 'SocketRocket'
 	spec.dependency 'SignalProtocolObjC'
 	spec.dependency 'GoogleWebRTC'
 	spec.dependency 'YapDatabase/SQLCipher'

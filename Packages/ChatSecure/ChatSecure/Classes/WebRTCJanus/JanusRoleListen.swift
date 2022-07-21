@@ -19,8 +19,8 @@ class JanusRoleListen: JanusRole {
 	var videoTrack: RTCVideoTrack?
 	var renderSize: CGSize = .zero
 	
-	override init(withJanus janus: Janus, delegate: JanusRoleDelegate? = nil) {
-		super.init(withJanus: janus, delegate: delegate)
+	override init(withJanus janus: Janus, delegate: JanusRoleDelegate? = nil, turnServer: TurnServer, stunServer: StunServer) {
+		super.init(withJanus: janus, delegate: delegate, turnServer: turnServer, stunServer: stunServer)
 		self.pType = .lister
 		self.mediaConstraints = JanusMediaConstraints()
 		self.mediaConstraints?.audioEnable = true
@@ -29,8 +29,10 @@ class JanusRoleListen: JanusRole {
 	
 	override class func role(withDict dict: [String: Any],
 							 janus: Janus,
-							 delegate: JanusRoleDelegate?) -> JanusRoleListen {
-		let publish = JanusRoleListen(withJanus: janus, delegate: delegate)
+							 delegate: JanusRoleDelegate?,
+							 turnServer: TurnServer,
+							 stunServer: StunServer) -> JanusRoleListen {
+		let publish = JanusRoleListen(withJanus: janus, delegate: delegate, turnServer: turnServer, stunServer: stunServer)
 		publish.pType = .lister
 		if let videoCode = dict["video_codec"] as? String,
 		   let id = dict["id"] as? Int {
@@ -81,13 +83,13 @@ class JanusRoleListen: JanusRole {
 			}
 			
 			let sessionDest = RTCSessionDescription(type: sdpType, sdp: sdp)
-			self.peerConnection.setRemoteDescription(sessionDest, completionHandler: { [weak self] error in
+			self.peerConnection?.setRemoteDescription(sessionDest, completionHandler: { [weak self] error in
 				guard let self = self else { return }
 				if let error = error {
 					debugPrint("Listen Role setRemoteDescription error: \(error.localizedDescription)")
 				} else {
 					guard let constraints = self.mediaConstraints?.getAnswerConstraints() else { return }
-					self.peerConnection.answer(for: constraints) { (sdp, error) in
+					self.peerConnection?.answer(for: constraints) { (sdp, error) in
 						if let error = error {
 							debugPrint("peerConnection answerForConstraints error: \(error.localizedDescription)")
 						} else if let sdpDict = sdp {
@@ -101,7 +103,7 @@ class JanusRoleListen: JanusRole {
 								// Create a new SDP using the modified SDP string
 								modifiedSDP = RTCSessionDescription(type: .answer, sdp: modifiedSDPString)
 							}
-							self.peerConnection.setLocalDescription(modifiedSDP, completionHandler: { (error) in
+							self.peerConnection?.setLocalDescription(modifiedSDP, completionHandler: { (error) in
 								if let error = error {
 									debugPrint("peerConnection?.setLocalDescription error: \(error.localizedDescription)")
 								}

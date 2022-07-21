@@ -14,7 +14,7 @@ struct CallView: View {
 	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
-	
+
 	// MARK: - Body
 	var body: some View {
 		content

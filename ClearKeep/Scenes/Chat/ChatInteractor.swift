@@ -29,6 +29,7 @@ protocol IChatInteractor {
 	func uploadFiles(loadable: LoadableSubject<IGroupModel>, message: String, fileURLs: [URL], group: IGroupModel?, appendFileSize: Bool, isForceProcessKey: Bool) async
 	func downloadFile(urlString: String) async
 	func getMessageFromLocal(groupId: Int64) -> Results<RealmMessage>?
+    func requestCall(groupId: Int64, isAudioCall: Bool) async -> Bool
 }
 
 struct ChatInteractor {
@@ -38,13 +39,13 @@ struct ChatInteractor {
 	let groupService: IGroupService
 	let messageService: IMessageService
 	let uploadFileService: IUploadFileService
-	
+    let callService: ICallService
 }
 
 extension ChatInteractor: IChatInteractor {
 	
 	var worker: IChatWorker {
-		let remoteStore = ChatRemoteStore(groupService: groupService, messageService: messageService, uploadFileService: uploadFileService)
+        let remoteStore = ChatRemoteStore(groupService: groupService, messageService: messageService, uploadFileService: uploadFileService, callService: callService)
 		let inMemoryStore = ChatInMemoryStore(realmManager: realmManager)
 		return ChatWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
@@ -186,6 +187,24 @@ extension ChatInteractor: IChatInteractor {
 		return worker.getMessageFromLocal(groupId: groupId, ownerDomain: server.serverDomain, ownerId: ownerId)
 	}
 	
+    func requestCall(groupId: Int64, isAudioCall: Bool) async -> Bool {
+        guard let domain = channelStorage.currentServer?.serverDomain else { return false }
+        let result = await worker.requestCall(groupId: groupId, isAudioCall: isAudioCall, domain: domain)
+        switch result {
+        case .success(let data):
+            print(data)
+//            CallManager.shared.startCall(
+//                clientId: "8ef8cfa8-ef0a-43a5-8e2e-8b93499c1730",
+//                clientName: "8ef8cfa8-ef0a-43a5-8e2e-8b93499c1730",
+//                avatar: nil,
+//                callserver: data,
+//                isCallGroup: false)
+            return true
+        case .failure(let error):
+            print(error)
+            return false
+        }
+    }
 }
 
 struct StubChatInteractor: IChatInteractor {
@@ -195,9 +214,10 @@ struct StubChatInteractor: IChatInteractor {
 	let messageService: IMessageService
 	let uploadFileService: IUploadFileService
 	let realmManager: RealmManager
-
+    let callService: ICallService
+    
 	var worker: IChatWorker {
-		let remoteStore = ChatRemoteStore(groupService: groupService, messageService: messageService, uploadFileService: uploadFileService)
+        let remoteStore = ChatRemoteStore(groupService: groupService, messageService: messageService, uploadFileService: uploadFileService, callService: callService)
 		let inMemoryStore = ChatInMemoryStore(realmManager: realmManager)
 		return ChatWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
@@ -229,4 +249,8 @@ struct StubChatInteractor: IChatInteractor {
 	func getMessageFromLocal(groupId: Int64) -> Results<RealmMessage>? {
 		return nil
 	}
+    
+    func requestCall(groupId: Int64, isAudioCall: Bool) async -> Bool {
+        return true
+    }
 }

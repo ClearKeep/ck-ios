@@ -21,6 +21,7 @@ protocol IChatWorker {
 	func uploadFiles(message: String, files: [FileModel], domain: String, appendFileSize: Bool) async -> String?
 	func downloadFile(urlString: String) async -> Result<String, Error>
 	func getMessageFromLocal(groupId: Int64, ownerDomain: String, ownerId: String) -> Results<RealmMessage>?
+    func requestCall(groupId: Int64, isAudioCall: Bool, domain: String) async -> Result<CallServer, Error>
 }
 
 struct ChatWorker {
@@ -109,5 +110,9 @@ extension ChatWorker: IChatWorker {
 	func downloadFile(urlString: String) async -> Result<String, Error> {
 		return await remoteStore.downloadFile(urlString: urlString)
 	}
+    
+    func requestCall(groupId: Int64, isAudioCall: Bool, domain: String) async -> Result<CallServer, Error> {
+        return await remoteStore.requestCall(groupId: groupId, isAudioCall: isAudioCall, domain: domain)
+    }
 	
 }

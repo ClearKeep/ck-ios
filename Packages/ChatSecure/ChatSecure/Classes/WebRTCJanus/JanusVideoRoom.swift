@@ -48,20 +48,15 @@ class JanusVideoRoom: NSObject {
 	private var roomId: Int64 = 0
 	var useCustomCapturer = false
 	
-	init(delegate: JanusVideoRoomDelegate? = nil, token: String?) {
+	init(delegate: JanusVideoRoomDelegate? = nil, callServer: CallServer) {
 		super.init()
-		//        let server = URL(string: "ws://54.235.68.160:8188/janus") // staging server
-		let server = URL(string: "ws://54.235.68.160:18188/janus") // dev server
-		//        let server = URL(string: "ws://10.0.255.82:8188/janus") // Local server
-		
-		//        let server = URL(string: AppConfig.buildEnvironment.webrtc)
-		
+		let server = URL(string: callServer.groupRtcUrl)
 		guard let server = server else {
 			return
 		}
 		
-		let janus = Janus(withServer: server, token: token)
-		publisher = JanusRolePublish(withJanus: janus, delegate: self)
+		let janus = Janus(withServer: server, token: callServer.groupRtcToken)
+		publisher = JanusRolePublish(withJanus: janus, delegate: self, turnServer: callServer.turnServer, stunServer: callServer.stunServer)
 		
 		self.delegate = delegate
 		let localConfig = JanusPublishMediaConstraints()

@@ -6,8 +6,6 @@
 //  Copyright © 2020 Vmodev. All rights reserved.
 //
 
-// swiftlint:disable force_unwrapping
-
 import UIKit
 import WebRTC
 
@@ -54,6 +52,8 @@ class JanusRole: JanusPlugin {
 	var display: String?
 	var mediaConstraints: JanusMediaConstraints?
 	var status: JanusRoleStatus = .detached
+	var turnServer: TurnServer
+	var stunServer: StunServer
 	
 	var audioCode: String?
 	var videoCode: String?
@@ -62,15 +62,18 @@ class JanusRole: JanusPlugin {
 	
 	private var _peerConnection: RTCPeerConnection?
 	
-	init(withJanus janus: Janus, delegate: JanusRoleDelegate? = nil) {
+	init(withJanus janus: Janus, delegate: JanusRoleDelegate? = nil, turnServer: TurnServer, stunServer: StunServer) {
+		self.turnServer = turnServer
+		self.stunServer = stunServer
 		super.init(withJanus: janus, delegate: delegate)
 		janus.delegate = self
 		self.opaqueId = "videoroomtest-\(randomString(withLength: 12))"
 		self.pluginName = "janus.plugin.videoroom"
+		
 	}
 	
-	class func role(withDict dict: [String: Any], janus: Janus, delegate: JanusRoleDelegate?) -> JanusRole {
-		let publish = JanusRole(withJanus: janus, delegate: delegate)
+	class func role(withDict dict: [String: Any], janus: Janus, delegate: JanusRoleDelegate?, turnServer: TurnServer, stunServer: StunServer) -> JanusRole {
+		let publish = JanusRole(withJanus: janus, delegate: delegate, turnServer: turnServer, stunServer: stunServer)
 		return publish
 	}
 	
@@ -101,31 +104,23 @@ class JanusRole: JanusPlugin {
 		}
 	}
 	
-	func defaultSTUNServer() -> [RTCIceServer] {
-		
-		let turnUser = UserDefaults.standard.string(forKey: ChatSecure.Constants.keySaveTurnServerUser) ?? ""
-		let turnPWD = UserDefaults.standard.string(forKey: ChatSecure.Constants.keySaveTurnServerPWD) ?? ""
-		// 8f87a00be37f0bfe19c0168ed0614966d70f2f8513ad66bda31a4a0a55fa89bd
-		// leZgnMWJMJ8QRFapC5liDHUrxJjalYqbhxPq+/V2zz8=
-		let stun = RTCIceServer(urlStrings: ["stun:stun.l.google.com:19302"])
-		let turn = RTCIceServer(urlStrings: ["turn:global.turn.twilio.com:3478"],
-								username: turnUser,
-								credential: turnPWD)
-		return [stun, turn]
-	}
-	
-	var peerConnection: RTCPeerConnection {
+	var peerConnection: RTCPeerConnection? {
 		RTCInitializeSSL()
 		if let peerConnection = _peerConnection {
 			return peerConnection
 		}
 		let configuration = RTCConfiguration()
-		configuration.iceServers = defaultSTUNServer()
+		let stun = RTCIceServer(urlStrings: [stunServer.server])
+		let turn = RTCIceServer(urlStrings: [turnServer.server],
+								username: turnServer.user,
+								credential: turnServer.pwd)
+		configuration.iceServers = [stun, turn]
+		configuration.iceTransportPolicy = .all
 		let constraints = JanusMediaConstraints().getPeerConnectionConstraints()
 		_peerConnection = RTCFactory.shared.peerConnectionFactory().peerConnection(with: configuration,
 																				   constraints: constraints,
 																				   delegate: self)
-		return _peerConnection!
+		return _peerConnection
 	}
 	
 	func joinRoom(withRoomId roomId: Int64, username: String?, callback: @escaping RoleJoinRoomCallback) {
@@ -158,9 +153,11 @@ class JanusRole: JanusPlugin {
 				callback(nil)
 				if let publishers = msg["publishers"] as? [[String: Any]],
 				   let janus = self?.janus,
+				   let turnServer = self?.turnServer,
+				   let stunServer = self?.stunServer,
 				   let delegate = self?.delegate as? JanusRoleDelegate {
 					for item in publishers {
-						let listenter = JanusRoleListen.role(withDict: item, janus: janus, delegate: delegate)
+						let listenter = JanusRoleListen.role(withDict: item, janus: janus, delegate: delegate, turnServer: turnServer, stunServer: stunServer)
 						listenter.privateId = self?.privateId
 						listenter.opaqueId = self?.opaqueId
 						delegate.janusRole(role: self, didJoinRemoteRole: listenter)

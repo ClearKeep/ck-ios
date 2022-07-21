@@ -5,11 +5,12 @@
 //  Created by đông on 09/05/2022.
 //
 
-import Foundation
+import ChatSecure
 
 protocol ICallWorker {
 	var remoteStore: ICallRemoteStore { get }
 	var inMemoryStore: ICallInMemoryStore { get }
+
 }
 
 struct CallWorker {
@@ -24,4 +25,5 @@ struct CallWorker {
 }
 
 extension CallWorker: ICallWorker {
+	
 }

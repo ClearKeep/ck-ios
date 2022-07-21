@@ -5,7 +5,7 @@
 //  Created by đông on 09/05/2022.
 //
 
-import Foundation
+import ChatSecure
 
 protocol ICallRemoteStore {
 }
@@ -14,4 +14,5 @@ struct CallRemoteStore {
 }
 
 extension CallRemoteStore: ICallRemoteStore {
+	
 }
