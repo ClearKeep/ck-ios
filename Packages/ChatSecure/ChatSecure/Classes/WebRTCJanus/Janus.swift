@@ -8,7 +8,7 @@
 
 // swiftlint:disable weak_delegate
 
-import UIKit
+import Common
 
 class Janus: NSObject {
 	var delegate: JanusDelegate?
@@ -19,13 +19,13 @@ class Janus: NSObject {
 	var pluginHandlers = [NSNumber: JanusPluginHandleProtocol]()
 	var delayReq = [[String: Any]]()
 	
-	var token: String?
+	var token: String
 	let apiSecret: String?
 	var keepAliveTimer: Timer?
 	let keepAliveInterval: Int
 	var connectCallback: ((Error?) -> Void)?
 	
-	init(withServer server: URL, delegate: JanusDelegate? = nil, token: String?, apiSecret: String? = nil) {
+	init(withServer server: URL, delegate: JanusDelegate? = nil, token: String, apiSecret: String? = nil) {
 		self.server = server
 		self.delegate = delegate
 		self.token = token
@@ -54,12 +54,11 @@ class Janus: NSObject {
 		var params = [String: Any]()
 		params["janus"] = JanusMessage.create.rawValue
 		params["transaction"] = transaction
+		params["token"] = token
+
 		let callback: JanusRequestCallback = { [weak self] msg in
 			guard let self = self else { return }
 			self.handleCreateSessionCallback(msg: msg)
-		}
-		if let token = self.token {
-			params["token"] = token
 		}
 		janusTransactions[transaction] = callback
 		janusWebSocket?.send(message: params)
@@ -77,13 +76,12 @@ class Janus: NSObject {
 					  "plugin": plugin.pluginName,
 					  "opaque_id": plugin.opaqueId,
 					  "transaction": transaction,
+					  "token": token,
 					  "session_id": NSNumber(value: sessionId)] as [String: Any]
-		if let token = token {
-			params["token"] = token
-		}
 		if let secret = apiSecret {
 			params["apisecret"] = secret
 		}
+
 		let reqCallback: JanusRequestCallback = { [weak self] msg in
 			guard let self = self else { return }
 			self.handleAttachPluginCallback(plugin: plugin,
@@ -123,9 +121,7 @@ class Janus: NSObject {
 					  "handle_id": plugin.handleId,
 					  "transaction": transaction,
 					  "session_id": NSNumber(value: sessionId)] as [String: Any]
-		if let token = token {
 			params["token"] = token
-		}
 		if let secret = apiSecret {
 			params["apisecret"] = secret
 		}
@@ -153,9 +149,7 @@ class Janus: NSObject {
 		var params = ["janus": JanusMessage.destroy.rawValue,
 					  "transaction": transaction,
 					  "session_id": NSNumber(value: sessionId)] as [String: Any]
-		if let token = token {
 			params["token"] = token
-		}
 		if let secret = apiSecret {
 			params["apisecret"] = secret
 		}
@@ -200,9 +194,7 @@ class Janus: NSObject {
 					  "handle_id": handleId]
 		}
 		
-		if let token = self.token {
 			params["token"] = token
-		}
 		if let secret = self.apiSecret {
 			params["apisecret"] = secret
 		}
@@ -238,9 +230,7 @@ class Janus: NSObject {
 					  "transaction": transaction,
 					  "handle_id": handleId,
 					  "session_id": NSNumber(value: sessionId)] as [String: Any]
-		if let token = self.token {
 			params["token"] = token
-		}
 		janusWebSocket?.send(message: params)
 	}
 	
@@ -249,7 +239,7 @@ class Janus: NSObject {
 		if let janus = msg["janus"] as? String,
 		   janus == "success" {
 			if let sessionData = msg["data"] as? [String: Any] {
-				self.sessionId = sessionData["id"] as! Int
+				self.sessionId = sessionData["id"] as? Int ?? 0
 				if self.keepAliveInterval > 0 {
 					asyncInMainThread {
 						self.keepAliveTimer = Timer.scheduledTimer(timeInterval: 30.0,
@@ -298,9 +288,7 @@ class Janus: NSObject {
 			var params = ["janus": JanusMessage.keepalive.rawValue,
 						  "session_id": NSNumber(value: sessionId),
 						  "transaction": transaction] as [String: Any]
-			if let token = self.token {
 				params["token"] = token
-			}
 			websocket.send(message: params)
 		}
 	}

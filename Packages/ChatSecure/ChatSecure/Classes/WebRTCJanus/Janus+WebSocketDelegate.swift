@@ -11,12 +11,16 @@
 import Foundation
 
 extension Janus: WebSocketDelegate {
-	func webSocket(didOpen webSocket: WebSocket) {
+	func webSocket(_ webSocket: WebSocketProvider, didReceiveMessage msg: String) {
+		
+	}
+	
+	func webSocket(didOpen webSocket: WebSocketProvider) {
 		createSession()
 		connectCallback?(nil)
 	}
 	
-	func webSocket(_ webSocket: WebSocket, didReceiveMessage msg: [String: Any]) {
+	func webSocket(_ webSocket: WebSocketProvider, didReceiveMessage msg: [String: Any]) {
 		guard let janus = msg["janus"] as? String else {
 			return
 		}
@@ -125,7 +129,7 @@ extension Janus: WebSocketDelegate {
 		
 	}
 	
-	func webSocket(_ webSocket: WebSocket, didFailWithError error: Error) {
+	func webSocket(_ webSocket: WebSocketProvider, didFailWithError error: Error) {
 		if let keepAliveTimer = keepAliveTimer {
 			keepAliveTimer.invalidate()
 			self.keepAliveTimer = nil
@@ -144,7 +148,7 @@ extension Janus: WebSocketDelegate {
 		self.delegate?.janus(self, netBrokenWithId: .websocketFail)
 	}
 	
-	func webSocket(didClose webSocket: WebSocket) {
+	func webSocket(didClose webSocket: WebSocketProvider) {
 		if let keepAliveTimer = keepAliveTimer {
 			keepAliveTimer.invalidate()
 			self.keepAliveTimer = nil

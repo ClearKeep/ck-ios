@@ -15,9 +15,20 @@ struct CallView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	
+	private let groupId: Int64
+	
+	init(groupId: Int64) {
+		self.groupId = groupId
+	}
+
 	// MARK: - Body
 	var body: some View {
 		content
+			.onAppear {
+				Task {
+					await injected.interactors.callInteractor.requestCall(groupId: groupId, isAudioCall: true)
+				}
+			}
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 	}
 }
@@ -44,7 +55,7 @@ private extension CallView {
 #if DEBUG
 struct CallView_Previews: PreviewProvider {
 	static var previews: some View {
-		CallView()
+		CallView(groupId: 0)
 	}
 }
 #endif

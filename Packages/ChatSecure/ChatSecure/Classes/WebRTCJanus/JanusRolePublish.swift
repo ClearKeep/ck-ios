@@ -23,13 +23,13 @@ class JanusRolePublish: JanusRole {
 	var videoCapturer: RTCVideoCapturer!
 	var cameraDevicePosition: AVCaptureDevice.Position = .front
 	
-	override init(withJanus janus: Janus, delegate: JanusRoleDelegate? = nil) {
-		super.init(withJanus: janus, delegate: delegate)
+	override init(withJanus janus: Janus, delegate: JanusRoleDelegate? = nil, turnServer: TurnServer, stunServer: StunServer) {
+		super.init(withJanus: janus, delegate: delegate, turnServer: turnServer, stunServer: stunServer)
 		self.pType = .publish
 	}
 	
-	override class func role(withDict dict: [String: Any], janus: Janus, delegate: JanusRoleDelegate?) -> JanusRole {
-		let publish = JanusRolePublish(withJanus: janus, delegate: delegate)
+	override class func role(withDict dict: [String: Any], janus: Janus, delegate: JanusRoleDelegate?, turnServer: TurnServer, stunServer: StunServer) -> JanusRole {
+		let publish = JanusRolePublish(withJanus: janus, delegate: delegate, turnServer: turnServer, stunServer: stunServer)
 		if let username = dict["display"] as? String,
 		   let videoCode = dict["video_codec"] as? String,
 		   let id = dict["id"] as? Int {
@@ -101,7 +101,7 @@ class JanusRolePublish: JanusRole {
 	// MARK: Data Channels
 	private func createDataChannel() -> RTCDataChannel? {
 		let config = RTCDataChannelConfiguration()
-		guard let dataChannel = peerConnection.dataChannel(forLabel: "WebRTCData", configuration: config) else {
+		guard let dataChannel = peerConnection?.dataChannel(forLabel: "WebRTCData", configuration: config) else {
 			debugPrint("Warning: Couldn't create data channel.")
 			return nil
 		}
@@ -116,11 +116,11 @@ class JanusRolePublish: JanusRole {
 	func setupPeerStream() {
 		// Video
 		if channels.video, let videoTrack = localVideoTrack {
-			peerConnection.add(videoTrack, streamIds: ["stream0"])
+			peerConnection?.add(videoTrack, streamIds: ["stream0"])
 		}
 		// Audio
 		if channels.audio, let audioTrack = localAudioTrack {
-			peerConnection.add(audioTrack, streamIds: ["stream0"])
+			peerConnection?.add(audioTrack, streamIds: ["stream0"])
 		}
 		// Data
 		if channels.datachannel,
@@ -180,7 +180,7 @@ class JanusRolePublish: JanusRole {
 			sdpType = .offer
 		}
 		let sessionDest = RTCSessionDescription(type: sdpType, sdp: sdp)
-		self.peerConnection.setRemoteDescription(sessionDest) { (error) in
+		self.peerConnection?.setRemoteDescription(sessionDest) { (error) in
 			if let error = error {
 				debugPrint("Publish Role setRemoteDescription error: \(String(describing: error.localizedDescription))")
 			}
@@ -194,7 +194,7 @@ class JanusRolePublish: JanusRole {
 				for item in publishers {
 					if let delegate = self.delegate as? JanusRoleListenDelegate,
 					   let janus = janus {
-						let listener = JanusRoleListen.role(withDict: item, janus: janus, delegate: delegate)
+						let listener = JanusRoleListen.role(withDict: item, janus: janus, delegate: delegate, turnServer: turnServer, stunServer: stunServer)
 						listener.privateId = self.privateId
 						listener.opaqueId = self.opaqueId
 						delegate.janusRole(role: self, didJoinRemoteRole: listener)
@@ -271,7 +271,7 @@ private extension JanusRolePublish {
 		guard let constraints = mediaConstraints?.getOfferConstraints() else {
 			return
 		}
-		peerConnection.offer(for: constraints, completionHandler: { [weak self] (sdp, error) in
+		peerConnection?.offer(for: constraints, completionHandler: { [weak self] (sdp, error) in
 			guard let self = self else { return }
 			if error == nil, let sdp = sdp, let videoCode = self.mediaConstraints?.videoCode {
 				//                let sdpPreferringCodec = descriptionForDescription(description: sdp,
@@ -291,7 +291,7 @@ private extension JanusRolePublish {
 					modifiedSDP = RTCSessionDescription(type: .offer, sdp: modifiedSDPString)
 				}
 				
-				self.peerConnection.setLocalDescription(modifiedSDP, completionHandler: { [weak self] (error) in
+				self.peerConnection?.setLocalDescription(modifiedSDP, completionHandler: { [weak self] (error) in
 					guard let self = self else { return }
 					if let error = error {
 						debugPrint("Publish Role setLocalDescription error: \(String(describing: error.localizedDescription))")
@@ -319,8 +319,9 @@ private extension JanusRolePublish {
 	func configBitrate() {
 		if let publishMediaConstraints = self.mediaConstraints as? JanusPublishMediaConstraints {
 			if publishMediaConstraints.videoBitrate > 0 {
-				debugPrint("configBitrate senders: \(self.peerConnection.senders.count)")
-				for sender in self.peerConnection.senders {
+				debugPrint("configBitrate senders: \(self.peerConnection?.senders.count)")
+				guard let peerConnection = self.peerConnection else { return }
+				for sender in peerConnection.senders {
 					if let track = sender.track {
 						if track.kind == kARDVideoTrackKind {
 							let paramsToModify = sender.parameters

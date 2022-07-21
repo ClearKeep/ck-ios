@@ -6,6 +6,8 @@
 //  Copyright © 2019 Alexey Naumov. All rights reserved.
 //
 
+import ChatSecure
+
 extension DIContainer {
 	struct Interactors {
 		let homeInteractor: IHomeInteractor
@@ -22,6 +24,7 @@ extension DIContainer {
 		let groupDetailInteractor: IGroupDetailInteractor
 		let profileInteractor: IProfileInteractor
 		let searchInteractor: ISearchInteractor
+		let callInteractor: ICallInteractor
 
 		static var stub: Self {
 			.init(homeInteractor: StubHomeInteractor(channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService),
@@ -37,7 +40,8 @@ extension DIContainer {
 				  createDirectMessageInteractor: StubCreateDirectMessageInteractor(channelStorage: DependencyResolver.shared.channelStorage, userService: DependencyResolver.shared.userService, groupService: DependencyResolver.shared.groupService),
 				  groupDetailInteractor: StubGroupDetailInteractor(groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, channelStorage: DependencyResolver.shared.channelStorage),
 				  profileInteractor: StubProfileInteractor(channelStorage: DependencyResolver.shared.channelStorage, userService: DependencyResolver.shared.userService),
-				  searchInteractor: StubSearchInteractor(channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, messageService: DependencyResolver.shared.messageService))
+				  searchInteractor: StubSearchInteractor(channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, messageService: DependencyResolver.shared.messageService),
+				  callInteractor: StubCallInteractor(callService: DependencyResolver.shared.callService))
 		}
 	}
 }

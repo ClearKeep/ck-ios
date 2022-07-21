@@ -5,11 +5,13 @@
 //  Created by đông on 09/05/2022.
 //
 
-import Foundation
+import ChatSecure
 
 protocol ICallWorker {
 	var remoteStore: ICallRemoteStore { get }
 	var inMemoryStore: ICallInMemoryStore { get }
+	func requestCall(groupId: Int64, isAudioCall: Bool, domain: String) async -> Result<CallServer, Error>
+
 }
 
 struct CallWorker {
@@ -24,4 +26,8 @@ struct CallWorker {
 }
 
 extension CallWorker: ICallWorker {
+	func requestCall(groupId: Int64, isAudioCall: Bool, domain: String) async -> Result<CallServer, Error> {
+		return await remoteStore.requestCall(groupId: groupId, isAudioCall: isAudioCall, domain: domain)
+	}
+
 }

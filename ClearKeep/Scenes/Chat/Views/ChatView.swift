@@ -74,7 +74,8 @@ struct ChatView: View {
 	@State private var messages: Results<RealmMessage>?
 	@State private var notificationToken: NotificationToken?
 	@State private var isFirstLoadData: Bool = true
-	
+	@State private var isShowingCall: Bool = false
+
 	private let groupId: Int64
 	private let inspection = ViewInspector<Self>()
 	
@@ -142,6 +143,10 @@ struct ChatView: View {
 				self.selectedImages.append(addImage)
 			}
 			.edgesIgnoringSafeArea(.all)
+		})
+		.fullScreenCover(isPresented: $isShowingCall, content: {
+			CallView(groupId: groupId)
+				.edgesIgnoringSafeArea(.all)
 		})
 		.sheet(isPresented: $showingLinkWebView, content: {
 			if let url = selectedLink {
@@ -392,11 +397,11 @@ private extension ChatView {
 	}
 	
 	func audioAction() {
-		
+		isShowingCall = true
 	}
 	
 	func videoAction() {
-		
+		isShowingCall = true
 	}
 	
 	func closeQuoteView() {

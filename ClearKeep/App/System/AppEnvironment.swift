@@ -49,7 +49,7 @@ extension AppEnvironment {
 		let groupDetailInteractor = GroupDetailInteractor(appState: appState, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, channelStorage: DependencyResolver.shared.channelStorage)
 		let profileInteractor = ProfileInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, userService: DependencyResolver.shared.userService)
 		let searchInteractor = SearchInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, messageService: DependencyResolver.shared.messageService)
-		
+		let callInteracator = CallInteractor(appState: appState, callService: DependencyResolver.shared.callService, channelStorage: DependencyResolver.shared.channelStorage)
 		return .init(homeInteractor: homeInteractor,
 					 loginInteractor: loginInteractor,
 					 twoFactorInteractor: twoFactorInteractor,
@@ -63,7 +63,8 @@ extension AppEnvironment {
 					 createDirectMessageInteractor: createDirectMessageInteractor,
 					 groupDetailInteractor: groupDetailInteractor,
 					 profileInteractor: profileInteractor,
-					 searchInteractor: searchInteractor)
+					 searchInteractor: searchInteractor,
+					 callInteractor: callInteracator)
 	}
 }
 
