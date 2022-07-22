@@ -12,7 +12,7 @@ import CommonUI
 struct ProfileView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
-
+	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
@@ -49,7 +49,7 @@ private extension ProfileView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
-
+	
 }
 
 // MARK: - Loading Content
@@ -57,24 +57,24 @@ private extension ProfileView {
 	var notRequestedView: some View {
 		UserProfileContentView(loadable: $loadable, myProfile: .constant(nil))
 	}
-
+	
 	var loadingView: some View {
 		notRequestedView.progressHUD(true)
 	}
-
+	
 	func loadedView(_ data: IProfileViewModels) -> AnyView {
 		if let myProfile = data.userProfileViewModel {
 			return AnyView(UserProfileContentView(loadable: $loadable, myProfile: .constant(myProfile), urlAvatar: myProfile.avatar))
 		}
-
+		
 		if let imageData = data.urlAvatarViewModel {
 			let myProfile = data.userProfileViewModel
 			return AnyView(UserProfileContentView(loadable: $loadable, myProfile: .constant(myProfile), urlAvatar: imageData.fileURL))
 		}
-
+		
 		return AnyView(UserProfileContentView(loadable: $loadable, myProfile: .constant(nil)))
 	}
-
+	
 	func errorView(_ error: LoginViewError) -> some View {
 		return notRequestedView
 			.alert(isPresented: .constant(true)) {
