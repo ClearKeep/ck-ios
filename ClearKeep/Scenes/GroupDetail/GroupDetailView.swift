@@ -70,12 +70,13 @@ private extension GroupDetailView {
 
 	func loadedView(_ data: IGroupDetailViewModels) -> AnyView {
 		if let groupData = data.getGroup {
-			let members = groupData.groupMembers
+			let members = groupData.groupMembers.filter { $0.userState == "active" }
 			return AnyView(DetailContentView(loadable: $loadable, groupData: .constant(groupData), member: .constant(members)))
 		}
 
 		if let client = data.getClientInGroup {
-			return AnyView(MemberView(loadable: $loadable, clientData: .constant(client), groupId: groupId))
+			let clientActive = client.filter { $0.userState == "active" }
+			return AnyView(MemberView(loadable: $loadable, clientData: .constant(clientActive), groupId: groupId))
 		}
 
 		if let profile = data.myProfile {
@@ -100,6 +101,16 @@ private extension GroupDetailView {
 			var user = [GroupDetailUserViewModels]()
 			user.append(profileWithLink)
 			return AnyView(AddMemberView(loadable: $loadable, search: .constant(user), groupId: groupId, addMember: user))
+		}
+
+		if let lstuser = data.removeMember {
+			let lstclientRemove = lstuser.filter { $0.id != DependencyResolver.shared.channelStorage.currentServer?.profile?.userId }
+			let lstClient = lstclientRemove.filter { $0.userState == "active" }
+			return AnyView(RemoveMemberView(loadable: $loadable, clientData: .constant(lstClient), groupId: groupId))
+		}
+		
+		if let leaveGroup = data.leaveGroup {
+			return AnyView(HomeView())
 		}
 
 		return AnyView(DetailContentView(loadable: $loadable, groupData: .constant(nil), member: .constant([])))
