@@ -34,7 +34,6 @@ final class JanusWebSocket: NSObject, WebSocketProvider {
 	
 	private lazy var encoder: JSONEncoder = {
 		let jsonEncoder = JSONEncoder()
-		jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
 		return jsonEncoder
 	}()
 
@@ -65,8 +64,8 @@ final class JanusWebSocket: NSObject, WebSocketProvider {
 		do {
 			let json = try JSONSerialization.data(withJSONObject: msgDict, options: .prettyPrinted)
 			webSocket?.send(URLSessionWebSocketTask.Message.data(json), completionHandler: { error in
-				Debug.DLog("webSocket send data fail with error: \(error)")
 				if let error = error {
+					Debug.DLog("webSocket send data fail with error: \(error)")
 					self.delegate?.webSocket(self, didFailWithError: error)
 				}
 			})

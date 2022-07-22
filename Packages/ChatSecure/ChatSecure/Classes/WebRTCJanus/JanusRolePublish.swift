@@ -32,7 +32,7 @@ class JanusRolePublish: JanusRole {
 		let publish = JanusRolePublish(withJanus: janus, delegate: delegate, turnServer: turnServer, stunServer: stunServer)
 		if let username = dict["display"] as? String,
 		   let videoCode = dict["video_codec"] as? String,
-		   let id = dict["id"] as? Int {
+		   let id = dict["id"] as? Int64 {
 			publish.id = id
 			publish.display = username
 			publish.audioCode = dict["audio_codec"] as? String
@@ -200,7 +200,7 @@ class JanusRolePublish: JanusRole {
 						delegate.janusRole(role: self, didJoinRemoteRole: listener)
 					}
 				}
-			} else if let leaving = msg["leaving"] as? Int {
+			} else if let leaving = msg["leaving"] as? Int64 {
 				if let delegate = self.delegate as? JanusRoleListenDelegate {
 					delegate.janusRole(role: self, didLeaveRemoteRoleWithUid: leaving)
 				}

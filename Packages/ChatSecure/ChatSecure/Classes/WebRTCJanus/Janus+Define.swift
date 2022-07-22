@@ -60,7 +60,7 @@ enum RTCRenderMode: Int {
 typealias SuccessCallback = () -> Void
 typealias FailureCallback = (Error) -> Void
 typealias CompleteCallback = (Bool, Error?) -> Void
-typealias AttachCallback = (NSNumber, Error?) -> Void
+typealias AttachCallback = (Int64, Error?) -> Void
 typealias DetachCallback = (Error?) -> Void
 typealias PluginRequestCallback = ([String: Any], [String: Any]?) -> Void
 typealias JanusRequestCallback = ([String: Any]) -> Void

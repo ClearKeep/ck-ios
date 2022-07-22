@@ -71,7 +71,7 @@ final class CallBox: NSObject {
 	var hasEndedDidChange: (() -> Void)?
 	var audioChange: (() -> Void)?
 	var renderView: (() -> Void)?
-	var renderSizeChangeWithSize: ((_ size: CGSize, _ uId: Int) -> Void)?
+	var renderSizeChangeWithSize: ((_ size: CGSize, _ uId: Int64) -> Void)?
 	var membersInCallDidChange: (() -> Void)?
 	
 	// MARK: Derived Properties
@@ -211,7 +211,7 @@ final class CallBox: NSObject {
 // MARK: - JanusVideoRoomDelegate
 
 extension CallBox: JanusVideoRoomDelegate {
-	func janusVideoRoom(janusRoom: JanusVideoRoom, remoteLeaveWithID clientId: Int) {
+	func janusVideoRoom(janusRoom: JanusVideoRoom, remoteLeaveWithID clientId: Int64) {
 		if self.isCallGroup {
 			let numberOfRemotes = videoRoom?.remotes.count ?? 0
 			if numberOfRemotes > 0 {
@@ -227,7 +227,7 @@ extension CallBox: JanusVideoRoomDelegate {
 		print("=================>>>>>>>>>>>>>>>>>>> remoteLeaveWithID")
 	}
 	
-	func janusVideoRoom(janusRoom: JanusVideoRoom, didJoinRoomWithId clientId: Int) {
+	func janusVideoRoom(janusRoom: JanusVideoRoom, didJoinRoomWithId clientId: Int64) {
 		status = .ringing
 		self.stateDidChange?()
 		print("=================>>>>>>>>>>>>>>>>>>> didJoinRoomWithId")
@@ -248,14 +248,14 @@ extension CallBox: JanusVideoRoomDelegate {
 		print("=================>>>>>>>>>>>>>>>>>>> remoteUnPublishedWithUid")
 	}
 	
-	func janusVideoRoom(janusRoom: JanusVideoRoom, firstFrameDecodeWithSize size: CGSize, uId: Int) {
+	func janusVideoRoom(janusRoom: JanusVideoRoom, firstFrameDecodeWithSize size: CGSize, uId: Int64) {
 		print("=================>>>>>>>>>>>>>>>>>>> firstFrameDecodeWithSize")
 		status = .answered
 		self.stateDidChange?()
 		self.renderSizeChangeWithSize?(size, uId)
 	}
 	
-	func janusVideoRoom(janusRoom: JanusVideoRoom, renderSizeChangeWithSize size: CGSize, uId: Int) {
+	func janusVideoRoom(janusRoom: JanusVideoRoom, renderSizeChangeWithSize size: CGSize, uId: Int64) {
 		print("=================>>>>>>>>>>>>>>>>>>> renderSizeChangeWithSize")
 		self.renderSizeChangeWithSize?(size, uId)
 	}

@@ -21,7 +21,7 @@ class JanusRoleListen: JanusRole {
 	
 	override init(withJanus janus: Janus, delegate: JanusRoleDelegate? = nil, turnServer: TurnServer, stunServer: StunServer) {
 		super.init(withJanus: janus, delegate: delegate, turnServer: turnServer, stunServer: stunServer)
-		self.pType = .lister
+		self.pType = .listen
 		self.mediaConstraints = JanusMediaConstraints()
 		self.mediaConstraints?.audioEnable = true
 		self.mediaConstraints?.videoEnable = true
@@ -33,9 +33,9 @@ class JanusRoleListen: JanusRole {
 							 turnServer: TurnServer,
 							 stunServer: StunServer) -> JanusRoleListen {
 		let publish = JanusRoleListen(withJanus: janus, delegate: delegate, turnServer: turnServer, stunServer: stunServer)
-		publish.pType = .lister
+		publish.pType = .listen
 		if let videoCode = dict["video_codec"] as? String,
-		   let id = dict["id"] as? Int {
+		   let id = dict["id"] as? Int64 {
 			publish.id = id
 			// TODO: send client ID here, then use it to fetch username from group info.
 			publish.display = dict["display"] as? String

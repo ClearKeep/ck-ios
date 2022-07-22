@@ -9,6 +9,7 @@
 // swiftlint:disable weak_delegate class_delegate_protocol
 
 import UIKit
+import WebRTC
 
 typealias AttachResult = (Error?) -> Void
 typealias DetachedResult = () -> Void
@@ -16,7 +17,7 @@ typealias DetachedResult = () -> Void
 protocol JanusPluginDelegate { }
 
 protocol JanusPluginHandleProtocol: NSObject {
-	var handleId: NSNumber { get set }
+	var handleId: Int64 { get set }
 	var pluginName: String? { get set }
 	var opaqueId: String? { get set }
 	var attached: Bool { get set }
@@ -31,7 +32,7 @@ protocol JanusPluginHandleProtocol: NSObject {
 class JanusPlugin: NSObject, JanusPluginHandleProtocol {
 	var opaqueId: String?
 	var pluginName: String?
-	var handleId = NSNumber(value: 0)
+	var handleId: Int64 = 0
 	var attached: Bool = false
 	weak var janus: Janus?
 	var delegate: JanusPluginDelegate?
@@ -49,10 +50,6 @@ class JanusPlugin: NSObject, JanusPluginHandleProtocol {
 	
 	func send(message msg: [String: Any], jsep: [String: Any], callback: @escaping PluginRequestCallback) {
 		janus?.send(message: msg, jsep: jsep, handleId: handleId, callback: callback)
-	}
-	
-	func send(trickleCandidate candidate: [String: Any]) {
-		janus?.send(trickleCandidate: candidate, handleId: handleId)
 	}
 	
 	func attach(withCallback callback: @escaping AttachResult) {

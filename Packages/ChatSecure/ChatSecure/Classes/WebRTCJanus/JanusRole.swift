@@ -13,7 +13,7 @@ typealias RoleJoinRoomCallback = (Error?) -> Void
 typealias RoleLeaveRoomCallback = () -> Void
 
 enum PublishType {
-	case lister
+	case listen
 	case publish
 }
 
@@ -33,9 +33,9 @@ protocol JanusRoleDelegate: JanusPluginDelegate {
 	func janusRole(role: JanusRole, leaveRoomWithResult error: Error?)
 	
 	func janusRole(role: JanusRole?, didJoinRemoteRole remoteRole: JanusRoleListen)
-	func janusRole(role: JanusRole, didLeaveRemoteRoleWithUid uid: Int)
+	func janusRole(role: JanusRole, didLeaveRemoteRoleWithUid uid: Int64)
 	func janusRole(role: JanusRole, remoteUnPublishedWithUid uid: Int)
-	func janusRole(role: JanusRole, remoteDetachWithUid uid: Int)
+	func janusRole(role: JanusRole, remoteDetachWithUid uid: Int64)
 	func janusRole(role: JanusRole, fatalErrorWithID code: RTCErrorCode)
 	func janusRole(role: JanusRole, netBrokenWithID reason: RTCNetBrokenReason)
 }
@@ -45,7 +45,7 @@ extension JanusRoleDelegate {
 }
 
 class JanusRole: JanusPlugin {
-	var id: Int?
+	var id: Int64?
 	var roomId: Int64?
 	var privateId: NSNumber?
 	var pType: PublishType = .publish
@@ -125,49 +125,72 @@ class JanusRole: JanusPlugin {
 	
 	func joinRoom(withRoomId roomId: Int64, username: String?, callback: @escaping RoleJoinRoomCallback) {
 		self.roomId = roomId
-		var msg: [String: Any]
-		if pType == .publish {
-			msg = ["request": "join", "room": NSNumber(value: roomId), "ptype": "publisher"]
-			//            msg["display"] = Multiserver.instance.currentServer.getUserLogin()?.id
-			//            if let username = username {
-			//                msg["display"] = Multiserver.instance.currentServer.getUserLogin()?.id ?? username
-			//            }
-		} else {
-			msg = ["request": "join", "room": NSNumber(value: roomId), "ptype": "subscriber"]
-			if let id = self.id, let privateId = self.privateId {
-				msg["feed"] = NSNumber(value: id)
-				msg["private_id"] = privateId
-			}
-		}
+//		var msg: [String: Any]
+//		if pType == .publish {
+//			msg = ["request": "join", "room": NSNumber(value: roomId), "ptype": "publisher"]
+//		} else {
+//			msg = ["request": "join", "room": NSNumber(value: roomId), "ptype": "subscriber"]
+//			if let id = self.id, let privateId = self.privateId {
+//				msg["feed"] = NSNumber(value: id)
+//				msg["private_id"] = privateId
+//			}
+//		}
 		
 		status = .joining
-		self.janus?.send(message: msg, handleId: handleId) { [weak self](msg, jsep) in
-			if let error = msg["error"] as? [String: Any],
-			   let code = error["error_code"] as? Int,
-			   let errMsg = msg["error"] as? String {
-				callback(JanusResultError.codeErr(code: code, desc: errMsg))
-			} else {
-				self?.status = .joined
-				self?.id = msg["id"] as? Int
-				self?.privateId = msg["private_id"] as? NSNumber
-				callback(nil)
-				if let publishers = msg["publishers"] as? [[String: Any]],
-				   let janus = self?.janus,
-				   let turnServer = self?.turnServer,
-				   let stunServer = self?.stunServer,
-				   let delegate = self?.delegate as? JanusRoleDelegate {
-					for item in publishers {
-						let listenter = JanusRoleListen.role(withDict: item, janus: janus, delegate: delegate, turnServer: turnServer, stunServer: stunServer)
-						listenter.privateId = self?.privateId
-						listenter.opaqueId = self?.opaqueId
-						delegate.janusRole(role: self, didJoinRemoteRole: listenter)
-					}
-				}
-				if let jsep = jsep {
-					self?.handleRemote(jsep: jsep)
-				}
-			}
-		}
+        self.janus?.joinRoom(ptype: pType, roomId: roomId, handleId: handleId, userName: username ?? "iOS", feed: self.id, callback: { [weak self] (msg, jsep) in
+            if let error = msg["error"] as? [String: Any],
+               let code = error["error_code"] as? Int,
+               let errMsg = msg["error"] as? String {
+                callback(JanusResultError.codeErr(code: code, desc: errMsg))
+            } else {
+                self?.status = .joined
+                self?.id = msg["id"] as? Int64
+                self?.privateId = msg["private_id"] as? NSNumber
+                callback(nil)
+                if let publishers = msg["publishers"] as? [[String: Any]],
+                   let janus = self?.janus,
+                   let turnServer = self?.turnServer,
+                   let stunServer = self?.stunServer,
+                   let delegate = self?.delegate as? JanusRoleDelegate {
+                    for item in publishers {
+                        let listenter = JanusRoleListen.role(withDict: item, janus: janus, delegate: delegate, turnServer: turnServer, stunServer: stunServer)
+                        listenter.privateId = self?.privateId
+                        listenter.opaqueId = self?.opaqueId
+                        delegate.janusRole(role: self, didJoinRemoteRole: listenter)
+                    }
+                }
+                if let jsep = jsep {
+                    self?.handleRemote(jsep: jsep)
+                }
+            }
+        })
+//		self.janus?.send(message: msg, handleId: handleId) { [weak self](msg, jsep) in
+//			if let error = msg["error"] as? [String: Any],
+//			   let code = error["error_code"] as? Int,
+//			   let errMsg = msg["error"] as? String {
+//				callback(JanusResultError.codeErr(code: code, desc: errMsg))
+//			} else {
+//				self?.status = .joined
+//				self?.id = msg["id"] as? Int64
+//				self?.privateId = msg["private_id"] as? NSNumber
+//				callback(nil)
+//				if let publishers = msg["publishers"] as? [[String: Any]],
+//				   let janus = self?.janus,
+//				   let turnServer = self?.turnServer,
+//				   let stunServer = self?.stunServer,
+//				   let delegate = self?.delegate as? JanusRoleDelegate {
+//					for item in publishers {
+//						let listenter = JanusRoleListen.role(withDict: item, janus: janus, delegate: delegate, turnServer: turnServer, stunServer: stunServer)
+//						listenter.privateId = self?.privateId
+//						listenter.opaqueId = self?.opaqueId
+//						delegate.janusRole(role: self, didJoinRemoteRole: listenter)
+//					}
+//				}
+//				if let jsep = jsep {
+//					self?.handleRemote(jsep: jsep)
+//				}
+//			}
+//		}
 	}
 	
 	func leaveRoom(callback: @escaping RoleLeaveRoomCallback) {
@@ -294,21 +317,16 @@ extension JanusRole: RTCPeerConnectionDelegate {
 	
 	func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceGatheringState) {
 		if newState == .complete {
-			let publish = ["completed": NSNumber(value: true)]
-			send(trickleCandidate: publish)
+			janus?.trickleCandidateComplete(handleId: handleId)
 		}
 	}
 	
 	func peerConnection(_ peerConnection: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
-		var publish: [String: Any]
 		if let mid = candidate.sdpMid {
-			publish = ["candidate": candidate.sdp,
-					   "sdpMid": mid,
-					   "sdpMLineIndex": NSNumber(value: candidate.sdpMLineIndex)]
+			janus?.trickleCandidate(candidate: candidate, handleId: handleId)
 		} else {
-			publish = ["completed": NSNumber(value: true)]
+			janus?.trickleCandidateComplete(handleId: handleId)
 		}
-		self.send(trickleCandidate: publish)
 	}
 	
 	func peerConnection(_ peerConnection: RTCPeerConnection, didRemove candidates: [RTCIceCandidate]) {

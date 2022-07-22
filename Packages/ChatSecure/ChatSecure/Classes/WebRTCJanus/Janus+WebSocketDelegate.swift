@@ -46,7 +46,7 @@ extension Janus: WebSocketDelegate {
 				break
 			} else if janus == JanusMessage.event.rawValue {
 				debugPrint("JanusMessage.event")
-				guard let handleId = msg["sender"] as? NSNumber else {
+				guard let handleId = msg["sender"] as? Int64 else {
 					debugPrint("Missing handle...")
 					break
 				}
@@ -62,7 +62,7 @@ extension Janus: WebSocketDelegate {
 				}
 			} else if janus == JanusMessage.webrtcup.rawValue {
 				debugPrint("JanusMessage.webrtcup")
-				guard let handleId = msg["sender"] as? NSNumber else {
+				guard let handleId = msg["sender"] as? Int64 else {
 					debugPrint("Missing handle")
 					break
 				}
@@ -73,7 +73,7 @@ extension Janus: WebSocketDelegate {
 				pluginHandle.pluginWebrtc(state: true)
 			} else if janus == JanusMessage.media.rawValue {
 				debugPrint("")
-				guard let handleId = msg["sender"] as? NSNumber else {
+				guard let handleId = msg["sender"] as? Int64 else {
 					debugPrint("Missing handle")
 					break
 				}
@@ -97,7 +97,7 @@ extension Janus: WebSocketDelegate {
 				debugPrint("JanusMessage.slowlink")
 			} else if janus == JanusMessage.hangup.rawValue {
 				debugPrint("JanusMessage.hangup")
-				guard let handleId = msg["sender"] as? NSNumber else {
+				guard let handleId = msg["sender"] as? Int64 else {
 					debugPrint("Missing handle")
 					break
 				}
@@ -110,7 +110,7 @@ extension Janus: WebSocketDelegate {
 				}
 			} else if janus == JanusMessage.deteched.rawValue {
 				debugPrint("JanusMessage.deteched")
-				guard let handleId = msg["sender"] as? NSNumber else {
+				guard let handleId = msg["sender"] as? Int64 else {
 					debugPrint("Missing handle")
 					break
 				}

@@ -13,11 +13,11 @@ import AVFoundation
 import WebRTC
 
 protocol JanusVideoRoomDelegate: NSObject {
-	func janusVideoRoom(janusRoom: JanusVideoRoom, didJoinRoomWithId clientId: Int)
-	func janusVideoRoom(janusRoom: JanusVideoRoom, remoteLeaveWithID clientId: Int)
+	func janusVideoRoom(janusRoom: JanusVideoRoom, didJoinRoomWithId clientId: Int64)
+	func janusVideoRoom(janusRoom: JanusVideoRoom, remoteLeaveWithID clientId: Int64)
 	func janusVideoRoom(janusRoom: JanusVideoRoom, remoteUnPublishedWithUid clientId: Int)
-	func janusVideoRoom(janusRoom: JanusVideoRoom, firstFrameDecodeWithSize size: CGSize, uId: Int)
-	func janusVideoRoom(janusRoom: JanusVideoRoom, renderSizeChangeWithSize size: CGSize, uId: Int)
+	func janusVideoRoom(janusRoom: JanusVideoRoom, firstFrameDecodeWithSize size: CGSize, uId: Int64)
+	func janusVideoRoom(janusRoom: JanusVideoRoom, renderSizeChangeWithSize size: CGSize, uId: Int64)
 }
 
 extension JanusVideoRoomDelegate {
@@ -25,7 +25,7 @@ extension JanusVideoRoomDelegate {
 	
 	func janusVideoRoom(janusRoom: JanusVideoRoom, didSetLocalVideoTrack localVideoTrack: RTCVideoTrack) { }
 	
-	func janusVideoRoom(janusRoom: JanusVideoRoom, newRemoteJoinWithID clientId: Int) { }
+	func janusVideoRoom(janusRoom: JanusVideoRoom, newRemoteJoinWithID clientId: Int64) { }
 	
 	func janusVideoRoomDidLeaveRoom(janusRoom: JanusVideoRoom) { }
 	
@@ -38,7 +38,7 @@ extension JanusVideoRoomDelegate {
 
 class JanusVideoRoom: NSObject {
 	var delegate: JanusVideoRoomDelegate?
-	var remotes = [Int: JanusRoleListen]()
+	var remotes = [Int64: JanusRoleListen]()
 	///  TODO: add config
 	var publisher: JanusRolePublish?
 	var canvas = [Int: RTCCanvas]()
@@ -207,7 +207,7 @@ extension JanusVideoRoom: JanusRoleListenDelegate {
 		self.startListenRemote(remoteRole: remoteRole)
 	}
 	
-	func janusRole(role: JanusRole, didLeaveRemoteRoleWithUid uid: Int) {
+	func janusRole(role: JanusRole, didLeaveRemoteRoleWithUid uid: Int64) {
 		if let leaveRole = self.remotes[uid] {
 			self.remotes.removeValue(forKey: uid)
 			leaveRole.detach(withCallback: nil)
@@ -217,7 +217,7 @@ extension JanusVideoRoom: JanusRoleListenDelegate {
 		}
 	}
 	
-	func janusRole(role: JanusRole, remoteDetachWithUid uid: Int) {
+	func janusRole(role: JanusRole, remoteDetachWithUid uid: Int64) {
 		if let leaveRole = self.remotes[uid] {
 			self.remotes.removeValue(forKey: uid)
 			leaveRole.detach(withCallback: nil)
