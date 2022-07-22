@@ -283,6 +283,7 @@ class CallViewModel: NSObject, ObservableObject {
 //        }
 		
 		if callTimer == nil {
+			timeCounter.sec = 0
 			// Bắt đầu đếm giây
 			callTimer = Timer(timeInterval: 1, target: self, selector: #selector(CallViewModel.timeTick(timer:)), userInfo: nil, repeats: true)
 			guard let callTimer = callTimer else {
@@ -317,11 +318,6 @@ class CallViewModel: NSObject, ObservableObject {
 		print("checkCallTimeout")
 		callInterval += 10
 		if callInterval >= 60 && callTimer == nil {
-//            if callControl.isIncoming {
-//                CallManager.shared.reject()
-//            } else {
-//                CallManager.shared.hangup()
-//            }
 			endCall()
 		}
 	}

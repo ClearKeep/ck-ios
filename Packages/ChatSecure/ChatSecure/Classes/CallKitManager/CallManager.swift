@@ -54,8 +54,9 @@ final public class CallManager: NSObject {
 				   groupId: Int64,
 				   groupToken: String,
 				   callType type: CallType = .audio ,
-				   isCallGroup: Bool) {
-		let call = CallBox(uuid: UUID(), clientId: clientId, isOutgoing: true)
+				   isCallGroup: Bool,
+				   groupRtcUrl: String) {
+		let call = CallBox(uuid: UUID(), clientId: clientId, isOutgoing: true, rtcUrl: groupRtcUrl)
 		call.clientName = clientName
 		call.groupToken = groupToken
 		call.avatar = avatar
@@ -171,7 +172,8 @@ final public class CallManager: NSObject {
 		if let username = callNotification.publication?.fromClientName,
 		   let roomId = callNotification.publication?.groupID,
 		   let clientId = callNotification.publication?.fromClientID,
-		   let callType = callNotification.publication?.callType {
+		   let callType = callNotification.publication?.callType,
+		   let groupRtcUrl = callNotification.publication?.groupRTCURL {
 			let avatar = callNotification.publication?.fromClientAvatar
 			let token = callNotification.publication?.groupRTCToken
 			let groupType = callNotification.publication?.groupType
@@ -179,15 +181,23 @@ final public class CallManager: NSObject {
 			
 			// Save turnUser and turnPwd
 			let turnString = callNotification.publication?.turnServer ?? ""
+			let stunString = callNotification.publication?.stunServer ?? ""
+			
 			let turnData = Data(turnString.utf8)
+			let stunData = Data(stunString.utf8)
 			do {
 				// make sure this JSON is in the format we expect
-				if let turnJson = try JSONSerialization.jsonObject(with: turnData, options: []) as? [String: Any] {
+				if let turnJson = try JSONSerialization.jsonObject(with: turnData, options: []) as? [String: Any],
+				   let stunJson = try JSONSerialization.jsonObject(with: stunData, options: []) as? [String: Any] {
 					let turnUser = turnJson["user"] as? String
 					let turnPwd = turnJson["pwd"] as? String
+					let turnServer = turnJson["server"] as? String
+					let stunServer = stunJson["server"] as? String
 					
 					UserDefaults.standard.setValue(turnUser, forKey: Constants.keySaveTurnServerUser)
 					UserDefaults.standard.setValue(turnPwd, forKey: Constants.keySaveTurnServerPWD)
+					UserDefaults.standard.setValue(turnServer, forKey: Constants.keySaveTurnServer)
+					UserDefaults.standard.setValue(stunServer, forKey: Constants.keySaveStunServer)
 					UserDefaults.standard.synchronize()
 				}
 			} catch let error as NSError {
@@ -205,6 +215,7 @@ final public class CallManager: NSObject {
 							   token: token,
 							   callerName: callerName ?? "",
 							   hasVideo: hasVideo,
+							   groupRtcUrl: groupRtcUrl,
 							   completion: completion)
 		}
 	}
@@ -213,7 +224,7 @@ final public class CallManager: NSObject {
 extension CallManager {
 	// MARK: Incoming Calls
 	/// Use CXProvider to report the incoming call to the system
-	func reportIncomingCall(isCallGroup: Bool, roomId: String, clientId: String, avatar: String?, token: String?, callerName: String, hasVideo: Bool = true, completion: ((NSError?) -> Void)? = nil) {
+	func reportIncomingCall(isCallGroup: Bool, roomId: String, clientId: String, avatar: String?, token: String?, callerName: String, hasVideo: Bool = true, groupRtcUrl: String, completion: ((NSError?) -> Void)? = nil) {
 		// Construct a CXCallUpdate describing the incoming call, including the caller.
 		let update = CXCallUpdate()
 		update.remoteHandle = CXHandle(type: .phoneNumber, value: callerName)
@@ -230,7 +241,7 @@ extension CallManager {
 			 since calls may be "denied" for various legitimate reasons. See CXErrorCodeIncomingCallError.
 			 */
 			if error == nil {
-				let call = CallBox(uuid: uuid, clientId: clientId)
+				let call = CallBox(uuid: uuid, clientId: clientId, rtcUrl: groupRtcUrl)
 				call.clientName = callerName
 				call.roomId = Int64(roomId) ?? 0
 				call.groupToken = token
@@ -398,9 +409,9 @@ extension CallManager: CXProviderDelegate {
 		answerCall?.answerCall(withAudioSession: audioSession) { [weak self] isSuccess in
 			guard let self = self else { return }
 			if isSuccess {
-//				DispatchQueue.main.async {
-//					NotificationCenter.default.post(name: NSNotification.Name.CallService.receiveCall, object: nil)
-//				}
+				DispatchQueue.main.async {
+					NotificationCenter.default.post(name: NSNotification.Name.CallService.receiveCall, object: nil)
+				}
 				self.answerCall?.startJoinRoom()
 			}
 		}

@@ -33,7 +33,7 @@ private extension CallView {
 // MARK: - Loading Content
 private extension CallView {
 	var notRequestedView: some View {
-		VoiceCall()
+		CallingView()
 	}
 }
 

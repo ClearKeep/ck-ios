@@ -44,8 +44,8 @@ struct CallVoiceActionView: View {
 											 styleButton: .voice,
 											 action: viewModel.updateCallTypeVideo)
 						Spacer()
-						CallActionButtonView(onIcon: AppTheme.shared.imageSet.speakerOffIcon2,
-											 offIcon: AppTheme.shared.imageSet.speakerIcon2,
+						CallActionButtonView(onIcon: AppTheme.shared.imageSet.speakerIcon2 ,
+											 offIcon: AppTheme.shared.imageSet.speakerOffIcon2,
 											 isOn: viewModel.speakerEnable,
 											 title: "Speaker",
 											 styleButton: .voice,
@@ -60,7 +60,7 @@ struct CallVoiceActionView: View {
 						CallActionButtonView(onIcon: AppTheme.shared.imageSet.phoneOffIcon,
 											 offIcon: AppTheme.shared.imageSet.phoneOffIcon,
 											 isOn: true,
-											 title: "End Call",
+											 title: "Cancel",
 											 styleButton: .endCall,
 											 action: { viewModel.endCall() })
 						Spacer()

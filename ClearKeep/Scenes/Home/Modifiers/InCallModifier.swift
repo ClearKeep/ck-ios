@@ -12,6 +12,7 @@ import ChatSecure
 
 struct InCallModifier: ViewModifier {
 	@State var isInMinimizeMode: Bool = false
+	@State var controller: UIViewController? = nil
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	@Binding var isInCall: Bool
@@ -57,7 +58,7 @@ struct InCallModifier: ViewModifier {
 				.edgesIgnoringSafeArea(.all)
 				.onTapGesture {
 					callViewModel.backHandler = {
-						NotificationCenter.default.post(name: Notification.Name(rawValue: "dismissModal"), object: nil)
+						self.controller?.dismiss(animated: true)
 						withAnimation {
 							isInMinimizeMode = true
 							isInCall = true
@@ -68,6 +69,7 @@ struct InCallModifier: ViewModifier {
 					
 					let viewController = UIHostingController(rootView: InCallView(viewModel: callViewModel))
 					viewController.modalPresentationStyle = .overFullScreen
+					self.controller = viewController
 					let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 					sceneDelegate?.window?.rootViewController?.present(viewController, animated: true)
 				}
@@ -98,14 +100,16 @@ struct InCallModifier: ViewModifier {
 		}
 		.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.CallService.receiveCall)) { _ in
 			callViewModel.backHandler = {
-				NotificationCenter.default.post(name: Notification.Name(rawValue: "dismissModal"), object: nil)
+				controller?.dismiss(animated: true)
 				
 				withAnimation {
 					isInCall = true
 					isInMinimizeMode = true
 				}
 			}
+			
 			let viewController = UIHostingController(rootView: InCallView(viewModel: callViewModel))
+			self.controller = viewController
 			viewController.modalPresentationStyle = .overFullScreen
 			let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 			sceneDelegate?.window?.rootViewController?.present(viewController, animated: true)
@@ -115,7 +119,7 @@ struct InCallModifier: ViewModifier {
 				isInCall = false
 				isInMinimizeMode = false
 			}
-			NotificationCenter.default.post(name: Notification.Name(rawValue: "dismissModal"), object: nil)
+			self.controller?.dismiss(animated: true)
 		}
 	}
 }

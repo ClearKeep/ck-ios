@@ -15,6 +15,7 @@ struct CallActionButtonView: View {
     var activeBackgroundColor: Color
     var inactiveForegroundColor: Color
     var inactiveBackgroundColor: Color
+	var borderColor: Color
     var title: String
 	var styleButton: StyleButton = .video
     var action: () -> Void
@@ -36,7 +37,7 @@ struct CallActionButtonView: View {
 					.padding(.all, widthButton / 2 - widthInsideIcon / 2)
 					.background(isOn ? activeBackgroundColor : inactiveBackgroundColor)
 					.cornerRadius(widthButton / 2)
-					.overlay(Circle().stroke(inactiveForegroundColor, lineWidth: isOn ? 0 : 1))
+					.overlay(Circle().stroke(borderColor, lineWidth: isOn ? 1 : 0))
 			})
 			
 			if !title.isEmpty {
@@ -78,16 +79,19 @@ extension CallActionButtonView {
 			self.activeBackgroundColor = AppTheme.shared.colorSet.primaryDefault
 			self.inactiveForegroundColor = AppTheme.shared.colorSet.offWhite
             self.inactiveBackgroundColor = AppTheme.shared.colorSet.primaryDefault
+			self.borderColor = AppTheme.shared.colorSet.primaryDefault
         case .voice:
-			self.activeForegroundColor = AppTheme.shared.colorSet.grey1
-            self.activeBackgroundColor = AppTheme.shared.colorSet.offWhite
-            self.inactiveForegroundColor = AppTheme.shared.colorSet.offWhite
-            self.inactiveBackgroundColor = Color.clear
+			self.activeForegroundColor = AppTheme.shared.colorSet.offWhite
+            self.activeBackgroundColor = Color.clear
+            self.inactiveForegroundColor = AppTheme.shared.colorSet.grey1
+            self.inactiveBackgroundColor = AppTheme.shared.colorSet.offWhite
+			self.borderColor = AppTheme.shared.colorSet.offWhite
         case .endCall:
             self.activeForegroundColor = AppTheme.shared.colorSet.offWhite
             self.activeBackgroundColor = AppTheme.shared.colorSet.errorDefault
 			self.inactiveForegroundColor = AppTheme.shared.colorSet.offWhite
             self.inactiveBackgroundColor = AppTheme.shared.colorSet.errorDefault
+			self.borderColor = AppTheme.shared.colorSet.errorDefault
         }
     }
 }

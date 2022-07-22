@@ -21,6 +21,7 @@ public final class CallBox: NSObject {
 	// MARK: Metadata Properties
 	public let uuid: UUID
 	public let clientId: String
+	public let rtcUrl: String
 	public var groupToken: String?
 	public var clientName: String?
 	public var roomId: Int64 = 0
@@ -114,10 +115,11 @@ public final class CallBox: NSObject {
 	
 	// MARK: Initialization
 	
-	init(uuid: UUID, clientId: String, isOutgoing: Bool = false) {
+	init(uuid: UUID, clientId: String, isOutgoing: Bool = false, rtcUrl: String) {
 		self.uuid = uuid
 		self.clientId = clientId
 		self.isOutgoing = isOutgoing
+		self.rtcUrl = rtcUrl
 	}
 	
 	// MARK: Actions
@@ -127,7 +129,7 @@ public final class CallBox: NSObject {
 	func startCall(withAudioSession audioSession: AVAudioSession?, completion: ((_ success: Bool) -> Void)?) {
 		//        OTAudioDeviceManager.setAudioDevice(OTDefaultAudioDevice.sharedInstance(with: audioSession))
 		if videoRoom == nil {
-			videoRoom = JanusVideoRoom(delegate: self, token: groupToken)
+			videoRoom = JanusVideoRoom(delegate: self, token: groupToken, rtcUrl: rtcUrl)
 		}
 		canStartCall = completion
 		
@@ -146,7 +148,7 @@ public final class CallBox: NSObject {
 	func answerCall(withAudioSession audioSession: AVAudioSession, completion: ((_ success: Bool) -> Void)?) {
 		//        OTAudioDeviceManager.setAudioDevice(OTDefaultAudioDevice.sharedInstance(with: audioSession))
 		if videoRoom == nil {
-			videoRoom = JanusVideoRoom(delegate: self, token: groupToken)
+			videoRoom = JanusVideoRoom(delegate: self, token: groupToken, rtcUrl: rtcUrl)
 		}
 		
 		canAnswerCall = completion
