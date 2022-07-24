@@ -7,24 +7,25 @@
 
 import UIKit
 import SwiftUI
+import Networking
+import Model
 
 protocol ISearchModels {
-	var id: Int { get }
-	var imageUser: Image { get }
-	var userName: String { get }
-	var message: String { get }
-	var groupText: String { get }
-	var dateMessage: String { get }
+	var searchUsers: IGetUserResponse? { get }
+	var searchGroups: ISearchGroupModel? { get }
 }
 
 struct SearchModels {
-	var id: Int
-	var imageUser: Image
-	var userName: String
-	var message: String
-	var groupText: String
-	var dateMessage: String
+	var searchUsers: IGetUserResponse?
+	var searchGroups: ISearchGroupModel?
 }
 
 extension SearchModels: ISearchModels {
+	init(searchUser: User_SearchUserResponse) {
+		self.init(searchUsers: UserResponseModel(searchUser: searchUser))
+	}
+
+	init(searchGroup: Group_SearchGroupsResponse) {
+		self.init(searchGroups: SearchGroupModel(response: searchGroup))
+	}
 }

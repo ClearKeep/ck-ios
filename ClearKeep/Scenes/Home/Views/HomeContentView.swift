@@ -24,7 +24,8 @@ struct HomeContentView: View {
 	@State private(set) var isCreatMessage: Bool = false
 	@State private(set) var isNext: Bool = false
 	@State private var selectedGroup: GroupViewModel?
-	
+	@Binding var serverName: String
+
 	// MARK: - Body
 	var body: some View {
 		VStack(spacing: Constants.spacing) {
@@ -64,11 +65,15 @@ struct HomeContentView: View {
 		
 		NavigationLink(destination: ChatGroupView(),
 					   isActive: $isCreatGroup) {}
+
+		NavigationLink(destination: SearchView(serverText: serverName),
+					   isActive: $isSearchView) {}
 	}
 }
 
 // MARK: - Action
 private extension HomeContentView {
 	func searchAction() {
+		self.isSearchView.toggle()
 	}
 }

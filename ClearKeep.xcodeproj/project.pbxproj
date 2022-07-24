@@ -52,12 +52,17 @@
 		0462C6CB2816535C00A9EABB /* SearchUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6BE2816535C00A9EABB /* SearchUserView.swift */; };
 		0462C6CC2816535C00A9EABB /* CatalogyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6BF2816535C00A9EABB /* CatalogyView.swift */; };
 		0462C6CD2816535C00A9EABB /* SearchGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462C6C02816535C00A9EABB /* SearchGroupView.swift */; };
+		04656487288946EC00A329D5 /* SearchGroupsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04656485288946EC00A329D5 /* SearchGroupsViewModel.swift */; };
+		04656488288946EC00A329D5 /* SearchUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04656486288946EC00A329D5 /* SearchUserViewModel.swift */; };
+		0465648A2889470600A329D5 /* SearchGroupModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046564892889470500A329D5 /* SearchGroupModels.swift */; };
+		0465648E28894A7900A329D5 /* SearchViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0465648D28894A7900A329D5 /* SearchViewModels.swift */; };
 		047241A527DB3D2C0043345A /* LoginRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419927DB3D2C0043345A /* LoginRemoteStore.swift */; };
 		047241A627DB3D2C0043345A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419A27DB3D2C0043345A /* LoginView.swift */; };
 		047241A727DB3D2C0043345A /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419B27DB3D2C0043345A /* LoginInteractor.swift */; };
 		047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419C27DB3D2C0043345A /* LoginInMemoryStore.swift */; };
 		047241A927DB3D2C0043345A /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419E27DB3D2C0043345A /* AuthenticationModel.swift */; };
 		047241AE27DB3D2C0043345A /* LoginWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047241A427DB3D2C0043345A /* LoginWorker.swift */; };
+		047AD9CF288D48EA0081A4E8 /* SearchRealmMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047AD9CE288D48EA0081A4E8 /* SearchRealmMessage.swift */; };
 		047D6B0E27F1544D0098B104 /* GroupDetailInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B0927F1544C0098B104 /* GroupDetailInMemoryStore.swift */; };
 		047D6B0F27F1544D0098B104 /* GroupDetailWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B0A27F1544C0098B104 /* GroupDetailWorker.swift */; };
 		047D6B1027F1544D0098B104 /* GroupDetailRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B0B27F1544D0098B104 /* GroupDetailRemoteStore.swift */; };
@@ -321,12 +326,17 @@
 		0462C6BE2816535C00A9EABB /* SearchUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchUserView.swift; sourceTree = "<group>"; };
 		0462C6BF2816535C00A9EABB /* CatalogyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogyView.swift; sourceTree = "<group>"; };
 		0462C6C02816535C00A9EABB /* SearchGroupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchGroupView.swift; sourceTree = "<group>"; };
+		04656485288946EC00A329D5 /* SearchGroupsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchGroupsViewModel.swift; sourceTree = "<group>"; };
+		04656486288946EC00A329D5 /* SearchUserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchUserViewModel.swift; sourceTree = "<group>"; };
+		046564892889470500A329D5 /* SearchGroupModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchGroupModels.swift; sourceTree = "<group>"; };
+		0465648D28894A7900A329D5 /* SearchViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModels.swift; sourceTree = "<group>"; };
 		0472419927DB3D2C0043345A /* LoginRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRemoteStore.swift; sourceTree = "<group>"; };
 		0472419A27DB3D2C0043345A /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		0472419B27DB3D2C0043345A /* LoginInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
 		0472419C27DB3D2C0043345A /* LoginInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInMemoryStore.swift; sourceTree = "<group>"; };
 		0472419E27DB3D2C0043345A /* AuthenticationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationModel.swift; sourceTree = "<group>"; };
 		047241A427DB3D2C0043345A /* LoginWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginWorker.swift; sourceTree = "<group>"; };
+		047AD9CE288D48EA0081A4E8 /* SearchRealmMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRealmMessage.swift; sourceTree = "<group>"; };
 		047D6B0927F1544C0098B104 /* GroupDetailInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailInMemoryStore.swift; sourceTree = "<group>"; };
 		047D6B0A27F1544C0098B104 /* GroupDetailWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailWorker.swift; sourceTree = "<group>"; };
 		047D6B0B27F1544D0098B104 /* GroupDetailRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailRemoteStore.swift; sourceTree = "<group>"; };
@@ -661,6 +671,7 @@
 		0459993028630EF0006754DF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				046564892889470500A329D5 /* SearchGroupModels.swift */,
 				0459993128630EF0006754DF /* UserInfoResponseModel.swift */,
 				0459993228630EF0006754DF /* UserInfoModel.swift */,
 				0459993328630EF0006754DF /* GroupResponseModel.swift */,
@@ -674,6 +685,7 @@
 		0462C6B12816535C00A9EABB /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				04656484288946EC00A329D5 /* ViewModels */,
 				0462C6B22816535C00A9EABB /* SearchRemoteStore.swift */,
 				0462C6B32816535C00A9EABB /* SearchView.swift */,
 				0462C6B42816535C00A9EABB /* SearchInMemoryStore.swift */,
@@ -697,14 +709,26 @@
 		0462C6BA2816535C00A9EABB /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				0462C6BB2816535C00A9EABB /* SearchAllView.swift */,
 				0462C6BC2816535C00A9EABB /* SearchContentView.swift */,
-				0462C6BD2816535C00A9EABB /* SearchMessageView.swift */,
+				0462C6BB2816535C00A9EABB /* SearchAllView.swift */,
 				0462C6BE2816535C00A9EABB /* SearchUserView.swift */,
-				0462C6BF2816535C00A9EABB /* CatalogyView.swift */,
 				0462C6C02816535C00A9EABB /* SearchGroupView.swift */,
+				0462C6BD2816535C00A9EABB /* SearchMessageView.swift */,
+				0462C6BF2816535C00A9EABB /* CatalogyView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		04656484288946EC00A329D5 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				04656485288946EC00A329D5 /* SearchGroupsViewModel.swift */,
+				04656486288946EC00A329D5 /* SearchUserViewModel.swift */,
+				0465648D28894A7900A329D5 /* SearchViewModels.swift */,
+				047AD9CE288D48EA0081A4E8 /* SearchRealmMessage.swift */,
+			);
+			name = ViewModels;
+			path = "../../../../../../Desktop/GroupDetail 2/ck-ios/ClearKeep/Scenes/Search/ViewModels";
 			sourceTree = "<group>";
 		};
 		0472419827DB3D2C0043345A /* Login */ = {
@@ -1883,6 +1907,7 @@
 				F556C24328097F6E00D2B149 /* ChatGroupInteractor.swift in Sources */,
 				CB117E7F27BB661B000941D9 /* HomeView.swift in Sources */,
 				04589875286BFB2A00A0631C /* CreatePeerUserViewModel.swift in Sources */,
+				0465648E28894A7900A329D5 /* SearchViewModels.swift in Sources */,
 				0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */,
 				CB40073227E7514600DFBE88 /* ConfigurationProvider.swift in Sources */,
 				F5644836283B7A79007846F9 /* UserProfileContentView.swift in Sources */,
@@ -1927,6 +1952,7 @@
 				CB40074727E8CCC800DFBE88 /* LoginContentView.swift in Sources */,
 				F5CFCA2D28237CD000A9737F /* InComingVoiceGroupCall.swift in Sources */,
 				F5350E1027FAD57500F54E32 /* TwoFactorModel.swift in Sources */,
+				04656487288946EC00A329D5 /* SearchGroupsViewModel.swift in Sources */,
 				F5CFCA2728237CD000A9737F /* GroupCallRemoteStore.swift in Sources */,
 				0499345427E9A8BE003BD4C4 /* AdvancedSeverWorker.swift in Sources */,
 				F564484A283F8562007846F9 /* CallModel.swift in Sources */,
@@ -1962,6 +1988,7 @@
 				047D6B6427F6A3DD0098B104 /* DirectMessageContentView.swift in Sources */,
 				044432B728570E5F00276DB3 /* UsersGroupViewModel.swift in Sources */,
 				047D6B5E27F6A3750098B104 /* CreateDirectMessageInMemoryStore.swift in Sources */,
+				047AD9CF288D48EA0081A4E8 /* SearchRealmMessage.swift in Sources */,
 				04589882286C0C3300A0631C /* GroupDetailViewModel.swift in Sources */,
 				0499341027E96DD7003BD4C4 /* FogotPasswordView.swift in Sources */,
 				0499344427E97035003BD4C4 /* ChangePasswordInMemoryStore.swift in Sources */,
@@ -2011,6 +2038,7 @@
 				0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */,
 				044432BD285720C900276DB3 /* CreatGroupViewModels.swift in Sources */,
 				F564484C283F8562007846F9 /* CallView.swift in Sources */,
+				0465648A2889470600A329D5 /* SearchGroupModels.swift in Sources */,
 				226732A72853173500C07852 /* ChatViewModels.swift in Sources */,
 				0499344827E97035003BD4C4 /* ChangePasswordView.swift in Sources */,
 				CB117EC327BB8DB1000941D9 /* AppDelegate.swift in Sources */,
@@ -2023,6 +2051,7 @@
 				CB117EAA27BB7856000941D9 /* DeepLinksHandler.swift in Sources */,
 				0462C6C82816535C00A9EABB /* SearchAllView.swift in Sources */,
 				CB7F298D282CED4000BD5049 /* ServerViewModel.swift in Sources */,
+				04656488288946EC00A329D5 /* SearchUserViewModel.swift in Sources */,
 				0499343627E96F8A003BD4C4 /* NewPasswordWorker.swift in Sources */,
 				F564484E283F8562007846F9 /* VoiceCall.swift in Sources */,
 				F553F87427E820E600824BE7 /* SocialView.swift in Sources */,

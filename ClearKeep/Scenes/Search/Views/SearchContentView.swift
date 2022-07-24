@@ -12,6 +12,7 @@ import CommonUI
 
 private enum Constants {
 	static let spacing = 20.0
+	static let spacingSearch = 16.0
 }
 
 struct SearchContentView: View {
@@ -20,22 +21,38 @@ struct SearchContentView: View {
 	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
+	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
+	@State private(set) var inputStyle: TextInputStyle = .default
+	@State private(set) var searchText: String = ""
+	@State private(set) var searchModels: [SearchGroupViewModel] = []
+	@State private(set) var serverText: String = ""
 	@State private(set) var searchCatalogy: SearchCatalogy = .all
 	@State private var selectedTab: Int = 0
 	@State private var isSelected: Bool = false
-	@Binding var searchModel: [SearchModels]
-	
+	@State private var searchKeywordStyle: TextInputStyle = .default
+	@Binding var searchUser: [SearchUserViewModel]
+	@Binding var searchGroup: [SearchGroupViewModel]
+	@Binding var searchMessage: [SearchGroupViewModel]
+	@Binding var loadable: Loadable<ISearchViewModels>
+
 	// MARK: - Init
-	init(searchCatalogy: SearchCatalogy = .all,
-		 searchModel: Binding<[SearchModels]>) {
-		self._searchCatalogy = .init(initialValue: searchCatalogy)
-		self._searchModel = searchModel
-	}
 	
 	// MARK: - Body
 	var body: some View {
 		content
 			.background(backgroundColorView)
+			.applyNavigationBarPlainStyle(title: "",
+										  titleColor: titleColor,
+										  backgroundColors: backgroundButtonBack,
+										  leftBarItems: {
+				Text(serverText)
+					.font(AppTheme.shared.fontSet.font(style: .display3))
+					.foregroundColor(titleColor)
+			},
+										  rightBarItems: {
+				ImageButton(AppTheme.shared.imageSet.crossIcon, action: back)
+					.foregroundColor(titleColor)
+			})
 	}
 }
 
@@ -43,10 +60,6 @@ struct SearchContentView: View {
 private extension SearchContentView {
 	var content: AnyView {
 		AnyView(contentView)
-	}
-	
-	var searchCatalogContent: AnyView {
-		AnyView(searchCatalogView)
 	}
 	
 	var allContent: AnyView {
@@ -63,6 +76,10 @@ private extension SearchContentView {
 	
 	var messageContent: AnyView {
 		AnyView(messageView)
+	}
+
+	var resultView: AnyView {
+		searchUser.isEmpty ? AnyView(notRequestView) : AnyView(catalogView)
 	}
 }
 
@@ -91,23 +108,48 @@ private extension SearchContentView {
 	var backgroundButtonLight: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
 	}
+
+	var backgroundButtonBack: [Color] {
+		colorScheme == .light ? [AppTheme.shared.colorSet.background, AppTheme.shared.colorSet.background] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
+	}
+
+	var titleColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
+	}
+
+	var forceColorTitle: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight
+	}
 }
 
 // MARK: - Loading Content
 private extension SearchContentView {
 	var contentView: some View {
 		VStack {
-			searchCatalogContent
-			catalogView
+			SearchTextField(searchText: $searchText,
+							inputStyle: $searchKeywordStyle,
+							placeHolder: "Search.Placehodel".localized,
+							onEditingChanged: { isEditing in
+				searchKeywordStyle = isEditing ? .highlighted : .normal
+			})
+				.onSubmit {
+					seachAction(text: searchText)
+				}
+//				.onChange(of: searchText, perform: { writing in
+//					seachAction(text: writing)
+//				})
+			CatalogyView(states: SearchCatalogy.allCases, selectedState: $searchCatalogy)
+			resultView
 			Spacer()
 		}
+		.padding(.horizontal, Constants.spacingSearch)
 	}
 	
 	var catalogView: some View {
 		Group {
 			switch searchCatalogy {
 			case .all:
-				allContent
+				searchText.isEmpty ? AnyView(notRequestView) : AnyView(allView)
 			case .people:
 				peopleContent
 			case .group:
@@ -117,43 +159,67 @@ private extension SearchContentView {
 			}
 		}
 	}
-	
-	var searchCatalogView: some View {
-		CatalogyView(states: SearchCatalogy.allCases, selectedState: $searchCatalogy)
+	var notRequestView: some View {
+		VStack(alignment: .center) {
+			Spacer()
+			HStack {
+				Spacer()
+				Text("Search.Title.Error".localized)
+					.foregroundColor(forceColorTitle)
+				Spacer()
+			}
+			Spacer()
+			Spacer()
+		}
 	}
 	
 	var allView: some View {
-		SearchAllView(searchModel: $searchModel)
+		SearchAllView(searchUser: .constant(searchUser), searchGroup: .constant(searchGroup), searchMessage: .constant(searchMessage), searchText: $searchText)
 	}
 	
 	var peopleView: some View {
 		ScrollView(showsIndicators: false) {
-			SearchUserView(searchModel: $searchModel)
+			SearchUserView(searchUser: .constant(searchUser), searchText: $searchText)
 		}
 	}
 	
 	var groupView: some View {
 		ScrollView(showsIndicators: false) {
-			SearchGroupView(searchModel: $searchModel)
+			SearchGroupView( searchGroup: .constant(searchGroup), searchText: $searchText)
 		}
 	}
 	
 	var messageView: some View {
 		ScrollView(showsIndicators: false) {
-			SearchMessageView(searchModel: $searchModel)
+			SearchMessageView(searchMessage: .constant(searchMessage), searchText: $searchText)
 		}
 	}
+
 }
 
 // MARK: - Interactor
 private extension SearchContentView {
+	func seachAction(text: String) {
+		if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+			loadable = .loaded(SearchViewModels(searchUser: [], searchGroup: []))
+			return
+		}
+//		loadable = .isLoading(last: nil, cancelBag: CancelBag())
+		Task {
+			loadable = await injected.interactors.searchInteractor.searchAll(text)
+		}
+	}
+
+	func back() {
+		self.presentationMode.wrappedValue.dismiss()
+	}
 }
 
 // MARK: - Preview
 #if DEBUG
 struct SearchContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchContentView(searchModel: .constant([]))
+		SearchContentView(searchUser: .constant([]), searchGroup: .constant([]), searchMessage: .constant([]), loadable: .constant(.notRequested))
 	}
 }
 #endif

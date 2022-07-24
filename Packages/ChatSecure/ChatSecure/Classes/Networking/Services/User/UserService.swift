@@ -52,7 +52,7 @@ extension UserService: IUserService {
 
 		return await channelStorage.getChannel(domain: domain).getUserInfo(request)
 	}
-    
+
     public func getListStatus(clientID: String, workspaceDomain: String, domain: String) async -> (Result<User_GetClientsStatusResponse, Error>) {
         var request = User_GetClientsStatusRequest()
         var client = User_MemberInfoRequest()

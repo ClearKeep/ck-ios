@@ -5,23 +5,55 @@
 //  Created by MinhDev on 05/04/2022.
 //
 
-import Foundation
+import Combine
+import Common
+import Networking
+import Model
+import ChatSecure
 
 protocol ISearchWorker {
 	var remoteStore: ISearchRemoteStore { get }
 	var inMemoryStore: ISearchInMemoryStore { get }
+	func searchGroups(_ keyword: String) async -> (Result<ISearchModels, Error>)
+	func searchUser(_ keyword: String) async -> (Result<ISearchModels, Error>)
+	func getMessageList(groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
 }
 
 struct SearchWorker {
+	let channelStorage: IChannelStorage
 	let remoteStore: ISearchRemoteStore
 	let inMemoryStore: ISearchInMemoryStore
-	
-	init(remoteStore: ISearchRemoteStore,
+	var currentDomain: String?
+
+	init(channelStorage: IChannelStorage,
+		 remoteStore: ISearchRemoteStore,
 		 inMemoryStore: ISearchInMemoryStore) {
+		self.channelStorage = channelStorage
 		self.remoteStore = remoteStore
 		self.inMemoryStore = inMemoryStore
 	}
 }
 
 extension SearchWorker: ISearchWorker {
+	func searchGroups(_ keyword: String) async -> (Result<ISearchModels, Error>) {
+		return await remoteStore.searchGroups(keyword, domain: currentDomain ?? channelStorage.currentDomain)
+	}
+
+	func searchUser(_ keyword: String) async -> (Result<ISearchModels, Error>) {
+		return await remoteStore.searchUser(keyword, domain: currentDomain ?? channelStorage.currentDomain)
+	}
+
+	func getMessageList(groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
+		guard let server = channelStorage.currentServer,
+			  let ownerId = server.profile?.userId else { return .failure(ServerError.unknown) }
+		let ownerDomain = server.serverDomain
+		let result = await remoteStore.getMessageList(ownerDomain: ownerDomain, ownerId: ownerId, groupId: groupId, loadSize: loadSize, lastMessageAt: lastMessageAt)
+
+		switch result {
+		case .success(let user):
+			return .success(user)
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
 }
