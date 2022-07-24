@@ -24,9 +24,9 @@ public struct UserGroupButton: View {
 	private var imageUrl: URL?
 	private var action: (Bool) -> Void
 	private var isChecked: Bool = false
-    
+	
 	// MARK: Init
-    public init(_ title: Binding<String>, imageUrl: String, isChecked: Bool, action: @escaping(Bool) -> Void) {
+	public init(_ title: Binding<String>, imageUrl: String, isChecked: Bool, action: @escaping(Bool) -> Void) {
 		self._title = title
 		self.action = action
         self.isChecked = isChecked

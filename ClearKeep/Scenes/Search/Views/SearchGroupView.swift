@@ -13,8 +13,6 @@ private enum Constants {
 	static let spacing = 10.0
 	static let sizeImage = 64.0
 	static let spacingVstack = 18.0
-	static let paddingTop = 17.0
-	static let paddingLeading = 16.0
 }
 
 struct SearchGroupView: View {
@@ -24,23 +22,20 @@ struct SearchGroupView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@State private var isGroupChat: Bool = false
-	@Binding var searchModel: [SearchModels]
-
+	@Binding var searchGroup: [SearchGroupViewModel]
+	@Binding var searchText: String
 	// MARK: - Init
-	init(searchModel: Binding<[SearchModels]>) {
-		self._searchModel = searchModel
-	}
 	
 	// MARK: - Body
 	var body: some View {
-		ForEach(0..<searchModel.count, id: \.self) { index in
+		ForEach(searchGroup) { item in
 			VStack(alignment: .leading, spacing: Constants.spacingVstack) {
 				NavigationLink(
 					destination: EmptyView(),
 					isActive: $isGroupChat,
 					label: {
 						Button(action: action) {
-							Text(searchModel[index].groupText)
+							Text(makeAttributedString(text: item.groupName))
 								.font(AppTheme.shared.fontSet.font(style: .body3))
 								.foregroundColor(foregroundColorText)
 								.frame(maxWidth: .infinity, alignment: .leading)
@@ -50,8 +45,6 @@ struct SearchGroupView: View {
 			}
 			.background(backgroundColorView)
 		}
-		.padding(.leading, Constants.paddingLeading)
-		.padding(.top, Constants.paddingTop)
 	}
 }
 
@@ -72,8 +65,16 @@ private extension SearchGroupView {
 
 // MARK: - Private func
 private extension SearchGroupView {
+	func makeAttributedString(text: String) -> AttributedString {
+		var string = AttributedString(text)
+		if let range = string.range(of: searchText) {
+			string[range].foregroundColor = AppTheme.shared.colorSet.black
+		}
+		return string
+	}
+
 	func action() {
-		
+
 	}
 }
 
@@ -82,7 +83,7 @@ private extension SearchGroupView {
 
 struct SearchGroupView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchGroupView(searchModel: .constant([]))
+		SearchGroupView(searchGroup: .constant([]), searchText: .constant(""))
 	}
 }
 #endif
