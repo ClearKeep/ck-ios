@@ -47,9 +47,8 @@ extension AppEnvironment {
 		let chatInteractor = ChatInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, realmManager: DependencyResolver.shared.realmManager, groupService: DependencyResolver.shared.groupService, messageService: DependencyResolver.shared.messageService, uploadFileService: DependencyResolver.shared.uploadFileService)
 		let createDirectMessageInteractor = CreateDirectMessageInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, userService: DependencyResolver.shared.userService, groupService: DependencyResolver.shared.groupService)
 		let groupDetailInteractor = GroupDetailInteractor(appState: appState, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, channelStorage: DependencyResolver.shared.channelStorage)
-		let searchInteractor = SearchInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, messageService: DependencyResolver.shared.messageService)
 		let profileInteractor = ProfileInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, userService: DependencyResolver.shared.userService)
-
+		let searchInteractor = SearchInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, messageService: DependencyResolver.shared.messageService)
 		
 		return .init(homeInteractor: homeInteractor,
 					 loginInteractor: loginInteractor,
@@ -63,9 +62,8 @@ extension AppEnvironment {
 					 chatInteractor: chatInteractor,
 					 createDirectMessageInteractor: createDirectMessageInteractor,
 					 groupDetailInteractor: groupDetailInteractor,
-					 searchInteractor: searchInteractor,
-					 profileInteractor: profileInteractor)
-
+					 profileInteractor: profileInteractor,
+					 searchInteractor: searchInteractor)
 	}
 }
 
