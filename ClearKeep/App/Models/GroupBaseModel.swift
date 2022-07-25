@@ -14,7 +14,11 @@ struct GroupBaseModel: IGroupBaseResponse {
 }
 
 extension GroupBaseModel {
-	init(_ response: Group_BaseResponse) {
-		self.init(error: response.error)
+	init(groupResponse: Group_BaseResponse) {
+		self.init(error: groupResponse.error)
+	}
+
+	init(useResponse: User_BaseResponse) {
+		self.init(error: useResponse.error)
 	}
 }

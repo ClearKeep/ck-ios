@@ -18,10 +18,14 @@ private enum Constants {
 	static let statusHeight = 24.0
 	static let urlHeight = 18.0
 	static let spacing = 4.0
-	static let arrowSize = CGSize(width: 12.0, height: 12.0)
+	static let arrowSize = CGSize(width: 12.0, height: 6.0)
 	static let statusSize = CGSize(width: 12.0, height: 12.0)
 	static let statusOffset = UIOffset(horizontal: -20.0, vertical: 20.0)
 	static let avatarSize = CGSize(width: 56.0, height: 56.0)
+	static let sizeCircle = 12.0
+	static let opacity = 0.4
+	static let frameStatus = CGSize(width: 145, height: 45)
+	static let offsetFrame = -18.0
 }
 
 struct MenuView: View {
@@ -36,6 +40,11 @@ struct MenuView: View {
 	@State private var isShowToastCopy: Bool = false
 	var chageStatus: (StatusType) -> Void
 	let profile = DependencyResolver.shared.channelStorage.currentServer?.profile
+	@State private var isProfile: Bool = false
+	@State private var isSever: Bool = false
+	@State private var isNotification: Bool = false
+	@State private(set) var isExpand: Bool = false
+
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -45,72 +54,73 @@ struct MenuView: View {
 				Spacer()
 				VStack(alignment: .trailing) {
 					ImageButton(AppTheme.shared.imageSet.closeIcon.renderingMode(.template)) { isShowMenu.toggle() }
-						.foregroundColor(AppTheme.shared.colorSet.grey1)
-					HStack {
-                        if let avatar = user.first?.avatar,
-                           !avatar.isEmpty {
-                            ZStack {
-                                Image(user.first?.avatar ?? "")
-                                    .frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
-                                    .clipShape(Circle())
-                                    .foregroundColor(Color.gray)
-                                Circle()
-                                    .frame(width: Constants.statusSize.width, height: Constants.statusSize.height)
-                                    .offset(x: Constants.statusOffset.vertical, y: Constants.statusOffset.horizontal)
-                                    .foregroundColor(Color.green)
-                            }
-                        } else {
-                            ZStack {
-                                Circle()
-                                    .fill(backgroundColor)
-                                    .frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
-                                    .foregroundColor(Color.gray)
-                                Text(user.first?.displayName.capitalized.prefix(1) ?? (profile?.userName ?? "Name").capitalized.prefix(1))
-                                    .foregroundColor(AppTheme.shared.colorSet.offWhite)
-                                    .font(AppTheme.shared.fontSet.font(style: .display3))
-                            }
-                        }
-						
-						VStack(alignment: .leading, spacing: Constants.spacing) {
-							Text(user.first?.displayName ?? (profile?.userName ?? "Name"))
-								.font(AppTheme.shared.fontSet.font(style: .body2))
-								.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
-								.frame(height: Constants.nameHeight)
-							Menu {
-                                ForEach([StatusType.online, StatusType.busy], id: \.self) { status in
+					.foregroundColor(AppTheme.shared.colorSet.grey1)
+					ZStack(alignment: .trailing) {
+						VStack {
+							HStack {
+								ZStack {
+									AvatarDefault(.constant(profile?.userName ?? ""), imageUrl: profile?.avatar ?? "")
+										.frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
+									Circle()
+										.frame(width: Constants.sizeCircle, height: Constants.sizeCircle)
+										.foregroundColor(self.user.first?.status.color ?? AppTheme.shared.colorSet.successDefault)
+										.offset(x: Constants.statusOffset.vertical, y: Constants.statusOffset.horizontal)
+								}
+								VStack(alignment: .leading, spacing: Constants.spacing) {
+									Text(user.first?.displayName ?? (profile?.userName ?? "Name"))
+										.font(AppTheme.shared.fontSet.font(style: .body2))
+										.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+										.frame(height: Constants.nameHeight)
+									Button(action: statusAction) {
+										HStack {
+											Text(self.user.first?.status.title ?? "")
+												.font(AppTheme.shared.fontSet.font(style: .input3))
+												.foregroundColor(self.user.first?.status.color ?? AppTheme.shared.colorSet.successDefault)
+											AppTheme.shared.imageSet.chevDownIcon
+												.renderingMode(.template)
+												.aspectRatio(contentMode: .fit)
+												.frame(width: Constants.arrowSize.width, height: Constants.arrowSize.height)
+												.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight)
+										}
+									}
+									HStack {
+										Text(getLinkUrl())
+											.font(AppTheme.shared.fontSet.font(style: .input3))
+											.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight)
+										Spacer()
+										ImageButton(AppTheme.shared.imageSet.copyIcon, action: copyAction)
+											.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+									}
+									.frame(height: Constants.urlHeight)
+								}
+							}
+							Divider()
+								.background(colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight)
+								.padding(.vertical, Constants.padding)
+							ForEach(MenuType.allCases, id: \.self) { menu in
+								didSelect(menu)
+							}
+						}
+						VStack {
+							ForEach([StatusType.online, StatusType.busy], id: \.self) { status in
+								HStack {
+									Circle()
+										.frame(width: Constants.sizeCircle, height: Constants.sizeCircle)
+										.foregroundColor(status.color)
 									LinkButton(status.title, alignment: .leading, action: { self.didSelectStatus(status) })
 										.foregroundColor(AppTheme.shared.colorSet.black)
 										.frame(height: Constants.itemHeight)
-								}
-							} label: {
-                                Text(self.user.first?.status.title ?? "")
-									.font(AppTheme.shared.fontSet.font(style: .input3))
-									.foregroundColor(self.user.first?.status.color ?? AppTheme.shared.colorSet.successDefault)
-								AppTheme.shared.imageSet.chevDownIcon
-									.renderingMode(.template)
-									.aspectRatio(contentMode: .fit)
-									.frame(width: Constants.arrowSize.width, height: Constants.arrowSize.height)
-									.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight)
+										.font(AppTheme.shared.fontSet.font(style: .input3))
+								}.padding(.horizontal, Constants.spacing)
+									.frame(width: Constants.frameStatus.width, height: Constants.frameStatus.height)
 							}
-							.frame(height: Constants.statusHeight)
-							HStack {
-								Text(getLinkUrl())
-									.font(AppTheme.shared.fontSet.font(style: .input3))
-									.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight)
-								Spacer()
-								ImageButton(AppTheme.shared.imageSet.copyIcon.renderingMode(.template), action: copyAction)
-									.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
-							}
-							.frame(height: Constants.urlHeight)
 						}
-					}
-					Divider()
-						.background(colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight)
-						.padding(.vertical, Constants.padding)
-					ForEach(MenuType.allCases, id: \.self) { menu in
-						LinkButton(menu.title, icon: menu.icon, alignment: .leading) { didSelectMenu(menu) }
-							.foregroundColor(Color.gray)
-							.frame(height: Constants.itemHeight)
+						.background(backgroundColorMenu)
+						.cornerRadius(Constants.spacing)
+						.shadow(color: AppTheme.shared.colorSet.black.opacity(Constants.opacity), radius: Constants.spacing)
+						.opacity(opacityAction)
+						.zIndex(2)
+						.offset(y: Constants.offsetFrame)
 					}
 					Spacer()
 					LinkButton("Home.SignOut".localized, icon: AppTheme.shared.imageSet.logoutIcon, alignment: .center, action: signOutAction)
@@ -125,8 +135,10 @@ struct MenuView: View {
 				.frame(width: geometry.size.width * Constants.frameRatio)
 				.frame(maxHeight: .infinity)
 				.padding(.vertical, Constants.padding)
+
 			}
 			.frame(maxWidth: .infinity, maxHeight: .infinity)
+
 		}.toast(message: "Menu.Copy.Title".localized, isShowing: $isShowToastCopy, duration: Toast.short)
 	}
 }
@@ -145,11 +157,46 @@ private extension MenuView {
 	}
 	
 	func statusAction() {
-		
+		isExpand.toggle()
 	}
 	
 	func didSelectMenu(_ menu: MenuType) {
-		
+		switch menu {
+		case .profile:
+			isProfile.toggle()
+		case .server:
+			isSever.toggle()
+		case .notification:
+			isNotification.toggle()
+		}
+
+	}
+
+	func didSelect(_ menu: MenuType) -> AnyView {
+		switch menu {
+		case .profile:
+			return AnyView(NavigationLink(destination: ProfileView(),
+										  isActive: $isProfile) {
+				LinkButton(menu.title, icon: menu.icon, alignment: .leading) { didSelectMenu(menu) }
+				.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight)
+				.frame(height: Constants.itemHeight)
+			})
+		case .server:
+			return AnyView(NavigationLink(destination: SettingServerView(),
+										  isActive: $isSever) {
+				LinkButton(menu.title, icon: menu.icon, alignment: .leading) { didSelectMenu(menu) }
+				.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight)
+				.frame(height: Constants.itemHeight)
+			})
+		case .notification:
+			return AnyView(NavigationLink(destination: NotificationView(),
+										  isActive: $isNotification) {
+				LinkButton(menu.title, icon: menu.icon, alignment: .leading) { didSelectMenu(menu) }
+				.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight)
+				.frame(height: Constants.itemHeight)
+			})
+		}
+
 	}
 	
 	func didSelectStatus(_ status: StatusType) {
@@ -158,16 +205,24 @@ private extension MenuView {
 		}
 		self.chageStatus(status)
 	}
-    
-    func getLinkUrl() -> String {
-        let currentDomain = DependencyResolver.shared.channelStorage.currentDomain
-        let user = DependencyResolver.shared.channelStorage.currentServer?.profile
-        return "\(currentDomain)/\(user?.userName ?? "name")/\(user?.userId ?? "id")"
-    }
+
+	func getLinkUrl() -> String {
+		let currentDomain = DependencyResolver.shared.channelStorage.currentDomain
+		let user = DependencyResolver.shared.channelStorage.currentServer?.profile
+		return "\(currentDomain)/\(user?.userName ?? "name")/\(user?.userId ?? "id")"
+	}
 }
 
 private extension MenuView {
-    var backgroundColor: LinearGradient {
-        LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-    }
+	var backgroundColor: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
+	}
+
+	var backgroundColorMenu: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.darkgrey3
+	}
+
+	var opacityAction: Double {
+		isExpand ? 1 : 0
+	}
 }
