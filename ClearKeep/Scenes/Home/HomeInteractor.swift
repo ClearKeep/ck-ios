@@ -93,7 +93,7 @@ extension HomeInteractor: IHomeInteractor {
 	}
 	
 	func signOut() async {
-		//		let result = await worker.signOut()
+		let result = await worker.signOut()
 	}
 }
 
@@ -134,7 +134,7 @@ struct StubHomeInteractor: IHomeInteractor {
 	}
 	
 	func signOut() async {
-		//		let result = await worker.signOut()
+		let result = await worker.signOut()
 	}
 	
 	func updateStatus(status: String) async -> Loadable<UserViewModels> {

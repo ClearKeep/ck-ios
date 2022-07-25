@@ -12,6 +12,7 @@ import ChatSecure
 struct HomeModels: IHomeModels {
 	var groupModel: [IGroupModel]?
 	var userModel: IUser?
+	var authenRespone: GroupBaseModel?
 }
 
 extension HomeModels {
@@ -25,5 +26,9 @@ extension HomeModels {
 	
 	init(responseUser: User_MemberInfoRes?) {
 		self.init(userModel: UserModel(response: responseUser))
+	}
+
+	init(responeAuthen: Auth_BaseResponse) {
+		self.init(authenRespone: GroupBaseModel(responseAuthen: responeAuthen))
 	}
 }

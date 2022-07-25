@@ -37,7 +37,7 @@ extension GroupDetailModels {
 	}
 
 	init(responseError: Group_BaseResponse) {
-		self.init(groupBase: GroupBaseModel(responseError))
+		self.init(groupBase: GroupBaseModel(responseGroup: responseError))
 	}
 
 	init(getProfile: User_UserProfileResponse) {

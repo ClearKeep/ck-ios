@@ -131,12 +131,14 @@ extension CLKAuthenticationService: IAuthenticationService {
 			switch response {
 			case .success(let authenResponse):
 				var request = User_Empty()
-				
+				print("authenResponse 1", authenResponse)
 				let response = await channelStorage.getChannel(domain: domain, accessToken: authenResponse.accessToken, hashKey: authenResponse.hashKey).getProfile(request)
 				
 				switch response {
 				case .success(let profileResponse):
+					print("authenResponse 2", profileResponse)
 					await channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse)
+
 					let result = onLoginSuccess(authenResponse, password: password)
 					switch result {
 					case .success(let value):
@@ -381,7 +383,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		request.deviceID = clientStore.getUniqueDeviceId()
 		request.refreshToken = server.refreshToken
 		
-		let response = await channelStorage.getChannel(domain: server.serverDomain).logout(request)
+		let response = await channelStorage.getChannel(domain: server.serverDomain, accessToken: server.accessKey, hashKey: server.hashKey).logout(request)
 		switch response {
 		case .success(let data):
 			return(.success(data))

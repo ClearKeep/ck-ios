@@ -19,8 +19,7 @@ protocol IHomeWorker {
 	func subscribeAndListenServers()
 	func getJoinedGroup() async -> Result<IHomeModels, Error>
 	func didSelectServer(_ domain: String?) -> [ServerModel]
-	func getProfile() async -> Result<IHomeModels, Error>
-	func signOut() async
+	func signOut() async -> Result<HomeModels, Error>
 	func getListStatus() async -> Result<IHomeModels, Error>
 	func pingRequest() async
 	func updateStatus(status: String) async -> Result<IHomeModels?, Error>
@@ -72,17 +71,6 @@ extension HomeWorker: IHomeWorker {
 			ServerModel($0)
 		})
 	}
-	
-	func getProfile() async -> Result<IHomeModels, Error> {
-		let result = await remoteStore.getProfile(domain: currentDomain ?? channelStorage.currentDomain)
-		
-		switch result {
-		case .success(let user):
-			return .success(user)
-		case .failure(let error):
-			return .failure(error)
-		}
-	}
 
 	func getListStatus() async -> Result<IHomeModels, Error> {
 		let result = await remoteStore.getListStatus(domain: self.channelStorage.currentDomain, userId: self.channelStorage.currentServer?.profile?.userId ?? "")
@@ -108,7 +96,13 @@ extension HomeWorker: IHomeWorker {
 		}
 	}
 	
-	func signOut() async {
-		await remoteStore.signOut()
+	func signOut() async -> Result<HomeModels, Error> {
+		let result = await remoteStore.signOut(domain: currentDomain ?? channelStorage.currentDomain)
+		switch result {
+		case .success(let authenRespone):
+			return .success(authenRespone)
+		case .failure(let error):
+			return .failure(error)
+		}
 	}
 }
