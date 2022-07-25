@@ -8,6 +8,7 @@
 import Model
 import ChatSecure
 import CommonUI
+import RealmSwift
 
 protocol IChatWorker {
 	var remoteStore: IChatRemoteStore { get }
@@ -19,6 +20,7 @@ protocol IChatWorker {
 	func getJoinedGroupsFromLocal(ownerId: String, domain: String) async -> [IGroupModel]
 	func uploadFiles(message: String, files: [FileModel], domain: String, appendFileSize: Bool) async -> String?
 	func downloadFile(urlString: String) async -> Result<String, Error>
+	func getMessageFromLocal(groupId: Int64, ownerDomain: String, ownerId: String) -> Results<RealmMessage>?
 }
 
 struct ChatWorker {
@@ -98,6 +100,10 @@ extension ChatWorker: IChatWorker {
 		} catch {
 			return nil
 		}
+	}
+	
+	func getMessageFromLocal(groupId: Int64, ownerDomain: String, ownerId: String) -> Results<RealmMessage>? {
+		return inMemoryStore.getMessageFromLocal(groupId: groupId, ownerDomain: ownerDomain, ownerId: ownerId)
 	}
 	
 	func downloadFile(urlString: String) async -> Result<String, Error> {

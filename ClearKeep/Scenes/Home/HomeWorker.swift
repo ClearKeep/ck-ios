@@ -41,7 +41,7 @@ class HomeWorker {
 
 extension HomeWorker: IHomeWorker {
 	var servers: [ServerModel] {
-		channelStorage.getServers().compactMap({
+		channelStorage.getServers(isFirstLoad: false).compactMap({
 			ServerModel($0)
 		})
 	}

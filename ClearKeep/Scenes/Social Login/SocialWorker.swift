@@ -43,7 +43,7 @@ extension SocialWorker: ISocialWorker {
 	}
 	
 	var servers: [ServerModel] {
-		channelStorage.getServers().compactMap { ServerModel($0) }
+		channelStorage.getServers(isFirstLoad: false).compactMap { ServerModel($0) }
 	}
 	
 	func registerSocialPin(userName: String, rawPin: String, customServer: CustomServer) async -> Result<IAuthenticationModel, Error> {
