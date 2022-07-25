@@ -6,6 +6,8 @@
 //  Copyright © 2019 Alexey Naumov. All rights reserved.
 //
 
+import CommonUI
+
 extension DIContainer {
 	struct Interactors {
 		let homeInteractor: IHomeInteractor
@@ -20,6 +22,7 @@ extension DIContainer {
 		let chatInteractor: IChatInteractor
 		let createDirectMessageInteractor: ICreateDirectMessageInteractor
 		let groupDetailInteractor: IGroupDetailInteractor
+		let peerCallInteractor: IPeerCallInteractor
 		
 		static var stub: Self {
 			.init(homeInteractor: StubHomeInteractor(channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService),
@@ -33,7 +36,9 @@ extension DIContainer {
 				  chatGroupInteractor: StubChatGroupInteractor(channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService),
 				  chatInteractor: StubChatInteractor(channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, messageService: DependencyResolver.shared.messageService, uploadFileService: DependencyResolver.shared.uploadFileService, realmManager: DependencyResolver.shared.realmManager),
 				  createDirectMessageInteractor: StubCreateDirectMessageInteractor(channelStorage: DependencyResolver.shared.channelStorage, userService: DependencyResolver.shared.userService, groupService: DependencyResolver.shared.groupService),
-				  groupDetailInteractor: StubGroupDetailInteractor(groupService: DependencyResolver.shared.groupService, channelStorage: DependencyResolver.shared.channelStorage))
+				  groupDetailInteractor: StubGroupDetailInteractor(groupService: DependencyResolver.shared.groupService, channelStorage: DependencyResolver.shared.channelStorage),
+				  peerCallInteractor: StubPeerCallInteractor(channelStorage: DependencyResolver.shared.channelStorage, callService: DependencyResolver.shared.videoService)
+			)
 		}
 	}
 }

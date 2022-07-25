@@ -24,19 +24,19 @@ struct NavigationBarGradidentStyle<L, R>: ViewModifier where L: View, R: View {
 			VStack(alignment: .leading, spacing: 0) {
 				HStack {
 					leftBarItems?()
+					
+					if let title = title {
+						Text(title)
+							.font(commonUIConfig.fontSet.font(style: .heading3))
+					}
+					
 					Spacer()
 					rightBarItems?()
 				}
 				.padding([.horizontal, .bottom], 16)
-				
-				if let title = title {
-					Text(title)
-						.font(commonUIConfig.fontSet.font(style: .body2))
-						.foregroundColor(commonUIConfig.colorSet.black)
-						.padding(.top, 23)
-				}
 			}
 			.background(backgroundColor)
+			.foregroundColor(commonUIConfig.colorSet.offWhite)
 			
 			content
 		}

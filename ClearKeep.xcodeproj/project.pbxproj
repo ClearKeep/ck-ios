@@ -111,7 +111,7 @@
 		22B1EA5228879D66008026DC /* GroupIncallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1EA4A28879D66008026DC /* GroupIncallView.swift */; };
 		22B1EA5328879D66008026DC /* CallActionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1EA4B28879D66008026DC /* CallActionButtonView.swift */; };
 		22B1EA5428879D66008026DC /* CustomVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1EA4C28879D66008026DC /* CustomVideoView.swift */; };
-		22B1EA5528879D66008026DC /* InComingCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1EA4D28879D66008026DC /* InComingCallView.swift */; };
+		22B1EA5528879D66008026DC /* PeerCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1EA4D28879D66008026DC /* PeerCallView.swift */; };
 		22B1EA5628879D66008026DC /* CallVoiceActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1EA4E28879D66008026DC /* CallVoiceActionView.swift */; };
 		22B1EA5728879D66008026DC /* CallVideoActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1EA4F28879D66008026DC /* CallVideoActionView.swift */; };
 		22B1EA652887FE6C008026DC /* GroupCallRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1EA5A2887FE6C008026DC /* GroupCallRemoteStore.swift */; };
@@ -125,6 +125,14 @@
 		22B1EA6D2887FE6C008026DC /* GroupCallWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1EA642887FE6C008026DC /* GroupCallWorker.swift */; };
 		22C507F1287E64BA009F92A7 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C507F0287E64BA009F92A7 /* Toast.swift */; };
 		22CDFF312889267E00B8213D /* CGSize+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CDFF302889267E00B8213D /* CGSize+Extensions.swift */; };
+		22D3639D288E2BF2009B3BDA /* SingleVoiceCallInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D3639C288E2BF2009B3BDA /* SingleVoiceCallInfoView.swift */; };
+		22D3639F288E2C28009B3BDA /* SingleVideoCallInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D3639E288E2C28009B3BDA /* SingleVideoCallInfoView.swift */; };
+		22D363A1288E2CD0009B3BDA /* PeerCallRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D363A0288E2CD0009B3BDA /* PeerCallRemoteStore.swift */; };
+		22D363A3288E2E4E009B3BDA /* PeerCallInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D363A2288E2E4E009B3BDA /* PeerCallInMemoryStore.swift */; };
+		22D363A5288E2EAA009B3BDA /* PeerCallWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D363A4288E2EAA009B3BDA /* PeerCallWorker.swift */; };
+		22D363A7288E2F83009B3BDA /* PeerCallInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D363A6288E2F83009B3BDA /* PeerCallInteractor.swift */; };
+		22D363AF288E3804009B3BDA /* IPeerViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D363AE288E3804009B3BDA /* IPeerViewModels.swift */; };
+		22D363B2288E403A009B3BDA /* ChangeTypeCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D363B1288E403A009B3BDA /* ChangeTypeCall.swift */; };
 		22DAEF7428640B6B00C3E377 /* FilePickerContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DAEF7328640B6B00C3E377 /* FilePickerContainerView.swift */; };
 		22E4DBA72886906000652B58 /* CallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E4DBA62886906000652B58 /* CallViewModel.swift */; };
 		22E4DBA9288692F100652B58 /* CustomVideoViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E4DBA8288692F100652B58 /* CustomVideoViewConfig.swift */; };
@@ -387,7 +395,7 @@
 		22B1EA4A28879D66008026DC /* GroupIncallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupIncallView.swift; sourceTree = "<group>"; };
 		22B1EA4B28879D66008026DC /* CallActionButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallActionButtonView.swift; sourceTree = "<group>"; };
 		22B1EA4C28879D66008026DC /* CustomVideoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomVideoView.swift; sourceTree = "<group>"; };
-		22B1EA4D28879D66008026DC /* InComingCallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InComingCallView.swift; sourceTree = "<group>"; };
+		22B1EA4D28879D66008026DC /* PeerCallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeerCallView.swift; sourceTree = "<group>"; };
 		22B1EA4E28879D66008026DC /* CallVoiceActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallVoiceActionView.swift; sourceTree = "<group>"; };
 		22B1EA4F28879D66008026DC /* CallVideoActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallVideoActionView.swift; sourceTree = "<group>"; };
 		22B1EA5A2887FE6C008026DC /* GroupCallRemoteStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCallRemoteStore.swift; sourceTree = "<group>"; };
@@ -401,6 +409,14 @@
 		22B1EA642887FE6C008026DC /* GroupCallWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCallWorker.swift; sourceTree = "<group>"; };
 		22C507F0287E64BA009F92A7 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		22CDFF302889267E00B8213D /* CGSize+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Extensions.swift"; sourceTree = "<group>"; };
+		22D3639C288E2BF2009B3BDA /* SingleVoiceCallInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleVoiceCallInfoView.swift; sourceTree = "<group>"; };
+		22D3639E288E2C28009B3BDA /* SingleVideoCallInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleVideoCallInfoView.swift; sourceTree = "<group>"; };
+		22D363A0288E2CD0009B3BDA /* PeerCallRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerCallRemoteStore.swift; sourceTree = "<group>"; };
+		22D363A2288E2E4E009B3BDA /* PeerCallInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerCallInMemoryStore.swift; sourceTree = "<group>"; };
+		22D363A4288E2EAA009B3BDA /* PeerCallWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerCallWorker.swift; sourceTree = "<group>"; };
+		22D363A6288E2F83009B3BDA /* PeerCallInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerCallInteractor.swift; sourceTree = "<group>"; };
+		22D363AE288E3804009B3BDA /* IPeerViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPeerViewModels.swift; sourceTree = "<group>"; };
+		22D363B1288E403A009B3BDA /* ChangeTypeCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeTypeCall.swift; sourceTree = "<group>"; };
 		22DAEF7328640B6B00C3E377 /* FilePickerContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePickerContainerView.swift; sourceTree = "<group>"; };
 		22E4DBA62886906000652B58 /* CallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallViewModel.swift; sourceTree = "<group>"; };
 		22E4DBA8288692F100652B58 /* CustomVideoViewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVideoViewConfig.swift; sourceTree = "<group>"; };
@@ -971,6 +987,47 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		22D3639A288E2B8C009B3BDA /* PeerCall */ = {
+			isa = PBXGroup;
+			children = (
+				22D363B0288E4025009B3BDA /* Models */,
+				22D363AD288E37C6009B3BDA /* ViewModels */,
+				22D3639B288E2BAE009B3BDA /* Views */,
+				22B1EA4D28879D66008026DC /* PeerCallView.swift */,
+				22D363A0288E2CD0009B3BDA /* PeerCallRemoteStore.swift */,
+				22D363A2288E2E4E009B3BDA /* PeerCallInMemoryStore.swift */,
+				22D363A4288E2EAA009B3BDA /* PeerCallWorker.swift */,
+				22D363A6288E2F83009B3BDA /* PeerCallInteractor.swift */,
+			);
+			path = PeerCall;
+			sourceTree = "<group>";
+		};
+		22D3639B288E2BAE009B3BDA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				22B1EA4E28879D66008026DC /* CallVoiceActionView.swift */,
+				22D3639C288E2BF2009B3BDA /* SingleVoiceCallInfoView.swift */,
+				22D3639E288E2C28009B3BDA /* SingleVideoCallInfoView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		22D363AD288E37C6009B3BDA /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				22D363AE288E3804009B3BDA /* IPeerViewModels.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		22D363B0288E4025009B3BDA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				22D363B1288E403A009B3BDA /* ChangeTypeCall.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		22E4DBAC28869EFA00652B58 /* Modifiers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1062,6 +1119,7 @@
 		CB117E5927BB63E2000941D9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				22D3639A288E2B8C009B3BDA /* PeerCall */,
 				22B1EA592887FE6C008026DC /* GroupCall */,
 				22B1EA4628879C93008026DC /* InCall */,
 				F564483D283F8562007846F9 /* Call */,
@@ -1487,7 +1545,6 @@
 				F564483E283F8562007846F9 /* CallRemoteStore.swift */,
 				F564483F283F8562007846F9 /* Models */,
 				F5644841283F8562007846F9 /* CallWorker.swift */,
-				22B1EA4D28879D66008026DC /* InComingCallView.swift */,
 				F5644842283F8562007846F9 /* CallView.swift */,
 				F5644843283F8562007846F9 /* Views */,
 				F5644847283F8562007846F9 /* CallInMemoryStore.swift */,
@@ -1507,7 +1564,6 @@
 		F5644843283F8562007846F9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				22B1EA4E28879D66008026DC /* CallVoiceActionView.swift */,
 				F5644844283F8562007846F9 /* CallingView.swift */,
 			);
 			path = Views;
@@ -1968,6 +2024,7 @@
 				0499344D27E97100003BD4C4 /* ChangePasswordContentView.swift in Sources */,
 				22C507F1287E64BA009F92A7 /* Toast.swift in Sources */,
 				22B1EA6C2887FE6C008026DC /* VoiceGroupCalled.swift in Sources */,
+				22D363A1288E2CD0009B3BDA /* PeerCallRemoteStore.swift in Sources */,
 				0499345527E9A8BE003BD4C4 /* AdvancedSeverRemoteStore.swift in Sources */,
 				CB40074727E8CCC800DFBE88 /* LoginContentView.swift in Sources */,
 				F5350E1027FAD57500F54E32 /* TwoFactorModel.swift in Sources */,
@@ -2002,10 +2059,12 @@
 				0499344727E97035003BD4C4 /* ChangePasswordInteractor.swift in Sources */,
 				22A1C69C2812B1D500FE957F /* ChatInteractor.swift in Sources */,
 				047D6B6427F6A3DD0098B104 /* DirectMessageContentView.swift in Sources */,
+				22D3639F288E2C28009B3BDA /* SingleVideoCallInfoView.swift in Sources */,
 				044432B728570E5F00276DB3 /* UsersGroupViewModel.swift in Sources */,
 				047D6B5E27F6A3750098B104 /* CreateDirectMessageInMemoryStore.swift in Sources */,
 				04589882286C0C3300A0631C /* GroupDetailViewModel.swift in Sources */,
 				0499341027E96DD7003BD4C4 /* FogotPasswordView.swift in Sources */,
+				22D363A3288E2E4E009B3BDA /* PeerCallInMemoryStore.swift in Sources */,
 				0499344427E97035003BD4C4 /* ChangePasswordInMemoryStore.swift in Sources */,
 				0462C6CD2816535C00A9EABB /* SearchGroupView.swift in Sources */,
 				047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */,
@@ -2024,6 +2083,7 @@
 				047D6B6027F6A3750098B104 /* CreateDirectMessageRemoteStore.swift in Sources */,
 				22E4DBAE28869F0D00652B58 /* InCallModifier.swift in Sources */,
 				22B1EA6B2887FE6C008026DC /* InComingVoiceGroupCall.swift in Sources */,
+				22D363B2288E403A009B3BDA /* ChangeTypeCall.swift in Sources */,
 				F553F87527E820E600824BE7 /* SocialCommonStyle.swift in Sources */,
 				F5644833283B7A79007846F9 /* ProfileInteractor.swift in Sources */,
 				047D6B6227F6A3750098B104 /* CreateDirectMessageView.swift in Sources */,
@@ -2080,9 +2140,11 @@
 				047241A927DB3D2C0043345A /* AuthenticationModel.swift in Sources */,
 				F5484D9E2828FF8200F0B43C /* CreateGroupView.swift in Sources */,
 				228F2C84281B9E6F0012B07A /* ForwardView.swift in Sources */,
+				22D3639D288E2BF2009B3BDA /* SingleVoiceCallInfoView.swift in Sources */,
 				047241A927DB3D2C0043345A /* AuthenticationModel.swift in Sources */,
 				0499343827E96F8A003BD4C4 /* NewPasswordInteractor.swift in Sources */,
 				0457270128868C7E001EF5F2 /* String+Extensions.swift in Sources */,
+				22D363AF288E3804009B3BDA /* IPeerViewModels.swift in Sources */,
 				F5350E1E27FAD58F00F54E32 /* TwoFactorRemoteStore.swift in Sources */,
 				0462C6C52816535C00A9EABB /* SearchCatalogy.swift in Sources */,
 				F553F87727E820E600824BE7 /* SocialInMemoryStore.swift in Sources */,
@@ -2093,13 +2155,15 @@
 				CB117EA827BB7856000941D9 /* PushNotificationsHandler.swift in Sources */,
 				F568DC2427FD882600EE9DF0 /* NotificationWorker.swift in Sources */,
 				CB40073027E74E1900DFBE88 /* Configuration.swift in Sources */,
-				22B1EA5528879D66008026DC /* InComingCallView.swift in Sources */,
+				22B1EA5528879D66008026DC /* PeerCallView.swift in Sources */,
 				CB7F295B2828BA5900BD5049 /* RegisterViewError.swift in Sources */,
 				CB117EBC27BB7D2F000941D9 /* RootView.swift in Sources */,
 				044432BF28572B9F00276DB3 /* CreatGroupViewModel.swift in Sources */,
 				22CDFF312889267E00B8213D /* CGSize+Extensions.swift in Sources */,
 				CB117EB327BB7879000941D9 /* DependencyInjector.swift in Sources */,
 				04C854B228489DA300CBA291 /* HomeModels.swift in Sources */,
+				22D363A7288E2F83009B3BDA /* PeerCallInteractor.swift in Sources */,
+				22D363A5288E2EAA009B3BDA /* PeerCallWorker.swift in Sources */,
 				CB23605428337CD400D98F54 /* HomeContentView.swift in Sources */,
 				0459993C286311BB006754DF /* GroupsModel.swift in Sources */,
 				0462C6CA2816535C00A9EABB /* SearchMessageView.swift in Sources */,

@@ -11,6 +11,7 @@ import UIKit
 import Combine
 import Common
 import ChatSecure
+import CommonUI
 
 struct AppEnvironment {
 	let container: DIContainer
@@ -47,6 +48,7 @@ extension AppEnvironment {
 		let chatInteractor = ChatInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, realmManager: DependencyResolver.shared.realmManager, groupService: DependencyResolver.shared.groupService, messageService: DependencyResolver.shared.messageService, uploadFileService: DependencyResolver.shared.uploadFileService)
 		let createDirectMessageInteractor = CreateDirectMessageInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, userService: DependencyResolver.shared.userService, groupService: DependencyResolver.shared.groupService)
 		let groupDetailInteractor = GroupDetailInteractor(appState: appState, groupService: DependencyResolver.shared.groupService, channelStorage: DependencyResolver.shared.channelStorage)
+		let peerCallInteractor = PeerCallInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, callService: DependencyResolver.shared.videoService)
 		
 		return .init(homeInteractor: homeInteractor,
 					 loginInteractor: loginInteractor,
@@ -59,7 +61,8 @@ extension AppEnvironment {
 					 chatGroupInteractor: chatGroupInteractor,
 					 chatInteractor: chatInteractor,
 					 createDirectMessageInteractor: createDirectMessageInteractor,
-					 groupDetailInteractor: groupDetailInteractor)
+					 groupDetailInteractor: groupDetailInteractor,
+					 peerCallInteractor: peerCallInteractor)
 	}
 }
 

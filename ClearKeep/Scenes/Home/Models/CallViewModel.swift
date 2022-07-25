@@ -324,20 +324,16 @@ class CallViewModel: NSObject, ObservableObject {
 	
 	func updateCallTypeVideo() {
 		guard let callBox = self.callBox else { return }
-//		Multiserver.instance.currentServer.updateVideoCall(callBox.roomId, callType: .video) { [weak self](response, error) in
-//			if error == nil {
-//				DispatchQueue.main.async { [weak self] in
-//					guard let self = self else { return }
-//					self.cameraOn = true
-//					self.callType = .video
-//					self.callBox?.type = .video
-//					self.callBox?.videoRoom?.publisher?.cameraOn()
-//					self.speakerEnable = true
-//					self.updateSpeakerConfig()
-//					print("#TEST updateCallTypeVideo >>> video type")
-//				}
-//			}
-//		}
+		DispatchQueue.main.async { [weak self] in
+			guard let self = self else { return }
+			self.cameraOn = true
+			self.callType = .video
+			self.callBox?.type = .video
+			self.callBox?.videoRoom?.publisher?.cameraOn()
+			self.speakerEnable = true
+			self.updateSpeakerConfig()
+			print("#TEST updateCallTypeVideo >>> video type")
+		}
 	}
 	
 	func didReceiveMessageGroup(userInfo: [AnyHashable : Any]?) {

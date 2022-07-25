@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ChatSecure
 
 private enum Constant {
 	static let spacerTopView = 90.0
@@ -20,6 +21,8 @@ private enum Constant {
 
 struct CallVoiceActionView: View {
 	@ObservedObject var viewModel: CallViewModel
+	
+	var callAction: (CallType) -> Void
 	
 	var body: some View {
 		GeometryReader { reader in
@@ -42,7 +45,14 @@ struct CallVoiceActionView: View {
 											 isOn: viewModel.cameraOn,
 											 title: "Call.Camera".localized,
 											 styleButton: .voice,
-											 action: viewModel.updateCallTypeVideo)
+											 action: {
+							if viewModel.callType == .video {
+								self.callAction(.audio)
+								return
+							}
+							
+							self.callAction(.video)
+						})
 						Spacer()
 						CallActionButtonView(onIcon: AppTheme.shared.imageSet.speakerIcon2 ,
 											 offIcon: AppTheme.shared.imageSet.speakerOffIcon2,
@@ -89,12 +99,5 @@ private extension CallingView {
 	
 	var speakerIcon: Image {
 		isTappedSpeaker ? AppTheme.shared.imageSet.speakerOffIcon2 : AppTheme.shared.imageSet.speakerIcon2
-	}
-}
-
-struct CallVoiceActionView_Previews: PreviewProvider {
-	static var previews: some View {
-		CallVoiceActionView(viewModel: CallViewModel())
-			.background(Color.blue)
 	}
 }
