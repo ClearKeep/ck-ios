@@ -36,7 +36,6 @@ struct CountryCode: View {
 		content
 			.background(background)
 			.hiddenNavigationBarStyle()
-//			.onAppear(perform: { self.data = self.datas.countryCodes })
 	}
 }
 
