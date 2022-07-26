@@ -20,23 +20,31 @@ private enum Constants {
 	static let radius = 16.0
 	static let widthButtonPhone = 90.0
 	static let heightButtonPhone = 52.0
-	static let lineWidth = 2.0
 	static let imageSize = CGSize(width: 64.0, height: 64.0)
+	static let countryCode = CGSize(width: 78.0, height: 52.0)
+	static let spacingVstack = 2.0
+	static let borderWidth = 2.0
+	static let paddingText = 4.0
+	static let notifyHeight = 22.0
 }
 
 struct UserProfileContentView: View {
+
 	// MARK: - Variables
 	let inspection = ViewInspector<Self>()
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-	@State var countryCode = ""
+
+	@State private(set) var countryCode: String = ""
 	@Binding var loadable: Loadable<IProfileViewModels>
-	@Binding var myProfile: UserProfileViewModel?
 	@State private(set) var urlAvatar: String = ""
 	@State private(set) var usernameStyle: TextInputStyle = .default
+	@State private(set) var username: String = ""
 	@State private(set) var emailStyle: TextInputStyle = .default
+	@State private(set) var email: String = ""
 	@State private(set) var phoneStyle: TextInputStyle = .default
+	@State private(set) var phoneNumber: String = ""
 	@State private(set) var isExpand = false
 	@State private(set) var isShowCountryCode: Bool = false
 	@State private var isEnable2FA: Bool = false
@@ -47,9 +55,13 @@ struct UserProfileContentView: View {
 	@State private var isImagePickerPresented = false
 	@State private var showingCameraPicker = false
 	@State private var selectedImages = [SelectedImageModel]()
+	@State private var phoneInvalid: Bool = true
+	@State private var userNameValid: Bool = false
+	@State private(set) var countryCodeStyle: TextInputStyle = .default
+	@State private(set) var onEditing: Bool = false
 
 	// MARK: - Init
-
+	
 	// MARK: - Body
 	var body: some View {
 		ScrollView {
@@ -57,7 +69,7 @@ struct UserProfileContentView: View {
 				HStack(spacing: Constants.spacer) {
 					Button(action: avartarOptions ) {
 						if selectedImages.isEmpty {
-							AvatarDefault(.constant(myProfile?.displayName ?? ""), imageUrl: urlAvatar)
+							AvatarDefault(.constant(username), imageUrl: urlAvatar)
 								.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
 						} else {
 							Image(uiImage: selectedImages.first?.thumbnail ?? UIImage())
@@ -84,24 +96,30 @@ struct UserProfileContentView: View {
 							.font(AppTheme.shared.fontSet.font(style: .input3))
 							.foregroundColor(foregroundColor)
 
-						CommonTextField(text: .constant(myProfile?.displayName ?? ""),
+						CommonTextField(text: $username,
 										inputStyle: $usernameStyle,
 										placeHolder: "UserProfile.Username".localized,
 										keyboardType: .default,
 										onEditingChanged: { isEditing in
-							self.usernameStyle = isEditing ? .highlighted : .default })
+							self.usernameStyle = isEditing ? .highlighted : .normal
+							if username.isEmpty {
+								usernameStyle = .error(message: "UserProfile.UserName.Valid".localized)
+							}
+						})
+							.onChange(of: self.username, perform: { text in
+								self.checkUserValid(text: text)
+							})
 					}
 					VStack(alignment: .leading, spacing: Constants.spacerSetting) {
 						Text("UserProfile.Email".localized)
 							.font(AppTheme.shared.fontSet.font(style: .input3))
 							.foregroundColor(foregroundColor)
-
-						CommonTextField(text: .constant(myProfile?.email ?? ""),
+						CommonTextField(text: $email,
 										inputStyle: $emailStyle,
 										placeHolder: "UserProfile.Email".localized,
 										keyboardType: .default,
-										onEditingChanged: { isEditing in
-							self.emailStyle = isEditing ? .highlighted : .default })
+										onEditingChanged: { _ in })
+							.disabled(true)
 					}
 
 					VStack(alignment: .leading, spacing: Constants.spacerSetting) {
@@ -110,11 +128,10 @@ struct UserProfileContentView: View {
 							.foregroundColor(foregroundColor)
 
 						HStack(spacing: Constants.spacerSetting) {
-							NavigationLink(destination: CountryCode(selectedNum: $countryCode, isShowing: $isShowCountryCode),
-										   isActive: $isShowCountryCode) {
-								Button {
-									isShowCountryCode = true
-								} label: {
+							Button {
+								isShowCountryCode = true
+							} label: {
+								VStack(alignment: .leading, spacing: Constants.spacingVstack) {
 									HStack {
 										Text(countryCode)
 											.font(AppTheme.shared.fontSet.font(style: .input3))
@@ -132,16 +149,34 @@ struct UserProfileContentView: View {
 									.cornerRadius(Constants.radius)
 									.overlay(
 										RoundedRectangle(cornerRadius: Constants.radius)
-											.stroke(AppTheme.shared.colorSet.grey5, lineWidth: Constants.lineWidth)
+											.stroke(borderColor, lineWidth: Constants.borderWidth)
 									)
 								}
 							}
-							CommonTextField(text: .constant(myProfile?.phoneNumber ?? ""),
+							CommonTextField(text: $phoneNumber,
 											inputStyle: $phoneStyle,
 											placeHolder: "UserProfile.PhoneNumber".localized,
-											keyboardType: .default,
+											keyboardType: .phonePad,
 											onEditingChanged: { isEditing in
-								self.phoneStyle = isEditing ? .highlighted : .default })
+								self.phoneStyle = isEditing ? .highlighted : .normal
+								self.onEditing = isEditing
+							})
+								.onChange(of: phoneNumber, perform: { text in
+									checkPhoneValid(text: text)
+								})
+								.cornerRadius(Constants.radius)
+								.overlay(
+									RoundedRectangle(cornerRadius: Constants.radius)
+										.stroke(borderColor, lineWidth: Constants.borderWidth)
+								)
+							
+						}
+						if phoneInvalid == false {
+							Text("UserProfile.Phone.Valid".localized)
+								.font(AppTheme.shared.fontSet.font(style: .input3))
+								.frame(height: Constants.notifyHeight)
+								.padding(.leading, Constants.paddingText)
+								.foregroundColor(notifyColor)
 						}
 					}
 
@@ -210,6 +245,9 @@ struct UserProfileContentView: View {
 			Button("Chat.Cancel".localized, role: .cancel) {
 			}
 		}
+		.fullScreenCover(isPresented: $isShowCountryCode, content: {
+			CountryCode(selectedNum: $countryCode)
+		})
 		.fullScreenCover(isPresented: $showingCameraPicker, content: {
 			CameraImagePicker(sourceType: .camera) { addImage in
 				selectedImages.removeAll()
@@ -225,6 +263,7 @@ struct UserProfileContentView: View {
 				updateAvata()
 			})
 		}
+		.hideKeyboardOnTapped()
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 	}
 }
@@ -232,7 +271,7 @@ struct UserProfileContentView: View {
 // MARK: - Interactor
 private extension UserProfileContentView {
 	func avartarOptions() {
-		showingImageOptions.toggle()
+		self.showingImageOptions.toggle()
 	}
 
 	func updateAvata() {
@@ -243,15 +282,29 @@ private extension UserProfileContentView {
 				let urlAvata = try await injected.interactors.profileInteractor.uploadAvatar(url: url, imageData: data).get().urlAvatarViewModel?.fileURL ?? ""
 				self.urlAvatar = urlAvata
 			} catch {
-				print("failure")
+				print("Error retrieving the value: \(error)")
 			}
+		}
+	}
+	
+	func checkPhoneValid(text: String) {
+		let checkNumber = "\(countryCode)\(text)"
+		phoneInvalid = injected.interactors.profileInteractor.validate(phoneNumber: checkNumber)
+	}
+	
+	func checkUserValid(text: String) {
+		if text.isEmpty {
+			usernameStyle = .error(message: "UserProfile.UserName.Valid".localized)
+		} else {
+			usernameStyle = .highlighted
 		}
 	}
 
 	func saveAction() {
+		selectedImages.removeAll()
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			loadable = await injected.interactors.profileInteractor.updateProfile(displayName: myProfile?.displayName ?? "", avatar: urlAvatar, phoneNumber: myProfile?.phoneNumber ?? "", clearPhoneNumber: false)
+			loadable = await injected.interactors.profileInteractor.updateProfile(displayName: username, avatar: urlAvatar, phoneNumber: "\(countryCode)\(phoneNumber)", clearPhoneNumber: false)
 		}
 		presentationMode.wrappedValue.dismiss()
 	}
@@ -311,11 +364,23 @@ private extension UserProfileContentView {
 	var foregroundColorPicture: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight
 	}
+	
+	var notifyColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.errorDefault : AppTheme.shared.colorSet.primaryDefault
+	}
+	
+	var borderColor: Color {
+		phoneInvalid == false ? (colorScheme == .light ? AppTheme.shared.colorSet.errorDefault : AppTheme.shared.colorSet.primaryDefault) : borderColorOnEdit
+	}
+
+	var borderColorOnEdit: Color {
+		colorScheme == .light ? (onEditing == false ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.black) : (onEditing == true ? AppTheme.shared.colorSet.darkgrey3 : AppTheme.shared.colorSet.greyLight)
+	}
 
 }
 
 struct UserProfileContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		UserProfileContentView(loadable: .constant(.notRequested), myProfile: .constant(nil))
+		UserProfileContentView(loadable: .constant(.notRequested))
 	}
 }
