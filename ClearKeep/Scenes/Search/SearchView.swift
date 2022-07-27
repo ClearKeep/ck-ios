@@ -71,7 +71,7 @@ private extension SearchView {
 
 	func loadedView(_ data: ISearchViewModels) -> AnyView {
 		if let searchUser = data.searchUser, let searchGroup = data.searchGroup {
-			let lstUser = searchUser.sorted(by: { $0.displayName?.lowercased().prefix(1) ?? "" < $1.displayName?.lowercased().prefix(1) ?? "" })
+			let lstUser = searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
 			let lstGroup = searchGroup.filter { $0.groupType == "group" }
 			let lstMessage = searchGroup.filter { $0.groupType == "peer" }
 			return AnyView(SearchContentView(serverText: serverText, searchCatalogy: .all, searchUser: .constant(lstUser), searchGroup: .constant(lstGroup), searchMessage: .constant(lstMessage), loadable: $loadable))

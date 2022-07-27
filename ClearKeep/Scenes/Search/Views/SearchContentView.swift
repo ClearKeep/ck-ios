@@ -27,8 +27,6 @@ struct SearchContentView: View {
 	@State private(set) var searchModels: [SearchGroupViewModel] = []
 	@State private(set) var serverText: String = ""
 	@State private(set) var searchCatalogy: SearchCatalogy = .all
-	@State private var selectedTab: Int = 0
-	@State private var isSelected: Bool = false
 	@State private var searchKeywordStyle: TextInputStyle = .default
 	@Binding var searchUser: [SearchUserViewModel]
 	@Binding var searchGroup: [SearchGroupViewModel]
@@ -132,12 +130,9 @@ private extension SearchContentView {
 							onEditingChanged: { isEditing in
 				searchKeywordStyle = isEditing ? .highlighted : .normal
 			})
-				.onSubmit {
-					seachAction(text: searchText)
-				}
-//				.onChange(of: searchText, perform: { writing in
-//					seachAction(text: writing)
-//				})
+				.onChange(of: searchText, perform: { writing in
+					seachAction(text: writing)
+				})
 			CatalogyView(states: SearchCatalogy.allCases, selectedState: $searchCatalogy)
 			resultView
 			Spacer()
@@ -149,13 +144,13 @@ private extension SearchContentView {
 		Group {
 			switch searchCatalogy {
 			case .all:
-				searchText.isEmpty ? AnyView(notRequestView) : AnyView(allView)
+				searchUser.isEmpty && searchGroup.isEmpty ? AnyView(notRequestView) : AnyView(allView)
 			case .people:
-				peopleContent
+				searchUser.isEmpty ? AnyView(notRequestView) : AnyView(peopleContent)
 			case .group:
-				groupContent
+				searchGroup.isEmpty ? AnyView(notRequestView) : AnyView(groupContent)
 			case .message:
-				messageContent
+				searchUser.isEmpty ? AnyView(notRequestView) : AnyView(messageContent)
 			}
 		}
 	}
@@ -201,10 +196,9 @@ private extension SearchContentView {
 private extension SearchContentView {
 	func seachAction(text: String) {
 		if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-			loadable = .loaded(SearchViewModels(searchUser: [], searchGroup: []))
+			loadable = .loaded(SearchViewModels(searchGroup: [], searchUser: []))
 			return
 		}
-//		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
 			loadable = await injected.interactors.searchInteractor.searchAll(text)
 		}

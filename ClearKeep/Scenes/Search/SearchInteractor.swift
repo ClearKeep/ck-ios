@@ -41,7 +41,7 @@ extension SearchInteractor: ISearchInteractor {
 			let result = await worker.searchGroups(keyword)
 			switch result {
 			case .success(let groupResponse):
-				return .loaded(SearchViewModels(users: userResponse, groups: groupResponse))
+				return .loaded(SearchViewModels(responseUser: userResponse, responseGroup: groupResponse))
 			case .failure(let error):
 				return .failed(error)
 			}
@@ -49,7 +49,15 @@ extension SearchInteractor: ISearchInteractor {
 			return .failed(error)
 		}
 	}
-
+//	func searchUser(_ keyword: String) async -> Loadable<ISearchViewModels> {
+//		let result = await worker.searchGroups(keyword)
+//		switch result {
+//		case .success(let groupResponse):
+//			return .loaded()
+//		case .failure(let error):
+//			return .failed(error)
+//		}
+//	}
 	func getMessageList(_ keyword: String, groupId: Int64, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
 		let result = await worker.getMessageList(groupId: groupId, loadSize: Constants.loadSize, lastMessageAt: lastMessageAt)
 		return result
