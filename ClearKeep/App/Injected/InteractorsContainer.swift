@@ -20,8 +20,8 @@ extension DIContainer {
 		let chatInteractor: IChatInteractor
 		let createDirectMessageInteractor: ICreateDirectMessageInteractor
 		let groupDetailInteractor: IGroupDetailInteractor
-		let searchInteractor: ISearchInteractor
 		let profileInteractor: IProfileInteractor
+		let searchInteractor: ISearchInteractor
 
 		static var stub: Self {
 			.init(homeInteractor: StubHomeInteractor(channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService),
