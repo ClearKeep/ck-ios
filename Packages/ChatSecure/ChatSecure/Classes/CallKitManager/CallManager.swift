@@ -169,6 +169,15 @@ final public class CallManager: NSObject {
 			return
 		}
 		
+		if let index = self.calls.firstIndex(where: { item in
+			item.roomId == Int64(callNotification.publication?.groupID ?? "0")
+		}) {
+			self.calls[index].type = callNotification.publication?.callType == "video" ? .video : .audio
+			NotificationCenter.default.post(name: Notification.Name.CallService.changeTypeCall, object: callNotification.publication)
+			completion?(nil)
+			return
+		}
+		
 		if let username = callNotification.publication?.fromClientName,
 		   let roomId = callNotification.publication?.groupID,
 		   let clientId = callNotification.publication?.fromClientID,
@@ -447,5 +456,6 @@ public extension Notification.Name {
 		public static let receiveCall = Notification.Name("CallService.receiveCall")
 		public static let endCall = Notification.Name("CallService.endCall")
 		public static let notification = NSNotification.Name.init("notification")
+		public static let changeTypeCall = NSNotification.Name.init("changeTypeCall")
 	}
 }

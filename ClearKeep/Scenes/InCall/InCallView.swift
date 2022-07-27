@@ -27,6 +27,9 @@ struct InCallView: View {
 				viewModel.updateCallBox(callBox: callBox)
 			}
 		})
+		.onReceive(NotificationCenter.default.publisher(for: Notification.Name.CallService.changeTypeCall)) { (obj) in
+			viewModel.updateCallType(data: obj.object)
+		}
 	}
 }
 

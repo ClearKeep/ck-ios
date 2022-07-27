@@ -19,12 +19,12 @@ struct ApsNotification: Codable {
 }
 
 // MARK: - Publication
-struct PublicationNotification: Codable {
-	let turnServer, clientWorkspaceDomain, groupRTCURL, notifyType: String?
-	let groupType, groupName: String?
-	let fromClientAvatar: String?
-	let stunServer, groupID, groupRTCID, fromClientID: String?
-	let fromClientName, clientID, callType, groupRTCToken: String?
+public struct PublicationNotification: Codable {
+	public let turnServer, clientWorkspaceDomain, groupRTCURL, notifyType: String?
+	public let groupType, groupName: String?
+	public let fromClientAvatar: String?
+	public let stunServer, groupID, groupRTCID, fromClientID: String?
+	public let fromClientName, clientID, callType, groupRTCToken: String?
 
 	enum CodingKeys: String, CodingKey {
 		case turnServer = "turn_server"

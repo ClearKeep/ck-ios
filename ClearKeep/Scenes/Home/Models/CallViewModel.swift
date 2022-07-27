@@ -8,6 +8,7 @@
 import Foundation
 import WebRTC
 import ChatSecure
+import ChatSecure
 
 class CallViewModel: NSObject, ObservableObject {
 	@Published var localVideoView: RTCMTLEAGLVideoView?
@@ -257,8 +258,8 @@ class CallViewModel: NSObject, ObservableObject {
 		videoFrame.size.width *= CGFloat(scale)
 		videoFrame.size.height *= CGFloat(scale)
 		
-		let leadingPadding = (videoFrame.width - containerFrame.width)/2
-		let topPadding = (videoFrame.height - containerFrame.height)/2
+		let leadingPadding = (videoFrame.width - containerFrame.width) / 2
+		let topPadding = (videoFrame.height - containerFrame.height) / 2
 
 		videoFrame.origin = CGPoint.init(x: -leadingPadding, y: -topPadding)
 		
@@ -334,6 +335,25 @@ class CallViewModel: NSObject, ObservableObject {
 			self.callType = .video
 			self.callBox?.type = .video
 			self.callBox?.videoRoom?.publisher?.cameraOn()
+			self.speakerEnable = true
+			self.updateSpeakerConfig()
+			print("#TEST updateCallTypeVideo >>> video type")
+		}
+	}
+	
+	func updateCallType(data: Any?) {
+		guard let data = data as? PublicationNotification,
+			let callBox = self.callBox,
+			  callBox.roomId == Int64(data.groupID ?? "0")
+		else { return }
+		
+		DispatchQueue.main.async { [weak self] in
+			guard let self = self else { return }
+			self.cameraOn = data.notifyType == "video"
+			self.callType = data.notifyType == "video" ? .video : .audio
+			if self.callType == .video {
+				self.callBox?.videoRoom?.publisher?.cameraOn()
+			}
 			self.speakerEnable = true
 			self.updateSpeakerConfig()
 			print("#TEST updateCallTypeVideo >>> video type")

@@ -97,6 +97,9 @@ struct PeerCallView: View {
 			.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.CallService.notification), perform: { (obj) in
 				viewModel.didReceiveMessageGroup(userInfo: obj.userInfo)
 			})
+			.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.CallService.notification), perform: { (obj) in
+				viewModel.didReceiveMessageGroup(userInfo: obj.userInfo)
+			})
 		}
 		.progressHUD(isLoading)
 		.alert(isPresented: $isShowError) {
