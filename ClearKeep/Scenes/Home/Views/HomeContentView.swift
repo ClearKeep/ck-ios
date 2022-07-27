@@ -64,7 +64,7 @@ struct HomeContentView: View {
 					   isActive: $isCreateMessage) {}
 		
 		NavigationLink(destination: ChatGroupView(),
-					   isActive: $isCreatGroup) {}
+					   isActive: $isCreateGroup) {}
 
 		NavigationLink(destination: SearchView(serverText: serverName),
 					   isActive: $isSearchView) {}

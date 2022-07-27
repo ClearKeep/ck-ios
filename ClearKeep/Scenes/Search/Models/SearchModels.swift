@@ -12,12 +12,12 @@ import Model
 
 protocol ISearchModels {
 	var searchUsers: IGetUserResponse? { get }
-	var searchGroups: ISearchGroupModel? { get }
+	var searchGroups: SearchGroupModels? { get }
 }
 
 struct SearchModels {
 	var searchUsers: IGetUserResponse?
-	var searchGroups: ISearchGroupModel?
+	var searchGroups: SearchGroupModels?
 }
 
 extension SearchModels: ISearchModels {
@@ -26,6 +26,6 @@ extension SearchModels: ISearchModels {
 	}
 
 	init(searchGroup: Group_SearchGroupsResponse) {
-		self.init(searchGroups: SearchGroupModel(response: searchGroup))
+		self.init(searchGroups: SearchGroupModels(groupResponse: searchGroup))
 	}
 }
