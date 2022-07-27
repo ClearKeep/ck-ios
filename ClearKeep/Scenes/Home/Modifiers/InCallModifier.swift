@@ -12,7 +12,7 @@ import ChatSecure
 
 struct InCallModifier: ViewModifier {
 	@State var isInMinimizeMode: Bool = false
-	@State var controller: UIViewController? = nil
+	@State var controller: UIViewController?
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	@Binding var isInCall: Bool
@@ -29,7 +29,7 @@ struct InCallModifier: ViewModifier {
 			if isInCall {
 				HStack(alignment: .bottom) {
 					if !callViewModel.callGroup {
-						AvatarDefault(.constant(callViewModel.getUserName()), imageUrl: "")
+						AvatarDefault(.constant(callViewModel.getUserName()), imageUrl: callViewModel.getAvatar())
 							.frame(width: 34, height: 34)
 							.padding(.trailing, 16)
 							.padding(.leading, 24)
@@ -40,7 +40,7 @@ struct InCallModifier: ViewModifier {
 							.font(AppTheme.shared.fontSet.font(style: .body2))
 							.foregroundColor(AppTheme.shared.colorSet.grey5)
 							.lineLimit(1)
-						Text("Tap here to return to call screen")
+						Text("Call.TapHereRetutnCall".localized)
 							.font(AppTheme.shared.fontSet.font(style: .placeholder3))
 							.foregroundColor(AppTheme.shared.colorSet.background)
 							.lineLimit(1)
@@ -60,7 +60,7 @@ struct InCallModifier: ViewModifier {
 					callViewModel.backHandler = {
 						self.controller?.dismiss(animated: true)
 						withAnimation {
-							isInMinimizeMode = true
+							isInMinimizeMode = self.callViewModel.callType == .video
 							isInCall = true
 						}
 					}
@@ -104,7 +104,7 @@ struct InCallModifier: ViewModifier {
 				
 				withAnimation {
 					isInCall = true
-					isInMinimizeMode = true
+					isInMinimizeMode = self.callViewModel.callType == .video
 				}
 			}
 			

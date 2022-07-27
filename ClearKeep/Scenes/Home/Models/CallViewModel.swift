@@ -112,7 +112,11 @@ class CallViewModel: NSObject, ObservableObject {
 	}
 	
 	func getUserName() -> String {
-		return callBox?.clientName ?? "N/A" //""
+		return callBox?.clientName ?? "N/A"
+	}
+	
+	func getAvatar() -> String {
+		return callBox?.avatar ?? "" //""
 	}
 	
 	func updateVideoView() {

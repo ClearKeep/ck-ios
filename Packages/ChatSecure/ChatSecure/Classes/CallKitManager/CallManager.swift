@@ -234,24 +234,26 @@ extension CallManager {
 		// OTAudioDeviceManager.setAudioDevice(OTDefaultAudioDevice.sharedInstance())
 		
 		// Report the incoming call to the system
-		provider.reportNewIncomingCall(with: uuid, update: update) { [weak self] error in
-			guard let self = self else { return }
-			/*
-			 Only add incoming call to the app's list of calls if the call was allowed (i.e. there was no error)
-			 since calls may be "denied" for various legitimate reasons. See CXErrorCodeIncomingCallError.
-			 */
-			if error == nil {
-				let call = CallBox(uuid: uuid, clientId: clientId, rtcUrl: groupRtcUrl)
-				call.clientName = callerName
-				call.roomId = Int64(roomId) ?? 0
-				call.groupToken = token
-				call.avatar = avatar
-				call.isCallGroup = isCallGroup
-				call.type = hasVideo ? .video : .audio
-				self.addCall(call)
+		Task {
+			try? await provider.reportNewIncomingCall(with: uuid, update: update) { [weak self] error in
+				guard let self = self else { return }
+				/*
+				 Only add incoming call to the app's list of calls if the call was allowed (i.e. there was no error)
+				 since calls may be "denied" for various legitimate reasons. See CXErrorCodeIncomingCallError.
+				 */
+				if error == nil {
+					let call = CallBox(uuid: uuid, clientId: clientId, rtcUrl: groupRtcUrl)
+					call.clientName = callerName
+					call.roomId = Int64(roomId) ?? 0
+					call.groupToken = token
+					call.avatar = avatar
+					call.isCallGroup = isCallGroup
+					call.type = hasVideo ? .video : .audio
+					self.addCall(call)
+				}
+				
+				completion?(error as NSError?)
 			}
-			
-			completion?(error as NSError?)
 		}
 	}
 	

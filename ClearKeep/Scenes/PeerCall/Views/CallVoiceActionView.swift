@@ -28,7 +28,7 @@ struct CallVoiceActionView: View {
 		GeometryReader { reader in
 			VStack {
 				Spacer()
-					.frame(height: reader.size.height/2)
+					.frame(height: reader.size.height / 2)
 				
 				VStack {
 					HStack(spacing: 16) {
@@ -57,7 +57,7 @@ struct CallVoiceActionView: View {
 						CallActionButtonView(onIcon: AppTheme.shared.imageSet.speakerIcon2 ,
 											 offIcon: AppTheme.shared.imageSet.speakerOffIcon2,
 											 isOn: viewModel.speakerEnable,
-											 title: "Speaker",
+											 title: "CallGroup.Speaker".localized,
 											 styleButton: .voice,
 											 action: viewModel.speakerChange)
 						Spacer()
@@ -70,7 +70,7 @@ struct CallVoiceActionView: View {
 						CallActionButtonView(onIcon: AppTheme.shared.imageSet.phoneOffIcon,
 											 offIcon: AppTheme.shared.imageSet.phoneOffIcon,
 											 isOn: true,
-											 title: "Cancel",
+											 title: viewModel.callStatus == .answered ? "Call.End".localized : "Call.Cancel".localized,
 											 styleButton: .endCall,
 											 action: { viewModel.endCall() })
 						Spacer()
