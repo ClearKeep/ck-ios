@@ -16,7 +16,7 @@ private enum Constants {
 	static let paddingVertical = 2.0
 	static let radius = 8.0
 	static let heightButton = 28.0
-	static let widthButton = 98.0
+	static let widthButton = 78.0
 }
 
 struct CatalogyView<T: ISearchCatalogy>: View {

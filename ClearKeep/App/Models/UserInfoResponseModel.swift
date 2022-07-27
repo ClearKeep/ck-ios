@@ -34,6 +34,7 @@ extension UserResponseModel {
 		}
 		self.init(lstUser: users)
 	}
+
 }
 
 struct UserInforModel: IUserInfo {

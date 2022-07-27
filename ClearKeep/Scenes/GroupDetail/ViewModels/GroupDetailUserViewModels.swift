@@ -30,5 +30,4 @@ struct GroupDetailUserViewModels: Identifiable {
 		self.displayName = displayName
 		self.workspaceDomain = workspaceDomain
 	}
-	
 }

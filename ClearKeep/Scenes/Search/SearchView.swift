@@ -9,39 +9,27 @@ import SwiftUI
 import Combine
 import Common
 import CommonUI
+import Model
+import Networking
 
 private enum Constants {
 	static let paddingLeading = 100.0
 	static let padding = 20.0
 	static let sizeOffset = 30.0
 	static let sizeIcon = 24.0
+
 }
 
 struct SearchView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
 	@Environment(\.colorScheme) var colorScheme
-	
-	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
-	@State private(set) var samples: Loadable<[ISearchModels]>
-	@Binding var searchText: String
-	@State private(set) var inputStyle: TextInputStyle = .default
-	@Binding var isSearchAction: Bool
-	@State private var searchModel: [SearchModels] = [SearchModels(id: 1, imageUser: AppTheme.shared.imageSet.userImage, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "5/5/2021"),
-												SearchModels(id: 2, imageUser: AppTheme.shared.imageSet.userImage, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "5/5/2021"),
-												SearchModels(id: 3, imageUser: AppTheme.shared.imageSet.userImage, userName: "Alex Mendes", message: "... this CLK is ready for tes...", groupText: "CLK - System architecture", dateMessage: "5/5/2021 ")]
+	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
+	@State private(set) var loadable: Loadable<ISearchViewModels> = .notRequested
+	@State private(set) var serverText: String = ""
 
 	// MARK: - Init
-	init(samples: Loadable<[ISearchModels]> = .notRequested,
-		 inputStyle: TextInputStyle = .default,
-		 isSearchAction: Binding<Bool>,
-		 searchText: Binding<String>) {
-		self._samples = .init(initialValue: samples)
-		self._inputStyle = .init(initialValue: inputStyle)
-		self._isSearchAction = isSearchAction
-		self._searchText = searchText
-	}
 
 	// MARK: - Body
 	var body: some View {
@@ -58,29 +46,47 @@ struct SearchView: View {
 // MARK: - Private
 private extension SearchView {
 	var content: AnyView {
-		searchText == "" ? AnyView(notSearchView) : AnyView(searchView)
+		switch loadable {
+		case .notRequested:
+			return AnyView(notRequestedView)
+		case .isLoading:
+			return AnyView(loadingView)
+		case .loaded(let data):
+			return loadedView(data)
+		case .failed(let error):
+			return AnyView(errorView(LoginViewError(error)))
+		}
 	}
 }
 
 // MARK: - Displaying Content
 private extension SearchView {
-	var notSearchView: some View {
-		VStack(alignment: .center) {
-			Spacer()
-			HStack {
-				Spacer()
-			Text("Search.Title.Error".localized)
-				.foregroundColor(forceColorTitle)
-				.frame(width: .infinity, height: .infinity, alignment: .center)
-				Spacer()
-			}
-			Spacer()
-			Spacer()
-		}
+	var notRequestedView: some View {
+		SearchContentView(serverText: serverText, searchUser: .constant([]), searchGroup: .constant([]), searchMessage: .constant([]), loadable: $loadable)
 	}
 
-	var searchView: some View {
-		SearchContentView(searchModel: $searchModel)
+	var loadingView: some View {
+		notRequestedView.progressHUD(true)
+	}
+
+	func loadedView(_ data: ISearchViewModels) -> AnyView {
+		if let searchUser = data.searchUser, let searchGroup = data.searchGroup {
+			let lstUser = searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
+			let lstGroup = searchGroup.filter { $0.groupType == "group" }
+			let lstMessage = searchGroup.filter { $0.groupType == "peer" }
+			return AnyView(SearchContentView(serverText: serverText, searchCatalogy: .all, searchUser: .constant(lstUser), searchGroup: .constant(lstGroup), searchMessage: .constant(lstMessage), loadable: $loadable))
+		}
+
+		return AnyView(SearchContentView(serverText: serverText, searchUser: .constant([]), searchGroup: .constant([]), searchMessage: .constant([]), loadable: $loadable))
+	}
+
+	func errorView(_ error: LoginViewError) -> some View {
+		return notRequestedView
+			.alert(isPresented: .constant(true)) {
+				Alert(title: Text(error.title),
+					  message: Text(error.message),
+					  dismissButton: .default(Text(error.primaryButtonTitle)))
+			}
 	}
 }
 
@@ -93,14 +99,17 @@ private extension SearchView {
 	var forceColorTitle: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight
 	}
-	
 }
 
+// MARK: - Interactors
+private extension SearchView {
+
+}
 // MARK: - Preview
 #if DEBUG
 struct SearchView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchView(isSearchAction: .constant(false), searchText: .constant(""))
+		SearchView()
 	}
 }
 #endif
