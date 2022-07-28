@@ -14,6 +14,7 @@ import FirebaseCore
 import MSAL
 import PushKit
 import ChatSecure
+import AVKit
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {

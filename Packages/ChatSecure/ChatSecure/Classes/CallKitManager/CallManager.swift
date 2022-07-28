@@ -21,6 +21,7 @@ final public class CallManager: NSObject {
 		case end = "endCall"
 		case hold = "holdCall"
 	}
+	var isQdsad = false
 	var answerCall: CallBox?
 	var outgoingCall: CallBox?
 	let callController = CXCallController()
