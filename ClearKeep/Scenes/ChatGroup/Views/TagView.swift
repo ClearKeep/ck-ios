@@ -32,10 +32,11 @@ struct TagView: View {
 		ScrollView(.horizontal, showsIndicators: false) {
 			LazyHStack {
 				ForEach(0..<groupChatModel.count, id: \.self) { index in
-                    tagView(for: groupChatModel[index])
+				tagView(for: groupChatModel[index])
 				}
 			}
-        }.frame(height: self.groupChatModel.isEmpty ? 0 : Constants.heightTagUser)
+			
+		}.frame(height: self.groupChatModel.isEmpty ? 0 : Constants.heightTagUser)
 	}
 
 	private func tagView(for model: CreatGroupGetUsersViewModel) -> some View {

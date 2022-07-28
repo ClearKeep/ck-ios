@@ -169,6 +169,12 @@ PODS:
     - Model
     - SwiftProtobuf
   - OpenSSL-Universal (1.1.1400)
+  - PhoneNumberKit (3.3.4):
+    - PhoneNumberKit/PhoneNumberKitCore (= 3.3.4)
+    - PhoneNumberKit/UIKit (= 3.3.4)
+  - PhoneNumberKit/PhoneNumberKitCore (3.3.4)
+  - PhoneNumberKit/UIKit (3.3.4):
+    - PhoneNumberKit/PhoneNumberKitCore
   - PromisesObjC (2.1.0)
   - Realm (10.25.1):
     - Realm/Headers (= 10.25.1)
@@ -372,6 +378,7 @@ DEPENDENCIES:
   - MSAL
   - netfox
   - Networking (from `./Packages/Networking`)
+  - PhoneNumberKit (~> 3.3)
   - SignalCoreKit (from `https://github.com/signalapp/SignalCoreKit.git`)
   - SignalProtocolObjC (from `https://github.com/nohtbook/SignalProtocol-ObjC.git`)
   - SignalServiceKit (from `./Packages/SignalServiceKit`)
@@ -418,6 +425,7 @@ SPEC REPOS:
     - nanopb
     - netfox
     - OpenSSL-Universal
+    - PhoneNumberKit
     - PromisesObjC
     - Realm
     - RealmSwift
@@ -518,6 +526,7 @@ SPEC CHECKSUMS:
   netfox: 9d5cc727fe7576c4c7688a2504618a156b7d44b7
   Networking: 922f56016618067e03318725e99cce62c987dbc0
   OpenSSL-Universal: cd40d7493c1e9696794f62e2a0e8c729115b7188
+  PhoneNumberKit: 441e8b26ec88d598e3591de9061eff18f5dd12e8
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
   Realm: 1a6e9b4f6983711655d8c0bcb6d2d29c3afbb1f3
   RealmSwift: e72669550d27082aa4fad5d176f5076cfe806245
@@ -545,6 +554,6 @@ SPEC CHECKSUMS:
   SwiftSRP: 98943ac8497e2e7fb1ab1b63f68810aefc28010c
   YapDatabase: 350ab72b61f9dcc32504594da1a52a93f5ef1476
 
-PODFILE CHECKSUM: 0079586f5b3730bc3c147af29befdbdfd411e895
+PODFILE CHECKSUM: 909fafabcf7c96c27e245825c29e5e7828cea7f9
 
 COCOAPODS: 1.11.3

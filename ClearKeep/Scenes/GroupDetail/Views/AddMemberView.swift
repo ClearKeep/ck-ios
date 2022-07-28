@@ -10,67 +10,131 @@ import Common
 import CommonUI
 
 private enum Constants {
-	static let spacing = 10.0
+	static let spacing = 23.0
 	static let padding = 20.0
-	static let sizeImage = 64.0
-	static let paddingTop = 50.0
-	static let sizeIcon = 18.0
-	static let radius = 80.0
-	static let paddingHorizontal = 80.0
-	static let paddingButton = 12.0
-	
+	static let spacerTopView = 90.0
+	static let heightButton = 40.0
+	static let cornerRadiusButtonNext = 40.0
+	static let paddingVertical = 14.0
 }
 
 struct AddMemberView: View {
 	// MARK: - Constants
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-	
+
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
-	@Binding var imageUser: Image
-	@Binding var userName: String
-	@Binding var searchText: String
-	@Binding var severText: String
-	@Binding var inputStyle: TextInputStyle
-	@State private(set) var isShowingView: Bool = false
-	
+	@Binding var loadable: Loadable<IGroupDetailViewModels>
+	@Binding var search: [GroupDetailUserViewModels]
+	@State private(set) var groupId: Int64 = 0
+	@State private(set) var searchText: String = ""
+	@State private(set) var searchStyle: TextInputStyle = .default
+	@State private(set) var searchLinkText: String = ""
+	@State private(set) var searchLinkStyle: TextInputStyle = .default
+	@State private(set) var searchEmailText: String = ""
+	@State private(set) var searchEmailStyle: TextInputStyle = .default
+	@State private(set) var isSelectedUser: Bool = false
+	@State private(set) var addMember: [GroupDetailUserViewModels] = []
+	@State private(set) var dataMember: GroupDetailUserViewModels?
+	@State private(set) var getProfile: GroupDetailUserViewModels?
+	@State private(set) var myProfile: GroupDetailProfileViewModel?
+	@State private(set) var useCustomServerChecked: Bool = false
+	@State private var isNextCreateGroup: Bool = false
+	@State private var messageAlert: String = ""
+	@State private var isShowAlert: Bool = false
+	@State private var useFindByEmail: Bool = false
+
 	// MARK: - Init
-	init(imageUser: Binding<Image>,
-		 userName: Binding<String>,
-		 searchText: Binding<String>,
-		 severText: Binding<String>,
-		 inputStyle: Binding<TextInputStyle>) {
-		self._imageUser = imageUser
-		self._userName = userName
-		self._searchText = searchText
-		self._severText = severText
-		self._inputStyle = inputStyle
-	}
-	
+
 	// MARK: - Body
 	var body: some View {
-		content
-			.padding(.horizontal, Constants.padding)
-			.navigationBarTitle("")
-			.navigationBarHidden(true)
-			.background(backgroundColorView)
-			.edgesIgnoringSafeArea(.all)
+		VStack(alignment: .center, spacing: Constants.spacing) {
+			VStack(alignment: .leading, spacing: Constants.spacing) {
+				SearchTextField(searchText: $searchText,
+								inputStyle: $searchStyle,
+								inputIcon: AppTheme.shared.imageSet.searchIcon,
+								placeHolder: "GroupDetail.Search".localized,
+								onEditingChanged: { isEditing in
+					searchStyle = isEditing ? .highlighted : .normal })
+					.onChange(of: searchText) { text in
+						search(text: text)
+					}
+					.padding(.top, Constants.paddingVertical)
+				TagDetailView(groupDetaiModel: $addMember, deleteSelect: { data in
+					self.deleteClient(data: data)
+				})
+				CheckBoxButtons(text: "GroupDetail.TitleCheckbox".localized, isChecked: $useCustomServerChecked)
+					.foregroundColor(foregroundCheckmask)
+			}
+			if useCustomServerChecked {
+				CommonTextField(text: $searchLinkText,
+								inputStyle: $searchLinkStyle,
+								placeHolder: "GroupDetail.Title.PlaceHoder".localized,
+								onEditingChanged: { isEditing in
+					searchLinkStyle = isEditing ? .highlighted : .normal },
+								submitLabel: .done,
+								onSubmit: addUserWithLink)
+			}
+			CheckBoxButtons(text: "GroupChat.AddUserFromEmail.Title".localized, isChecked: $useFindByEmail, action: {
+				self.useCustomServerChecked = false
+			})
+				.foregroundColor(foregroundCheckmask)
+				.frame(maxWidth: .infinity, alignment: .leading)
+			if useFindByEmail {
+				CommonTextField(text: $searchEmailText,
+								inputStyle: $searchEmailStyle,
+								placeHolder: "GroupChat.PasteYourFriendEmail".localized,
+								keyboardType: .emailAddress,
+								onEditingChanged: { isEditing in
+					searchEmailStyle = isEditing ? .highlighted : .normal
+				},
+								submitLabel: .done,
+								onSubmit: searchEmail)
+			}
+			ScrollView(showsIndicators: false) {
+				ForEach($search) { item in
+					UserGroupButton(item.displayName, imageUrl: "", isChecked: self.checkUserIsSelected(item: item.wrappedValue), action: { isSelectedUser in
+						addClient(item.wrappedValue, isSelected: isSelectedUser)
+					})
+				}
+			}
+			RoundedGradientButton(textButton, disabled: .constant(addMember.isEmpty && searchLinkText.isEmpty), action: nextToCreateGroup)
+				.frame(maxWidth: .infinity)
+				.frame(height: Constants.heightButton)
+				.font(AppTheme.shared.fontSet.font(style: .body3))
+				.background(backgroundGradientPrimary)
+				.foregroundColor(AppTheme.shared.colorSet.offWhite)
+				.cornerRadius(Constants.cornerRadiusButtonNext)
+				.padding(.horizontal, Constants.spacerTopView)
+				.padding(.bottom, 57)
+		}
+		.padding(.horizontal, Constants.padding)
+		.background(backgroundColorView)
+		.edgesIgnoringSafeArea(.all)
+		.hiddenNavigationBarStyle()
+		.applyNavigationBarPlainStyle(title: "GroupDetail.AddMember".localized,
+									  titleColor: titleColor,
+									  backgroundColors: backgroundButtonBack,
+									  leftBarItems: {
+			BackButtonStandard(customBack)
+		},
+									  rightBarItems: {
+			Spacer()
+		})
+		.alert(isPresented: self.$isShowAlert) {
+			Alert(title: Text("General.Warning".localized),
+				  message: Text(self.messageAlert),
+				  dismissButton: .default(Text("General.OK".localized)))
+		}
 	}
 }
 
 // MARK: - Private
 private extension AddMemberView {
-	var content: AnyView {
-		AnyView(contentView)
-	}
-	
-	var buttonBack: AnyView {
-		AnyView(buttonBackView)
-	}
-	
-	var buttonAdd: AnyView {
-		AnyView(checkMaskButton)
+
+	var textButton: String {
+		return useCustomServerChecked == false ? "General.Next".localized : "General.Add".localized
 	}
 }
 
@@ -79,115 +143,143 @@ private extension AddMemberView {
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
 	}
-	
-	var foregroundColorUserName: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight
-	}
-	
-	var foregroundBackButton: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
-	}
-	
+
 	var foregroundCheckmask: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
 	}
-	
-	var backgroundNextButton: LinearGradient {
-		colorScheme == .light ? backgroundButtonImage : backgroundButtonImage
+
+	var backgroundButtonBack: [Color] {
+		colorScheme == .light ? [AppTheme.shared.colorSet.background, AppTheme.shared.colorSet.background] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
-	
-	var backgroundButtonImage: LinearGradient {
+
+	var titleColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
+	}
+
+	var backgroundGradientPrimary: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
 }
 
 // MARK: - Private func
 private extension AddMemberView {
-	func customBack() {
-		self.presentationMode.wrappedValue.dismiss()
+	func addClient(_ data: GroupDetailUserViewModels, isSelected: Bool) {
+		if isSelected,
+		   self.addMember.firstIndex(where: { data.id == $0.id }) == nil {
+			addMember.append(data)
+			return
+		}
+
+		if !isSelected {
+			self.deleteClient(data: data)
+		}
 	}
-	
-	func nextAction() {
-		
+
+	func deleteClient(data: GroupDetailUserViewModels) {
+		guard let index = self.addMember.firstIndex(where: { data.id == $0.id }) else {
+			return
+		}
+		addMember.remove(at: index)
+	}
+
+	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)? {
+		let args = link.split(separator: "/")
+		if args.count != 3 {
+			return nil
+		}
+
+		return (String(args[2]), String(args[1]), String(args[0]))
+	}
+
+	func checkUserIsSelected(item: GroupDetailUserViewModels) -> Bool {
+		return self.addMember.contains(where: { $0.id == item.id })
 	}
 }
 
 // MARK: - Loading Content
 private extension AddMemberView {
-	var contentView: some View {
-		VStack(alignment: .center, spacing: Constants.spacing) {
-			VStack(alignment: .leading) {
-				buttonBack
-					.padding(.top, Constants.paddingTop)
-					.frame(maxWidth: .infinity, alignment: .leading)
-				SearchTextField(searchText: $searchText,
-								inputStyle: $inputStyle,
-								inputIcon: AppTheme.shared.imageSet.searchIcon,
-								placeHolder: "GroupDetail.Search".localized,
-								onEditingChanged: { _ in })
-				buttonAdd
-				if isShowingView {
-					addSeverTextfieldView
-					Spacer()
-				}
-				Spacer()
-			}
-		}
-	}
-	
-	var checkMaskButton: some View {
-		CheckBoxButtons(text: "GroupDetail.TitleCheckbox".localized, isChecked: $isShowingView)
-			.foregroundColor(foregroundCheckmask)
-	}
-	
-	var addSeverTextfieldView: some View {
-		VStack(alignment: .center) {
-			CommonTextField(text: $severText,
-							inputStyle: $inputStyle,
-							placeHolder: "GroupDetail.Title.PlaceHoder".localized,
-							onEditingChanged: { _ in })
-				.padding(.top, Constants.padding)
-			Spacer()
-			Button(action: nextAction) {
-				HStack(spacing: Constants.spacing) {
-					Text("General.Next".localized)
-						.padding(.vertical, Constants.paddingButton)
-						.padding(.horizontal, Constants.paddingHorizontal)
-						.font(AppTheme.shared.fontSet.font(style: .body2))
-						.foregroundColor(AppTheme.shared.colorSet.offWhite)
-				}
-			}
-			.background(backgroundNextButton)
-			.cornerRadius(Constants.radius)
-		}
-		.padding(.bottom, Constants.padding)
-	}
-	
-	var buttonBackView: some View {
-		Button(action: customBack) {
-			HStack(spacing: Constants.spacing) {
-				AppTheme.shared.imageSet.chevleftIcon
-					.renderingMode(.template)
-					.aspectRatio(contentMode: .fit)
-					.foregroundColor(foregroundBackButton)
-				Text("GroupDetail.AddMember".localized)
-					.padding(.all)
-					.font(AppTheme.shared.fontSet.font(style: .body2))
-			}
-			.foregroundColor(foregroundBackButton)
-		}
-	}
+
 }
 
 // MARK: - Interactor
 private extension AddMemberView {
+	func search(text: String) {
+		if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+			loadable = .loaded(GroupDetailViewModels(searchUser: []))
+			return
+		}
+		Task {
+			loadable = await injected.interactors.groupDetailInteractor.searchUser(keyword: text)
+		}
+	}
+
+	func customBack() {
+		Task {
+			loadable = await injected.interactors.groupDetailInteractor.getGroup(by: groupId)
+		}
+	}
+
+	func nextAction() {
+		addMember.forEach { member in
+			Task {
+				loadable = await injected.interactors.groupDetailInteractor.addMember(member, groupId: groupId)
+			}
+		}
+		self.presentationMode.wrappedValue.dismiss()
+	}
+
+	private func addUserWithLink() {
+		if !injected.interactors.groupDetailInteractor.checkPeopleLink(link: searchLinkText) {
+			let people = injected.interactors.groupDetailInteractor.getPeopleFromLink(link: searchLinkText)
+			loadable = .isLoading(last: nil, cancelBag: CancelBag())
+			Task {
+				loadable = await self.injected.interactors.groupDetailInteractor.getUserInfor(clientId: people?.id ?? "", workSpace: people?.domain ?? "")
+			}
+		} else {
+			self.messageAlert = "GroupChat.YouCantCreateConversationWithYouSelf".localized
+			self.isShowAlert = true
+			self.searchLinkText = ""
+			self.useCustomServerChecked = false
+		}
+	}
+
+	private func searchEmail() {
+		if searchEmailText.validEmail {
+			Task {
+				loadable = await self.injected.interactors.groupDetailInteractor.searchUserWithEmail(email: searchEmailText)
+
+			}
+
+		} else {
+			self.messageAlert = "GroupChat.EmailIsIncorrect".localized
+			self.isShowAlert = true
+		}
+	}
+
+	func nextToCreateGroup() {
+		if self.useCustomServerChecked {
+			self.addUserWithLink()
+			return
+		}
+
+		if self.addMember.isEmpty {
+			return
+		}
+		loadable = .isLoading(last: nil, cancelBag: CancelBag())
+		addMember.forEach { user in
+			Task {
+				loadable = await self.injected.interactors.groupDetailInteractor.addMember(user, groupId: groupId)
+			}
+		}
+
+	}
 }
 
 // MARK: - Preview
 #if DEBUG
 struct AddMemberView_Previews: PreviewProvider {
 	static var previews: some View {
-		AddMemberView(imageUser: .constant(Image("")), userName: .constant(""), searchText: .constant(""), severText: .constant(""), inputStyle: .constant(.default))
+		AddMemberView(loadable: .constant(.notRequested), search: .constant([]))
 	}
 }
 #endif

@@ -12,7 +12,8 @@ import Combine
 import Model
 import Networking
 import UniformTypeIdentifiers
-// swiftlint:disable file_length
+import ChatSecure
+import RealmSwift
 
 private enum Constants {
 	static let padding = 15.0
@@ -35,29 +36,7 @@ struct ChatView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	
 	// MARK: - Variables
-	@State private(set) var loadable: Loadable<IChatViewModels> = .notRequested {
-		didSet {
-			switch loadable {
-			case .loaded(let data):
-				if let groupData = data.groupViewModel {
-					self.group = groupData
-				}
-				if data.messageViewModel.isEmpty {
-					isEndOfPage = true
-				}
-				if isNewSentMessage {
-					self.dataMessages.insert(contentsOf: data.messageViewModel, at: 0)
-					isQuoteMessage = false
-					isLatestPeerSignalKeyProcessed = true
-				} else {
-					self.dataMessages.append(contentsOf: data.messageViewModel)
-				}
-				isNewSentMessage = false
-				isLoading = false
-			default: break
-			}
-		}
-	}
+	@State private(set) var loadable: Loadable<IGroupModel> = .notRequested
 		
 	@State private(set) var group: IGroupModel?
 	@State private(set) var messageText: String
@@ -83,15 +62,22 @@ struct ChatView: View {
 	@State private var isNewSentMessage = false
 	@State private var isQuoteMessage = false
 	@State private var isLatestPeerSignalKeyProcessed = false
-	
+	@State private var showingLinkWebView = false
 	@State private var showingImageOptions = false
 	@State private var isImagePickerPresented = false
 	@State private var showingCameraPicker = false
+	@State private var isFirstLoad = true
+	
 	@State private var selectedImages = [SelectedImageModel]()
 	@State private var isDetail = false
+	@State private var selectedLink: URL?
+	@State private var messages: Results<RealmMessage>?
+	@State private var notificationToken: NotificationToken?
+	@State private var isFirstLoadData: Bool = true
+	
 	private let groupId: Int64
 	private let inspection = ViewInspector<Self>()
-
+	
 	// MARK: - Init
 	init(messageText: String = "",
 		 inputStyle: TextInputStyle,
@@ -147,7 +133,7 @@ struct ChatView: View {
 				print(files)
 				isNewSentMessage = true
 				Task {
-					loadable = await injected.interactors.chatInteractor.uploadFiles(message: "", fileURLs: files, group: group, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
+					await injected.interactors.chatInteractor.uploadFiles(loadable: $loadable, message: "", fileURLs: files, group: group, appendFileSize: true, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
 				}
 			}
 		}
@@ -157,8 +143,20 @@ struct ChatView: View {
 			}
 			.edgesIgnoringSafeArea(.all)
 		})
+		.sheet(isPresented: $showingLinkWebView, content: {
+			if let url = selectedLink {
+				WebView(url: url)
+					.edgesIgnoringSafeArea(.all)
+			}
+		})
 		.onAppear {
-			updateGroup()
+			if isFirstLoadData {
+				updateGroup()
+				loadLocalMessage()
+			}
+		}
+		.onDisappear {
+			notificationToken?.invalidate()
 		}
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 	}
@@ -173,7 +171,7 @@ private extension ChatView {
 		case .isLoading:
 			return AnyView(loadingView)
 		case .loaded(let data):
-			return loadedView(data)
+			return AnyView(loadedView(data))
 		case .failed(let error):
 			guard let error = error as? IServerError else {
 				return AnyView(errorView(ServerError.unknown))
@@ -370,7 +368,7 @@ private extension ChatView {
 				let selectedImageURL = selectedImages.compactMap { $0.url }
 				print(selectedImageURL)
 				selectedImages.removeAll()
-				loadable = await injected.interactors.chatInteractor.uploadFiles(message: trimmedMessage, fileURLs: selectedImageURL, group: group, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
+				await injected.interactors.chatInteractor.uploadFiles(loadable: $loadable, message: trimmedMessage, fileURLs: selectedImageURL, group: group, appendFileSize: false, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
 			}
 			return
 		}
@@ -387,7 +385,7 @@ private extension ChatView {
 			} else {
 				encodedMessage = trimmedMessage
 			}
-			loadable = await injected.interactors.chatInteractor.sendMessageInPeer(message: encodedMessage, groupId: groupId, group: group, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
+			await injected.interactors.chatInteractor.sendMessageInPeer(loadable: $loadable, message: encodedMessage, groupId: groupId, group: group, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
 		}
 		isShowingQuoteView = false
 		isReplying = false
@@ -429,6 +427,9 @@ private extension ChatView {
 					Task {
 						await injected.interactors.chatInteractor.downloadFile(urlString: url)
 					}
+				}, onClickLink: { url in
+					showingLinkWebView = true
+					selectedLink = url
 				}, onLongPress: { message in
 					tempSelectedMessage = message
 					showingMessageOptions = true
@@ -497,6 +498,10 @@ private extension ChatView {
 				})
 			}
 		}.onChange(of: shouldPaginate) { newValue in
+			if isFirstLoad {
+				isFirstLoad = false
+				return
+			}
 			if newValue {
 				if !isLoading && !isEndOfPage {
 					isLoading.toggle()
@@ -510,8 +515,12 @@ private extension ChatView {
 		notRequestedView.progressHUD(true)
 	}
 	
-	func loadedView(_ data: IChatViewModels) -> AnyView {
-		return AnyView(notRequestedView)
+	func loadedView(_ data: IGroupModel) -> some View {
+		return notRequestedView
+			.onAppear {
+				group = data
+				isFirstLoadData = false
+			}
 	}
 	
 	func errorView(_ error: IServerError) -> some View {
@@ -529,13 +538,54 @@ private extension ChatView {
 private extension ChatView {
 	func updateGroup() {
 		Task {
-			loadable = await injected.interactors.chatInteractor.updateGroupWithId(groupId: groupId)
+			await injected.interactors.chatInteractor.updateGroupWithId(loadable: $loadable, groupId: groupId)
 		}
+	}
+	
+	func loadLocalMessage() {
+		messages = injected.interactors.chatInteractor.getMessageFromLocal(groupId: groupId)
+
+		notificationToken = messages?.observe({ changes in
+			switch changes {
+			case .initial:
+				if messages?.count ?? 0 < 20 {
+					isEndOfPage = true
+				}
+				messages?.forEach({ message in
+					dataMessages.append(MessageViewModel(data: message, members: group?.groupMembers ?? []))
+				})
+			case .update(_, _, insertions: let insertions, _):
+				print(insertions)
+				if insertions.count >= 20 {
+					isEndOfPage = false
+				}
+				if let newMessages = messages?.objects(at: IndexSet(insertions)) {
+					if insertions.first ?? 0 >= dataMessages.count {
+						newMessages.forEach { message in
+							dataMessages.append(MessageViewModel(data: message, members: group?.groupMembers ?? []))
+						}
+					} else {
+						newMessages.forEach { message in
+							dataMessages.insert(MessageViewModel(data: message, members: group?.groupMembers ?? []), at: 0)
+						}
+						scrollToBottom = true
+					}
+				}
+				if isNewSentMessage {
+					isQuoteMessage = false
+					isLatestPeerSignalKeyProcessed = true
+					isNewSentMessage = false
+				}
+			case .error(let error):
+				print("load message error: \(error)")
+			}
+			isLoading = false
+		})
 	}
 	
 	func updateMessages() {
 		Task {
-			loadable = await injected.interactors.chatInteractor.updateMessages(groupId: groupId, group: group, lastMessageAt: dataMessages.last?.dateCreated ?? 0)
+			await injected.interactors.chatInteractor.updateMessages(loadable: $loadable, isEndOfPage: $isEndOfPage, groupId: groupId, lastMessageAt: dataMessages.last?.dateCreated ?? 0)
 		}
 	}
 	

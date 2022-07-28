@@ -108,12 +108,23 @@ extension GroupService: IGroupService {
 	}
 	
 	public func leaveGroup(_ user: Group_ClientInGroupObject, groupId: Int64, domain: String) async -> (Result<Group_BaseResponse, Error>) {
+		let apiService = channelStorage.getChannel(domain: domain)
+		guard let clientId = apiService.owner?.id,
+			  let userName = apiService.owner?.displayName else { return .failure(ServerError.unknown) }
 		var memberInfo = Group_MemberInfo()
 		memberInfo.id = user.id
 		memberInfo.workspaceDomain = user.workspaceDomain
 		memberInfo.displayName = user.displayName
 		memberInfo.status = ""
-		
+		memberInfo.refGroupID = groupId
+
+		var memberBy = Group_MemberInfo()
+		memberBy.id = clientId
+		memberBy.workspaceDomain = domain
+		memberBy.displayName = userName
+		memberBy.status = ""
+		memberBy.refGroupID = groupId
+
 		var request = Group_LeaveGroupRequest()
 		request.leaveMember = memberInfo
 		request.leaveMemberBy = memberInfo

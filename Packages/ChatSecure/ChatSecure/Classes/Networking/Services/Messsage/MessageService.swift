@@ -34,7 +34,7 @@ public protocol IMessageService {
 					groupId: Int64,
 					loadSize: Int,
 					lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
-
+	
 }
 
 public class MessageService {
@@ -89,11 +89,9 @@ extension MessageService: IMessageService {
 			request.message = Data(message.serialize())
 			request.senderMessage = Data(messageSender.serialize())
 			
-			guard let server = channelStorage.realmManager.getServer(by: ownerDomain) else { return .failure(ServerError.unknown) }
-			let response = await channelStorage.getChannel(domain: server.serverDomain, accessToken: server.accessKey, hashKey: server.hashKey).sendMessage(request)
+			let response = await channelStorage.getChannel(domain: ownerDomain).sendMessage(request)
 			switch response {
 			case .success(let messageRespone):
-				// TODO: save message
 				let realmMessage = RealmMessage()
 				realmMessage.ownerDomain = ownerDomain
 				realmMessage.createdTime = messageRespone.createdAt
@@ -105,6 +103,7 @@ extension MessageService: IMessageService {
 				realmMessage.updatedTime = messageRespone.updatedAt
 				realmMessage.ownerClientId = senderId
 				realmMessage.message = plainMessage
+				channelStorage.realmManager.saveMessage(message: realmMessage)
 				return .success(realmMessage)
 			case .failure(let error):
 				Debug.DLog("Send message in peer fail - \(error)")
@@ -135,8 +134,7 @@ extension MessageService: IMessageService {
 				request.groupID = groupId
 				request.message = Data(ciphertext.serialize())
 				request.senderMessage = Data(ciphertext.serialize())
-				guard let server = channelStorage.realmManager.getServer(by: ownerWorkspace) else { return .failure(ServerError.unknown) }
-				let response = await channelStorage.getChannel(domain: server.serverDomain, accessToken: server.accessKey, hashKey: server.hashKey).sendMessage(request)
+				let response = await channelStorage.getChannel(domain: ownerWorkspace).sendMessage(request)
 				switch response {
 				case .success(let messageRespone):
 					// TODO: save message
@@ -165,25 +163,33 @@ extension MessageService: IMessageService {
 			print(messageRespone)
 			var realmMessages = [RealmMessage]()
 			messageRespone.lstMessage.forEach { message in
-				var decryptedMessage = ""
-				if message.fromClientID == ownerId {
-					decryptedMessage = decryptPeerMessage(senderName: "\(ownerDomain)_\(ownerId)", message: message.senderMessage) ?? ""
+				if let oldMessage = channelStorage.realmManager.getMessage(messageId: message.id) {
+					realmMessages.append(oldMessage)
 				} else {
-					decryptedMessage = decryptPeerMessage(senderName: "\(message.fromClientWorkspaceDomain)_\(message.fromClientID)", message: message.message) ?? ""
+					var decryptedMessage = ""
+					if message.fromClientID == ownerId {
+						decryptedMessage = decryptPeerMessage(senderName: "\(ownerDomain)_\(ownerId)", message: message.senderMessage) ?? ""
+					} else {
+						decryptedMessage = decryptPeerMessage(senderName: "\(message.fromClientWorkspaceDomain)_\(message.fromClientID)", message: message.message) ?? ""
+					}
+					let realmMessage = RealmMessage()
+					realmMessage.ownerDomain = ownerDomain
+					realmMessage.createdTime = message.createdAt
+					realmMessage.groupId = message.groupID
+					realmMessage.receiverId = message.clientID
+					realmMessage.groupType = message.groupType
+					realmMessage.senderId = message.fromClientID
+					realmMessage.messageId = message.id
+					realmMessage.updatedTime = message.updatedAt
+					realmMessage.ownerClientId = ownerId
+					realmMessage.message = decryptedMessage
+					
+					realmMessages.append(realmMessage)
 				}
-				let realmMessage = RealmMessage()
-				realmMessage.ownerDomain = ownerDomain
-				realmMessage.createdTime = message.createdAt
-				realmMessage.groupId = message.groupID
-				realmMessage.receiverId = message.clientID
-				realmMessage.groupType = message.groupType
-				realmMessage.senderId = message.fromClientID
-				realmMessage.messageId = message.id
-				realmMessage.updatedTime = message.updatedAt
-				realmMessage.ownerClientId = ownerId
-				realmMessage.message = decryptedMessage
-				
-				realmMessages.append(realmMessage)
+			}
+			
+			if !realmMessages.isEmpty {
+				channelStorage.realmManager.saveMessages(messages: realmMessages)
 			}
 			return .success(realmMessages)
 		case .failure(let error):
@@ -205,8 +211,7 @@ private extension MessageService {
 		var request = Signal_PeerGetClientKeyRequest()
 		request.clientID = clientId
 		request.workspaceDomain = workspaceDomain
-		guard let server = channelStorage.realmManager.getServer(by: workspaceDomain) else { return false }
-		let response = await channelStorage.getChannel(domain: server.serverDomain, accessToken: server.accessKey, hashKey: server.hashKey).peerGetClientKey(request)
+		let response = await channelStorage.getChannel(domain: workspaceDomain).peerGetClientKey(request)
 		
 		switch response {
 		case .success(let recipientResponse):
@@ -270,8 +275,7 @@ private extension MessageService {
 			request.senderKey = Data(senderKey?.serialize() ?? [])
 			request.senderKeyID = Int64(distributionId.uuidString) ?? 0
 			
-			guard let server = channelStorage.realmManager.getServer(by: domain) else { return false }
-			let response = await channelStorage.getChannel(domain: server.serverDomain, accessToken: server.accessKey, hashKey: server.hashKey).groupRegisterClientKey(request)
+			let response = await channelStorage.getChannel(domain: domain).groupRegisterClientKey(request)
 			switch response {
 			case .success(let result):
 				return true
@@ -296,6 +300,20 @@ private extension MessageService {
 				signedPreKeyStore: signalStore.signedPreKeyStore,
 				context: NullContext())
 			return String(bytes: decryptMessage, encoding: .utf8)
+		} catch SignalError.duplicatedMessage {
+			Debug.DLog("decrypt peer message fail: Duplicate message")
+//			/**
+//			 * To fix case: both load message and receive message from socket at the same time
+//			 * Need wait 1.5s to load old message before save unableDecryptMessage
+//			 */
+//			DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+//				if let oldMessage = channelStorage.realmManager.getMessage(groupId: message.groupID, messageId: message.id) {
+//					realmMessages.append(oldMessage)
+//				} else {
+//					return nil
+//				}
+//			}
+			return nil
 		} catch {
 			Debug.DLog("decrypt peer message fail: \(error)")
 			return nil
@@ -351,8 +369,7 @@ private extension MessageService {
 				var request = Signal_GroupGetClientKeyRequest()
 				request.groupID = groupID
 				request.clientID = clientID
-				guard let server = channelStorage.realmManager.getServer(by: domain) else { return false }
-				let response = await channelStorage.getChannel(domain: domain, accessToken: server.accessKey, hashKey: server.hashKey).groupGetClientKey(request)
+				let response = await channelStorage.getChannel(domain: domain).groupGetClientKey(request)
 				switch response {
 				case .success(let result):
 					let receivedAliceDistributionMessage = try SenderKeyDistributionMessage(bytes: [UInt8](result.clientKey.clientKeyDistribution))

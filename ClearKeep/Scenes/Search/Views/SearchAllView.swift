@@ -12,13 +12,9 @@ import CommonUI
 
 private enum Constants {
 	static let paddingTop = 13.0
-	static let paddingBottom = 63.0
-	static let paddingLeading = 17.0
-	static let heightCatalog = 28.0
-	static let paddingTopGroup = 10.0
-	static let leadingPeople = 16.0
-	static let leading = 22.0
-	static let leadingGroup = 25.0
+	static let paddingGroup = 17.0
+	static let paddingTopGroup = 26.0
+	static let paddingPeople = 37.0
 }
 
 struct SearchAllView: View {
@@ -27,34 +23,33 @@ struct SearchAllView: View {
 	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
-	@Binding var searchModel: [SearchModels]
-
+	@Binding var searchUser: [SearchUserViewModel]
+	@Binding var searchGroup: [SearchGroupViewModel]
+	@Binding var searchMessage: [SearchGroupViewModel]
+	@Binding var searchText: String
+	
 	// MARK: - Init
-	init(searchModel: Binding<[SearchModels]>) {
-		self._searchModel = searchModel
-	}
-
+	
 	// MARK: - Body
 	var body: some View {
 		ScrollView(showsIndicators: false) {
-			VStack(alignment: .leading) {
+			VStack(alignment: .leading, spacing: 0) {
 				Text("Search.People".localized.uppercased())
-					.padding(.leading, Constants.leadingPeople)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundColorTitle)
-				SearchUserView(searchModel: $searchModel)
+				SearchUserView(searchUser: $searchUser, searchText: $searchText)
 				Text("Search.GroupChat".localized.uppercased())
-					.padding(.leading, Constants.leading)
 					.padding(.top, Constants.paddingTopGroup)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundColorTitle)
-				SearchGroupView(searchModel: $searchModel)
-					.padding(.leading, Constants.leadingGroup)
+				SearchGroupView(searchGroup: $searchGroup, searchText: $searchText)
+					.padding(.top, Constants.paddingTop)
 				Text("Search.Message".localized.uppercased())
-					.padding(.leading, Constants.leading)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundColorTitle)
-				SearchMessageView(searchModel: $searchModel)
+					.padding(.top, Constants.paddingTopGroup)
+				SearchMessageView(searchMessage: $searchMessage, searchText: $searchText)
+					.padding(.top, Constants.paddingPeople)
 				Spacer()
 			}
 		}
@@ -83,11 +78,15 @@ private extension SearchAllView {
 	}
 }
 
+// MARK: - Private variable
+private extension SearchAllView {
+
+}
 // MARK: - Preview
 #if DEBUG
 struct SearchAllView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchAllView(searchModel: .constant([]))
+		SearchAllView(searchUser: .constant([]), searchGroup: .constant([]), searchMessage: .constant([]), searchText: .constant(""))
 	}
 }
 #endif

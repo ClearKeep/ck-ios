@@ -8,6 +8,7 @@
 import Foundation
 import RealmSwift
 import Networking
+import Model
 
 public class RealmManager {
 	// MARK: - Variables
@@ -24,6 +25,41 @@ public class RealmManager {
 
 // MARK: - Message
 extension RealmManager {
+	func saveMessages(messages: [RealmMessage]) {
+		write { realm in
+			realm.add(messages, update: .modified)
+		}
+	}
+	
+	func saveMessage(message: RealmMessage) {
+		write { realm in
+			realm.add(message, update: .modified)
+		}
+	}
+	
+	public func getMessages(groupId: Int64, ownerDomain: String, ownerId: String) -> Results<RealmMessage>? {
+		do {
+			let realm = try Realm(configuration: self.configuration)
+			let predicate = NSPredicate(format: "groupId == %ld && ownerDomain == %@ && ownerClientId == %@", groupId, ownerDomain, ownerId)
+			let messages = realm.objects(RealmMessage.self).filter(predicate).sorted(byKeyPath: "createdTime", ascending: false)
+			return messages
+		} catch {
+			return nil
+		}
+	}
+	
+	func getMessage(messageId: String) -> RealmMessage? {
+		let message = load(ofType: RealmMessage.self, primaryKey: messageId)
+		return message
+	}
+	
+	func deleteMessagesFromGroup(groupId: Int64, ownerDomain: String, ownerId: String) {
+		delete(listOf: RealmMessage.self, filter: NSPredicate(format: "groupId == %ld && ownerDomain == %@ && ownerClientId == %@", groupId, ownerDomain, ownerId))
+	}
+	
+	func deleteMessagesByDomain(domain: String, ownerId: String) {
+		delete(listOf: RealmMessage.self, filter: NSPredicate(format: "ownerDomain == %@ && ownerClientId == %@", domain, ownerId))
+	}
 }
 
 // MARK: - Group
@@ -52,8 +88,7 @@ extension RealmManager {
 					return realmMember
 				}
 				
-				let realm = try? Realm(configuration: self.configuration)
-				realmGroup.generateId = oldGroup?.generateId ?? (realm?.objects(RealmGroup.self).max(ofProperty: "generateId") ?? 0) + 1
+				realmGroup.generateId = oldGroup?.generateId ?? UUID().uuidString
 				realmGroup.groupId = groupResponse.groupID
 				if groupResponse.groupType == "group" {
 					realmGroup.groupName = groupResponse.groupName
@@ -67,7 +102,7 @@ extension RealmManager {
 				realmGroup.updatedBy = groupResponse.updatedByClientID
 				realmGroup.updatedAt = groupResponse.updatedAt
 				realmGroup.rtcToken = groupResponse.groupRtcToken
-				realmGroup.groupMembers = groupMembers
+				realmGroup.groupMembers.append(objectsIn: groupMembers)
 				realmGroup.isJoined = isRegisteredKey
 				realmGroup.ownerDomain = domain
 				realmGroup.ownerClientId = profile.userId
@@ -108,8 +143,7 @@ extension RealmManager {
 					return realmMember
 				}
 				
-				let realm = try? Realm(configuration: self.configuration)
-				realmGroup.generateId = oldGroup?.generateId ?? (realm?.objects(RealmGroup.self).max(ofProperty: "generateId") ?? 0) + 1
+				realmGroup.generateId = oldGroup?.generateId ?? UUID().uuidString
 				realmGroup.groupId = group.groupID
 				if group.groupType == "group" {
 					realmGroup.groupName = group.groupName
@@ -123,7 +157,7 @@ extension RealmManager {
 				realmGroup.updatedBy = group.updatedByClientID
 				realmGroup.updatedAt = group.updatedAt
 				realmGroup.rtcToken = group.groupRtcToken
-				realmGroup.groupMembers = groupMembers
+			    realmGroup.groupMembers.append(objectsIn: groupMembers)
 				realmGroup.isJoined = isRegisteredKey
 				realmGroup.ownerDomain = domain
 				realmGroup.ownerClientId = profile.userId
@@ -228,6 +262,32 @@ extension RealmManager {
 	}
 }
 
+extension RealmManager {
+	public func getOwnerServer(domain: String) -> IUser? {
+		struct User: IUser {
+			var id: String
+			var displayName: String
+			var email: String
+			var phoneNumber: String
+			var avatar: String
+			var status: String
+
+			init(profile: RealmProfile?) {
+				self.id = profile?.userId ?? ""
+				self.displayName = profile?.userName ?? ""
+				self.avatar = profile?.avatar ?? ""
+				self.email = profile?.email ?? ""
+				self.status = ""
+				self.phoneNumber = profile?.phoneNumber ?? ""
+			}
+		}
+
+		let servers = load(listOf: RealmServer.self, filter: NSPredicate(format: "%K == %@", #keyPath(RealmServer.serverDomain), domain))
+		let server = servers.first
+		return User(profile: server?.profile)
+	}
+}
+
 // MARK: - Private
 private extension RealmManager {
 	private func write(_ handler: @escaping ((_ realm: Realm) -> Void)) {
@@ -241,11 +301,14 @@ private extension RealmManager {
 		}
 	}
 	
-	private func load<T: Object>(listOf: T.Type, filter: NSPredicate? = nil) -> [T] {
+	private func load<T: Object>(listOf: T.Type, filter: NSPredicate? = nil, sortKeyPath: String? = nil) -> [T] {
 		do {
 			var objects = try Realm(configuration: configuration).objects(T.self)
 			if let filter = filter {
 				objects = objects.filter(filter)
+			}
+			if let sortKeyPath = sortKeyPath {
+				objects = objects.sorted(byKeyPath: sortKeyPath)
 			}
 			var list = [T]()
 			for obj in objects {
@@ -256,6 +319,30 @@ private extension RealmManager {
 			print(error)
 		}
 		return []
+	}
+	
+	private func load<T: Object>(ofType: T.Type, primaryKey: String) -> T? {
+		do {
+			let object = try Realm(configuration: configuration).object(ofType: T.self, forPrimaryKey: primaryKey)
+			return object
+		} catch {
+			return nil
+		}
+	}
+	
+	private func delete<T: Object>(listOf: T.Type, filter: NSPredicate? = nil) {
+		do {
+			let realm = try Realm(configuration: self.configuration)
+			try realm.write({
+				var objects = realm.objects(T.self)
+				if let filter = filter {
+					objects = objects.filter(filter)
+				}
+				realm.delete(objects)
+			})
+		} catch {
+			print(error)
+		}
 	}
 	
 	func removeAll() {

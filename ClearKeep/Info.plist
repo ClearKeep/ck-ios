@@ -2,6 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>&quot;&quot;</string>
+	<key>NSCameraUsageDescription</key>
+	<string>&quot;&quot;</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>&quot;&quot;</string>
 	<key>APP_GROUP_NAME</key>
 	<string>$(APP_GROUP_NAME)</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -87,8 +95,6 @@
 	<string>$(IOS_BUNDLE_ID)</string>
 	<key>IOS_NOTIFICATION_EXTENSION_BUNDLE_ID</key>
 	<string>$(IOS_NOTIFICATION_EXTENSION_BUNDLE_ID)</string>
-	<key>LSApplicationCategoryType</key>
-	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -99,18 +105,12 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>""</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Need microphone access for uploading videos</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>""</string>
 	<key>OFFICE_CLIENT_ID</key>
 	<string>$(OFFICE_CLIENT_ID)</string>
 	<key>OFFICE_REDIRECT_URI</key>
 	<string>$(OFFICE_REDIRECT_URI)</string>
+	<key>YAP_DATABASE_PATH</key>
+	<string>$(YAP_DATABASE_PATH)</string>
 	<key>RECEIVER_DEVICE_ID</key>
 	<string>${RECEIVER_DEVICE_ID}</string>
 	<key>SENDER_DEVICE_ID</key>
@@ -134,14 +134,16 @@
 	</dict>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
 		<string>remote-notification</string>
 		<string>voip</string>
 	</array>
-	<key>UIFileSharingEnabled</key>
-	<true/>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UILaunchScreen</key>
@@ -153,7 +155,5 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>YAP_DATABASE_PATH</key>
-	<string>$(YAP_DATABASE_PATH)</string>
 </dict>
 </plist>

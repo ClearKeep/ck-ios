@@ -22,7 +22,7 @@ extension AppEnvironment {
 	
 	static func bootstrap() -> AppEnvironment {
 		let appState = Store<AppState>(AppState())
-		appState[\.authentication.servers] = DependencyResolver.shared.channelStorage.getServers().compactMap { ServerModel($0) }
+		appState[\.authentication.servers] = DependencyResolver.shared.channelStorage.getServers(isFirstLoad: true).compactMap { ServerModel($0) }
 		let interactors = configuredInteractors(appState: appState)
 		let diContainer = DIContainer(appState: appState, interactors: interactors)
 		let deepLinksHandler = DeepLinksHandler(container: diContainer)
@@ -47,8 +47,10 @@ extension AppEnvironment {
 		let chatGroupInteractor = ChatGroupInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService)
 		let chatInteractor = ChatInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, realmManager: DependencyResolver.shared.realmManager, groupService: DependencyResolver.shared.groupService, messageService: DependencyResolver.shared.messageService, uploadFileService: DependencyResolver.shared.uploadFileService)
 		let createDirectMessageInteractor = CreateDirectMessageInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, userService: DependencyResolver.shared.userService, groupService: DependencyResolver.shared.groupService)
-		let groupDetailInteractor = GroupDetailInteractor(appState: appState, groupService: DependencyResolver.shared.groupService, channelStorage: DependencyResolver.shared.channelStorage)
 		let peerCallInteractor = PeerCallInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, callService: DependencyResolver.shared.videoService)
+		let groupDetailInteractor = GroupDetailInteractor(appState: appState, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, channelStorage: DependencyResolver.shared.channelStorage)
+		let profileInteractor = ProfileInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, userService: DependencyResolver.shared.userService)
+		let searchInteractor = SearchInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, messageService: DependencyResolver.shared.messageService)
 		
 		return .init(homeInteractor: homeInteractor,
 					 loginInteractor: loginInteractor,
@@ -62,7 +64,9 @@ extension AppEnvironment {
 					 chatInteractor: chatInteractor,
 					 createDirectMessageInteractor: createDirectMessageInteractor,
 					 groupDetailInteractor: groupDetailInteractor,
-					 peerCallInteractor: peerCallInteractor)
+					 peerCallInteractor: peerCallInteractor,
+					 profileInteractor: profileInteractor,
+					 searchInteractor: searchInteractor)
 	}
 }
 

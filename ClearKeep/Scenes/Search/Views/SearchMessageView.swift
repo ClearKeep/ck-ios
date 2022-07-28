@@ -24,40 +24,35 @@ struct SearchMessageView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@State private var isMessageChat: Bool = false
-	@Binding var searchModel: [SearchModels]
-
+	@Binding var searchMessage: [SearchGroupViewModel]
+	@Binding var searchText: String
+	
 	// MARK: - Init
-	init(searchModel: Binding<[SearchModels]>) {
-		self._searchModel = searchModel
-	}
 	
 	// MARK: - Body
 	var body: some View {
-		ForEach(0..<searchModel.count, id: \.self) { index in
+		ForEach(searchMessage) { item in
 			VStack(alignment: .leading, spacing: Constants.paddingVstack) {
 				NavigationLink(
 					destination: EmptyView(),
 					isActive: $isMessageChat,
 					label: {
 						HStack(spacing: Constants.spacingHstack) {
-							searchModel[index].imageUser
-								.resizable()
-								.aspectRatio(contentMode: .fit)
+							AvatarDefault(.constant(item.groupName), imageUrl: item.groupAvatar)
 								.frame(width: Constants.sizeImage, height: Constants.sizeImage)
-								.clipShape(Circle())
 							VStack(alignment: .leading, spacing: Constants.spacing) {
-								Text(searchModel[index].userName)
+								Text(item.groupName)
 									.font(AppTheme.shared.fontSet.font(style: .body2))
 									.foregroundColor(foregroundColorUserName)
-								Text(searchModel[index].message)
+								Text("")
 									.font(AppTheme.shared.fontSet.font(style: .input3))
 									.foregroundColor(foregroundColorUserName)
 									.frame(alignment: .center)
 								HStack {
-									Text(searchModel[index].dateMessage)
+									Text(getTimeAsString(timeMs: item.updatedAt, includeTime: true))
 										.font(AppTheme.shared.fontSet.font(style: .input3))
 										.foregroundColor(foregroundColorUserName)
-									Text(searchModel[index].groupText)
+									Text(item.groupName)
 										.font(AppTheme.shared.fontSet.font(style: .input3))
 										.foregroundColor(foregroundColorUserName)
 								}
@@ -68,7 +63,6 @@ struct SearchMessageView: View {
 			}
 			.background(backgroundColorView)
 			.padding(.top, Constants.paddingTop)
-			.padding(.leading, Constants.leading)
 		}
 	}
 }
@@ -87,11 +81,42 @@ private extension SearchMessageView {
 	}
 }
 
+// MARK: - Private func
+private extension SearchMessageView {
+	 func getTimeAsString(timeMs: Int64, includeTime: Bool = false) -> String {
+		let nowTime = Date()
+
+		let inputTime = Date(timeIntervalSince1970: TimeInterval(timeMs / 1000))
+
+		let time = includeTime ? " at \(dateString(date: inputTime, format: "hh:mm aa"))" : ""
+
+		if inputTime.year == nowTime.year
+			&& inputTime.month == nowTime.month
+			&& inputTime.weekOfMonth == nowTime.weekOfMonth {
+			if inputTime.day == nowTime.day {
+				return "Today\(time)"
+			} else if nowTime.day - inputTime.day == 1 {
+				return "Yesterday\(time)"
+			} else {
+				return dateString(date: inputTime, format: "EEE")
+			}
+		} else {
+			return dateString(date: inputTime, format: "yyyy/MM/dd")
+		}
+	}
+
+	 func dateString(date: Date, format: String) -> String {
+		let formatDate = DateFormatter()
+		formatDate.dateFormat = format
+		return formatDate.string(from: date)
+	}
+}
+
 // MARK: - Preview
 #if DEBUG
 struct SearchMessageView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchMessageView(searchModel: .constant([]))
+		SearchMessageView(searchMessage: .constant([]), searchText: .constant(""))
 	}
 }
 #endif

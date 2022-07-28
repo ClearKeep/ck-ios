@@ -6,19 +6,103 @@
 //
 
 import Common
+import ChatSecure
+import Model
+import UIKit
 
 protocol IProfileInteractor {
 	var worker: IProfileWorker { get }
+	func getProfile() async -> Loadable<IProfileViewModels>
+	func uploadAvatar(url: URL, imageData: UIImage) async -> (Result<IProfileViewModels, Error>)
+	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool) async -> Loadable<IProfileViewModels>
+	func validate(phoneNumber: String) -> Bool
 }
 
 struct ProfileInteractor {
 	let appState: Store<AppState>
+	let channelStorage: IChannelStorage
+	let userService: IUserService
 }
 
 extension ProfileInteractor: IProfileInteractor {
+	
 	var worker: IProfileWorker {
-		let remoteStore = ProfileRemoteStore()
+		let remoteStore = ProfileRemoteStore(userService: userService)
 		let inMemoryStore = ProfileInMemoryStore()
-		return ProfileWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+		return ProfileWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+	}
+	
+	func getProfile() async -> Loadable<IProfileViewModels> {
+		let result = await worker.getProfile()
+		
+		switch result {
+		case .success(let user):
+			return .loaded(ProfileViewModels(responseUser: user))
+		case .failure(let error):
+			return .failed(error)
+		}
+	}
+
+	func uploadAvatar(url: URL, imageData: UIImage) async -> (Result<IProfileViewModels, Error>) {
+		let result = await worker.uploadAvatar(url: url, imageData: imageData)
+		switch result {
+		case .success(let imageData):
+			return .success(ProfileViewModels(responseAvatar: imageData))
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+	
+	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool) async -> Loadable<IProfileViewModels> {
+		let result = await worker.updateProfile(displayName: displayName, avatar: avatar, phoneNumber: phoneNumber, clearPhoneNumber: clearPhoneNumber)
+		switch result {
+		case .success(let updateProfile):
+			return .loaded(ProfileViewModels(responBase: updateProfile))
+		case .failure(let error):
+			return .failed(error)
+		}
+	}
+	
+	func validate(phoneNumber: String) -> Bool {
+		return worker.validate(phoneNumber: phoneNumber)
+	}
+}
+
+struct StubProfileInteractor: IProfileInteractor {
+	
+	let channelStorage: IChannelStorage
+	let userService: IUserService
+	
+	var worker: IProfileWorker {
+		let remoteStore = ProfileRemoteStore(userService: userService)
+		let inMemoryStore = ProfileInMemoryStore()
+		return ProfileWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+	}
+	
+	func getProfile() async -> Loadable<IProfileViewModels> {
+		return .notRequested
+	}
+	
+	func uploadAvatar(imageData: ProfileUploadImageViewModel) async -> Loadable<IProfileViewModels> {
+		return .notRequested
+	}
+	
+	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool) async -> Loadable<IProfileViewModels> {
+		return .notRequested
+	}
+
+	func uploadAvatar(url: URL, imageData: UIImage) async -> (Result<IProfileViewModels, Error>) {
+		let result = await worker.uploadAvatar(url: url, imageData: imageData)
+
+		switch result {
+		case .success(let imageData):
+			return .success(ProfileViewModels(responseAvatar: imageData))
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+
+	func validate(phoneNumber: String) -> Bool {
+		return worker.validate(phoneNumber: phoneNumber)
 	}
 }

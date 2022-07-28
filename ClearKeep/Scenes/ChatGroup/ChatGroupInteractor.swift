@@ -121,10 +121,10 @@ struct StubChatGroupInteractor: IChatGroupInteractor {
 	}
 	
 	func checkPeopleLink(link: String) -> Bool {
-		false
+		self.worker.checkPeopleLink(link: link)
 	}
 	
 	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)? {
-		nil
+		self.worker.getPeopleFromLink(link: link)
 	}
 }

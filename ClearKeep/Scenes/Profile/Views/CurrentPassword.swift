@@ -27,9 +27,9 @@ struct CurrentPassword: View {
 	@State private var currentPassword = ""
 	@State private(set) var currentPasswordStyle: TextInputStyle = .default
 	@State private(set) var isNextTwoFactor: Bool = false
-
+	
 	let inspection = ViewInspector<Self>()
-
+	
 	// MARK: - Body
 	var body: some View {
 		content
@@ -70,7 +70,7 @@ private extension CurrentPassword {
 		}
 		.padding(.horizontal, Constant.paddingVertical)
 	}
-
+	
 	var buttonBackView: some View {
 		Button(action: customBack) {
 			HStack(spacing: Constant.spacer) {
@@ -84,7 +84,7 @@ private extension CurrentPassword {
 			.foregroundColor(AppTheme.shared.colorSet.offWhite)
 		}
 	}
-
+	
 	var buttonNext: some View {
 		NavigationLink(destination: TwoFactorView(),
 					   isActive: $isNextTwoFactor) {
@@ -100,7 +100,7 @@ private extension CurrentPassword {
 		}
 					   .disabled(disable())
 	}
-
+	
 	var textInputView: some View {
 		SecureTextField(secureText: $currentPassword,
 						inputStyle: $currentPasswordStyle,
@@ -118,7 +118,7 @@ private extension CurrentPassword {
 		})
 			.padding(.top, Constant.paddingVertical)
 	}
-
+	
 	var titleView: some View {
 		HStack {
 			Text("CurrentPass.Title".localized)
@@ -135,11 +135,11 @@ private extension CurrentPassword {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
-
+	
 	func doNext() {
 		isNextTwoFactor.toggle()
 	}
-
+	
 	func disable() -> Bool {
 		return currentPassword.isEmpty
 	}
@@ -150,47 +150,47 @@ private extension CurrentPassword {
 	var background: LinearGradient {
 		colorScheme == .light ? backgroundGradientPrimary : backgroundColorDark
 	}
-
+	
 	var backgroundGradientPrimary: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundColorWhite: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundColorDark: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundButtonBack: [Color] {
 		colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
-
+	
 	var backgroundColorGradient: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
-
+	
 	var backgroundButtonNext: Color {
 		disable() ? backgroundColorButton.opacity(Constant.backgroundOpacity) : backgroundColorButton
 	}
-
+	
 	var backgroundColorButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
-
+	
 	var foregroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
 	}
-
+	
 	var foregroundBackButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.greyLight
 	}
-
+	
 	var foregroundColorMessage: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
-
+	
 	var foregroundMessage: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.greyLight
 	}

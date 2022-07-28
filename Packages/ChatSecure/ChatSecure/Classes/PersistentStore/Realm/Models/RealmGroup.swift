@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 	
 public class RealmGroup: Object {
-	@objc public dynamic var generateId: Int
+	@objc public dynamic var generateId: String
 	@objc public dynamic var groupId: Int64
 	@objc public dynamic var groupName: String
 	@objc public dynamic var groupAvatar: String
@@ -19,7 +19,7 @@ public class RealmGroup: Object {
 	@objc public dynamic var updatedBy: String
 	@objc public dynamic var updatedAt: Int64
 	@objc public dynamic var rtcToken: String
-	public dynamic var groupMembers: [RealmMember]
+	public let groupMembers = List<RealmMember>()
 	@objc public dynamic var isJoined: Bool
 	@objc public dynamic var ownerDomain: String
 	@objc public dynamic var ownerClientId: String
@@ -34,7 +34,7 @@ public class RealmGroup: Object {
 	}
 	
 	required override init() {
-		generateId = Int()
+		generateId = String()
 		groupId = Int64()
 		groupName = String()
 		groupAvatar = String()
@@ -44,7 +44,6 @@ public class RealmGroup: Object {
 		updatedBy = String()
 		updatedAt = Int64()
 		rtcToken = String()
-		groupMembers = [RealmMember]()
 		isJoined = Bool()
 		ownerDomain = String()
 		ownerClientId = String()

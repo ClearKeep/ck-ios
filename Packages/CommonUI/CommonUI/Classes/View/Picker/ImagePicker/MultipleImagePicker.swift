@@ -40,7 +40,8 @@ public struct MultipleImagePicker: View {
 							AssetImageSelectableView(
 								asset: photo,
 								size: getImageSize(width: geometryReader.size.width),
-								selected: $viewModel.selectedImages
+								selected: $viewModel.selectedImages,
+								select: {}
 							).onAppear {
 								viewModel.asyncThumbnail(asset: photo.asset, size: getImageSize(width: geometryReader.size.width)) { image in
 									photo.thumbnail = image
