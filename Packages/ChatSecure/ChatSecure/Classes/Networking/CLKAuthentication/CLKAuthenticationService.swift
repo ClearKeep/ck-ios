@@ -381,7 +381,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		request.deviceID = clientStore.getUniqueDeviceId()
 		request.refreshToken = server.refreshToken
 		
-		let response = await channelStorage.getChannel(domain: server.serverDomain).logout(request)
+		let response = await channelStorage.getChannel(domain: server.serverDomain, accessToken: server.accessKey, hashKey: server.hashKey).logout(request)
 		switch response {
 		case .success(let data):
 			return(.success(data))

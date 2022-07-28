@@ -232,6 +232,10 @@ extension RealmManager {
 		let servers = load(listOf: RealmServer.self, filter: NSPredicate(format: "isActive == true"))
 		return servers.first
 	}
+
+	func removeServer(domain: String) {
+		delete(listOf: RealmServer.self, filter: NSPredicate(format: "serverDomain == %@", domain))
+	}
 	
 	func deactiveAllServer(completion: @escaping (_ realm: Realm) -> Void) {
 		write { realm in

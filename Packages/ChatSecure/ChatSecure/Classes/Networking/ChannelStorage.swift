@@ -19,6 +19,7 @@ public protocol IChannelStorage {
 	func didSelectServer(_ domain: String?) -> [RealmServer]
 	func registerToken(_ token: String)
 	func subscribeAndListenServers() -> [RealmServer]
+	func removeServer(_ domain: String)
 }
 
 public class ChannelStorage: IChannelStorage {
@@ -55,6 +56,10 @@ public class ChannelStorage: IChannelStorage {
 
 	public func didSelectServer(_ domain: String?) -> [RealmServer] {
 		return realmManager.activeServer(domain: domain)
+	}
+
+	public func removeServer(_ domain: String) {
+		return realmManager.removeServer(domain: domain)
 	}
 
 	public func registerToken(_ token: String) {

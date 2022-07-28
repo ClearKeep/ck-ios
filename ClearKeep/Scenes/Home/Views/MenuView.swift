@@ -33,7 +33,6 @@ struct MenuView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
-	
 	@Binding var isShowMenu: Bool
 	@State private var userProfile: String = ""
 	@Binding var user: [UserViewModel]
@@ -44,7 +43,9 @@ struct MenuView: View {
 	@State private var isSever: Bool = false
 	@State private var isNotification: Bool = false
 	@State private(set) var isExpand: Bool = false
-
+	@State private var isShowAlert: Bool = false
+	let inspection = ViewInspector<Self>()
+	
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -67,7 +68,7 @@ struct MenuView: View {
 										.offset(x: Constants.statusOffset.vertical, y: Constants.statusOffset.horizontal)
 								}
 								VStack(alignment: .leading, spacing: Constants.spacing) {
-									Text(user.first?.displayName ?? (profile?.userName ?? "Name"))
+									Text(profile?.userName ?? "")
 										.font(AppTheme.shared.fontSet.font(style: .body2))
 										.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 										.frame(height: Constants.nameHeight)
@@ -140,15 +141,31 @@ struct MenuView: View {
 			.frame(maxWidth: .infinity, maxHeight: .infinity)
 
 		}.toast(message: "Menu.Copy.Title".localized, isShowing: $isShowToastCopy, duration: Toast.short)
+			.alert(isPresented: self.$isShowAlert) {
+				Alert(title: Text("General.Warning".localized),
+					  message: Text("Home.SignOut.Title".localized),
+					  primaryButton: .cancel({ self.isShowAlert.toggle() }),
+					  secondaryButton: .default(Text("Home.SignOut".localized), action: signOut))
+			}
+			.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
 	}
 }
 
 // MARK: - Actions
 private extension MenuView {
 	func signOutAction() {
-		
+		self.isShowAlert.toggle()
 	}
-	
+
+	func signOut() {
+		Task {
+			await injected.interactors.homeInteractor.signOut()
+			await injected.interactors.homeInteractor.removeServer()
+			NotificationCenter.default.post(name: NSNotification.LogOut, object: nil)
+		}
+		self.isShowMenu.toggle()
+	}
+
 	func copyAction() {
 		let currentDomain = DependencyResolver.shared.channelStorage.currentDomain
 		let user = DependencyResolver.shared.channelStorage.currentServer?.profile
@@ -225,4 +242,7 @@ private extension MenuView {
 	var opacityAction: Double {
 		isExpand ? 1 : 0
 	}
+}
+extension NSNotification {
+	static let LogOut = Notification.Name.init("logOut")
 }
