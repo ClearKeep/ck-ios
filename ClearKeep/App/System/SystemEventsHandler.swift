@@ -64,12 +64,7 @@ struct SystemEventsHandler: ISystemEventsHandler {
 	
 	func sceneOpenURLContexts(_ urlContexts: Set<UIOpenURLContext>) {
 		guard let url = urlContexts.first?.url else { return }
-		handle(url: url)
-	}
-	
-	private func handle(url: URL) {
-		guard let deepLink = DeepLink(url: url) else { return }
-		deepLinksHandler.open(deepLink: deepLink)
+		deepLinksHandler.open(deepLink: url)
 	}
 	
 	func sceneDidBecomeActive() {

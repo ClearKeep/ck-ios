@@ -90,6 +90,9 @@
 "ForgotPassword.Title" = "Forgot password";
 "ForgotPassword.Description" = "Please enter your email to reset your password";
 "ForgotPassword.ResetPassword" = "Reset password";
+"ForgotPassword.CheckYourEmail" = "Check your email";
+"ForgotPassword.ALinkResetYourPasswordHasBeenSentEmail" = "A link reset your password has been sent your email";
+"ForgotPassword.OK" = "OK";
 
 // MARK: - NewPassword
 "NewPassword.Title" = "Enter Your New Password";
