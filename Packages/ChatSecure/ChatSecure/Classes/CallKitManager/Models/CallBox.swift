@@ -8,7 +8,7 @@
 import Foundation
 import AVFoundation
 
-enum CallStatus {
+public enum CallStatus {
 	case calling
 	case ringing
 	case answered
@@ -16,18 +16,18 @@ enum CallStatus {
 	case ended
 }
 
-final class CallBox: NSObject {
+public final class CallBox: NSObject {
 	
 	// MARK: Metadata Properties
-	let uuid: UUID
-	let clientId: String
-	var clientName: String?
-	var avatar: String?
-	let isOutgoing: Bool
-	let callServer: CallServer
-	var status = CallStatus.calling
-	var type: CallType = .audio
-	var isCallGroup = false
+	public let uuid: UUID
+	public let clientId: String
+	public var clientName: String?
+	public var avatar: String?
+	public let isOutgoing: Bool
+	public let callServer: CallServer
+	public var status = CallStatus.calling
+	public var type: CallType = .audio
+	public var isCallGroup = false
 	
 	// MARK: Call State Properties
 	
@@ -65,14 +65,14 @@ final class CallBox: NSObject {
 	
 	// MARK: State change callback blocks
 	
-	var stateDidChange: (() -> Void)?
+	public var stateDidChange: (() -> Void)?
 	var hasStartedConnectingDidChange: (() -> Void)?
 	var hasConnectedDidChange: (() -> Void)?
 	var hasEndedDidChange: (() -> Void)?
 	var audioChange: (() -> Void)?
 	var renderView: (() -> Void)?
-	var renderSizeChangeWithSize: ((_ size: CGSize, _ uId: Int) -> Void)?
-	var membersInCallDidChange: (() -> Void)?
+	public var renderSizeChangeWithSize: ((_ size: CGSize, _ uId: Int) -> Void)?
+	public var membersInCallDidChange: (() -> Void)?
 	
 	// MARK: Derived Properties
 	
@@ -118,7 +118,7 @@ final class CallBox: NSObject {
 	}
 	
 	// MARK: Actions
-	var videoRoom: JanusVideoRoom?
+	public var videoRoom: JanusVideoRoom?
 	
 	var canStartCall: ((Bool) -> Void)?
 	func startCall(withAudioSession audioSession: AVAudioSession?, completion: ((_ success: Bool) -> Void)?) {

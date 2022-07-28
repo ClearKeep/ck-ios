@@ -34,11 +34,11 @@ public struct TurnServer {
 }
 
 public struct CallServer {
-	let groupRtcUrl: String
-	let groupRtcId: Int64
-	let groupRtcToken: String
-	let stunServer: StunServer
-	let turnServer: TurnServer
+	public let groupRtcUrl: String
+	public let groupRtcId: Int64
+	public let groupRtcToken: String
+	public let stunServer: StunServer
+	public let turnServer: TurnServer
 	
 	public init(groupRtcUrl: String, groupRtcId: Int64, groupRtcToken: String, stunServer: StunServer, turnServer: TurnServer) {
 		self.groupRtcUrl = groupRtcUrl

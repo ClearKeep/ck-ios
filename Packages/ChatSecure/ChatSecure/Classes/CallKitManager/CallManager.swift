@@ -26,7 +26,7 @@ final public class CallManager: NSObject {
 	let callController = CXCallController()
 	static let CallsChangedNotification = Notification.Name("CallManagerCallsChangedNotification")
 	private let provider: CXProvider
-	private(set) var calls = [CallBox]()
+	public var calls = [CallBox]()
 	/// The app's provider configuration, representing its CallKit capabilities
 	static var providerConfiguration: CXProviderConfiguration {
 		let localizedName = NSLocalizedString("ClearKeep", comment: "Name of application")
@@ -81,7 +81,7 @@ final public class CallManager: NSObject {
 		requestTransaction(transaction, action: Call.start.rawValue)
 	}
 	
-	func end(call: CallBox) {
+	public func end(call: CallBox) {
 		let endCallAction = CXEndCallAction(call: call.uuid)
 		let transaction = CXTransaction()
 		transaction.addAction(endCallAction)

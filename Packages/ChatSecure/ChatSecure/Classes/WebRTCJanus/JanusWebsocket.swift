@@ -55,8 +55,8 @@ final class JanusWebSocket: NSObject, WebSocketProvider {
 	
 	func stop() {
 		webSocket?.cancel(with: .goingAway, reason: nil)
-//		webSocket = nil
-//		delegate?.webSocket(didClose: self)
+		webSocket = nil
+		delegate?.webSocket(didClose: self)
 	}
 
 	func send(message msg: [String: Any]?) {

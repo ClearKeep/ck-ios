@@ -14,10 +14,10 @@ protocol JanusRoleListenDelegate: JanusRoleDelegate {
 	func janusRoleListen(role: JanusRoleListen, renderSizeChangeWithSize size: CGSize)
 }
 
-class JanusRoleListen: JanusRole {
+public class JanusRoleListen: JanusRole {
 	var renderView: RTCMTLEAGLVideoView?
 	var videoTrack: RTCVideoTrack?
-	var renderSize: CGSize = .zero
+	public var renderSize: CGSize = .zero
 	
 	override init(withJanus janus: Janus, delegate: JanusRoleDelegate? = nil, turnServer: TurnServer, stunServer: StunServer) {
 		super.init(withJanus: janus, delegate: delegate, turnServer: turnServer, stunServer: stunServer)
@@ -139,7 +139,7 @@ class JanusRoleListen: JanusRole {
 		renderView = nil
 	}
 	
-	var videoRenderView: RTCMTLEAGLVideoView {
+	public var videoRenderView: RTCMTLEAGLVideoView {
 		guard let renderView = renderView else {
 			let renderView = RTCMTLEAGLVideoView()
 			renderView.isUserInteractionEnabled = false
@@ -154,7 +154,7 @@ class JanusRoleListen: JanusRole {
 }
 
 extension JanusRoleListen: RTCVideoViewDelegate {
-	func videoView(_ videoView: RTCVideoRenderer, didChangeVideoSize size: CGSize) {
+	public func videoView(_ videoView: RTCVideoRenderer, didChangeVideoSize size: CGSize) {
 		if let delegate = delegate as? JanusRoleListenDelegate {
 			if renderSize == .zero {
 				delegate.janusRoleListen(role: self, firstRenderWithSize: size)
@@ -167,7 +167,7 @@ extension JanusRoleListen: RTCVideoViewDelegate {
 }
 
 extension JanusRoleListen {
-	override func peerConnection(_ peerConnection: RTCPeerConnection, didAdd stream: RTCMediaStream) {
+	public override func peerConnection(_ peerConnection: RTCPeerConnection, didAdd stream: RTCMediaStream) {
 		asyncInMainThread { [weak self] in
 			guard let self = self else { return }
 			if stream.videoTracks.count > 0 {
@@ -178,7 +178,7 @@ extension JanusRoleListen {
 		}
 	}
 	
-	override func peerConnection(_ peerConnection: RTCPeerConnection, didRemove stream: RTCMediaStream) {
+	public override func peerConnection(_ peerConnection: RTCPeerConnection, didRemove stream: RTCMediaStream) {
 		debugPrint("")
 	}
 }

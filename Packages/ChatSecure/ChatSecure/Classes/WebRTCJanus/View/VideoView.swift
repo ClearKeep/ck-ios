@@ -10,9 +10,9 @@ import SwiftUI
 import WebRTC
 
 #if arch(arm64)
-typealias RTCMTLEAGLVideoView = RTCMTLVideoView
+public typealias RTCMTLEAGLVideoView = RTCMTLVideoView
 #else
-typealias RTCMTLEAGLVideoView = RTCEAGLVideoView
+public typealias RTCMTLEAGLVideoView = RTCEAGLVideoView
 #endif
 
 // #if arch(arm64)

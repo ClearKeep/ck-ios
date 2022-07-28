@@ -44,12 +44,12 @@ extension JanusRoleDelegate {
 	func janusRole(role: JanusRole, didReceiveData data: Data) { }
 }
 
-class JanusRole: JanusPlugin {
+public class JanusRole: JanusPlugin {
 	var id: Int?
 	var roomId: Int64?
 	var privateId: NSNumber?
 	var pType: PublishType = .publish
-	var display: String?
+	public var display: String?
 	var mediaConstraints: JanusMediaConstraints?
 	var status: JanusRoleStatus = .detached
 	var turnServer: TurnServer
@@ -272,34 +272,34 @@ extension JanusRole {
 }
 
 extension JanusRole: RTCPeerConnectionDelegate {
-	func peerConnectionShouldNegotiate(_ peerConnection: RTCPeerConnection) {
+	public func peerConnectionShouldNegotiate(_ peerConnection: RTCPeerConnection) {
 		
 	}
 	
-	func peerConnection(_ peerConnection: RTCPeerConnection, didChange stateChanged: RTCSignalingState) {
+	public func peerConnection(_ peerConnection: RTCPeerConnection, didChange stateChanged: RTCSignalingState) {
 		
 	}
 	
-	func peerConnection(_ peerConnection: RTCPeerConnection, didAdd stream: RTCMediaStream) {
+	public func peerConnection(_ peerConnection: RTCPeerConnection, didAdd stream: RTCMediaStream) {
 		
 	}
 	
-	func peerConnection(_ peerConnection: RTCPeerConnection, didRemove stream: RTCMediaStream) {
+	public func peerConnection(_ peerConnection: RTCPeerConnection, didRemove stream: RTCMediaStream) {
 		
 	}
 	
-	func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceConnectionState) {
+	public func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceConnectionState) {
 		
 	}
 	
-	func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceGatheringState) {
+	public func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceGatheringState) {
 		if newState == .complete {
 			let publish = ["completed": NSNumber(value: true)]
 			send(trickleCandidate: publish)
 		}
 	}
 	
-	func peerConnection(_ peerConnection: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
+	public func peerConnection(_ peerConnection: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
 		var publish: [String: Any]
 		if let mid = candidate.sdpMid {
 			publish = ["candidate": candidate.sdp,
@@ -311,11 +311,11 @@ extension JanusRole: RTCPeerConnectionDelegate {
 		self.send(trickleCandidate: publish)
 	}
 	
-	func peerConnection(_ peerConnection: RTCPeerConnection, didRemove candidates: [RTCIceCandidate]) {
+	public func peerConnection(_ peerConnection: RTCPeerConnection, didRemove candidates: [RTCIceCandidate]) {
 		
 	}
 	
-	func peerConnection(_ peerConnection: RTCPeerConnection, didOpen dataChannel: RTCDataChannel) {
+	public func peerConnection(_ peerConnection: RTCPeerConnection, didOpen dataChannel: RTCDataChannel) {
 		self.remoteDataChannel = dataChannel
 	}
 }

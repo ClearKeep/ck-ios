@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RTCCanvas {
+public class RTCCanvas {
 	let view: UIView
 	let renderMode: RTCRenderMode
 	let uid: Int

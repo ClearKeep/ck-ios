@@ -114,6 +114,8 @@
 		111CDB183DAC665A08A0F9AE /* Pods_ClearKeepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 762B17389323AE09C354C456 /* Pods_ClearKeepTests.framework */; };
 		2245C21A285C70B3008F6C73 /* PreviewImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2245C219285C70B3008F6C73 /* PreviewImage.swift */; };
 		226732A928534C1900C07852 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226732A828534C1900C07852 /* MessageViewModel.swift */; };
+		22692F88289265DC00FEAD1E /* CallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22692F87289265DC00FEAD1E /* CallViewModel.swift */; };
+		22692F8A2892671C00FEAD1E /* CustomVideoViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22692F892892671C00FEAD1E /* CustomVideoViewConfig.swift */; };
 		226977FA28694A000000D0AE /* FileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226977F928694A000000D0AE /* FileModel.swift */; };
 		228C49ED285B28C6003C4FA0 /* ForwardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228C49EC285B28C6003C4FA0 /* ForwardViewModel.swift */; };
 		228F2C84281B9E6F0012B07A /* ForwardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228F2C83281B9E6F0012B07A /* ForwardView.swift */; };
@@ -396,6 +398,8 @@
 		1D2080FC782DE43A5ADFC387 /* Pods-ClearKeepTests.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.production.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.production.xcconfig"; sourceTree = "<group>"; };
 		2245C219285C70B3008F6C73 /* PreviewImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImage.swift; sourceTree = "<group>"; };
 		226732A828534C1900C07852 /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
+		22692F87289265DC00FEAD1E /* CallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallViewModel.swift; sourceTree = "<group>"; };
+		22692F892892671C00FEAD1E /* CustomVideoViewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVideoViewConfig.swift; sourceTree = "<group>"; };
 		226977F928694A000000D0AE /* FileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileModel.swift; sourceTree = "<group>"; };
 		228C49EC285B28C6003C4FA0 /* ForwardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardViewModel.swift; sourceTree = "<group>"; };
 		228F2C83281B9E6F0012B07A /* ForwardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardView.swift; sourceTree = "<group>"; };
@@ -1466,6 +1470,8 @@
 				F564483F283F8562007846F9 /* Models */,
 				F5644841283F8562007846F9 /* CallWorker.swift */,
 				F5644842283F8562007846F9 /* CallView.swift */,
+				22692F87289265DC00FEAD1E /* CallViewModel.swift */,
+				22692F892892671C00FEAD1E /* CustomVideoViewConfig.swift */,
 				F5644843283F8562007846F9 /* Views */,
 				F5644847283F8562007846F9 /* CallInMemoryStore.swift */,
 				F5644848283F8562007846F9 /* CallInteractor.swift */,
@@ -2025,6 +2031,7 @@
 				04589882286C0C3300A0631C /* GroupDetailViewModel.swift in Sources */,
 				0499341027E96DD7003BD4C4 /* FogotPasswordView.swift in Sources */,
 				0499344427E97035003BD4C4 /* ChangePasswordInMemoryStore.swift in Sources */,
+				22692F8A2892671C00FEAD1E /* CustomVideoViewConfig.swift in Sources */,
 				0462C6CD2816535C00A9EABB /* SearchGroupView.swift in Sources */,
 				047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */,
 				CB117E6827BB65A3000941D9 /* AppTokenService.swift in Sources */,
@@ -2053,6 +2060,7 @@
 				F556C277280E502500D2B149 /* TagView.swift in Sources */,
 				0465645E2887DA8000A329D5 /* ProfileBaseViewModel.swift in Sources */,
 				044351F527D9AFCA0054A78F /* RegisterWorker.swift in Sources */,
+				22692F88289265DC00FEAD1E /* CallViewModel.swift in Sources */,
 				0459993E286312ED006754DF /* GroupBaseModel.swift in Sources */,
 				0462C6C12816535C00A9EABB /* SearchRemoteStore.swift in Sources */,
 				0499345327E9A8BE003BD4C4 /* AdvancedSeverInMemoryStore.swift in Sources */,

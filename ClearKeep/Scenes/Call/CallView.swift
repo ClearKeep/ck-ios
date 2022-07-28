@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Common
+import ChatSecure
 
 struct CallView: View {
 	// MARK: - Constants
@@ -16,9 +17,11 @@ struct CallView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	
 	private let groupId: Int64
+	@ObservedObject var viewModel: CallViewModel
 	
 	init(groupId: Int64) {
 		self.groupId = groupId
+		self.viewModel = CallViewModel()
 	}
 
 	// MARK: - Body
@@ -27,6 +30,9 @@ struct CallView: View {
 			.onAppear {
 				Task {
 					await injected.interactors.callInteractor.requestCall(groupId: groupId, isAudioCall: true)
+					if let callBox = CallManager.shared.calls.first {
+						viewModel.updateCallBox(callBox: callBox)
+					}
 				}
 			}
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
@@ -43,7 +49,7 @@ private extension CallView {
 // MARK: - Loading Content
 private extension CallView {
 	var notRequestedView: some View {
-		CallingView()
+		CallingView(viewModel: viewModel)
 	}
 }
 

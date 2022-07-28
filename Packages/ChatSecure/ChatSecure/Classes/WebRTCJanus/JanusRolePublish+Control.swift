@@ -10,23 +10,23 @@ import Foundation
 import WebRTC
 
 extension JanusRolePublish {
-	func muteAudio() {
+	public func muteAudio() {
 		self.setAudioEnabled(false)
 	}
 	
-	func unmuteAudio() {
+	public func unmuteAudio() {
 		self.setAudioEnabled(true)
 	}
 	
-	func cameraOff() {
+	public func cameraOff() {
 		self.localVideoTrack.isEnabled = false
 	}
 	
-	func cameraOn() {
+	public func cameraOn() {
 		self.localVideoTrack.isEnabled = true
 	}
 	
-	func speakerOff() {
+	public func speakerOff() {
 		self.audioQueue.async { [weak self] in
 			guard let self = self else {
 				return
@@ -44,7 +44,7 @@ extension JanusRolePublish {
 	}
 	
 	// Force speaker
-	func speakerOn() {
+	public func speakerOn() {
 		self.audioQueue.async { [weak self] in
 			guard let self = self else {
 				return
@@ -62,7 +62,7 @@ extension JanusRolePublish {
 		}
 	}
 	
-	func switchCameraPosition() {
+	public func switchCameraPosition() {
 		if let capturer = self.videoCapturer as? RTCCameraVideoCapturer,
 		   let publishConstraints = self.mediaConstraints as? JanusPublishMediaConstraints {
 			capturer.stopCapture {
@@ -82,7 +82,7 @@ extension JanusRolePublish {
 		}
 	}
 	
-	func startCaptureLocalVideo(cameraPositon: AVCaptureDevice.Position, videoWidth: Int, videoHeight: Int, videoFps: Int) {
+	public func startCaptureLocalVideo(cameraPositon: AVCaptureDevice.Position, videoWidth: Int, videoHeight: Int, videoFps: Int) {
 		if let capturer = self.videoCapturer as? RTCCameraVideoCapturer {
 			var targetDevice: AVCaptureDevice?
 			var targetFormat: AVCaptureDevice.Format?

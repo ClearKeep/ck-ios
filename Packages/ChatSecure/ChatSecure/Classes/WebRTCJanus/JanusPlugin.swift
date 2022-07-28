@@ -28,7 +28,7 @@ protocol JanusPluginHandleProtocol: NSObject {
 	func pluginDTLSHangup(withReason reason: String)
 }
 
-class JanusPlugin: NSObject, JanusPluginHandleProtocol {
+public class JanusPlugin: NSObject, JanusPluginHandleProtocol {
 	var opaqueId: String?
 	var pluginName: String?
 	var handleId = NSNumber(value: 0)

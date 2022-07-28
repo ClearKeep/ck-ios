@@ -44,7 +44,6 @@ extension CallInteractor: ICallInteractor {
 			print(error)
 		}
 	}
-
 }
 
 struct StubCallInteractor: ICallInteractor {

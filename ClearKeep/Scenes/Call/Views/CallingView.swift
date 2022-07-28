@@ -34,9 +34,11 @@ struct CallingView: View {
 	@State private(set) var isTappedSpeaker: Bool = false
 	@State private(set) var isTappedEndCall: Bool = false
 	
+	@ObservedObject var viewModel: CallViewModel
 	// MARK: - Init
-	public init(samples: Loadable<[ICallModel]> = .notRequested) {
+	public init(samples: Loadable<[ICallModel]> = .notRequested, viewModel: CallViewModel) {
 		self._samples = .init(initialValue: samples)
+		self.viewModel = viewModel
 	}
 	
 	// MARK: - Body
@@ -60,6 +62,11 @@ struct CallingView: View {
 				.frame(maxWidth: .infinity, alignment: .center)
 				.font(AppTheme.shared.fontSet.font(style: .display2))
 				.foregroundColor(AppTheme.shared.colorSet.offWhite)
+			
+			if viewModel.callType == .audio, viewModel.callStatus == .answered {
+				Text(viewModel.timeCall)
+					.foregroundColor(AppTheme.shared.colorSet.offWhite)
+			}
 			
 			HStack {
 				VStack {
@@ -92,6 +99,7 @@ struct CallingView: View {
 			VStack {
 				Button {
 					isTappedEndCall.toggle()
+					viewModel.endCall()
 					presentationMode.wrappedValue.dismiss()
 				} label: {
 					ZStack {
@@ -147,6 +155,6 @@ private extension CallingView {
 
 struct CallingView_Previews: PreviewProvider {
 	static var previews: some View {
-		CallingView()
+		CallingView(viewModel: CallViewModel())
 	}
 }
