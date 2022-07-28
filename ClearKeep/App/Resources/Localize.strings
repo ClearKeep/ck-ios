@@ -60,8 +60,6 @@
 "UserProfile.Disable" = "Disable";
 "UserProfile.Code.Country" = "Country Codes";
 "UserProfile.Authen.2FA" = "Two-factor authentication";
-"UserProfile.Phone.Valid" = "Invalid phone number";
-"UserProfile.UserName.Valid" = "This field is required";
 
 // MARK: - Country Codes
 "Country.Code" = "Country Codes";
@@ -111,6 +109,7 @@
 "Home.GroupChat" = "Group Chat";
 "Home.DirectMessages" = "Direct Messages";
 "Home.SignOut" = "Sign out";
+"Home.SignOut.Title" = "Are you sure you want to sign out from server?";
 
 // MARK: - Join Server
 "JoinServer.Title" = "Join Server";
@@ -246,4 +245,3 @@
 "Chat.YourFile" = "Your File";
 "Chat.AddFile" = "Add File";
 "Chat.NextButton" = "Next";
-"Chat.Save" = "Save";

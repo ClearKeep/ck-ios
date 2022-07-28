@@ -29,13 +29,18 @@ struct HomeView: View {
 		didSet {
 			switch loadable {
 			case .loaded(let load):
+				isLoading = false
 				self.groups = load.groupViewModel?.viewModelGroup.filter { $0.groupType == "group" }.compactMap { profile in
 					GroupViewModel(profile)} ?? [GroupViewModel]()
 				self.peers = load.groupViewModel?.viewModelGroup.filter { $0.groupType != "group" }.compactMap { profile in
 					GroupViewModel(profile)} ?? [GroupViewModel]()
 				self.user = [UserViewModel(load.userViewModel?.viewModelUser)]
 			case .failed(let error):
-				print(error)
+				isLoading = false
+				self.error = LoginViewError(error)
+				self.isShowError = true
+			case .isLoading:
+				isLoading = true
 			default: break
 			}
 		}
@@ -70,7 +75,7 @@ struct HomeView: View {
 	@State private var isShowError: Bool = false
 	@State private var error: LoginViewError?
 	let inspection = ViewInspector<Self>()
-
+	
 	var body: some View {
 		NavigationView {
 			GeometryReader { geometry in
@@ -106,17 +111,21 @@ struct HomeView: View {
 					MenuView(isShowMenu: $isShowMenu, user: $user, chageStatus: { status in
 						self.changeStatus(status: status)
 					})
-					.frame(width: geometry.size.width)
-					.offset(x: isShowMenu ? 0 : geometry.size.width * 2)
-					.transition(.move(edge: .trailing))
-					.animation(.default, value: Constants.duration)
-					.ignoresSafeArea()
-					.padding(.top, Constants.paddingMenu)
+						.frame(width: geometry.size.width)
+						.offset(x: isShowMenu ? 0 : geometry.size.width * 2)
+						.transition(.move(edge: .trailing))
+						.animation(.default, value: Constants.duration)
+						.ignoresSafeArea()
+						.padding(.top, Constants.paddingMenu)
 				}
 			}
 			.hiddenNavigationBarStyle()
 			.onAppear(perform: getServers)
 			.onAppear(perform: getServerInfo)
+			.onReceive(NotificationCenter.default.publisher(for: NSNotification.LogOut, object: nil), perform: { _ in
+				self.serverInfo()
+				self.getServers()
+			})
 			.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
 		}.progressHUD(isLoading)
 			.alert(isPresented: $isShowError) {
@@ -163,8 +172,15 @@ private extension HomeView {
 	func getServers() {
 		servers = injected.interactors.homeInteractor.getServers()
 	}
-
+	
 	func getServerInfo() {
+		Task {
+			loadable = await injected.interactors.homeInteractor.getServerInfo()
+		}
+	}
+	
+	func serverInfo() {
+		self.loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
 			loadable = await injected.interactors.homeInteractor.getServerInfo()
 		}
@@ -178,8 +194,9 @@ private extension HomeView {
 	}
 }
 
-// MARK: - Action
-private extension HomeView {
+// MARK: - extension
+extension NSNotification {
+	static let LogOut = Notification.Name.init("LogOut")
 }
 
 // MARK: - Preview

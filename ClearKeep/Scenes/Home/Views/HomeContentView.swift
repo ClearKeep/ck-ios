@@ -68,7 +68,6 @@ struct HomeContentView: View {
 
 		NavigationLink(destination: SearchView(serverText: serverName),
 					   isActive: $isSearchView) {}
-
 	}
 }
 

@@ -14,7 +14,7 @@ protocol IHomeRemoteStore {
 	func getJoinedGroup(domain: String) async -> Result<IHomeModels, Error>
 	func getProfile(domain: String) async -> Result<IHomeModels, Error>
 	func getListStatus(domain: String, userId: String) async -> Result<IHomeModels, Error>
-	func signOut() async
+	func signOut(domain: String) async -> Result<HomeModels, Error>
 	func pingServer(domain: String) async
 	func changeStatus(domain: String, status: String) async -> Result<IHomeModels?, Error>
 }
@@ -76,6 +76,13 @@ extension HomeRemoteStore: IHomeRemoteStore {
 		}
 	}
 	
-	func signOut() async {
+	func signOut(domain: String) async -> Result<HomeModels, Error> {
+		let result = await authenticationService.logoutFromAPI(domain: domain)
+		switch result {
+		case .success(let response):
+			return .success(HomeModels(responeAuthen: response))
+		case .failure(let error):
+			return .failure(error)
+		}
 	}
 }

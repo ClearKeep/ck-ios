@@ -20,10 +20,11 @@ protocol IHomeWorker {
 	func getJoinedGroup() async -> Result<IHomeModels, Error>
 	func didSelectServer(_ domain: String?) -> [ServerModel]
 	func getProfile() async -> Result<IHomeModels, Error>
-	func signOut() async
+	func signOut() async -> Result<HomeModels, Error>
 	func getListStatus() async -> Result<IHomeModels, Error>
 	func pingRequest() async
 	func updateStatus(status: String) async -> Result<IHomeModels?, Error>
+	func removeServer() async
 }
 
 class HomeWorker {
@@ -72,7 +73,11 @@ extension HomeWorker: IHomeWorker {
 			ServerModel($0)
 		})
 	}
-	
+
+	func removeServer() async {
+		return await channelStorage.removeServer(currentDomain ?? channelStorage.currentDomain)
+	}
+
 	func getProfile() async -> Result<IHomeModels, Error> {
 		let result = await remoteStore.getProfile(domain: currentDomain ?? channelStorage.currentDomain)
 		
@@ -108,7 +113,13 @@ extension HomeWorker: IHomeWorker {
 		}
 	}
 	
-	func signOut() async {
-		await remoteStore.signOut()
+	func signOut() async -> Result<HomeModels, Error> {
+		let result = await remoteStore.signOut(domain: currentDomain ?? channelStorage.currentDomain)
+		switch result {
+		case .success(let authenRespone):
+			return .success(authenRespone)
+		case .failure(let error):
+			return .failure(error)
+		}
 	}
 }

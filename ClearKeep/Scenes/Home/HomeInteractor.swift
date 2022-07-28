@@ -20,6 +20,8 @@ protocol IHomeInteractor {
 	func didSelectServer(_ domain: String?) -> [ServerViewModel]
 	func signOut() async
 	func updateStatus(status: String) async -> Loadable<UserViewModels>
+
+	func removeServer() async
 }
 
 struct HomeInteractor {
@@ -52,7 +54,11 @@ extension HomeInteractor: IHomeInteractor {
 	func getServers() -> [ServerViewModel] {
 		return worker.servers.compactMap { ServerViewModel($0) }
 	}
-	
+
+	func removeServer() async {
+		_ = await worker.removeServer()
+	}
+
 	func getServerInfo() async -> Loadable<HomeViewModels> {
 		let result = await worker.getJoinedGroup()
 		await worker.pingRequest()
@@ -93,7 +99,7 @@ extension HomeInteractor: IHomeInteractor {
 	}
 	
 	func signOut() async {
-		//		let result = await worker.signOut()
+		_ = await worker.signOut()
 	}
 }
 
@@ -134,10 +140,15 @@ struct StubHomeInteractor: IHomeInteractor {
 	}
 	
 	func signOut() async {
-		//		let result = await worker.signOut()
+		_ = await worker.signOut()
 	}
 	
 	func updateStatus(status: String) async -> Loadable<UserViewModels> {
 		return .notRequested
 	}
+
+	func removeServer() async {
+		_ = await worker.removeServer()
+	}
+
 }
