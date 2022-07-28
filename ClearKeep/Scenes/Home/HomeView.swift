@@ -171,9 +171,6 @@ private extension HomeView {
 private extension HomeView {
 	func getServers() {
 		servers = injected.interactors.homeInteractor.getServers()
-		if servers.isEmpty {
-			
-		}
 	}
 	
 	func getServerInfo() {
@@ -197,8 +194,9 @@ private extension HomeView {
 	}
 }
 
-// MARK: - Action
-private extension HomeView {
+// MARK: - extension
+extension NSNotification {
+	static let LogOut = Notification.Name.init("LogOut")
 }
 
 // MARK: - Preview

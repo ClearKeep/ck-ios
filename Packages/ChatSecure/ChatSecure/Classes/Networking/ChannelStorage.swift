@@ -19,6 +19,7 @@ public protocol IChannelStorage {
 	func didSelectServer(_ domain: String?) -> [RealmServer]
 	func registerToken(_ token: String)
 	func subscribeAndListenServers() -> [RealmServer]
+	func removeServer(_ domain: String)
 }
 
 public class ChannelStorage: IChannelStorage {
@@ -42,7 +43,7 @@ public class ChannelStorage: IChannelStorage {
 		self.channels = [config.clkDomain + ":" + config.clkPort: APIService(domain: config.clkDomain + ":" + config.clkPort,
 																			 owner: realmManager.getOwnerServer(domain: config.clkDomain + ":" + config.clkPort))]
 	}
-	
+
 	public func getServers(isFirstLoad: Bool) -> [RealmServer] {
 		servers = realmManager.getServers()
 		if isFirstLoad {
@@ -55,6 +56,10 @@ public class ChannelStorage: IChannelStorage {
 
 	public func didSelectServer(_ domain: String?) -> [RealmServer] {
 		return realmManager.activeServer(domain: domain)
+	}
+
+	public func removeServer(_ domain: String) {
+		return realmManager.removeServer(domain: domain)
 	}
 
 	public func registerToken(_ token: String) {
@@ -82,7 +87,7 @@ extension ChannelStorage {
 			if accessToken != nil {
 				channel?.updateHeaders(accessKey: accessToken, hashKey: hashKey)
 			}
-            return channel ?? APIService(domain: domain, owner: realmManager.getOwnerServer(domain: domain))
+			return channel ?? APIService(domain: domain, owner: realmManager.getOwnerServer(domain: domain))
 		} else if domain.isEmpty {
 			return channels[config.clkDomain + ":" + config.clkPort] ?? APIService(domain: config.clkDomain + ":" + config.clkPort, owner: realmManager.getOwnerServer(domain: config.clkDomain + ":" + config.clkPort))
 		} else {
