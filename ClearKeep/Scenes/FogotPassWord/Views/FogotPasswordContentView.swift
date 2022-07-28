@@ -25,12 +25,11 @@ struct FogotPasswordContentView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
-	@Binding var loadable: Loadable<Bool>
-	@Binding var customServer: CustomServer
 	@State private(set) var email: String = ""
 	@State private(set) var domain: String = ""
 	@State private(set) var emailStyle: TextInputStyle = .default
 	@State private var emailInvalid: Bool = false
+	var forgotPassword: (String) -> Void
 
 	// MARK: - Body
 	var body: some View {
@@ -72,10 +71,7 @@ private extension FogotPasswordContentView {
 	func doRecoverPassword() {
 		invalid()
 		if emailInvalid {
-			loadable = .isLoading(last: nil, cancelBag: CancelBag())
-			Task {
-				loadable = await injected.interactors.fogotPasswordInteractor.recoverPassword(email: email, customServer: customServer)
-			}
+			self.forgotPassword(email)
 		}
 	}
 
@@ -88,7 +84,7 @@ private extension FogotPasswordContentView {
 #if DEBUG
 struct FogotPasswordContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		FogotPasswordContentView(loadable: .constant(.notRequested), customServer: .constant(CustomServer()))
+		FogotPasswordContentView(forgotPassword: { _ in })
 	}
 }
 #endif
