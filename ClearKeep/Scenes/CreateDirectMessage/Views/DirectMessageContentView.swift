@@ -64,6 +64,17 @@ struct DirectMessageContentView: View {
 			})
 				.foregroundColor(foregroundCheckmask)
 			
+			if isShowingLinkUser {
+				VStack {
+					CommonTextField(text: $searchLinkText,
+									inputStyle: $inputLinkStyle,
+									placeHolder: "DirectMessages.LinkTitle".localized,
+									onEditingChanged: { isEditing in
+						inputLinkStyle = isEditing ? .highlighted : .normal
+					})
+				}
+			}
+			
 			CheckBoxButtons(text: "GroupChat.AddUserFromEmail.Title".localized, isChecked: $useFindByEmail, action: {
 				self.isShowingLinkUser = false
 				self.searchLinkText = ""
@@ -81,27 +92,23 @@ struct DirectMessageContentView: View {
 								onSubmit: searchEmail)
 			}
 			
-			if isShowingLinkUser {
-				VStack {
-					CommonTextField(text: $searchLinkText,
-									inputStyle: $inputLinkStyle,
-									placeHolder: "DirectMessages.LinkTitle".localized,
-									onEditingChanged: { isEditing in
-						inputLinkStyle = isEditing ? .highlighted : .normal
-					})
-					Spacer()
-					RoundedGradientButton("DirectMessages.Next".localized,
-										  disabled: .constant(searchLinkText.isEmpty),
-										  action: createUserByLink)
-						.frame(width: Constants.buttonSize.width)
-						.padding(.bottom, Constants.paddingButtonNext)
-				}
-			} else {
+			if !isShowingLinkUser {
 				ScrollView(showsIndicators: false) {
 					ForEach(userData) { item in
 						UserPeerButton(item.displayName, imageUrl: "", action: { nextAction(item) })
 					}
 				}
+			}
+			
+			if isShowingLinkUser || useFindByEmail {
+				Spacer()
+				VStack {
+					RoundedGradientButton("DirectMessages.Next".localized,
+										  disabled: .constant(searchLinkText.isEmpty),
+										  action: createUserByLink)
+					.frame(width: Constants.buttonSize.width)
+					.padding(.bottom, Constants.paddingButtonNext)
+				}.frame(maxWidth: .infinity)
 			}
 		}
 		.padding(.horizontal, Constants.padding)
