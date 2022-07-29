@@ -25,15 +25,32 @@ struct HomeView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.injected) private var injected: DIContainer
+	@State private(set) var isExpandGroup: Bool = false
+	@State private(set) var isExpandDirectMessage: Bool = false
+	@State private var isFirstShowGroup: Bool = false
+	@State private var isFirstShowPeer: Bool = false
+	
 	@State private(set) var loadable: Loadable<HomeViewModels> = .notRequested {
 		didSet {
 			switch loadable {
 			case .loaded(let load):
 				isLoading = false
-				self.groups = load.groupViewModel?.viewModelGroup.filter { $0.groupType == "group" }.compactMap { profile in
-					GroupViewModel(profile)} ?? [GroupViewModel]()
-				self.peers = load.groupViewModel?.viewModelGroup.filter { $0.groupType != "group" }.compactMap { profile in
-					GroupViewModel(profile)} ?? [GroupViewModel]()
+				let groups = load.groupViewModel?.viewModelGroup.filter { $0.groupType == "group" }.compactMap { profile in
+					GroupViewModel(profile)} ?? []
+				let peers = load.groupViewModel?.viewModelGroup.filter { $0.groupType != "group" }.compactMap { profile in
+					GroupViewModel(profile)} ?? []
+				if !groups.isEmpty && !isFirstShowGroup {
+					isFirstShowGroup = true
+					isExpandGroup = true
+				}
+
+				if !peers.isEmpty && !isFirstShowPeer {
+					isFirstShowPeer = true
+					isExpandDirectMessage = true
+				}
+				
+				self.groups = groups
+				self.peers = peers
 				self.user = [UserViewModel(load.userViewModel?.viewModelUser)]
 			case .failed(let error):
 				isLoading = false
@@ -148,7 +165,7 @@ private extension HomeView {
 		if isAddNewServer {
 			return AnyView(JoinServerView())
 		} else {
-			return AnyView(HomeContentView(groups: $groups, peers: $peers, serverName: .constant(serverName)))
+			return AnyView(HomeContentView(groups: $groups, peers: $peers, serverName: .constant(serverName), isExpandGroup: $isExpandGroup, isExpandDirectMessage: $isExpandDirectMessage))
 		}
 	}
 	
