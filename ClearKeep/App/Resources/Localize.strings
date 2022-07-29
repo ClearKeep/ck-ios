@@ -187,6 +187,7 @@
 "Call.End" = "End Call";
 "Call.Incomming.Video" = "Incomming Video Call";
 "Call.Incomming.Voice" = "Incomming Voice Call";
+"Call.TapHereRetutnCall" = "Tap here to return to call screen";
 
 // MARK: - Call Group
 "CallGroup.Calling" = "Calling Group";

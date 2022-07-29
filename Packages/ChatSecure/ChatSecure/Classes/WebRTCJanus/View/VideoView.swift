@@ -10,16 +10,20 @@ import SwiftUI
 import WebRTC
 
 #if arch(arm64)
-typealias RTCMTLEAGLVideoView = RTCMTLVideoView
+public typealias RTCMTLEAGLVideoView = RTCMTLVideoView
 #else
-typealias RTCMTLEAGLVideoView = RTCEAGLVideoView
+public typealias RTCMTLEAGLVideoView = RTCEAGLVideoView
 #endif
 
 // #if arch(arm64)
-struct VideoView: UIViewRepresentable {
+public struct VideoView: UIViewRepresentable {
 	let rtcVideoView: RTCMTLEAGLVideoView
 	
-	func makeUIView(context: Context) -> RTCMTLEAGLVideoView {
+	public init(rtcVideoView: RTCMTLEAGLVideoView) {
+		self.rtcVideoView = rtcVideoView
+	}
+	
+	public func makeUIView(context: Context) -> RTCMTLEAGLVideoView {
 #if arch(arm64)
 		rtcVideoView.videoContentMode = .scaleAspectFill
 #else
@@ -27,7 +31,7 @@ struct VideoView: UIViewRepresentable {
 		return rtcVideoView
 	}
 	
-	func updateUIView(_ uiView: RTCMTLEAGLVideoView, context: Context) {
+	public func updateUIView(_ uiView: RTCMTLEAGLVideoView, context: Context) {
 	}
 	
 	func getFrame(lstVideo: [RTCMTLEAGLVideoView], containerHeight: CGFloat) -> CGSize {

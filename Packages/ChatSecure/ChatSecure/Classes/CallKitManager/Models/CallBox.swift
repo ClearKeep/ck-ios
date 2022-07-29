@@ -8,7 +8,7 @@
 import Foundation
 import AVFoundation
 
-enum CallStatus {
+public enum CallStatus {
 	case calling
 	case ringing
 	case answered
@@ -16,49 +16,53 @@ enum CallStatus {
 	case ended
 }
 
-final class CallBox: NSObject {
+public final class CallBox: NSObject {
 	
 	// MARK: Metadata Properties
-	let uuid: UUID
-	let clientId: String
-	var groupToken: String?
-	var clientName: String?
-	var roomId: Int64 = 0
-	var avatar: String?
-	let isOutgoing: Bool
-	var status = CallStatus.calling
-	var type: CallType = .audio
-	var isCallGroup = false
+	public let uuid: UUID
+	public let clientId: String
+	public let rtcUrl: String
+	public var groupToken: String?
+	public var clientName: String?
+	public var roomId: Int64 = 0
+	public var avatar: String?
+	public let isOutgoing: Bool
+	public var status = CallStatus.calling
+	public var type: CallType = .audio
+	public var isCallGroup = false
 	
 	// MARK: Call State Properties
 	
-	var connectingDate: Date? {
+	public var connectingDate: Date? {
 		didSet {
 			stateDidChange?()
 			hasStartedConnectingDidChange?()
 		}
 	}
-	var connectDate: Date? {
+	
+	public var connectDate: Date? {
 		didSet {
 			stateDidChange?()
 			hasConnectedDidChange?()
 		}
 	}
-	var endDate: Date? {
+	
+	public var endDate: Date? {
 		didSet {
 			status = .ended
 			stateDidChange?()
 			hasEndedDidChange?()
 		}
 	}
-	var isOnHold = false {
+	
+	public var isOnHold = false {
 		didSet {
 			//            publisher?.publishAudio = !isOnHold
 			stateDidChange?()
 		}
 	}
 	
-	var isMuted = false {
+	public var isMuted = false {
 		didSet {
 			//            publisher?.publishAudio = !isMuted
 		}
@@ -66,14 +70,14 @@ final class CallBox: NSObject {
 	
 	// MARK: State change callback blocks
 	
-	var stateDidChange: (() -> Void)?
-	var hasStartedConnectingDidChange: (() -> Void)?
-	var hasConnectedDidChange: (() -> Void)?
-	var hasEndedDidChange: (() -> Void)?
-	var audioChange: (() -> Void)?
-	var renderView: (() -> Void)?
-	var renderSizeChangeWithSize: ((_ size: CGSize, _ uId: Int) -> Void)?
-	var membersInCallDidChange: (() -> Void)?
+	public var stateDidChange: (() -> Void)?
+	public var hasStartedConnectingDidChange: (() -> Void)?
+	public var hasConnectedDidChange: (() -> Void)?
+	public var hasEndedDidChange: (() -> Void)?
+	public var audioChange: (() -> Void)?
+	public var renderView: (() -> Void)?
+	public var renderSizeChangeWithSize: ((_ size: CGSize, _ uId: Int) -> Void)?
+	public var membersInCallDidChange: (() -> Void)?
 	
 	// MARK: Derived Properties
 	
@@ -111,20 +115,21 @@ final class CallBox: NSObject {
 	
 	// MARK: Initialization
 	
-	init(uuid: UUID, clientId: String, isOutgoing: Bool = false) {
+	init(uuid: UUID, clientId: String, isOutgoing: Bool = false, rtcUrl: String) {
 		self.uuid = uuid
 		self.clientId = clientId
 		self.isOutgoing = isOutgoing
+		self.rtcUrl = rtcUrl
 	}
 	
 	// MARK: Actions
-	var videoRoom: JanusVideoRoom?
+	public var videoRoom: JanusVideoRoom?
 	
 	var canStartCall: ((Bool) -> Void)?
 	func startCall(withAudioSession audioSession: AVAudioSession?, completion: ((_ success: Bool) -> Void)?) {
 		//        OTAudioDeviceManager.setAudioDevice(OTDefaultAudioDevice.sharedInstance(with: audioSession))
 		if videoRoom == nil {
-			videoRoom = JanusVideoRoom(delegate: self, token: groupToken)
+			videoRoom = JanusVideoRoom(delegate: self, token: groupToken, rtcUrl: rtcUrl)
 		}
 		canStartCall = completion
 		
@@ -143,7 +148,7 @@ final class CallBox: NSObject {
 	func answerCall(withAudioSession audioSession: AVAudioSession, completion: ((_ success: Bool) -> Void)?) {
 		//        OTAudioDeviceManager.setAudioDevice(OTDefaultAudioDevice.sharedInstance(with: audioSession))
 		if videoRoom == nil {
-			videoRoom = JanusVideoRoom(delegate: self, token: groupToken)
+			videoRoom = JanusVideoRoom(delegate: self, token: groupToken, rtcUrl: rtcUrl)
 		}
 		
 		canAnswerCall = completion

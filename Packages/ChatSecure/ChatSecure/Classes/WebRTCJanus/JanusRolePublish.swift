@@ -9,12 +9,12 @@
 import UIKit
 import WebRTC
 
-class JanusRolePublish: JanusRole {
-	var videoRenderView: RTCMTLEAGLVideoView?
+public class JanusRolePublish: JanusRole {
+	public var videoRenderView: RTCMTLEAGLVideoView?
 	private var channels: (video: Bool, audio: Bool, datachannel: Bool) = (true, true, true)
 	private var customFrameCapturer: Bool = false
-	var localVideoTrack: RTCVideoTrack!
-	var localAudioTrack: RTCAudioTrack!
+	public var localVideoTrack: RTCVideoTrack!
+	public var localAudioTrack: RTCAudioTrack!
 	
 	let rtcAudioSession = RTCAudioSession.sharedInstance()
 	let audioQueue = DispatchQueue(label: "audio")
@@ -338,7 +338,7 @@ private extension JanusRolePublish {
 
 // MARK: - RTCVideoViewDelegate
 extension JanusRolePublish: RTCVideoViewDelegate {
-	func videoView(_ videoView: RTCVideoRenderer, didChangeVideoSize size: CGSize) {
+	public func videoView(_ videoView: RTCVideoRenderer, didChangeVideoSize size: CGSize) {
 		let isLandScape = size.width < size.height
 		var renderView: RTCMTLEAGLVideoView?
 		var parentView: UIView?
@@ -364,11 +364,11 @@ extension JanusRolePublish: RTCVideoViewDelegate {
 
 // MARK: - RTCDataChannelDelegate
 extension JanusRolePublish: RTCDataChannelDelegate {
-	func dataChannelDidChangeState(_ dataChannel: RTCDataChannel) {
+	public func dataChannelDidChangeState(_ dataChannel: RTCDataChannel) {
 		debugPrint("dataChannel did change state: \(dataChannel.readyState)")
 	}
 	
-	func dataChannel(_ dataChannel: RTCDataChannel, didReceiveMessageWith buffer: RTCDataBuffer) {
+	public func dataChannel(_ dataChannel: RTCDataChannel, didReceiveMessageWith buffer: RTCDataBuffer) {
 		if let delegate = delegate as? JanusRoleDelegate {
 			delegate.janusRole(role: self, didReceiveData: buffer.data)
 		}

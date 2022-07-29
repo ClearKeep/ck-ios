@@ -10,7 +10,7 @@ import CallKit
 import AVFoundation
 import PushKit
 
-enum CallType: String {
+public enum CallType: String {
 	case audio
 	case video
 }
@@ -21,12 +21,13 @@ final public class CallManager: NSObject {
 		case end = "endCall"
 		case hold = "holdCall"
 	}
+	var isQdsad = false
 	var answerCall: CallBox?
 	var outgoingCall: CallBox?
 	let callController = CXCallController()
 	static let CallsChangedNotification = Notification.Name("CallManagerCallsChangedNotification")
 	private let provider: CXProvider
-	private(set) var calls = [CallBox]()
+	public var calls = [CallBox]()
 	/// The app's provider configuration, representing its CallKit capabilities
 	static var providerConfiguration: CXProviderConfiguration {
 		let localizedName = NSLocalizedString("ClearKeep", comment: "Name of application")
@@ -39,7 +40,7 @@ final public class CallManager: NSObject {
 		return providerConfiguration
 	}
 	
-	static let shared = CallManager()
+	public static let shared = CallManager()
 	
 	override init() {
 		provider = CXProvider(configuration: type(of: self).providerConfiguration)
@@ -54,8 +55,9 @@ final public class CallManager: NSObject {
 				   groupId: Int64,
 				   groupToken: String,
 				   callType type: CallType = .audio ,
-				   isCallGroup: Bool) {
-		let call = CallBox(uuid: UUID(), clientId: clientId, isOutgoing: true)
+				   isCallGroup: Bool,
+				   groupRtcUrl: String) {
+		let call = CallBox(uuid: UUID(), clientId: clientId, isOutgoing: true, rtcUrl: groupRtcUrl)
 		call.clientName = clientName
 		call.groupToken = groupToken
 		call.avatar = avatar
@@ -84,7 +86,7 @@ final public class CallManager: NSObject {
 		requestTransaction(transaction, action: Call.start.rawValue)
 	}
 	
-	func end(call: CallBox) {
+	public func end(call: CallBox) {
 		let endCallAction = CXEndCallAction(call: call.uuid)
 		let transaction = CXTransaction()
 		transaction.addAction(endCallAction)
@@ -153,61 +155,86 @@ final public class CallManager: NSObject {
 		NotificationCenter.default.post(name: type(of: self).CallsChangedNotification, object: self, userInfo: userInfo)
 	}
 	
-	func handleIncomingPushEvent(payload: PKPushPayload, completion: ((NSError?) -> Void)? = nil) {
-		//        let jsonData = JSON(payload.dictionaryPayload)
-		//        print("Payload: \(payload.dictionaryPayload)")
-		//        if let currentUserId = jsonData["client_id"].string, let savedCurrentUserId = Multiserver.instance.currentServer.getUserLogin()?.id, currentUserId != savedCurrentUserId {
-		//            print("This call is not belong to me")
-		//            print("\(currentUserId) # \(savedCurrentUserId)")
-		//            return
-		//        }
-		//
-		//        if let username = jsonData["from_client_name"].string,
-		//           let roomId = jsonData["group_id"].string,
-		//           let clientId = jsonData["from_client_id"].string,
-		//           let callType = jsonData["call_type"].string {
-		//            let avatar = jsonData["from_client_avatar"].string
-		//            let token = jsonData["group_rtc_token"].string
-		//            let groupType = jsonData["group_type"].string
-		//            let groupName = jsonData["group_name"].string
-		//
-		//            // Save turnUser and turnPwd
-		//            let turnString = jsonData["turn_server"].stringValue
-		//            let turnData = Data(turnString.utf8)
-		//            do {
-		//                // make sure this JSON is in the format we expect
-		//                if let turnJson = try JSONSerialization.jsonObject(with: turnData, options: []) as? [String: Any] {
-		//                    let turnUser = turnJson["user"] as? String
-		//                    let turnPwd = turnJson["pwd"] as? String
-		//
-		//                    UserDefaults.standard.setValue(turnUser, forKey: Constants.keySaveTurnServerUser)
-		//                    UserDefaults.standard.setValue(turnPwd, forKey: Constants.keySaveTurnServerPWD)
-		//                    UserDefaults.standard.synchronize()
-		//                }
-		//            } catch let error as NSError {
-		//                print("Failed to load: \(error.localizedDescription)")
-		//            }
-		//
-		//            let hasVideo = callType == "video"
-		//            let isGroupCall = groupType == "group"
-		//            let callerName = isGroupCall ? groupName : username
-		//
-		//            reportIncomingCall(isCallGroup: isGroupCall,
-		//                               roomId: roomId,
-		//                               clientId: clientId,
-		//                               avatar: avatar,
-		//                               token: token,
-		//                               callerName: callerName ?? "",
-		//                               hasVideo: hasVideo,
-		//                               completion: completion)
-		//        }
+	public func handleIncomingPushEvent(payload: PKPushPayload, completion: ((NSError?) -> Void)? = nil) {
+		print("Payload: \(payload.dictionaryPayload)")
+		let decoder = JSONDecoder()
+		guard let data = try? JSONSerialization.data(withJSONObject: payload.dictionaryPayload, options: []),
+				  let callNotification = try? decoder.decode(CallNotification.self, from: data) else {
+					  return
+				  }
+		
+		if let currentUserId = callNotification.publication?.clientID,
+			let savedCurrentUserId = DependencyResolver.shared.channelStorage.currentServer?.profile?.userId, currentUserId != savedCurrentUserId {
+			print("This call is not belong to me")
+			print("\(currentUserId) # \(savedCurrentUserId)")
+			return
+		}
+		
+		if let index = self.calls.firstIndex(where: { item in
+			item.roomId == Int64(callNotification.publication?.groupID ?? "0")
+		}) {
+			self.calls[index].type = callNotification.publication?.callType == "video" ? .video : .audio
+			NotificationCenter.default.post(name: Notification.Name.CallService.changeTypeCall, object: callNotification.publication)
+			completion?(nil)
+			return
+		}
+		
+		if let username = callNotification.publication?.fromClientName,
+		   let roomId = callNotification.publication?.groupID,
+		   let clientId = callNotification.publication?.fromClientID,
+		   let callType = callNotification.publication?.callType,
+		   let groupRtcUrl = callNotification.publication?.groupRTCURL {
+			let avatar = callNotification.publication?.fromClientAvatar
+			let token = callNotification.publication?.groupRTCToken
+			let groupType = callNotification.publication?.groupType
+			let groupName = callNotification.publication?.groupName
+			
+			// Save turnUser and turnPwd
+			let turnString = callNotification.publication?.turnServer ?? ""
+			let stunString = callNotification.publication?.stunServer ?? ""
+			
+			let turnData = Data(turnString.utf8)
+			let stunData = Data(stunString.utf8)
+			do {
+				// make sure this JSON is in the format we expect
+				if let turnJson = try JSONSerialization.jsonObject(with: turnData, options: []) as? [String: Any],
+				   let stunJson = try JSONSerialization.jsonObject(with: stunData, options: []) as? [String: Any] {
+					let turnUser = turnJson["user"] as? String
+					let turnPwd = turnJson["pwd"] as? String
+					let turnServer = turnJson["server"] as? String
+					let stunServer = stunJson["server"] as? String
+					
+					UserDefaults.standard.setValue(turnUser, forKey: Constants.keySaveTurnServerUser)
+					UserDefaults.standard.setValue(turnPwd, forKey: Constants.keySaveTurnServerPWD)
+					UserDefaults.standard.setValue(turnServer, forKey: Constants.keySaveTurnServer)
+					UserDefaults.standard.setValue(stunServer, forKey: Constants.keySaveStunServer)
+					UserDefaults.standard.synchronize()
+				}
+			} catch let error as NSError {
+				print("Failed to load: \(error.localizedDescription)")
+			}
+			
+			let hasVideo = callType == "video"
+			let isGroupCall = groupType == "group"
+			let callerName = isGroupCall ? groupName : username
+			
+			reportIncomingCall(isCallGroup: isGroupCall,
+							   roomId: roomId,
+							   clientId: clientId,
+							   avatar: avatar,
+							   token: token,
+							   callerName: callerName ?? "",
+							   hasVideo: hasVideo,
+							   groupRtcUrl: groupRtcUrl,
+							   completion: completion)
+		}
 	}
 }
 
 extension CallManager {
 	// MARK: Incoming Calls
 	/// Use CXProvider to report the incoming call to the system
-	func reportIncomingCall(isCallGroup: Bool, roomId: String, clientId: String, avatar: String?, token: String?, callerName: String, hasVideo: Bool = true, completion: ((NSError?) -> Void)? = nil) {
+	func reportIncomingCall(isCallGroup: Bool, roomId: String, clientId: String, avatar: String?, token: String?, callerName: String, hasVideo: Bool = true, groupRtcUrl: String, completion: ((NSError?) -> Void)? = nil) {
 		// Construct a CXCallUpdate describing the incoming call, including the caller.
 		let update = CXCallUpdate()
 		update.remoteHandle = CXHandle(type: .phoneNumber, value: callerName)
@@ -217,24 +244,26 @@ extension CallManager {
 		// OTAudioDeviceManager.setAudioDevice(OTDefaultAudioDevice.sharedInstance())
 		
 		// Report the incoming call to the system
-		provider.reportNewIncomingCall(with: uuid, update: update) { [weak self] error in
-			guard let self = self else { return }
-			/*
-			 Only add incoming call to the app's list of calls if the call was allowed (i.e. there was no error)
-			 since calls may be "denied" for various legitimate reasons. See CXErrorCodeIncomingCallError.
-			 */
-			if error == nil {
-				let call = CallBox(uuid: uuid, clientId: clientId)
-				call.clientName = callerName
-				call.roomId = Int64(roomId) ?? 0
-				call.groupToken = token
-				call.avatar = avatar
-				call.isCallGroup = isCallGroup
-				call.type = hasVideo ? .video : .audio
-				self.addCall(call)
+		Task {
+			try? await provider.reportNewIncomingCall(with: uuid, update: update) { [weak self] error in
+				guard let self = self else { return }
+				/*
+				 Only add incoming call to the app's list of calls if the call was allowed (i.e. there was no error)
+				 since calls may be "denied" for various legitimate reasons. See CXErrorCodeIncomingCallError.
+				 */
+				if error == nil {
+					let call = CallBox(uuid: uuid, clientId: clientId, rtcUrl: groupRtcUrl)
+					call.clientName = callerName
+					call.roomId = Int64(roomId) ?? 0
+					call.groupToken = token
+					call.avatar = avatar
+					call.isCallGroup = isCallGroup
+					call.type = hasVideo ? .video : .audio
+					self.addCall(call)
+				}
+				
+				completion?(error as NSError?)
 			}
-			
-			completion?(error as NSError?)
 		}
 	}
 	
@@ -423,9 +452,11 @@ extension CallManager: CXProviderDelegate {
 	}
 }
 
-extension Notification.Name {
+public extension Notification.Name {
 	public enum CallService {
 		public static let receiveCall = Notification.Name("CallService.receiveCall")
 		public static let endCall = Notification.Name("CallService.endCall")
+		public static let notification = NSNotification.Name.init("notification")
+		public static let changeTypeCall = NSNotification.Name.init("changeTypeCall")
 	}
 }

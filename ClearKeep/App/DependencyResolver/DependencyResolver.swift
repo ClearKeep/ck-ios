@@ -35,6 +35,7 @@ class DependencyResolver {
 	let signalStore: ISignalProtocolInMemoryStore!
 	let yapDatabaseManager: YapDatabaseManager!
 	let realmManager: RealmManager!
+	let videoService: ICallService!
 	
 	init() {
 		fontSet = DefaultFontSet()
@@ -69,6 +70,7 @@ class DependencyResolver {
 		groupService = GroupService()
 		userService = UserService()
 		uploadFileService = UploadFileService()
+		videoService = CallService()
 		// MARK: - Location
 		locationManager = CLLocationManager()
 		let locationConfiguration = LocationConfigurations()
