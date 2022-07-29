@@ -29,40 +29,22 @@ struct DeepLinksHandler: IDeepLinksHandler {
 	}
 	
 	func open(deepLink: URL) {
-		let url = deepLink.absoluteString.replacingOccurrences(of: "clearkeep://?", with: "clearkeep://")
-		guard let deepLink = URL(string: url) else {
+		guard let preAccessToken = getURLComonent(deepLink, queryParameterName: "pre_access_token"),
+			  let userName = getURLComonent(deepLink, queryParameterName: "user_name"),
+			  let serverDomain = getURLComonent(deepLink, queryParameterName: "server_domain")
+		else {
 			return
 		}
 		
-		let dictionary = getQueryItems(deepLink.host ?? "")
-		print("dictionary: \(dictionary)")
-		print("url: \(deepLink.absoluteURL)")
-		   print("scheme: \(deepLink.scheme)")
-		   print("host: \(deepLink.host)")
-		   print("path: \(deepLink.path)")
-		   print("components: \(deepLink.pathComponents)")
 		let sceneDelegate = UIApplication.shared.connectedScenes
 			   .first?.delegate as? SceneDelegate
-		let controller = UIHostingController(rootView: NewPasswordView())
+		let controller = UIHostingController(rootView: NewPasswordView(preAccessToken: preAccessToken, email: userName, domain: serverDomain))
 		controller.modalPresentationStyle = .fullScreen
 		sceneDelegate?.window?.rootViewController?.present(controller, animated: true)
 	}
 	
-	func getQueryItems(_ urlString: String) -> [String : String] {
-		var queryItems: [String : String] = [:]
-		let components: NSURLComponents? = getURLComonents(urlString)
-		for item in components?.queryItems ?? [] {
-			queryItems[item.name] = item.value?.removingPercentEncoding
-		}
-		return queryItems
-	}
-	
-	func getURLComonents(_ urlString: String?) -> NSURLComponents? {
-		var components: NSURLComponents? = nil
-		let linkUrl = URL(string: urlString?.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) ?? "")
-		if let linkUrl = linkUrl {
-			components = NSURLComponents(url: linkUrl, resolvingAgainstBaseURL: true)
-		}
-		return components
+	func getURLComonent(_ url: URL, queryParameterName: String) -> String? {
+		guard let url = URLComponents(string: url.absoluteString) else { return nil }
+		return url.queryItems?.first(where: { $0.name == queryParameterName })?.value
 	}
 }

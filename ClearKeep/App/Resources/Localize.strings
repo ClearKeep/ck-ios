@@ -93,6 +93,11 @@
 "ForgotPassword.CheckYourEmail" = "Check your email";
 "ForgotPassword.ALinkResetYourPasswordHasBeenSentEmail" = "A link reset your password has been sent your email";
 "ForgotPassword.OK" = "OK";
+"ForgotPassword.Warning" = "Warning";
+"ForgotPassword.ForgettingYourPasswordWillResetAllYourData" = "Forgetting your Password will reset all your data";
+"ForgotPassword.Cancel" = "Cancel";
+"ForgotPassword.PasswordChangeSuccess" = "Password changed successfully";
+"ForgotPassword.PleaseLoginAgainNewPassword" = "Please login again with new password!";
 
 // MARK: - NewPassword
 "NewPassword.Title" = "Enter Your New Password";
