@@ -58,7 +58,7 @@ struct RegisterContentView: View {
 				displayNameStyle = isEditing ? .highlighted : .normal
 			}) .onReceive(displayName.publisher.collect()) {
 				self.displayName = String($0.prefix(30))
-}
+			}
 
 			SecureTextField(secureText: $password,
 							inputStyle: $passwordStyle,
@@ -85,7 +85,7 @@ struct RegisterContentView: View {
 				}
 				Spacer()
 				RoundedGradientButton("Register.SignUp".localized,
-									  disabled: .constant(email.isEmpty || displayName.isEmpty || password.isEmpty || confirmPassword.isEmpty),
+									  disabled: .constant(email.isEmpty || displayCheck(displayName: displayName) || password.isEmpty || confirmPassword.isEmpty),
 									  action: doRegister)
 					.frame(width: Constants.buttonSize.width)
 			}
@@ -130,6 +130,10 @@ private extension RegisterContentView {
 		confirmPasswordStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
 
 		checkInvalid = injected.interactors.registerInteractor.checkValid(emailValid: emailInvalid, passwordValdid: passwordInvalid, confirmPasswordValid: confirmPasswordInvvalid)
+	}
+
+	func displayCheck(displayName: String) -> Bool {
+		return displayName.filter { $0 != " " }.isEmpty
 	}
 }
 
