@@ -15,13 +15,14 @@ struct ChangePasswordView: View {
 	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
+	@Binding var email: String
 	
 	// MARK: - Body
 	var body: some View {
 		content
-		.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		.hideKeyboardOnTapped()
-		.hiddenNavigationBarStyle()
+			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.hideKeyboardOnTapped()
+			.hiddenNavigationBarStyle()
 	}
 }
 
@@ -35,19 +36,19 @@ private extension ChangePasswordView {
 // MARK: - Loading Content
 private extension ChangePasswordView {
 	var notRequestedView: some View {
-		ChangePasswordContentView()
+		ChangePasswordContentView(email: .constant(email))
 	}
 }
 
 // MARK: - Interactor
 private extension ChangePasswordView {
 }
-	
+
 // MARK: - Preview
 #if DEBUG
 struct ChangePasswordView_Previews: PreviewProvider {
 	static var previews: some View {
-		ChangePasswordView()
+		ChangePasswordView(email: .constant(""))
 	}
 }
 #endif

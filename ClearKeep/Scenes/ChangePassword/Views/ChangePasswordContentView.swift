@@ -8,11 +8,14 @@
 import SwiftUI
 import CommonUI
 import Common
+import LibSignalClient
+import Model
+import Networking
 
 private enum Constants {
 	static let radius = 40.0
 	static let spacing = 20.0
-	static let padding = 10.0
+	static let padding = 16.0
 	static let paddingtop = 50.0
 }
 
@@ -25,7 +28,7 @@ struct ChangePasswordContentView: View {
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
 	@State private(set) var preAccessToken: String = ""
-	@State private(set) var email: String = ""
+	@Binding var email: String
 	@State private(set) var domain: String = ""
 	@State private(set) var currentPassword: String = ""
 	@State private(set) var newPassword: String = ""
@@ -33,17 +36,35 @@ struct ChangePasswordContentView: View {
 	@State private(set) var currentStyle: TextInputStyle = .default
 	@State private(set) var newStyle: TextInputStyle = .default
 	@State private(set) var confirmStyle: TextInputStyle = .default
+	@State private(set) var currentInvalid: Bool = false
 	@State private var passwordInvalid: Bool = false
 	@State private var confirmPasswordInvvalid: Bool = false
 	@State private var checkInvalid: Bool = false
-
+	@State private var isShowAlert: Bool = false
+	@State private var messageAlert: String = ""
+	@State private var data: INormalLoginModel?
 	// MARK: - Init
 
 	// MARK: - Body
 	var body: some View {
 		content
-			.background(backgroundViewColor)
+			.applyNavigationBarPlainStyle(title: "NewPassword.Title".localized,
+										  titleColor: titleColor,
+										  backgroundColors: backgroundButtonBack,
+										  leftBarItems: {
+				BackButtonStandard(customBack)
+					.foregroundColor(titleColor)
+			},
+										  rightBarItems: {
+				Spacer()
+			})
 			.edgesIgnoringSafeArea(.all)
+			.grandientBackground()
+			.alert(isPresented: self.$isShowAlert) {
+				Alert(title: Text("GroupChat.Warning".localized),
+					  message: Text(self.messageAlert),
+					  dismissButton: .default(Text("GroupChat.Ok".localized)))
+			}
 	}
 }
 
@@ -54,10 +75,6 @@ private extension ChangePasswordContentView {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
 	}
 	
-	var backgroundViewColor: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.black
-	}
-	
 	var foregroundButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
 	}
@@ -65,7 +82,16 @@ private extension ChangePasswordContentView {
 	var foregroundBackButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
+
+	var backgroundButtonBack: [Color] {
+		colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
+	}
+
+	var titleColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
+	}
 }
+
 // MARK: - Private Func
 private extension ChangePasswordContentView {
 	func customBack() {
@@ -80,20 +106,54 @@ private extension ChangePasswordContentView {
 		invalid()
 		if checkInvalid {
 			Task {
-				await injected.interactors.changePasswordInteractor.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: newPassword, domain: domain)
+				do {
+					let result = try await injected.interactors.changePasswordInteractor.changePassword(oldPassword: currentPassword, newPassword: newPassword).get().authenResponse?.error
+					self.messageAlert = result ?? "NewPassword.Sucess".localized
+					self.isShowAlert = true
+				} catch {
+					self.messageAlert = "\(error)"
+					self.isShowAlert = true
+//					self.messageAlert = "NewPassword.Sucess".localized
+//					self.isShowAlert = true
+				}
 			}
 		}
 	}
 
-	func invalid() {
+	func checkCurrentpass(text: String) {
+		currentInvalid = injected.interactors.changePasswordInteractor.passwordValid(password: text)
+		currentStyle = currentInvalid ? .normal : .error(message: "General.Password.Valid".localized)
 
-		passwordInvalid = injected.interactors.changePasswordInteractor.passwordValid(password: newPassword)
+	}
+
+	func checkNewpass(text: String) {
+		passwordInvalid = injected.interactors.changePasswordInteractor.passwordValid(password: text)
 		newStyle = passwordInvalid ? .normal : .error(message: "General.Password.Valid".localized)
+		if text == currentPassword {
+			newStyle = .error(message: "NewPassword.Diffirent.OldPass".localized)
+		}
+	}
 
+	func checkConfirm(text: String) {
+		confirmPasswordInvvalid = injected.interactors.changePasswordInteractor.passwordValid(password: text)
+		confirmStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.Password.Valid".localized)
+		if text == currentPassword {
+			confirmStyle = .error(message: "NewPassword.Diffirent.OldPass".localized)
+		}
+	}
+
+	func invalid() {
 		confirmPasswordInvvalid = injected.interactors.changePasswordInteractor.confirmPasswordValid(password: newPassword, confirmPassword: confirmPassword)
 		confirmStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
-
 		checkInvalid = injected.interactors.changePasswordInteractor.checkValid(passwordValdid: passwordInvalid, confirmPasswordValid: confirmPasswordInvvalid)
+	}
+
+	func disableButton() -> Bool {
+		if checkInvalid || currentInvalid {
+			return false
+		} else {
+			return true
+		}
 	}
 }
 
@@ -101,82 +161,49 @@ private extension ChangePasswordContentView {
 private extension ChangePasswordContentView {
 	var changePasswordView: some View {
 		VStack(spacing: Constants.spacing) {
-			buttonBack
-				.padding(.top, Constants.paddingtop)
-				.frame(maxWidth: .infinity, alignment: .leading)
-			Text("ChangePassword.Title".localized)
-				.font(AppTheme.shared.fontSet.font(style: .body2))
+			Text("NewPassword.Description".localized)
+				.font(AppTheme.shared.fontSet.font(style: .input2))
 				.foregroundColor(foregroundBackButton)
 				.frame(maxWidth: .infinity, alignment: .leading)
 			SecureTextField(secureText: $currentPassword,
 							inputStyle: $currentStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
-							placeHolder: "ChangePassword.CurrentPassword".localized,
+							placeHolder: "NewPassword.Curren.PlaceHold".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
-				if isEditing {
-					currentStyle = .highlighted
-				} else {
-					currentStyle = .normal
-				}
+				self.currentStyle = isEditing ? .highlighted : .normal
 			})
+				.onChange(of: currentPassword, perform: { text in
+					checkCurrentpass(text: text)
+				})
 			SecureTextField(secureText: $newPassword,
 							inputStyle: $newStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
-							placeHolder: "ChangePassword.NewPassword".localized,
+							placeHolder: "NewPassword.New.PlaceHold".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
-				if isEditing {
-					newStyle = .highlighted
-				} else {
-					newStyle = .normal
-				}
+				self.newStyle = isEditing ? .highlighted : .normal
 			})
+				.onChange(of: newPassword, perform: { text in
+					checkNewpass(text: text)
+				})
 			SecureTextField(secureText: $confirmPassword,
 							inputStyle: $confirmStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
-							placeHolder: "General.ConfirmPassword".localized,
+							placeHolder: "NewPassword.Confirm.PlaceHold".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
-				if isEditing {
-					confirmStyle = .highlighted
-				} else {
-					confirmStyle = .normal
-				}
+				self.confirmStyle = isEditing ? .highlighted : .normal
 			})
-			buttonSave
+				.onChange(of: confirmPassword, perform: { text in
+					checkConfirm(text: text)
+				})
+			RoundedButton("General.Save".localized, action: dochangPassword)
+				.disabled(disableButton())
 			Spacer()
 		}
-		.frame(maxWidth: .infinity, alignment: .center)
+		.frame(maxHeight: .infinity)
 		.padding(.all, Constants.padding)
-	}
-	
-	var buttonBack: some View {
-		Button(action: customBack) {
-			HStack(spacing: Constants.spacing) {
-				AppTheme.shared.imageSet.backIcon
-					.renderingMode(.template)
-					.aspectRatio(contentMode: .fit)
-					.foregroundColor(foregroundBackButton)
-				Text("ChangePassword.TitleButton".localized)
-					.padding(.all)
-					.font(AppTheme.shared.fontSet.font(style: .body2))
-			}
-			.foregroundColor(foregroundBackButton)
-		}
-	}
-	
-	var buttonSave: some View {
-		Button {
-			dochangPassword()
-		} label: {
-			Text("ChangePassword.Save".localized)
-				.frame(maxWidth: .infinity, alignment: .center)
-				.padding(.all, Constants.padding)
-				.background(backgroundButton)
-				.foregroundColor(foregroundButton)
-		}
-		.cornerRadius(Constants.radius)
 	}
 }
 
@@ -186,7 +213,7 @@ private extension ChangePasswordContentView {
 #if DEBUG
 struct ChangePasswordContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		ChangePasswordContentView()
+		ChangePasswordContentView(email: .constant(""))
 	}
 }
 #endif
