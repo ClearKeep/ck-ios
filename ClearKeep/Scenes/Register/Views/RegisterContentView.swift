@@ -56,7 +56,10 @@ struct RegisterContentView: View {
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
 				displayNameStyle = isEditing ? .highlighted : .normal
-			})
+			}) .onReceive(displayName.publisher.collect()) {
+				self.displayName = String($0.prefix(30))
+}
+
 			SecureTextField(secureText: $password,
 							inputStyle: $passwordStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
