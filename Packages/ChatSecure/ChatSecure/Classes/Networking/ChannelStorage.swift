@@ -45,7 +45,7 @@ public class ChannelStorage: IChannelStorage {
 	}
 
 	public func getServers(isFirstLoad: Bool) -> [RealmServer] {
-		servers = realmManager.getServers()
+		servers = realmManager.getServers().detached
 		if isFirstLoad {
 			servers.forEach { server in
 				getChannel(domain: server.serverDomain).updateHeaders(accessKey: server.accessKey, hashKey: server.hashKey)

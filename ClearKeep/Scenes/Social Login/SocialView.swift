@@ -79,38 +79,41 @@ private extension SocialView {
 // MARK: - Loading Content
 private extension SocialView {
 	var notRequestedView: some View {
-		VStack {
-			Text(socialStyle.title)
-				.font(AppTheme.shared.fontSet.font(style: .input2))
-				.foregroundColor(titleColor)
-				.frame(maxWidth: .infinity, alignment: .leading)
-			VStack(alignment: .center, spacing: Constants.inputSpacing) {
-				SecureTextField(secureText: $security,
-								inputStyle: $securityStyle,
-								inputIcon: AppTheme.shared.imageSet.lockIcon,
-								placeHolder: socialStyle.textInput,
-								keyboardType: .numberPad,
-								onEditingChanged: { isEditing in
-					securityStyle = isEditing ? .highlighted : .normal
-				})
-				if socialStyle == .setSecurity {
-					Text(socialStyle.textInputDescription)
-						.font(AppTheme.shared.fontSet.font(style: .body3))
-						.foregroundColor(titleColor)
-						.multilineTextAlignment(.center)
-						.frame(height: Constants.descriptionHeight)
+		ScrollView(showsIndicators: false) {
+			VStack {
+				Text(socialStyle.title)
+					.font(AppTheme.shared.fontSet.font(style: .input2))
+					.foregroundColor(titleColor)
+					.frame(maxWidth: .infinity, alignment: .leading)
+				VStack(alignment: .center, spacing: Constants.inputSpacing) {
+					SecureTextField(secureText: $security,
+									inputStyle: $securityStyle,
+									inputIcon: AppTheme.shared.imageSet.lockIcon,
+									placeHolder: socialStyle.textInput,
+									keyboardType: .numberPad,
+									onEditingChanged: { isEditing in
+						securityStyle = isEditing ? .highlighted : .normal
+					})
+					if socialStyle == .setSecurity {
+						Text(socialStyle.textInputDescription)
+							.font(AppTheme.shared.fontSet.font(style: .body3))
+							.foregroundColor(titleColor)
+							.multilineTextAlignment(.center)
+							.frame(height: Constants.descriptionHeight)
+					}
 				}
+				.padding(.top, Constants.inputPaddingTop)
+				NavigationLink(
+					destination: socialStyle.nextView(userName: userName, customServer: $customServer),
+					isActive: $isNext,
+					label: {
+						RoundedButton(socialStyle.buttonNext, disabled: .constant(security.isEmpty), action: submitAction)
+					})
+				.padding(.top, socialStyle == .setSecurity ? Constants.submitPaddingTop - Constants.descriptionHeight : Constants.submitPaddingTop)
+				Spacer()
 			}
-			.padding(.top, Constants.inputPaddingTop)
-			NavigationLink(
-				destination: socialStyle.nextView(userName: userName, customServer: $customServer),
-				isActive: $isNext,
-				label: {
-					RoundedButton(socialStyle.buttonNext, disabled: .constant(security.isEmpty), action: submitAction)
-				})
-			.padding(.top, socialStyle == .setSecurity ? Constants.submitPaddingTop - Constants.descriptionHeight : Constants.submitPaddingTop)
-			Spacer()
-		}
+		}.frame(maxWidth: .infinity)
+		
 	}
 	
 	var loadingView: some View {
