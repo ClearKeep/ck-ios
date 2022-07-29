@@ -83,6 +83,8 @@
 "Register.Title" = "Please fill in the information below to complete your sign up";
 "Register.SignInInstead" = "Sign in instead";
 "Register.SignUp" = "Sign up";
+"Register.Success.Title" = "Register successfully";
+"Register.Success.Message" = "Please check your email to activate account";
 
 // MARK: - ForgotPassword
 "ForgotPassword.Title" = "Forgot password";
