@@ -110,7 +110,7 @@ private extension RegisterContentView {
 		if checkInvalid {
 			loadable = .isLoading(last: nil, cancelBag: CancelBag())
 			Task {
-				loadable = await injected.interactors.registerInteractor.register(displayName: displayName, email: email, password: password, customServer: customServer)
+				loadable = await injected.interactors.registerInteractor.register(displayName: displayName.trimmingCharacters(in: .whitespaces), email: email, password: password, customServer: customServer)
 			}
 		}
 	}
