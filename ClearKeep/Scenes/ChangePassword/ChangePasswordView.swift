@@ -15,7 +15,6 @@ struct ChangePasswordView: View {
 	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
-	@Binding var email: String
 	
 	// MARK: - Body
 	var body: some View {
@@ -36,7 +35,7 @@ private extension ChangePasswordView {
 // MARK: - Loading Content
 private extension ChangePasswordView {
 	var notRequestedView: some View {
-		ChangePasswordContentView(email: .constant(email))
+		ChangePasswordContentView()
 	}
 }
 
@@ -48,7 +47,7 @@ private extension ChangePasswordView {
 #if DEBUG
 struct ChangePasswordView_Previews: PreviewProvider {
 	static var previews: some View {
-		ChangePasswordView(email: .constant(""))
+		ChangePasswordView()
 	}
 }
 #endif

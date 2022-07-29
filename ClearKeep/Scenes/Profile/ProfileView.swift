@@ -59,7 +59,7 @@ private extension ProfileView {
 // MARK: - Loading Content
 private extension ProfileView {
 	var notRequestedView: some View {
-		UserProfileContentView(loadable: $loadable, email: .constant(""))
+		UserProfileContentView(loadable: $loadable)
 	}
 	
 	var loadingView: some View {
@@ -72,13 +72,13 @@ private extension ProfileView {
 				let phoneNumber = try phoneNumberKit.parse(myProfile.phoneNumber)
 				let countrycode = "+\(phoneNumber.countryCode)"
 				let number = String(phoneNumber.nationalNumber)
-				return AnyView(UserProfileContentView(countryCode: countrycode, loadable: $loadable, urlAvatar: myProfile.avatar, username: myProfile.displayName, email: .constant(myProfile.email), phoneNumber: number))
+				return AnyView(UserProfileContentView(countryCode: countrycode, loadable: $loadable, urlAvatar: myProfile.avatar, username: myProfile.displayName, email: myProfile.email, phoneNumber: number))
 			} catch {
-				return AnyView(UserProfileContentView(countryCode: "", loadable: $loadable, urlAvatar: myProfile.avatar, username: myProfile.displayName, email: .constant(""), phoneNumber: myProfile.phoneNumber))
+				return AnyView(UserProfileContentView(countryCode: "", loadable: $loadable, urlAvatar: myProfile.avatar, username: myProfile.displayName, phoneNumber: myProfile.phoneNumber))
 			}
 		}
 		
-		return AnyView(UserProfileContentView(loadable: $loadable, email: .constant("")))
+		return AnyView(UserProfileContentView(loadable: $loadable))
 
 	}
 	

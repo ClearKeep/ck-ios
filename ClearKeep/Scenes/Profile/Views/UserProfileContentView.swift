@@ -42,7 +42,7 @@ struct UserProfileContentView: View {
 	@State private(set) var usernameStyle: TextInputStyle = .default
 	@State private(set) var username: String = ""
 	@State private(set) var emailStyle: TextInputStyle = .default
-	@Binding var email: String
+	@State private(set) var email: String = ""
 	@State private(set) var phoneStyle: TextInputStyle = .default
 	@State private(set) var phoneNumber: String = ""
 	@State private(set) var isExpand = false
@@ -192,7 +192,7 @@ struct UserProfileContentView: View {
 						}
 					}
 
-					NavigationLink(destination: ChangePasswordView(email: $email),
+					NavigationLink(destination: ChangePasswordView(),
 								   isActive: $isChangePassword) {
 						Button(action: changePassword) {
 							HStack {
@@ -381,6 +381,6 @@ private extension UserProfileContentView {
 
 struct UserProfileContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		UserProfileContentView(loadable: .constant(.notRequested), email: .constant(""))
+		UserProfileContentView(loadable: .constant(.notRequested))
 	}
 }

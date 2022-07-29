@@ -28,7 +28,6 @@ struct ChangePasswordContentView: View {
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
 	@State private(set) var preAccessToken: String = ""
-	@Binding var email: String
 	@State private(set) var domain: String = ""
 	@State private(set) var currentPassword: String = ""
 	@State private(set) var newPassword: String = ""
@@ -213,7 +212,7 @@ private extension ChangePasswordContentView {
 #if DEBUG
 struct ChangePasswordContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		ChangePasswordContentView(email: .constant(""))
+		ChangePasswordContentView()
 	}
 }
 #endif
