@@ -42,6 +42,8 @@ struct RootView: View {
 		}
 		.onReceive(newServerDomainUpdate) { newServerDomain in
 			self.newServerDomain = newServerDomain
+		}.onOpenURL { url in
+			print(url)
 		}
 	}
 }

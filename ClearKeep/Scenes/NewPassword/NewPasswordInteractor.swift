@@ -8,9 +8,10 @@
 import Common
 import ChatSecure
 import GRPC
+import Model
 
 protocol INewPasswordInteractor {
-	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async
+	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async -> Result<IAuthenticationModel, Error>
 	func passwordValid(password: String) -> Bool
 	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool
 	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool
@@ -28,7 +29,7 @@ extension NewPasswordInteractor: INewPasswordInteractor {
 		return NewPasswordWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
-	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async {
+	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async -> Result<IAuthenticationModel, Error> {
 		await worker.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: rawNewPassword, domain: domain)
 	}
 
@@ -54,7 +55,8 @@ struct StubNewPasswordInteractor: INewPasswordInteractor {
 		return NewPasswordWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
-	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async {
+	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async -> Result<IAuthenticationModel, Error> {
+		 await worker.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: rawNewPassword, domain: domain)
 	}
 
 	func passwordValid(password: String) -> Bool {

@@ -131,13 +131,14 @@ struct HomeView: View {
 				self.getServers()
 			})
 			.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
-		}.progressHUD(isLoading)
-			.alert(isPresented: $isShowError) {
-				Alert(title: Text(self.error?.title ?? ""),
-					  message: Text(self.error?.message ?? ""),
-					  dismissButton: .default(Text(error?.primaryButtonTitle ?? "")))
-			}
-			.inCallModifier(callViewModel: callViewModel, isInCall: $isInCall)
+		}
+		.progressHUD(isLoading)
+		.alert(isPresented: $isShowError) {
+			Alert(title: Text(self.error?.title ?? ""),
+				  message: Text(self.error?.message ?? ""),
+				  dismissButton: .default(Text(error?.primaryButtonTitle ?? "")))
+		}
+		.inCallModifier(callViewModel: callViewModel, isInCall: $isInCall)
 	}
 }
 

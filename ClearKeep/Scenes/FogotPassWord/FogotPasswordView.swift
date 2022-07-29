@@ -22,11 +22,31 @@ struct FogotPasswordView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Binding var customServer: CustomServer
-	@State private(set) var loadable: Loadable<Bool> = .notRequested
-	
+	@State private var showAlert: Bool = false
+	@State private var isLoading = false
+	@State private var isShowError: Bool = false
+	@State private var error: LoginViewError?
+	@State private(set) var loadable: Loadable<Bool> = .notRequested {
+		didSet {
+			switch loadable {
+			case .loaded:
+				isLoading = false
+				self.showAlert = true
+			case .failed(let error):
+				isLoading = false
+				self.error = LoginViewError(error)
+				self.isShowError = true
+			case .isLoading:
+				isLoading = true
+			default: break
+				
+			}
+		}
+	}
+
 	// MARK: - Body
 	var body: some View {
-		content
+		notRequestedView
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.applyNavigationBarPlainStyle(title: "ForgotPassword.Title".localized,
 										  titleColor: titleColor,
@@ -36,51 +56,34 @@ struct FogotPasswordView: View {
 										  rightBarItems: {
 				Spacer()
 			})
+			.progressHUD(isLoading)
 			.hideKeyboardOnTapped()
 			.grandientBackground()
-	}
-}
-
-// MARK: - Private
-private extension FogotPasswordView {
-	var content: AnyView {
-		switch loadable {
-		case .notRequested:
-			return AnyView(notRequestedView)
-		case .isLoading:
-			return AnyView(loadingView)
-		case .loaded:
-			return AnyView(loadedView)
-		case .failed(let error):
-			return AnyView(errorView(RegisterViewError(error)))
-		}
+			.alert(isPresented: $isShowError) {
+				Alert(title: Text(error?.title ?? ""),
+					  message: Text(error?.message ?? ""),
+					  dismissButton: .default(Text(error?.primaryButtonTitle ?? "")))
+			}
+			.alert("ForgotPassword.CheckYourEmail".localized, isPresented: $showAlert) {
+				Button("ForgotPassword.OK".localized) {
+					showAlert = false
+					self.customBack()
+				}
+			} message: {
+				Text("ForgotPassword.ALinkResetYourPasswordHasBeenSentEmail".localized)
+			}
 	}
 }
 
 // MARK: - Loading Content
 private extension FogotPasswordView {
 	var notRequestedView: some View {
-		FogotPasswordContentView(loadable: $loadable, customServer: $customServer)
-	}
-	
-	var loadingView: some View {
-		notRequestedView.progressHUD(true)
-	}
-	
-	var loadedView: some View {
-		NavigationLink(
-			destination: NewPasswordView(),
-			isActive: .constant(true),
-			label: {})
-	}
-	
-	func errorView(_ error: RegisterViewError) -> some View {
-		return notRequestedView
-			.alert(isPresented: .constant(true)) {
-				Alert(title: Text(error.title),
-					  message: Text(error.message),
-					  dismissButton: .default(Text(error.primaryButtonTitle)))
+		FogotPasswordContentView { email in
+			loadable = .isLoading(last: nil, cancelBag: CancelBag())
+			Task {
+				loadable = await injected.interactors.fogotPasswordInteractor.recoverPassword(email: email, customServer: customServer)
 			}
+		}
 	}
 }
 

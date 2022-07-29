@@ -39,6 +39,7 @@ struct LoginContentView: View {
 	@State private var isAdvanceServer: Bool = false
 	@State private var isForgotPassword: Bool = false
 	@State private var isRegister: Bool = false
+	@State private var isShowAlertForgotPassword: Bool = false
 	
 	// MARK: - Init
 	
@@ -65,6 +66,12 @@ struct LoginContentView: View {
 					getAppVersion()
 				})
 				.padding(.top, Constants.appVersionPaddingTop)
+		}.alert(isPresented: $isShowAlertForgotPassword) {
+			Alert(title: Text("ForgotPassword.Warning".localized),
+				  message: Text("ForgotPassword.ForgettingYourPasswordWillResetAllYourData".localized),
+				  primaryButton: .default(Text("ForgotPassword.OK" .localized), action: {
+				self.isForgotPassword = true
+			}), secondaryButton: .default(Text("ForgotPassword.Cancel".localized)))
 		}
 	}
 }
@@ -180,7 +187,7 @@ private extension LoginContentView {
 	}
 
 	func forgotPassword() {
-		isForgotPassword = true
+		isShowAlertForgotPassword = true
 	}
 
 	func register() {

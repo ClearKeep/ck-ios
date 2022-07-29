@@ -22,6 +22,17 @@ struct NewPasswordView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
+	let preAccessToken: String
+	let email: String
+	let domain: String
+	
+	// MARK: - Init
+	init(preAccessToken: String, email: String, domain: String) {
+		self.preAccessToken = preAccessToken
+		self.email = email
+		self.domain = domain
+	}
+	
 	// MARK: - Body
 	var body: some View {
 		content
@@ -49,7 +60,7 @@ private extension NewPasswordView {
 // MARK: - Loading Content
 private extension NewPasswordView {
 	var notRequestedView: some View {
-		NewPasswordContenView(preAccessToken: "", email: "", domain: "")
+		NewPasswordContenView(preAccessToken: self.preAccessToken, email: self.email, domain: self.domain)
 	}
 }
 
@@ -71,7 +82,7 @@ private extension NewPasswordView {
 #if DEBUG
 struct NewPasswordView_Previews: PreviewProvider {
 	static var previews: some View {
-		NewPasswordView()
+		NewPasswordView(preAccessToken: "", email: "", domain: "")
 	}
 }
 #endif

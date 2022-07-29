@@ -345,7 +345,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		peerRegisterClientKeyRequest.signedPreKeySignature = Data(signedPreKeyRecord.signature)
 
 		var request = Auth_ForgotPasswordUpdateReq()
-		request.preAccessToken = domain
+		request.preAccessToken = preAccessToken
 		request.email = email
 		request.passwordVerifier = verificatorHex
 		request.salt = saltHex
@@ -357,6 +357,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		case .success(let data):
 			return(.success(data))
 		case .failure(let error):
+			print(error)
 			return(.failure(error))
 		}
 	}
