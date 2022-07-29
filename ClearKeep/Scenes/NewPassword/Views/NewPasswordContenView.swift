@@ -34,6 +34,10 @@ struct NewPasswordContenView: View {
 	@State private var passwordInvalid: Bool = false
 	@State private var confirmPasswordInvvalid: Bool = false
 	@State private var checkInvalid: Bool = false
+	@State private var isLoading: Bool = false
+	@State private var isShowError: Bool = false
+	@State private var error: LoginViewError?
+	@State private var resetPasswordSuccess: Bool = false
 	let preAccessToken: String
 	let email: String
 	let domain: String
@@ -88,6 +92,16 @@ struct NewPasswordContenView: View {
 		.frame(maxWidth: .infinity, alignment: .center)
 		.padding(.horizontal, Constants.paddingLeading)
 		.edgesIgnoringSafeArea(.all)
+		.progressHUD(isLoading)
+		.alert(isPresented: $isShowError) {
+			Alert(title: Text(self.error?.title ?? ""),
+				  message: Text(self.error?.message ?? ""),
+				  dismissButton: .default(Text(error?.primaryButtonTitle ?? "")))
+		}.alert(isPresented: $resetPasswordSuccess) {
+			Alert(title: Text("ForgotPassword.PasswordChangeSuccess".localized), message: Text("ForgotPassword.PleaseLoginAgainNewPassword".localized), dismissButton: .default(Text("ForgotPassword.OK".localized), action: {
+				self.presentationMode.wrappedValue.dismiss()
+			}))
+		}
 	}
 }
 
@@ -131,8 +145,19 @@ private extension NewPasswordContenView {
 	func doResetPassword() {
 		invalid()
 		if checkInvalid {
+			isLoading = true
 			Task {
-				await injected.interactors.newPasswordInteractor.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: password, domain: domain)
+			  let data = await injected.interactors.newPasswordInteractor.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: password, domain: domain)
+				
+				switch data {
+				case .success:
+					isLoading = false
+					resetPasswordSuccess = true
+				case .failure(let error):
+					isLoading = false
+					self.error = LoginViewError(error)
+					self.isShowError = true
+				}
 			}
 		}
 	}
