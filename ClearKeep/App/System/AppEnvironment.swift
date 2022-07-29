@@ -11,6 +11,7 @@ import UIKit
 import Combine
 import Common
 import ChatSecure
+import CommonUI
 
 struct AppEnvironment {
 	let container: DIContainer
@@ -46,6 +47,7 @@ extension AppEnvironment {
 		let chatGroupInteractor = ChatGroupInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService)
 		let chatInteractor = ChatInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, realmManager: DependencyResolver.shared.realmManager, groupService: DependencyResolver.shared.groupService, messageService: DependencyResolver.shared.messageService, uploadFileService: DependencyResolver.shared.uploadFileService)
 		let createDirectMessageInteractor = CreateDirectMessageInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, userService: DependencyResolver.shared.userService, groupService: DependencyResolver.shared.groupService)
+		let peerCallInteractor = PeerCallInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, callService: DependencyResolver.shared.videoService)
 		let groupDetailInteractor = GroupDetailInteractor(appState: appState, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, channelStorage: DependencyResolver.shared.channelStorage)
 		let profileInteractor = ProfileInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, userService: DependencyResolver.shared.userService)
 		let searchInteractor = SearchInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, messageService: DependencyResolver.shared.messageService)
@@ -62,6 +64,7 @@ extension AppEnvironment {
 					 chatInteractor: chatInteractor,
 					 createDirectMessageInteractor: createDirectMessageInteractor,
 					 groupDetailInteractor: groupDetailInteractor,
+					 peerCallInteractor: peerCallInteractor,
 					 profileInteractor: profileInteractor,
 					 searchInteractor: searchInteractor)
 	}

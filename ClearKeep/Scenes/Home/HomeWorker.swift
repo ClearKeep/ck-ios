@@ -53,10 +53,11 @@ extension HomeWorker: IHomeWorker {
 	
 	func registerToken(_ token: Data) {
 		let tokenParts = token.map { data in String(format: "%02.2hhx", data) }
-		let tokenString = tokenParts.joined()
-		print("Device Token: \(tokenString)")
-		
-		channelStorage.registerToken(tokenString)
+		let tokenPushApns = tokenParts.joined()
+		let tokenPush = UserDefaults.standard.string(forKey: "keySaveTokenPushNotify") ?? ""
+		let multipleToken = "\(tokenPush),\(tokenPushApns)"
+		print("multipleToken ------->", multipleToken)
+		channelStorage.registerToken(multipleToken)
 	}
 	
 	func subscribeAndListenServers() {

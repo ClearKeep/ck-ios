@@ -36,11 +36,11 @@ extension JanusVideoRoomDelegate {
 	func janusVideoRoom(janusRoom: JanusVideoRoom, didReceiveData data: Data) {}
 }
 
-class JanusVideoRoom: NSObject {
+public class JanusVideoRoom: NSObject {
 	var delegate: JanusVideoRoomDelegate?
-	var remotes = [Int: JanusRoleListen]()
+	public var remotes = [Int: JanusRoleListen]()
 	///  TODO: add config
-	var publisher: JanusRolePublish?
+	public var publisher: JanusRolePublish?
 	var canvas = [Int: RTCCanvas]()
 	
 	private var userId: Int = 0
@@ -48,10 +48,10 @@ class JanusVideoRoom: NSObject {
 	private var roomId: Int64 = 0
 	var useCustomCapturer = false
 	
-	init(delegate: JanusVideoRoomDelegate? = nil, token: String?) {
+	init(delegate: JanusVideoRoomDelegate? = nil, token: String?, rtcUrl: String) {
 		super.init()
 		//        let server = URL(string: "ws://54.235.68.160:8188/janus") // staging server
-		let server = URL(string: "ws://54.235.68.160:18188/janus") // dev server
+		let server = URL(string: rtcUrl) // dev server
 		//        let server = URL(string: "ws://10.0.255.82:8188/janus") // Local server
 		
 		//        let server = URL(string: AppConfig.buildEnvironment.webrtc)

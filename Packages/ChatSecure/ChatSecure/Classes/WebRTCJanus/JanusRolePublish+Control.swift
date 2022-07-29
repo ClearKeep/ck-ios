@@ -9,7 +9,7 @@
 import Foundation
 import WebRTC
 
-extension JanusRolePublish {
+public extension JanusRolePublish {
 	func muteAudio() {
 		self.setAudioEnabled(false)
 	}
@@ -62,7 +62,7 @@ extension JanusRolePublish {
 		}
 	}
 	
-	func switchCameraPosition() {
+	public func switchCameraPosition() {
 		if let capturer = self.videoCapturer as? RTCCameraVideoCapturer,
 		   let publishConstraints = self.mediaConstraints as? JanusPublishMediaConstraints {
 			capturer.stopCapture {

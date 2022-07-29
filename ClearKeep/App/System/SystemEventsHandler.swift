@@ -9,6 +9,7 @@
 import UIKit
 import Common
 import Combine
+import PushKit
 
 typealias FetchCompletion = (UIBackgroundFetchResult) -> Void
 
@@ -19,6 +20,7 @@ protocol ISystemEventsHandler {
 	func handlePushRegistration(result: Result<Data, Error>)
 	func appDidReceiveRemoteNotification(payload: NotificationPayload,
 										 fetchCompletion: @escaping FetchCompletion)
+	func handlePushRegistration(pushCredentials: PKPushCredentials)
 }
 
 struct SystemEventsHandler: ISystemEventsHandler {
@@ -86,6 +88,14 @@ struct SystemEventsHandler: ISystemEventsHandler {
 	
 	func appDidReceiveRemoteNotification(payload: NotificationPayload,
 										 fetchCompletion: @escaping FetchCompletion) {
+	}
+	
+	func handlePushRegistration(pushCredentials: PKPushCredentials) {
+		let token = pushCredentials.token.reduce("", { $0 + String(format: "%02X", $1) })
+		
+		print("token: ------- \(token)")
+		
+		UserDefaults.standard.setValue(token, forKey: "keySaveTokenPushNotify")
 	}
 }
 

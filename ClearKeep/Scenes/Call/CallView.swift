@@ -9,6 +9,7 @@ import SwiftUI
 import Common
 
 struct CallView: View {
+	@ObservedObject var viewModel: CallViewModel
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
 	
@@ -44,7 +45,7 @@ private extension CallView {
 #if DEBUG
 struct CallView_Previews: PreviewProvider {
 	static var previews: some View {
-		CallView()
+		CallView(viewModel: .init())
 	}
 }
 #endif
