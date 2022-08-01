@@ -67,6 +67,7 @@
 		047241A827DB3D2C0043345A /* LoginInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419C27DB3D2C0043345A /* LoginInMemoryStore.swift */; };
 		047241A927DB3D2C0043345A /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472419E27DB3D2C0043345A /* AuthenticationModel.swift */; };
 		047241AE27DB3D2C0043345A /* LoginWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047241A427DB3D2C0043345A /* LoginWorker.swift */; };
+		0473FD2D2892482B0087FBFE /* ChangePasswordModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0473FD2C2892482B0087FBFE /* ChangePasswordModels.swift */; };
 		04765C83288FE5DE00381D5D /* SearchViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04765C82288FE5DE00381D5D /* SearchViewModels.swift */; };
 		04765C85288FE72600381D5D /* SearchUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04765C84288FE72600381D5D /* SearchUserViewModel.swift */; };
 		04765C87288FE88900381D5D /* SearchGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04765C86288FE88900381D5D /* SearchGroupModel.swift */; };
@@ -366,6 +367,7 @@
 		0472419C27DB3D2C0043345A /* LoginInMemoryStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInMemoryStore.swift; sourceTree = "<group>"; };
 		0472419E27DB3D2C0043345A /* AuthenticationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationModel.swift; sourceTree = "<group>"; };
 		047241A427DB3D2C0043345A /* LoginWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginWorker.swift; sourceTree = "<group>"; };
+		0473FD2C2892482B0087FBFE /* ChangePasswordModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordModels.swift; sourceTree = "<group>"; };
 		04765C82288FE5DE00381D5D /* SearchViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModels.swift; sourceTree = "<group>"; };
 		04765C84288FE72600381D5D /* SearchUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserViewModel.swift; sourceTree = "<group>"; };
 		04765C86288FE88900381D5D /* SearchGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupModel.swift; sourceTree = "<group>"; };
@@ -809,6 +811,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		0473FD2A289246AD0087FBFE /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0473FD2C2892482B0087FBFE /* ChangePasswordModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		04765C81288FE59400381D5D /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -927,8 +937,8 @@
 		0499343E27E97015003BD4C4 /* ChangePassword */ = {
 			isa = PBXGroup;
 			children = (
+				0473FD2A289246AD0087FBFE /* Models */,
 				0499344A27E9704F003BD4C4 /* Views */,
-				0499344927E97046003BD4C4 /* Models */,
 				0499343F27E97035003BD4C4 /* ChangePasswordInMemoryStore.swift */,
 				0499344027E97035003BD4C4 /* ChangePasswordWorker.swift */,
 				0499344127E97035003BD4C4 /* ChangePasswordRemoteStore.swift */,
@@ -936,13 +946,6 @@
 				0499344327E97035003BD4C4 /* ChangePasswordView.swift */,
 			);
 			path = ChangePassword;
-			sourceTree = "<group>";
-		};
-		0499344927E97046003BD4C4 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		0499344A27E9704F003BD4C4 /* Views */ = {
@@ -2027,6 +2030,7 @@
 				22B1EA5328879D66008026DC /* CallActionButtonView.swift in Sources */,
 				047241A627DB3D2C0043345A /* LoginView.swift in Sources */,
 				22A1C69A2812B1D500FE957F /* ChatWorker.swift in Sources */,
+				0473FD2D2892482B0087FBFE /* ChangePasswordModels.swift in Sources */,
 				044351F427D9AFCA0054A78F /* RegisterRemoteStore.swift in Sources */,
 				04C854AE284873C300CBA291 /* UserViewModel.swift in Sources */,
 				CB3F78F927C4CC0000E569B0 /* FontSet.swift in Sources */,

@@ -19,9 +19,9 @@ struct ChangePasswordView: View {
 	// MARK: - Body
 	var body: some View {
 		content
-		.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		.hideKeyboardOnTapped()
-		.hiddenNavigationBarStyle()
+			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.hideKeyboardOnTapped()
+			.hiddenNavigationBarStyle()
 	}
 }
 
@@ -42,7 +42,7 @@ private extension ChangePasswordView {
 // MARK: - Interactor
 private extension ChangePasswordView {
 }
-	
+
 // MARK: - Preview
 #if DEBUG
 struct ChangePasswordView_Previews: PreviewProvider {

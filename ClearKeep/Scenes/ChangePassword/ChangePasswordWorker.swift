@@ -8,11 +8,13 @@
 import Combine
 import Common
 import ChatSecure
+import Model
 
 protocol IChangePasswordWorker {
 	var remoteStore: IChangePasswordRemoteStore { get }
 	var inMemoryStore: IChangePasswordInMemoryStore { get }
-	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async
+	func changePassword(oldPassword: String, newPassword: String) async -> Result<IChangePasswordModels, Error>
+	func oldValid(oldpassword: String) -> Bool
 	func passwordValid(password: String) -> Bool
 	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool
 	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool
@@ -23,6 +25,7 @@ struct ChangePasswordWorker {
 	let remoteStore: IChangePasswordRemoteStore
 	let inMemoryStore: IChangePasswordInMemoryStore
 	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "[0-9a-zA-Z._%+-]{6,12}")
+	var currentDomain: String?
 
 	init(channelStorage: IChannelStorage,
 		 remoteStore: IChangePasswordRemoteStore,
@@ -34,8 +37,13 @@ struct ChangePasswordWorker {
 }
 
 extension ChangePasswordWorker: IChangePasswordWorker {
-	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async {
-		return await remoteStore.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: rawNewPassword, domain: domain)
+	func changePassword(oldPassword: String, newPassword: String) async -> Result<IChangePasswordModels, Error> {
+		return await remoteStore.changePassword(oldPassword: oldPassword, newPassword: newPassword, domain: currentDomain ?? channelStorage.currentDomain)
+	}
+
+	func oldValid(oldpassword: String) -> Bool {
+		let result = self.passwordPredicate.evaluate(with: oldpassword)
+		return result
 	}
 
 	func passwordValid(password: String) -> Bool {

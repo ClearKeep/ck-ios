@@ -60,6 +60,8 @@
 "UserProfile.Disable" = "Disable";
 "UserProfile.Code.Country" = "Country Codes";
 "UserProfile.Authen.2FA" = "Two-factor authentication";
+"UserProfile.Phone.Valid" = "Invalid phone number";
+"UserProfile.UserName.Valid" = "This field is required";
 
 // MARK: - Country Codes
 "Country.Code" = "Country Codes";
@@ -100,7 +102,12 @@
 // MARK: - NewPassword
 "NewPassword.Title" = "Enter Your New Password";
 "NewPassword.Description" = "Please enter your details to change password";
-"NewPassword.NewPassword" = "New Password";
+"NewPassword.New.PlaceHold" = "New Password";
+"NewPassword.Current.PlaceHold" = "Current Password";
+"NewPassword.Confirm.PlaceHold" = "Confirm Password";
+"NewPassword.Error.Oldpasss" = "The password is incorrect. Try again";
+"NewPassword.Sucess" = "Password changed successfully. Please login again with a new password!";
+"NewPassword.Diffirent.OldPass" = "The new password must be different from the previous one!";
 
 // MARK: - AdvancedServer
 "AdvancedServer.Title" = "Please enter your server URL to enter custom server";

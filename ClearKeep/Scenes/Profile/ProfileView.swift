@@ -74,7 +74,7 @@ private extension ProfileView {
 				let number = String(phoneNumber.nationalNumber)
 				return AnyView(UserProfileContentView(countryCode: countrycode, loadable: $loadable, urlAvatar: myProfile.avatar, username: myProfile.displayName, email: myProfile.email, phoneNumber: number))
 			} catch {
-				return AnyView(UserProfileContentView(countryCode: "", loadable: $loadable, urlAvatar: myProfile.avatar, username: myProfile.displayName, email: myProfile.email, phoneNumber: myProfile.phoneNumber))
+				return AnyView(UserProfileContentView(countryCode: "", loadable: $loadable, urlAvatar: myProfile.avatar, username: myProfile.displayName, phoneNumber: myProfile.phoneNumber))
 			}
 		}
 		

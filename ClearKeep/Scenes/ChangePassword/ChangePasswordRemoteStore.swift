@@ -12,15 +12,22 @@ import Model
 import Networking
 
 protocol IChangePasswordRemoteStore {
-	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async
+	func changePassword(oldPassword: String, newPassword: String, domain: String) async -> Result<IChangePasswordModels, Error>
 }
 
 struct ChangePasswordRemoteStore {
 	let authenticationService: IAuthenticationService
+	let userService: IUserService
 }
 
 extension ChangePasswordRemoteStore: IChangePasswordRemoteStore {
-	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async {
-		await authenticationService.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: rawNewPassword, domain: domain)
+	func changePassword(oldPassword: String, newPassword: String, domain: String) async -> Result<IChangePasswordModels, Error> {
+		let result = await userService.changePassword(oldPassword: oldPassword, newPassword: newPassword, domain: domain)
+		switch result {
+		case .success(let authenRespone):
+			return .success(ChangePasswordModels(responseError: authenRespone))
+		case .failure(let error):
+			return .failure(error)
+		}
 	}
 }
