@@ -43,7 +43,7 @@ private extension ProfileView {
 		case .loaded(let data):
 			return loadedView(data)
 		case .failed(let error):
-			return AnyView(errorView(LoginViewError(error)))
+			return AnyView(errorView(ProfileErrorView(error)))
 		}
 	}
 }
@@ -72,7 +72,7 @@ private extension ProfileView {
 				let phoneNumber = try phoneNumberKit.parse(myProfile.phoneNumber)
 				let countrycode = "+\(phoneNumber.countryCode)"
 				let number = String(phoneNumber.nationalNumber)
-				return AnyView(UserProfileContentView(countryCode: countrycode, loadable: $loadable, urlAvatar: myProfile.avatar, username: myProfile.displayName, email: myProfile.email, phoneNumber: number))
+				return AnyView(UserProfileContentView(countryCode: countrycode, loadable: $loadable, urlAvatar: myProfile.avatar, username: myProfile.displayName, email: myProfile.email, phoneNumber: number, isEnable2FA: data.isMfaEnable, isHavePhoneNumber: !myProfile.phoneNumber.isEmpty))
 			} catch {
 				return AnyView(UserProfileContentView(countryCode: "", loadable: $loadable, urlAvatar: myProfile.avatar, username: myProfile.displayName, phoneNumber: myProfile.phoneNumber))
 			}
@@ -82,7 +82,7 @@ private extension ProfileView {
 
 	}
 	
-	func errorView(_ error: LoginViewError) -> some View {
+	func errorView(_ error: ProfileErrorView) -> some View {
 		return notRequestedView
 			.alert(isPresented: .constant(true)) {
 				Alert(title: Text(error.title),

@@ -15,6 +15,7 @@ public class RealmProfile: Object {
 	@objc public dynamic var phoneNumber: String
 	@objc public dynamic var updatedAt: Int64
 	@objc public dynamic var avatar: String
+	@objc public dynamic var isSocialAccount: Bool
 	
 	required override init() {
 		userId = String()
@@ -23,7 +24,7 @@ public class RealmProfile: Object {
 		phoneNumber = String()
 		updatedAt = Int64()
 		avatar = String()
-		
+		isSocialAccount = Bool()
 		super.init()
 	}
 }

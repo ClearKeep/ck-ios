@@ -20,6 +20,8 @@ public protocol INormalLoginModel {
 	var salt: String? { get }
 	var clientKeyPeer: IClientKeyPeerModel? { get }
 	var ivParameter: String? { get }
+	var sub: String? { get }
+	var otpHash: String? { get }
 }
 
 public protocol IClientKeyPeerModel {

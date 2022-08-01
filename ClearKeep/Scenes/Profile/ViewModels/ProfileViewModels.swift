@@ -14,18 +14,20 @@ protocol IProfileViewModels {
 	var userProfileViewModel: UserProfileViewModel? { get }
 	var urlAvatarViewModel: AvatarViewModel? { get }
 	var baseViewModels: ProfileBaseViewModel? { get }
+	var isMfaEnable: Bool { get }
 }
 
 struct ProfileViewModels: IProfileViewModels {
 	var userProfileViewModel: UserProfileViewModel?
 	var urlAvatarViewModel: AvatarViewModel?
 	var baseViewModels: ProfileBaseViewModel?
+	var isMfaEnable: Bool = false
 }
 
 extension ProfileViewModels {
 	
-	init(responseUser: IProfileModels) {
-		self.init(userProfileViewModel: UserProfileViewModel(user: responseUser.userProfileModel))
+	init(responseUser: IProfileModels, isMfaEnable: Bool) {
+		self.init(userProfileViewModel: UserProfileViewModel(user: responseUser.userProfileModel), isMfaEnable: isMfaEnable)
 	}
 
 	init(responseAvatar: IProfileModels) {

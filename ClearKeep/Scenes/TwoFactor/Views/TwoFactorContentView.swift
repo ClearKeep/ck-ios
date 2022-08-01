@@ -14,11 +14,10 @@ private enum Constant {
 	static let spacerTopView = 90.0
 	static let spacer = 25.0
 	static let paddingVertical = 14.0
-	static let heightButton = 40.0
 	static let cornerRadius = 40.0
 	static let cornerRadiusPasscode = 8.0
 	static let sizePasscodeInput = 90.0
-	static let backgroundOpacity = 0.4
+	static let maxDigits = 4
 }
 
 struct TwoFactorContentView: View {
@@ -26,15 +25,15 @@ struct TwoFactorContentView: View {
 	@Environment(\.presentationMode) var presentationMode
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
+	@Binding private(set) var loadable: Loadable<Bool>
 	@State private var otp: String = ""
 	@State private var otpStyle: TextInputStyle = .default
-	@State private var isNext: Bool = false
-	@State private var maxDigits: Int = 4
-	@State private var showOtp = true
-	@State private var userId: String = ""
-	@State private var otpHash: String = ""
-	@State private var hashKey: String = ""
-	@State private var domain: String = ""
+	@State private var isToHome: Bool = false
+	private(set) var otpHash: String = ""
+	private(set) var userId: String = ""
+	private(set) var domain: String = ""
+	private(set) var password: String = ""
+	let twoFactorType: TwoFactorType
 	let inspection = ViewInspector<Self>()
 
 	// MARK: - Body
@@ -80,23 +79,9 @@ private extension TwoFactorContentView {
 	}
 
 	var buttonVerify: some View {
-		NavigationLink(
-			destination: LoginView(),
-			isActive: $isNext) {
-				Button {
-					isNext.toggle()
-					doTwoFactor()
-				} label: {
-					Text("2FA.Verify".localized)
-						.frame(maxWidth: .infinity)
-						.frame(height: Constant.heightButton)
-						.font(AppTheme.shared.fontSet.font(style: .body3))
-						.background(backgroundButton)
-						.foregroundColor(foregroundColorView)
-						.cornerRadius(Constant.cornerRadius)
-				}
-			}
-			.disabled(otp.count < maxDigits)
+		RoundedButton("2FA.Verify".localized,
+					  disabled: .constant(otp.count < Constant.maxDigits),
+					  action: doTwoFactor)
 	}
 
 	var buttonBackView: some View {
@@ -104,10 +89,11 @@ private extension TwoFactorContentView {
 			HStack(spacing: Constant.spacer) {
 				AppTheme.shared.imageSet.backIcon
 					.aspectRatio(contentMode: .fit)
-					.foregroundColor(AppTheme.shared.colorSet.offWhite)
+					.foregroundColor(navBarTitleColor)
 				Text("2FA.Title.Back".localized)
 					.padding(.all)
 					.font(AppTheme.shared.fontSet.font(style: .body2))
+					.foregroundColor(navBarTitleColor)
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
 			.foregroundColor(AppTheme.shared.colorSet.offWhite)
@@ -116,11 +102,11 @@ private extension TwoFactorContentView {
 
 	var pinDots: some View {
 		HStack {
-			ForEach(0..<maxDigits) { index in
+			ForEach(0..<Constant.maxDigits, id: \.self) { index in
 				ZStack {
 					Spacer()
 					RoundedRectangle(cornerRadius: Constant.cornerRadiusPasscode)
-						.foregroundColor(AppTheme.shared.colorSet.offWhite)
+						.foregroundColor(pinInputColor)
 						.padding()
 						.frame(width: Constant.sizePasscodeInput, height: Constant.sizePasscodeInput)
 					Text(self.getDigits(at: index))
@@ -137,7 +123,7 @@ private extension TwoFactorContentView {
 	var backgroundField: some View {
 		return TextField("", text: $otp)
 			.onChange(of: self.otp, perform: { value in
-				self.otp = String(value.prefix(maxDigits))
+				self.otp = String(value.prefix(Constant.maxDigits))
 			})
 			.accentColor(.clear)
 			.foregroundColor(.clear)
@@ -161,12 +147,11 @@ private extension TwoFactorContentView {
 
 	var buttonResend: some View {
 		Button {
-			print("Button tapped")
+			doResendOTP()
 		} label: {
 			Text("2FA.Resend".localized)
-				.padding(.all)
+				.padding(.all, 1)
 				.font(AppTheme.shared.fontSet.font(style: .body2))
-				.frame(maxWidth: .infinity, alignment: .center)
 				.foregroundColor(foregroundColorMessage)
 		}
 	}
@@ -187,7 +172,26 @@ private extension TwoFactorContentView {
 
 	func doTwoFactor() {
 		Task {
-			await injected.interactors.twoFactorInteractor.validateOTP(userId: userId, otp: otp, otpHash: otpHash, haskKey: hashKey, domain: domain)
+			if twoFactorType == .login {
+				await injected.interactors.twoFactorInteractor.validateLoginOTP(loadable: $loadable, password: password, otp: otp, userId: userId, otpHash: otpHash, domain: domain)
+			} else {
+				let result = await injected.interactors.twoFactorInteractor.validateOTP(loadable: $loadable, otp: otp)
+				if result {
+					DispatchQueue.main.async {
+						self.presentationMode.wrappedValue.dismiss()
+					}
+				}
+			}
+		}
+	}
+	
+	func doResendOTP() {
+		Task {
+			if twoFactorType == .login {
+				await injected.interactors.twoFactorInteractor.resendLoginOTP(loadable: $loadable, userId: userId, otpHash: otpHash, domain: domain)
+			} else {
+				await injected.interactors.twoFactorInteractor.resendOTP(loadable: $loadable)
+			}
 		}
 	}
 }
@@ -206,20 +210,8 @@ private extension TwoFactorContentView {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]), startPoint: .leading, endPoint: .trailing)
 	}
 
-	var backgroundButton: Color {
-		return otp.count < maxDigits ? backgroundColorButton.opacity(Constant.backgroundOpacity) : backgroundColorButton
-	}
-
 	var backgroundButtonBack: [Color] {
 		colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
-	}
-
-	var backgroundColorButton: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault
-	}
-
-	var foregroundColorView: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
 	}
 
 	var foregroundColorMessage: Color {
@@ -227,7 +219,15 @@ private extension TwoFactorContentView {
 	}
 
 	var foregroundMessage: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.offWhite
+		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.greyLight
+	}
+	
+	var navBarTitleColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.greyLight
+	}
+	
+	var pinInputColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.greyLight2
 	}
 }
 
@@ -265,11 +265,5 @@ struct TextFieldLimitModifer: ViewModifier {
 			.onReceive(value.publisher.collect()) {
 				value = String($0.prefix(length))
 			}
-	}
-}
-
-struct TwoFactorContentView_Previews: PreviewProvider {
-	static var previews: some View {
-		TwoFactorContentView()
 	}
 }

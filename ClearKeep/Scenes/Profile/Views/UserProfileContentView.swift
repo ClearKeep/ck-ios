@@ -47,7 +47,7 @@ struct UserProfileContentView: View {
 	@State private(set) var phoneNumber: String = ""
 	@State private(set) var isExpand = false
 	@State private(set) var isShowCountryCode: Bool = false
-	@State private var isEnable2FA: Bool = false
+	@State private(set) var isEnable2FA: Bool = false
 	@State private var twoFAStatus: String = ""
 	@State private var isChangePassword: Bool = false
 	@State private var isCurrentPass: Bool = false
@@ -59,7 +59,8 @@ struct UserProfileContentView: View {
 	@State private var userNameValid: Bool = false
 	@State private(set) var countryCodeStyle: TextInputStyle = .default
 	@State private(set) var onEditing: Bool = false
-
+	@State private(set) var isHavePhoneNumber: Bool = false
+	
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -219,9 +220,9 @@ struct UserProfileContentView: View {
 						}
 						Spacer()
 
-						NavigationLink( destination: CurrentPassword(),
+						NavigationLink(destination: TwoFactorView(twoFactorType: .setting),
 										isActive: $isCurrentPass) {
-							Button(action: enable2FA) {
+							Button(action: change2FAStatus) {
 								Text(statusTwoFA)
 									.font(AppTheme.shared.fontSet.font(style: .body3))
 									.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
@@ -321,9 +322,17 @@ private extension UserProfileContentView {
 		isChangePassword = true
 	}
 
-	func enable2FA() {
-		isEnable2FA.toggle()
-		isCurrentPass = isEnable2FA
+	func change2FAStatus() {
+		Task {
+			let result = await injected.interactors.profileInteractor.updateMfaSettings(loadable: $loadable, enabled: !isEnable2FA, isHavePhoneNumber: isHavePhoneNumber)
+			if result {
+				if isEnable2FA {
+					isEnable2FA = false
+				} else {
+					isCurrentPass = true
+				}
+			}
+		}
 	}
 
 	var statusTwoFA: String {

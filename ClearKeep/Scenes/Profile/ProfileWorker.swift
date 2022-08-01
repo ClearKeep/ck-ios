@@ -18,6 +18,8 @@ protocol IProfileWorker {
 	func uploadAvatar(url: URL, imageData: UIImage) async -> (Result<IProfileModels, Error>)
 	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool) async -> (Result<IProfileModels, Error>)
 	func validate(phoneNumber: String) -> Bool
+	func getMfaSettings() async -> Result<Bool, Error>
+	func updateMfaSettings(enabled: Bool) async -> Result<Bool, Error>
 }
 
 struct ProfileWorker {
@@ -82,5 +84,13 @@ extension ProfileWorker: IProfileWorker {
 		} catch {
 			return false
 		}
+	}
+	
+	func getMfaSettings() async -> Result<Bool, Error> {
+		return await remoteStore.getMfaSettings(domain: currentDomain ?? channelStorage.currentDomain)
+	}
+	
+	func updateMfaSettings(enabled: Bool) async -> Result<Bool, Error> {
+		return await remoteStore.updateMfaSettings(domain: currentDomain ?? channelStorage.currentDomain, enabled: enabled)
 	}
 }

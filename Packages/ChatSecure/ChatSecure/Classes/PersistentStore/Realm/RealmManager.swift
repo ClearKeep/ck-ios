@@ -187,7 +187,7 @@ extension RealmManager {
 
 // MARK: - Server
 extension RealmManager {
-	func saveServer(profileResponse: User_UserProfileResponse, authenResponse: Auth_AuthRes) {
+	func saveServer(profileResponse: User_UserProfileResponse, authenResponse: Auth_AuthRes, isSocialAccount: Bool) {
 		let oldServer = getServer(by: authenResponse.workspaceDomain)
 		
 		deactiveAllServer { [weak self] realm in
@@ -211,6 +211,7 @@ extension RealmManager {
 			profile.phoneNumber = profileResponse.phoneNumber
 			profile.updatedAt = Int64(Date().timeIntervalSince1970)
 			profile.avatar = profileResponse.avatar
+			profile.isSocialAccount = isSocialAccount
 			
 			realmServer.profile = profile
 			

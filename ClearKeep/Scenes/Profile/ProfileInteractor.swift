@@ -16,6 +16,7 @@ protocol IProfileInteractor {
 	func uploadAvatar(url: URL, imageData: UIImage) async -> (Result<IProfileViewModels, Error>)
 	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool) async -> Loadable<IProfileViewModels>
 	func validate(phoneNumber: String) -> Bool
+	func updateMfaSettings(loadable: LoadableSubject<IProfileViewModels>, enabled: Bool, isHavePhoneNumber: Bool) async -> Bool
 }
 
 struct ProfileInteractor {
@@ -37,7 +38,13 @@ extension ProfileInteractor: IProfileInteractor {
 		
 		switch result {
 		case .success(let user):
-			return .loaded(ProfileViewModels(responseUser: user))
+			let mfaResult = await worker.getMfaSettings()
+			switch mfaResult {
+			case .success(let mfa):
+				return .loaded(ProfileViewModels(responseUser: user, isMfaEnable: mfa))
+			case .failure(let error):
+				return .failed(error)
+			}
 		case .failure(let error):
 			return .failed(error)
 		}
@@ -65,6 +72,25 @@ extension ProfileInteractor: IProfileInteractor {
 	
 	func validate(phoneNumber: String) -> Bool {
 		return worker.validate(phoneNumber: phoneNumber)
+	}
+	
+	func updateMfaSettings(loadable: LoadableSubject<IProfileViewModels>, enabled: Bool, isHavePhoneNumber: Bool) async -> Bool {
+		if !isHavePhoneNumber {
+			loadable.wrappedValue = .failed(ProfileError.emptyPhoneNumber)
+			return false
+		}
+		if channelStorage.currentServer?.profile?.isSocialAccount ?? false {
+			loadable.wrappedValue = .failed(ProfileError.socialAccount)
+			return false
+		}
+		let result = await worker.updateMfaSettings(enabled: enabled)
+		switch result {
+		case .success(let mfa):
+			return mfa
+		case .failure(let error):
+			loadable.wrappedValue = .failed(error)
+			return false
+		}
 	}
 }
 
@@ -104,5 +130,9 @@ struct StubProfileInteractor: IProfileInteractor {
 
 	func validate(phoneNumber: String) -> Bool {
 		return worker.validate(phoneNumber: phoneNumber)
+	}
+	
+	func updateMfaSettings(loadable: LoadableSubject<IProfileViewModels>, enabled: Bool, isHavePhoneNumber: Bool) async -> Bool {
+		return true
 	}
 }
