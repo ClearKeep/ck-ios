@@ -29,7 +29,7 @@ struct CreateDirectMessageView: View {
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.edgesIgnoringSafeArea(.all)
+			.edgesIgnoringSafeArea([.trailing, .leading, .top])
 			.background(backgroundColorView)
 			.hiddenNavigationBarStyle()
 	}
