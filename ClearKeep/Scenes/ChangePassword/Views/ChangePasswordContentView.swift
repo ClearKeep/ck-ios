@@ -38,6 +38,7 @@ struct ChangePasswordContentView: View {
 	@State private(set) var currentInvalid: Bool = false
 	@State private var passwordInvalid: Bool = false
 	@State private var confirmPasswordInvvalid: Bool = false
+	@State private var confirmInvvalid: Bool = false
 	@State private var checkInvalid: Bool = false
 	@State private var isShowAlert: Bool = false
 	@State private var messageAlert: String = ""
@@ -52,7 +53,6 @@ struct ChangePasswordContentView: View {
 										  backgroundColors: backgroundButtonBack,
 										  leftBarItems: {
 				BackButtonStandard(customBack)
-					.foregroundColor(titleColor)
 			},
 										  rightBarItems: {
 				Spacer()
@@ -102,19 +102,14 @@ private extension ChangePasswordContentView {
 	}
 
 	func dochangPassword() {
-		invalid()
-		if checkInvalid {
-			Task {
-				do {
-					let result = try await injected.interactors.changePasswordInteractor.changePassword(oldPassword: currentPassword, newPassword: newPassword).get().authenResponse?.error
-					self.messageAlert = result ?? "NewPassword.Sucess".localized
-					self.isShowAlert = true
-				} catch {
-					self.messageAlert = "\(error)"
-					self.isShowAlert = true
-//					self.messageAlert = "NewPassword.Sucess".localized
-//					self.isShowAlert = true
-				}
+		Task {
+			do {
+				let result = try await injected.interactors.changePasswordInteractor.changePassword(oldPassword: currentPassword, newPassword: newPassword).get().authenResponse?.error
+				self.messageAlert = result ?? "NewPassword.Sucess".localized
+				self.isShowAlert = true
+			} catch {
+				self.messageAlert = "\(error)"
+				self.isShowAlert = true
 			}
 		}
 	}
@@ -122,37 +117,31 @@ private extension ChangePasswordContentView {
 	func checkCurrentpass(text: String) {
 		currentInvalid = injected.interactors.changePasswordInteractor.passwordValid(password: text)
 		currentStyle = currentInvalid ? .normal : .error(message: "General.Password.Valid".localized)
-
 	}
 
 	func checkNewpass(text: String) {
 		passwordInvalid = injected.interactors.changePasswordInteractor.passwordValid(password: text)
 		newStyle = passwordInvalid ? .normal : .error(message: "General.Password.Valid".localized)
 		if text == currentPassword {
-			newStyle = .error(message: "NewPassword.Diffirent.OldPass".localized)
+			newStyle = (text == currentPassword) ? .error(message: "NewPassword.Diffirent.OldPass".localized) : .normal
 		}
+
 	}
 
 	func checkConfirm(text: String) {
 		confirmPasswordInvvalid = injected.interactors.changePasswordInteractor.passwordValid(password: text)
 		confirmStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.Password.Valid".localized)
-		if text == currentPassword {
-			confirmStyle = .error(message: "NewPassword.Diffirent.OldPass".localized)
+		if text != currentPassword {
+			confirmStyle = (text != currentPassword) ? .normal : .error(message: "NewPassword.Diffirent.OldPass".localized)
 		}
-	}
-
-	func invalid() {
-		confirmPasswordInvvalid = injected.interactors.changePasswordInteractor.confirmPasswordValid(password: newPassword, confirmPassword: confirmPassword)
-		confirmStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
-		checkInvalid = injected.interactors.changePasswordInteractor.checkValid(passwordValdid: passwordInvalid, confirmPasswordValid: confirmPasswordInvvalid)
+		if text != newPassword {
+			confirmInvvalid = injected.interactors.changePasswordInteractor.confirmPasswordValid(password: newPassword, confirmPassword: text)
+			confirmStyle = confirmInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
+		}
 	}
 
 	func disableButton() -> Bool {
-		if checkInvalid || currentInvalid {
-			return false
-		} else {
-			return true
-		}
+		return !(currentInvalid && passwordInvalid && confirmPasswordInvvalid && confirmInvvalid)
 	}
 }
 
@@ -163,40 +152,46 @@ private extension ChangePasswordContentView {
 			Text("NewPassword.Description".localized)
 				.font(AppTheme.shared.fontSet.font(style: .input2))
 				.foregroundColor(foregroundBackButton)
-				.frame(maxWidth: .infinity, alignment: .leading)
+				.frame(alignment: .leading)
 			SecureTextField(secureText: $currentPassword,
 							inputStyle: $currentStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
-							placeHolder: "NewPassword.Curren.PlaceHold".localized,
+							placeHolder: "NewPassword.Current.PlaceHold".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
-				self.currentStyle = isEditing ? .highlighted : .normal
+				self.currentStyle = isEditing ? .highlighted : (currentInvalid ? .normal : .error(message: "General.Password.Valid".localized))
 			})
 				.onChange(of: currentPassword, perform: { text in
 					checkCurrentpass(text: text)
 				})
+
 			SecureTextField(secureText: $newPassword,
 							inputStyle: $newStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "NewPassword.New.PlaceHold".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
-				self.newStyle = isEditing ? .highlighted : .normal
+				self.newStyle = isEditing ? .highlighted : (passwordInvalid ? .normal : .error(message: "General.Password.Valid".localized))
+				self.newStyle = isEditing ? .highlighted : ((newPassword != currentPassword) ? .normal : .error(message: "NewPassword.Diffirent.OldPass".localized))
+
 			})
 				.onChange(of: newPassword, perform: { text in
 					checkNewpass(text: text)
 				})
+
 			SecureTextField(secureText: $confirmPassword,
 							inputStyle: $confirmStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "NewPassword.Confirm.PlaceHold".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
-				self.confirmStyle = isEditing ? .highlighted : .normal
+				self.confirmStyle = isEditing ? .highlighted : (confirmPasswordInvvalid ? .normal : .error(message: "General.Password.Valid".localized))
+				self.confirmStyle = isEditing ? .highlighted : (confirmInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized))
 			})
 				.onChange(of: confirmPassword, perform: { text in
 					checkConfirm(text: text)
 				})
+
 			RoundedButton("General.Save".localized, action: dochangPassword)
 				.disabled(disableButton())
 			Spacer()

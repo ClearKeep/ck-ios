@@ -103,7 +103,7 @@
 "NewPassword.Title" = "Enter Your New Password";
 "NewPassword.Description" = "Please enter your details to change password";
 "NewPassword.New.PlaceHold" = "New Password";
-"NewPassword.Curren.PlaceHold" = "Current Password";
+"NewPassword.Current.PlaceHold" = "Current Password";
 "NewPassword.Confirm.PlaceHold" = "Confirm Password";
 "NewPassword.Error.Oldpasss" = "The password is incorrect. Try again";
 "NewPassword.Sucess" = "Password changed successfully. Please login again with a new password!";
