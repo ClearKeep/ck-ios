@@ -241,7 +241,7 @@ extension JanusVideoRoom: JanusRoleListenDelegate {
 	}
 }
 
-extension AVCaptureDevice {
+public extension AVCaptureDevice {
 	enum AuthorizationStatus {
 		case justDenied
 		case alreadyDenied

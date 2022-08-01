@@ -49,7 +49,7 @@ final public class CallManager: NSObject {
 	}
 	
 	// MARK: Actions
-	func startCall(clientId: String,
+	public func startCall(clientId: String,
 				   clientName: String?,
 				   avatar: String? = nil,
 				   groupId: Int64,
