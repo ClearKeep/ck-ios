@@ -145,12 +145,11 @@ extension CLKAuthenticationService: IAuthenticationService {
 						return .failure(error)
 					}
 				case .failure(let error):
-					break
+					return .failure(error)
 				}
-			case .failure:
-				break
+			case .failure(let error):
+				return .failure(error)
 			}
-			return response
 		case .failure(let error):
 			return .failure(error)
 		}
@@ -206,15 +205,20 @@ extension CLKAuthenticationService: IAuthenticationService {
 
 			switch response {
 			case .success(let profileResponse):
-				channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse)
+				await channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse)
+				let result = onLoginSuccess(authenResponse, password: rawPin)
+				switch result {
+				case .success(let value):
+					return .success(authenResponse)
+				case .failure(let error):
+					return .failure(error)
+				}
 			case .failure(let error):
-				break
+				return .failure(error)
 			}
-		case .failure:
-			break
+		case .failure(let error):
+			return .failure(error)
 		}
-
-		return response
 	}
 	
 	public func verifySocialPin(rawPin: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error> {
@@ -250,15 +254,20 @@ extension CLKAuthenticationService: IAuthenticationService {
 				
 				switch response {
 				case .success(let profileResponse):
-					channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse)
+					await channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse)
+					let result = onLoginSuccess(authenResponse, password: rawPin)
+					switch result {
+					case .success(let value):
+						return .success(authenResponse)
+					case .failure(let error):
+						return .failure(error)
+					}
 				case .failure(let error):
-					break
+					return .failure(error)
 				}
-			case .failure:
-				break
+			case .failure(let error):
+				return .failure(error)
 			}
-			
-			return response
 		case .failure(let error):
 			return .failure(error)
 		}
