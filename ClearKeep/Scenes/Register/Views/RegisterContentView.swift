@@ -16,6 +16,13 @@ private enum Constants {
 	static let paddingtop = 60.0
 }
 
+enum CheckoutFocusable: Hashable {
+	case email
+	case displayName
+	case newpass
+	case confirm
+}
+
 struct RegisterContentView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
@@ -35,7 +42,7 @@ struct RegisterContentView: View {
 	@State private var passwordInvalid: Bool = false
 	@State private var confirmPasswordInvvalid: Bool = false
 	@State private var checkInvalid: Bool = false
-	
+	@FocusState private var checkoutInFocus: CheckoutFocusable?
 	// MARK: - Body
 	var body: some View {
 		VStack(alignment: .center, spacing: Constants.spacing) {
@@ -48,7 +55,11 @@ struct RegisterContentView: View {
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
 				emailStyle = isEditing ? .highlighted : .normal
-			})
+			},
+							submitLabel: .continue,
+							onSubmit: { checkoutInFocus = .displayName })
+				.focused($checkoutInFocus, equals: .email)
+
 			CommonTextField(text: $displayName,
 							inputStyle: $displayNameStyle,
 							inputIcon: AppTheme.shared.imageSet.userCheckIcon,
@@ -56,7 +67,14 @@ struct RegisterContentView: View {
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
 				displayNameStyle = isEditing ? .highlighted : .normal
-			})
+			},
+							submitLabel: .continue,
+							onSubmit: { checkoutInFocus = .newpass })
+				.onReceive(displayName.publisher.collect()) {
+					self.displayName = String($0.prefix(30))
+				}
+				.focused($checkoutInFocus, equals: .displayName)
+
 			SecureTextField(secureText: $password,
 							inputStyle: $passwordStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
@@ -64,7 +82,11 @@ struct RegisterContentView: View {
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
 				passwordStyle = isEditing ? .highlighted : .normal
-			})
+			},
+							submitLabel: .continue,
+							onSubmit: { checkoutInFocus = .confirm })
+				.onSubmit({ self.checkoutInFocus = .confirm })
+				.focused($checkoutInFocus, equals: .newpass)
 			SecureTextField(secureText: $confirmPassword,
 							inputStyle: $confirmPasswordStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
@@ -72,7 +94,10 @@ struct RegisterContentView: View {
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
 				confirmPasswordStyle = isEditing ? .highlighted : .normal
-			})
+			},
+							submitLabel: .done,
+							onSubmit: { self.checkoutInFocus = nil })
+				.focused($checkoutInFocus, equals: .confirm)
 			HStack {
 				Button(action: customBack) {
 					Text("Register.SignInInstead".localized)
@@ -82,11 +107,12 @@ struct RegisterContentView: View {
 				}
 				Spacer()
 				RoundedGradientButton("Register.SignUp".localized,
-									  disabled: .constant(email.isEmpty || displayName.isEmpty || password.isEmpty || confirmPassword.isEmpty),
+									  disabled: .constant(email.isEmpty || displayCheck(displayName: displayName) || password.isEmpty || confirmPassword.isEmpty),
 									  action: doRegister)
 					.frame(width: Constants.buttonSize.width)
 			}
 		}
+		.onChange(of: checkoutInFocus) { checkoutInFocus = $0 }
 		.padding(.vertical, Constants.padding.top)
 		.padding(.horizontal, Constants.padding.left)
 		.applyCardViewStyle(backgroundColor: backgroundColor)
@@ -107,7 +133,7 @@ private extension RegisterContentView {
 		if checkInvalid {
 			loadable = .isLoading(last: nil, cancelBag: CancelBag())
 			Task {
-				loadable = await injected.interactors.registerInteractor.register(displayName: displayName, email: email, password: password, customServer: customServer)
+				loadable = await injected.interactors.registerInteractor.register(displayName: displayName.trimmingCharacters(in: .whitespaces), email: email, password: password, customServer: customServer)
 			}
 		}
 	}
@@ -127,6 +153,10 @@ private extension RegisterContentView {
 		confirmPasswordStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
 
 		checkInvalid = injected.interactors.registerInteractor.checkValid(emailValid: emailInvalid, passwordValdid: passwordInvalid, confirmPasswordValid: confirmPasswordInvvalid)
+	}
+
+	func displayCheck(displayName: String) -> Bool {
+		return displayName.filter { $0 != " " }.isEmpty
 	}
 }
 
