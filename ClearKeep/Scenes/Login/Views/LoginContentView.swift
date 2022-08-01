@@ -41,7 +41,8 @@ struct LoginContentView: View {
 	@State private var isRegister: Bool = false
 	@State private var isShowAlertForgotPassword: Bool = false
 	@State private(set) var navigateToHome: Bool = false
-
+	@State private(set) var isShowAlertLogin: Bool = false
+	@State private var activeAlert: LoginViewPopUp = .invalidEmail
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -74,6 +75,22 @@ struct LoginContentView: View {
 				self.isForgotPassword = true
 			}), secondaryButton: .default(Text("ForgotPassword.Cancel".localized)))
 		}
+		.alert(isPresented: $isShowAlertLogin) {
+			switch activeAlert {
+			case .invalidEmail:
+				return Alert(title: Text(activeAlert.title),
+							 message: Text(activeAlert.message),
+							 dismissButton: .default(Text(activeAlert.primaryButtonTitle)))
+			case .emailblank:
+				return Alert(title: Text(activeAlert.title),
+							 message: Text(activeAlert.message),
+							 dismissButton: .default(Text(activeAlert.primaryButtonTitle)))
+			case .passwordBlank:
+				return Alert(title: Text(activeAlert.title),
+							 message: Text(activeAlert.message),
+							 dismissButton: .default(Text(activeAlert.primaryButtonTitle)))
+			}
+		}
 	}
 }
 
@@ -91,11 +108,7 @@ private extension LoginContentView {
 							placeHolder: "General.Email".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
-				if isEditing {
-					emailStyle = .highlighted
-				} else {
-					emailStyle = .normal
-				}
+				emailStyle = isEditing ? .highlighted : .normal
 			})
 			SecureTextField(secureText: $password,
 							inputStyle: $passwordStyle,
@@ -103,25 +116,21 @@ private extension LoginContentView {
 							placeHolder: "General.Password".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
-				if isEditing {
-					passwordStyle = .highlighted
-				} else {
-					passwordStyle = .normal
-				}
+				passwordStyle = isEditing ? .highlighted : .normal
 			})
-			RoundedButton("Login.SignIn".localized, action: doLogin)
+			RoundedButton("Login.SignIn".localized, action: checkValid)
 		}
 	}
 	
 	var extraButtonView: some View {
 		HStack {
 			if navigateToHome == false {
-			NavigationLink(destination: AdvancedSeverView(customServer: $customServer),
-						   isActive: $isAdvanceServer,
-						   label: {
-				LinkButton("Login.AdvancedServerSettings".localized, alignment: .leading, action: advancedServer)
-					.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault)
-			})
+				NavigationLink(destination: AdvancedSeverView(customServer: $customServer),
+							   isActive: $isAdvanceServer,
+							   label: {
+					LinkButton("Login.AdvancedServerSettings".localized, alignment: .leading, action: advancedServer)
+						.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault)
+				})
 			}
 			Spacer()
 			NavigationLink(destination: FogotPasswordView(customServer: $customServer),
@@ -169,6 +178,16 @@ private extension LoginContentView {
 private extension LoginContentView {
 	func getAppVersion() {
 		appVersion = injected.interactors.loginInteractor.getAppVersion()
+	}
+
+	func checkValid() {
+		let emailValidate = injected.interactors.loginInteractor.emailValid(email: email)
+		emailValidate ? emailValid() : doLogin()
+	}
+
+	func emailValid() {
+		self.activeAlert = .emailblank
+		self.isShowAlertLogin = true
 	}
 	
 	func doLogin() {

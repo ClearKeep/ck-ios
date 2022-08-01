@@ -18,12 +18,14 @@ protocol ILoginWorker {
 	
 	func signIn(email: String, password: String, customServer: CustomServer) async -> Result<IAuthenticationModel, Error>
 	func signInSocial(_ socialType: SocialType, customServer: CustomServer) async -> Result<IAuthenticationModel, Error>
+	func emailValid(email: String) -> Bool
 }
 
 struct LoginWorker {
 	let channelStorage: IChannelStorage
 	let remoteStore: ILoginRemoteStore
 	let inMemoryStore: ILoginInMemoryStore
+	let emailPredicate = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
 
 	init(channelStorage: IChannelStorage, remoteStore: ILoginRemoteStore, inMemoryStore: ILoginInMemoryStore) {
 		self.channelStorage = channelStorage
@@ -53,5 +55,10 @@ extension LoginWorker: ILoginWorker {
 	func signInSocial(_ socialType: SocialType, customServer: CustomServer) async -> Result<IAuthenticationModel, Error> {
 		let isCustomServer = customServer.isSelectedCustomServer && !customServer.customServerURL.isEmpty
 		return await remoteStore.signInSocial(socialType, domain: isCustomServer ? customServer.customServerURL : currentDomain)
+	}
+
+	func emailValid(email: String) -> Bool {
+		let result = self.emailPredicate.evaluate(with: email)
+		return result
 	}
 }
