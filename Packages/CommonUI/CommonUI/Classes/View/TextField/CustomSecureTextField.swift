@@ -13,6 +13,7 @@ public struct CustomSecureTextField: UIViewRepresentable {
 	@Binding var text: String
 	@Binding var isRevealed: Bool
 	let isFocused: (Bool) -> Void
+	let onSubmit: () -> Void
 
 	public func makeUIView(context: UIViewRepresentableContext<CustomSecureTextField>) -> UITextField {
 		let textField = UITextField(frame: .zero)
@@ -24,7 +25,7 @@ public struct CustomSecureTextField: UIViewRepresentable {
 	}
 
 	public func makeCoordinator() -> CustomSecureTextField.Coordinator {
-		return Coordinator(text: $text, isEnabled: $isRevealed, isFocused: isFocused)
+		return Coordinator(text: $text, isEnabled: $isRevealed, isFocused: isFocused, onSubmit: onSubmit)
 	}
 
 	public func updateUIView(_ uiView: UITextField, context: Context) {
@@ -34,10 +35,12 @@ public struct CustomSecureTextField: UIViewRepresentable {
 	public class Coordinator: NSObject, UITextFieldDelegate {
 		@Binding var text: String
 		let isFocused: (Bool) -> Void
+		let onSubmit: () -> Void
 
-		init(text: Binding<String>, isEnabled: Binding<Bool>, isFocused: @escaping (Bool) -> Void) {
+		init(text: Binding<String>, isEnabled: Binding<Bool>, isFocused: @escaping (Bool) -> Void, onSubmit: @escaping () -> Void) {
 			_text = text
 			self.isFocused = isFocused
+			self.onSubmit = onSubmit
 		}
 
 		public func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -52,7 +55,8 @@ public struct CustomSecureTextField: UIViewRepresentable {
 
 		public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 			textField.resignFirstResponder()
-			return false
+			self.onSubmit()
+			return true
 		}
 		
 		public func textFieldDidChangeSelection(_ textField: UITextField) {

@@ -29,6 +29,8 @@ public struct SecureTextField: View {
 	private let placeHolder: String
 	private let keyboardType: UIKeyboardType
 	private let onEditingChanged: (Bool) -> Void
+	private let submitLabel: SubmitLabel
+	private let onSubmit: (() -> Void)
 
 	// MARK: - Init
 	public init(secureText: Binding<String>,
@@ -36,13 +38,18 @@ public struct SecureTextField: View {
 				inputIcon: Image? = nil,
 				placeHolder: String,
 				keyboardType: UIKeyboardType = .default,
-				onEditingChanged: @escaping (Bool) -> Void) {
+				onEditingChanged: @escaping (Bool) -> Void,
+				submitLabel: SubmitLabel = .continue,
+				onSubmit: @escaping (() -> Void) = {}
+	) {
 		self._secureText = secureText
 		self._inputStyle = inputStyle
 		self.inputIcon = inputIcon
 		self.placeHolder = placeHolder
 		self.keyboardType = keyboardType
 		self.onEditingChanged = onEditingChanged
+		self.submitLabel = submitLabel
+		self.onSubmit = onSubmit
 	}
 
 	// MARK: - Body
@@ -60,11 +67,13 @@ public struct SecureTextField: View {
 				CustomSecureTextField(placeHolder: placeHolder,
 									  text: $secureText,
 									  isRevealed: $isRevealed,
-									  isFocused: onEditingChanged)
+									  isFocused: onEditingChanged,
+									  onSubmit: onSubmit)
 					.font(font)
 					.foregroundColor(textColor)
 					.padding(.vertical, Constants.paddingVertical)
 					.padding(.trailing, Constants.spacing)
+					.submitLabel(submitLabel)
 				Button(action: { isRevealed.toggle() }) {
 					secureIcon
 						.foregroundColor(tintColor)
