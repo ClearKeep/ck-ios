@@ -25,6 +25,8 @@ struct HomeContentView: View {
 	@State private(set) var isNext: Bool = false
 	@State private var selectedGroup: GroupViewModel?
 	@Binding var serverName: String
+	@Binding var isExpandGroup: Bool
+	@Binding var isExpandDirectMessage: Bool
 
 	// MARK: - Body
 	var body: some View {
@@ -47,12 +49,12 @@ struct HomeContentView: View {
 				ListGroupView(title: "Home.GroupChat".localized, groups: groups, action: { isCreateGroup.toggle() }, onChooseGroup: { group in
 					selectedGroup = group
 					isNext.toggle()
-				})
+				}, isExpand: $isExpandGroup)
 				
 				ListGroupView(title: "Home.DirectMessages".localized, groups: peers, action: { isCreateMessage.toggle() }, onChooseGroup: { group in
 					selectedGroup = group
 					isNext.toggle()
-				})
+				}, isExpand: $isExpandDirectMessage)
 			}
 		}
 		NavigationLink(destination: ChatView(messageText: "", inputStyle: .default, groupId: selectedGroup?.groupId ?? 0),

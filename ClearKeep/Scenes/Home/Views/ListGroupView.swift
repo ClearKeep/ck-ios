@@ -21,7 +21,7 @@ private enum Constants {
 struct ListGroupView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
-	@State private var isExpand: Bool = false
+	@Binding var isExpand: Bool
 	@State private var isNext: Bool = false
 	private let title: String
 	private let groups: [GroupViewModel]
@@ -30,11 +30,12 @@ struct ListGroupView: View {
 	@State private var selectedGroup: GroupViewModel?
 	
 	// MARK: - Init
-	init(title: String, groups: [GroupViewModel], action: @escaping () -> Void, onChooseGroup: @escaping (GroupViewModel) -> Void) {
+	init(title: String, groups: [GroupViewModel], action: @escaping () -> Void, onChooseGroup: @escaping (GroupViewModel) -> Void, isExpand: Binding<Bool>) {
 		self.title = title
 		self.groups = groups
 		self.action = action
 		self.onChooseGroup = onChooseGroup
+		self._isExpand = isExpand
 	}
 	
 	// MARK: Body
