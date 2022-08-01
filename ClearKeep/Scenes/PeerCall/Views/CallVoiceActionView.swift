@@ -83,21 +83,3 @@ struct CallVoiceActionView: View {
 		}
 	}
 }
-
-private extension CallingView {
-	var backgroundGradientPrimary: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-	}
-	
-	var muteIcon: Image {
-		isTappedMute ? AppTheme.shared.imageSet.muteOffIcon : AppTheme.shared.imageSet.muteIcon
-	}
-	
-	var cameraIcon: Image {
-		isTappedCamera ? AppTheme.shared.imageSet.cameraOffIcon : AppTheme.shared.imageSet.cameraIcon
-	}
-	
-	var speakerIcon: Image {
-		isTappedSpeaker ? AppTheme.shared.imageSet.speakerOffIcon2 : AppTheme.shared.imageSet.speakerIcon2
-	}
-}

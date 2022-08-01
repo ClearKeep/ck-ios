@@ -17,6 +17,10 @@ private enum Constants {
 	static let loadSize = 20
 	static let maxImageCount = 10
 	static let maxFilesizes = 1_000_000_000 // 1GB
+	static let keySaveTurnServerUser = "keySaveTurnServerUser"
+	static let keySaveTurnServerPWD = "keySaveTurnServerPWD"
+	static let keySaveTurnServer = "keySaveTurnServer"
+	static let keySaveStunServer = "keySaveStunServer"
 }
 
 protocol IChatInteractor {
@@ -29,6 +33,7 @@ protocol IChatInteractor {
 	func uploadFiles(loadable: LoadableSubject<IGroupModel>, message: String, fileURLs: [URL], group: IGroupModel?, appendFileSize: Bool, isForceProcessKey: Bool) async
 	func downloadFile(urlString: String) async
 	func getMessageFromLocal(groupId: Int64) -> Results<RealmMessage>?
+	func requestVideoCall(isCallGroup: Bool, clientId: String, clientName: String, avatar: String, groupId: Int64, callType type: CallType) async -> Result<Bool, Error>
 }
 
 struct ChatInteractor {
@@ -38,13 +43,13 @@ struct ChatInteractor {
 	let groupService: IGroupService
 	let messageService: IMessageService
 	let uploadFileService: IUploadFileService
-	
+	let callService: ICallService
 }
 
 extension ChatInteractor: IChatInteractor {
 	
 	var worker: IChatWorker {
-		let remoteStore = ChatRemoteStore(groupService: groupService, messageService: messageService, uploadFileService: uploadFileService)
+		let remoteStore = ChatRemoteStore(groupService: groupService, messageService: messageService, uploadFileService: uploadFileService, callService: callService)
 		let inMemoryStore = ChatInMemoryStore(realmManager: realmManager)
 		return ChatWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
@@ -186,18 +191,42 @@ extension ChatInteractor: IChatInteractor {
 		return worker.getMessageFromLocal(groupId: groupId, ownerDomain: server.serverDomain, ownerId: ownerId)
 	}
 	
+	func requestVideoCall(isCallGroup: Bool, clientId: String, clientName: String, avatar: String, groupId: Int64, callType type: CallType = .audio) async -> Result<Bool, Error> {
+		guard let domain = channelStorage.currentServer?.serverDomain else { return .success(false) }
+		let result = await worker.requestCall(groupId: groupId, isAudioCall: type == .audio, domain: domain)
+		switch result {
+		case .success(let data):
+			UserDefaults.standard.setValue(data.turnServer.user, forKey: Constants.keySaveTurnServerUser)
+			UserDefaults.standard.setValue(data.turnServer.pwd, forKey: Constants.keySaveTurnServerPWD)
+			UserDefaults.standard.setValue(data.turnServer.server, forKey: Constants.keySaveTurnServer)
+			UserDefaults.standard.setValue(data.stunServer.server, forKey: Constants.keySaveStunServer)
+			UserDefaults.standard.synchronize()
+			CallManager.shared.startCall(clientId: clientId,
+										 clientName: clientName,
+										 avatar: avatar,
+										 groupId: groupId,
+										 groupToken: data.groupRtcToken,
+										 callType: type,
+										 isCallGroup: isCallGroup,
+										 groupRtcUrl: data.groupRtcUrl)
+			return .success(true)
+		case .failure(let error):
+			print(error)
+			return .failure(error)
+		}
+	}
 }
 
 struct StubChatInteractor: IChatInteractor {
-	
 	let channelStorage: IChannelStorage
 	let groupService: IGroupService
 	let messageService: IMessageService
 	let uploadFileService: IUploadFileService
 	let realmManager: RealmManager
+	let callService: ICallService
 
 	var worker: IChatWorker {
-		let remoteStore = ChatRemoteStore(groupService: groupService, messageService: messageService, uploadFileService: uploadFileService)
+		let remoteStore = ChatRemoteStore(groupService: groupService, messageService: messageService, uploadFileService: uploadFileService, callService: callService)
 		let inMemoryStore = ChatInMemoryStore(realmManager: realmManager)
 		return ChatWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
@@ -228,5 +257,9 @@ struct StubChatInteractor: IChatInteractor {
 	
 	func getMessageFromLocal(groupId: Int64) -> Results<RealmMessage>? {
 		return nil
+	}
+	
+	func requestVideoCall(isCallGroup: Bool, clientId: String, clientName: String, avatar: String, groupId: Int64, callType type: CallType = .audio) async -> Result<Bool, Error> {
+		return .success(true)
 	}
 }
