@@ -40,7 +40,8 @@ struct LoginContentView: View {
 	@State private var isForgotPassword: Bool = false
 	@State private var isRegister: Bool = false
 	@State private var isShowAlertForgotPassword: Bool = false
-	
+	@State private(set) var navigateToHome: Bool = false
+
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -114,12 +115,14 @@ private extension LoginContentView {
 	
 	var extraButtonView: some View {
 		HStack {
+			if navigateToHome == false {
 			NavigationLink(destination: AdvancedSeverView(customServer: $customServer),
 						   isActive: $isAdvanceServer,
 						   label: {
 				LinkButton("Login.AdvancedServerSettings".localized, alignment: .leading, action: advancedServer)
 					.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault)
 			})
+			}
 			Spacer()
 			NavigationLink(destination: FogotPasswordView(customServer: $customServer),
 						   isActive: $isForgotPassword,

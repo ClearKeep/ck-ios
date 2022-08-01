@@ -21,7 +21,8 @@ struct JoinServerView: View {
 	@State private var serverURLInputStyle: TextInputStyle = .default
 	@State private var isValid: Bool = false
 	@State private var navigateToLogin: Bool = false
-	
+	@State private(set) var customServer: CustomServer = CustomServer()
+//	@State private var navigateToHome: Bool = false
 	// MARK: - Body
 	var body: some View {
 		VStack {
@@ -46,12 +47,20 @@ struct JoinServerView: View {
 			}
 			Spacer()
 		}
+		NavigationLink(
+			destination: LoginView(customServer: customServer, navigateToHome: navigateToLogin),
+			isActive: $navigateToLogin,
+			label: {
+			})
 	}
 }
 
 // MARK: - Action
 private extension JoinServerView {
 	func joinServerAction() {
-		injected.appState[\.authentication.newServerDomain] = serverURL
+
+		customServer.customServerURL = serverURL
+		customServer.isSelectedCustomServer = true
+		navigateToLogin.toggle()
 	}
 }
