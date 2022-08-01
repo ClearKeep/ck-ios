@@ -203,6 +203,10 @@
 "Call.Incomming.Video" = "Incomming Video Call";
 "Call.Incomming.Voice" = "Incomming Voice Call";
 "Call.TapHereRetutnCall" = "Tap here to return to call screen";
+"Call.PermistionCall" = "Need camera and microphone permissions";
+"Call.GoToSetting" = "Go to Settings?";
+"Call.Settings" = "Settings";
+"Call.Cancel" = "Cancel";
 
 // MARK: - Call Group
 "CallGroup.Calling" = "Calling Group";

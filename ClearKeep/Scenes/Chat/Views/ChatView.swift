@@ -164,15 +164,15 @@ struct ChatView: View {
 		}
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 		.alert(isPresented: $alertVisible, content: {
-			Alert(title: Text("Need camera and microphone permissions"),
-				   message: Text("Go to Settings?"),
-				   primaryButton: .default(Text("Settings"), action: {
+			Alert(title: Text("Call.PermistionCall".localized),
+				  message: Text("Call.GoToSetting".localized),
+				  primaryButton: .default(Text("Call.Settings".localized), action: {
 				guard let url = URL(string: UIApplication.openSettingsURLString) else {
 					return
 				}
 				UIApplication.shared.open(url)
 			}),
-				   secondaryButton: .default(Text("Cancel")))
+				  secondaryButton: .default(Text("Call.Cancel".localized)))
 		})
 		.progressHUD(isLoading)
 	}
