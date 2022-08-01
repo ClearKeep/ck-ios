@@ -13,7 +13,7 @@ import Model
 protocol IHomeRemoteStore {
 	func getJoinedGroup(domain: String) async -> Result<IHomeModels, Error>
 	func getProfile(domain: String) async -> Result<IHomeModels, Error>
-	func getListStatus(domain: String, userId: String) async -> Result<IHomeModels, Error>
+	func getListStatus(domain: String, ids: [String]) async -> Result<IHomeModels, Error>
 	func signOut(domain: String) async -> Result<HomeModels, Error>
 	func pingServer(domain: String) async
 	func changeStatus(domain: String, status: String) async -> Result<IHomeModels?, Error>
@@ -51,12 +51,12 @@ extension HomeRemoteStore: IHomeRemoteStore {
 		}
 	}
 	
-	func getListStatus(domain: String, userId: String) async -> Result<IHomeModels, Error> {
-		let result = await userService.getListStatus(clientID: userId, workspaceDomain: domain, domain: domain)
+	func getListStatus(domain: String, ids: [String]) async -> Result<IHomeModels, Error> {
+		let result = await userService.getListStatus(ids: ids, workspaceDomain: domain, domain: domain)
 		switch result {
 		case .success(let response):
-			let client = response.lstClient.first(where: { $0.clientID == userId })
-			return .success(HomeModels(responseUser: client))
+			let client = response.lstClient.first(where: { $0.clientID == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId })
+			return .success(HomeModels(responseUser: client, members: response.lstClient))
 		case .failure(let error):
 			return .failure(error)
 		}

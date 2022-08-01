@@ -22,7 +22,7 @@ struct HomeViewModels {
 
 extension HomeViewModels {
 	init(responseGroup: IHomeModels, responseUser: IHomeModels) {
-		self.groupViewModel = GroupViewModels(responseGroup)
+		self.groupViewModel = GroupViewModels(responseGroup, responseUser: responseUser)
 		self.userViewModel = UserViewModels(responseUser)
 	}
 }

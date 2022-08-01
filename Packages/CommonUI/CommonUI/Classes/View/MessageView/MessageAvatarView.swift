@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 private enum Constants {
 }
@@ -35,13 +36,17 @@ public struct MessageAvatarView: View {
 	public var body: some View {
 		ZStack(alignment: .topTrailing) {
 			Group {
-				if !image.isEmpty {
-					CachedAsyncImage(url: URL(string: image))
+				if let url = URL(string: self.image) {
+					KFImage(url)
+						.cacheOriginalImage()
+						.setProcessor(DefaultImageProcessor())
+						.resizable()
+						.scaledToFill()
 				} else {
 					ZStack(alignment: .center) {
 						LinearGradient(gradient: Gradient(colors: commonUIConfig.colorSet.gradientAccent), startPoint: .leading, endPoint: .trailing)
 							.frame(width: avatarSize.width, height: avatarSize.height, alignment: .center)
-
+						
 						Text(userName.first?.uppercased() ?? "")
 							.font(font)
 							.frame(alignment: .center)

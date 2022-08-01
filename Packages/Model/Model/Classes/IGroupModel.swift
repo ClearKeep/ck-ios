@@ -10,14 +10,14 @@ import Foundation
 public protocol IGroupModel {
 	var groupId: Int64 { get }
 	var groupName: String { get }
-	var groupAvatar: String { get }
+	var groupAvatar: String { get set }
 	var groupType: String { get }
 	var createdBy: String { get }
 	var createdAt: Int64 { get }
 	var updatedBy: String { get }
 	var updatedAt: Int64 { get }
 	var rtcToken: String { get }
-	var groupMembers: [IMemberModel] { get }
+	var groupMembers: [IMemberModel] { get set }
 	var isJoined: Bool { get }
 	var ownerDomain: String { get }
 	var ownerClientId: String { get }

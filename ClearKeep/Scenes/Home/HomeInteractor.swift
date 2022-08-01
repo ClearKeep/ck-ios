@@ -8,6 +8,7 @@
 import Common
 import ChatSecure
 import Model
+import CommonUI
 
 protocol IHomeInteractor {
 	var worker: IHomeWorker { get }
@@ -65,8 +66,14 @@ extension HomeInteractor: IHomeInteractor {
 		
 		switch result {
 		case .success(let groups):
-			let result = await worker.getListStatus()
-			
+			var ids: [String] = []
+		    groups.groupModel?.forEach({ data in
+				let idMembers = data.groupMembers.map({ $0.userId })
+				ids.append(contentsOf: idMembers)
+			})
+			ids.append(DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "")
+			let result = await worker.getListStatus(ids: Array(Set(ids)))
+
 			switch result {
 			case .success(let user):
 				return .loaded(HomeViewModels(responseGroup: groups, responseUser: user))
@@ -82,7 +89,7 @@ extension HomeInteractor: IHomeInteractor {
 		let result = await worker.updateStatus(status: status)
 		switch result {
 		case .success:
-			let result = await worker.getListStatus()
+			let result = await worker.getListStatus(ids: [DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? ""])
 			switch result {
 			case .success(let user):
 				return .loaded(UserViewModels(user))
