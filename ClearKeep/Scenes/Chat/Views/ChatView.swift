@@ -14,6 +14,7 @@ import Networking
 import UniformTypeIdentifiers
 import ChatSecure
 import RealmSwift
+import AVFoundation
 
 private enum Constants {
 	static let padding = 15.0
@@ -74,7 +75,10 @@ struct ChatView: View {
 	@State private var messages: Results<RealmMessage>?
 	@State private var notificationToken: NotificationToken?
 	@State private var isFirstLoadData: Bool = true
-	
+	@State private var isShowingCall: Bool = false
+	@State private var alertVisible = false
+	@State private var hudVisible = false
+
 	private let groupId: Int64
 	private let inspection = ViewInspector<Self>()
 	
@@ -159,6 +163,18 @@ struct ChatView: View {
 			notificationToken?.invalidate()
 		}
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
+		.alert(isPresented: $alertVisible, content: {
+			Alert(title: Text("Call.PermistionCall".localized),
+				  message: Text("Call.GoToSetting".localized),
+				  primaryButton: .default(Text("Call.Settings".localized), action: {
+				guard let url = URL(string: UIApplication.openSettingsURLString) else {
+					return
+				}
+				UIApplication.shared.open(url)
+			}),
+				  secondaryButton: .default(Text("Call.Cancel".localized)))
+		})
+		.progressHUD(isLoading)
 	}
 }
 
@@ -391,12 +407,39 @@ private extension ChatView {
 		isReplying = false
 	}
 	
-	func audioAction() {
-		
+	private func call(callType type: CallType) {
+		AVCaptureDevice.authorizeVideo(completion: { (status) in
+			AVCaptureDevice.authorizeAudio(completion: { (status) in
+				if status == .alreadyAuthorized || status == .justAuthorized {
+					hudVisible = true
+					Task {
+						let response = await self.injected.interactors.chatInteractor.requestVideoCall(isCallGroup: group?.groupType != "peer",
+																									   clientId: DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "",
+																								 clientName: self.group?.groupName ?? "",
+																								 avatar: self.group?.groupAvatar ?? "",
+																								 groupId: self.groupId,
+																								 callType: type)
+						switch response {
+						case .success:
+							hudVisible = false
+						case .failure(let error):
+							hudVisible = false
+							print(error)
+						}
+					}
+				} else {
+					self.alertVisible = true
+				}
+			})
+		})
 	}
 	
 	func videoAction() {
-		
+		self.call(callType: .video)
+	}
+	
+	func audioAction() {
+		self.call(callType: .audio)
 	}
 	
 	func closeQuoteView() {
