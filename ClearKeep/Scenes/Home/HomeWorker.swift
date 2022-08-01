@@ -21,7 +21,7 @@ protocol IHomeWorker {
 	func didSelectServer(_ domain: String?) -> [ServerModel]
 	func getProfile() async -> Result<IHomeModels, Error>
 	func signOut() async -> Result<HomeModels, Error>
-	func getListStatus() async -> Result<IHomeModels, Error>
+	func getListStatus(ids: [String]) async -> Result<IHomeModels, Error>
 	func pingRequest() async
 	func updateStatus(status: String) async -> Result<IHomeModels?, Error>
 	func removeServer() async
@@ -90,8 +90,8 @@ extension HomeWorker: IHomeWorker {
 		}
 	}
 
-	func getListStatus() async -> Result<IHomeModels, Error> {
-		let result = await remoteStore.getListStatus(domain: self.channelStorage.currentDomain, userId: self.channelStorage.currentServer?.profile?.userId ?? "")
+	func getListStatus(ids: [String]) async -> Result<IHomeModels, Error> {
+		let result = await remoteStore.getListStatus(domain: self.channelStorage.currentDomain, ids: ids)
 		switch result {
 		case .success(let user):
 			return .success(user)

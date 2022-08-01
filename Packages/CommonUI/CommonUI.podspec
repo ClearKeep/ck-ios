@@ -16,5 +16,6 @@ Pod::Spec.new do |spec|
 	
 	spec.dependency 'Common'
 	spec.dependency 'Introspect'
+	spec.dependency 'Kingfisher', '~> 7.0'
 end
 

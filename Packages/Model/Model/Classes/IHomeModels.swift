@@ -10,4 +10,5 @@ import Foundation
 public protocol IHomeModels {
 	var groupModel: [IGroupModel]? { get }
 	var userModel: IUser? { get }
+	var members: [IUser]? { get }
 }

@@ -11,7 +11,7 @@ import Model
 
 private enum Constants {
 	static let arrowSize = CGSize(width: 12.0, height: 12.0)
-	static let avatarSize = CGSize(width: 24.0, height: 24.0)
+	static let avatarSize = CGSize(width: 30.0, height: 30.0)
 	static let statusSize = CGSize(width: 8.0, height: 8.0)
 	static let sectionHeight = 28.0
 	static let itemHeight = 24.0
@@ -67,12 +67,28 @@ struct ListGroupView: View {
 						} label: {
 							HStack(spacing: 0) {
 								if group.groupType == "peer" {
-									MessageAvatarView(avatarSize: Constants.avatarSize,
-													  statusSize: Constants.statusSize,
-													  userName: group.groupName,
-													  font: AppTheme.shared.fontSet.font(style: .input3),
-													  image: group.groupAvatar
-									).padding(.trailing, 16)
+									ZStack {
+										MessageAvatarView(avatarSize: Constants.avatarSize,
+														  statusSize: Constants.statusSize,
+														  userName: group.groupName,
+														  font: AppTheme.shared.fontSet.font(style: .input3),
+														  image: self.getPartnerUser(group: group)?.avatar ?? ""
+										).padding(.trailing, 16)
+										
+										VStack {
+											Spacer()
+											HStack {
+												Spacer()
+												Circle()
+													.fill(self.getPartnerUserStatusColor(group: group))
+													.frame(width: Constants.statusSize.width,
+														   height: Constants.statusSize.height)
+													.padding(.trailing, 16)
+											}.frame(maxWidth: .infinity)
+										}.frame(maxWidth: .infinity, maxHeight: .infinity)
+									}.frame(width: Constants.avatarSize.width,
+											height: Constants.avatarSize.height,
+											alignment: .bottomTrailing)
 								}
 								Text(group.groupName)
 									.font(group.hasUnreadMessage ? AppTheme.shared.fontSet.font(style: .body3) : AppTheme.shared.fontSet.font(style: .input3))

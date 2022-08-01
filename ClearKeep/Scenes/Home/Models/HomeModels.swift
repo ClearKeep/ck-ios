@@ -13,6 +13,7 @@ struct HomeModels: IHomeModels {
 	var groupModel: [IGroupModel]?
 	var userModel: IUser?
 	var authenRespone: GroupBaseModel?
+	var members: [IUser]?
 }
 
 extension HomeModels {
@@ -24,8 +25,11 @@ extension HomeModels {
 		self.init(userModel: UserModel(response: responseUser))
 	}
 
-	init(responseUser: User_MemberInfoRes?) {
-		self.init(userModel: UserModel(response: responseUser))
+	init(responseUser: User_MemberInfoRes?, members: [User_MemberInfoRes]) {
+		let memberTeams = members.map { item -> UserModel in
+			return UserModel(response: item)
+		}
+		self.init(userModel: UserModel(response: responseUser), members: memberTeams)
 	}
 
 	init(responeAuthen: Auth_BaseResponse) {

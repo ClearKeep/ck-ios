@@ -36,6 +36,7 @@ PODS:
   - CommonUI (1.0.0):
     - Common
     - Introspect
+    - Kingfisher (~> 7.0)
   - CryptoSwift (1.4.3)
   - FBAEMKit (13.1.0):
     - FBSDKCoreKit_Basics (= 13.1.0)
@@ -147,6 +148,7 @@ PODS:
   - GTMSessionFetcher/Core (1.7.1)
   - Introspect (0.1.4)
   - KeychainAccess (4.2.2)
+  - Kingfisher (7.2.4)
   - LibSignalClient (0.17.0):
     - SignalCoreKit
   - Logging (1.4.0)
@@ -419,6 +421,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - Introspect
     - KeychainAccess
+    - Kingfisher
     - Logging
     - Mantle
     - MSAL
@@ -496,7 +499,7 @@ SPEC CHECKSUMS:
   CNIOWindows: 1cc6fb2af1d445f52f2d39cecf7069873f7d5b0d
   CocoaLumberjack: 543c79c114dadc3b1aba95641d8738b06b05b646
   Common: 113b48b1abf3ffb950cc5d572b2d0fcac54cd672
-  CommonUI: 31b46c5bdae3b9ad82941becf36cadb4c9a26c36
+  CommonUI: 7e13d3080c01ca6c10e014cf05c1baba5acb8f20
   CryptoSwift: a0799ee936271bd2253a006f1e4523df21845000
   FBAEMKit: 3be32ffb79fe7c0603fed00d81742b23241e89a5
   FBSDKCoreKit: eff97dea778dbe6cc4498959cffb619c75675102
@@ -517,6 +520,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 4577a4cc914a5a07c40a8a0ad0acc22080418c2d
   Introspect: b62c4dd2063072327c21d618ef2bedc3c87bc366
   KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
+  Kingfisher: 2457be2121734e69e54a2312ecc0150eb9ae70b3
   LibSignalClient: 0979e736d85a419b75ecedc36ffcea821a5cea14
   Logging: beeb016c9c80cf77042d62e83495816847ef108b
   Mantle: c5aa8794a29a022dfbbfc9799af95f477a69b62d
