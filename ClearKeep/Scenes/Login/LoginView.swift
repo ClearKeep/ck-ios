@@ -112,7 +112,7 @@ private extension LoginView {
 				})
 			case "verify_pincode":
 				return AnyView(VStack {
-					NavigationLink(destination: SocialView(userName: userName, socialStyle: .verifySecurity, customServer: $customServer), isActive: .constant(true), label: {})
+					NavigationLink(destination: SocialView(userName: userName, resetToken: socialLogin.resetPincodeToken ?? "", pinCode: nil, socialStyle: .verifySecurity, customServer: $customServer), isActive: .constant(true), label: {})
 					notRequestedView
 				})
 			default:

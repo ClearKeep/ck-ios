@@ -17,6 +17,7 @@ protocol ISocialWorker {
 	
 	func registerSocialPin(userName: String, rawPin: String, customServer: CustomServer) async -> Result<IAuthenticationModel, Error>
 	func verifySocialPin(userName: String, rawPin: String, customServer: CustomServer) async -> Result<IAuthenticationModel, Error>
+	func resetSocialPin(userName: String, rawPin: String, token: String, customServer: CustomServer) async -> Result<IAuthenticationModel, Error>
 }
 
 struct SocialWorker {
@@ -54,5 +55,10 @@ extension SocialWorker: ISocialWorker {
 	func verifySocialPin(userName: String, rawPin: String, customServer: CustomServer) async -> Result<IAuthenticationModel, Error> {
 		let isCustomServer = customServer.isSelectedCustomServer && !customServer.customServerURL.isEmpty
 		return await remoteStore.verifySocialPin(rawPin: rawPin, userId: userName, domain: isCustomServer ? customServer.customServerURL : currentDomain)
+	}
+	
+	func resetSocialPin(userName: String, rawPin: String, token: String, customServer: CustomServer) async -> Result<IAuthenticationModel, Error> {
+		let isCustomServer = customServer.isSelectedCustomServer && !customServer.customServerURL.isEmpty
+		return await remoteStore.resetSocialPin(rawPin: rawPin, userId: userName, token: token, domain: isCustomServer ? customServer.customServerURL : currentDomain)
 	}
 }

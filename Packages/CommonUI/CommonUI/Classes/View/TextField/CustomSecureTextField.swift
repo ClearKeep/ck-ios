@@ -14,6 +14,7 @@ public struct CustomSecureTextField: UIViewRepresentable {
 	@Binding var isRevealed: Bool
 	let isFocused: (Bool) -> Void
 	let onSubmit: () -> Void
+	var textChange: ((String) -> Void)? = nil
 
 	public func makeUIView(context: UIViewRepresentableContext<CustomSecureTextField>) -> UITextField {
 		let textField = UITextField(frame: .zero)
@@ -25,7 +26,7 @@ public struct CustomSecureTextField: UIViewRepresentable {
 	}
 
 	public func makeCoordinator() -> CustomSecureTextField.Coordinator {
-		return Coordinator(text: $text, isEnabled: $isRevealed, isFocused: isFocused, onSubmit: onSubmit)
+		return Coordinator(text: $text, isEnabled: $isRevealed, isFocused: isFocused, onSubmit: onSubmit, textChange: self.textChange)
 	}
 
 	public func updateUIView(_ uiView: UITextField, context: Context) {
@@ -36,11 +37,13 @@ public struct CustomSecureTextField: UIViewRepresentable {
 		@Binding var text: String
 		let isFocused: (Bool) -> Void
 		let onSubmit: () -> Void
+		let textChange: ((String) -> Void)?
 
-		init(text: Binding<String>, isEnabled: Binding<Bool>, isFocused: @escaping (Bool) -> Void, onSubmit: @escaping () -> Void) {
+		init(text: Binding<String>, isEnabled: Binding<Bool>, isFocused: @escaping (Bool) -> Void, onSubmit: @escaping () -> Void, textChange: ((String) -> Void)?) {
 			_text = text
 			self.isFocused = isFocused
 			self.onSubmit = onSubmit
+			self.textChange = textChange
 		}
 
 		public func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -61,6 +64,7 @@ public struct CustomSecureTextField: UIViewRepresentable {
 		
 		public func textFieldDidChangeSelection(_ textField: UITextField) {
 			text = textField.text ?? ""
+			self.textChange?(text)
 		}
 	}
 }

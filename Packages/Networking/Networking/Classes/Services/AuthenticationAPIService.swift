@@ -16,6 +16,7 @@ public protocol IAuthenticationAPIService {
 	func login(_ request: Auth_FacebookLoginReq) async -> (Result<Auth_SocialLoginRes, Error>)
 	func login(_ request: Auth_AuthSocialChallengeReq) async -> (Result<Auth_AuthChallengeRes, Error>)
 	func verifyPinCode(_ request: Auth_VerifyPinCodeReq) async -> (Result<Auth_AuthRes, Error>)
+	func resetPinCode(_ request: Auth_ResetPinCodeReq) async -> (Result<Auth_AuthRes, Error>)
 	func registerSRP(_ request: Auth_RegisterSRPReq) async -> (Result<Auth_RegisterSRPRes, Error>)
 	func registerPinCode(_ request: Auth_RegisterPinCodeReq) async -> (Result<Auth_AuthRes, Error>)
 	func forgotPassword(_ request: Auth_ForgotPasswordReq) async -> (Result<Auth_BaseResponse, Error>)
@@ -189,6 +190,26 @@ extension APIService: IAuthenticationAPIService {
 	public func registerPinCode(_ request: Auth_RegisterPinCodeReq) async -> (Result<Auth_AuthRes, Error>) {
 		return await withCheckedContinuation({ continuation in
 			let caller = clientAuth.register_pincode(request, callOptions: callOptions)
+			caller.status.whenComplete({ result in
+				switch result {
+				case .success(let status):
+					if status.isOk {
+						caller.response.whenComplete { result in
+							continuation.resume(returning: result)
+						}
+					} else {
+						continuation.resume(returning: .failure(ServerError(status)))
+					}
+				case .failure(let error):
+					continuation.resume(returning: .failure(ServerError(error)))
+				}
+			})
+		})
+	}
+	
+	public func resetPinCode(_ request: Auth_ResetPinCodeReq) async -> (Result<Auth_AuthRes, Error>) {
+		return await withCheckedContinuation({ continuation in
+			let caller = clientAuth.reset_pincode(request, callOptions: callOptions)
 			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
