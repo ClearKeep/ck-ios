@@ -44,8 +44,9 @@ struct MenuView: View {
 	@State private var isNotification: Bool = false
 	@State private(set) var isExpand: Bool = false
 	@State private var isShowAlert: Bool = false
-	let inspection = ViewInspector<Self>()
-
+	@Binding var servers: [ServerViewModel]
+	@State private(set) var customServer: CustomServer = CustomServer()
+//	@State private var lstservers: [ServerModel] = []
 	// MARK: - Init
 
 	// MARK: - Body
@@ -147,7 +148,7 @@ struct MenuView: View {
 					  primaryButton: .cancel({ self.isShowAlert.toggle() }),
 					  secondaryButton: .default(Text("Home.SignOut".localized), action: signOut))
 			}
-			.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
+			.hiddenNavigationBarStyle()
 	}
 }
 
@@ -158,12 +159,24 @@ private extension MenuView {
 	}
 
 	func signOut() {
-		Task {
-			await injected.interactors.homeInteractor.signOut()
-			await injected.interactors.homeInteractor.removeServer()
-			NotificationCenter.default.post(name: NSNotification.LogOut, object: nil)
+		if servers.count < 2 {
+			Task {
+				await injected.interactors.homeInteractor.signOut()
+				await injected.interactors.homeInteractor.removeServer()
+			}
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+				injected.appState[\.authentication.servers] = []
+			})
+		} else {
+			Task {
+				await injected.interactors.homeInteractor.signOut()
+				await injected.interactors.homeInteractor.removeServer()
+			}
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+				NotificationCenter.default.post(name: NSNotification.LogOut, object: nil)
+			})
+			self.isShowMenu.toggle()
 		}
-		self.isShowMenu.toggle()
 	}
 
 	func copyAction() {
