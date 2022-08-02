@@ -71,9 +71,10 @@ struct LoginContentView: View {
 		}.alert(isPresented: $isShowAlertForgotPassword) {
 			Alert(title: Text("ForgotPassword.Warning".localized),
 				  message: Text("ForgotPassword.ForgettingYourPasswordWillResetAllYourData".localized),
-				  primaryButton: .default(Text("ForgotPassword.OK" .localized), action: {
+				  primaryButton: .default(Text("ForgotPassword.Cancel".localized)),
+				  secondaryButton: .default(Text("ForgotPassword.OK" .localized), action: {
 				self.isForgotPassword = true
-			}), secondaryButton: .default(Text("ForgotPassword.Cancel".localized)))
+			}))
 		}
 		.alert(isPresented: $isShowAlertLogin) {
 			switch activeAlert {
@@ -195,15 +196,15 @@ private extension LoginContentView {
 	}
 
 	func emailValid() {
-			let emailValidate = injected.interactors.loginInteractor.emailValid(email: email)
-			emailValidate ? ({ self.activeAlert = .invalid })() : doLogin()
-			self.isShowAlertLogin = true
+		let emailValidate = injected.interactors.loginInteractor.emailValid(email: email)
+		emailValidate ? doLogin() : ({ self.activeAlert = .invalid })()
+		self.isShowAlertLogin = true
 	}
 	
 	func doLogin() {
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			loadable = await injected.interactors.loginInteractor.signIn(email: email, password: password, customServer: customServer)
+			loadable = await injected.interactors.loginInteractor.signIn(email: email.trimmingCharacters(in: .whitespaces), password: password, customServer: customServer)
 		}
 	}
 	

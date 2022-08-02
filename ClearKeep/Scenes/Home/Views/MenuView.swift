@@ -46,7 +46,7 @@ struct MenuView: View {
 	@State private var isShowAlert: Bool = false
 	@Binding var servers: [ServerViewModel]
 	@State private(set) var customServer: CustomServer = CustomServer()
-//	@State private var lstservers: [ServerModel] = []
+	
 	// MARK: - Init
 
 	// MARK: - Body
@@ -148,7 +148,6 @@ struct MenuView: View {
 					  primaryButton: .cancel({ self.isShowAlert.toggle() }),
 					  secondaryButton: .default(Text("Home.SignOut".localized), action: signOut))
 			}
-			.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
 			.hiddenNavigationBarStyle()
 	}
 }
