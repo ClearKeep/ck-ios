@@ -9,21 +9,24 @@ import Foundation
 import Networking
 
 enum LoginViewError {
+	case wrongInformation
 	case unauthorized
 	case notActivated
 	case locked
 	case unknownError(errorCode: Int?)
-	
+
 	// MARK: Init
 	init(_ error: Error) {
 		guard let errorResponse = error as? IServerError else {
 			self = .unknownError(errorCode: nil)
 			return
 		}
-		
+
 		let errorCode = errorResponse.status
 		switch errorCode {
-		case 1001, 1079:
+		case 1001:
+			self = .wrongInformation
+		case 1079:
 			self = .unauthorized
 		case 1026:
 			self = .notActivated
@@ -33,14 +36,30 @@ enum LoginViewError {
 			self = .unknownError(errorCode: errorCode)
 		}
 	}
-	
+
 	// MARK: Content
 	var title: String {
-		return "General.Error".localized
+		switch self {
+		case .wrongInformation:
+			return "Login.Popup.Email.password.Validate".localized
+		case .unauthorized:
+			return "General.Error".localized
+		case .notActivated:
+			return "General.Error".localized
+		case .locked:
+			return "General.Error".localized
+		case .unknownError(let errorCode):
+			if let errorCode = errorCode {
+				return String(format: "Error.Unknow.Message".localized, errorCode)
+			}
+			return "Unknow.Message".localized
+		}
 	}
-	
+
 	var message: String {
 		switch self {
+		case .wrongInformation:
+			return "Error.Authentication.UnAuthorized".localized
 		case .unauthorized:
 			return "Error.Authentication.UnAuthorized".localized
 		case .notActivated:
@@ -54,7 +73,7 @@ enum LoginViewError {
 			return "Unknow.Message".localized
 		}
 	}
-	
+
 	var primaryButtonTitle: String {
 		return "General.OK".localized
 	}
