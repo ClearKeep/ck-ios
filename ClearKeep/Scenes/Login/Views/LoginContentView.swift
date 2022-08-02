@@ -181,15 +181,10 @@ private extension LoginContentView {
 	}
 
 	func checkValid() {
-		let emailValidate = injected.interactors.loginInteractor.emailValid(email: email)
-		emailValidate ? emailValid() : doLogin()
-	}
-
-	func emailValid() {
-		self.activeAlert = .emailblank
+		email.isEmpty ? ({ self.activeAlert = .emailblank })() : doLogin()
 		self.isShowAlertLogin = true
 	}
-	
+
 	func doLogin() {
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
