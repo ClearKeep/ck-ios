@@ -36,7 +36,7 @@ struct AdvancedSeverView: View {
 	// MARK: - Body
 	var body: some View {
 		VStack(alignment: .leading, spacing: Constants.spacing) {
-			CheckBoxButtons(text: "AdvancedServer.SeverButton".localized, isChecked: $editingCustomServer.isSelectedCustomServer)
+			CheckBoxButtons(text: "AdvancedServer.SeverButton".localized, isChecked: $editingCustomServer.isSelectedCustomServer, action: { editingCustomServer.customServerURL = "" })
 				.foregroundColor(titleColor)
 			if editingCustomServer.isSelectedCustomServer {
 				Text("AdvancedServer.Title".localized)
