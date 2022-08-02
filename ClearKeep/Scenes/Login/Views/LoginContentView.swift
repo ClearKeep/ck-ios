@@ -86,7 +86,7 @@ struct LoginContentView: View {
 				return Alert(title: Text(activeAlert.title),
 							 message: Text(activeAlert.message),
 							 dismissButton: .default(Text(activeAlert.primaryButtonTitle)))
-			case .emailblank:
+			case .emailBlank:
 				return Alert(title: Text(activeAlert.title),
 							 message: Text(activeAlert.message),
 							 dismissButton: .default(Text(activeAlert.primaryButtonTitle)))
@@ -186,7 +186,7 @@ private extension LoginContentView {
 	}
 	
 	func checkValid() {
-		email.isEmpty ? ({ self.activeAlert = .emailblank })() : passwordValid()
+		email.isEmpty ? ({ self.activeAlert = .emailBlank })() : passwordValid()
 		self.isShowAlertLogin = true
 	}
 	
@@ -204,7 +204,7 @@ private extension LoginContentView {
 	func doLogin() {
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			loadable = await injected.interactors.loginInteractor.signIn(email: email.trimmingCharacters(in: .whitespaces), password: password, customServer: customServer)
+			loadable = await injected.interactors.loginInteractor.signIn(email: email.trimmingCharacters(in: .whitespacesAndNewlines), password: password, customServer: customServer)
 		}
 	}
 	

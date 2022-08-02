@@ -22,7 +22,7 @@ struct JoinServerView: View {
 	@State private var isValid: Bool = false
 	@State private var navigateToLogin: Bool = false
 	@State private(set) var customServer: CustomServer = CustomServer()
-//	@State private var navigateToHome: Bool = false
+	
 	// MARK: - Body
 	var body: some View {
 		VStack {

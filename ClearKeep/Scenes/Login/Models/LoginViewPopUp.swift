@@ -12,17 +12,17 @@ enum LoginViewPopUp {
 
 	case invalid
 	case invalidEmail
-	case emailblank
+	case emailBlank
 	case passwordBlank
 
 	// MARK: Content
 	var title: String {
 		switch self {
 		case.invalid:
-			return "Login.Popup.Email.password.Validate".localized
+			return "Login.Popup.Email.Password.Validate".localized
 		case .invalidEmail:
 			return "Login.Popup.EmailValid".localized
-		case .emailblank:
+		case .emailBlank:
 			return "Login.Popup.EmailBlank".localized
 		case .passwordBlank:
 			return "Login.Popup.PassBlank".localized
@@ -35,7 +35,7 @@ enum LoginViewPopUp {
 			return "Login.Popup.Message".localized
 		case .invalidEmail:
 			return "Login.Popup.Message".localized
-		case .emailblank:
+		case .emailBlank:
 			return "Login.Popup.Message".localized
 		case .passwordBlank:
 			return "Login.Popup.Message".localized
