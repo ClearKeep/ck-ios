@@ -10,6 +10,7 @@ import Combine
 import Common
 import CommonUI
 import Model
+import ChatSecure
 
 private enum Constants {
 	static let inputSpacing = 10.0
@@ -29,7 +30,12 @@ struct SocialView: View {
 	@State private(set) var security: String = ""
 	@State private(set) var securityStyle: TextInputStyle = .default
 	@State private(set) var isNext: Bool = false
+    @State private var showAlert: Bool = false
+	@State private var setSecurityPhase: Bool = false
+	
+	var pinCode: String?
 	let userName: String
+	var resetToken: String = ""
 	let socialStyle: SocialCommonStyle
 	let inspection = ViewInspector<Self>()
 	
@@ -38,6 +44,14 @@ struct SocialView: View {
 		self.userName = userName
 		self.socialStyle = socialStyle
 		self._customServer = customServer
+	}
+	
+	init(userName: String, resetToken: String, pinCode: String? ,socialStyle: SocialCommonStyle, customServer: Binding<CustomServer>) {
+		self.userName = userName
+		self.socialStyle = socialStyle
+		self._customServer = customServer
+		self.resetToken = resetToken
+		self.pinCode = pinCode
 	}
 	
 	// MARK: - Body
@@ -57,6 +71,7 @@ struct SocialView: View {
 			.hideKeyboardOnTapped()
 			.keyboardAdaptive()
 			.edgesIgnoringSafeArea(.all)
+		NavigationLink(destination: SocialView(userName: userName, resetToken: resetToken, pinCode: nil, socialStyle: .forgotPassface, customServer: $customServer), isActive: $setSecurityPhase, label: {})
 	}
 }
 
@@ -93,27 +108,48 @@ private extension SocialView {
 									keyboardType: .numberPad,
 									onEditingChanged: { isEditing in
 						securityStyle = isEditing ? .highlighted : .normal
+					}, textChange: { text in
+						checkNotSameDataVerify(text: text)
 					})
-					if socialStyle == .setSecurity {
+					
+					if socialStyle == .setSecurity || socialStyle == .forgotPassface {
 						Text(socialStyle.textInputDescription)
 							.font(AppTheme.shared.fontSet.font(style: .body3))
 							.foregroundColor(titleColor)
 							.multilineTextAlignment(.center)
-							.frame(height: Constants.descriptionHeight)
+							.frame(maxWidth: .infinity)
 					}
 				}
 				.padding(.top, Constants.inputPaddingTop)
+				
+				if socialStyle == .verifySecurity {
+					Button(action: {
+						showAlert = true
+					}) {
+						Text("Social.ForgotPassphasre".localized)
+							.font(AppTheme.shared.fontSet.font(style: .input2))
+							.foregroundColor(AppTheme.shared.colorSet.offWhite)
+					}.padding(.top, Constants.submitPaddingTop)
+				}
+				
 				NavigationLink(
-					destination: socialStyle.nextView(userName: userName, customServer: $customServer),
+					destination: socialStyle.nextView(userName: userName, token: resetToken, pinCode: self.security, customServer: $customServer),
 					isActive: $isNext,
 					label: {
-						RoundedButton(socialStyle.buttonNext, disabled: .constant(security.isEmpty), action: submitAction)
+						RoundedButton(socialStyle.buttonNext, disabled: .constant(checkDisableButton()), action: submitAction)
 					})
-				.padding(.top, socialStyle == .setSecurity ? Constants.submitPaddingTop - Constants.descriptionHeight : Constants.submitPaddingTop)
+                .padding(.top, socialStyle == .setSecurity ? Constants.submitPaddingTop - Constants.descriptionHeight : socialStyle == .verifySecurity ? 12 : Constants.submitPaddingTop)
 				Spacer()
 			}
 		}.frame(maxWidth: .infinity)
-		
+            .alert(isPresented: $showAlert) {
+				Alert(title: Text("Social.Warning".localized),
+					  message: Text("Social.Warning.Description".localized),
+					  primaryButton: .default(Text("Social.Warning.Cancel".localized)),
+                      secondaryButton: .default(Text("Reset"), action: {
+					setSecurityPhase = true
+                }))
+            }
 	}
 	
 	var loadingView: some View {
@@ -156,7 +192,7 @@ private extension SocialView {
 	func submitAction() {
 		Task {
 			switch socialStyle {
-			case .setSecurity:
+			case .setSecurity, .forgotPassface:
 				isNext = true
 			case .confirmSecurity:
 				loadable = .isLoading(last: nil, cancelBag: CancelBag())
@@ -164,8 +200,50 @@ private extension SocialView {
 			case .verifySecurity:
 				loadable = .isLoading(last: nil, cancelBag: CancelBag())
 				loadable = await injected.interactors.socialInteractor.verifySocialPin(userName: userName, rawPin: security, customServer: customServer)
+			case .confirmResetSecurity:
+				loadable = .isLoading(last: nil, cancelBag: CancelBag())
+				loadable = await injected.interactors.socialInteractor.resetSocialPin(userName: userName, rawPin: security, token: self.resetToken, customServer: customServer)
 			}
 		}
+	}
+	
+	func checkDisableButton() -> Bool {
+		if security.isEmpty {
+			return true
+		}
+		
+		if let pincode = self.pinCode,
+		   pincode != security {
+			return true
+		}
+		
+		let string = security.replacingOccurrences(of: "[\\s\n]+", with: " ", options: .regularExpression, range: nil)
+		if string.components(separatedBy: " ").count < 3 {
+			return true
+		}
+		
+		if string.replacingOccurrences(of: " ", with: "").count < 15 {
+			return true
+		}
+		
+		return false
+	}
+	
+	func checkNotSameDataVerify(text: String) {
+		if text.isEmpty {
+			return
+		}
+		
+		guard let pinCode = self.pinCode else {
+			return
+		}
+		
+		if pinCode != self.security {
+			self.securityStyle = .error(message: "Social.NotSamePinCode".localized)
+			return
+		}
+		
+		self.securityStyle = .highlighted
 	}
 }
 

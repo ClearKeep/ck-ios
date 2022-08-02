@@ -14,6 +14,7 @@ protocol ISocialInteractor {
 	
 	func registerSocialPin(userName: String, rawPin: String, customServer: CustomServer) async -> Loadable<IAuthenticationModel>
 	func verifySocialPin(userName: String, rawPin: String, customServer: CustomServer) async -> Loadable<IAuthenticationModel>
+	func resetSocialPin(userName: String, rawPin: String, token: String, customServer: CustomServer) async -> Loadable<IAuthenticationModel>
 }
 
 class SocialInteractor {
@@ -55,8 +56,25 @@ extension SocialInteractor: ISocialInteractor {
 			return .failed(error)
 		}
 	}
+	
 	func verifySocialPin(userName: String, rawPin: String, customServer: CustomServer) async -> Loadable<IAuthenticationModel> {
 		let result = await worker.verifySocialPin(userName: userName, rawPin: rawPin, customServer: customServer)
+		
+		switch result {
+		case .success(let data):
+			appTokenService.accessToken = data.normalLogin?.accessToken
+			appState.bulkUpdate {
+				$0.authentication.servers = worker.servers
+				$0.authentication.newServerDomain = nil
+			}
+			return .loaded(data)
+		case .failure(let error):
+			return .failed(error)
+		}
+	}
+	
+	func resetSocialPin(userName: String, rawPin: String, token: String, customServer: CustomServer) async -> Loadable<IAuthenticationModel> {
+		let result = await worker.resetSocialPin(userName: userName, rawPin: rawPin, token: token, customServer: customServer)
 		
 		switch result {
 		case .success(let data):
@@ -87,6 +105,10 @@ struct StubSocialInteractor: ISocialInteractor {
 	}
 	
 	func verifySocialPin(userName: String, rawPin: String, customServer: CustomServer) async -> Loadable<IAuthenticationModel> {
+		return .notRequested
+	}
+	
+	func resetSocialPin(userName: String, rawPin: String, token: String, customServer: CustomServer) async -> Loadable<IAuthenticationModel> {
 		return .notRequested
 	}
 }

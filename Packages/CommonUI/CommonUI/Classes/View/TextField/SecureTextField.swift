@@ -31,6 +31,7 @@ public struct SecureTextField: View {
 	private let onEditingChanged: (Bool) -> Void
 	private let submitLabel: SubmitLabel
 	private let onSubmit: (() -> Void)
+	private let textChange: ((String) -> Void)
 
 	// MARK: - Init
 	public init(secureText: Binding<String>,
@@ -40,7 +41,8 @@ public struct SecureTextField: View {
 				keyboardType: UIKeyboardType = .default,
 				onEditingChanged: @escaping (Bool) -> Void,
 				submitLabel: SubmitLabel = .continue,
-				onSubmit: @escaping (() -> Void) = {}
+				onSubmit: @escaping (() -> Void) = {},
+				textChange: @escaping ((String) -> Void) = { _ in }
 	) {
 		self._secureText = secureText
 		self._inputStyle = inputStyle
@@ -50,6 +52,7 @@ public struct SecureTextField: View {
 		self.onEditingChanged = onEditingChanged
 		self.submitLabel = submitLabel
 		self.onSubmit = onSubmit
+		self.textChange = textChange
 	}
 
 	// MARK: - Body
@@ -68,7 +71,7 @@ public struct SecureTextField: View {
 									  text: $secureText,
 									  isRevealed: $isRevealed,
 									  isFocused: onEditingChanged,
-									  onSubmit: onSubmit)
+									  onSubmit: onSubmit, textChange: self.textChange)
 					.font(font)
 					.foregroundColor(textColor)
 					.padding(.vertical, Constants.paddingVertical)

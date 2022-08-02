@@ -25,7 +25,7 @@ public protocol IAuthenticationService {
 	func login(userName: String, password: String, domain: String) async -> Result<Auth_AuthRes, Error>
 	func registerSocialPin(rawPin: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error>
 	func verifySocialPin(rawPin: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error>
-	func resetSocialPin(rawPin: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error>
+	func resetSocialPin(rawPin: String, token: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error>
 	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async -> Result<Auth_AuthRes, Error>
 	func recoverPassword(email: String, domain: String) async -> Result<Auth_BaseResponse, Error>
 	func logoutFromAPI(domain: String) async -> Result<Auth_BaseResponse, Error>
@@ -273,7 +273,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		}
 	}
 	
-	public func resetSocialPin(rawPin: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error> {
+	public func resetSocialPin(rawPin: String, token: String, userId: String, domain: String) async -> Result<Auth_AuthRes, Error> {
 		let srp = SwiftSRP.shared
 		guard let salt = srp.getSalt(userName: userId, rawPassword: rawPin, byteV: &byteV),
 			  let verificator = srp.getVerificator(byteV: byteV) else { return .failure(ServerError.unknown) }
@@ -305,14 +305,15 @@ extension CLKAuthenticationService: IAuthenticationService {
 		peerRegisterClientKeyRequest.identityKeyEncrypted = bytesConvertToHexString(bytes: encrypt ?? [])
 		peerRegisterClientKeyRequest.signedPreKeySignature = Data(signedPreKeyRecord.signature)
 
-		var request = Auth_RegisterPinCodeReq()
+		var request = Auth_ResetPinCodeReq()
 		request.userName = userId
+		request.resetPincodeToken = token
 		request.hashPincode = verificatorHex
 		request.salt = saltHex
 		request.clientKeyPeer = peerRegisterClientKeyRequest
 		request.ivParameter = bytesConvertToHexString(bytes: pbkdf2.iv)
 		
-		let response = await channelStorage.getChannel(domain: domain).registerPinCode(request)
+		let response = await channelStorage.getChannel(domain: domain).resetPinCode(request)
 		switch response {
 		case .success(let data):
 			return(.success(data))
