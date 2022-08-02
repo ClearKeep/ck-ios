@@ -77,6 +77,10 @@ struct LoginContentView: View {
 		}
 		.alert(isPresented: $isShowAlertLogin) {
 			switch activeAlert {
+			case .invalid:
+				return Alert(title: Text(activeAlert.title),
+							 message: Text(activeAlert.message),
+							 dismissButton: .default(Text(activeAlert.primaryButtonTitle)))
 			case .invalidEmail:
 				return Alert(title: Text(activeAlert.title),
 							 message: Text(activeAlert.message),
@@ -186,8 +190,14 @@ private extension LoginContentView {
 	}
 	
 	func passwordValid() {
-		password.isEmpty ? ({ self.activeAlert = .passwordBlank })() : doLogin()
+		password.isEmpty ? ({ self.activeAlert = .passwordBlank })() : emailValid()
 		self.isShowAlertLogin = true
+	}
+
+	func emailValid() {
+			let emailValidate = injected.interactors.loginInteractor.emailValid(email: email)
+			emailValidate ? ({ self.activeAlert = .invalid })() : doLogin()
+			self.isShowAlertLogin = true
 	}
 	
 	func doLogin() {
