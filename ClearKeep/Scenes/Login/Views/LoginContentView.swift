@@ -179,12 +179,17 @@ private extension LoginContentView {
 	func getAppVersion() {
 		appVersion = injected.interactors.loginInteractor.getAppVersion()
 	}
-
+	
 	func checkValid() {
-		email.isEmpty ? ({ self.activeAlert = .emailblank })() : doLogin()
+		email.isEmpty ? ({ self.activeAlert = .emailblank })() : passwordValid()
 		self.isShowAlertLogin = true
 	}
-
+	
+	func passwordValid() {
+		password.isEmpty ? ({ self.activeAlert = .passwordBlank })() : doLogin()
+		self.isShowAlertLogin = true
+	}
+	
 	func doLogin() {
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
@@ -202,11 +207,11 @@ private extension LoginContentView {
 	func advancedServer() {
 		isAdvanceServer = true
 	}
-
+	
 	func forgotPassword() {
 		isShowAlertForgotPassword = true
 	}
-
+	
 	func register() {
 		isRegister = true
 	}
