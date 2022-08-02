@@ -45,7 +45,6 @@ struct AdvancedSeverView: View {
 					.frame(maxWidth: .infinity, alignment: .leading)
 				CommonTextField(text: $editingCustomServer.customServerURL,
 								inputStyle: $severUrlStyle,
-								inputIcon: AppTheme.shared.imageSet.mailIcon,
 								placeHolder: "AdvancedServer.ServerUrl".localized,
 								keyboardType: .default,
 								onEditingChanged: { isEditing in
