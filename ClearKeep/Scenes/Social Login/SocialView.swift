@@ -30,7 +30,7 @@ struct SocialView: View {
 	@State private(set) var security: String = ""
 	@State private(set) var securityStyle: TextInputStyle = .default
 	@State private(set) var isNext: Bool = false
-    @State private var showAlert: Bool = false
+	@State private var showAlert: Bool = false
 	@State private var setSecurityPhase: Bool = false
 	
 	var pinCode: String?
@@ -46,7 +46,7 @@ struct SocialView: View {
 		self._customServer = customServer
 	}
 	
-	init(userName: String, resetToken: String, pinCode: String? ,socialStyle: SocialCommonStyle, customServer: Binding<CustomServer>) {
+	init(userName: String, resetToken: String, pinCode: String?, socialStyle: SocialCommonStyle, customServer: Binding<CustomServer>) {
 		self.userName = userName
 		self.socialStyle = socialStyle
 		self._customServer = customServer
@@ -123,9 +123,7 @@ private extension SocialView {
 				.padding(.top, Constants.inputPaddingTop)
 				
 				if socialStyle == .verifySecurity {
-					Button(action: {
-						showAlert = true
-					}) {
+					Button(action: showarlert) {
 						Text("Social.ForgotPassphasre".localized)
 							.font(AppTheme.shared.fontSet.font(style: .input2))
 							.foregroundColor(AppTheme.shared.colorSet.offWhite)
@@ -138,18 +136,18 @@ private extension SocialView {
 					label: {
 						RoundedButton(socialStyle.buttonNext, disabled: .constant(checkDisableButton()), action: submitAction)
 					})
-                .padding(.top, socialStyle == .setSecurity ? Constants.submitPaddingTop - Constants.descriptionHeight : socialStyle == .verifySecurity ? 12 : Constants.submitPaddingTop)
+					.padding(.top, socialStyle == .setSecurity ? Constants.submitPaddingTop - Constants.descriptionHeight : socialStyle == .verifySecurity ? 12 : Constants.submitPaddingTop)
 				Spacer()
 			}
 		}.frame(maxWidth: .infinity)
-            .alert(isPresented: $showAlert) {
+			.alert(isPresented: $showAlert) {
 				Alert(title: Text("Social.Warning".localized),
 					  message: Text("Social.Warning.Description".localized),
 					  primaryButton: .default(Text("Social.Warning.Cancel".localized)),
-                      secondaryButton: .default(Text("Reset"), action: {
+					  secondaryButton: .default(Text("Reset"), action: {
 					setSecurityPhase = true
-                }))
-            }
+				}))
+			}
 	}
 	
 	var loadingView: some View {
@@ -184,6 +182,10 @@ private extension SocialView {
 private extension SocialView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
+	}
+
+	func showarlert() {
+		showAlert = true
 	}
 }
 

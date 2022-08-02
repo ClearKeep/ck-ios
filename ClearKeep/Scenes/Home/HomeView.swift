@@ -121,6 +121,7 @@ struct HomeView: View {
 						}
 						.padding(Constants.padding)
 					}
+					.hiddenNavigationBarStyle()
 					.padding(.top, Constants.paddingTop)
 					.hideKeyboardOnTapped()
 				}
@@ -131,7 +132,7 @@ struct HomeView: View {
 						.edgesIgnoringSafeArea(.vertical)
 					MenuView(isShowMenu: $isShowMenu, user: $user, chageStatus: { status in
 						self.changeStatus(status: status)
-					})
+					}, servers: $servers)
 						.frame(width: geometry.size.width)
 						.offset(x: isShowMenu ? 0 : geometry.size.width * 2)
 						.transition(.move(edge: .trailing))
@@ -148,6 +149,7 @@ struct HomeView: View {
 				self.getServers()
 			})
 			.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
+			.hiddenNavigationBarStyle()
 		}
 		.progressHUD(isLoading)
 		.alert(isPresented: $isShowError) {
