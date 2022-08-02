@@ -24,10 +24,12 @@ struct LoginView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
+	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	@State private(set) var loadable: Loadable<IAuthenticationModel> = .notRequested
 	@State private(set) var customServer: CustomServer = CustomServer()
 	let inspection = ViewInspector<Self>()
-	
+	@State private(set) var navigateToHome: Bool = false
+
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -45,6 +47,7 @@ struct LoginView: View {
 				.grandientBackground()
 				.edgesIgnoringSafeArea(.all)
 		}
+		.hiddenNavigationBarStyle()
 	}
 }
 
@@ -73,7 +76,11 @@ private extension LoginView {
 	var notRequestedView: some View {
 		ScrollView(showsIndicators: false) {
 			VStack(spacing: Constants.spacing) {
-				Spacer(minLength: Constants.minSpacer)
+				Spacer()
+				if navigateToHome {
+				BackButton({ self.presentationMode.wrappedValue.dismiss() })
+					.frame(maxWidth: .infinity, maxHeight: 40.0, alignment: .leading)
+				}
 				AppLogo()
 					.frame(width: Constants.widthLogo, height: Constants.heightLogo)
 				if customServer.isSelectedCustomServer {
@@ -85,11 +92,12 @@ private extension LoginView {
 							.font(AppTheme.shared.fontSet.font(style: .input3))
 					}
 				}
-				LoginContentView(loadable: $loadable, customServer: $customServer)
+				LoginContentView(loadable: $loadable, customServer: $customServer, navigateToHome: navigateToHome)
 				Spacer()
 			}
 			.padding(.horizontal, Constants.paddingHorizontal)
 		}
+		.hiddenNavigationBarStyle()
 	}
 	
 	var loadingView: some View {

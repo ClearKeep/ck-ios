@@ -125,6 +125,7 @@ struct HomeView: View {
 					.padding(.top, Constants.paddingTop)
 					.hideKeyboardOnTapped()
 				}
+				.hiddenNavigationBarStyle()
 				
 				if isShowMenu {
 					LinearGradient(gradient: Gradient(colors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary.compactMap({ $0.opacity(Constants.opacity) }) : AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)

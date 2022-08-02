@@ -46,7 +46,7 @@ struct MenuView: View {
 	@State private var isShowAlert: Bool = false
 	@Binding var servers: [ServerViewModel]
 	@State private(set) var customServer: CustomServer = CustomServer()
-//	@State private var lstservers: [ServerModel] = []
+	
 	// MARK: - Init
 
 	// MARK: - Body

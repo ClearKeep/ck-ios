@@ -138,7 +138,7 @@ private extension SecureTextField {
 	}
 
 	var secureIcon: Image {
-		isRevealed ? commonUIConfig.imageSet.eyeOn : commonUIConfig.imageSet.eyeOff
+		isRevealed ? commonUIConfig.imageSet.eyeOff : commonUIConfig.imageSet.eyeOn
 	}
 
 	var needShowNotifiyMessage: Bool {

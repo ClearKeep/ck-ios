@@ -81,6 +81,6 @@ private extension ListServerView {
 	
 	func addServerAction() {
 		isAddNewServer = true
-		servers = injected.interactors.homeInteractor.didSelectServer(nil)
+		servers = injected.interactors.homeInteractor.didSelectServer(DependencyResolver.shared.channelStorage.currentDomain)
 	}
 }

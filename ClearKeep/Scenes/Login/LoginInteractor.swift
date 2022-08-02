@@ -13,6 +13,7 @@ protocol ILoginInteractor {
 	func signIn(email: String, password: String, customServer: CustomServer) async -> Loadable<IAuthenticationModel>
 	func signInSocial(_ socialType: SocialType, customServer: CustomServer) async -> Loadable<IAuthenticationModel>
 	func getAppVersion() -> String
+	func emailValid(email: String) -> Bool
 }
 
 class LoginInteractor {
@@ -68,6 +69,10 @@ extension LoginInteractor: ILoginInteractor {
 	func getAppVersion() -> String {
 		return worker.appVersion
 	}
+
+	func emailValid(email: String) -> Bool {
+		return worker.emailValid(email: email)
+	}
 }
 
 struct StubLoginInteractor: ILoginInteractor {
@@ -91,5 +96,9 @@ struct StubLoginInteractor: ILoginInteractor {
 	
 	func getAppVersion() -> String {
 		return worker.appVersion
+	}
+
+	func emailValid(email: String) -> Bool {
+		return worker.emailValid(email: email)
 	}
 }

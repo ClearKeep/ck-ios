@@ -40,7 +40,9 @@ struct LoginContentView: View {
 	@State private var isForgotPassword: Bool = false
 	@State private var isRegister: Bool = false
 	@State private var isShowAlertForgotPassword: Bool = false
-	
+	@State private(set) var navigateToHome: Bool = false
+	@State private(set) var isShowAlertLogin: Bool = false
+	@State private var activeAlert: LoginViewPopUp = .invalidEmail
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -69,9 +71,30 @@ struct LoginContentView: View {
 		}.alert(isPresented: $isShowAlertForgotPassword) {
 			Alert(title: Text("ForgotPassword.Warning".localized),
 				  message: Text("ForgotPassword.ForgettingYourPasswordWillResetAllYourData".localized),
-				  primaryButton: .default(Text("ForgotPassword.OK" .localized), action: {
+				  primaryButton: .default(Text("ForgotPassword.Cancel".localized)),
+				  secondaryButton: .default(Text("ForgotPassword.OK" .localized), action: {
 				self.isForgotPassword = true
-			}), secondaryButton: .default(Text("ForgotPassword.Cancel".localized)))
+			}))
+		}
+		.alert(isPresented: $isShowAlertLogin) {
+			switch activeAlert {
+			case .invalid:
+				return Alert(title: Text(activeAlert.title),
+							 message: Text(activeAlert.message),
+							 dismissButton: .default(Text(activeAlert.primaryButtonTitle)))
+			case .invalidEmail:
+				return Alert(title: Text(activeAlert.title),
+							 message: Text(activeAlert.message),
+							 dismissButton: .default(Text(activeAlert.primaryButtonTitle)))
+			case .emailBlank:
+				return Alert(title: Text(activeAlert.title),
+							 message: Text(activeAlert.message),
+							 dismissButton: .default(Text(activeAlert.primaryButtonTitle)))
+			case .passwordBlank:
+				return Alert(title: Text(activeAlert.title),
+							 message: Text(activeAlert.message),
+							 dismissButton: .default(Text(activeAlert.primaryButtonTitle)))
+			}
 		}
 	}
 }
@@ -90,11 +113,7 @@ private extension LoginContentView {
 							placeHolder: "General.Email".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
-				if isEditing {
-					emailStyle = .highlighted
-				} else {
-					emailStyle = .normal
-				}
+				emailStyle = isEditing ? .highlighted : .normal
 			})
 			SecureTextField(secureText: $password,
 							inputStyle: $passwordStyle,
@@ -102,24 +121,22 @@ private extension LoginContentView {
 							placeHolder: "General.Password".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
-				if isEditing {
-					passwordStyle = .highlighted
-				} else {
-					passwordStyle = .normal
-				}
+				passwordStyle = isEditing ? .highlighted : .normal
 			})
-			RoundedButton("Login.SignIn".localized, action: doLogin)
+			RoundedButton("Login.SignIn".localized, action: checkValid)
 		}
 	}
 	
 	var extraButtonView: some View {
 		HStack {
-			NavigationLink(destination: AdvancedSeverView(customServer: $customServer),
-						   isActive: $isAdvanceServer,
-						   label: {
-				LinkButton("Login.AdvancedServerSettings".localized, alignment: .leading, action: advancedServer)
-					.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault)
-			})
+			if navigateToHome == false {
+				NavigationLink(destination: AdvancedSeverView(customServer: $customServer),
+							   isActive: $isAdvanceServer,
+							   label: {
+					LinkButton("Login.AdvancedServerSettings".localized, alignment: .leading, action: advancedServer)
+						.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault)
+				})
+			}
 			Spacer()
 			NavigationLink(destination: FogotPasswordView(customServer: $customServer),
 						   isActive: $isForgotPassword,
@@ -168,10 +185,26 @@ private extension LoginContentView {
 		appVersion = injected.interactors.loginInteractor.getAppVersion()
 	}
 	
+	func checkValid() {
+		email.isEmpty ? ({ self.activeAlert = .emailBlank })() : passwordValid()
+		self.isShowAlertLogin = true
+	}
+	
+	func passwordValid() {
+		password.isEmpty ? ({ self.activeAlert = .passwordBlank })() : emailValid()
+		self.isShowAlertLogin = true
+	}
+
+	func emailValid() {
+		let emailValidate = injected.interactors.loginInteractor.emailValid(email: email)
+		emailValidate ? doLogin() : ({ self.activeAlert = .invalid })()
+		self.isShowAlertLogin = true
+	}
+	
 	func doLogin() {
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			loadable = await injected.interactors.loginInteractor.signIn(email: email, password: password, customServer: customServer)
+			loadable = await injected.interactors.loginInteractor.signIn(email: email.trimmingCharacters(in: .whitespacesAndNewlines), password: password, customServer: customServer)
 		}
 	}
 	
@@ -185,11 +218,11 @@ private extension LoginContentView {
 	func advancedServer() {
 		isAdvanceServer = true
 	}
-
+	
 	func forgotPassword() {
 		isShowAlertForgotPassword = true
 	}
-
+	
 	func register() {
 		isRegister = true
 	}

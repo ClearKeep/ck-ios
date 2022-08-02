@@ -86,6 +86,11 @@
 "Login.ForgotPassword" = "Forgot Password?";
 "Login.SignUp.Suggest" = "Don't have an account?";
 "Login.SignUp" = "Sign up";
+"Login.Popup.EmailValid" = "Email is invalid";
+"Login.Popup.Email.Password.Validate" = "Email or Password is incorrect";
+"Login.Popup.EmailBlank" = "Email must not be blank.";
+"Login.Popup.PassBlank" = "Password must not be blank.";
+"Login.Popup.Message" = "Please check your details and try again.";
 
 // MARK: - Register
 "Register.Title" = "Please fill in the information below to complete your sign up";
