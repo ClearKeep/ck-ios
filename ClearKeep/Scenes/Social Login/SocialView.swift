@@ -129,7 +129,7 @@ private extension SocialView {
 				
 				if socialStyle == .verifySecurity {
 					Button(action: showarlert) {
-						Text("Social.ForgotPassphasre".localized)
+						Text("Social.ForgotPassPhasre".localized)
 							.font(AppTheme.shared.fontSet.font(style: .input2))
 							.foregroundColor(AppTheme.shared.colorSet.offWhite)
 					}.padding(.top, Constants.submitPaddingTop)

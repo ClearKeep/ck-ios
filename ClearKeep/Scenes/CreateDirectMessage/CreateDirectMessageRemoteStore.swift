@@ -23,7 +23,7 @@ struct CreateDirectMessageRemoteStore {
 	let userService: IUserService
 	
 	enum CreateDirectMessageError: Error {
-	case searchLinkError
+		case searchLinkError
 	}
 }
 

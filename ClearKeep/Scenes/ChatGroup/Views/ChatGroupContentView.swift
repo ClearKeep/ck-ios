@@ -182,14 +182,39 @@ private extension ChatGroupContentView {
 	}
 	
 	private func searchEmail() {
-		if searchEmailText.validEmail {
-			Task {
-				loadable = await self.injected.interactors.chatGroupInteractor.searchUserWithEmail(email: searchEmailText)
-			}
-		} else {
+		if !searchEmailText.trimmingCharacters(in: .whitespacesAndNewlines).validEmail {
 			self.messageAlert = "GroupChat.EmailIsIncorrect".localized
 			self.isShowAlert = true
+			return
 		}
+		
+		Task {
+			loadable = await self.injected.interactors.chatGroupInteractor.searchUserWithEmail(email: searchEmailText.trimmingCharacters(in: .whitespacesAndNewlines))
+		}
+	}
+	
+	private func checkDisableButton() -> Bool {
+		if self.useCustomServerChecked {
+			if self.searchLinkText.isEmpty {
+				return true
+			}
+			
+			if self.searchLinkText.split(separator: "/").count != 3 {
+				return true
+			}
+			
+			return false
+		}
+		
+		if self.useFindByEmail {
+			if self.searchEmailText.isEmpty {
+				return true
+			}
+			
+			return false
+		}
+		
+		return addMember.isEmpty
 	}
 }
 

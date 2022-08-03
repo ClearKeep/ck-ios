@@ -104,7 +104,7 @@ struct DirectMessageContentView: View {
 				Spacer()
 				VStack {
 					RoundedGradientButton("DirectMessages.Next".localized,
-										  disabled: .constant(searchLinkText.isEmpty),
+										  disabled: .constant(self.checkDisableButton()),
 										  action: createUserByLink)
 					.frame(width: Constants.buttonSize.width)
 					.padding(.bottom, Constants.paddingButtonNext)
@@ -225,6 +225,30 @@ private extension DirectMessageContentView {
 		}
 		
 		return false
+	}
+	
+	private func checkDisableButton() -> Bool {
+		if self.isShowingLinkUser {
+			if self.searchLinkText.isEmpty {
+				return true
+			}
+			
+			if self.searchLinkText.split(separator: "/").count != 3 {
+				return true
+			}
+			
+			return false
+		}
+		
+		if self.useFindByEmail {
+			if self.searchEmailText.isEmpty {
+				return true
+			}
+			
+			return false
+		}
+		
+		return true
 	}
 }
 

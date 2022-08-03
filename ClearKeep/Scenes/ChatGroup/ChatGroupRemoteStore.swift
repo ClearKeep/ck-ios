@@ -23,7 +23,7 @@ struct ChatGroupRemoteStore {
 	let userService: IUserService
 	
 	enum ChatGroupError: Error {
-	case searchLinkError
+		case searchLinkError
 	}
 }
 

@@ -34,6 +34,10 @@ struct CreateGroupView: View {
 	@Binding var loadable: Loadable<ICreatGroupViewModels>
 	@Binding var getProfile: CreatGroupProfieViewModel?
 	@Binding var clientInGroup: [CreatGroupGetUsersViewModel]
+	@State private var messageAlert: String = ""
+	@State private var showAlertPopup: Bool = false
+	@State private var showingAlert = false
+
 	
 	// MARK: - Body
 	var body: some View {
@@ -65,6 +69,13 @@ struct CreateGroupView: View {
 								  action: creatGroup)
 				.frame(width: Constants.buttonSize.width)
 				.padding(.bottom, Constants.paddingButtonNext)
+			
+			Button("Show Alert") {
+						showingAlert = true
+					}
+					.alert(isPresented: $showingAlert) {
+						Alert(title: Text("Important message"), message: Text("Wear sunscreen"), dismissButton: .default(Text("Got it!")))
+					}
 		}
 		.padding(.horizontal, Constants.paddingVertical)
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
@@ -79,6 +90,14 @@ struct CreateGroupView: View {
 									  rightBarItems: {
 			Spacer()
 		})
+		
+		.alert(isPresented: self.$showAlertPopup) {
+			Alert(title: Text("dsadasdas"),
+				  message: Text("dsadasd"),
+				  dismissButton: .default(Text("dsadasdsa"), action: {
+				self.showAlertPopup = false
+			}))
+		}
 	}
 }
 
@@ -112,6 +131,12 @@ private extension CreateGroupView {
 	}
 	
 	func creatGroup() {
+		if self.nameGroup.trimmingCharacters(in: .whitespacesAndNewlines).count > 1 {
+			self.messageAlert = "Group name must not be longer than 100 characters"
+			self.showAlertPopup = true
+			return
+		}
+		
 		self.presentationMode.wrappedValue.dismiss()
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {

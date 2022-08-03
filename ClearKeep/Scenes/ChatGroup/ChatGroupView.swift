@@ -96,6 +96,9 @@ private extension ChatGroupView {
 		   !addMember.contains(where: { $0.id == profileWithLink.id }) {
 			DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
 				addMember.append(profileWithLink)
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+					loadable = .notRequested
+				}
 			})
 		}
 		
