@@ -60,7 +60,7 @@ struct NewPasswordContenView: View {
 				SecureTextField(secureText: $password,
 								inputStyle: $passwordStyle,
 								inputIcon: AppTheme.shared.imageSet.lockIcon,
-								placeHolder: "NewPassword.NewPassword".localized,
+								placeHolder: "NewPassword.New.PlaceHold".localized,
 								keyboardType: .default,
 								onEditingChanged: { isEdit in
 					passwordStyle = isEdit ? .highlighted : .normal
@@ -147,7 +147,7 @@ private extension NewPasswordContenView {
 		if checkInvalid {
 			isLoading = true
 			Task {
-			  let data = await injected.interactors.newPasswordInteractor.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: password, domain: domain)
+			  let data = await injected.interactors.newPasswordInteractor.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: password.trimmingCharacters(in: .whitespacesAndNewlines), domain: domain)
 				
 				switch data {
 				case .success:
@@ -163,10 +163,10 @@ private extension NewPasswordContenView {
 	}
 	
 	func invalid() {
-		passwordInvalid = injected.interactors.newPasswordInteractor.passwordValid(password: password)
+		passwordInvalid = injected.interactors.newPasswordInteractor.passwordValid(password: password.trimmingCharacters(in: .whitespacesAndNewlines))
 		passwordStyle = passwordInvalid ? .normal : .error(message: "General.Password.Valid".localized)
 		
-		confirmPasswordInvvalid = injected.interactors.newPasswordInteractor.confirmPasswordValid(password: password, confirmPassword: rePassword)
+		confirmPasswordInvvalid = injected.interactors.newPasswordInteractor.confirmPasswordValid(password: password.trimmingCharacters(in: .whitespacesAndNewlines), confirmPassword: rePassword.trimmingCharacters(in: .whitespacesAndNewlines))
 		rePasswordStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
 		
 		checkInvalid = injected.interactors.newPasswordInteractor.checkValid(passwordValdid: passwordInvalid, confirmPasswordValid: confirmPasswordInvvalid)
