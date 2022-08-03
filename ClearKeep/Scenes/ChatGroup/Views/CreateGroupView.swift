@@ -37,7 +37,6 @@ struct CreateGroupView: View {
 	@State private var messageAlert: String = ""
 	@State private var showAlertPopup: Bool = false
 	@State private var showingAlert = false
-
 	
 	// MARK: - Body
 	var body: some View {
@@ -69,13 +68,6 @@ struct CreateGroupView: View {
 								  action: creatGroup)
 				.frame(width: Constants.buttonSize.width)
 				.padding(.bottom, Constants.paddingButtonNext)
-			
-			Button("Show Alert") {
-						showingAlert = true
-					}
-					.alert(isPresented: $showingAlert) {
-						Alert(title: Text("Important message"), message: Text("Wear sunscreen"), dismissButton: .default(Text("Got it!")))
-					}
 		}
 		.padding(.horizontal, Constants.paddingVertical)
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
@@ -92,11 +84,9 @@ struct CreateGroupView: View {
 		})
 		
 		.alert(isPresented: self.$showAlertPopup) {
-			Alert(title: Text("dsadasdas"),
-				  message: Text("dsadasd"),
-				  dismissButton: .default(Text("dsadasdsa"), action: {
-				self.showAlertPopup = false
-			}))
+			Alert(title: Text("GroupChat.Warning".localized),
+				  message: Text(self.messageAlert),
+				  dismissButton: .default(Text("GroupChat.Ok".localized)))
 		}
 	}
 }
