@@ -8,6 +8,8 @@
 import SwiftUI
 import Common
 import CommonUI
+import ChatSecure
+import AVFoundation
 
 private enum Constants {
 	static let padding = 20.0
@@ -31,6 +33,8 @@ struct DetailContentView: View {
 	@Binding var member: [GroupDetailClientViewModel]
 	@State private var messageAlert: String = ""
 	@State private var isShowAlert: Bool = false
+	@State private var alertPermissionVisible = false
+	@State private var hudVisible = false
 	// MARK: - Init
 
 	// MARK: - Body
@@ -97,6 +101,18 @@ struct DetailContentView: View {
 				  message: Text(self.messageAlert),
 				  dismissButton: .default(Text("GroupChat.Ok".localized)))
 		}
+		.alert(isPresented: $alertPermissionVisible, content: {
+			Alert(title: Text("Call.PermistionCall".localized),
+				  message: Text("Call.GoToSetting".localized),
+				  primaryButton: .default(Text("Call.Settings".localized), action: {
+				guard let url = URL(string: UIApplication.openSettingsURLString) else {
+					return
+				}
+				UIApplication.shared.open(url)
+			}),
+				  secondaryButton: .default(Text("Call.Cancel".localized)))
+		})
+		.progressHUD(hudVisible)
 	}
 }
 
@@ -131,11 +147,11 @@ private extension DetailContentView {
 	}
 
 	func audioAction() {
-
+		self.call(callType: .audio)
 	}
 
 	func videoAction() {
-
+		self.call(callType: .video)
 	}
 
 	func didSelect(_ detail: DetailType) {
@@ -160,6 +176,33 @@ private extension DetailContentView {
 				}
 			}
 		}
+	}
+	
+	private func call(callType type: CallType) {
+		AVCaptureDevice.authorizeVideo(completion: { (status) in
+			AVCaptureDevice.authorizeAudio(completion: { (status) in
+				if status == .alreadyAuthorized || status == .justAuthorized {
+					hudVisible = true
+					Task {
+						let response = await self.injected.interactors.chatInteractor.requestVideoCall(isCallGroup: groupData?.groupType != "peer",
+																									   clientId: DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "",
+																									   clientName: self.groupData?.groupName ?? "",
+																									   avatar: self.groupData?.groupAvatar ?? "",
+																									   groupId: self.groupData?.groupId ?? 0,
+																									   callType: type)
+						switch response {
+						case .success:
+							hudVisible = false
+						case .failure(let error):
+							hudVisible = false
+							print(error)
+						}
+					}
+				} else {
+					self.alertPermissionVisible = true
+				}
+			})
+		})
 	}
 }
 
