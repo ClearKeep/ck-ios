@@ -51,6 +51,7 @@ extension AppEnvironment {
 		let groupDetailInteractor = GroupDetailInteractor(appState: appState, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, channelStorage: DependencyResolver.shared.channelStorage)
 		let profileInteractor = ProfileInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, userService: DependencyResolver.shared.userService)
 		let searchInteractor = SearchInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, messageService: DependencyResolver.shared.messageService)
+		let advancedSeverInteractor = AdvancedSeverInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, workspaceService: DependencyResolver.shared.workspaceService)
 		
 		return .init(homeInteractor: homeInteractor,
 					 loginInteractor: loginInteractor,
@@ -66,7 +67,8 @@ extension AppEnvironment {
 					 groupDetailInteractor: groupDetailInteractor,
 					 peerCallInteractor: peerCallInteractor,
 					 profileInteractor: profileInteractor,
-					 searchInteractor: searchInteractor)
+					 searchInteractor: searchInteractor,
+					 advancedSeverInteractor: advancedSeverInteractor)
 	}
 }
 
