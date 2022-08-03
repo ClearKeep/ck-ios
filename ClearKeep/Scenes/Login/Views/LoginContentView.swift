@@ -196,11 +196,17 @@ private extension LoginContentView {
 	}
 
 	func emailValid() {
-		let emailValidate = injected.interactors.loginInteractor.emailValid(email: email)
-		emailValidate ? doLogin() : ({ self.activeAlert = .invalid })()
+		let emailValidate = injected.interactors.loginInteractor.emailValid(email: email.trimmingCharacters(in: .whitespacesAndNewlines))
+		emailValidate ? passvalid() : ({ self.activeAlert = .invalidEmail })()
 		self.isShowAlertLogin = true
 	}
-	
+
+	func passvalid() {
+		let passValidate = injected.interactors.loginInteractor.passwordValid(password: password)
+		passValidate ? doLogin() : ({ self.activeAlert = .invalidEmail })()
+		self.isShowAlertLogin = true
+	}
+
 	func doLogin() {
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {

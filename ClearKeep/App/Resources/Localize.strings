@@ -50,6 +50,7 @@
 "Social.Warning.Description" = "Resetting your Security Phrase will reset all your data.";
 "Social.Warning.Cancel" = "Cancel";
 "Social.Warning.Reset" = "Reset";
+"Social.Warning.Security" = "Security phrase is incorrect. Please try again";
 
 // MARK: - User Profile
 "UserProfile.Save" = "Save";

@@ -36,7 +36,7 @@ enum SocialViewError {
 	var message: String {
 		switch self {
 		case .unauthorized:
-			return "Error.Authentication.UnAuthorized".localized
+			return "Social.Warning.Security".localized
 		case .unknownError(let errorCode):
 			if let errorCode = errorCode {
 				return String(format: "Error.Unknow.Message".localized, errorCode)

@@ -14,6 +14,7 @@ protocol ILoginInteractor {
 	func signInSocial(_ socialType: SocialType, customServer: CustomServer) async -> Loadable<IAuthenticationModel>
 	func getAppVersion() -> String
 	func emailValid(email: String) -> Bool
+	func passwordValid(password: String) -> Bool
 }
 
 class LoginInteractor {
@@ -73,6 +74,11 @@ extension LoginInteractor: ILoginInteractor {
 	func emailValid(email: String) -> Bool {
 		return worker.emailValid(email: email)
 	}
+
+	func passwordValid(password: String) -> Bool {
+		return worker.passwordValid(password: password)
+	}
+
 }
 
 struct StubLoginInteractor: ILoginInteractor {
@@ -101,4 +107,9 @@ struct StubLoginInteractor: ILoginInteractor {
 	func emailValid(email: String) -> Bool {
 		return worker.emailValid(email: email)
 	}
+
+	func passwordValid(password: String) -> Bool {
+		return worker.passwordValid(password: password)
+	}
+
 }
