@@ -44,7 +44,7 @@
 "Social.Forgot.Verify" = "Forgot phrase?";
 "Social.Verify.Next" = "Verify";
 "Social.NotSamePinCode" = "Security phrase and confirm security phrase do not match. Please try again";
-"Social.ForgotPassphasre" = "Forgot passphrase";
+"Social.ForgotPassphasre" = "Forgot passphrase?";
 "Social.Warning" = "Warning";
 "Social.Warning.Description" = "Resetting your Security Phrase will reset all your data.";
 "Social.Warning.Cancel" = "Cancel";

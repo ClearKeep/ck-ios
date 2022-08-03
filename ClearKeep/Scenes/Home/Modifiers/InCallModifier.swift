@@ -188,6 +188,7 @@ struct InCallModifier: ViewModifier {
 			withAnimation {
 				isInCall = false
 				isInMinimizeMode = false
+				self.callViewModel.localVideoView = nil
 			}
 			self.controller?.dismiss(animated: true)
 		}
