@@ -131,7 +131,7 @@ private extension CreateGroupView {
 	}
 	
 	func creatGroup() {
-		if self.nameGroup.trimmingCharacters(in: .whitespacesAndNewlines).count > 1 {
+		if self.nameGroup.trimmingCharacters(in: .whitespacesAndNewlines).count > 100 {
 			self.messageAlert = "Group name must not be longer than 100 characters"
 			self.showAlertPopup = true
 			return
