@@ -203,6 +203,9 @@
 "GroupChat.PasteYourFriendEmail" = "Paste your friend's email";
 "GroupChat.AddUserFromEmail.Title" = "Add user from email";
 "GroupChat.EmailIsIncorrect" = "Email is incorrect.";
+"GroupChat.Warning" = "Warning";
+"GroupChat.LinkIncorrect" = "Profile link is incorrect.";
+"GroupChat.OK" = "OK";
 
 // MARK: - Call
 "Call.Calling" = "Calling";

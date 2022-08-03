@@ -50,7 +50,11 @@ private extension ChatGroupView {
 		case .loaded(let data):
 			return loadedView(data)
 		case .failed(let error):
-			return AnyView(errorView(LoginViewError(error)))
+			if case ChatGroupRemoteStore.ChatGroupError.searchLinkError = error {
+				return AnyView(errorView(title: "GroupChat.Warning".localized, message: "GroupChat.LinkIncorrect".localized))
+			}
+			let error = LoginViewError(error)
+			return AnyView(errorView(title: error.title, message: error.message))
 		}
 	}
 }
@@ -98,12 +102,12 @@ private extension ChatGroupView {
 		return AnyView(ChatGroupContentView(loadable: $loadable, search: $searchData, getUser: .constant(self.searchData), getProfile: .constant(data.getProfile), addMember: $addMember, searchText: $searchText))
 	}
 	
-	func errorView(_ error: LoginViewError) -> some View {
+	func errorView(title: String, message: String) -> some View {
 		return notRequestedView
 			.alert(isPresented: .constant(true)) {
-				Alert(title: Text(error.title),
-					  message: Text(error.message),
-					  dismissButton: .default(Text(error.primaryButtonTitle)))
+				Alert(title: Text(title),
+					  message: Text(message),
+					  dismissButton: .default(Text("GroupChat.OK".localized)))
 			}
 	}
 }

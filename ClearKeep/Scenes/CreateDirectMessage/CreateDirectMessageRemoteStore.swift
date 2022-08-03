@@ -21,6 +21,10 @@ protocol ICreateDirectMessageRemoteStore {
 struct CreateDirectMessageRemoteStore {
 	let groupService: IGroupService
 	let userService: IUserService
+	
+	enum CreateDirectMessageError: Error {
+	case searchLinkError
+	}
 }
 
 extension CreateDirectMessageRemoteStore: ICreateDirectMessageRemoteStore {
@@ -71,8 +75,8 @@ extension CreateDirectMessageRemoteStore: ICreateDirectMessageRemoteStore {
 		switch result {
 		case .success(let user):
 			return .success(CreatePeerModels(userProfileWithLink: user))
-		case .failure(let error):
-			return .failure(error)
+		case .failure:
+			return .failure(CreateDirectMessageError.searchLinkError)
 		}
 	}
 	

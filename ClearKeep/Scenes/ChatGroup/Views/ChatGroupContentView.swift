@@ -56,7 +56,7 @@ struct ChatGroupContentView: View {
 							onEditingChanged: { isEditing in
 				searchStyle = isEditing ? .highlighted : .normal })
 				.onChange(of: searchText) { text in
-					search(text: text)
+					search(text: text.trimmingCharacters(in: .whitespacesAndNewlines))
 				}
 				.padding(.top, Constants.paddingVertical)
 			TagView(groupChatModel: $addMember, deleteSelect: { data in
@@ -103,7 +103,7 @@ struct ChatGroupContentView: View {
 				   }
 			   }
 			
-			RoundedGradientButton("GroupChat.Next".localized, disabled: .constant(addMember.isEmpty && searchLinkText.isEmpty), action: nextToCreateGroup)
+			RoundedGradientButton(self.useCustomServerChecked ? "GroupChat.Add".localized : "GroupChat.Next".localized, disabled: .constant(addMember.isEmpty && searchLinkText.isEmpty), action: nextToCreateGroup)
 			.frame(maxWidth: .infinity)
 			.frame(height: Constants.heightButton)
 			.font(AppTheme.shared.fontSet.font(style: .body3))

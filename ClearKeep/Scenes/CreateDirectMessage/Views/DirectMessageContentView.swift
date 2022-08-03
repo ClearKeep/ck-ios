@@ -56,7 +56,7 @@ struct DirectMessageContentView: View {
 							onEditingChanged: { isEditing in
 				inputStyle = isEditing ? .highlighted : .normal })
 				.onChange(of: searchText) { text in
-					search(text: text)
+					search(text: text.trimmingCharacters(in: .whitespacesAndNewlines))
 				}
 			CheckBoxButtons(text: "DirectMessages.AddUserTitle".localized, isChecked: $isShowingLinkUser, action: {
 				self.useFindByEmail = false

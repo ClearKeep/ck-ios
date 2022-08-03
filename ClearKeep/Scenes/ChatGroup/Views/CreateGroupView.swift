@@ -61,7 +61,7 @@ struct CreateGroupView: View {
 				}
 			}
 			RoundedGradientButton("GroupChat.Create".localized,
-								  disabled: .constant(nameGroup.isEmpty),
+								  disabled: .constant(nameGroup.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty),
 								  action: creatGroup)
 				.frame(width: Constants.buttonSize.width)
 				.padding(.bottom, Constants.paddingButtonNext)
@@ -120,7 +120,7 @@ private extension CreateGroupView {
 			let profile = DependencyResolver.shared.channelStorage.currentServer?.profile
 			let client = CreatGroupGetUsersViewModel(id: profile?.userId ?? "", displayName: profile?.userName ?? "", workspaceDomain: domain)
 			clientGroup.append(client)
-			loadable = await injected.interactors.chatGroupInteractor.createGroup(by: profile?.userId ?? "fail", groupName: nameGroup, groupType: "group", lstClient: clientGroup)
+			loadable = await injected.interactors.chatGroupInteractor.createGroup(by: profile?.userId ?? "fail", groupName: nameGroup.trimmingCharacters(in: .whitespacesAndNewlines), groupType: "group", lstClient: clientGroup)
 
 		}
 	}
