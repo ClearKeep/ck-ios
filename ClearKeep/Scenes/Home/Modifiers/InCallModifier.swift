@@ -189,6 +189,8 @@ struct InCallModifier: ViewModifier {
 				isInCall = false
 				isInMinimizeMode = false
 				self.callViewModel.localVideoView = nil
+				self.callViewModel.remoteVideoView = nil
+				self.callViewModel.remotesVideoView.removeAll()
 			}
 			self.controller?.dismiss(animated: true)
 		}
