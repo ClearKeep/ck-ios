@@ -30,7 +30,7 @@ struct FogotPasswordContentView: View {
 	@State private(set) var emailStyle: TextInputStyle = .default
 	@State private var emailInvalid: Bool = false
 	var forgotPassword: (String) -> Void
-
+	@State private var isShowError: Bool = false
 	// MARK: - Body
 	var body: some View {
 		VStack(spacing: Constants.spacing) {
@@ -47,8 +47,11 @@ struct FogotPasswordContentView: View {
 								onEditingChanged: { isEditing in
 					emailStyle = isEditing ? .highlighted : .normal
 				})
+					.onChange(of: email, perform: { text in
+						invalid(text: text)
+					})
 				RoundedButton("ForgotPassword.ResetPassword".localized,
-							  disabled: .constant(email.isEmpty),
+							  disabled: .constant(!emailInvalid),
 							  action: doRecoverPassword)
 			}
 			Spacer()
@@ -56,6 +59,11 @@ struct FogotPasswordContentView: View {
 		.frame(maxWidth: .infinity, alignment: .center)
 		.padding(.horizontal, Constants.paddingHorizontal)
 		.edgesIgnoringSafeArea(.all)
+		.alert(isPresented: $isShowError) {
+			Alert(title: Text("Login.Popup.Email.Password.Validate".localized),
+					 message: Text("Login.Popup.Message".localized),
+					 dismissButton: .default(Text("ForgotPassword.Cancel".localized)))
+		   }
 	}
 }
 
@@ -69,15 +77,14 @@ private extension FogotPasswordContentView {
 // MARK: - Interactor
 private extension FogotPasswordContentView {
 	func doRecoverPassword() {
-		invalid()
 		if emailInvalid {
 			self.forgotPassword(email)
 		}
 	}
 
-	func invalid() {
+	func invalid(text: String) {
 		emailInvalid = injected.interactors.fogotPasswordInteractor.emailValid(email: email)
-		emailStyle = emailInvalid ? .normal : .error(message: "General.Email.Valid".localized)
+		emailInvalid ? { self.isShowError = true }() : doRecoverPassword()
 	}
 }
 // MARK: - Preview
