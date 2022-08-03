@@ -77,9 +77,7 @@ private extension FogotPasswordContentView {
 // MARK: - Interactor
 private extension FogotPasswordContentView {
 	func doRecoverPassword() {
-		if emailInvalid {
-			self.forgotPassword(email)
-		}
+		emailInvalid ? { self.forgotPassword(email) }() : nil
 	}
 
 	func invalid(text: String) {

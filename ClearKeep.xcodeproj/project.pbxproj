@@ -19,6 +19,7 @@
 		044432BF28572B9F00276DB3 /* CreatGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044432BE28572B9F00276DB3 /* CreatGroupViewModel.swift */; };
 		044432C32858D6D800276DB3 /* CreatGroupProfieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044432C22858D6D800276DB3 /* CreatGroupProfieViewModel.swift */; };
 		04458C272849BA1300992ECB /* HomeViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04458C262849BA1300992ECB /* HomeViewModels.swift */; };
+		0455CAE6289A7CD9001F9522 /* FogotPasswordViewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0455CAE5289A7CD9001F9522 /* FogotPasswordViewError.swift */; };
 		0457270128868C7E001EF5F2 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457270028868C7E001EF5F2 /* String+Extensions.swift */; };
 		04572705288690F6001EF5F2 /* GroupDetailProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04572702288690F5001EF5F2 /* GroupDetailProfileViewModel.swift */; };
 		04572706288690F6001EF5F2 /* GroupDetailUserViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04572703288690F6001EF5F2 /* GroupDetailUserViewModels.swift */; };
@@ -307,6 +308,7 @@
 		044432BE28572B9F00276DB3 /* CreatGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatGroupViewModel.swift; sourceTree = "<group>"; };
 		044432C22858D6D800276DB3 /* CreatGroupProfieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatGroupProfieViewModel.swift; sourceTree = "<group>"; };
 		04458C262849BA1300992ECB /* HomeViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModels.swift; sourceTree = "<group>"; };
+		0455CAE5289A7CD9001F9522 /* FogotPasswordViewError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordViewError.swift; sourceTree = "<group>"; };
 		0457270028868C7E001EF5F2 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		04572702288690F5001EF5F2 /* GroupDetailProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailProfileViewModel.swift; sourceTree = "<group>"; };
 		04572703288690F6001EF5F2 /* GroupDetailUserViewModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailUserViewModels.swift; sourceTree = "<group>"; };
@@ -873,6 +875,7 @@
 			isa = PBXGroup;
 			children = (
 				0499341327E96E2F003BD4C4 /* FogotPasswordContentView.swift */,
+				0455CAE5289A7CD9001F9522 /* FogotPasswordViewError.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2001,6 +2004,7 @@
 				CB117E6527BB64C2000941D9 /* DependencyResolver.swift in Sources */,
 				04572707288690F6001EF5F2 /* GroupDetailBaseViewModel.swift in Sources */,
 				2245C21A285C70B3008F6C73 /* PreviewImage.swift in Sources */,
+				0455CAE6289A7CD9001F9522 /* FogotPasswordViewError.swift in Sources */,
 				047D6B1127F1544D0098B104 /* GroupDetailInteractor.swift in Sources */,
 				CB117E8827BB66D8000941D9 /* HomeRemoteStore.swift in Sources */,
 				047D6B0F27F1544D0098B104 /* GroupDetailWorker.swift in Sources */,
