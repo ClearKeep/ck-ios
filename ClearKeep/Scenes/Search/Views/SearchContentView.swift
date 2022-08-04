@@ -133,6 +133,9 @@ private extension SearchContentView {
 				.onChange(of: searchText, perform: { writing in
 					seachAction(text: writing)
 				})
+				.onReceive(searchText.publisher.collect()) {
+					self.searchText = String($0.prefix(20))
+				}
 			CatalogyView(states: SearchCatalogy.allCases, selectedState: $searchCatalogy)
 			resultView
 			Spacer()
