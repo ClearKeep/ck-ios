@@ -199,6 +199,16 @@ private extension ChatGroupContentView {
 				return true
 			}
 			
+			guard let first = searchLinkText.components(separatedBy: ":").first,
+				  let last = searchLinkText.components(separatedBy: ":").last else {
+				return true
+			}
+			
+			let validated = first.textFieldValidatorURL() && (first != last) && searchLinkText.last != ":"
+			if !validated {
+				return true
+			}
+			
 			if self.searchLinkText.split(separator: "/").count != 3 {
 				return true
 			}
