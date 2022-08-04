@@ -136,7 +136,7 @@ private extension SearchContentView {
 				.onReceive(searchText.publisher.collect()) {
 					self.searchText = String($0.prefix(20))
 				}
-			CatalogyView(states: SearchCatalogy.allCases, selectedState: $searchCatalogy)
+			CatalogyView(states: SearchCatalogy.allCases, selectedState: $searchCatalogy, selected: SearchCatalogy.all.title)
 			resultView
 			Spacer()
 		}
