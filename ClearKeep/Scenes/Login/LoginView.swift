@@ -114,8 +114,10 @@ private extension LoginView {
 					notRequestedView
 				})
 			} else {
-				return AnyView(HomeView()
-					.onAppear(perform: subscribeAndListen))
+				if navigateToHome {
+					self.presentationMode.wrappedValue.dismiss()
+				}
+				return AnyView(Text(""))
 			}
 		}
 		
