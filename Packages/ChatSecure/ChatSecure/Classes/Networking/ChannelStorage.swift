@@ -20,6 +20,7 @@ public protocol IChannelStorage {
 	func registerToken(_ token: String)
 	func subscribeAndListenServers() -> [RealmServer]
 	func removeServer(_ domain: String)
+	func updateServerUser(displayName: String, avatar: String, phoneNumber: String, domain: String)
 }
 
 public class ChannelStorage: IChannelStorage {
@@ -76,6 +77,10 @@ public class ChannelStorage: IChannelStorage {
 		}
 
 		return servers
+	}
+	
+	public func updateServerUser(displayName: String, avatar: String, phoneNumber: String, domain: String) {
+		realmManager.updateServerUser(displayName: displayName, avatar: avatar, phoneNumber: phoneNumber, domain: domain)
 	}
 }
 

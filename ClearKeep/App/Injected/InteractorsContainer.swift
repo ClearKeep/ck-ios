@@ -26,6 +26,7 @@ extension DIContainer {
 		let profileInteractor: IProfileInteractor
 		let searchInteractor: ISearchInteractor
 		let advancedSeverInteractor: IAdvancedSeverInteractor
+		let settingServerInteractor: ISettingServerInteractor
 
 		static var stub: Self {
 			.init(homeInteractor: StubHomeInteractor(channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService),
@@ -43,7 +44,8 @@ extension DIContainer {
 				  peerCallInteractor: StubPeerCallInteractor(channelStorage: DependencyResolver.shared.channelStorage, callService: DependencyResolver.shared.callService),
 				  profileInteractor: StubProfileInteractor(channelStorage: DependencyResolver.shared.channelStorage, userService: DependencyResolver.shared.userService),
 				  searchInteractor: StubSearchInteractor(channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, messageService: DependencyResolver.shared.messageService),
-				  advancedSeverInteractor: StubAdvancedSeverInteractor(channelStorage: DependencyResolver.shared.channelStorage, workspaceService: DependencyResolver.shared.workspaceService))
+				  advancedSeverInteractor: StubAdvancedSeverInteractor(channelStorage: DependencyResolver.shared.channelStorage, workspaceService: DependencyResolver.shared.workspaceService),
+				  settingServerInteractor: StubSettingServerInteractor(channelStorage: DependencyResolver.shared.channelStorage))
 		}
 	}
 }

@@ -67,10 +67,12 @@ extension ProfileWorker: IProfileWorker {
 	}
 	
 	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool) async -> (Result<IProfileModels, Error>) {
-		let result = await remoteStore.updateProfile(displayName: displayName, avatar: avatar, phoneNumber: phoneNumber, clearPhoneNumber: clearPhoneNumber, domain: currentDomain ?? channelStorage.currentDomain)
+		let domain = currentDomain ?? channelStorage.currentDomain
+		let result = await remoteStore.updateProfile(displayName: displayName, avatar: avatar, phoneNumber: phoneNumber, clearPhoneNumber: clearPhoneNumber, domain: domain)
 		
 		switch result {
 		case .success(let profile):
+			channelStorage.updateServerUser(displayName: displayName, avatar: avatar, phoneNumber: phoneNumber, domain: domain)
 			return .success(profile)
 		case .failure(let error):
 			return .failure(error)

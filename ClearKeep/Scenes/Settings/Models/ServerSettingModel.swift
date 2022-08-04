@@ -8,13 +8,11 @@
 import Foundation
 
 protocol IServerSettingModel {
-	var id: Int { get }
-	var name: String { get }
+	var url: String { get set }
+	var name: String { get set }
 }
 
-struct ServerSettingModel {
-	var id: Int
-	var name: String
+struct ServerSettingModel: IServerSettingModel {
+	var url: String = ""
+	var name: String = ""
 }
-
-extension ServerSettingModel: IServerSettingModel {}

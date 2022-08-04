@@ -1571,7 +1571,6 @@
 				F568DC0927FD7CC000EE9DF0 /* SettingServerInteractor.swift */,
 				F568DC0A27FD7CC000EE9DF0 /* SettingServerWorker.swift */,
 				F568DC0B27FD7CC000EE9DF0 /* SettingServerRemoteStore.swift */,
-				F568DC0C27FD7CC000EE9DF0 /* Views */,
 				F568DC0E27FD7CC000EE9DF0 /* SettingServerInMemoryStore.swift */,
 			);
 			path = Settings;
@@ -1583,13 +1582,6 @@
 				F568DC0827FD7CC000EE9DF0 /* ServerSettingModel.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		F568DC0C27FD7CC000EE9DF0 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		F568DC1627FD882600EE9DF0 /* Notification */ = {

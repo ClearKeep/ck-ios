@@ -18,8 +18,34 @@ struct ProfileView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-	@State private(set) var loadable: Loadable<IProfileViewModels> = .notRequested
-	@State private(set) var profile: UserProfileViewModel?
+	@State private(set) var loadable: Loadable<IProfileViewModels> = .notRequested {
+		didSet {
+			switch loadable {
+			case .loaded(let data):
+				isMfaEnable = data.isMfaEnable
+				displayName = data.userProfileViewModel?.displayName ?? ""
+				urlAvatar = data.userProfileViewModel?.avatar ?? ""
+				email = data.userProfileViewModel?.email ?? ""
+				do {
+					let phoneNumber = try phoneNumberKit.parse(data.userProfileViewModel?.phoneNumber ?? "")
+					countryCode = "+\(phoneNumber.countryCode)"
+					number = String(phoneNumber.nationalNumber)
+					isHavePhoneNumber = !number.isEmpty
+				} catch {
+					print("parse phone number error")
+					isHavePhoneNumber = false
+				}
+			default: break
+			}
+		}
+	}
+	@State private var countryCode = ""
+	@State private var number = ""
+	@State private var displayName = ""
+	@State private var urlAvatar = ""
+	@State private var email = ""
+	@State private var isHavePhoneNumber: Bool = false
+	@State private var isMfaEnable: Bool = false
 	let phoneNumberKit = PhoneNumberKit()
 	
 	// MARK: - Body
@@ -41,7 +67,7 @@ private extension ProfileView {
 		case .isLoading:
 			return AnyView(loadingView)
 		case .loaded(let data):
-			return loadedView(data)
+			return AnyView(loadedView(data: data))
 		case .failed(let error):
 			return AnyView(errorView(ProfileErrorView(error)))
 		}
@@ -59,27 +85,22 @@ private extension ProfileView {
 // MARK: - Loading Content
 private extension ProfileView {
 	var notRequestedView: some View {
-		UserProfileContentView(loadable: $loadable)
+		UserProfileContentView(countryCode: $countryCode,
+							   loadable: $loadable,
+							   urlAvatar: $urlAvatar,
+							   username: $displayName,
+							   email: $email,
+							   phoneNumber: $number,
+							   isHavePhoneNumber: $isHavePhoneNumber,
+							   isEnable2FA: $isMfaEnable)
 	}
 	
 	var loadingView: some View {
 		notRequestedView.progressHUD(true)
 	}
 	
-	func loadedView(_ data: IProfileViewModels) -> AnyView {
-		if let myProfile = data.userProfileViewModel {
-			do {
-				let phoneNumber = try phoneNumberKit.parse(myProfile.phoneNumber)
-				let countrycode = "+\(phoneNumber.countryCode)"
-				let number = String(phoneNumber.nationalNumber)
-				return AnyView(UserProfileContentView(countryCode: countrycode, loadable: $loadable, urlAvatar: myProfile.avatar, username: myProfile.displayName, email: myProfile.email, phoneNumber: number, isEnable2FA: data.isMfaEnable, isHavePhoneNumber: !myProfile.phoneNumber.isEmpty))
-			} catch {
-				return AnyView(UserProfileContentView(countryCode: "", loadable: $loadable, urlAvatar: myProfile.avatar, username: myProfile.displayName, email: myProfile.email, phoneNumber: myProfile.phoneNumber))
-			}
-		}
-		
-		return AnyView(UserProfileContentView(loadable: $loadable))
-
+	func loadedView(data: IProfileViewModels) -> some View {
+		return notRequestedView
 	}
 	
 	func errorView(_ error: ProfileErrorView) -> some View {

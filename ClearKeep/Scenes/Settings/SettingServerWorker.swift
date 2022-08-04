@@ -5,11 +5,12 @@
 //  Created by đông on 04/04/2022.
 //
 
-import Foundation
+import ChatSecure
 
 protocol ISettingServerWorker {
 	var remoteStore: ISettingServerRemoteStore { get }
 	var inMemoryStore: ISettingServerInMemoryStore { get }
+	func getServerInfo() -> RealmServer?
 }
 
 struct SettingServerWorker {
@@ -24,4 +25,7 @@ struct SettingServerWorker {
 }
 
 extension SettingServerWorker: ISettingServerWorker {
+	func getServerInfo() -> RealmServer? {
+		return inMemoryStore.getServerInfo()
+	}
 }
