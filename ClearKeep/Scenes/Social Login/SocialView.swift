@@ -33,7 +33,7 @@ struct SocialView: View {
 	@State private var setSecurityPhase: Bool = false
 	@State private var isLoading: Bool = false
 	@State private var error: SocialViewError?
-	@State private var isShowAlertForgotPassPharse = false
+	@State private var isShowAlertForgotPassPhrase = false
 	
 	var pinCode: String?
 	let userName: String
@@ -75,9 +75,9 @@ struct SocialView: View {
 			.edgesIgnoringSafeArea(.all)
 			.progressHUD(self.isLoading)
 			.alert(isPresented: $showAlert) {
-				if !self.isShowAlertForgotPassPharse {
+				if !self.isShowAlertForgotPassPhrase {
 					return Alert(title: Text(error?.title ?? ""),
-								 message: Text("Social.Warning.Security.PhasreIsIncorrect".localized),
+								 message: Text("Social.Warning.Security.PhraseIsIncorrect".localized),
 								 dismissButton: .default(Text(error?.primaryButtonTitle ?? "")))
 				}
 				
@@ -131,7 +131,7 @@ private extension SocialView {
 				.padding(.top, Constants.inputPaddingTop)
 				
 				if socialStyle == .verifySecurity {
-					Button(action: showAlertForgotPasspharse) {
+					Button(action: showAlertForgotPassPhrase) {
 						Text("Social.ForgotPassPhasre".localized)
 							.font(AppTheme.shared.fontSet.font(style: .input2))
 							.foregroundColor(AppTheme.shared.colorSet.offWhite)
@@ -180,8 +180,8 @@ private extension SocialView {
 		self.presentationMode.wrappedValue.dismiss()
 	}
 	
-	func showAlertForgotPasspharse() {
-		self.isShowAlertForgotPassPharse = true
+	func showAlertForgotPassPhrase() {
+		self.isShowAlertForgotPassPhrase = true
 		showAlert = true
 	}
 }
@@ -211,11 +211,11 @@ private extension SocialView {
 				if (data.normalLogin) != nil {
 					return
 				}
-				self.isShowAlertForgotPassPharse = false
+				self.isShowAlertForgotPassPhrase = false
 				error = SocialViewError.unknownError(errorCode: nil)
 				showAlert = true
 			case .failed(let error):
-				self.isShowAlertForgotPassPharse = false
+				self.isShowAlertForgotPassPhrase = false
 				self.error = SocialViewError(error)
 				showAlert = true
 			default:

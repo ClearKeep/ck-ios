@@ -48,7 +48,7 @@
 "Social.ForgotPassPhasre" = "Forgot passphrase?";
 "Social.Warning" = "Warning";
 "Social.Warning.Description" = "Resetting your Security Phrase will reset all your data.";
-"Social.Warning.Security.PhasreIsIncorrect" = "Security phrase is incorrect. Please try again";
+"Social.Warning.Security.PhraseIsIncorrect" = "Security phrase is incorrect. Please try again";
 "Social.Warning.Cancel" = "Cancel";
 "Social.Warning.Reset" = "Reset";
 
