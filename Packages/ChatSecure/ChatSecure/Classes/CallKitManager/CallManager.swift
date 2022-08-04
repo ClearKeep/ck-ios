@@ -13,6 +13,7 @@ import PushKit
 public enum CallType: String {
 	case audio
 	case video
+	case cancelRequestCall = "cancel_request_call"
 }
 
 final public class CallManager: NSObject {
@@ -21,9 +22,10 @@ final public class CallManager: NSObject {
 		case end = "endCall"
 		case hold = "holdCall"
 	}
-	var isQdsad = false
+	
 	var answerCall: CallBox?
 	var outgoingCall: CallBox?
+	public var endCall: ((CallBox) -> Void)?
 	let callController = CXCallController()
 	static let CallsChangedNotification = Notification.Name("CallManagerCallsChangedNotification")
 	private let provider: CXProvider
@@ -138,6 +140,7 @@ final public class CallManager: NSObject {
 	
 	private func removeCall(_ call: CallBox) {
 		//        calls = calls.filter {$0 === call}
+		self.endCall?(call)
 		postCallsChangedNotification(userInfo: ["action": Call.end.rawValue])
 		calls.removeAll()
 	}

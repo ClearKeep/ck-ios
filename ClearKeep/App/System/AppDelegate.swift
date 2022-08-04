@@ -150,5 +150,11 @@ extension AppDelegate: PKPushRegistryDelegate {
 		CallManager.shared.handleIncomingPushEvent(payload: payload) { _ in
 			UIApplication.shared.endBackgroundTask(backGroundTaskIndet)
 		}
+		
+		CallManager.shared.endCall = {[weak self] call in
+			Task {
+				await self?.systemEventsHandler?.container.interactors.peerCallInteractor.updateVideoCall(groupID: call.roomId, callType: .cancelRequestCall)
+			}
+		}
 	}
 }

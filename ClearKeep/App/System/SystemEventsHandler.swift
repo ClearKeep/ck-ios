@@ -80,6 +80,8 @@ struct SystemEventsHandler: ISystemEventsHandler {
 	func handlePushRegistration(result: Result<Data, Error>) {
 		switch result {
 		case .success(let token):
+			UserDefaults.standard.setValue(token, forKey: "keySaveTokenPushNotification")
+			UserDefaults.standard.synchronize()
 			container.interactors.homeInteractor.registerToken(token)
 		case .failure(let error):
 			print(error)
@@ -96,6 +98,7 @@ struct SystemEventsHandler: ISystemEventsHandler {
 		print("token: ------- \(token)")
 		
 		UserDefaults.standard.setValue(token, forKey: "keySaveTokenPushNotify")
+		UserDefaults.standard.synchronize()
 	}
 }
 
