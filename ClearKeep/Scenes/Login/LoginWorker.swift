@@ -15,6 +15,7 @@ protocol ILoginWorker {
 	var inMemoryStore: ILoginInMemoryStore { get }
 	var currentServer: ServerModel? { get }
 	var appVersion: String { get }
+	var servers: [ServerModel] { get }
 	
 	func signIn(email: String, password: String, customServer: CustomServer) async -> Result<IAuthenticationModel, Error>
 	func signInSocial(_ socialType: SocialType, customServer: CustomServer) async -> Result<IAuthenticationModel, Error>
@@ -45,6 +46,10 @@ extension LoginWorker: ILoginWorker {
 	
 	var currentDomain: String {
 		channelStorage.currentDomain
+	}
+	
+	var servers: [ServerModel] {
+		channelStorage.getServers(isFirstLoad: false).compactMap { ServerModel($0) }
 	}
 	
 	func signIn(email: String, password: String, customServer: CustomServer) async -> Result<IAuthenticationModel, Error> {
