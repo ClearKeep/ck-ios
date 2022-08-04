@@ -28,7 +28,7 @@ extension Janus: WebSocketDelegate {
 		
 		if let transaction = msg["transaction"] as? String,
 		   let callback = janusTransactions[transaction] {
-			janusTransactions.removeValue(forKey: transaction)
+			janusTransactions[transaction] = nil
 			callback(msg)
 			return
 		}

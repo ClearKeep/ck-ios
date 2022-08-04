@@ -45,7 +45,7 @@
 "Social.Forgot.Verify" = "Forgot phrase?";
 "Social.Verify.Next" = "Verify";
 "Social.NotSamePinCode" = "Security phrase and confirm security phrase do not match. Please try again";
-"Social.ForgotPassphasre" = "Forgot passphrase";
+"Social.ForgotPassPhasre" = "Forgot passphrase?";
 "Social.Warning" = "Warning";
 "Social.Warning.Description" = "Resetting your Security Phrase will reset all your data.";
 "Social.Warning.Cancel" = "Cancel";
@@ -206,6 +206,9 @@
 "GroupChat.PasteYourFriendEmail" = "Paste your friend's email";
 "GroupChat.AddUserFromEmail.Title" = "Add user from email";
 "GroupChat.EmailIsIncorrect" = "Email is incorrect.";
+"GroupChat.Warning" = "Warning";
+"GroupChat.LinkIncorrect" = "Profile link is incorrect.";
+"GroupChat.OK" = "OK";
 
 // MARK: - Call
 "Call.Calling" = "Calling";

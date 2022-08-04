@@ -56,7 +56,7 @@ struct ChatGroupContentView: View {
 							onEditingChanged: { isEditing in
 				searchStyle = isEditing ? .highlighted : .normal })
 				.onChange(of: searchText) { text in
-					search(text: text)
+					search(text: text.trimmingCharacters(in: .whitespacesAndNewlines))
 				}
 				.padding(.top, Constants.paddingVertical)
 			TagView(groupChatModel: $addMember, deleteSelect: { data in
@@ -103,7 +103,7 @@ struct ChatGroupContentView: View {
 				   }
 			   }
 			
-			RoundedGradientButton("GroupChat.Next".localized, disabled: .constant(addMember.isEmpty && searchLinkText.isEmpty), action: nextToCreateGroup)
+			RoundedGradientButton(self.useCustomServerChecked ? "GroupChat.Add".localized : "GroupChat.Next".localized, disabled: .constant(self.checkDisableButton()), action: nextToCreateGroup)
 			.frame(maxWidth: .infinity)
 			.frame(height: Constants.heightButton)
 			.font(AppTheme.shared.fontSet.font(style: .body3))
@@ -167,8 +167,8 @@ private extension ChatGroupContentView {
 	}
 	
 	private func createGroupWithLink() {
-		if !injected.interactors.chatGroupInteractor.checkPeopleLink(link: searchLinkText) {
-			let people = injected.interactors.chatGroupInteractor.getPeopleFromLink(link: searchLinkText)
+		if !injected.interactors.chatGroupInteractor.checkPeopleLink(link: searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines)) {
+			let people = injected.interactors.chatGroupInteractor.getPeopleFromLink(link: searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines))
 			loadable = .isLoading(last: nil, cancelBag: CancelBag())
 			Task {
 				loadable = await self.injected.interactors.chatGroupInteractor.getUserInfor(clientId: people?.id ?? "", workSpace: people?.domain ?? "")
@@ -182,14 +182,39 @@ private extension ChatGroupContentView {
 	}
 	
 	private func searchEmail() {
-		if searchEmailText.validEmail {
-			Task {
-				loadable = await self.injected.interactors.chatGroupInteractor.searchUserWithEmail(email: searchEmailText)
-			}
-		} else {
+		if !searchEmailText.trimmingCharacters(in: .whitespacesAndNewlines).validEmail {
 			self.messageAlert = "GroupChat.EmailIsIncorrect".localized
 			self.isShowAlert = true
+			return
 		}
+		
+		Task {
+			loadable = await self.injected.interactors.chatGroupInteractor.searchUserWithEmail(email: searchEmailText.trimmingCharacters(in: .whitespacesAndNewlines))
+		}
+	}
+	
+	private func checkDisableButton() -> Bool {
+		if self.useCustomServerChecked {
+			if self.searchLinkText.isEmpty {
+				return true
+			}
+			
+			if self.searchLinkText.split(separator: "/").count != 3 {
+				return true
+			}
+			
+			return false
+		}
+		
+		if self.useFindByEmail {
+			if self.searchEmailText.isEmpty {
+				return true
+			}
+			
+			return false
+		}
+		
+		return addMember.isEmpty
 	}
 }
 

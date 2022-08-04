@@ -56,7 +56,7 @@ struct DirectMessageContentView: View {
 							onEditingChanged: { isEditing in
 				inputStyle = isEditing ? .highlighted : .normal })
 				.onChange(of: searchText) { text in
-					search(text: text)
+					search(text: text.trimmingCharacters(in: .whitespacesAndNewlines))
 				}
 			CheckBoxButtons(text: "DirectMessages.AddUserTitle".localized, isChecked: $isShowingLinkUser, action: {
 				self.useFindByEmail = false
@@ -104,7 +104,7 @@ struct DirectMessageContentView: View {
 				Spacer()
 				VStack {
 					RoundedGradientButton("DirectMessages.Next".localized,
-										  disabled: .constant(searchLinkText.isEmpty),
+										  disabled: .constant(self.checkDisableButton()),
 										  action: createUserByLink)
 					.frame(width: Constants.buttonSize.width)
 					.padding(.bottom, Constants.paddingButtonNext)
@@ -225,6 +225,30 @@ private extension DirectMessageContentView {
 		}
 		
 		return false
+	}
+	
+	private func checkDisableButton() -> Bool {
+		if self.isShowingLinkUser {
+			if self.searchLinkText.isEmpty {
+				return true
+			}
+			
+			if self.searchLinkText.split(separator: "/").count != 3 {
+				return true
+			}
+			
+			return false
+		}
+		
+		if self.useFindByEmail {
+			if self.searchEmailText.isEmpty {
+				return true
+			}
+			
+			return false
+		}
+		
+		return true
 	}
 }
 

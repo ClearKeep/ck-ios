@@ -20,8 +20,10 @@ public struct CustomSecureTextField: UIViewRepresentable {
 		let textField = UITextField(frame: .zero)
 		textField.placeholder = placeHolder
 		textField.isUserInteractionEnabled = true
+		textField.translatesAutoresizingMaskIntoConstraints = true
 		textField.delegate = context.coordinator
 		textField.autocapitalizationType = .none
+		textField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 		return textField
 	}
 

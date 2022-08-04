@@ -72,6 +72,11 @@ struct SocialView: View {
 			.keyboardAdaptive()
 			.edgesIgnoringSafeArea(.all)
 		NavigationLink(destination: SocialView(userName: userName, resetToken: resetToken, pinCode: nil, socialStyle: .forgotPassface, customServer: $customServer), isActive: $setSecurityPhase, label: {})
+		NavigationLink(
+			destination: socialStyle.nextView(userName: userName, token: resetToken, pinCode: self.security, customServer: $customServer),
+			isActive: $isNext,
+			label: {
+			})
 	}
 }
 
@@ -124,18 +129,13 @@ private extension SocialView {
 				
 				if socialStyle == .verifySecurity {
 					Button(action: showarlert) {
-						Text("Social.ForgotPassphasre".localized)
+						Text("Social.ForgotPassPhasre".localized)
 							.font(AppTheme.shared.fontSet.font(style: .input2))
 							.foregroundColor(AppTheme.shared.colorSet.offWhite)
 					}.padding(.top, Constants.submitPaddingTop)
 				}
 				
-				NavigationLink(
-					destination: socialStyle.nextView(userName: userName, token: resetToken, pinCode: self.security, customServer: $customServer),
-					isActive: $isNext,
-					label: {
-						RoundedButton(socialStyle.buttonNext, disabled: .constant(checkDisableButton()), action: submitAction)
-					})
+				RoundedButton(socialStyle.buttonNext, disabled: .constant(checkDisableButton()), action: submitAction)
 					.padding(.top, socialStyle == .setSecurity ? Constants.submitPaddingTop - Constants.descriptionHeight : socialStyle == .verifySecurity ? 12 : Constants.submitPaddingTop)
 				Spacer()
 			}
@@ -198,13 +198,13 @@ private extension SocialView {
 				isNext = true
 			case .confirmSecurity:
 				loadable = .isLoading(last: nil, cancelBag: CancelBag())
-				loadable = await injected.interactors.socialInteractor.registerSocialPin(userName: userName, rawPin: security, customServer: customServer)
+				loadable = await injected.interactors.socialInteractor.registerSocialPin(userName: userName, rawPin: self.convertString(text: security), customServer: customServer)
 			case .verifySecurity:
 				loadable = .isLoading(last: nil, cancelBag: CancelBag())
-				loadable = await injected.interactors.socialInteractor.verifySocialPin(userName: userName, rawPin: security, customServer: customServer)
+				loadable = await injected.interactors.socialInteractor.verifySocialPin(userName: userName, rawPin: self.convertString(text: security), customServer: customServer)
 			case .confirmResetSecurity:
 				loadable = .isLoading(last: nil, cancelBag: CancelBag())
-				loadable = await injected.interactors.socialInteractor.resetSocialPin(userName: userName, rawPin: security, token: self.resetToken, customServer: customServer)
+				loadable = await injected.interactors.socialInteractor.resetSocialPin(userName: userName, rawPin: self.convertString(text: security), token: self.resetToken, customServer: customServer)
 			}
 		}
 	}
@@ -219,7 +219,7 @@ private extension SocialView {
 			return true
 		}
 		
-		let string = security.replacingOccurrences(of: "[\\s\n]+", with: " ", options: .regularExpression, range: nil)
+		let string = self.convertString(text: security)
 		if string.components(separatedBy: " ").count < 3 {
 			return true
 		}
@@ -246,6 +246,10 @@ private extension SocialView {
 		}
 		
 		self.securityStyle = .highlighted
+	}
+	
+	func convertString(text: String) -> String {
+		return security.replacingOccurrences(of: "[\\s\n]+", with: " ", options: .regularExpression, range: nil)
 	}
 }
 

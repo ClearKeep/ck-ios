@@ -21,6 +21,10 @@ protocol IChatGroupRemoteStore {
 struct ChatGroupRemoteStore {
 	let groupService: IGroupService
 	let userService: IUserService
+	
+	enum ChatGroupError: Error {
+		case searchLinkError
+	}
 }
 
 extension ChatGroupRemoteStore: IChatGroupRemoteStore {
@@ -71,8 +75,8 @@ extension ChatGroupRemoteStore: IChatGroupRemoteStore {
 		switch result {
 		case .success(let user):
 			return .success(GroupChatModels(userProfileWithLink: user))
-		case .failure(let error):
-			return .failure(error)
+		case .failure:
+			return .failure(ChatGroupError.searchLinkError)
 		}
 	}
 	
