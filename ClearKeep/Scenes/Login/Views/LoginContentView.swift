@@ -39,7 +39,6 @@ struct LoginContentView: View {
 	@State private var isAdvanceServer: Bool = false
 	@State private var isForgotPassword: Bool = false
 	@State private var isRegister: Bool = false
-	@State private var isShowAlertForgotPassword: Bool = false
 	@State private(set) var navigateToHome: Bool = false
 	@State private(set) var isShowAlertLogin: Bool = false
 	@State private var activeAlert: LoginViewPopUp = .invalidEmail
@@ -68,13 +67,6 @@ struct LoginContentView: View {
 					getAppVersion()
 				})
 				.padding(.top, Constants.appVersionPaddingTop)
-		}.alert(isPresented: $isShowAlertForgotPassword) {
-			Alert(title: Text("ForgotPassword.Warning".localized),
-				  message: Text("ForgotPassword.ForgettingYourPasswordWillResetAllYourData".localized),
-				  primaryButton: .default(Text("ForgotPassword.Cancel".localized)),
-				  secondaryButton: .default(Text("ForgotPassword.OK" .localized), action: {
-				self.isForgotPassword = true
-			}))
 		}
 		.alert(isPresented: $isShowAlertLogin) {
 			switch activeAlert {
@@ -94,6 +86,13 @@ struct LoginContentView: View {
 				return Alert(title: Text(activeAlert.title),
 							 message: Text(activeAlert.message),
 							 dismissButton: .default(Text(activeAlert.primaryButtonTitle)))
+			case .forgotPassword:
+				return Alert(title: Text(activeAlert.title),
+							 message: Text(activeAlert.message),
+					primaryButton: .default(Text("ForgotPassword.Cancel".localized)),
+					secondaryButton: .default(Text("ForgotPassword.OK" .localized), action: {
+				  self.isForgotPassword = true
+			  }))
 			}
 		}
 	}
@@ -196,11 +195,17 @@ private extension LoginContentView {
 	}
 
 	func emailValid() {
-		let emailValidate = injected.interactors.loginInteractor.emailValid(email: email)
-		emailValidate ? doLogin() : ({ self.activeAlert = .invalid })()
+		let emailValidate = injected.interactors.loginInteractor.emailValid(email: email.trimmingCharacters(in: .whitespacesAndNewlines))
+		emailValidate ? passvalid() : ({ self.activeAlert = .invalidEmail })()
 		self.isShowAlertLogin = true
 	}
-	
+
+	func passvalid() {
+		let passValidate = injected.interactors.loginInteractor.passwordValid(password: password)
+		passValidate ? doLogin() : ({ self.activeAlert = .invalidEmail })()
+		self.isShowAlertLogin = true
+	}
+
 	func doLogin() {
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
@@ -220,7 +225,8 @@ private extension LoginContentView {
 	}
 	
 	func forgotPassword() {
-		isShowAlertForgotPassword = true
+		self.activeAlert = .forgotPassword
+		self.isShowAlertLogin = true
 	}
 	
 	func register() {

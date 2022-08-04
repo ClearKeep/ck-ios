@@ -20,6 +20,7 @@ protocol ILoginWorker {
 	func signIn(email: String, password: String, customServer: CustomServer) async -> Result<IAuthenticationModel, Error>
 	func signInSocial(_ socialType: SocialType, customServer: CustomServer) async -> Result<IAuthenticationModel, Error>
 	func emailValid(email: String) -> Bool
+	func passwordValid(password: String) -> Bool
 }
 
 struct LoginWorker {
@@ -27,6 +28,7 @@ struct LoginWorker {
 	let remoteStore: ILoginRemoteStore
 	let inMemoryStore: ILoginInMemoryStore
 	let emailPredicate = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
+	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "[0-9a-zA-Z._%+-?=.*[ !$%&?._-]]{6,12}")
 
 	init(channelStorage: IChannelStorage, remoteStore: ILoginRemoteStore, inMemoryStore: ILoginInMemoryStore) {
 		self.channelStorage = channelStorage
@@ -64,6 +66,11 @@ extension LoginWorker: ILoginWorker {
 
 	func emailValid(email: String) -> Bool {
 		let result = self.emailPredicate.evaluate(with: email)
+		return result
+	}
+
+	func passwordValid(password: String) -> Bool {
+		let result = self.passwordPredicate.evaluate(with: password)
 		return result
 	}
 }

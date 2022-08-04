@@ -25,7 +25,7 @@ struct FogotPasswordView: View {
 	@State private var showAlert: Bool = false
 	@State private var isLoading = false
 	@State private var isShowError: Bool = false
-	@State private var error: LoginViewError?
+	@State private var error: FogotPasswordViewError?
 	@State private(set) var loadable: Loadable<Bool> = .notRequested {
 		didSet {
 			switch loadable {
@@ -34,7 +34,7 @@ struct FogotPasswordView: View {
 				self.showAlert = true
 			case .failed(let error):
 				isLoading = false
-				self.error = LoginViewError(error)
+				self.error = FogotPasswordViewError(error)
 				self.isShowError = true
 			case .isLoading:
 				isLoading = true
@@ -63,14 +63,6 @@ struct FogotPasswordView: View {
 				Alert(title: Text(error?.title ?? ""),
 					  message: Text(error?.message ?? ""),
 					  dismissButton: .default(Text(error?.primaryButtonTitle ?? "")))
-			}
-			.alert("ForgotPassword.CheckYourEmail".localized, isPresented: $showAlert) {
-				Button("ForgotPassword.OK".localized) {
-					showAlert = false
-					self.customBack()
-				}
-			} message: {
-				Text("ForgotPassword.ALinkResetYourPasswordHasBeenSentEmail".localized)
 			}
 	}
 }

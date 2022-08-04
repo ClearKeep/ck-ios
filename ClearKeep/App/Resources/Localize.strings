@@ -50,6 +50,7 @@
 "Social.Warning.Description" = "Resetting your Security Phrase will reset all your data.";
 "Social.Warning.Cancel" = "Cancel";
 "Social.Warning.Reset" = "Reset";
+"Social.Warning.Security" = "Security phrase is incorrect. Please try again";
 
 // MARK: - User Profile
 "UserProfile.Save" = "Save";
@@ -112,6 +113,7 @@
 "ForgotPassword.Cancel" = "Cancel";
 "ForgotPassword.PasswordChangeSuccess" = "Password changed successfully";
 "ForgotPassword.PleaseLoginAgainNewPassword" = "Please login again with new password!";
+"ForgotPassword.Error.FindAccount" = "Sorry. We couldn't find your account";
 
 // MARK: - NewPassword
 "NewPassword.Title" = "Enter Your New Password";

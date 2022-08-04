@@ -23,7 +23,7 @@ protocol INewPasswordWorker {
 struct NewPasswordWorker {
 	let remoteStore: INewPasswordRemoteStore
 	let inMemoryStore: INewPasswordInMemoryStore
-	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "[0-9a-zA-Z._%+-]{6,12}")
+	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "[0-9a-zA-Z._%+-?=.*[ !$%&?._-]]{6,12}")
 	init(remoteStore: INewPasswordRemoteStore,
 		 inMemoryStore: INewPasswordInMemoryStore) {
 		self.remoteStore = remoteStore
