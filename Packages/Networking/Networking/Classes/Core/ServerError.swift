@@ -24,6 +24,10 @@ public struct ServerError: IServerError {
 		ServerError(message: "Unknow.Message".localized, name: "Unknow.Message".localized, status: nil)
 	}
 	
+	public static var cancel: IServerError {
+		ServerError(message: nil, name: nil, status: nil)
+	}
+	
 	public init(message: String?, name: String?, status: Int?) {
 		self.message = message
 		self.name = name
