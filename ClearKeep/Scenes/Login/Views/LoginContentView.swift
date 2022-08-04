@@ -86,7 +86,7 @@ struct LoginContentView: View {
 				return Alert(title: Text(activeAlert.title),
 							 message: Text(activeAlert.message),
 							 dismissButton: .default(Text(activeAlert.primaryButtonTitle)))
-			case .fogotPass:
+			case .forgotPassword:
 				return Alert(title: Text(activeAlert.title),
 							 message: Text(activeAlert.message),
 					primaryButton: .default(Text("ForgotPassword.Cancel".localized)),
@@ -225,7 +225,7 @@ private extension LoginContentView {
 	}
 	
 	func forgotPassword() {
-		self.activeAlert = .fogotPass
+		self.activeAlert = .forgotPassword
 		self.isShowAlertLogin = true
 	}
 	
