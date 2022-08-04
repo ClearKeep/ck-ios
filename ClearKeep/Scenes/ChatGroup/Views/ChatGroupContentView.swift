@@ -199,7 +199,7 @@ private extension ChatGroupContentView {
 				return true
 			}
 			
-			if self.searchLinkText.split(separator: "/").count != 3 || URL(string: "https://\(self.searchLinkText)") == nil {
+			if self.searchLinkText.split(separator: "/").count != 3 {
 				return true
 			}
 			
