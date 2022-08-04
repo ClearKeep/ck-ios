@@ -22,21 +22,50 @@ struct AdvancedSeverView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-	@Binding var customServer: CustomServer
-	@State private(set) var editingCustomServer: CustomServer
+	@State private(set) var editingCustomServer: CustomServer = CustomServer()
 	@State private(set) var severUrlStyle: TextInputStyle = .default
 	@State private(set) var isLogin: Bool = false
-	
-	// MARK: - Init
-	init(customServer: Binding<CustomServer>) {
-		self._customServer = customServer
-		self._editingCustomServer = State(initialValue: customServer.wrappedValue)
-	}
+	@State private var messageAlert: String = ""
+	@State private var isShowAlert: Bool = false
+	@State private(set) var loadable: Loadable<Bool> = .notRequested
 	
 	// MARK: - Body
 	var body: some View {
+		content
+			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.grandientBackground()
+			.edgesIgnoringSafeArea(.all)
+	}
+}
+
+// MARK: - Private variable
+private extension AdvancedSeverView {
+	var titleColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
+	}
+}
+
+// MARK: - Private
+private extension AdvancedSeverView {
+	var content: AnyView {
+		switch loadable {
+		case .notRequested:
+			return AnyView(notRequestedView)
+		case .isLoading:
+			return AnyView(loadingView)
+		case .loaded:
+			return AnyView(loadedView)
+		case .failed(let error):
+			return AnyView(errorView(AdvancedServerErrorView(error)))
+		}
+	}
+}
+
+// MARK: - Loading Content
+private extension AdvancedSeverView {
+	var notRequestedView: some View {
 		VStack(alignment: .leading, spacing: Constants.spacing) {
-			CheckBoxButtons(text: "AdvancedServer.SeverButton".localized, isChecked: $editingCustomServer.isSelectedCustomServer)
+			CheckBoxButtons(text: "AdvancedServer.SeverButton".localized, isChecked: $editingCustomServer.isSelectedCustomServer, action: { editingCustomServer.customServerURL = "" })
 				.foregroundColor(titleColor)
 			if editingCustomServer.isSelectedCustomServer {
 				Text("AdvancedServer.Title".localized)
@@ -45,7 +74,6 @@ struct AdvancedSeverView: View {
 					.frame(maxWidth: .infinity, alignment: .leading)
 				CommonTextField(text: $editingCustomServer.customServerURL,
 								inputStyle: $severUrlStyle,
-								inputIcon: AppTheme.shared.imageSet.mailIcon,
 								placeHolder: "AdvancedServer.ServerUrl".localized,
 								keyboardType: .default,
 								onEditingChanged: { isEditing in
@@ -54,12 +82,11 @@ struct AdvancedSeverView: View {
 				RoundedButton("AdvancedServer.Submit".localized,
 							  disabled: .constant(editingCustomServer.customServerURL.isEmpty),
 							  action: submitAction)
-				.padding(.top, Constants.paddingTopButton)
+					.padding(.top, Constants.paddingTopButton)
 			}
 			Spacer()
 		}
-		.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		.padding()
+		.padding(.horizontal, Constants.spacing)
 		.applyNavigationBarPlainStyle(title: "AdvancedServer.SeverSetting".localized,
 									  titleColor: titleColor,
 									  backgroundColors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary : AppTheme.shared.colorSet.gradientBlack,
@@ -69,15 +96,23 @@ struct AdvancedSeverView: View {
 									  rightBarItems: {
 			Spacer()
 		})
-		.grandientBackground()
-		.edgesIgnoringSafeArea(.all)
 	}
-}
-
-// MARK: - Private
-private extension AdvancedSeverView {
-	var titleColor: Color {
-		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
+	
+	var loadingView: some View {
+		notRequestedView.progressHUD(true)
+	}
+	
+	var loadedView: some View {
+		return AnyView(LoginView(customServer: editingCustomServer))
+	}
+	
+	func errorView(_ error: AdvancedServerErrorView) -> some View {
+		return notRequestedView
+			.alert(isPresented: .constant(true)) {
+				Alert(title: Text(error.title),
+					  message: Text(error.message),
+					  dismissButton: .default(Text(error.primaryButtonTitle)))
+			}
 	}
 }
 
@@ -88,8 +123,10 @@ private extension AdvancedSeverView {
 	}
 	
 	func submitAction() {
-		customServer = editingCustomServer
-		self.presentationMode.wrappedValue.dismiss()
+		loadable = .isLoading(last: nil, cancelBag: CancelBag())
+		Task {
+			loadable = await injected.interactors.advancedSeverInteractor.workspaceInfo(workspaceDomain: editingCustomServer.customServerURL)
+		}
 	}
 }
 
@@ -97,7 +134,7 @@ private extension AdvancedSeverView {
 #if DEBUG
 struct AdvancedSeverView_Previews: PreviewProvider {
 	static var previews: some View {
-		AdvancedSeverView(customServer: .constant(CustomServer()))
+		AdvancedSeverView()
 	}
 }
 #endif

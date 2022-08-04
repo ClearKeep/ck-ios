@@ -130,7 +130,7 @@ private extension LoginContentView {
 	var extraButtonView: some View {
 		HStack {
 			if navigateToHome == false {
-				NavigationLink(destination: AdvancedSeverView(customServer: $customServer),
+				NavigationLink(destination: AdvancedSeverView(),
 							   isActive: $isAdvanceServer,
 							   label: {
 					LinkButton("Login.AdvancedServerSettings".localized, alignment: .leading, action: advancedServer)
