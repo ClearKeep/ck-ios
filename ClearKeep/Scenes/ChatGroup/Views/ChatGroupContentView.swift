@@ -103,7 +103,7 @@ struct ChatGroupContentView: View {
 				   }
 			   }
 			
-			RoundedGradientButton(self.useCustomServerChecked ? "GroupChat.Add".localized : "GroupChat.Next".localized, disabled: .constant(addMember.isEmpty && searchLinkText.isEmpty), action: nextToCreateGroup)
+			RoundedGradientButton(self.useCustomServerChecked ? "GroupChat.Add".localized : "GroupChat.Next".localized, disabled: .constant(self.checkDisableButton()), action: nextToCreateGroup)
 			.frame(maxWidth: .infinity)
 			.frame(height: Constants.heightButton)
 			.font(AppTheme.shared.fontSet.font(style: .body3))
@@ -167,8 +167,8 @@ private extension ChatGroupContentView {
 	}
 	
 	private func createGroupWithLink() {
-		if !injected.interactors.chatGroupInteractor.checkPeopleLink(link: searchLinkText) {
-			let people = injected.interactors.chatGroupInteractor.getPeopleFromLink(link: searchLinkText)
+		if !injected.interactors.chatGroupInteractor.checkPeopleLink(link: searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines)) {
+			let people = injected.interactors.chatGroupInteractor.getPeopleFromLink(link: searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines))
 			loadable = .isLoading(last: nil, cancelBag: CancelBag())
 			Task {
 				loadable = await self.injected.interactors.chatGroupInteractor.getUserInfor(clientId: people?.id ?? "", workSpace: people?.domain ?? "")
@@ -199,7 +199,7 @@ private extension ChatGroupContentView {
 				return true
 			}
 			
-			if self.searchLinkText.split(separator: "/").count != 3 {
+			if self.searchLinkText.split(separator: "/").count != 3 || URL(string: "https://\(self.searchLinkText)") == nil {
 				return true
 			}
 			
