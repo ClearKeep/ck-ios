@@ -67,6 +67,10 @@ private extension LoginView {
 		case .loaded(let data):
 			return loadedView(data)
 		case .failed(let error):
+			if let errorResponse = error as? IServerError,
+			   errorResponse.message == nil && errorResponse.name == nil && errorResponse.status == nil {
+				return AnyView(notRequestedView)
+			}
 			return AnyView(errorView(LoginViewError(error)))
 		}
 	}

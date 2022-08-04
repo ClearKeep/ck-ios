@@ -68,7 +68,7 @@ extension SocialAuthenticationService: ISocialAuthenticationService {
 		
 		switch result {
 		case .cancelled:
-			return .failure(ServerError.unknown)
+			return .failure(ServerError.cancel)
 		default:
 			if let currentUser = AccessToken.current {
 				var request = Auth_FacebookLoginReq()
@@ -83,7 +83,9 @@ extension SocialAuthenticationService: ISocialAuthenticationService {
 	
 	public func signInWithGoogle(domain: String) async -> Result<Auth_SocialLoginRes, Error> {
 		guard let topViewController = await UIApplication.shared.topMostViewController(),
-			  let googleSignInConfiguration = googleSignInConfiguration else { return .failure(ServerError.unknown) }
+			  let googleSignInConfiguration = googleSignInConfiguration else {
+			return .failure(ServerError.unknown)
+		}
 		let result: Result<String, Error> = await withCheckedContinuation({ continuation in
 			DispatchQueue.main.async {
 				GIDSignIn.sharedInstance.signIn(with: googleSignInConfiguration, presenting: topViewController) { user, error in
@@ -102,12 +104,17 @@ extension SocialAuthenticationService: ISocialAuthenticationService {
 			
 			return await channelStorage.getChannel(domain: domain).login(request)
 		case .failure(let error):
+			if case GIDSignInError.canceled = error {
+				return .failure(ServerError.cancel)
+			}
 			return .failure(error)
 		}
 	}
 	
 	public func signInWithOffice(domain: String) async -> Result<Auth_SocialLoginRes, Error> {
-		guard let topViewController = await UIApplication.shared.topMostViewController() else { return .failure(ServerError.unknown) }
+		guard let topViewController = await UIApplication.shared.topMostViewController() else {
+			return .failure(ServerError.unknown)
+		}
 		webViewParamaters = MSALWebviewParameters(authPresentationViewController: topViewController)
 		
 		var result: Result<MSALResult, Error>?
@@ -125,6 +132,12 @@ extension SocialAuthenticationService: ISocialAuthenticationService {
 			
 			return await channelStorage.getChannel(domain: domain).login(request)
 		case .failure(let error):
+			if let error = error as NSError?,
+			   let errorCode = MSALError(rawValue: error.code),
+			   errorCode == MSALError.userCanceled {
+				return .failure(ServerError.cancel)
+			}
+
 			return .failure(error)
 		case .none:
 			return .failure(ServerError.unknown)

@@ -26,12 +26,14 @@ struct SocialView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Binding var customServer: CustomServer
-	@State private(set) var loadable: Loadable<IAuthenticationModel> = .notRequested
 	@State private(set) var security: String = ""
 	@State private(set) var securityStyle: TextInputStyle = .default
 	@State private(set) var isNext: Bool = false
 	@State private var showAlert: Bool = false
 	@State private var setSecurityPhase: Bool = false
+	@State private var isLoading: Bool = false
+	@State private var error: SocialViewError?
+	@State private var isShowAlertForgotPassPhrase = false
 	
 	var pinCode: String?
 	let userName: String
@@ -56,7 +58,7 @@ struct SocialView: View {
 	
 	// MARK: - Body
 	var body: some View {
-		content
+		notRequestedView
 			.padding(.horizontal, Constants.paddingHorizontal)
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.applyNavigationBarPlainStyle(title: socialStyle.buttonBack,
@@ -71,28 +73,29 @@ struct SocialView: View {
 			.hideKeyboardOnTapped()
 			.keyboardAdaptive()
 			.edgesIgnoringSafeArea(.all)
+			.progressHUD(self.isLoading)
+			.alert(isPresented: $showAlert) {
+				if !self.isShowAlertForgotPassPhrase {
+					return Alert(title: Text(error?.title ?? ""),
+								 message: Text("Social.Warning.Security.PhraseIsIncorrect".localized),
+								 dismissButton: .default(Text(error?.primaryButtonTitle ?? "")))
+				}
+				
+				return Alert(title: Text("Social.Warning".localized),
+							 message: Text("Social.Warning.Description".localized),
+							 primaryButton: .default(Text("Social.Warning.Cancel".localized)),
+							 secondaryButton: .default(Text("Reset"), action: {
+					setSecurityPhase = true
+				}))
+			}
+		
 		NavigationLink(destination: SocialView(userName: userName, resetToken: resetToken, pinCode: nil, socialStyle: .forgotPassface, customServer: $customServer), isActive: $setSecurityPhase, label: {})
+		
 		NavigationLink(
 			destination: socialStyle.nextView(userName: userName, token: resetToken, pinCode: self.security, customServer: $customServer),
 			isActive: $isNext,
 			label: {
 			})
-	}
-}
-
-// MARK: - Private
-private extension SocialView {
-	var content: AnyView {
-		switch loadable {
-		case .notRequested:
-			return AnyView(notRequestedView)
-		case .isLoading:
-			return AnyView(loadingView)
-		case .loaded(let data):
-			return AnyView(loadedView(data))
-		case .failed(let error):
-			return AnyView(errorView(SocialViewError(error)))
-		}
 	}
 }
 
@@ -128,7 +131,7 @@ private extension SocialView {
 				.padding(.top, Constants.inputPaddingTop)
 				
 				if socialStyle == .verifySecurity {
-					Button(action: showarlert) {
+					Button(action: showAlertForgotPassPhrase) {
 						Text("Social.ForgotPassPhasre".localized)
 							.font(AppTheme.shared.fontSet.font(style: .input2))
 							.foregroundColor(AppTheme.shared.colorSet.offWhite)
@@ -140,14 +143,7 @@ private extension SocialView {
 				Spacer()
 			}
 		}.frame(maxWidth: .infinity)
-			.alert(isPresented: $showAlert) {
-				Alert(title: Text("Social.Warning".localized),
-					  message: Text("Social.Warning.Description".localized),
-					  primaryButton: .default(Text("Social.Warning.Cancel".localized)),
-					  secondaryButton: .default(Text("Reset"), action: {
-					setSecurityPhase = true
-				}))
-			}
+		
 	}
 	
 	var loadingView: some View {
@@ -183,8 +179,9 @@ private extension SocialView {
 	func customBack() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
-
-	func showarlert() {
+	
+	func showAlertForgotPassPhrase() {
+		self.isShowAlertForgotPassPhrase = true
 		showAlert = true
 	}
 }
@@ -193,18 +190,36 @@ private extension SocialView {
 private extension SocialView {
 	func submitAction() {
 		Task {
+			var result:Loadable<IAuthenticationModel>?
 			switch socialStyle {
 			case .setSecurity, .forgotPassface:
 				isNext = true
 			case .confirmSecurity:
-				loadable = .isLoading(last: nil, cancelBag: CancelBag())
-				loadable = await injected.interactors.socialInteractor.registerSocialPin(userName: userName, rawPin: self.convertString(text: security), customServer: customServer)
+				self.isLoading = true
+				result = await injected.interactors.socialInteractor.registerSocialPin(userName: userName, rawPin: self.convertString(text: security), customServer: customServer)
 			case .verifySecurity:
-				loadable = .isLoading(last: nil, cancelBag: CancelBag())
-				loadable = await injected.interactors.socialInteractor.verifySocialPin(userName: userName, rawPin: self.convertString(text: security), customServer: customServer)
+				self.isLoading = true
+				result = await injected.interactors.socialInteractor.verifySocialPin(userName: userName, rawPin: self.convertString(text: security), customServer: customServer)
 			case .confirmResetSecurity:
-				loadable = .isLoading(last: nil, cancelBag: CancelBag())
-				loadable = await injected.interactors.socialInteractor.resetSocialPin(userName: userName, rawPin: self.convertString(text: security), token: self.resetToken, customServer: customServer)
+				self.isLoading = true
+				result = await injected.interactors.socialInteractor.resetSocialPin(userName: userName, rawPin: self.convertString(text: security), token: self.resetToken, customServer: customServer)
+			}
+			
+			self.isLoading = false
+			switch result {
+			case .loaded(let data):
+				if (data.normalLogin) != nil {
+					return
+				}
+				self.isShowAlertForgotPassPhrase = false
+				error = SocialViewError.unknownError(errorCode: nil)
+				showAlert = true
+			case .failed(let error):
+				self.isShowAlertForgotPassPhrase = false
+				self.error = SocialViewError(error)
+				showAlert = true
+			default:
+				return
 			}
 		}
 	}
