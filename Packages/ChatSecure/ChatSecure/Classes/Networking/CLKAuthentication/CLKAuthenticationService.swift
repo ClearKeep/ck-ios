@@ -29,7 +29,7 @@ public protocol IAuthenticationService {
 	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async -> Result<Auth_AuthRes, Error>
 	func recoverPassword(email: String, domain: String) async -> Result<Auth_BaseResponse, Error>
 	func logoutFromAPI(domain: String) async -> Result<Auth_BaseResponse, Error>
-	func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async -> Result<Auth_AuthRes, Error>
+	func validateOTP(password: String, userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async -> Result<Auth_AuthRes, Error>
 	func mfaResendOTP(userId: String, otpHash: String, domain: String) async -> Result<Auth_MfaResendOtpRes, Error>
 }
 
@@ -130,13 +130,17 @@ extension CLKAuthenticationService: IAuthenticationService {
 			
 			switch response {
 			case .success(let authenResponse):
+				let requireOtp = authenResponse.accessToken.isEmpty
+				if requireOtp {
+					return .success(authenResponse)
+				}
 				var request = User_Empty()
 				
 				let response = await channelStorage.getChannel(domain: domain, accessToken: authenResponse.accessToken, hashKey: authenResponse.hashKey).getProfile(request)
 				
 				switch response {
 				case .success(let profileResponse):
-					await channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse)
+					await channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse, isSocialAccount: false)
 					let result = onLoginSuccess(authenResponse, password: password)
 					switch result {
 					case .success(let value):
@@ -205,7 +209,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 
 			switch response {
 			case .success(let profileResponse):
-				await channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse)
+				await channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse, isSocialAccount: true)
 				let result = onLoginSuccess(authenResponse, password: rawPin)
 				switch result {
 				case .success(let value):
@@ -254,7 +258,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 				
 				switch response {
 				case .success(let profileResponse):
-					await channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse)
+					await channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse, isSocialAccount: true)
 					let result = onLoginSuccess(authenResponse, password: rawPin)
 					switch result {
 					case .success(let value):
@@ -401,16 +405,37 @@ extension CLKAuthenticationService: IAuthenticationService {
 		}
 	}
 	
-	public func validateOTP(userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async -> Result<Auth_AuthRes, Error> {
+	public func validateOTP(password: String, userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async -> Result<Auth_AuthRes, Error> {
 		var request = Auth_MfaValidateOtpRequest()
 		request.preAccessToken = otpHash
 		request.userID = userId
+		request.otpCode = otp
 		
 		let response = await channelStorage.getChannel(domain: domain).validateOTP(request)
 		switch response {
-		case .success(let data):
-			return(.success(data))
+		case .success(let authenResponse):
+			var request = User_Empty()
+			
+			let response = await channelStorage.getChannel(domain: domain, accessToken: authenResponse.accessToken, hashKey: authenResponse.hashKey).getProfile(request)
+			
+			switch response {
+			case .success(let profileResponse):
+				await channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse, isSocialAccount: false)
+				let result = onLoginSuccess(authenResponse, password: password)
+				switch result {
+				case .success(let value):
+					Debug.DLog("validate otp login success")
+					return .success(authenResponse)
+				case .failure(let error):
+					Debug.DLog("validate otp login failed - \(error)")
+					return .failure(error)
+				}
+			case .failure(let error):
+				Debug.DLog("validate otp login failed - \(error)")
+				return .failure(error)
+			}
 		case .failure(let error):
+			Debug.DLog("validate otp login failed - \(error)")
 			return(.failure(error))
 		}
 	}
@@ -423,8 +448,10 @@ extension CLKAuthenticationService: IAuthenticationService {
 		let response = await channelStorage.getChannel(domain: domain).mfaResendOTP(request)
 		switch response {
 		case .success(let data):
+			Debug.DLog("resend otp login success - \(data)")
 			return(.success(data))
 		case .failure(let error):
+			Debug.DLog("resend otp login failed - \(error)")
 			return(.failure(error))
 		}
 	}

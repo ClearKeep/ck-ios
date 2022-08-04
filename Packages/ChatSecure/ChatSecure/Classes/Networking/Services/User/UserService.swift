@@ -26,7 +26,11 @@ public protocol IUserService {
 	func uploadAvatar(fileName: String, fileContentType: String, fileData: Data, fileHash: String, domain: String) async -> (Result<User_UploadAvatarResponse, Error>)
 	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool, domain: String) async -> (Result<User_BaseResponse, Error>)
 	func changePassword(oldPassword: String, newPassword: String, domain: String) async -> (Result<User_BaseResponse, Error>)
-	
+	func validatePassword(password: String, domain: String) async -> Result<User_MfaBaseResponse, Error>
+	func mfaResendOTP(domain: String) async -> Result<User_MfaBaseResponse, Error>
+	func mfaValidateOTP(otp: String, domain: String) async -> Result<User_MfaBaseResponse, Error>
+	func getMfaState(domain: String) async -> Result<User_MfaStateResponse, Error>
+	func updateMfaSettings(domain: String, enabled: Bool) async -> Result<User_MfaBaseResponse, Error>
 }
 
 public class UserService {
@@ -184,6 +188,93 @@ extension UserService: IUserService {
 			}
 		case .failure(let error):
 			return(.failure(error))
+		}
+	}
+	
+	public func validatePassword(password: String, domain: String) async -> Result<User_MfaBaseResponse, Error> {
+		guard let server = channelStorage.realmManager.getServer(by: domain) else { return .failure(ServerError.unknown) }
+		let srp = SwiftSRP.shared
+		
+		guard let aValue = srp.getA(userName: server.profile?.email ?? "", rawPassword: password, usr: &usr) else { return .failure(ServerError.unknown) }
+		let aHex = bytesConvertToHexString(bytes: aValue)
+		
+		var request = User_MfaAuthChallengeRequest()
+		request.clientPublic = aHex
+		
+		let response = await channelStorage.getChannel(domain: domain).mfaAuthChallenge(request)
+		
+		switch response {
+		case .success(let data):
+			Debug.DLog("validate password mfa auth challenge success - \(data)")
+			guard let mValue = await srp.getM(salt: data.salt.hexaBytes, byte: data.publicChallengeB.hexaBytes, usr: usr) else { return .failure(ServerError.unknown) }
+			let mHex = bytesConvertToHexString(bytes: mValue)
+			
+			srp.freeMemoryAuthenticate(usr: &usr)
+			
+			var request = User_MfaValidatePasswordRequest()
+			request.clientPublic = aHex
+			request.clientSessionKeyProof = mHex
+			
+			let response = await channelStorage.getChannel(domain: domain).mfaValidatePassword(request)
+			switch response {
+			case .success(let data):
+				Debug.DLog("validate password success - \(data)")
+				return(.success(data))
+			case .failure(let error):
+				Debug.DLog("validate password fail - \(error)")
+				return(.failure(error))
+			}
+		case .failure(let error):
+			Debug.DLog("validate password fail - \(error)")
+			return .failure(error)
+		}
+	}
+	
+	public func mfaResendOTP(domain: String) async -> Result<User_MfaBaseResponse, Error> {
+		let request = User_MfaResendOtpRequest()
+		let response = await channelStorage.getChannel(domain: domain).mfaResendOTP(request)
+		switch response {
+		case .success(let data):
+			return(.success(data))
+		case .failure(let error):
+			return(.failure(error))
+		}
+	}
+	
+	public func mfaValidateOTP(otp: String, domain: String) async -> Result<User_MfaBaseResponse, Error> {
+		var request = User_MfaValidateOtpRequest()
+		request.otp = otp
+		
+		let response = await channelStorage.getChannel(domain: domain).mfaValidateOtp(request)
+		switch response {
+		case .success(let data):
+			Debug.DLog("mfa validate otp success - \(data)")
+			return(.success(data))
+		case .failure(let error):
+			Debug.DLog("mfa validate otp fail - \(error)")
+			return(.failure(error))
+		}
+	}
+	
+	public func getMfaState(domain: String) async -> Result<User_MfaStateResponse, Error> {
+		let request = User_MfaGetStateRequest()
+		let response = await channelStorage.getChannel(domain: domain).getMFAState(request)
+		switch response {
+		case .success(let data):
+			Debug.DLog("get mfa state success - \(data.mfaEnable)")
+			return(.success(data))
+		case .failure(let error):
+			Debug.DLog("get mfa state fail - \(error)")
+			return(.failure(error))
+		}
+	}
+	
+	public func updateMfaSettings(domain: String, enabled: Bool) async -> Result<User_MfaBaseResponse, Error> {
+		let request = User_MfaChangingStateRequest()
+		if enabled {
+			return await channelStorage.getChannel(domain: domain).enableMFA(request)
+		} else {
+			return await channelStorage.getChannel(domain: domain).disableMFA(request)
 		}
 	}
 }

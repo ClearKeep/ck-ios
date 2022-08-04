@@ -27,6 +27,7 @@ struct LoginView: View {
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	@State private(set) var loadable: Loadable<IAuthenticationModel> = .notRequested
 	@State private(set) var customServer: CustomServer = CustomServer()
+	@State private var password: String = ""
 	let inspection = ViewInspector<Self>()
 	@State private(set) var navigateToHome: Bool = false
 
@@ -92,7 +93,7 @@ private extension LoginView {
 							.font(AppTheme.shared.fontSet.font(style: .input3))
 					}
 				}
-				LoginContentView(loadable: $loadable, customServer: $customServer, navigateToHome: navigateToHome)
+				LoginContentView(loadable: $loadable, customServer: $customServer, password: $password, navigateToHome: navigateToHome)
 				Spacer()
 			}
 			.padding(.horizontal, Constants.paddingHorizontal)
@@ -106,8 +107,16 @@ private extension LoginView {
 	
 	func loadedView(_ data: IAuthenticationModel) -> AnyView {
 		if let normalLogin = data.normalLogin {
-			return AnyView(HomeView()
-				.onAppear(perform: subscribeAndListen))
+			let accessToken = normalLogin.accessToken ?? ""
+			if accessToken.isEmpty {
+				return AnyView(VStack {
+					NavigationLink(destination: TwoFactorView(otpHash: normalLogin.otpHash ?? "", userId: normalLogin.sub ?? "", domain: normalLogin.workspaceDomain ?? "", password: password, twoFactorType: .login), isActive: .constant(true), label: {})
+					notRequestedView
+				})
+			} else {
+				return AnyView(HomeView()
+					.onAppear(perform: subscribeAndListen))
+			}
 		}
 		
 		if let socialLogin = data.socialLogin,

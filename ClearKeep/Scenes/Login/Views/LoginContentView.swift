@@ -30,7 +30,7 @@ struct LoginContentView: View {
 	@Binding var loadable: Loadable<IAuthenticationModel>
 	@Binding var customServer: CustomServer
 	@State private var email: String = ""
-	@State private var password: String = ""
+	@Binding private(set) var password: String
 	@State private var emailStyle: TextInputStyle = .default
 	@State private var passwordStyle: TextInputStyle = .default
 	@State private var appVersion: String = "General.Version".localized
@@ -231,7 +231,7 @@ private extension LoginContentView {
 #if DEBUG
 struct LoginContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		LoginContentView(loadable: .constant(.notRequested), customServer: .constant(CustomServer()))
+		LoginContentView(loadable: .constant(.notRequested), customServer: .constant(CustomServer()), password: .constant(""))
 	}
 }
 #endif

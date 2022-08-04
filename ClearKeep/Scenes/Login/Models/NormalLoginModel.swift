@@ -21,19 +21,23 @@ struct NormalLoginModel: INormalLoginModel {
 	var salt: String?
 	var clientKeyPeer: IClientKeyPeerModel?
 	var ivParameter: String?
+	var sub: String?
+	var otpHash: String?
 	
 	init(workspaceDomain: String? = nil,
-				  workspaceName: String? = nil,
-				  accessToken: String? = nil,
-				  expiresIn: Int64? = nil,
-				  refreshExpiresIn: Int64? = nil,
-				  refreshToken: String? = nil,
-				  tokenType: String? = nil,
-				  sessionState: String? = nil,
-				  scope: String? = nil,
-				  salt: String? = nil,
-				  clientKeyPeer: IClientKeyPeerModel? = nil,
-				  ivParameter: String? = nil) {
+		 workspaceName: String? = nil,
+		 accessToken: String? = nil,
+		 expiresIn: Int64? = nil,
+		 refreshExpiresIn: Int64? = nil,
+		 refreshToken: String? = nil,
+		 tokenType: String? = nil,
+		 sessionState: String? = nil,
+		 scope: String? = nil,
+		 salt: String? = nil,
+		 clientKeyPeer: IClientKeyPeerModel? = nil,
+		 ivParameter: String? = nil,
+		 sub: String? = nil,
+		 otpHash: String? = nil) {
 		self.workspaceDomain = workspaceDomain
 		self.workspaceName = workspaceName
 		self.accessToken = accessToken
@@ -46,6 +50,8 @@ struct NormalLoginModel: INormalLoginModel {
 		self.salt = salt
 		self.clientKeyPeer = clientKeyPeer
 		self.ivParameter = ivParameter
+		self.sub = sub
+		self.otpHash = otpHash
 	}
 }
 
@@ -102,7 +108,9 @@ extension NormalLoginModel {
 				  scope: response.scope,
 				  salt: response.salt,
 				  clientKeyPeer: clientKeyPeer,
-				  ivParameter: response.ivParameter)
+				  ivParameter: response.ivParameter,
+				  sub: response.sub,
+				  otpHash: response.preAccessToken)
 	}
 }
 

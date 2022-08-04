@@ -284,3 +284,10 @@
 "Chat.YourFile" = "Your File";
 "Chat.AddFile" = "Add File";
 "Chat.NextButton" = "Next";
+
+// MARK: - 2FA setting
+"2FA.Authentication.Fail.Error" = "Authentication failed. Please retry";
+"2FA.Not.Support" = "2FA is not supported";
+"2FA.Missing.Phone.Number" = "Type in your phone number";
+"2FA.Not.Support.Error" = "We are so sorry. This function is not supported for your account.";
+"2FA.Missing.Phone.Number.Error" = "You must input your phone number in order to enable this feature.";
