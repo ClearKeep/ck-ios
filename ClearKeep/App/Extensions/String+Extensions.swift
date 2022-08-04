@@ -16,4 +16,15 @@ public extension String {
 	var validEmail: Bool {
 		self.emailPredicate.evaluate(with: self)
 	}
+	
+	func textFieldValidatorURL() -> Bool {
+		if self.count > 20 {
+			return false
+		}
+		
+		let urlFormat = "[a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)"
+		
+		let urlPredicate = NSPredicate(format: "SELF MATCHES %@", urlFormat)
+		return urlPredicate.evaluate(with: self)
+	}
 }

@@ -172,10 +172,6 @@ class CallViewModel: NSObject, ObservableObject {
 	
 	func endCall() {
 		if let callBox = self.callBox {
-			if !callBox.isCallGroup {
-//				Multiserver.instance.currentServer.cancelRequestCall(callBox.clientId, callBox.roomId) { (result, error) in
-//				}
-			}
 			CallManager.shared.end(call: callBox)
 		}
 	}

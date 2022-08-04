@@ -138,10 +138,6 @@ final public class CallManager: NSObject {
 	
 	private func removeCall(_ call: CallBox) {
 		//        calls = calls.filter {$0 === call}
-		if !call.isCallGroup {
-			//            Multiserver.instance.currentServer.cancelRequestCall(call.clientId, call.roomId) { (result, error) in
-			//            }
-		}
 		postCallsChangedNotification(userInfo: ["action": Call.end.rawValue])
 		calls.removeAll()
 	}

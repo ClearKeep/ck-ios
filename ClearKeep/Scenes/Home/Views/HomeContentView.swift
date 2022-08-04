@@ -46,15 +46,22 @@ struct HomeContentView: View {
 			.background(colorScheme == .light ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.darkgrey3)
 			.cornerRadius(Constants.cornerRadius)
 			ScrollView {
-				ListGroupView(title: "Home.GroupChat".localized, groups: groups, action: { isCreateGroup.toggle() }, onChooseGroup: { group in
+				ListGroupView(title: "Home.GroupChat".localized + " (\(groups.count)) ",
+							  groups: groups,
+							  action: { isCreateGroup.toggle() }, onChooseGroup: { group in
 					selectedGroup = group
 					isNext.toggle()
-				}, isExpand: $isExpandGroup)
+				},
+							  isExpand: $isExpandGroup)
 				
-				ListGroupView(title: "Home.DirectMessages".localized, groups: peers, action: { isCreateMessage.toggle() }, onChooseGroup: { group in
+				ListGroupView(title: "Home.DirectMessages".localized + " (\(peers.count)) ",
+							  groups: peers,
+							  action: { isCreateMessage.toggle() },
+							  onChooseGroup: { group in
 					selectedGroup = group
 					isNext.toggle()
-				}, isExpand: $isExpandDirectMessage)
+				}, isExpand:
+								$isExpandDirectMessage)
 			}
 		}
 		NavigationLink(destination: ChatView(messageText: "", inputStyle: .default, groupId: selectedGroup?.groupId ?? 0),

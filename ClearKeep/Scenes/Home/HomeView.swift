@@ -35,9 +35,9 @@ struct HomeView: View {
 			switch loadable {
 			case .loaded(let load):
 				isLoading = false
-				let groups = load.groupViewModel?.viewModelGroup.filter { $0.groupType == "group" }.compactMap { profile in
+				let groups = load.groupViewModel?.viewModelGroup.filter { $0.groupType == "group" }.sorted(by: { $0.updatedAt > $1.updatedAt }).compactMap { profile in
 					GroupViewModel(profile)} ?? []
-				let peers = load.groupViewModel?.viewModelGroup.filter { $0.groupType != "group" }.compactMap { profile in
+				let peers = load.groupViewModel?.viewModelGroup.filter { $0.groupType != "group" }.sorted(by: { $0.updatedAt > $1.updatedAt }).compactMap { profile in
 					GroupViewModel(profile)} ?? []
 				if !groups.isEmpty && !isFirstShowGroup {
 					isFirstShowGroup = true
