@@ -12,9 +12,9 @@ import Model
 import Networking
 
 protocol ISearchRemoteStore {
-	func searchGroups(_ keyword: String, domain: String) async -> (Result<ISearchModels, Error>)
-	func searchUser(_ keyword: String, domain: String) async -> (Result<ISearchModels, Error>)
+	func getJoinedGroup(domain: String) async -> Result<ISearchModels, Error>
 	func getMessageList(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
+	func getListStatus(domain: String, ids: [String]) async -> Result<ISearchModels, Error>
 }
 
 struct SearchRemoteStore {
@@ -24,28 +24,20 @@ struct SearchRemoteStore {
 }
 
 extension SearchRemoteStore: ISearchRemoteStore {
-	func searchGroups(_ keyword: String, domain: String) async -> (Result<ISearchModels, Error>) {
-		let result = await groupAPIService.searchGroups(keyword, domain: domain)
-
+	func getJoinedGroup(domain: String) async -> Result<ISearchModels, Error> {
+		let result = await groupAPIService.getJoinedGroups(domain: domain)
+		
 		switch result {
-		case .success(let searchResponse):
-			return .success(SearchModels(searchGroup: searchResponse))
+		case .success(let realmGroups):
+			let groups = realmGroups.compactMap { group in
+				GroupModel(group)
+			}
+			return .success(SearchModels(responseGroup: groups))
 		case .failure(let error):
 			return .failure(error)
 		}
 	}
-
-	func searchUser(_ keyword: String, domain: String) async -> (Result<ISearchModels, Error>) {
-		let result = await userService.searchUser(keyword: keyword, domain: domain)
-
-		switch result {
-		case .success(let searchResponse):
-			return .success(SearchModels(searchUser: searchResponse))
-		case .failure(let error):
-			return .failure(error)
-		}
-	}
-
+	
 	func getMessageList(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
 		let result = await messageService.getMessage(ownerDomain: ownerDomain, ownerId: ownerId, groupId: groupId, loadSize: loadSize, lastMessageAt: lastMessageAt)
 		switch result {
@@ -56,5 +48,15 @@ extension SearchRemoteStore: ISearchRemoteStore {
 			return .failure(error)
 		}
 	}
-
+	
+	func getListStatus(domain: String, ids: [String]) async -> Result<ISearchModels, Error> {
+		let result = await userService.getListStatus(ids: ids, workspaceDomain: domain, domain: domain)
+		switch result {
+		case .success(let response):
+			let client = response.lstClient.first(where: { $0.clientID == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId })
+			return .success(SearchModels(responseUser: client, members: response.lstClient))
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
 }

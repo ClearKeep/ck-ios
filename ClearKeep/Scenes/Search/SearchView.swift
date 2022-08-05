@@ -17,7 +17,7 @@ private enum Constants {
 	static let padding = 20.0
 	static let sizeOffset = 30.0
 	static let sizeIcon = 24.0
-
+	
 }
 
 struct SearchView: View {
@@ -28,9 +28,9 @@ struct SearchView: View {
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	@State private(set) var loadable: Loadable<ISearchViewModels> = .notRequested
 	@State private(set) var serverText: String = ""
-
+	
 	// MARK: - Init
-
+	
 	// MARK: - Body
 	var body: some View {
 		GeometryReader { _ in
@@ -39,6 +39,7 @@ struct SearchView: View {
 				.hiddenNavigationBarStyle()
 				.edgesIgnoringSafeArea(.all)
 				.background(backgroundColorView)
+				.onAppear(perform: getdata)
 		}
 	}
 }
@@ -64,22 +65,25 @@ private extension SearchView {
 	var notRequestedView: some View {
 		SearchContentView(serverText: serverText, searchUser: .constant([]), searchGroup: .constant([]), searchMessage: .constant([]), loadable: $loadable)
 	}
-
+	
 	var loadingView: some View {
 		notRequestedView.progressHUD(true)
 	}
-
+	
 	func loadedView(_ data: ISearchViewModels) -> AnyView {
-		if let searchUser = data.searchUser, let searchGroup = data.searchGroup {
-			let lstUser = searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
-			let lstGroup = searchGroup.filter { $0.groupType == "group" }
-			let lstMessage = searchGroup.filter { $0.groupType == "peer" }
-			return AnyView(SearchContentView(serverText: serverText, searchCatalogy: .all, searchUser: .constant(lstUser), searchGroup: .constant(lstGroup), searchMessage: .constant(lstMessage), loadable: $loadable))
+		if let searchGroup = data.groupViewModel?.viewModelGroup {
+			let lstGroup = searchGroup.filter { $0.groupType == "group" }.compactMap { profile in
+				SearchGroupViewModel(profile)}
+			
+			let lstUser = searchGroup.filter { $0.groupType == "peer" }.compactMap { profile in
+				SearchGroupViewModel(profile)}
+			
+			return AnyView(SearchContentView(serverText: serverText, searchCatalogy: .all, searchUser: .constant(lstUser), searchGroup: .constant(lstGroup), searchMessage: .constant([]), loadable: $loadable))
 		}
-
+		
 		return AnyView(SearchContentView(serverText: serverText, searchUser: .constant([]), searchGroup: .constant([]), searchMessage: .constant([]), loadable: $loadable))
 	}
-
+	
 	func errorView(_ error: LoginViewError) -> some View {
 		return notRequestedView
 			.alert(isPresented: .constant(true)) {
@@ -95,7 +99,7 @@ private extension SearchView {
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
 	}
-
+	
 	var forceColorTitle: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight
 	}
@@ -103,7 +107,11 @@ private extension SearchView {
 
 // MARK: - Interactors
 private extension SearchView {
-
+	func getdata() {
+		Task {
+			loadable = await injected.interactors.searchInteractor.getJoinedGroup()
+		}
+	}
 }
 // MARK: - Preview
 #if DEBUG

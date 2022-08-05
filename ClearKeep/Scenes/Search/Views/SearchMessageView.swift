@@ -49,7 +49,7 @@ struct SearchMessageView: View {
 									.foregroundColor(foregroundColorUserName)
 									.frame(alignment: .center)
 								HStack {
-									Text(getTimeAsString(timeMs: item.updatedAt, includeTime: true))
+									Text(getTimeAsString(timeMs: 0, includeTime: true))
 										.font(AppTheme.shared.fontSet.font(style: .input3))
 										.foregroundColor(foregroundColorUserName)
 									Text(item.groupName)
