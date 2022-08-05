@@ -172,6 +172,11 @@ class CallViewModel: NSObject, ObservableObject {
 	
 	func endCall() {
 		if let callBox = self.callBox {
+			let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+			Task {
+			   await sceneDelegate?.systemEventsHandler?.container.interactors.peerCallInteractor.updateVideoCall(groupID: callBox.roomId, callType: CallType.cancelRequestCall)
+			}
+			
 			CallManager.shared.end(call: callBox)
 		}
 	}

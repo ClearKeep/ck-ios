@@ -121,6 +121,9 @@ private extension LoginView {
 				if navigateToHome {
 					self.presentationMode.wrappedValue.dismiss()
 				}
+				if let token = UserDefaults.standard.data(forKey: "keySaveTokenPushNotification") {
+					injected.interactors.homeInteractor.registerToken(token)
+				}
 				return AnyView(Text(""))
 			}
 		}
