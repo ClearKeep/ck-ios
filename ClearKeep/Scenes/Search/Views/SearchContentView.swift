@@ -139,6 +139,7 @@ private extension SearchContentView {
 				}
 			CatalogyView(states: SearchCatalogy.allCases, selectedState: $searchCatalogy, selected: SearchCatalogy.all.title)
 			resultView
+				.padding(.top, 16)
 			Spacer()
 		}
 		.padding(.horizontal, Constants.spacingSearch)
