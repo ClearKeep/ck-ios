@@ -137,6 +137,7 @@
 		22B1EA5528879D66008026DC /* PeerCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1EA4D28879D66008026DC /* PeerCallView.swift */; };
 		22B1EA5628879D66008026DC /* CallVoiceActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1EA4E28879D66008026DC /* CallVoiceActionView.swift */; };
 		22B1EA5728879D66008026DC /* CallVideoActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1EA4F28879D66008026DC /* CallVideoActionView.swift */; };
+		22BEB9A728A0BAFE00EF2150 /* ChangePasswordErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22BEB9A628A0BAFE00EF2150 /* ChangePasswordErrorView.swift */; };
 		22C507F1287E64BA009F92A7 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C507F0287E64BA009F92A7 /* Toast.swift */; };
 		22CDFF312889267E00B8213D /* CGSize+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CDFF302889267E00B8213D /* CGSize+Extensions.swift */; };
 		22D3639D288E2BF2009B3BDA /* SingleVoiceCallInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D3639C288E2BF2009B3BDA /* SingleVoiceCallInfoView.swift */; };
@@ -428,6 +429,7 @@
 		22B1EA4D28879D66008026DC /* PeerCallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeerCallView.swift; sourceTree = "<group>"; };
 		22B1EA4E28879D66008026DC /* CallVoiceActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallVoiceActionView.swift; sourceTree = "<group>"; };
 		22B1EA4F28879D66008026DC /* CallVideoActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallVideoActionView.swift; sourceTree = "<group>"; };
+		22BEB9A628A0BAFE00EF2150 /* ChangePasswordErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordErrorView.swift; sourceTree = "<group>"; };
 		22C507F0287E64BA009F92A7 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		22CDFF302889267E00B8213D /* CGSize+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Extensions.swift"; sourceTree = "<group>"; };
 		22D3639C288E2BF2009B3BDA /* SingleVoiceCallInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleVoiceCallInfoView.swift; sourceTree = "<group>"; };
@@ -797,6 +799,7 @@
 			isa = PBXGroup;
 			children = (
 				0473FD2C2892482B0087FBFE /* ChangePasswordModels.swift */,
+				22BEB9A628A0BAFE00EF2150 /* ChangePasswordErrorView.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2105,6 +2108,7 @@
 				CB73084427CE785B00AB0FBD /* AppTheme.swift in Sources */,
 				047241A727DB3D2C0043345A /* LoginInteractor.swift in Sources */,
 				F556C23D28097F6E00D2B149 /* ChatGroupWorker.swift in Sources */,
+				22BEB9A728A0BAFE00EF2150 /* ChangePasswordErrorView.swift in Sources */,
 				22B1EA5428879D66008026DC /* CustomVideoView.swift in Sources */,
 				22B1EA5128879D66008026DC /* VideoContainerView.swift in Sources */,
 				22E4DBA9288692F100652B58 /* CustomVideoViewConfig.swift in Sources */,

@@ -39,7 +39,7 @@ struct MenuView: View {
 	@Binding var user: [UserViewModel]
 	@State private var isShowToastCopy: Bool = false
 	var chageStatus: (StatusType) -> Void
-	@State private var profile: RealmProfile?
+	let profile: RealmProfile? = DependencyResolver.shared.channelStorage.currentServer?.profile
 	@State private var isProfile: Bool = false
 	@State private var isSever: Bool = false
 	@State private var isNotification: Bool = false
@@ -138,9 +138,6 @@ struct MenuView: View {
 				.frame(width: geometry.size.width * Constants.frameRatio)
 				.frame(maxHeight: .infinity)
 				.padding(.vertical, Constants.padding)
-				.onAppear(perform: {
-					updateProfile()
-				})
 			}
 			.frame(maxWidth: .infinity, maxHeight: .infinity)
 
@@ -159,10 +156,6 @@ struct MenuView: View {
 private extension MenuView {
 	func signOutAction() {
 		self.isShowAlert.toggle()
-	}
-	
-	func updateProfile() {
-		profile = DependencyResolver.shared.channelStorage.currentServer?.profile
 	}
 
 	func signOut() {

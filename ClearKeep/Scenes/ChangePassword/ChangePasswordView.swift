@@ -15,6 +15,7 @@ struct ChangePasswordView: View {
 	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
+	@State private var loadable: Loadable<Bool> = .notRequested
 	
 	// MARK: - Body
 	var body: some View {
@@ -28,14 +29,40 @@ struct ChangePasswordView: View {
 // MARK: - Private
 private extension ChangePasswordView {
 	var content: AnyView {
-		AnyView(notRequestedView)
+		switch loadable {
+		case .notRequested:
+			return AnyView(notRequestedView)
+		case .isLoading:
+			return AnyView(loadingView)
+		case .loaded(let data):
+			return loadedView(value: data)
+		case .failed(let error):
+			return AnyView(errorView(ChangePasswordErrorView(error)))
+		}
 	}
 }
 
 // MARK: - Loading Content
 private extension ChangePasswordView {
 	var notRequestedView: some View {
-		ChangePasswordContentView()
+		ChangePasswordContentView(loadable: $loadable)
+	}
+	
+	var loadingView: some View {
+		notRequestedView.progressHUD(true)
+	}
+	
+	func loadedView(value: Bool) -> AnyView {
+		return AnyView(notRequestedView)
+	}
+	
+	func errorView(_ error: ChangePasswordErrorView) -> some View {
+		return notRequestedView
+			.alert(isPresented: .constant(true)) {
+				Alert(title: Text(error.title),
+					  message: Text(error.message),
+					  dismissButton: .default(Text(error.primaryButtonTitle)))
+			}
 	}
 }
 

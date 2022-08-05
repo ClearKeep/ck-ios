@@ -8,9 +8,7 @@
 import SwiftUI
 import CommonUI
 import Common
-import LibSignalClient
 import Model
-import Networking
 
 private enum Constants {
 	static let radius = 40.0
@@ -27,6 +25,7 @@ struct ChangePasswordContentView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
+	@Binding var loadable: Loadable<Bool>
 	@State private(set) var preAccessToken: String = ""
 	@State private(set) var domain: String = ""
 	@State private(set) var currentPassword: String = ""
@@ -38,11 +37,8 @@ struct ChangePasswordContentView: View {
 	@State private(set) var currentInvalid: Bool = false
 	@State private var passwordInvalid: Bool = false
 	@State private var confirmPasswordInvvalid: Bool = false
-	@State private var confirmInvvalid: Bool = false
 	@State private var checkInvalid: Bool = false
-	@State private var isShowAlert: Bool = false
-	@State private var messageAlert: String = ""
-	@State private var data: INormalLoginModel?
+	
 	// MARK: - Init
 
 	// MARK: - Body
@@ -59,11 +55,6 @@ struct ChangePasswordContentView: View {
 			})
 			.edgesIgnoringSafeArea(.all)
 			.grandientBackground()
-			.alert(isPresented: self.$isShowAlert) {
-				Alert(title: Text("GroupChat.Warning".localized),
-					  message: Text(self.messageAlert),
-					  dismissButton: .default(Text("GroupChat.Ok".localized)))
-			}
 	}
 }
 
@@ -103,42 +94,43 @@ private extension ChangePasswordContentView {
 
 	func dochangPassword() {
 		Task {
-			do {
-				let result = try await injected.interactors.changePasswordInteractor.changePassword(oldPassword: currentPassword, newPassword: newPassword).get().authenResponse?.error
-				self.messageAlert = (result == "") ? "NewPassword.Sucess".localized : "General.Error".localized
-				self.isShowAlert = true
-			} catch {
-				self.messageAlert = "General.Error".localized
-				self.isShowAlert = true
-			}
+			await injected.interactors.changePasswordInteractor.changePassword(loadable: $loadable, oldPassword: currentPassword, newPassword: newPassword)
 		}
 	}
 
 	func checkCurrentpass(text: String) {
 		currentInvalid = injected.interactors.changePasswordInteractor.passwordValid(password: text)
 		currentStyle = currentInvalid ? .normal : .error(message: "General.Password.Valid".localized)
+		if !newPassword.isEmpty {
+			if newPassword == text {
+				passwordInvalid = false
+				newStyle = .error(message: "NewPassword.Diffirent.OldPass".localized)
+			} else {
+				passwordInvalid = injected.interactors.changePasswordInteractor.passwordValid(password: text)
+				newStyle = passwordInvalid ? .normal : .error(message: "General.Password.Valid".localized)
+			}
+		}
 	}
 
 	func checkNewpass(text: String) {
 		passwordInvalid = injected.interactors.changePasswordInteractor.passwordValid(password: text)
 		newStyle = passwordInvalid ? .normal : .error(message: "General.Password.Valid".localized)
 		if text == currentPassword {
-			newStyle = (text == currentPassword) ? .error(message: "NewPassword.Diffirent.OldPass".localized) : .normal
+			newStyle = .error(message: "NewPassword.Diffirent.OldPass".localized)
 		}
-
+		if !confirmPassword.isEmpty {
+			confirmPasswordInvvalid = injected.interactors.changePasswordInteractor.confirmPasswordValid(password: text, confirmPassword: confirmPassword)
+			confirmStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
+		}
 	}
 
 	func checkConfirm(text: String) {
-		confirmPasswordInvvalid = injected.interactors.changePasswordInteractor.passwordValid(password: text)
-		confirmStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.Password.Valid".localized)
-		if text != newPassword {
-			confirmInvvalid = injected.interactors.changePasswordInteractor.confirmPasswordValid(password: newPassword, confirmPassword: text)
-			confirmStyle = confirmInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
-		}
+		confirmPasswordInvvalid = injected.interactors.changePasswordInteractor.confirmPasswordValid(password: newPassword, confirmPassword: text)
+		confirmStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
 	}
 
 	func disableButton() -> Bool {
-		return !(currentInvalid && passwordInvalid && confirmPasswordInvvalid && !confirmInvvalid)
+		return !(currentInvalid && passwordInvalid && confirmPasswordInvvalid)
 	}
 }
 
@@ -182,8 +174,7 @@ private extension ChangePasswordContentView {
 							placeHolder: "NewPassword.Confirm.PlaceHold".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
-				self.confirmStyle = isEditing ? .highlighted : (confirmPasswordInvvalid ? .normal : .error(message: "General.Password.Valid".localized))
-				self.confirmStyle = isEditing ? .highlighted : (confirmInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized))
+				self.confirmStyle = isEditing ? .highlighted : (confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized))
 			})
 				.onChange(of: confirmPassword, perform: { text in
 					checkConfirm(text: text)
@@ -199,12 +190,3 @@ private extension ChangePasswordContentView {
 }
 
 // MARK: - Interactor
-
-// MARK: - Preview
-#if DEBUG
-struct ChangePasswordContentView_Previews: PreviewProvider {
-	static var previews: some View {
-		ChangePasswordContentView()
-	}
-}
-#endif

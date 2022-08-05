@@ -11,7 +11,7 @@ import Model
 
 protocol IChangePasswordInteractor {
 	var worker: IChangePasswordWorker { get }
-	func changePassword(oldPassword: String, newPassword: String) async -> Result<IChangePasswordModels, Error>
+	func changePassword(loadable: LoadableSubject<Bool>, oldPassword: String, newPassword: String) async
 	func oldPassValid(oldpassword: String) -> Bool
 	func passwordValid(password: String) -> Bool
 	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool
@@ -33,14 +33,15 @@ extension ChangePasswordInteractor: IChangePasswordInteractor {
 		return ChangePasswordWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
-	func changePassword(oldPassword: String, newPassword: String) async -> Result<IChangePasswordModels, Error> {
+	func changePassword(loadable: LoadableSubject<Bool>, oldPassword: String, newPassword: String) async {
+		loadable.wrappedValue.setIsLoading(cancelBag: CancelBag())
 		let result = await worker.changePassword(oldPassword: oldPassword, newPassword: newPassword)
 		
 		switch result {
-		case .success(let groupResponse):
-			return .success(groupResponse)
+		case .success(let response):
+			loadable.wrappedValue = .failed(ChangePasswordAlert.success)
 		case .failure(let error):
-			return .failure(error)
+			loadable.wrappedValue = .failed(error)
 		}
 	}
 	
@@ -72,15 +73,7 @@ struct StubChangePasswordInteractor: IChangePasswordInteractor {
 		return ChangePasswordWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
-	func changePassword(oldPassword: String, newPassword: String) async -> Result<IChangePasswordModels, Error> {
-		let result = await worker.changePassword(oldPassword: oldPassword, newPassword: newPassword)
-		
-		switch result {
-		case .success(let groupResponse):
-			return .success(groupResponse)
-		case .failure(let error):
-			return .failure(error)
-		}
+	func changePassword(loadable: LoadableSubject<Bool>, oldPassword: String, newPassword: String) async {
 	}
 	
 	func passwordValid(password: String) -> Bool {

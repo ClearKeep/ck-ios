@@ -24,7 +24,6 @@ struct ChangePasswordWorker {
 	let channelStorage: IChannelStorage
 	let remoteStore: IChangePasswordRemoteStore
 	let inMemoryStore: IChangePasswordInMemoryStore
-	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "[0-9a-zA-Z._%+-]{6,12}")
 	var currentDomain: String?
 
 	init(channelStorage: IChannelStorage,
@@ -42,21 +41,17 @@ extension ChangePasswordWorker: IChangePasswordWorker {
 	}
 
 	func oldValid(oldpassword: String) -> Bool {
-		let result = self.passwordPredicate.evaluate(with: oldpassword)
+		let result = oldpassword.count >= 6 && 12 >= oldpassword.count
 		return result
 	}
 
 	func passwordValid(password: String) -> Bool {
-		let result = self.passwordPredicate.evaluate(with: password)
+		let result = password.count >= 6 && 12 >= password.count
 		return result
 	}
 
 	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool {
-		if password == confirmPassword {
-			return true
-		} else {
-			return false
-		}
+		return password == confirmPassword
 	}
 
 	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool {
