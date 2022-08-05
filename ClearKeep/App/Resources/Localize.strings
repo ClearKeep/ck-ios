@@ -229,6 +229,12 @@
 "Call.GoToSetting" = "Go to Settings?";
 "Call.Settings" = "Settings";
 "Call.Cancel" = "Cancel";
+"Call.Warning" = "Warning";
+"Call.SwitchCall" = "Requesting to switch to video call";
+"Call.EndQuestion" = "Are you sure you would like to leave call?";
+"Call.OK" = "OK";
+"Call.Leave" = "Leave";
+"Call.Cancel" = "Cancel";
 
 // MARK: - Call Group
 "CallGroup.Calling" = "Calling Group";

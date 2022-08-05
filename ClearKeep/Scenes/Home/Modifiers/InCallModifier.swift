@@ -188,6 +188,9 @@ struct InCallModifier: ViewModifier {
 			withAnimation {
 				isInCall = false
 				isInMinimizeMode = false
+				self.callViewModel.speakerEnable = false
+				self.callViewModel.microEnable = true
+				self.callViewModel.cameraFront = false
 				self.callViewModel.localVideoView = nil
 				self.callViewModel.remoteVideoView = nil
 				self.callViewModel.remotesVideoView.removeAll()
