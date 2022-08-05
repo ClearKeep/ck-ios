@@ -14,9 +14,9 @@ import ChatSecure
 protocol ISearchWorker {
 	var remoteStore: ISearchRemoteStore { get }
 	var inMemoryStore: ISearchInMemoryStore { get }
-	func searchGroups(_ keyword: String) async -> (Result<ISearchModels, Error>)
-	func searchUser(_ keyword: String) async -> (Result<ISearchModels, Error>)
+	func getJoinedGroup() async -> Result<ISearchModels, Error>
 	func getMessageList(groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
+	func getListStatus(ids: [String]) async -> Result<ISearchModels, Error>
 }
 
 struct SearchWorker {
@@ -24,7 +24,7 @@ struct SearchWorker {
 	let remoteStore: ISearchRemoteStore
 	let inMemoryStore: ISearchInMemoryStore
 	var currentDomain: String?
-
+	
 	init(channelStorage: IChannelStorage,
 		 remoteStore: ISearchRemoteStore,
 		 inMemoryStore: ISearchInMemoryStore) {
@@ -35,20 +35,16 @@ struct SearchWorker {
 }
 
 extension SearchWorker: ISearchWorker {
-	func searchGroups(_ keyword: String) async -> (Result<ISearchModels, Error>) {
-		return await remoteStore.searchGroups(keyword, domain: currentDomain ?? channelStorage.currentDomain)
+	func getJoinedGroup() async -> Result<ISearchModels, Error> {
+		return await remoteStore.getJoinedGroup(domain: currentDomain ?? channelStorage.currentDomain)
 	}
-
-	func searchUser(_ keyword: String) async -> (Result<ISearchModels, Error>) {
-		return await remoteStore.searchUser(keyword, domain: currentDomain ?? channelStorage.currentDomain)
-	}
-
+	
 	func getMessageList(groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
 		guard let server = channelStorage.currentServer,
 			  let ownerId = server.profile?.userId else { return .failure(ServerError.unknown) }
 		let ownerDomain = server.serverDomain
 		let result = await remoteStore.getMessageList(ownerDomain: ownerDomain, ownerId: ownerId, groupId: groupId, loadSize: loadSize, lastMessageAt: lastMessageAt)
-
+		
 		switch result {
 		case .success(let user):
 			return .success(user)
@@ -56,4 +52,15 @@ extension SearchWorker: ISearchWorker {
 			return .failure(error)
 		}
 	}
+	
+	func getListStatus(ids: [String]) async -> Result<ISearchModels, Error> {
+		let result = await remoteStore.getListStatus(domain: self.channelStorage.currentDomain, ids: ids)
+		switch result {
+		case .success(let user):
+			return .success(user)
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+	
 }

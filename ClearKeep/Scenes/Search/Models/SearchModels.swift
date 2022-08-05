@@ -11,21 +11,30 @@ import Networking
 import Model
 
 protocol ISearchModels {
-	var searchUsers: IGetUserResponse? { get }
-	var searchGroups: SearchGroupModels? { get }
+	var groupModel: [IGroupModel]? { get }
+	var userModel: IUser? { get }
+	var members: [IUser]? { get }
 }
 
 struct SearchModels {
-	var searchUsers: IGetUserResponse?
-	var searchGroups: SearchGroupModels?
+	var groupModel: [IGroupModel]?
+	var userModel: IUser?
+	var members: [IUser]?
 }
 
 extension SearchModels: ISearchModels {
-	init(searchUser: User_SearchUserResponse) {
-		self.init(searchUsers: UserResponseModel(searchUser: searchUser))
+	init(responseGroup: [GroupModel]) {
+		self.init(groupModel: responseGroup)
 	}
-
-	init(searchGroup: Group_SearchGroupsResponse) {
-		self.init(searchGroups: SearchGroupModels(groupResponse: searchGroup))
+	
+	init(responseUser: User_UserProfileResponse) {
+		self.init(userModel: UserModel(response: responseUser))
+	}
+	
+	init(responseUser: User_MemberInfoRes?, members: [User_MemberInfoRes]) {
+		let memberTeams = members.map { item -> UserModel in
+			return UserModel(response: item)
+		}
+		self.init(userModel: UserModel(response: responseUser), members: memberTeams)
 	}
 }
