@@ -48,6 +48,8 @@ struct SearchGroupViewModel: Identifiable {
 	var groupName: String
 	var groupAvatar: String
 	var groupType: String
+	var createdAt: Int64
+	var updatedAt: String
 	var hasUnreadMessage: Bool = false
 	var groupMembers: [IMemberModel] = []
 
@@ -57,6 +59,8 @@ struct SearchGroupViewModel: Identifiable {
 		self.groupAvatar = model.groupAvatar
 		self.groupType = model.groupType
 		self.hasUnreadMessage = model.hasUnreadMessage
+		self.createdAt = model.createdAt
+		self.updatedAt = getTimeAsString(timeMs: model.updatedAt)
 		self.groupMembers = model.groupMembers
 	}
 }

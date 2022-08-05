@@ -200,8 +200,8 @@ private extension SearchContentView {
 // MARK: - Interactor
 private extension SearchContentView {
 	func seachAction(text: String) {
-		self.searchUserData = searchUser.filter { $0.groupName.lowercased().contains(text) }
-		self.searchGroupData = searchGroup.filter { $0.groupName.lowercased().contains(text) }
+		self.searchUserData = searchUser.filter { $0.groupName.lowercased().contains(text) }.sorted { $0.updatedAt < $1.updatedAt }
+		self.searchGroupData = searchGroup.filter { $0.groupName.lowercased().contains(text) }.sorted { $0.updatedAt < $1.updatedAt }
 	}
 	
 	func back() {
