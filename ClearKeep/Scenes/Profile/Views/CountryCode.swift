@@ -88,7 +88,7 @@ private extension CountryCode {
 	}
 	
 	var listCountryCode: some View {
-		List(datas.countryCodes) { item in
+		List(search.isEmpty ? datas.countryCodes : datas.countryCodes.filter { $0.name.lowercased().contains(search.lowercased()) }) { item in
 			Button {
 				selectedNum = "\(item.code)"
 				presentationMode.wrappedValue.dismiss()

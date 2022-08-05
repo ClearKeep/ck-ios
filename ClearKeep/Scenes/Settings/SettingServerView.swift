@@ -13,7 +13,6 @@ import CommonUI
 // MARK: - Constant
 private enum Constants {
 	static let spacer = 25.0
-	static let paddingVertical = 14.0
 	static let paddingHorizontal = 24.0
 	static let heightBackground = 60.0
 	static let borderLineWidth = 2.0
@@ -26,22 +25,14 @@ struct SettingServerView: View {
 	@Environment(\.colorScheme) private var colorScheme
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	
-	@State private(set) var samples: Loadable<[IServerSettingModel]>
-	@State private(set) var serverName: String
-	@State private(set) var serverUrl: String
+	@State private(set) var server: IServerSettingModel = ServerSettingModel()
 	@State private(set) var serverStyle: TextInputStyle = .default
 	@State private(set) var serverUrlStyle: TextInputStyle = .default
-	@State private(set) var isShowUserProfile = false
+	@State private var isShowToastCopy: Bool = false
 	
 	// MARK: - Init
-	init(samples: Loadable<[IServerSettingModel]> = .notRequested,
-		 serverName: String = "",
-		 inputStyle: TextInputStyle = .default,
-		 serverUrl: String = "") {
-		self._samples = .init(initialValue: samples)
-		self._serverName = .init(initialValue: serverName)
+	init(inputStyle: TextInputStyle = .default) {
 		self._serverStyle = .init(initialValue: inputStyle)
-		self._serverUrl = .init(initialValue: serverUrl)
 		self._serverUrlStyle = .init(initialValue: inputStyle)
 	}
 	
@@ -68,10 +59,13 @@ struct SettingServerView: View {
 				Text("Server.Title".localized)
 					.frame(maxWidth: .infinity, alignment: .leading)
 					.font(AppTheme.shared.fontSet.font(style: .body1))
+					.foregroundColor(titleHeaderColor)
 				
 				VStack(alignment: .leading) {
 					Text("Server.Name".localized)
-					CommonTextField(text: $serverName,
+						.font(AppTheme.shared.fontSet.font(style: .placeholder2))
+						.foregroundColor(titleColor)
+					CommonTextField(text: $server.name,
 									inputStyle: $serverStyle,
 									placeHolder: "Server.Placeholder".localized,
 									onEditingChanged: { isEditting in
@@ -80,12 +74,14 @@ struct SettingServerView: View {
 						} else {
 							serverStyle = .highlighted
 						}
-					})
+					}).disabled(true)
 				}
 				VStack(alignment: .leading) {
 					Text("Server.Url".localized)
+						.font(AppTheme.shared.fontSet.font(style: .placeholder2))
+						.foregroundColor(titleColor)
 					HStack {
-						CommonTextField(text: $serverUrl,
+						CommonTextField(text: $server.url,
 										inputStyle: $serverUrlStyle,
 										placeHolder: "Server.Placeholder".localized,
 										onEditingChanged: { isEditting in
@@ -94,13 +90,14 @@ struct SettingServerView: View {
 							} else {
 								serverStyle = .highlighted
 							}
-						})
+						}).disabled(true)
 						ZStack {
 							Circle()
 								.strokeBorder(AppTheme.shared.colorSet.primaryDefault, lineWidth: Constants.borderLineWidth)
 								.background(Circle().foregroundColor(foregroundCircle))
 								.frame(width: Constants.sizeCircle, height: Constants.sizeCircle)
 							Button(action: {
+								copyAction()
 							}, label: {
 								AppTheme.shared.imageSet.linkIcon
 									.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
@@ -112,7 +109,12 @@ struct SettingServerView: View {
 			}
 			.padding(.horizontal, Constants.paddingHorizontal)
 		}
+		.toast(message: "Menu.Copy.Title".localized, isShowing: $isShowToastCopy, duration: Toast.short)
+		.navigationBarBackButtonHidden(true)
 		.edgesIgnoringSafeArea(.all)
+		.onAppear {
+			server = injected.interactors.settingServerInteractor.getServerInfo()
+		}
 	}
 }
 
@@ -121,6 +123,10 @@ private extension SettingServerView {}
 
 // MARK: - Interactor
 private extension SettingServerView {
+	func copyAction() {
+		UIPasteboard.general.string = server.url
+		isShowToastCopy = true
+	}
 }
 
 // MARK: - Colors
@@ -143,6 +149,14 @@ private extension SettingServerView {
 	
 	var backgroundColorTop: LinearGradient {
 		colorScheme == .light ? backgroundColorGradient : backgroundColorBlack
+	}
+	
+	var titleHeaderColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
+	}
+	
+	var titleColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight
 	}
 }
 

@@ -9,7 +9,6 @@ import Combine
 import Common
 import CommonUI
 import SwiftUI
-import CommonCrypto
 
 private enum Constants {
 	static let spacer = 16.0
@@ -26,6 +25,7 @@ private enum Constants {
 	static let borderWidth = 2.0
 	static let paddingText = 4.0
 	static let notifyHeight = 22.0
+	static let userNameLimit = 30
 }
 
 struct UserProfileContentView: View {
@@ -36,18 +36,19 @@ struct UserProfileContentView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-	@State private(set) var countryCode: String = ""
+	@Binding private(set) var countryCode: String
 	@Binding var loadable: Loadable<IProfileViewModels>
-	@State private(set) var urlAvatar: String = ""
+	@Binding private(set) var urlAvatar: String
+	@Binding private(set) var username: String
+	@Binding private(set) var email: String
+	@Binding private(set) var phoneNumber: String
+	@Binding private(set) var isHavePhoneNumber: Bool
+	@Binding private(set) var isEnable2FA: Bool
 	@State private(set) var usernameStyle: TextInputStyle = .default
-	@State private(set) var username: String = ""
 	@State private(set) var emailStyle: TextInputStyle = .default
-	@State private(set) var email: String = ""
 	@State private(set) var phoneStyle: TextInputStyle = .default
-	@State private(set) var phoneNumber: String = ""
 	@State private(set) var isExpand = false
 	@State private(set) var isShowCountryCode: Bool = false
-	@State private(set) var isEnable2FA: Bool = false
 	@State private var twoFAStatus: String = ""
 	@State private var isChangePassword: Bool = false
 	@State private var isCurrentPass: Bool = false
@@ -59,7 +60,7 @@ struct UserProfileContentView: View {
 	@State private var userNameValid: Bool = false
 	@State private(set) var countryCodeStyle: TextInputStyle = .default
 	@State private(set) var onEditing: Bool = false
-	@State private(set) var isHavePhoneNumber: Bool = false
+	@State private var isShowToastCopy: Bool = false
 	
 	// MARK: - Init
 	
@@ -110,6 +111,7 @@ struct UserProfileContentView: View {
 							.onChange(of: self.username, perform: { text in
 								self.checkUserValid(text: text)
 							})
+							.onReceive(Just(username)) { _ in limitText(Constants.userNameLimit) }
 					}
 					VStack(alignment: .leading, spacing: Constants.spacerSetting) {
 						Text("UserProfile.Email".localized)
@@ -181,7 +183,7 @@ struct UserProfileContentView: View {
 						}
 					}
 
-					Button(action: customBack) {
+					Button(action: copyProfile) {
 						HStack {
 							Text("UserProfile.Link.Copy".localized)
 								.font(AppTheme.shared.fontSet.font(style: .body3))
@@ -264,7 +266,11 @@ struct UserProfileContentView: View {
 				updateAvata()
 			})
 		}
+		.onChange(of: countryCode, perform: { _ in
+			checkPhoneValid(text: phoneNumber)
+		})
 		.hideKeyboardOnTapped()
+		.toast(message: "Menu.Copy.Title".localized, isShowing: $isShowToastCopy, duration: Toast.short)
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 	}
 }
@@ -302,12 +308,21 @@ private extension UserProfileContentView {
 	}
 
 	func saveAction() {
+		if !phoneInvalid {
+			return
+		}
 		selectedImages.removeAll()
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
 			loadable = await injected.interactors.profileInteractor.updateProfile(displayName: username, avatar: urlAvatar, phoneNumber: "\(countryCode)\(phoneNumber)", clearPhoneNumber: false)
 		}
 		presentationMode.wrappedValue.dismiss()
+	}
+	
+	func limitText(_ upper: Int) {
+		if username.count > upper {
+			username = String(username.prefix(upper))
+		}
 	}
 }
 
@@ -316,6 +331,13 @@ private extension UserProfileContentView {
 private extension UserProfileContentView {
 	func customBack() {
 		presentationMode.wrappedValue.dismiss()
+	}
+	
+	func copyProfile() {
+		let currentDomain = DependencyResolver.shared.channelStorage.currentDomain
+		let user = DependencyResolver.shared.channelStorage.currentServer?.profile
+		UIPasteboard.general.string = "\(currentDomain)/\(user?.userName.replacingOccurrences(of: " ", with: "") ?? "name")/\(user?.userId ?? "id")"
+		self.isShowToastCopy = true
 	}
 
 	func changePassword() {
@@ -386,10 +408,4 @@ private extension UserProfileContentView {
 		colorScheme == .light ? (onEditing == false ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.black) : (onEditing == true ? AppTheme.shared.colorSet.darkgrey3 : AppTheme.shared.colorSet.greyLight)
 	}
 
-}
-
-struct UserProfileContentView_Previews: PreviewProvider {
-	static var previews: some View {
-		UserProfileContentView(loadable: .constant(.notRequested))
-	}
 }
