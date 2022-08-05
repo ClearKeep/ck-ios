@@ -82,12 +82,11 @@ struct CreateGroupView: View {
 									  rightBarItems: {
 			Spacer()
 		})
-		
-		.alert(isPresented: self.$showAlertPopup) {
-			Alert(title: Text("GroupChat.Warning".localized),
-				  message: Text(self.messageAlert),
-				  dismissButton: .default(Text("GroupChat.Ok".localized)))
-		}
+        .alert("GroupChat.Warning".localized, isPresented: $showAlertPopup) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(self.messageAlert)
+        }
 	}
 }
 

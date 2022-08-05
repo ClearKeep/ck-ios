@@ -48,92 +48,93 @@ struct ChatGroupContentView: View {
 	
 	// MARK: - Body
 	var body: some View {
-		VStack(spacing: Constants.paddingVertical) {
-			SearchTextField(searchText: $searchText,
-							inputStyle: $searchStyle,
-							inputIcon: AppTheme.shared.imageSet.searchIcon,
-							placeHolder: "GroupChat.Search.Placeholder".localized,
-							onEditingChanged: { isEditing in
-				searchStyle = isEditing ? .highlighted : .normal })
+		NavigationView {
+			VStack(spacing: Constants.paddingVertical) {
+				SearchTextField(searchText: $searchText,
+								inputStyle: $searchStyle,
+								inputIcon: AppTheme.shared.imageSet.searchIcon,
+								placeHolder: "GroupChat.Search.Placeholder".localized,
+								onEditingChanged: { isEditing in
+					searchStyle = isEditing ? .highlighted : .normal })
 				.onChange(of: searchText) { text in
 					search(text: text.trimmingCharacters(in: .whitespacesAndNewlines))
 				}
 				.padding(.top, Constants.paddingVertical)
-			TagView(groupChatModel: $addMember, deleteSelect: { data in
-				self.deleteClient(data: data)
-			})
-			CheckBoxButtons(text: "GroupChat.User.Add.Title".localized, isChecked: $useCustomServerChecked, action: {
-				self.useFindByEmail = false
-			})
-			.foregroundColor(foregroundCheckmask)
-				.frame(maxWidth: .infinity, alignment: .leading)
-			
-			if useCustomServerChecked {
-				CommonTextField(text: $searchLinkText,
-								inputStyle: $searchLinkStyle,
-								placeHolder: "GroupChat.User.Add.Placeholder".localized,
-								keyboardType: .default,
-								onEditingChanged: { isEditing in
-					searchLinkStyle = isEditing ? .highlighted : .normal
+				TagView(groupChatModel: $addMember, deleteSelect: { data in
+					self.deleteClient(data: data)
 				})
-			}
-			
-			CheckBoxButtons(text: "GroupChat.AddUserFromEmail.Title".localized, isChecked: $useFindByEmail, action: {
-				self.useCustomServerChecked = false
-			})
-			.foregroundColor(foregroundCheckmask)
+				CheckBoxButtons(text: "GroupChat.User.Add.Title".localized, isChecked: $useCustomServerChecked, action: {
+					self.useFindByEmail = false
+				})
+				.foregroundColor(foregroundCheckmask)
 				.frame(maxWidth: .infinity, alignment: .leading)
-			if useFindByEmail {
-				CommonTextField(text: $searchEmailText,
-								inputStyle: $searchEmailStyle,
-								placeHolder: "GroupChat.PasteYourFriendEmail".localized,
-								keyboardType: .emailAddress,
-								onEditingChanged: { isEditing in
-					searchEmailStyle = isEditing ? .highlighted : .normal
-				},
-								submitLabel: .done,
-								onSubmit: searchEmail)
+				
+				if useCustomServerChecked {
+					CommonTextField(text: $searchLinkText,
+									inputStyle: $searchLinkStyle,
+									placeHolder: "GroupChat.User.Add.Placeholder".localized,
+									keyboardType: .default,
+									onEditingChanged: { isEditing in
+						searchLinkStyle = isEditing ? .highlighted : .normal
+					})
+				}
+				
+				CheckBoxButtons(text: "GroupChat.AddUserFromEmail.Title".localized, isChecked: $useFindByEmail, action: {
+					self.useCustomServerChecked = false
+				})
+				.foregroundColor(foregroundCheckmask)
+				.frame(maxWidth: .infinity, alignment: .leading)
+				if useFindByEmail {
+					CommonTextField(text: $searchEmailText,
+									inputStyle: $searchEmailStyle,
+									placeHolder: "GroupChat.PasteYourFriendEmail".localized,
+									keyboardType: .emailAddress,
+									onEditingChanged: { isEditing in
+						searchEmailStyle = isEditing ? .highlighted : .normal
+					},
+									submitLabel: .done,
+									onSubmit: searchEmail)
+				}
+				
+				ScrollView(showsIndicators: false) {
+					ForEach($search) { item in
+						UserGroupButton(item.displayName, imageUrl: "", isChecked: self.checkUserIsSelected(item: item.wrappedValue), action: { isSelectedUser in
+							addClient(item.wrappedValue, isSelected: isSelectedUser)
+						})
+					}
+				}
+				RoundedGradientButton(self.useCustomServerChecked ? "GroupChat.Add".localized : "GroupChat.Next".localized, disabled: .constant(self.checkDisableButton()), action: nextToCreateGroup)
+					.frame(maxWidth: .infinity)
+					.frame(height: Constants.heightButton)
+					.font(AppTheme.shared.fontSet.font(style: .body3))
+					.background(backgroundGradientPrimary)
+					.foregroundColor(AppTheme.shared.colorSet.offWhite)
+					.cornerRadius(Constants.cornerRadiusButtonNext)
+					.padding(.horizontal, Constants.spacerTopView)
+					.padding(.bottom, Constants.paddingButtonNext)
+				NavigationLink(
+					destination: CreateGroupView(loadable: $loadable, getProfile: $getProfile, clientInGroup: $addMember),
+					isActive: $isNextCreateGroup,
+					label: {})
 			}
-			
-			ScrollView(showsIndicators: false) {
-				ForEach($search) { item in
-					   UserGroupButton(item.displayName, imageUrl: "", isChecked: self.checkUserIsSelected(item: item.wrappedValue), action: { isSelectedUser in
-						   addClient(item.wrappedValue, isSelected: isSelectedUser)
-					   })
-				   }
-			   }
-			
-			RoundedGradientButton(self.useCustomServerChecked ? "GroupChat.Add".localized : "GroupChat.Next".localized, disabled: .constant(self.checkDisableButton()), action: nextToCreateGroup)
-			.frame(maxWidth: .infinity)
-			.frame(height: Constants.heightButton)
-			.font(AppTheme.shared.fontSet.font(style: .body3))
-			.background(backgroundGradientPrimary)
-			.foregroundColor(AppTheme.shared.colorSet.offWhite)
-			.cornerRadius(Constants.cornerRadiusButtonNext)
-			.padding(.horizontal, Constants.spacerTopView)
-		}
-		.padding(.horizontal, Constants.paddingVertical)
-		.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		.edgesIgnoringSafeArea(.all)
-		.alert(isPresented: self.$isShowAlert) {
-			Alert(title: Text("GroupChat.Warning".localized),
-				  message: Text(self.messageAlert),
-				  dismissButton: .default(Text("GroupChat.Ok".localized)))
-		}.applyNavigationBarPlainStyle(title: "GroupChat.Back.Button".localized,
-									   titleColor: titleColor,
-									   backgroundColors: backgroundButtonBack,
-									   leftBarItems: {
-			BackButtonStandard(customBack)
-		},
-									   rightBarItems: {
-			Spacer()
-		})
-		NavigationLink(
-			destination: CreateGroupView(loadable: $loadable, getProfile: $getProfile, clientInGroup: $addMember),
-			isActive: $isNextCreateGroup,
-			label: {
+			.padding(.horizontal, Constants.paddingVertical)
+			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.edgesIgnoringSafeArea(.all)
+			.alert(isPresented: self.$isShowAlert) {
+				Alert(title: Text("GroupChat.Warning".localized),
+					  message: Text(self.messageAlert),
+					  dismissButton: .default(Text("GroupChat.Ok".localized)))
+			}.applyNavigationBarPlainStyle(title: "GroupChat.Back.Button".localized,
+										   titleColor: titleColor,
+										   backgroundColors: backgroundButtonBack,
+										   leftBarItems: {
+				BackButtonStandard(customBack)
+			},
+										   rightBarItems: {
+				Spacer()
 			})
-	}
+		}
+    }
 }
 
 // MARK: - Private
