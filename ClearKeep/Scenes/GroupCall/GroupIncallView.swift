@@ -19,7 +19,7 @@ struct GroupIncallView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@State private var isLoading: Bool = false
 	@State private var isShowError: Bool = false
-	@State private var error: LoginViewError?
+	@State private var alertType: InCallView.AlertCall = .changeTypeCall
 	
 	@State private(set) var loadable: Loadable<IPeerViewModels> = .notRequested {
 		didSet {
@@ -33,7 +33,7 @@ struct GroupIncallView: View {
 				}
 			case .failed(let error):
 				isLoading = false
-				self.error = LoginViewError(error)
+				self.alertType = .error(error: LoginViewError(error))
 				self.isShowError = true
 			case .isLoading:
 				isLoading = true
@@ -56,7 +56,15 @@ struct GroupIncallView: View {
                         groupCallInfoView()
                     }
                     
-					CallVoiceActionView(viewModel: viewModel, callAction: changeCallToVideo(type:))
+					CallVoiceActionView(viewModel: viewModel,
+										callAction: {
+						self.alertType = .changeTypeCall
+						self.isShowError = true
+					},
+										endCall: {
+						self.alertType = .endCall
+						self.isShowError = true
+					})
                 }
             }
             .onAppear(perform: {
@@ -89,9 +97,31 @@ struct GroupIncallView: View {
         }
 		.progressHUD(isLoading)
 		.alert(isPresented: $isShowError) {
-			Alert(title: Text(self.error?.title ?? ""),
-				  message: Text(self.error?.message ?? ""),
-				  dismissButton: .default(Text(error?.primaryButtonTitle ?? "")))
+			if case .error = self.alertType {
+				return Alert(title: Text(self.alertType.title),
+							 message: Text(self.alertType.description),
+							 dismissButton: .default(Text(self.alertType.primaryButtonTitle)))
+				
+			}
+			
+			return Alert(title: Text(self.alertType.title),
+						 message: Text(self.alertType.description),
+						 primaryButton: .default(Text(self.alertType.primaryButtonTitle), action: {
+				switch self.alertType {
+				case .changeTypeCall:
+					if viewModel.callType == .video {
+						self.changeCallToVideo(type: .audio)
+						return
+					}
+					
+					self.changeCallToVideo(type: .video)
+				case .endCall:
+					viewModel.endCall()
+				default:
+					break
+				}
+			}),
+						 secondaryButton: .cancel(Text(self.alertType.secondButtonTitle)))
 		}
     }
     

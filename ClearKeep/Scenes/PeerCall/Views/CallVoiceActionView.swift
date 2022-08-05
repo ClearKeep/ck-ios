@@ -22,7 +22,8 @@ private enum Constant {
 struct CallVoiceActionView: View {
 	@ObservedObject var viewModel: CallViewModel
 	
-	var callAction: (CallType) -> Void
+	var callAction: () -> Void
+	var endCall: () -> Void
 	
 	var body: some View {
 		GeometryReader { reader in
@@ -46,12 +47,7 @@ struct CallVoiceActionView: View {
 											 title: "Call.Camera".localized,
 											 styleButton: .voice,
 											 action: {
-							if viewModel.callType == .video {
-								self.callAction(.audio)
-								return
-							}
-							
-							self.callAction(.video)
+							self.callAction()
 						})
 						Spacer()
 						CallActionButtonView(onIcon: AppTheme.shared.imageSet.speakerIcon2 ,
@@ -72,7 +68,14 @@ struct CallVoiceActionView: View {
 											 isOn: true,
 											 title: viewModel.callStatus == .answered ? "Call.End".localized : "Call.Cancel".localized,
 											 styleButton: .endCall,
-											 action: { viewModel.endCall() })
+											 action: {
+							if viewModel.callStatus == .answered {
+								self.endCall()
+								return
+							}
+							
+							self.viewModel.endCall()
+						})
 						Spacer()
 					}
 				} .frame(width: reader.size.width)
