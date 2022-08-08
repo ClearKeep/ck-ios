@@ -61,7 +61,10 @@ extension HomeWorker: IHomeWorker {
 	}
 	
 	func subscribeAndListenServers() {
-		channelStorage.subscribeAndListenServers()
+		channelStorage.servers.forEach { server in
+			let subscribeAndListenService = SubscribeAndListenService(clientStore: DependencyResolver.shared.clientStore, messageService: DependencyResolver.shared.messageService)
+			subscribeAndListenService.subscribe(server)
+		}
 	}
 	
 	func getJoinedGroup() async -> Result<IHomeModels, Error> {

@@ -37,6 +37,7 @@ class DependencyResolver {
 	let yapDatabaseManager: YapDatabaseManager!
 	let realmManager: RealmManager!
 	let workspaceService: IWorkspaceService
+	let clientStore: ClientStore
 	
 	init() {
 		fontSet = DefaultFontSet()
@@ -44,7 +45,8 @@ class DependencyResolver {
 		imageSet = AppImageSet()
 		securedStoreService = SecuredStoreService()
 		persistentStoreService = PersistentStoreService()
-		let clientStore = ClientStore(persistentStoreService: persistentStoreService, securedStoreService: securedStoreService)
+		
+		clientStore = ClientStore(persistentStoreService: persistentStoreService, securedStoreService: securedStoreService)
 		
 		// MARK: - CommonUI
 		CommonUI.DependencyResolver.shared = CommonUI.DependencyResolver(CommonUIConfig(fontSet: fontSet, colorSet: colorSet, imageSet: imageSet))

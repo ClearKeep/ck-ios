@@ -169,6 +169,15 @@ struct ChatView: View {
 		.onDisappear {
 			notificationToken?.invalidate()
 		}
+		.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.SubscribeAndListenService.didReceiveNotification)) { (obj) in
+			print("received...... \(obj)")
+			if let userInfo = obj.userInfo,
+			   let publication = userInfo["notification"] as? Notification_NotifyObjectResponse {
+				if publication.notifyType == "peer-update-key" {
+					self.isLatestPeerSignalKeyProcessed = false
+				}
+			}
+		}
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 		.alert(isPresented: $alertVisible, content: {
 			if alertType == .permission {

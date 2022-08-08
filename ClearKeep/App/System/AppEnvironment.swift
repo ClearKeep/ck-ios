@@ -26,7 +26,7 @@ extension AppEnvironment {
 		let interactors = configuredInteractors(appState: appState)
 		let diContainer = DIContainer(appState: appState, interactors: interactors)
 		let deepLinksHandler = DeepLinksHandler(container: diContainer)
-		let pushNotificationsHandler = PushNotificationsHandler(deepLinksHandler: deepLinksHandler)
+		let pushNotificationsHandler = PushNotificationsHandler(deepLinksHandler: deepLinksHandler, container: diContainer)
 		let systemEventsHandler = SystemEventsHandler(
 			container: diContainer, deepLinksHandler: deepLinksHandler,
 			pushNotificationsHandler: pushNotificationsHandler)

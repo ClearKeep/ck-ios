@@ -10,6 +10,7 @@ import Combine
 import Common
 import CommonUI
 import Model
+import Networking
 
 private enum Constants {
 	static let padding = 20.0
@@ -25,10 +26,14 @@ struct HomeView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.injected) private var injected: DIContainer
+	@State private var selectedGroupId: Int64 = 0
+	@State private var showMessageBanner: Bool = false
+	@State private var messageData: MessagerBannerViewModifier.MessageData?
 	@State private(set) var isExpandGroup: Bool = false
 	@State private(set) var isExpandDirectMessage: Bool = false
 	@State private var isFirstShowGroup: Bool = false
 	@State private var isFirstShowPeer: Bool = false
+	@State private var navigateToChat: Bool = false
 	
 	@State private(set) var loadable: Loadable<HomeViewModels> = .notRequested {
 		didSet {
@@ -124,6 +129,9 @@ struct HomeView: View {
 					.hiddenNavigationBarStyle()
 					.padding(.top, Constants.paddingTop)
 					.hideKeyboardOnTapped()
+					NavigationLink(destination: ChatView(inputStyle: .default, groupId: selectedGroupId, avatarLink: ""), isActive: $navigateToChat) {
+						EmptyView()
+					}
 				}
 				.hiddenNavigationBarStyle()
 				
@@ -149,6 +157,22 @@ struct HomeView: View {
 				self.serverInfo()
 				self.getServers()
 			})
+			.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.SubscribeAndListenService.didReceiveMessage)) { (obj) in
+				print("received message banner...... \(obj)")
+				if let userInfo = obj.userInfo,
+				   let message = userInfo["message"] as? IMessageModel {
+					if message.groupType == "group" {
+						let groupName = injected.interactors.homeInteractor.getGroupName(groupID: message.groupId)
+						let senderName = injected.interactors.homeInteractor.getSenderName(fromClientId: message.senderId, groupID: message.groupId)
+						self.messageData = MessagerBannerViewModifier.MessageData(groupName: groupName, senderName: senderName, message: message.message)
+					} else {
+						let senderName = injected.interactors.homeInteractor.getSenderName(fromClientId: message.senderId, groupID: message.groupId)
+						self.messageData = MessagerBannerViewModifier.MessageData(senderName: senderName, message: message.message)
+					}
+					self.selectedGroupId = message.groupId
+					self.showMessageBanner = true
+				}
+			}
 			.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
 			.hiddenNavigationBarStyle()
 		}
@@ -158,6 +182,9 @@ struct HomeView: View {
 				  message: Text(self.error?.message ?? ""),
 				  dismissButton: .default(Text(error?.primaryButtonTitle ?? "")))
 		}
+		.messagerBannerModifier(data: $messageData, show: $showMessageBanner, onTap: {
+			navigateToChat = true
+		})
 		.inCallModifier(callViewModel: callViewModel, isInCall: $isInCall)
 	}
 }

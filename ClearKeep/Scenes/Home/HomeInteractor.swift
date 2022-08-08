@@ -21,7 +21,8 @@ protocol IHomeInteractor {
 	func didSelectServer(_ domain: String?) -> [ServerViewModel]
 	func signOut() async
 	func updateStatus(status: String) async -> Loadable<UserViewModels>
-
+	func getSenderName(fromClientId: String, groupID: Int64) -> String
+	func getGroupName(groupID: Int64) -> String
 	func removeServer()
 }
 
@@ -110,6 +111,20 @@ extension HomeInteractor: IHomeInteractor {
 	func signOut() async {
 		_ = await worker.signOut()
 	}
+	
+	func getSenderName(fromClientId: String, groupID: Int64) -> String {
+		guard let server = channelStorage.currentServer,
+			  let ownerId = server.profile?.userId else { return "" }
+		let name = channelStorage.getSenderName(fromClientId: fromClientId, groupId: groupID, domain: server.serverDomain, ownerId: ownerId)
+		return name
+	}
+	
+	func getGroupName(groupID: Int64) -> String {
+		guard let server = channelStorage.currentServer,
+			  let ownerId = server.profile?.userId else { return "" }
+		let name = channelStorage.getGroupName(groupId: groupID, domain: server.serverDomain, ownerId: ownerId)
+		return name
+	}
 }
 
 struct StubHomeInteractor: IHomeInteractor {
@@ -159,5 +174,12 @@ struct StubHomeInteractor: IHomeInteractor {
 	func removeServer() {
 		worker.removeServer()
 	}
-
+	
+	func getSenderName(fromClientId: String, groupID: Int64) -> String {
+		return ""
+	}
+	
+	func getGroupName(groupID: Int64) -> String {
+		return ""
+	}
 }

@@ -76,31 +76,3 @@ extension MemberModel {
 				  email: member.email)
 	}
 }
-
-struct MessageModel: IMessageModel {
-	var messageId: String
-	var groupId: Int64
-	var groupType: String
-	var senderId: String
-	var receiverId: String
-	var message: String
-	var createdTime: Int64
-	var updatedTime: Int64
-	var ownerDomain: String
-	var ownerClientId: String
-}
-
-extension MessageModel {
-	init(_ message: RealmMessage) {
-		self.init(messageId: message.messageId,
-				  groupId: message.groupId,
-				  groupType: message.groupType,
-				  senderId: message.senderId,
-				  receiverId: message.receiverId,
-				  message: message.message,
-				  createdTime: message.createdTime,
-				  updatedTime: message.updatedTime,
-				  ownerDomain: message.ownerDomain,
-				  ownerClientId: message.ownerClientId)
-	}
-}

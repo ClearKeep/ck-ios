@@ -7,6 +7,7 @@
 
 import Foundation
 import RealmSwift
+import Model
 
 public class RealmMessage: Object, RealmOptionalType, Identifiable {
 	@objc public dynamic var messageId: String
@@ -37,5 +38,18 @@ public class RealmMessage: Object, RealmOptionalType, Identifiable {
 		ownerClientId = String()
 		
 		super.init()
+	}
+	
+	init(message: IMessageModel) {
+		messageId = message.messageId
+		groupId = message.groupId
+		groupType = message.groupType
+		senderId = message.senderId
+		receiverId = message.receiverId
+		self.message = message.message
+		createdTime = message.createdTime
+		updatedTime = message.updatedTime
+		ownerDomain = message.ownerDomain
+		ownerClientId = message.ownerClientId
 	}
 }
