@@ -152,8 +152,9 @@ extension AppDelegate: PKPushRegistryDelegate {
 		}
 		
 		CallManager.shared.endCall = {[weak self] call in
+			guard let self = self else { return }
 			Task {
-				await self?.systemEventsHandler?.container.interactors.peerCallInteractor.updateVideoCall(groupID: call.roomId, callType: .cancelRequestCall)
+				await self.systemEventsHandler?.container.interactors.peerCallInteractor.updateVideoCall(groupID: call.roomId, callType: .cancelRequestCall)
 			}
 		}
 	}

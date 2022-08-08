@@ -47,12 +47,12 @@ extension GroupService: IGroupService {
 	public func getGroup(by groupId: Int64, domain: String) async -> (Result<RealmGroup, Error>) {
 		var request = Group_GetGroupRequest()
 		request.groupID = groupId
-		
+		guard let server = channelStorage.realmManager.getServer(by: domain) else { return .failure(ServerError.unknown) }
+		print(server)
 		let response = await channelStorage.getChannel(domain: domain).getGroup(request)
 		
 		switch response {
 		case .success(let data):
-			print(data)
 			return await .success(channelStorage.realmManager.addAndUpdateGroup(group: data, domain: domain))
 		case .failure(let error):
 			return .failure(error)

@@ -75,8 +75,8 @@ private extension GroupDetailView {
 		}
 
 		if let client = data.getClientInGroup {
-			let clientActive = client.filter { $0.userState == "active" }
-			return AnyView(MemberView(loadable: $loadable, clientData: .constant(clientActive), groupId: groupId))
+			let listClient = client.sorted { $0.displayName.lowercased().prefix(2) < $1.displayName.lowercased().prefix(2) }
+			return AnyView(MemberView(loadable: $loadable, clientData: .constant(listClient), groupId: groupId))
 		}
 
 		if let profile = data.myProfile {

@@ -77,8 +77,20 @@ extension GroupDetailInteractor: IGroupDetailInteractor {
 	func getClientInGroup(by groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
 		let result = await worker.getGroup(by: groupId)
 		switch result {
-		case .success(let getGroup):
-			return .loaded(GroupDetailViewModels(clients: getGroup))
+		case .success(let groups):
+
+			var ids: [String] = []
+			groups.groupModel?.groupMembers.filter { $0.userState == "active" }.forEach({ data in
+				ids.append(data.userId)
+			})
+			let result = await worker.getListStatus(ids: Array(Set(ids)))
+
+			switch result {
+			case .success(let user):
+				return .loaded(GroupDetailViewModels(clients: user))
+			case .failure(let error):
+				return .failed(error)
+			}
 		case .failure(let error):
 			return .failed(error)
 		}

@@ -9,7 +9,7 @@ import Model
 
 protocol IGroupDetailViewModels {
 	var getGroup: GroupDetailViewModel? { get }
-	var getClientInGroup: [GroupDetailClientViewModel]? { get }
+	var getClientInGroup: [GroupDetailProfileViewModel]? { get }
 	var searchUser: [GroupDetailUserViewModels]? { get }
 	var groupBase: GroupDetailBaseViewModel? { get }
 	var getProfile: GroupDetailUserViewModels? { get }
@@ -22,7 +22,7 @@ protocol IGroupDetailViewModels {
 
 struct GroupDetailViewModels: IGroupDetailViewModels {
 	var getGroup: GroupDetailViewModel?
-	var getClientInGroup: [GroupDetailClientViewModel]?
+	var getClientInGroup: [GroupDetailProfileViewModel]?
 	var searchUser: [GroupDetailUserViewModels]?
 	var groupBase: GroupDetailBaseViewModel?
 	var getProfile: GroupDetailUserViewModels?
@@ -43,10 +43,11 @@ extension GroupDetailViewModels {
 	}
 
 	init(clients: IGroupDetailModels) {
-		let client = clients.groupModel?.groupMembers.map { member in
-			GroupDetailClientViewModel(member)
+		var lst: [GroupDetailProfileViewModel] = []
+		clients.members?.forEach { member in
+			lst.append(GroupDetailProfileViewModel(member))
 		}
-		self.init(getClientInGroup: client)
+		self.init(getClientInGroup: lst)
 	}
 
 	init(users: IGroupDetailModels) {

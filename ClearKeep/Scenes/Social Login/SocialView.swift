@@ -216,7 +216,7 @@ private extension SocialView {
 				showAlert = true
 			case .failed(let error):
 				self.isShowAlertForgotPassPhrase = false
-				self.error = SocialViewError(error)
+		 		self.error = SocialViewError(error)
 				showAlert = true
 			default:
 				return

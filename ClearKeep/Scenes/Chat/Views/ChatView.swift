@@ -252,6 +252,7 @@ private extension ChatView {
 				.foregroundColor(foregroundBackButton)
 			}
 		}
+		.disabled( disableButton() )
 	}
 	
 	var floatingButton: some View {
@@ -453,6 +454,10 @@ private extension ChatView {
 	
 	func copyMessage(message: String) {
 		UIPasteboard.general.setValue(message, forPasteboardType: UTType.plainText.identifier)
+	}
+
+	func disableButton() -> Bool {
+		return group?.groupType == "peer" ? true : false
 	}
 }
 

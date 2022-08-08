@@ -23,6 +23,7 @@ protocol IGroupDetailWorker {
 	func searchUserWithEmail(email: String) async -> (Result<IGroupDetailModels, Error>)
 	func checkPeopleLink(link: String) -> Bool
 	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)?
+	func getListStatus(ids: [String]) async -> Result<IGroupDetailModels, Error>
 }
 
 struct GroupDetailWorker {
@@ -128,5 +129,15 @@ extension GroupDetailWorker: IGroupDetailWorker {
 
 	func checkPeopleLink(link: String) -> Bool {
 		return self.getPeopleFromLink(link: link)?.id == channelStorage.currentServer?.profile?.userId
+	}
+
+	func getListStatus(ids: [String]) async -> Result<IGroupDetailModels, Error> {
+		let result = await remoteStore.getListStatus(domain: self.channelStorage.currentDomain, ids: ids)
+		switch result {
+		case .success(let user):
+			return .success(user)
+		case .failure(let error):
+			return .failure(error)
+		}
 	}
 }

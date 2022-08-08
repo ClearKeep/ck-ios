@@ -12,6 +12,9 @@ import CommonUI
 private enum Constants {
 	static let spacing = 10.0
 	static let padding = 20.0
+	static let sizeImage = CGSize(width: 60.0, height: 60.0)
+	static let statusOffset = UIOffset(horizontal: 20.0, vertical: 20.0)
+	static let sizeCircle = 12.0
 }
 
 struct MemberView: View {
@@ -22,7 +25,7 @@ struct MemberView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Binding var loadable: Loadable<IGroupDetailViewModels>
-	@Binding var clientData: [GroupDetailClientViewModel]
+	@Binding var clientData: [GroupDetailProfileViewModel]
 	@State private(set) var groupId: Int64 = 0
 	// MARK: - Init
 
@@ -31,7 +34,25 @@ struct MemberView: View {
 		ScrollView(showsIndicators: false) {
 			VStack(alignment: .leading, spacing: Constants.spacing) {
 				ForEach(clientData) { client in
-					UserPeerButton(client.userName, imageUrl: client.avatar, action: action)
+					Button(action: {
+						action()
+					}, label: {
+						HStack {
+							ZStack {
+								AvatarDefault(.constant(client.displayName), imageUrl: client.avatar)
+									.frame(width: Constants.sizeImage.width, height: Constants.sizeImage.height)
+								Circle()
+									.frame(width: Constants.sizeCircle, height: Constants.sizeCircle)
+									.foregroundColor(client.status.color)
+									.offset(x: Constants.statusOffset.vertical, y: Constants.statusOffset.horizontal)
+							}
+							Text(client.displayName)
+								.frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+								.font(AppTheme.shared.fontSet.font(style: .body2))
+								.foregroundColor(foregroundColorUserName)
+								.lineLimit(1)
+						}
+					})
 				}
 			}
 		}

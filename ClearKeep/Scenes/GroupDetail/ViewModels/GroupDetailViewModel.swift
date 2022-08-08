@@ -58,7 +58,7 @@ struct GroupDetailClientViewModel: Identifiable {
 	var userName: String
 	var domain: String
 	var userState: String
-	var userStatus: String
+	var userStatus: StatusType
 	var phoneNumber: String
 	var avatar: String
 	var email: String
@@ -70,7 +70,7 @@ extension GroupDetailClientViewModel {
 				  userName: member.userName,
 				  domain: member.domain,
 				  userState: member.userState,
-				  userStatus: member.userStatus,
+				  userStatus: StatusType(rawValue: member.userStatus) ?? .undefined,
 				  phoneNumber: member.phoneNumber,
 				  avatar: member.avatar,
 				  email: member.email)
