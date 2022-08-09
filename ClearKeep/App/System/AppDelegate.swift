@@ -120,12 +120,26 @@ extension AppDelegate: PKPushRegistryDelegate {
 	}
 	
 	func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType, completion: @escaping () -> Void) {
+		defer {
+			completion()
+		}
+		
 		if type != PKPushType.voIP || DependencyResolver.shared.channelStorage.currentServer?.accessKey.isEmpty ?? false {
 			return
 		}
 		
 		guard let notification = payload.dictionaryPayload["publication"] as? [String: Any],
 			  let notifiType = notification["notify_type"] as? String else {
+			return
+		}
+		
+		if notifiType == "video" {
+			CallManager.shared.handleVideoCall(payload: payload)
+			return
+		}
+		
+		if notifiType == "busy_request_call" {
+			CallManager.shared.handleBusyCall(payload: payload)
 			return
 		}
 		
@@ -146,13 +160,16 @@ extension AppDelegate: PKPushRegistryDelegate {
 			}
 			return
 		}
-		let backGroundTaskIndet = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
+		
 		CallManager.shared.handleIncomingPushEvent(payload: payload) { _ in
-			UIApplication.shared.endBackgroundTask(backGroundTaskIndet)
 		}
 		
 		CallManager.shared.endCall = {[weak self] call in
 			guard let self = self else { return }
+			if call.isCallGroup {
+				return
+			}
+			
 			Task {
 				await self.systemEventsHandler?.container.interactors.peerCallInteractor.updateVideoCall(groupID: call.roomId, callType: .cancelRequestCall)
 			}

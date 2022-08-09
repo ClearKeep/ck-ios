@@ -53,22 +53,33 @@ struct P2PVideoContainerView: View {
         GeometryReader { reader in
             ZStack(alignment: .top) {
                 // remote videos
-                if let videoView = viewModel.remoteVideoView {
-                    // show full screen
-                    let width = reader.frame(in: .global).width
-                    let height = reader.frame(in: .global).height
-                    VideoView(rtcVideoView: videoView)
-                        .frame(width: width,
-                               height: height,
-                               alignment: .center)
-                        .clipShape(Rectangle())
-                        .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-                        .animation(.easeInOut(duration: 0.6))
-                }
+				ScrollView(.vertical, showsIndicators: false, content: {
+					VStack {
+						if let videoView = viewModel.localVideoView,
+						   viewModel.callStatus != .answered {
+							let width = reader.frame(in: .global).width
+							let height = reader.frame(in: .global).height
+							VideoView(rtcVideoView: videoView)
+								.frame(width: width,
+									   height: height,
+									   alignment: .center)
+								.clipShape(Rectangle())
+						} else if let videoView = viewModel.remoteVideoView {
+							// show full screen
+							let width = reader.frame(in: .global).width
+							let height = reader.frame(in: .global).height
+							VideoView(rtcVideoView: videoView)
+								.frame(width: width,
+									   height: height,
+									   alignment: .center)
+								.clipShape(Rectangle())
+						}
+					}
+				})
                 
                 // local video
-                if let videoView = viewModel.localVideoView {
-                    if viewModel.callStatus == .answered {
+                if let videoView = viewModel.localVideoView,
+				   viewModel.callStatus == .answered {
                         let widthOfContainerView: CGFloat = 120
                         let heightOfContainerView: CGFloat = 180
                         VStack {
@@ -83,23 +94,9 @@ struct P2PVideoContainerView: View {
                                     .cornerRadius(10)
                                     .padding(.trailing, 16)
                                     .padding(.bottom, 68)
-                                    .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-                                    .animation(.easeInOut(duration: 0.6))
                             }
-                            
                             .padding(.trailing, 16)
                         }
-                    } else {
-                        let width = reader.frame(in: .global).width
-                        let height = reader.frame(in: .global).height
-                        VideoView(rtcVideoView: videoView)
-                            .frame(width: width,
-                                   height: height,
-                                   alignment: .center)
-                            .clipShape(Rectangle())
-                            .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-                            .animation(.easeInOut(duration: 0.6))
-                    }
                 }
             }
         }

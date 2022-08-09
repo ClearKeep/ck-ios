@@ -32,6 +32,10 @@ public struct VideoView: UIViewRepresentable {
 	}
 	
 	public func updateUIView(_ uiView: RTCMTLEAGLVideoView, context: Context) {
+#if arch(arm64)
+		rtcVideoView.videoContentMode = .scaleAspectFill
+#else
+#endif
 	}
 	
 	func getFrame(lstVideo: [RTCMTLEAGLVideoView], containerHeight: CGFloat) -> CGSize {

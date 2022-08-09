@@ -103,7 +103,7 @@ private extension AdvancedSeverView {
 	}
 	
 	var loadedView: some View {
-		return AnyView(LoginView(customServer: editingCustomServer))
+		return AnyView(LoginView(customServer: editingCustomServer, rootIsActive: .constant(false)))
 	}
 	
 	func errorView(_ error: AdvancedServerErrorView) -> some View {

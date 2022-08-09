@@ -77,7 +77,9 @@ struct ChatView: View {
 	@State private var isFirstLoadData: Bool = true
 	@State private var isShowingCall: Bool = false
 	@State private var alertVisible = false
+	@State private var alertType: CallError = .permission
 	@State private var hudVisible = false
+	@State private var disableCall = false
 
 	private let groupId: Int64
 	private let inspection = ViewInspector<Self>()
@@ -164,15 +166,21 @@ struct ChatView: View {
 		}
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 		.alert(isPresented: $alertVisible, content: {
-			Alert(title: Text("Call.PermistionCall".localized),
-				  message: Text("Call.GoToSetting".localized),
-				  primaryButton: .default(Text("Call.Settings".localized), action: {
-				guard let url = URL(string: UIApplication.openSettingsURLString) else {
-					return
-				}
-				UIApplication.shared.open(url)
-			}),
-				  secondaryButton: .default(Text("Call.Cancel".localized)))
+			if alertType == .permission {
+				return Alert(title: Text("Call.PermistionCall".localized),
+					  message: Text("Call.GoToSetting".localized),
+					  primaryButton: .default(Text("Call.Settings".localized), action: {
+					guard let url = URL(string: UIApplication.openSettingsURLString) else {
+						return
+					}
+					UIApplication.shared.open(url)
+				}),
+					  secondaryButton: .default(Text("Call.Cancel".localized)))
+			}
+			
+			return Alert(title: Text("General.Warning".localized),
+						 message: Text("Call.HaveExistCall".localized),
+					  dismissButton: .default(Text("General.OK".localized)))
 		})
 		.progressHUD(isLoading)
 	}
@@ -207,7 +215,7 @@ private extension ChatView {
 					.strokeBorder(foregroundButton, lineWidth: Constants.lineBorder)
 					.frame(width: Constants.sizeBorder, height: Constants.sizeBorder)
 			}.foregroundColor(foregroundBackButton)
-		}
+		}.disabled(self.disableCall)
 	}
 	
 	var videoButtonView: some View {
@@ -221,7 +229,7 @@ private extension ChatView {
 					.strokeBorder(foregroundButton, lineWidth: Constants.lineBorder)
 					.frame(width: Constants.sizeBorder, height: Constants.sizeBorder)
 			}.foregroundColor(foregroundBackButton)
-		}
+		}.disabled(disableCall)
 	}
 	
 	var buttonBackView: some View {
@@ -409,6 +417,13 @@ private extension ChatView {
 	}
 	
 	private func call(callType type: CallType) {
+		if CallManager.shared.calls.count > 0 {
+			self.alertType = .haveExistACall
+			alertVisible = true
+			self.disableCall = false
+			return
+		}
+		
 		AVCaptureDevice.authorizeVideo(completion: { (status) in
 			AVCaptureDevice.authorizeAudio(completion: { (status) in
 				if status == .alreadyAuthorized || status == .justAuthorized {
@@ -423,23 +438,29 @@ private extension ChatView {
 						switch response {
 						case .success:
 							hudVisible = false
+							self.disableCall = false
 						case .failure(let error):
 							hudVisible = false
+							self.disableCall = false
 							print(error)
 						}
 					}
 				} else {
+					self.alertType = .permission
 					self.alertVisible = true
+					self.disableCall = false
 				}
 			})
 		})
 	}
 	
 	func videoAction() {
+		self.disableCall = true
 		self.call(callType: .video)
 	}
 	
 	func audioAction() {
+		self.disableCall = true
 		self.call(callType: .audio)
 	}
 	
@@ -645,5 +666,12 @@ private extension ChatView {
 			self.joinedPeers = groups.filter { $0.groupType == "peer" }.sorted { $0.updatedAt > $1.updatedAt }.compactMap { group in
 				ForwardViewModel(groupModel: group) }
 		}
+	}
+}
+
+extension ChatView {
+	enum CallError {
+		case haveExistACall
+		case permission
 	}
 }

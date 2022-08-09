@@ -30,6 +30,7 @@ public final class CallBox: NSObject {
 	public var status = CallStatus.calling
 	public var type: CallType = .audio
 	public var isCallGroup = false
+	public var isCamera = true
 	
 	// MARK: Call State Properties
 	

@@ -30,9 +30,7 @@ struct SingleVideoCallInfoView: View {
 					Button(action: {
 						viewModel.backHandler?()
 					}, label: {
-						Image("ic_back")
-							.frame(width: 24, height: 24, alignment: .leading)
-							.foregroundColor(AppTheme.shared.colorSet.offWhite)
+						
 					})
 					.padding(.all, 8)
 					.padding(.leading, 8)

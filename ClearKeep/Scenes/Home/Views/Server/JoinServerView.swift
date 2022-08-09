@@ -48,7 +48,7 @@ struct JoinServerView: View {
 			Spacer()
 		}
 		NavigationLink(
-			destination: LoginView(customServer: customServer, navigateToHome: navigateToLogin),
+			destination: LoginView(customServer: customServer, navigateToHome: navigateToLogin, rootIsActive: $navigateToLogin),
 			isActive: $navigateToLogin,
 			label: {
 			})

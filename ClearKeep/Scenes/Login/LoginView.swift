@@ -30,7 +30,7 @@ struct LoginView: View {
 	@State private var password: String = ""
 	let inspection = ViewInspector<Self>()
 	@State private(set) var navigateToHome: Bool = false
-
+	@Binding var rootIsActive: Bool
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -133,12 +133,12 @@ private extension LoginView {
 			switch socialLogin.requireAction {
 			case "register_pincode":
 				return AnyView(VStack {
-					NavigationLink(destination: SocialView(userName: userName, socialStyle: .setSecurity, customServer: $customServer), isActive: .constant(true), label: {})
+					NavigationLink(destination: SocialView(userName: userName, socialStyle: .setSecurity, customServer: $customServer, dismiss: self.dismiss), isActive: .constant(true), label: {})
 					notRequestedView
 				})
 			case "verify_pincode":
 				return AnyView(VStack {
-					NavigationLink(destination: SocialView(userName: userName, resetToken: socialLogin.resetPincodeToken ?? "", pinCode: nil, socialStyle: .verifySecurity, customServer: $customServer), isActive: .constant(true), label: {})
+					NavigationLink(destination: SocialView(userName: userName, resetToken: socialLogin.resetPincodeToken ?? "", pinCode: nil, socialStyle: .verifySecurity, customServer: $customServer, dismiss: self.dismiss), isActive: .constant(true), label: {})
 					notRequestedView
 				})
 			default:
@@ -179,13 +179,19 @@ private extension LoginView {
 	func subscribeAndListen() {
 		injected.interactors.homeInteractor.subscribeAndListenServers()
 	}
+	
+	func dismiss() {
+		if navigateToHome {
+			self.rootIsActive = false
+		}
+	}
 }
 
 // MARK: - Preview
 #if DEBUG
 struct LoginView_Previews: PreviewProvider {
 	static var previews: some View {
-		LoginView()
+		LoginView(rootIsActive: .constant(false))
 	}
 }
 #endif

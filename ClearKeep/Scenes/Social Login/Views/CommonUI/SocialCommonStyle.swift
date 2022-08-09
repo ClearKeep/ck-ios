@@ -13,7 +13,7 @@ protocol ISocialCommonStyle {
 	var title: String { get }
 	var buttonNext: String { get }
 	
-	func nextView(userName: String, token: String, pinCode: String?, customServer: Binding<CustomServer>) -> AnyView
+	func nextView(userName: String, token: String, pinCode: String?, customServer: Binding<CustomServer>, dismiss: @escaping () -> Void) -> AnyView
 }
 
 enum SocialCommonStyle: ISocialCommonStyle {
@@ -76,16 +76,16 @@ enum SocialCommonStyle: ISocialCommonStyle {
 		}
 	}
 	
-	func nextView(userName: String, token: String, pinCode: String?, customServer: Binding<CustomServer>) -> AnyView {
+	func nextView(userName: String, token: String, pinCode: String?, customServer: Binding<CustomServer>, dismiss: @escaping () -> Void) -> AnyView {
 		switch self {
 		case .setSecurity:
-			return AnyView(SocialView(userName: userName, resetToken: token, pinCode: pinCode, socialStyle: .confirmSecurity, customServer: customServer))
+			return AnyView(SocialView(userName: userName, resetToken: token, pinCode: pinCode, socialStyle: .confirmSecurity, customServer: customServer, dismiss: dismiss))
 		case .confirmSecurity, .confirmResetSecurity:
-			return AnyView(SocialView(userName: userName, resetToken: token, pinCode: pinCode, socialStyle: .verifySecurity, customServer: customServer))
+			return AnyView(SocialView(userName: userName, resetToken: token, pinCode: pinCode, socialStyle: .verifySecurity, customServer: customServer, dismiss: dismiss))
 		case .verifySecurity:
-			return AnyView(SocialView(userName: userName, resetToken: token, pinCode: pinCode, socialStyle: .verifySecurity, customServer: customServer))
+			return AnyView(SocialView(userName: userName, resetToken: token, pinCode: pinCode, socialStyle: .verifySecurity, customServer: customServer, dismiss: dismiss))
 		case .forgotPassface:
-			return AnyView(SocialView(userName: userName, resetToken: token, pinCode: pinCode, socialStyle: .confirmResetSecurity, customServer: customServer))
+			return AnyView(SocialView(userName: userName, resetToken: token, pinCode: pinCode, socialStyle: .confirmResetSecurity, customServer: customServer, dismiss: dismiss))
 		}
 	}
 }

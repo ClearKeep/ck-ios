@@ -227,6 +227,7 @@
 "Call.Incomming.Voice" = "Incomming Voice Call";
 "Call.TapHereRetutnCall" = "Tap here to return to call screen";
 "Call.PermistionCall" = "Need camera and microphone permissions";
+"Call.HaveExistCall" = "You have a call that is currently in-progress. Please end it to start a new call.";
 "Call.GoToSetting" = "Go to Settings?";
 "Call.Settings" = "Settings";
 "Call.Cancel" = "Cancel";
