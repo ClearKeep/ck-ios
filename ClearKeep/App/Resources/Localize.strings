@@ -71,6 +71,7 @@
 "UserProfile.Authen.2FA" = "Two-factor authentication";
 "UserProfile.Phone.Valid" = "Invalid phone number";
 "UserProfile.UserName.Valid" = "This field is required";
+"UserProfile.Avatar.Size.Warning" = "Your Profile Picture cannot be larger than 5MB";
 
 // MARK: - Country Codes
 "Country.Code" = "Country Codes";

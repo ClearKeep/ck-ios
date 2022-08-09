@@ -290,6 +290,7 @@ private extension UserProfileContentView {
 				self.urlAvatar = urlAvata
 			} catch {
 				print("Error retrieving the value: \(error)")
+				loadable = .failed(error)
 			}
 		}
 	}

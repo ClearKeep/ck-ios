@@ -11,6 +11,10 @@ import Model
 import CommonUI
 import PhoneNumberKit
 
+private enum Constants {
+	static let maxAvatarSize = 5_000_000 // 5MB
+}
+
 protocol IProfileWorker {
 	var remoteStore: IProfileRemoteStore { get }
 	var inMemoryStore: IProfileInMemoryStore { get }
@@ -20,6 +24,7 @@ protocol IProfileWorker {
 	func validate(phoneNumber: String) -> Bool
 	func getMfaSettings() async -> Result<Bool, Error>
 	func updateMfaSettings(enabled: Bool) async -> Result<Bool, Error>
+	func isValidAvatarSize(url: URL) -> Bool
 }
 
 struct ProfileWorker {
@@ -94,5 +99,16 @@ extension ProfileWorker: IProfileWorker {
 	
 	func updateMfaSettings(enabled: Bool) async -> Result<Bool, Error> {
 		return await remoteStore.updateMfaSettings(domain: currentDomain ?? channelStorage.currentDomain, enabled: enabled)
+	}
+	
+	func isValidAvatarSize(url: URL) -> Bool {
+		do {
+			_ = url.startAccessingSecurityScopedResource()
+			let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
+			let size = attributes[.size] as? Int64 ?? 0
+			return size < Constants.maxAvatarSize
+		} catch {
+			return false
+		}
 	}
 }

@@ -125,10 +125,10 @@ extension UserService: IUserService {
 	}
 	
 	public func changePassword(oldPassword: String, newPassword: String, domain: String) async -> (Result<User_BaseResponse, Error>) {
-		guard let server = channelStorage.realmManager.getServer(by: domain) else { return .failure(ServerError.unknown) }
+		guard let email = channelStorage.realmManager.getServer(by: domain)?.profile?.email else { return .failure(ServerError.unknown) }
 		let srp = SwiftSRP.shared
 		
-		guard let aValue = srp.getA(userName: server.profile?.email ?? "", rawPassword: oldPassword, usr: &usr) else { return .failure(ServerError.unknown) }
+		guard let aValue = srp.getA(userName: email, rawPassword: oldPassword, usr: &usr) else { return .failure(ServerError.unknown) }
 		let aHex = bytesConvertToHexString(bytes: aValue)
 		
 		var request = User_RequestChangePasswordReq()
@@ -141,7 +141,7 @@ extension UserService: IUserService {
 			guard let mValue = await srp.getM(salt: data.salt.hexaBytes, byte: data.publicChallengeB.hexaBytes, usr: usr) else { return .failure(ServerError.unknown) }
 			let mHex = bytesConvertToHexString(bytes: mValue)
 			
-			guard let salt = srp.getSalt(userName: server.profile?.email ?? "", rawPassword: newPassword, byteV: &byteV),
+			guard let salt = srp.getSalt(userName: email, rawPassword: newPassword, byteV: &byteV),
 				  let verificator = srp.getVerificator(byteV: byteV) else { return(.failure(ServerError.unknown)) }
 			let saltHex = bytesConvertToHexString(bytes: salt)
 			let verificatorHex = bytesConvertToHexString(bytes: verificator)
@@ -153,7 +153,7 @@ extension UserService: IUserService {
 			let key = KeyHelper.generateIdentityKeyPair()
 			let preKeys = KeyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
 			guard let preKey = preKeys.first,
-				  let signedPreKeyRecord = KeyHelper.generateSignedPreKeyRecord(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (server.profile?.email ?? "" + domain).hashCode()))
+				  let signedPreKeyRecord = KeyHelper.generateSignedPreKeyRecord(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (email + domain).hashCode()))
 			else { return(.failure(ServerError.unknown)) }
 			
 			let preKeyData = preKey.serialize()
@@ -179,14 +179,17 @@ extension UserService: IUserService {
 			request.ivParameter = bytesConvertToHexString(bytes: pbkdf2.iv)
 			request.identityKeyEncrypted = bytesConvertToHexString(bytes: encrypt ?? [])
 			
-			let response = await channelStorage.getChannel(domain: domain, accessToken: server.accessKey, hashKey: server.hashKey).changePassword(request)
+			let response = await channelStorage.getChannel(domain: domain).changePassword(request)
 			switch response {
 			case .success(let data):
+				Debug.DLog("change password success")
 				return(.success(data))
 			case .failure(let error):
+				Debug.DLog("change password fail - \(error)")
 				return(.failure(error))
 			}
 		case .failure(let error):
+			Debug.DLog("change password fail - \(error)")
 			return(.failure(error))
 		}
 	}

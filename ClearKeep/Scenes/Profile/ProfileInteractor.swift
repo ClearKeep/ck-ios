@@ -51,6 +51,9 @@ extension ProfileInteractor: IProfileInteractor {
 	}
 
 	func uploadAvatar(url: URL, imageData: UIImage) async -> (Result<IProfileViewModels, Error>) {
+		if !worker.isValidAvatarSize(url: url) {
+			return .failure(ProfileError.avatarSize)
+		}
 		let result = await worker.uploadAvatar(url: url, imageData: imageData)
 		switch result {
 		case .success(let imageData):

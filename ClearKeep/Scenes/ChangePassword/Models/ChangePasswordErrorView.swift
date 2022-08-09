@@ -1,41 +1,31 @@
 //
-//  ProfileErrorView.swift
+//  ChangePasswordErrorView.swift
 //  ClearKeep
 //
-//  Created by Quang Pham on 03/08/2022.
+//  Created by Quang Pham on 08/08/2022.
 //
 
-import Foundation
 import Networking
 
-enum ProfileError: Swift.Error {
-	case socialAccount
-	case emptyPhoneNumber
-	case avatarSize
+enum ChangePasswordAlert: Error {
+	case success
 }
 
-enum ProfileErrorView {
-	case socialAccount
-	case emptyPhoneNumber
-	case unauthorized
+enum ChangePasswordErrorView {
+	case wrongPassword
 	case locked
-	case avatarSize
+	case success
 	case unknownError(errorCode: Int?)
 
 	// MARK: Init
 	init(_ error: Error) {
-		if let localError = error as? ProfileError {
+		if let localError = error as? ChangePasswordAlert {
 			switch localError {
-			case .socialAccount:
-				self = .socialAccount
-			case .emptyPhoneNumber:
-				self = .emptyPhoneNumber
-			case .avatarSize:
-				self = .avatarSize
+			case .success:
+				self = .success
 			}
 			return
 		}
-		
 		guard let errorResponse = error as? IServerError else {
 			self = .unknownError(errorCode: nil)
 			return
@@ -43,8 +33,8 @@ enum ProfileErrorView {
 
 		let errorCode = errorResponse.status
 		switch errorCode {
-		case 1079:
-			self = .unauthorized
+		case 1001, 1079:
+			self = .wrongPassword
 		case 1069:
 			self = .locked
 		default:
@@ -55,13 +45,7 @@ enum ProfileErrorView {
 	// MARK: Content
 	var title: String {
 		switch self {
-		case .socialAccount:
-			return "2FA.Not.Support".localized
-		case .emptyPhoneNumber:
-			return "2FA.Missing.Phone.Number".localized
-		case .avatarSize:
-			return "General.Warning".localized
-		case .unauthorized:
+		case .wrongPassword:
 			return "General.Error".localized
 		case .locked:
 			return "General.Error".localized
@@ -70,19 +54,15 @@ enum ProfileErrorView {
 				return String(format: "Error.Unknow.Message".localized, errorCode)
 			}
 			return "Unknow.Message".localized
+		case .success:
+			return "General.Warning".localized
 		}
 	}
 
 	var message: String {
 		switch self {
-		case .socialAccount:
-			return "2FA.Not.Support.Error".localized
-		case .emptyPhoneNumber:
-			return "2FA.Missing.Phone.Number.Error".localized
-		case .avatarSize:
-			return "UserProfile.Avatar.Size.Warning".localized
-		case .unauthorized:
-			return "Error.Authentication.UnAuthorized".localized
+		case .wrongPassword:
+			return "NewPassword.Error.Oldpasss".localized
 		case .locked:
 			return "Error.Authentication.Locked".localized
 		case .unknownError(let errorCode):
@@ -90,6 +70,8 @@ enum ProfileErrorView {
 				return String(format: "Error.Unknow.Message".localized, errorCode)
 			}
 			return "Unknow.Message".localized
+		case .success:
+			return "NewPassword.Sucess".localized
 		}
 	}
 
