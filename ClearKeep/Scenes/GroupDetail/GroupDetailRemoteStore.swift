@@ -19,6 +19,7 @@ protocol IGroupDetailRemoteStore {
 	func getProfile(domain: String) async -> Result<IGroupDetailModels, Error>
 	func getUserProfile(clientId: String, workspaceDomain: String, domain: String) async -> Result<IGroupDetailModels, Error>
 	func searchUserWithEmail(keyword: String, domain: String) async -> (Result<IGroupDetailModels, Error>)
+	func getListStatus(domain: String, ids: [String]) async -> Result<IGroupDetailModels, Error>
 }
 
 struct GroupDetailRemoteStore {
@@ -104,6 +105,17 @@ extension GroupDetailRemoteStore: IGroupDetailRemoteStore {
 		switch result {
 		case .success(let user):
 			return .success(GroupDetailModels(searchUserWithEmail: user))
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+
+	func getListStatus(domain: String, ids: [String]) async -> Result<IGroupDetailModels, Error> {
+		let result = await userService.getListStatus(ids: ids, workspaceDomain: domain, domain: domain)
+		switch result {
+		case .success(let response):
+			let client = response.lstClient.first(where: { $0.clientID == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId })
+			return .success(GroupDetailModels(responseUser: client, members: response.lstClient))
 		case .failure(let error):
 			return .failure(error)
 		}

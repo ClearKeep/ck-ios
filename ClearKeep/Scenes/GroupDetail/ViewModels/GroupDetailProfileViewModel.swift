@@ -8,12 +8,13 @@
 import Foundation
 import Model
 
-struct GroupDetailProfileViewModel {
+struct GroupDetailProfileViewModel: Identifiable {
 	var id: String
 	var displayName: String
 	var email: String
 	var phoneNumber: String
 	var avatar: String
+	var status: StatusType
 
 	init(_ user: IUser?) {
 		self.id = user?.id ?? ""
@@ -21,5 +22,6 @@ struct GroupDetailProfileViewModel {
 		self.email = user?.email ?? ""
 		self.phoneNumber = user?.phoneNumber ?? ""
 		self.avatar = user?.avatar ?? ""
+		status = StatusType(rawValue: user?.status ?? "") ?? .undefined
 	}
 }
