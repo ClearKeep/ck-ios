@@ -9,13 +9,12 @@
 // swiftlint:disable weak_delegate
 
 import UIKit
-
+var janusTransactions = [String: JanusRequestCallback]()
 class Janus: NSObject {
 	var delegate: JanusDelegate?
 	let server: URL
 	var sessionId: Int = 0
 	var janusWebSocket: JanusWebSocket?
-	var janusTransactions = [String: JanusRequestCallback]()
 	var pluginHandlers = [NSNumber: JanusPluginHandleProtocol]()
 	var delayReq = [[String: Any]]()
 	
@@ -129,7 +128,7 @@ class Janus: NSObject {
 		if let secret = apiSecret {
 			params["apisecret"] = secret
 		}
-		let callbackJanus: JanusRequestCallback = { msg in
+		let callbackJanus: JanusRequestCallback = {[weak self] msg in
 			if let reqCallback = callback {
 				if let janus = msg["janus"] as? String, janus == "success" {
 					reqCallback(nil)
@@ -206,7 +205,7 @@ class Janus: NSObject {
 		if let secret = self.apiSecret {
 			params["apisecret"] = secret
 		}
-		let callbackJanus: JanusRequestCallback = { msg in
+		let callbackJanus: JanusRequestCallback = {[weak self] msg in
 			if let janus = msg["janus"] as? String, janus == "error",
 			   let error = msg["error"] as? [String: Any] {
 				let data: [String: Any] = ["error_code": error["code"] ?? "", "error_reason": error["reason"] ?? ""]

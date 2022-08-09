@@ -35,6 +35,7 @@ struct SocialView: View {
 	@State private var error: SocialViewError?
 	@State private var isShowAlertForgotPassPhrase = false
 	
+	var dismiss: () -> Void
 	var pinCode: String?
 	let userName: String
 	var resetToken: String = ""
@@ -42,18 +43,20 @@ struct SocialView: View {
 	let inspection = ViewInspector<Self>()
 	
 	// MARK: - Init
-	init(userName: String, socialStyle: SocialCommonStyle, customServer: Binding<CustomServer>) {
+	init(userName: String, socialStyle: SocialCommonStyle, customServer: Binding<CustomServer>, dismiss: @escaping () -> Void) {
 		self.userName = userName
 		self.socialStyle = socialStyle
 		self._customServer = customServer
+		self.dismiss = dismiss
 	}
 	
-	init(userName: String, resetToken: String, pinCode: String?, socialStyle: SocialCommonStyle, customServer: Binding<CustomServer>) {
+	init(userName: String, resetToken: String, pinCode: String?, socialStyle: SocialCommonStyle, customServer: Binding<CustomServer>, dismiss: @escaping () -> Void) {
 		self.userName = userName
 		self.socialStyle = socialStyle
 		self._customServer = customServer
 		self.resetToken = resetToken
 		self.pinCode = pinCode
+		self.dismiss = dismiss
 	}
 	
 	// MARK: - Body
@@ -89,10 +92,10 @@ struct SocialView: View {
 				}))
 			}
 		
-		NavigationLink(destination: SocialView(userName: userName, resetToken: resetToken, pinCode: nil, socialStyle: .forgotPassface, customServer: $customServer), isActive: $setSecurityPhase, label: {})
+		NavigationLink(destination: SocialView(userName: userName, resetToken: resetToken, pinCode: nil, socialStyle: .forgotPassface, customServer: $customServer, dismiss: self.dismiss), isActive: $setSecurityPhase, label: {})
 		
 		NavigationLink(
-			destination: socialStyle.nextView(userName: userName, token: resetToken, pinCode: self.security, customServer: $customServer),
+			destination: socialStyle.nextView(userName: userName, token: resetToken, pinCode: self.security, customServer: $customServer, dismiss: self.dismiss),
 			isActive: $isNext,
 			label: {
 			})
@@ -190,7 +193,7 @@ private extension SocialView {
 private extension SocialView {
 	func submitAction() {
 		Task {
-			var result:Loadable<IAuthenticationModel>?
+			var result: Loadable<IAuthenticationModel>?
 			switch socialStyle {
 			case .setSecurity, .forgotPassface:
 				isNext = true
@@ -209,6 +212,10 @@ private extension SocialView {
 			switch result {
 			case .loaded(let data):
 				if (data.normalLogin) != nil {
+					if let token = UserDefaults.standard.data(forKey: "keySaveTokenPushNotification") {
+						injected.interactors.homeInteractor.registerToken(token)
+					}
+					self.dismiss()
 					return
 				}
 				self.isShowAlertForgotPassPhrase = false
@@ -270,6 +277,6 @@ private extension SocialView {
 
 struct SocialView_Previews: PreviewProvider {
 	static var previews: some View {
-		SocialView(userName: "", socialStyle: .confirmSecurity, customServer: .constant(CustomServer()))
+		SocialView(userName: "", socialStyle: .confirmSecurity, customServer: .constant(CustomServer()), dismiss: {})
 	}
 }

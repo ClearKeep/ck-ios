@@ -171,10 +171,14 @@ final public class CallManager: NSObject {
 		
 		if let index = self.calls.firstIndex(where: { item in
 			item.roomId == Int64(callNotification.publication?.groupID ?? "0")
-		}) {
+		}), self.calls[index].type.rawValue != callNotification.publication?.callType {
 			self.calls[index].type = callNotification.publication?.callType == "video" ? .video : .audio
 			NotificationCenter.default.post(name: Notification.Name.CallService.changeTypeCall, object: callNotification.publication)
 			completion?(nil)
+			return
+		}
+		
+		if self.calls.first(where: { $0.roomId == Int64(callNotification.publication?.groupID ?? "0") }) != nil {
 			return
 		}
 		
@@ -216,7 +220,7 @@ final public class CallManager: NSObject {
 			let hasVideo = callType == "video"
 			let isGroupCall = groupType == "group"
 			let callerName = isGroupCall ? groupName : username
-			
+			print(callerName)
 			reportIncomingCall(isCallGroup: isGroupCall,
 							   roomId: roomId,
 							   clientId: clientId,
@@ -228,6 +232,51 @@ final public class CallManager: NSObject {
 							   completion: completion)
 		}
 	}
+	
+	public func handleVideoCall(payload: PKPushPayload) {
+		print("Payload video: \(payload.dictionaryPayload)")
+		let decoder = JSONDecoder()
+		guard let data = try? JSONSerialization.data(withJSONObject: payload.dictionaryPayload, options: []),
+				  let callNotification = try? decoder.decode(CallNotification.self, from: data) else {
+					  return
+				  }
+		
+		if let currentUserId = callNotification.publication?.clientID,
+			let savedCurrentUserId = DependencyResolver.shared.channelStorage.currentServer?.profile?.userId, currentUserId != savedCurrentUserId {
+			print("This call is not belong to me")
+			print("\(currentUserId) # \(savedCurrentUserId)")
+			return
+		}
+		
+		if let index = self.calls.firstIndex(where: { item in
+			item.roomId == Int64(callNotification.publication?.groupID ?? "0")
+		}) {
+			self.calls[index].type = .video
+			NotificationCenter.default.post(name: Notification.Name.CallService.changeTypeCall, object: callNotification.publication)
+		}
+	}
+	
+	public func handleBusyCall(payload: PKPushPayload) {
+		let decoder = JSONDecoder()
+		guard let data = try? JSONSerialization.data(withJSONObject: payload.dictionaryPayload, options: []),
+				  let callNotification = try? decoder.decode(CallNotification.self, from: data) else {
+					  return
+				  }
+		
+		if let currentUserId = callNotification.publication?.clientID,
+			let savedCurrentUserId = DependencyResolver.shared.channelStorage.currentServer?.profile?.userId, currentUserId != savedCurrentUserId {
+			print("This call is not belong to me")
+			print("\(currentUserId) # \(savedCurrentUserId)")
+			return
+		}
+		
+		if let index = self.calls.firstIndex(where: { item in
+			item.roomId == Int64(callNotification.publication?.groupID ?? "0")
+		}) {
+			self.calls[index].status = .busy
+			NotificationCenter.default.post(name: Notification.Name.CallService.changeStatusBusyCall, object: nil)
+		}
+	}
 }
 
 extension CallManager {
@@ -236,33 +285,33 @@ extension CallManager {
 	func reportIncomingCall(isCallGroup: Bool, roomId: String, clientId: String, avatar: String?, token: String?, callerName: String, hasVideo: Bool = true, groupRtcUrl: String, completion: ((NSError?) -> Void)? = nil) {
 		// Construct a CXCallUpdate describing the incoming call, including the caller.
 		let update = CXCallUpdate()
-		update.remoteHandle = CXHandle(type: .phoneNumber, value: callerName)
+		update.remoteHandle = CXHandle(type: .generic, value: callerName)
 		update.hasVideo = hasVideo
+		update.supportsHolding = true
+		
 		let uuid = UUID()
 		// pre-heat the AVAudioSession
 		// OTAudioDeviceManager.setAudioDevice(OTDefaultAudioDevice.sharedInstance())
 		
 		// Report the incoming call to the system
-		Task {
-			try? await provider.reportNewIncomingCall(with: uuid, update: update) { [weak self] error in
-				guard let self = self else { return }
-				/*
-				 Only add incoming call to the app's list of calls if the call was allowed (i.e. there was no error)
-				 since calls may be "denied" for various legitimate reasons. See CXErrorCodeIncomingCallError.
-				 */
-				if error == nil {
-					let call = CallBox(uuid: uuid, clientId: clientId, rtcUrl: groupRtcUrl)
-					call.clientName = callerName
-					call.roomId = Int64(roomId) ?? 0
-					call.groupToken = token
-					call.avatar = avatar
-					call.isCallGroup = isCallGroup
-					call.type = hasVideo ? .video : .audio
-					self.addCall(call)
-				}
-				
-				completion?(error as NSError?)
+		provider.reportNewIncomingCall(with: uuid, update: update) { [weak self] error in
+			guard let self = self else { return }
+			/*
+			 Only add incoming call to the app's list of calls if the call was allowed (i.e. there was no error)
+			 since calls may be "denied" for various legitimate reasons. See CXErrorCodeIncomingCallError.
+			 */
+			if error == nil {
+				let call = CallBox(uuid: uuid, clientId: clientId, rtcUrl: groupRtcUrl)
+				call.clientName = callerName
+				call.roomId = Int64(roomId) ?? 0
+				call.groupToken = token
+				call.avatar = avatar
+				call.isCallGroup = isCallGroup
+				call.type = hasVideo ? .video : .audio
+				self.addCall(call)
 			}
+			
+			completion?(error as NSError?)
 		}
 	}
 	
@@ -457,5 +506,6 @@ public extension Notification.Name {
 		public static let endCall = Notification.Name("CallService.endCall")
 		public static let notification = NSNotification.Name.init("notification")
 		public static let changeTypeCall = NSNotification.Name.init("changeTypeCall")
+		public static let changeStatusBusyCall = NSNotification.Name.init("changeStatusBusyCall")
 	}
 }

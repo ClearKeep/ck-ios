@@ -33,8 +33,9 @@ struct DetailContentView: View {
 	@Binding var member: [GroupDetailClientViewModel]
 	@State private var messageAlert: String = ""
 	@State private var isShowAlert: Bool = false
-	@State private var alertPermissionVisible = false
+	@State private var errorType: ErrorType = .error
 	@State private var hudVisible = false
+	@State private var disableCall = false
 	// MARK: - Init
 
 	// MARK: - Body
@@ -68,9 +69,9 @@ struct DetailContentView: View {
 				}
 			}
 			HStack(alignment: .center) {
-				ImageButtonCircleCall("General.Audio".localized, image: AppTheme.shared.imageSet.phoneCallIcon, action: audioAction)
+				ImageButtonCircleCall("General.Audio".localized, image: AppTheme.shared.imageSet.phoneCallIcon, action: audioAction).disabled(self.disableCall)
 				Spacer()
-				ImageButtonCircleCall("General.Video".localized, image: AppTheme.shared.imageSet.videoIcon, action: videoAction)
+				ImageButtonCircleCall("General.Video".localized, image: AppTheme.shared.imageSet.videoIcon, action: videoAction).disabled(self.disableCall)
 			}
 			.padding(.horizontal, Constants.paddingHorizontal)
 			.padding(.vertical, Constants.paddingVertical)
@@ -97,28 +98,39 @@ struct DetailContentView: View {
 			Spacer()
 		})
 		.alert(isPresented: self.$isShowAlert) {
-			Alert(title: Text("GroupChat.Warning".localized),
-				  message: Text(self.messageAlert),
-				  dismissButton: .default(Text("GroupChat.Ok".localized)))
+			switch self.errorType {
+			case .error:
+				return Alert(title: Text("GroupChat.Warning".localized),
+							 message: Text(self.messageAlert),
+					dismissButton: .default(Text("GroupChat.Ok".localized)))
+			case .permission:
+				return Alert(title: Text("Call.PermistionCall".localized),
+					  message: Text("Call.GoToSetting".localized),
+					  primaryButton: .default(Text("Call.Settings".localized), action: {
+					guard let url = URL(string: UIApplication.openSettingsURLString) else {
+						return
+					}
+					UIApplication.shared.open(url)
+				}),
+					  secondaryButton: .default(Text("Call.Cancel".localized)))
+			case .existCall:
+				return Alert(title: Text("General.Warning".localized),
+							 message: Text("Call.HaveExistCall".localized),
+						  dismissButton: .default(Text("General.OK".localized)))
+			}
+			
 		}
-		.alert(isPresented: $alertPermissionVisible, content: {
-			Alert(title: Text("Call.PermistionCall".localized),
-				  message: Text("Call.GoToSetting".localized),
-				  primaryButton: .default(Text("Call.Settings".localized), action: {
-				guard let url = URL(string: UIApplication.openSettingsURLString) else {
-					return
-				}
-				UIApplication.shared.open(url)
-			}),
-				  secondaryButton: .default(Text("Call.Cancel".localized)))
-		})
 		.progressHUD(hudVisible)
 	}
 }
 
 // MARK: - Private
 private extension DetailContentView {
-
+	enum ErrorType {
+		case error
+		case permission
+		case existCall
+	}
 }
 
 // MARK: - Private Variables
@@ -179,6 +191,13 @@ private extension DetailContentView {
 	}
 	
 	private func call(callType type: CallType) {
+		if CallManager.shared.calls.count > 0 {
+			self.errorType = .existCall
+			self.isShowAlert = true
+			self.disableCall = false
+			return
+		}
+		
 		AVCaptureDevice.authorizeVideo(completion: { (status) in
 			AVCaptureDevice.authorizeAudio(completion: { (status) in
 				if status == .alreadyAuthorized || status == .justAuthorized {
@@ -193,13 +212,16 @@ private extension DetailContentView {
 						switch response {
 						case .success:
 							hudVisible = false
+							disableCall = false
 						case .failure(let error):
 							hudVisible = false
+							disableCall = false
 							print(error)
 						}
 					}
 				} else {
-					self.alertPermissionVisible = true
+					self.isShowAlert = true
+					disableCall = false
 				}
 			})
 		})

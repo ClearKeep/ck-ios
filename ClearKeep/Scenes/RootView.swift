@@ -32,7 +32,7 @@ struct RootView: View {
 						.inject(container)
 						.onAppear(perform: subscribeAndListen)
 				} else {
-					LoginView()
+					LoginView(rootIsActive: .constant(false))
 						.inject(container)
 				}
 			}

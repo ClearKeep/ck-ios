@@ -24,7 +24,6 @@ class CallViewModel: NSObject, ObservableObject {
 	@Published var remoteViewRenderSize: CGSize = CGSize.zero
 	@Published var isVideoRequesting = false
 	@Published var callType: CallType = .audio
-	
 	@Published var remotesVideoViewConfig = [String : CustomVideoViewConfig]()
 	var remotesVideoViewDict = [String : RTCMTLEAGLVideoView]()
 	var backHandler: (() -> Void)? = nil
@@ -53,7 +52,7 @@ class CallViewModel: NSObject, ObservableObject {
 			self.cameraOn = false
 			self.speakerEnable = false
 		} else {
-			self.cameraOn = true
+			self.cameraOn = callBox.isCamera
 			self.speakerEnable = true
 		}
 		
@@ -172,13 +171,16 @@ class CallViewModel: NSObject, ObservableObject {
 	
 	func endCall() {
 		if let callBox = self.callBox {
-			let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-			Task {
-			   await sceneDelegate?.systemEventsHandler?.container.interactors.peerCallInteractor.updateVideoCall(groupID: callBox.roomId, callType: CallType.cancelRequestCall)
+			if !callBox.isCallGroup {
+				let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+				Task {
+				   await sceneDelegate?.systemEventsHandler?.container.interactors.peerCallInteractor.updateVideoCall(groupID: callBox.roomId, callType: CallType.cancelRequestCall)
+				}
 			}
 			
 			CallManager.shared.end(call: callBox)
 		}
+		NotificationCenter.default.post(name: NSNotification.Name.CallService.endCall, object: nil)
 	}
 	
 	func cameraSwipeChange() {
@@ -190,6 +192,7 @@ class CallViewModel: NSObject, ObservableObject {
 	
 	func cameraChange() {
 		cameraOn = !cameraOn
+		self.callBox?.isCamera = cameraOn
 		updateCameraConfig()
 	}
 	
@@ -276,7 +279,7 @@ class CallViewModel: NSObject, ObservableObject {
 	
 	private func startCallTimout() {
 		// Check timeout for call
-		timeoutTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(CallViewModel.checkCallTimeout), userInfo: nil, repeats: true)
+		timeoutTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(CallViewModel.checkCallTimeout), userInfo: nil, repeats: true)
 		guard let timeoutTimer = timeoutTimer else {
 			return
 		}
@@ -290,6 +293,8 @@ class CallViewModel: NSObject, ObservableObject {
 		
 		if callTimer == nil {
 			timeCounter.sec = 0
+			timeCounter.hour = 0
+			timeCounter.min = 0
 			// Bắt đầu đếm giây
 			callTimer = Timer(timeInterval: 1, target: self, selector: #selector(CallViewModel.timeTick(timer:)), userInfo: nil, repeats: true)
 			guard let callTimer = callTimer else {
@@ -321,8 +326,8 @@ class CallViewModel: NSObject, ObservableObject {
 	}
 	
 	@objc private func checkCallTimeout() {
-		print("checkCallTimeout")
-		callInterval += 10
+		print("checkCallTimeout \(callInterval)")
+		callInterval += 1
 		if callInterval >= 60 && callTimer == nil {
 			endCall()
 		}
@@ -334,26 +339,30 @@ class CallViewModel: NSObject, ObservableObject {
 			guard let self = self else { return }
 			self.cameraOn = true
 			self.callType = .video
-			self.callBox?.type = .video
-			self.callBox?.videoRoom?.publisher?.cameraOn()
+			callBox.isCamera = true
+			callBox.type = .video
+			callBox.videoRoom?.publisher?.cameraOn()
 			self.speakerEnable = true
 			self.updateSpeakerConfig()
 			print("#TEST updateCallTypeVideo >>> video type")
 		}
 	}
 	
-	func updateCallType(data: Any?) {
-		guard let data = data as? PublicationNotification,
-			let callBox = self.callBox,
+	func updateCallType(data: PublicationNotification) {
+		guard let callBox = self.callBox,
 			  callBox.roomId == Int64(data.groupID ?? "0")
-		else { return }
+		else {
+			return
+		}
 		
 		DispatchQueue.main.async { [weak self] in
 			guard let self = self else { return }
-			self.cameraOn = data.notifyType == "video"
+			self.cameraOn = false
 			self.callType = data.notifyType == "video" ? .video : .audio
+			self.callBox?.type = self.callType == .video ? .video : .audio
+			callBox.isCamera = false
 			if self.callType == .video {
-				self.callBox?.videoRoom?.publisher?.cameraOn()
+				self.callBox?.videoRoom?.publisher?.cameraOff()
 			}
 			self.speakerEnable = true
 			self.updateSpeakerConfig()
@@ -396,37 +405,6 @@ extension CallViewModel {
 	}
 }
 
-//extension CallViewModel: JanusVideoRoomDelegate {
-//    func janusVideoRoom(janusRoom: JanusVideoRoom, didJoinRoomWithId clientId: Int) {
-//        callStatus = .ringing
-//    }
-//
-//    func janusVideoRoom(janusRoom: JanusVideoRoom, remoteLeaveWithID clientId: Int) {
-//        // Remove video view remote
-//        if let roleListen = janusRoom.remotes[clientId] {
-//            remotesVideoView.remove(at: remotesVideoView.firstIndex(of: roleListen.videoRenderView)!)
-//        }
-//        callStatus = .ended
-//    }
-//
-//    func janusVideoRoom(janusRoom: JanusVideoRoom, remoteUnPublishedWithUid clientId: Int) {
-//        // Remove video view remote
-//        if let roleListen = janusRoom.remotes[clientId] {
-//            remotesVideoView.remove(at: remotesVideoView.firstIndex(of: roleListen.videoRenderView)!)
-//        }
-//    }
-//
-//    func janusVideoRoom(janusRoom: JanusVideoRoom, firstFrameDecodeWithSize size: CGSize, uId: Int) {
-//        if let roleListen = janusRoom.remotes[uId] {
-//            remotesVideoView.append(roleListen.videoRenderView)
-//        }
-//        callStatus = .answered
-//    }
-//
-//    func janusVideoRoom(janusRoom: JanusVideoRoom, netBrokenWithID reason: RTCNetBrokenReason) {
-//
-//    }
-//}
 
 class TimeCounter {
 	var sec: Int = 0

@@ -75,8 +75,12 @@ struct PeerCallView: View {
 				} else {
 					CallVoiceActionView(viewModel: viewModel,
 										callAction: {
-						self.alertType = .changeTypeCall
-						self.isShowError = true
+						if viewModel.callType == .video {
+							self.changeCallToVideo(type: .audio)
+							return
+						}
+						
+						self.changeCallToVideo(type: .video)
 					},
 										endCall: {
 						self.alertType = .endCall
@@ -124,11 +128,12 @@ struct PeerCallView: View {
 				switch self.alertType {
 				case .changeTypeCall:
 					if viewModel.callType == .video {
-						self.changeCallToVideo(type: .audio)
+						self.viewModel.cameraOn = true
+						self.viewModel.callBox?.isCamera = true
+						self.viewModel.callBox?.videoRoom?.publisher?.cameraOn()
 						return
 					}
 					
-					self.changeCallToVideo(type: .video)
 				case .endCall:
 					viewModel.endCall()
 				default:
@@ -136,6 +141,21 @@ struct PeerCallView: View {
 				}
 			}),
 						 secondaryButton: .cancel(Text(self.alertType.secondButtonTitle)))
+		}
+		.onReceive(NotificationCenter.default.publisher(for: Notification.Name.CallService.changeTypeCall)) { (obj) in
+			guard let data = obj.object as? PublicationNotification,
+				  data.notifyType == "video" && self.viewModel.callType == .audio else {
+				return
+			}
+			self.viewModel.updateCallType(data: data)
+			self.alertType = .changeTypeCall
+			self.isShowError = true
+		}
+		.onReceive(NotificationCenter.default.publisher(for: Notification.Name.CallService.changeStatusBusyCall)) { _ in
+			self.viewModel.callStatus = .busy
+			DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+				self.viewModel.endCallAndDismiss()
+			}
 		}
 	}
 }

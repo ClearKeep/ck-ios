@@ -9,10 +9,11 @@ import UIKit
 import SwiftUI
 import CommonUI
 import ChatSecure
+var callController: UIViewController?
 
 struct InCallModifier: ViewModifier {
 	@State var isInMinimizeMode: Bool = false
-	@State var controller: UIViewController?
+	
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	@Binding var isInCall: Bool
@@ -76,7 +77,7 @@ struct InCallModifier: ViewModifier {
 				.edgesIgnoringSafeArea(.all)
 				.onTapGesture {
 					callViewModel.backHandler = {
-						self.controller?.dismiss(animated: true)
+						callController?.dismiss(animated: true)
 						withAnimation {
 							isInMinimizeMode = true
 							isInCall = true
@@ -87,7 +88,7 @@ struct InCallModifier: ViewModifier {
 					
 					let viewController = UIHostingController(rootView: InCallView(viewModel: callViewModel))
 					viewController.modalPresentationStyle = .overFullScreen
-					self.controller = viewController
+					callController = viewController
 					let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 					sceneDelegate?.window?.rootViewController?.present(viewController, animated: true)
 				}
@@ -97,8 +98,7 @@ struct InCallModifier: ViewModifier {
 					VStack {
 						HStack(alignment: .top) {
 							Spacer()
-							if let videoView = callViewModel.remoteVideoView,
-							   callViewModel.callType == .video {
+							if callViewModel.callType == .video && callViewModel.cameraOn, let videoView = callViewModel.localVideoView {
 								VideoView(rtcVideoView: videoView)
 							} else {
 								ZStack {
@@ -139,7 +139,7 @@ struct InCallModifier: ViewModifier {
 					}.padding(.trailing, 16)
 						.onTapGesture {
 							callViewModel.backHandler = {
-								self.controller?.dismiss(animated: true)
+								callController?.dismiss(animated: true)
 								withAnimation {
 									isInMinimizeMode = true
 									isInCall = true
@@ -150,7 +150,7 @@ struct InCallModifier: ViewModifier {
 							
 							let viewController = UIHostingController(rootView: InCallView(viewModel: callViewModel))
 							viewController.modalPresentationStyle = .overFullScreen
-							self.controller = viewController
+							callController = viewController
 							let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 							sceneDelegate?.window?.rootViewController?.present(viewController, animated: true)
 						}
@@ -170,7 +170,7 @@ struct InCallModifier: ViewModifier {
 		}
 		.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.CallService.receiveCall)) { _ in
 			callViewModel.backHandler = {
-				controller?.dismiss(animated: true)
+				callController?.dismiss(animated: true)
 				
 				withAnimation {
 					isInCall = true
@@ -178,24 +178,32 @@ struct InCallModifier: ViewModifier {
 				}
 			}
 			
+			self.callViewModel.timeCounter.sec = 0
+			self.callViewModel.timeCounter.min = 0
+			self.callViewModel.timeCounter.hour = 0
+			self.callViewModel.callInterval = 0
 			let viewController = UIHostingController(rootView: InCallView(viewModel: callViewModel))
-			self.controller = viewController
+			callController = viewController
 			viewController.modalPresentationStyle = .overFullScreen
 			let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 			sceneDelegate?.window?.rootViewController?.present(viewController, animated: true)
 		}
 		.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.CallService.endCall)) { _ in
-			withAnimation {
-				isInCall = false
-				isInMinimizeMode = false
-				self.callViewModel.speakerEnable = false
-				self.callViewModel.microEnable = true
-				self.callViewModel.cameraFront = false
-				self.callViewModel.localVideoView = nil
-				self.callViewModel.remoteVideoView = nil
-				self.callViewModel.remotesVideoView.removeAll()
+			isInCall = false
+			isInMinimizeMode = false
+			self.callViewModel.speakerEnable = false
+			self.callViewModel.microEnable = true
+			self.callViewModel.cameraFront = false
+			self.callViewModel.localVideoView = nil
+			self.callViewModel.remoteVideoView = nil
+			self.callViewModel.remotesVideoView.removeAll()
+			if var topController = UIApplication.shared.keyWindow?.rootViewController {
+				while let presentedViewController = topController.presentedViewController {
+					topController = presentedViewController
+				}
+
+				topController.dismiss(animated: true)
 			}
-			self.controller?.dismiss(animated: true)
 		}
 	}
 }
