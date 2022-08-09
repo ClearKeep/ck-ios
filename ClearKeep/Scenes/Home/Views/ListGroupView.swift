@@ -44,7 +44,7 @@ struct ListGroupView: View {
 			HStack {
 				Button(action: { isExpand.toggle() },
 					   label: {
-					Text("\(title)(\(groups.count))")
+					Text(title)
 						.font(AppTheme.shared.fontSet.font(style: .body2))
 						.frame(height: Constants.sectionHeight, alignment: .leading)
 						.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight2)
