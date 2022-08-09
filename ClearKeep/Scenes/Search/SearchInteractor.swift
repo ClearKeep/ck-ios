@@ -14,7 +14,7 @@ private enum Constants {
 }
 
 protocol ISearchInteractor {
-	func searchAll(_ keyword: String) async -> Loadable<ISearchViewModels>
+	func getJoinedGroup() async -> Loadable<ISearchViewModels>
 	func getMessageList(_ keyword: String, groupId: Int64, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
 }
 
@@ -27,21 +27,27 @@ struct SearchInteractor {
 }
 
 extension SearchInteractor: ISearchInteractor {
-
+	
 	var worker: ISearchWorker {
 		let remoteStore = SearchRemoteStore(groupAPIService: groupService, userService: userService, messageService: messageService)
 		let inMemoryStore = SearchInMemoryStore()
 		return SearchWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
-
-	func searchAll(_ keyword: String) async -> Loadable<ISearchViewModels> {
-		let result = await worker.searchUser(keyword)
+	
+	func getJoinedGroup() async -> Loadable<ISearchViewModels> {
+		let result = await worker.getJoinedGroup()
 		switch result {
-		case .success(let userResponse):
-			let result = await worker.searchGroups(keyword)
+		case .success(let groups):
+			var ids: [String] = []
+			groups.groupModel?.forEach({ data in
+				let idMembers = data.groupMembers.map({ $0.userId })
+				ids.append(contentsOf: idMembers)
+			})
+			ids.append(DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "")
+			let result = await worker.getListStatus(ids: Array(Set(ids)))
 			switch result {
-			case .success(let groupResponse):
-				return .loaded(SearchViewModels(responseUser: userResponse, responseGroup: groupResponse))
+			case .success(let user):
+				return .loaded(SearchViewModels(responseGroup: groups, responseUser: user))
 			case .failure(let error):
 				return .failed(error)
 			}
@@ -49,15 +55,7 @@ extension SearchInteractor: ISearchInteractor {
 			return .failed(error)
 		}
 	}
-//	func searchUser(_ keyword: String) async -> Loadable<ISearchViewModels> {
-//		let result = await worker.searchGroups(keyword)
-//		switch result {
-//		case .success(let groupResponse):
-//			return .loaded()
-//		case .failure(let error):
-//			return .failed(error)
-//		}
-//	}
+	
 	func getMessageList(_ keyword: String, groupId: Int64, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
 		let result = await worker.getMessageList(groupId: groupId, loadSize: Constants.loadSize, lastMessageAt: lastMessageAt)
 		return result
@@ -65,22 +63,22 @@ extension SearchInteractor: ISearchInteractor {
 }
 
 struct StubSearchInteractor: ISearchInteractor {
-
+	
 	let channelStorage: IChannelStorage
 	let groupService: IGroupService
 	let userService: IUserService
 	let messageService: IMessageService
-
+	
 	var worker: ISearchWorker {
 		let remoteStore = SearchRemoteStore(groupAPIService: groupService, userService: userService, messageService: messageService)
 		let inMemoryStore = SearchInMemoryStore()
 		return SearchWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
-
-	func searchAll(_ keyword: String) async -> Loadable<ISearchViewModels> {
+	
+	func getJoinedGroup() async -> Loadable<ISearchViewModels> {
 		return .notRequested
 	}
-
+	
 	func getMessageList(_ keyword: String, groupId: Int64, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
 		let result = await worker.getMessageList(groupId: groupId, loadSize: Constants.loadSize, lastMessageAt: lastMessageAt)
 		return result

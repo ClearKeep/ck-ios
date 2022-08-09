@@ -23,7 +23,7 @@ struct SearchAllView: View {
 	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
-	@Binding var searchUser: [SearchUserViewModel]
+	@Binding var searchUser: [SearchGroupViewModel]
 	@Binding var searchGroup: [SearchGroupViewModel]
 	@Binding var searchMessage: [SearchGroupViewModel]
 	@Binding var searchText: String
@@ -32,29 +32,9 @@ struct SearchAllView: View {
 	
 	// MARK: - Body
 	var body: some View {
-		ScrollView(showsIndicators: false) {
-			VStack(alignment: .leading, spacing: 0) {
-				Text("Search.People".localized.uppercased())
-					.font(AppTheme.shared.fontSet.font(style: .body2))
-					.foregroundColor(foregroundColorTitle)
-				SearchUserView(searchUser: $searchUser, searchText: $searchText)
-				Text("Search.GroupChat".localized.uppercased())
-					.padding(.top, Constants.paddingTopGroup)
-					.font(AppTheme.shared.fontSet.font(style: .body2))
-					.foregroundColor(foregroundColorTitle)
-				SearchGroupView(searchGroup: $searchGroup, searchText: $searchText)
-					.padding(.top, Constants.paddingTop)
-				Text("Search.Message".localized.uppercased())
-					.font(AppTheme.shared.fontSet.font(style: .body2))
-					.foregroundColor(foregroundColorTitle)
-					.padding(.top, Constants.paddingTopGroup)
-				SearchMessageView(searchMessage: $searchMessage, searchText: $searchText)
-					.padding(.top, Constants.paddingPeople)
-				Spacer()
-			}
-		}
-		.background(backgroundColorView)
-		.padding(.top, Constants.paddingTop)
+		content
+			.background(backgroundColorView)
+			.padding(.top, Constants.paddingTop)
 	}
 }
 
@@ -76,11 +56,53 @@ private extension SearchAllView {
 	var backgroundButtonLight: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
 	}
+	
+	var forceColorTitle: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight
+	}
 }
 
-// MARK: - Private variable
+// MARK: - Private view
 private extension SearchAllView {
-
+	
+	var content: AnyView {
+		AnyView(resultView)
+	}
+	
+	var notRequestView: some View {
+		VStack(alignment: .center) {
+			Spacer()
+			HStack {
+				Spacer()
+				Text("Search.Title.Error".localized)
+					.foregroundColor(forceColorTitle)
+				Spacer()
+			}
+			Spacer()
+			Spacer()
+		}
+	}
+	
+	var resultView: some View {
+		ScrollView(showsIndicators: false) {
+			VStack(alignment: .leading, spacing: 10) {
+				Text("Search.People".localized.uppercased())
+					.font(AppTheme.shared.fontSet.font(style: .body2))
+					.foregroundColor(foregroundColorTitle)
+				SearchUserView(searchUser: $searchUser, searchText: $searchText)
+				Text("Search.GroupChat".localized.uppercased())
+					.font(AppTheme.shared.fontSet.font(style: .body2))
+					.foregroundColor(foregroundColorTitle)
+				SearchGroupView(searchGroup: $searchGroup, searchText: $searchText)
+					.padding(.top, Constants.paddingTop)
+				Text("Search.Message".localized.uppercased())
+					.font(AppTheme.shared.fontSet.font(style: .body2))
+					.foregroundColor(foregroundColorTitle)
+				SearchMessageView(searchMessage: $searchMessage, searchText: $searchText)
+				Spacer()
+			}
+		}
+	}
 }
 // MARK: - Preview
 #if DEBUG

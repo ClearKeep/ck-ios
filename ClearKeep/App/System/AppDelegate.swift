@@ -27,7 +27,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 					 launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		FirebaseApp.configure()
 		
-		//PushKit
+		// PushKit
 		registrationPushRegistry()
 		
 		// Facebook
@@ -133,7 +133,7 @@ extension AppDelegate: PKPushRegistryDelegate {
 			guard let roomId = notification["group_id"] as? String else {
 				return
 			}
-			let calls = CallManager.shared.calls.filter{ $0.roomId == Int(roomId) ?? 0 }
+			let calls = CallManager.shared.calls.filter { $0.roomId == Int(roomId) ?? 0 }
 			calls.forEach { (call) in
 				if call.isCallGroup {
 					// TODO: handle for group call
@@ -152,8 +152,9 @@ extension AppDelegate: PKPushRegistryDelegate {
 		}
 		
 		CallManager.shared.endCall = {[weak self] call in
+			guard let self = self else { return }
 			Task {
-				await self?.systemEventsHandler?.container.interactors.peerCallInteractor.updateVideoCall(groupID: call.roomId, callType: .cancelRequestCall)
+				await self.systemEventsHandler?.container.interactors.peerCallInteractor.updateVideoCall(groupID: call.roomId, callType: .cancelRequestCall)
 			}
 		}
 	}

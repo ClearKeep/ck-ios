@@ -89,6 +89,7 @@
 		047D6B6127F6A3750098B104 /* CreateDirectMessageInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B5C27F6A3750098B104 /* CreateDirectMessageInteractor.swift */; };
 		047D6B6227F6A3750098B104 /* CreateDirectMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B5D27F6A3750098B104 /* CreateDirectMessageView.swift */; };
 		047D6B6427F6A3DD0098B104 /* DirectMessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D6B6327F6A3DD0098B104 /* DirectMessageContentView.swift */; };
+		048F904D289CEDD2006C42B7 /* Date + Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048F904C289CEDD2006C42B7 /* Date + Timer.swift */; };
 		0499340C27E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340727E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift */; };
 		0499340D27E96DD7003BD4C4 /* FogotPasswordWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340827E96DD7003BD4C4 /* FogotPasswordWorker.swift */; };
 		0499340E27E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499340927E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift */; };
@@ -379,6 +380,7 @@
 		047D6B5C27F6A3750098B104 /* CreateDirectMessageInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDirectMessageInteractor.swift; sourceTree = "<group>"; };
 		047D6B5D27F6A3750098B104 /* CreateDirectMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDirectMessageView.swift; sourceTree = "<group>"; };
 		047D6B6327F6A3DD0098B104 /* DirectMessageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectMessageContentView.swift; sourceTree = "<group>"; };
+		048F904C289CEDD2006C42B7 /* Date + Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + Timer.swift"; sourceTree = "<group>"; };
 		0499340727E96DD7003BD4C4 /* FogotPasswordInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordInMemoryStore.swift; sourceTree = "<group>"; };
 		0499340827E96DD7003BD4C4 /* FogotPasswordWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordWorker.swift; sourceTree = "<group>"; };
 		0499340927E96DD7003BD4C4 /* FogotPasswordRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogotPasswordRemoteStore.swift; sourceTree = "<group>"; };
@@ -655,6 +657,7 @@
 			children = (
 				22CDFF302889267E00B8213D /* CGSize+Extensions.swift */,
 				0457270028868C7E001EF5F2 /* String+Extensions.swift */,
+				048F904C289CEDD2006C42B7 /* Date + Timer.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1927,6 +1930,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				048F904D289CEDD2006C42B7 /* Date + Timer.swift in Sources */,
 				22E4DBA72886906000652B58 /* CallViewModel.swift in Sources */,
 				0458986C286BED7900A0631C /* ProfileModel.swift in Sources */,
 				F5644834283B7A79007846F9 /* CountryCode.swift in Sources */,

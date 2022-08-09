@@ -24,9 +24,8 @@ struct SearchUserView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@State private var isUserChat: Bool = false
-	@Binding var searchUser: [SearchUserViewModel]
+	@Binding var searchUser: [SearchGroupViewModel]
 	@Binding var searchText: String
-	
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -34,14 +33,14 @@ struct SearchUserView: View {
 		ForEach(searchUser) { item in
 			VStack(alignment: .leading, spacing: Constants.spacing) {
 				NavigationLink(
-					destination: EmptyView(),
+					destination: ChatView(inputStyle: .default, groupId: item.groupId),
 					isActive: $isUserChat,
 					label: {
 						Button(action: tapAaction) {
 							HStack(spacing: Constants.spacingHstack) {
-								AvatarDefault(.constant(item.displayName ?? ""), imageUrl: "")
+								AvatarDefault(.constant(item.groupName ), imageUrl: item.groupAvatar )
 									.frame(width: Constants.sizeImage.width, height: Constants.sizeImage.height)
-								Text(makeAttributedString(text: item.displayName ?? ""))
+								Text(makeAttributedString(text: item.groupName ))
 									.font(AppTheme.shared.fontSet.font(style: .body3))
 									.foregroundColor(foregroundColorUserName)
 								Spacer()
@@ -52,7 +51,6 @@ struct SearchUserView: View {
 			}
 			.background(backgroundColorView)
 		}
-		.padding(.top, Constants.paddingTop)
 	}
 }
 
@@ -68,8 +66,8 @@ private extension SearchUserView {
 	
 	func makeAttributedString(text: String) -> AttributedString {
 		var string = AttributedString(text)
-		if let range = string.range(of: searchText) {
-			string[range].foregroundColor = AppTheme.shared.colorSet.black
+		if let range = AttributedString(text.lowercased()).range(of: searchText) {
+			string[range].foregroundColor = colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.primaryDefault
 		}
 		return string
 	}

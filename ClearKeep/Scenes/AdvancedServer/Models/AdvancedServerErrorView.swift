@@ -46,6 +46,6 @@ enum AdvancedServerErrorView {
 	}
 	
 	var primaryButtonTitle: String {
-		return "General.Closse".localized
+		return "General.Close".localized
 	}
 }

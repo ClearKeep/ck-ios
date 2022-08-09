@@ -29,9 +29,9 @@ struct SearchGroupView: View {
 	// MARK: - Body
 	var body: some View {
 		ForEach(searchGroup) { item in
-			VStack(alignment: .leading, spacing: Constants.spacingVstack) {
+			VStack(alignment: .leading) {
 				NavigationLink(
-					destination: EmptyView(),
+					destination: ChatView(inputStyle: .default, groupId: item.groupId),
 					isActive: $isGroupChat,
 					label: {
 						Button(action: action) {
@@ -67,14 +67,14 @@ private extension SearchGroupView {
 private extension SearchGroupView {
 	func makeAttributedString(text: String) -> AttributedString {
 		var string = AttributedString(text)
-		if let range = string.range(of: searchText) {
+		if let range = AttributedString(text.lowercased()).range(of: searchText) {
 			string[range].foregroundColor = AppTheme.shared.colorSet.black
 		}
 		return string
 	}
 
 	func action() {
-
+		self.isGroupChat.toggle()
 	}
 }
 

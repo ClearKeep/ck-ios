@@ -105,10 +105,10 @@ private extension ChangePasswordContentView {
 		Task {
 			do {
 				let result = try await injected.interactors.changePasswordInteractor.changePassword(oldPassword: currentPassword, newPassword: newPassword).get().authenResponse?.error
-				self.messageAlert = result ?? "NewPassword.Sucess".localized
+				self.messageAlert = (result == "") ? "NewPassword.Sucess".localized : "General.Error".localized
 				self.isShowAlert = true
 			} catch {
-				self.messageAlert = "\(error)"
+				self.messageAlert = "General.Error".localized
 				self.isShowAlert = true
 			}
 		}
@@ -131,9 +131,6 @@ private extension ChangePasswordContentView {
 	func checkConfirm(text: String) {
 		confirmPasswordInvvalid = injected.interactors.changePasswordInteractor.passwordValid(password: text)
 		confirmStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.Password.Valid".localized)
-		if text != currentPassword {
-			confirmStyle = (text != currentPassword) ? .normal : .error(message: "NewPassword.Diffirent.OldPass".localized)
-		}
 		if text != newPassword {
 			confirmInvvalid = injected.interactors.changePasswordInteractor.confirmPasswordValid(password: newPassword, confirmPassword: text)
 			confirmStyle = confirmInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
@@ -141,7 +138,7 @@ private extension ChangePasswordContentView {
 	}
 
 	func disableButton() -> Bool {
-		return !(currentInvalid && passwordInvalid && confirmPasswordInvvalid && confirmInvvalid)
+		return !(currentInvalid && passwordInvalid && confirmPasswordInvvalid && !confirmInvvalid)
 	}
 }
 
