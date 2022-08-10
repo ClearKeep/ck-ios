@@ -31,7 +31,7 @@ struct GroupDetailViewModel {
 extension GroupDetailViewModel {
 	init(_ realmGroup: IGroupModel?) {
 		let groupMembers = realmGroup?.groupMembers.map { member in
-			GroupDetailClientViewModel(member)
+			GroupDetailClientViewModel(member: member)
 		}
 		self.init(groupId: realmGroup?.groupId ?? 0,
 				  groupName: realmGroup?.groupName ?? "",
@@ -65,7 +65,7 @@ struct GroupDetailClientViewModel: Identifiable {
 }
 
 extension GroupDetailClientViewModel {
-	init(_ member: IMemberModel) {
+	init(member: IMemberModel) {
 		self.init(id: member.userId,
 				  userName: member.userName,
 				  domain: member.domain,
@@ -74,5 +74,16 @@ extension GroupDetailClientViewModel {
 				  phoneNumber: member.phoneNumber,
 				  avatar: member.avatar,
 				  email: member.email)
+	}
+
+	init() {
+		self.id = ""
+		self.userName = ""
+		self.domain = ""
+		self.userState = ""
+		self.userStatus = .undefined
+		self.phoneNumber = ""
+		self.avatar = ""
+		self.email = ""
 	}
 }

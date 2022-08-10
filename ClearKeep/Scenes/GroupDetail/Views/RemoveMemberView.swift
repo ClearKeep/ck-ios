@@ -25,12 +25,15 @@ struct RemoveMemberView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Binding var loadable: Loadable<IGroupDetailViewModels>
-	@Binding var clientData: [GroupDetailClientViewModel]
+	@Binding var member: [GroupDetailProfileViewModel]
+	@State private(set) var groupData: [GroupDetailClientViewModel] = []
 	@State private(set) var groupId: Int64 = 0
 	@State private(set) var searchStyle: TextInputStyle = .default
 	@State private(set) var searchText: String = ""
 	@State private var messageAlert: String = ""
 	@State private var isShowAlert: Bool = false
+	@State private var isShowPopUp: Bool = false
+	
 	// MARK: - Init
 
 	// MARK: - Body
@@ -46,15 +49,13 @@ struct RemoveMemberView: View {
 					.onChange(of: searchText) { text in
 						search(text: text)
 					}
-				ForEach(clientData) { client in
-					RemoveButtonView(.constant(client.userName), imageUrl: client.avatar, action: { deleteUser(client) })
+				ForEach(member) { client in
+					RemoveButtonView(.constant(client.displayName), imageUrl: client.avatar, action: {
+						chosseUser(client) })
 				}
 			}
 		}
 		.padding(.horizontal, Constants.padding)
-		.background(backgroundColorView)
-		.edgesIgnoringSafeArea(.all)
-		.hiddenNavigationBarStyle()
 		.applyNavigationBarPlainStyle(title: "GroupDetail.RemoveMember".localized,
 									  titleColor: titleColor,
 									  backgroundColors: backgroundButtonBack,
@@ -64,6 +65,15 @@ struct RemoveMemberView: View {
 									  rightBarItems: {
 			Spacer()
 		})
+		.background(backgroundColorView)
+		.edgesIgnoringSafeArea(.all)
+		.hiddenNavigationBarStyle()
+		.alert("GroupChat.Warning".localized, isPresented: $isShowPopUp) {
+			Button("General.Cancel".localized, role: .cancel) { }
+			Button("GroupDetail.Remove".localized, role: .none) { deleteUser() }
+		} message: {
+			Text(self.messagePopup)
+		}
 		.alert(isPresented: self.$isShowAlert) {
 			Alert(title: Text("GroupChat.Warning".localized),
 				  message: Text(self.messageAlert),
@@ -97,15 +107,18 @@ private extension RemoveMemberView {
 // MARK: - Private func
 private extension RemoveMemberView {
 	func customBack() {
-		Task {
-			loadable = await injected.interactors.groupDetailInteractor.getGroup(by: groupId)
-		}
+		self.presentationMode.wrappedValue.dismiss()
 	}
 
-	func deleteUser(_ data: GroupDetailClientViewModel) {
+	func chosseUser(_ data: GroupDetailProfileViewModel) {
+		self.isShowPopUp = true
+		self.groupData = groupData.filter { $0.id == data.id }
+	}
+
+	func deleteUser() {
 		Task {
 			do {
-				let notification = try await injected.interactors.groupDetailInteractor.removeMember(data, groupId: groupId).get().groupBase?.error ?? "General.Error".localized
+				let notification = try await injected.interactors.groupDetailInteractor.removeMember(groupData.first ?? GroupDetailClientViewModel(id: "", userName: "", domain: "", userState: "", userStatus: .undefined, phoneNumber: "", avatar: "", email: ""), groupId: groupId).get().groupBase?.error ?? "General.Error".localized
 				self.messageAlert = notification
 				self.isShowAlert = true
 			} catch {
@@ -116,7 +129,11 @@ private extension RemoveMemberView {
 	}
 
 	func search(text: String) {
-		self.clientData = clientData.filter { $0.userName.lowercased().prefix(1) == text.lowercased().prefix(1) }
+		self.member = member.filter { $0.displayName.lowercased().prefix(1) == text.lowercased().prefix(1) }
+	}
+
+	var messagePopup: String {
+		String(format: "GroupDetail.LeadMesage.Remove".localized, groupData.first?.userName ?? "")
 	}
 }
 
@@ -128,12 +145,3 @@ private extension RemoveMemberView {
 // MARK: - Interactor
 private extension RemoveMemberView {
 }
-
-// MARK: - Preview
-#if DEBUG
-struct RemoveMemberView_Previews: PreviewProvider {
-	static var previews: some View {
-		RemoveMemberView(loadable: .constant(.notRequested), clientData: .constant([]))
-	}
-}
-#endif

@@ -69,18 +69,12 @@ private extension GroupDetailView {
 	}
 
 	func loadedView(_ data: IGroupDetailViewModels) -> AnyView {
-		if let groupData = data.getGroup {
-			let members = groupData.groupMembers.filter { $0.userState == "active" }
-			return AnyView(DetailContentView(loadable: $loadable, groupData: .constant(groupData), member: .constant(members)))
-		}
 
-		if let client = data.getClientInGroup {
-			let listClient = client.sorted { $0.displayName.lowercased().prefix(2) < $1.displayName.lowercased().prefix(2) }
-			return AnyView(MemberView(loadable: $loadable, clientData: .constant(listClient), groupId: groupId))
-		}
-
-		if let profile = data.myProfile {
-			return AnyView(AddMemberView(loadable: $loadable, search: .constant([]), groupId: groupId, myProfile: profile))
+		if let avatarUser = data.getClientInGroup {
+			let client = data.getGroup
+			let listClient = avatarUser.sorted { $0.displayName.lowercased().prefix(2) < $1.displayName.lowercased().prefix(2) }
+			return AnyView(DetailContentView(loadable: $loadable, groupData: .constant(client), member: .constant(listClient))
+			)
 		}
 
 		if let search = data.searchUser {
@@ -103,12 +97,6 @@ private extension GroupDetailView {
 			return AnyView(AddMemberView(loadable: $loadable, search: .constant(user), groupId: groupId, addMember: user))
 		}
 
-		if let lstuser = data.removeMember {
-			let lstclientRemove = lstuser.filter { $0.id != DependencyResolver.shared.channelStorage.currentServer?.profile?.userId }
-			let lstClient = lstclientRemove.filter { $0.userState == "active" }
-			return AnyView(RemoveMemberView(loadable: $loadable, clientData: .constant(lstClient), groupId: groupId))
-		}
-		
 		if let leaveGroup = data.leaveGroup {
 			return AnyView(HomeView())
 		}
@@ -129,8 +117,9 @@ private extension GroupDetailView {
 // MARK: - Interactor
 private extension GroupDetailView {
 	func getGroup() {
+		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			loadable = await injected.interactors.groupDetailInteractor.getGroup(by: groupId)
+			loadable = await injected.interactors.groupDetailInteractor.getClientInGroup(by: groupId)
 		}
 	}
 }

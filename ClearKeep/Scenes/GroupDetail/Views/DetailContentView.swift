@@ -30,97 +30,102 @@ struct DetailContentView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Binding var loadable: Loadable<IGroupDetailViewModels>
 	@Binding var groupData: GroupDetailViewModel?
-	@Binding var member: [GroupDetailClientViewModel]
+	@Binding var member: [GroupDetailProfileViewModel]
 	@State private var messageAlert: String = ""
 	@State private var isShowAlert: Bool = false
 	@State private var errorType: ErrorType = .error
 	@State private var hudVisible = false
 	@State private var disableCall = false
+	@State private var isSeeMember: Bool = false
+	@State private var isRemoveMember: Bool = false
+	@State private var isAddMember: Bool = false
+
 	// MARK: - Init
 
 	// MARK: - Body
 	var body: some View {
-		VStack {
-			if member.count < 5 {
-				HStack(spacing: Constants.spaceHstack) {
-					Spacer()
-					ForEach(0..<member.prefix(4).count, id: \.self) { user in
-						AvatarDefault(.constant(member[user].userName), imageUrl: member[user].avatar)
-							.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
+		NavigationView {
+			VStack {
+				if member.count < 5 {
+					HStack(spacing: Constants.spaceHstack) {
+						Spacer()
+						ForEach(0..<member.prefix(4).count, id: \.self) { user in
+							AvatarDefault(.constant(member[user].displayName), imageUrl: member[user].avatar)
+								.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
+						}
+						Spacer()
 					}
-					Spacer()
+				} else {
+					HStack(spacing: Constants.spaceHstack) {
+						Spacer()
+						ForEach(0..<member.prefix(4).count, id: \.self) { user in
+							AvatarDefault(.constant(member[user].displayName), imageUrl: member[user].avatar)
+								.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
+						}
+						ZStack {
+							Circle()
+								.fill(foregroundButtonImage)
+								.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
+							Text("+\(member.count - 4)")
+								.font(AppTheme.shared.fontSet.font(style: .body3))
+								.foregroundColor(AppTheme.shared.colorSet.offWhite)
+						}
+						Spacer()
+					}
 				}
-			} else {
-				HStack(spacing: Constants.spaceHstack) {
+				HStack(alignment: .center) {
+					ImageButtonCircleCall("General.Audio".localized, image: AppTheme.shared.imageSet.phoneCallIcon, action: audioAction).disabled(self.disableCall)
 					Spacer()
-					ForEach(0..<member.prefix(4).count, id: \.self) { user in
-						AvatarDefault(.constant(member[user].userName), imageUrl: member[user].avatar)
-							.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
-					}
-					ZStack {
-						Circle()
-							.fill(foregroundButtonImage)
-							.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
-						Text("+\(member.count - 4)")
-							.font(AppTheme.shared.fontSet.font(style: .body3))
-							.foregroundColor(AppTheme.shared.colorSet.offWhite)
-					}
-					Spacer()
+					ImageButtonCircleCall("General.Video".localized, image: AppTheme.shared.imageSet.videoIcon, action: videoAction).disabled(self.disableCall)
 				}
-			}
-			HStack(alignment: .center) {
-				ImageButtonCircleCall("General.Audio".localized, image: AppTheme.shared.imageSet.phoneCallIcon, action: audioAction).disabled(self.disableCall)
+				.padding(.horizontal, Constants.paddingHorizontal)
+				.padding(.vertical, Constants.paddingVertical)
+				ForEach(DetailType.allCases, id: \.self) { detail in
+					didSelect(detail)
+				}
 				Spacer()
-				ImageButtonCircleCall("General.Video".localized, image: AppTheme.shared.imageSet.videoIcon, action: videoAction).disabled(self.disableCall)
 			}
-			.padding(.horizontal, Constants.paddingHorizontal)
-			.padding(.vertical, Constants.paddingVertical)
-			ForEach(DetailType.allCases, id: \.self) { detail in
-				LinkButton(detail.title, icon: detail.icon, alignment: .leading) { didSelect(detail) }
-				.foregroundColor(detail.color)
-				.frame(height: Constants.itemHeight)
-			}
+			.padding(.horizontal, Constants.padding)
+			.hiddenNavigationBarStyle()
+			.applyNavigationBarPlainStyle(title: groupData?.groupName
+										  ?? "Name",
+										  titleColor: titleColor,
+										  backgroundColors: backgroundButtonBack,
+										  leftBarItems: {
+				BackButtonStandard(customBack)
+			},
+										  rightBarItems: {
+				Spacer()
+			})
+			.background(backgroundColorView)
+			.edgesIgnoringSafeArea(.all)
+			.alert(isPresented: self.$isShowAlert) {
+				switch self.errorType {
+				case .error:
+					return Alert(title: Text("GroupChat.Warning".localized),
+								 message: Text(self.messageAlert),
+								 dismissButton: .default(Text("GroupChat.Ok".localized)))
+				case .permission:
+					return Alert(title: Text("Call.PermistionCall".localized),
+								 message: Text("Call.GoToSetting".localized),
+								 primaryButton: .default(Text("Call.Settings".localized), action: {
+						guard let url = URL(string: UIApplication.openSettingsURLString) else {
+							return
+						}
+						UIApplication.shared.open(url)
+					}),
+								 secondaryButton: .default(Text("Call.Cancel".localized)))
+				case .existCall:
+					return Alert(title: Text("General.Warning".localized),
+								 message: Text("Call.HaveExistCall".localized),
+								 dismissButton: .default(Text("General.OK".localized)))
+				}
 
-			Spacer()
-		}
-		.padding(.horizontal, Constants.padding)
-		.background(backgroundColorView)
-		.edgesIgnoringSafeArea(.all)
-		.hiddenNavigationBarStyle()
-		.applyNavigationBarPlainStyle(title: groupData?.groupName
-									  ?? "Name",
-									  titleColor: titleColor,
-									  backgroundColors: backgroundButtonBack,
-									  leftBarItems: {
-			BackButtonStandard(customBack)
-		},
-									  rightBarItems: {
-			Spacer()
-		})
-		.alert(isPresented: self.$isShowAlert) {
-			switch self.errorType {
-			case .error:
-				return Alert(title: Text("GroupChat.Warning".localized),
-							 message: Text(self.messageAlert),
-					dismissButton: .default(Text("GroupChat.Ok".localized)))
-			case .permission:
-				return Alert(title: Text("Call.PermistionCall".localized),
-					  message: Text("Call.GoToSetting".localized),
-					  primaryButton: .default(Text("Call.Settings".localized), action: {
-					guard let url = URL(string: UIApplication.openSettingsURLString) else {
-						return
-					}
-					UIApplication.shared.open(url)
-				}),
-					  secondaryButton: .default(Text("Call.Cancel".localized)))
-			case .existCall:
-				return Alert(title: Text("General.Warning".localized),
-							 message: Text("Call.HaveExistCall".localized),
-						  dismissButton: .default(Text("General.OK".localized)))
 			}
-			
+			.progressHUD(hudVisible)
 		}
-		.progressHUD(hudVisible)
+		.hiddenNavigationBarStyle()
+		.edgesIgnoringSafeArea(.all)
 	}
 }
 
@@ -166,27 +171,53 @@ private extension DetailContentView {
 		self.call(callType: .video)
 	}
 
-	func didSelect(_ detail: DetailType) {
-		switch detail {
+	func didSelectDetail(_ menu: DetailType) {
+		switch menu {
 		case .seeMember:
-			Task {
-				loadable = await injected.interactors.groupDetailInteractor.getClientInGroup(by: groupData?.groupId ?? 0)
-			}
+			isSeeMember.toggle()
 		case .addMember:
-			Task {
-				loadable = await injected.interactors.groupDetailInteractor.getProfile()
-			}
+			isAddMember.toggle()
 		case .removeMember:
-			Task {
-				loadable = await injected.interactors.groupDetailInteractor.lstMemberRemove(by: groupData?.groupId ?? 0)
-			}
+			isRemoveMember.toggle()
 		case .leaveGroup:
-			let user = member.filter { $0.id == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "" }
-			user.forEach { profile in
+			let user = groupData?.groupMembers.filter { $0.id == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "" }
+			user?.forEach { profile in
 				Task {
 					loadable = await injected.interactors.groupDetailInteractor.leaveGroup(profile, groupId: groupData?.groupId ?? 0)
 				}
 			}
+		}
+
+	}
+
+	func didSelect(_ detail: DetailType) -> AnyView {
+		switch detail {
+		case .seeMember:
+			return AnyView(NavigationLink(destination: MemberView(loadable: $loadable, member: $member, groupId: groupData?.groupId ?? 0),
+										  isActive: $isSeeMember) {
+				LinkButton(detail.title, icon: detail.icon, alignment: .leading) { didSelectDetail(detail) }
+				.foregroundColor(detail.color)
+				.frame(height: Constants.itemHeight)
+			})
+		case .addMember:
+			return AnyView(NavigationLink(destination: AddMemberView(loadable: $loadable, search: .constant([])),
+										  isActive: $isAddMember) {
+				LinkButton(detail.title, icon: detail.icon, alignment: .leading) { didSelectDetail(detail) }
+				.foregroundColor(detail.color)
+				.frame(height: Constants.itemHeight)
+			})
+		case .removeMember:
+			let memberRemove = member.filter { $0.id != DependencyResolver.shared.channelStorage.currentServer?.profile?.userId }
+			return AnyView(NavigationLink(destination: RemoveMemberView(loadable: $loadable, member: .constant(memberRemove), groupData: groupData?.groupMembers ?? [], groupId: groupData?.groupId ?? 0),
+										  isActive: $isRemoveMember) {
+				LinkButton(detail.title, icon: detail.icon, alignment: .leading) { didSelectDetail(detail) }
+				.foregroundColor(detail.color)
+				.frame(height: Constants.itemHeight)
+			})
+		case .leaveGroup:
+			return AnyView(LinkButton(detail.title, icon: detail.icon, alignment: .leading) { didSelectDetail(detail) }
+							.foregroundColor(detail.color)
+							.frame(height: Constants.itemHeight))
 		}
 	}
 	

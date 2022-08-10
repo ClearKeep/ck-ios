@@ -16,7 +16,6 @@ protocol IGroupDetailRemoteStore {
 	func searchUser(keyword: String, domain: String) async -> (Result<IGroupDetailModels, Error>)
 	func addMember(_ user: GroupDetailUserViewModels, groupId: Int64, domain: String) async -> (Result<IGroupDetailModels, Error>)
 	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64, domain: String) async -> (Result<IGroupDetailModels, Error>)
-	func getProfile(domain: String) async -> Result<IGroupDetailModels, Error>
 	func getUserProfile(clientId: String, workspaceDomain: String, domain: String) async -> Result<IGroupDetailModels, Error>
 	func searchUserWithEmail(keyword: String, domain: String) async -> (Result<IGroupDetailModels, Error>)
 	func getListStatus(domain: String, ids: [String]) async -> Result<IGroupDetailModels, Error>
@@ -74,17 +73,6 @@ extension GroupDetailRemoteStore: IGroupDetailRemoteStore {
 		switch result {
 		case .success(let leaveGroup):
 			return .success(GroupDetailModels(responseError: leaveGroup))
-		case .failure(let error):
-			return .failure(error)
-		}
-	}
-
-	func getProfile(domain: String) async -> Result<IGroupDetailModels, Error> {
-		let result = await userService.getProfile(domain: domain)
-
-		switch result {
-		case .success(let user):
-			return .success(GroupDetailModels(getProfile: user))
 		case .failure(let error):
 			return .failure(error)
 		}

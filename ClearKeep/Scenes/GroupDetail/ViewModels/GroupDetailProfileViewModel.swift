@@ -15,13 +15,15 @@ struct GroupDetailProfileViewModel: Identifiable {
 	var phoneNumber: String
 	var avatar: String
 	var status: StatusType
+	var domain: String
 
-	init(_ user: IUser?) {
+	init(user: IUser?) {
 		self.id = user?.id ?? ""
 		self.displayName = user?.displayName ?? ""
 		self.email = user?.email ?? ""
 		self.phoneNumber = user?.phoneNumber ?? ""
 		self.avatar = user?.avatar ?? ""
 		status = StatusType(rawValue: user?.status ?? "") ?? .undefined
+		self.domain = ""
 	}
 }

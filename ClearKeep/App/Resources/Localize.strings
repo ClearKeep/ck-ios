@@ -21,6 +21,7 @@
 "General.Password.Valid" = "Password must be between 6-12 characters";
 "General.ConfirmPassword.Valid" = "Password and Confirm password do not match. Please try again";
 "General.Close" = "Close";
+"General.Cancel" = "Cancel";
 
 // MARK: - Error
 "Error.Unknow.Message" = "Unknow message (%ld)";
@@ -270,6 +271,8 @@
 "GroupDetail.TitleCheckbox" = "Add user from other server";
 "GroupDetail.UserInitTitle" = "Users int his Group chat";
 "GroupDetail.Title.PlaceHoder" = "Paste your friend's link";
+"GroupDetail.Remove" = "Remove";
+"GroupDetail.LeadMesage.Remove" = " Do you want to remove %@ from the group chat?";
 
 // MARK: - Current Password
 "CurrentPassword.ButtonBack" = "Enter Your Current Password";
