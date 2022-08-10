@@ -127,6 +127,9 @@ class CallViewModel: NSObject, ObservableObject {
 			
 			if let listener = self.callBox?.videoRoom?.remotes.values.first {
 				self.remoteVideoView = listener.videoRenderView
+				DispatchQueue.main.asyncAfter(deadline: .now() + 4, execute: {
+					self.remoteVideoView = listener.videoRenderView
+				})
 			}
 			
 			if let isGroup = self.callBox?.isCallGroup {

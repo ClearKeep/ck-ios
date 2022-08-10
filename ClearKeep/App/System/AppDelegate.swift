@@ -161,9 +161,11 @@ extension AppDelegate: PKPushRegistryDelegate {
 			return
 		}
 		
-		CallManager.shared.handleIncomingPushEvent(payload: payload) { _ in
+		if notifiType == "request_call" {
+			CallManager.shared.handleIncomingPushEvent(payload: payload) { _ in
+			}
 		}
-		
+
 		CallManager.shared.endCall = {[weak self] call in
 			guard let self = self else { return }
 			if call.isCallGroup {

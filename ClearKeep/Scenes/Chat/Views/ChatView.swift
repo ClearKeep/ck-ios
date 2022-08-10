@@ -417,13 +417,14 @@ private extension ChatView {
 	}
 	
 	private func call(callType type: CallType) {
-		if CallManager.shared.calls.count > 0 {
+		if CallManager.shared.calls.count > 0 || CallManager.shared.awaitCallGroup == Int(self.groupId) {
 			self.alertType = .haveExistACall
 			alertVisible = true
 			self.disableCall = false
 			return
 		}
 		
+		CallManager.shared.awaitCallGroup = Int(self.groupId)
 		AVCaptureDevice.authorizeVideo(completion: { (status) in
 			AVCaptureDevice.authorizeAudio(completion: { (status) in
 				if status == .alreadyAuthorized || status == .justAuthorized {
@@ -439,9 +440,11 @@ private extension ChatView {
 						case .success:
 							hudVisible = false
 							self.disableCall = false
+							CallManager.shared.awaitCallGroup = nil
 						case .failure(let error):
 							hudVisible = false
 							self.disableCall = false
+							CallManager.shared.awaitCallGroup = nil
 							print(error)
 						}
 					}
@@ -449,6 +452,7 @@ private extension ChatView {
 					self.alertType = .permission
 					self.alertVisible = true
 					self.disableCall = false
+					CallManager.shared.awaitCallGroup = nil
 				}
 			})
 		})
