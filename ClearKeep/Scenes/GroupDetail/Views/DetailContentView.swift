@@ -191,7 +191,7 @@ private extension DetailContentView {
 	}
 	
 	private func call(callType type: CallType) {
-		if CallManager.shared.calls.count > 0 {
+		if CallManager.shared.calls.count > 0 || CallManager.shared.awaitCallGroup ?? -1 == self.groupData?.groupId ?? 0 {
 			self.errorType = .existCall
 			self.isShowAlert = true
 			self.disableCall = false

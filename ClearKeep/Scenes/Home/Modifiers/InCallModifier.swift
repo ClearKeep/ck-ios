@@ -52,6 +52,11 @@ struct InCallModifier: ViewModifier {
 							.frame(width: 34, height: 34)
 							.padding(.trailing, 16)
 							.padding(.leading, 24)
+					} else {
+						VStack{
+							
+						}.frame(width: 15, height: 34)
+							.padding(.leading, 24)
 					}
 					VStack(alignment: .leading) {
 						Spacer()
@@ -95,76 +100,7 @@ struct InCallModifier: ViewModifier {
 				.transition(.move(edge: .top))
 				
 				if isInMinimizeMode {
-					VStack {
-						HStack(alignment: .top) {
-							Spacer()
-							if callViewModel.callType == .video && callViewModel.cameraOn, let videoView = callViewModel.localVideoView {
-								VideoView(rtcVideoView: videoView)
-							} else {
-								ZStack {
-									if let avatar = callViewModel.callBox?.avatar {
-										AsyncImage(url: URL(string: avatar)) { image in
-											// 1
-											image
-												.resizable()
-												.scaledToFill()
-										} placeholder: {
-											// 2
-											Color.red.opacity(0.5)
-										}
-										.frame(maxWidth: .infinity, maxHeight: .infinity)
-										.blur(radius: 70)
-									} else {
-										Image("bg_call")
-											.resizable()
-											.frame(maxWidth: .infinity, maxHeight: .infinity)
-											.blur(radius: 70)
-									}
-									
-									VStack {
-										AvatarDefault(.constant(callViewModel.getUserName()), imageUrl: callViewModel.getAvatar())
-											.frame(width: 90, height: 90)
-										
-										Text(callViewModel.getUserName())
-											.font(AppTheme.shared.fontSet.font(style: .body2))
-											.foregroundColor(.white)
-											.frame(maxWidth: .infinity)
-											.padding(10)
-									}
-									
-								}
-							}
-							
-						}
-					}.padding(.trailing, 16)
-						.onTapGesture {
-							callViewModel.backHandler = {
-								callController?.dismiss(animated: true)
-								withAnimation {
-									isInMinimizeMode = true
-									isInCall = true
-								}
-							}
-							
-							isInMinimizeMode = false
-							
-							let viewController = UIHostingController(rootView: InCallView(viewModel: callViewModel))
-							viewController.modalPresentationStyle = .overFullScreen
-							callController = viewController
-							let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-							sceneDelegate?.window?.rootViewController?.present(viewController, animated: true)
-						}
-						.transition(.move(edge: .top))
-						.frame(width: 150,
-							   height: 225,
-							   alignment: .center)
-						.background(Color.black)
-						.clipShape(Rectangle())
-						.padding(.trailing, 16)
-						.padding(.bottom, 68)
-						.animation(.easeInOut(duration: 0.6))
-						.position(self.location)
-						.gesture(simpleDrag)
+					mimimumView
 				}
 			}
 		}
@@ -205,6 +141,94 @@ struct InCallModifier: ViewModifier {
 				topController.dismiss(animated: true)
 			}
 		}
+	}
+	
+	var mimimumView: some View {
+		VStack {
+			HStack(alignment: .top) {
+				Spacer()
+				if callViewModel.callBox?.isCallGroup ?? false {
+					ZStack {
+						LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
+							.frame(maxWidth: .infinity, maxHeight: .infinity)
+
+						VStack {
+							Text(callViewModel.getUserName())
+								.font(AppTheme.shared.fontSet.font(style: .body2))
+								.foregroundColor(.white)
+								.frame(maxWidth: .infinity)
+								.padding(10)
+						}
+					}
+					
+				} else if callViewModel.callType == .video && callViewModel.cameraOn, let videoView = callViewModel.localVideoView {
+					VideoView(rtcVideoView: videoView)
+				} else {
+					ZStack {
+						if let avatar = callViewModel.callBox?.avatar {
+							AsyncImage(url: URL(string: avatar)) { image in
+								// 1
+								image
+									.resizable()
+									.scaledToFill()
+							} placeholder: {
+								// 2
+								Color.red.opacity(0.5)
+							}
+							.frame(maxWidth: .infinity, maxHeight: .infinity)
+							.blur(radius: 70)
+						} else {
+							Image("bg_call")
+								.resizable()
+								.frame(maxWidth: .infinity, maxHeight: .infinity)
+								.blur(radius: 70)
+						}
+						
+						VStack {
+							if !(callViewModel.callBox?.isCallGroup ?? false) {
+								AvatarDefault(.constant(callViewModel.getUserName()), imageUrl: callViewModel.getAvatar())
+									.frame(width: 90, height: 90)
+							}
+							
+							Text(callViewModel.getUserName())
+								.font(AppTheme.shared.fontSet.font(style: .body2))
+								.foregroundColor(.white)
+								.frame(maxWidth: .infinity)
+								.padding(10)
+						}
+						
+					}
+				}
+				
+			}
+		}
+			.onTapGesture {
+				callViewModel.backHandler = {
+					callController?.dismiss(animated: true)
+					withAnimation {
+						isInMinimizeMode = true
+						isInCall = true
+					}
+				}
+				
+				isInMinimizeMode = false
+				
+				let viewController = UIHostingController(rootView: InCallView(viewModel: callViewModel))
+				viewController.modalPresentationStyle = .overFullScreen
+				callController = viewController
+				let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+				sceneDelegate?.window?.rootViewController?.present(viewController, animated: true)
+			}
+			.transition(.move(edge: .top))
+			.frame(width: 150,
+				   height: 225,
+				   alignment: .center)
+			.clipShape(Rectangle())
+			.padding(.trailing, 16)
+			.padding(.bottom, 68)
+			.animation(.easeInOut(duration: 0.6))
+			.position(self.location)
+			.gesture(simpleDrag)
 	}
 }
 

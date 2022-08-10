@@ -23,6 +23,7 @@ final public class CallManager: NSObject {
 		case hold = "holdCall"
 	}
 	
+	public var awaitCallGroup: Int?
 	var answerCall: CallBox?
 	var outgoingCall: CallBox?
 	public var endCall: ((CallBox) -> Void)?
@@ -92,7 +93,7 @@ final public class CallManager: NSObject {
 		let endCallAction = CXEndCallAction(call: call.uuid)
 		let transaction = CXTransaction()
 		transaction.addAction(endCallAction)
-		
+		call.endCall()
 		requestTransaction(transaction, action: Call.end.rawValue)
 		removeCall(call)
 	}
@@ -169,18 +170,11 @@ final public class CallManager: NSObject {
 			return
 		}
 		
-		if let index = self.calls.firstIndex(where: { item in
-			item.roomId == Int64(callNotification.publication?.groupID ?? "0")
-		}), self.calls[index].type.rawValue != callNotification.publication?.callType {
-			self.calls[index].type = callNotification.publication?.callType == "video" ? .video : .audio
-			NotificationCenter.default.post(name: Notification.Name.CallService.changeTypeCall, object: callNotification.publication)
-			completion?(nil)
+		if self.calls.first(where: { $0.roomId == Int64(callNotification.publication?.groupID ?? "0") }) != nil || Int64(callNotification.publication?.groupID ?? "0") ?? 0 == awaitCallGroup ?? -1 {
 			return
 		}
 		
-		if self.calls.first(where: { $0.roomId == Int64(callNotification.publication?.groupID ?? "0") }) != nil {
-			return
-		}
+		self.awaitCallGroup = Int(callNotification.publication?.groupID ?? "-1")
 		
 		if let username = callNotification.publication?.fromClientName,
 		   let roomId = callNotification.publication?.groupID,
@@ -220,7 +214,6 @@ final public class CallManager: NSObject {
 			let hasVideo = callType == "video"
 			let isGroupCall = groupType == "group"
 			let callerName = isGroupCall ? groupName : username
-			print(callerName)
 			reportIncomingCall(isCallGroup: isGroupCall,
 							   roomId: roomId,
 							   clientId: clientId,
@@ -257,6 +250,7 @@ final public class CallManager: NSObject {
 	}
 	
 	public func handleBusyCall(payload: PKPushPayload) {
+		print("Payload busy: \(payload.dictionaryPayload)")
 		let decoder = JSONDecoder()
 		guard let data = try? JSONSerialization.data(withJSONObject: payload.dictionaryPayload, options: []),
 				  let callNotification = try? decoder.decode(CallNotification.self, from: data) else {
@@ -271,7 +265,7 @@ final public class CallManager: NSObject {
 		}
 		
 		if let index = self.calls.firstIndex(where: { item in
-			item.roomId == Int64(callNotification.publication?.groupID ?? "0")
+			item.roomId == Int64(callNotification.publication?.groupID ?? "0") && !item.isCallGroup
 		}) {
 			self.calls[index].status = .busy
 			NotificationCenter.default.post(name: Notification.Name.CallService.changeStatusBusyCall, object: nil)
@@ -310,7 +304,7 @@ extension CallManager {
 				call.type = hasVideo ? .video : .audio
 				self.addCall(call)
 			}
-			
+			self.awaitCallGroup = nil
 			completion?(error as NSError?)
 		}
 	}

@@ -60,7 +60,7 @@ class Janus: NSObject {
 		if let token = self.token {
 			params["token"] = token
 		}
-		janusTransactions[transaction] = callback
+		janusTransactions.updateValue(callback, forKey: transaction)
 		janusWebSocket?.send(message: params)
 	}
 	
@@ -89,7 +89,7 @@ class Janus: NSObject {
 											pluginCallback: callback,
 											msg: msg)
 		}
-		janusTransactions[transaction] = reqCallback
+		janusTransactions.updateValue(reqCallback, forKey: transaction)
 		if sessionId == 0 {
 			delayReq.append(params)
 			if janusWebSocket == nil {
@@ -137,7 +137,7 @@ class Janus: NSObject {
 				}
 			}
 		}
-		janusTransactions[transaction] = callbackJanus
+		janusTransactions.updateValue(callbackJanus, forKey: transaction)
 		janusWebSocket?.send(message: params)
 	}
 	
@@ -163,7 +163,7 @@ class Janus: NSObject {
 			self.sessionId = 0
 			self.delegate?.janusDestroy(self)
 		}
-		janusTransactions[transaction] = callback
+		janusTransactions.updateValue(callback, forKey: transaction)
 		janusWebSocket?.send(message: params)
 	}
 	
@@ -218,7 +218,7 @@ class Janus: NSObject {
 				debugPrint("send no handle callback")
 			}
 		}
-		janusTransactions[transaction] = callbackJanus
+		janusTransactions.updateValue(callbackJanus, forKey: transaction)
 		janusWebSocket?.send(message: params)
 	}
 	
