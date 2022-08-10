@@ -17,16 +17,17 @@ enum ClientError: LocalizedError {
 
 public struct ClientStore {
 	private var persistentStoreService: IPersistentStoreService!
-	
-	public init(persistentStoreService: IPersistentStoreService) {
+	private var securedStoreService: ISecuredStoreService
+	public init(persistentStoreService: IPersistentStoreService, securedStoreService: ISecuredStoreService) {
 		self.persistentStoreService = persistentStoreService
+		self.securedStoreService = securedStoreService
 	}
 	
 	func getUniqueDeviceId() -> String {
-		guard let deviceId = persistentStoreService.get(key: "DEVICE_ID") as? String else {
-			let newDeviceId = UUID().uuidString
+		guard let deviceId = securedStoreService.get(key: "DEVICE_ID") as? String else {
+			let newDeviceId = UIDevice.current.identifierForVendor?.uuidString ?? UUID().uuidString
 			Debug.DLog("Generate new unique device id: \(newDeviceId)")
-			persistentStoreService.set(value: newDeviceId, key: "DEVICE_ID")
+			securedStoreService.set(value: newDeviceId, key: "DEVICE_ID")
 			return newDeviceId
 		}
 		return deviceId

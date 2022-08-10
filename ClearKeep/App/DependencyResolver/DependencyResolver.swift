@@ -44,7 +44,7 @@ class DependencyResolver {
 		imageSet = AppImageSet()
 		securedStoreService = SecuredStoreService()
 		persistentStoreService = PersistentStoreService()
-		let clientStore = ClientStore(persistentStoreService: persistentStoreService)
+		let clientStore = ClientStore(persistentStoreService: persistentStoreService, securedStoreService: securedStoreService)
 		
 		// MARK: - CommonUI
 		CommonUI.DependencyResolver.shared = CommonUI.DependencyResolver(CommonUIConfig(fontSet: fontSet, colorSet: colorSet, imageSet: imageSet))

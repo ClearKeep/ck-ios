@@ -41,7 +41,7 @@ enum LoginViewError {
 	var title: String {
 		switch self {
 		case .wrongInformation:
-			return "Login.Popup.Email.password.Validate".localized
+			return "Login.Popup.Email.Password.Validate".localized
 		case .unauthorized:
 			return "General.Error".localized
 		case .notActivated:
