@@ -110,9 +110,6 @@ struct AddMemberView: View {
 				.padding(.bottom, 57)
 		}
 		.padding(.horizontal, Constants.padding)
-		.background(backgroundColorView)
-		.edgesIgnoringSafeArea(.all)
-		.hiddenNavigationBarStyle()
 		.applyNavigationBarPlainStyle(title: "GroupDetail.AddMember".localized,
 									  titleColor: titleColor,
 									  backgroundColors: backgroundButtonBack,
@@ -122,6 +119,9 @@ struct AddMemberView: View {
 									  rightBarItems: {
 			Spacer()
 		})
+		.background(backgroundColorView)
+		.edgesIgnoringSafeArea(.all)
+		.hiddenNavigationBarStyle()
 		.alert(isPresented: self.$isShowAlert) {
 			Alert(title: Text("General.Warning".localized),
 				  message: Text(self.messageAlert),
@@ -214,9 +214,7 @@ private extension AddMemberView {
 	}
 
 	func customBack() {
-		Task {
-			loadable = await injected.interactors.groupDetailInteractor.getGroup(by: groupId)
-		}
+		self.presentationMode.wrappedValue.dismiss()
 	}
 
 	func nextAction() {

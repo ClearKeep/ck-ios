@@ -132,7 +132,7 @@ private extension SearchContentView {
 				searchKeywordStyle = isEditing ? .highlighted : .normal
 			})
 				.onChange(of: searchText, perform: { writing in
-					seachAction(text: writing)
+					seachAction(text: writing.lowercased())
 				})
 				.onReceive(searchText.publisher.collect()) {
 					self.searchText = String($0.prefix(200))
@@ -185,7 +185,7 @@ private extension SearchContentView {
 	
 	var groupView: some View {
 		ScrollView(showsIndicators: false) {
-			SearchGroupView( searchGroup: $searchGroup, searchText: $searchText)
+			SearchGroupView( searchGroup: $searchGroupData, searchText: $searchText)
 		}
 	}
 	

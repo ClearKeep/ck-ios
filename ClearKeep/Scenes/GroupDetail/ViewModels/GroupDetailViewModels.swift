@@ -16,6 +16,7 @@ protocol IGroupDetailViewModels {
 	var myProfile: GroupDetailProfileViewModel? { get }
 	var profileWithLink: GroupDetailUserViewModels? { get }
 	var searchUserWithEmail: [GroupDetailUserViewModels]? { get }
+	var statusMember: [GroupDetailProfileViewModel]? { get }
 	var removeMember: [GroupDetailClientViewModel]? { get }
 	var leaveGroup: GroupDetailBaseViewModel? { get }
 }
@@ -29,25 +30,23 @@ struct GroupDetailViewModels: IGroupDetailViewModels {
 	var myProfile: GroupDetailProfileViewModel?
 	var profileWithLink: GroupDetailUserViewModels?
 	var searchUserWithEmail: [GroupDetailUserViewModels]?
+	var statusMember: [GroupDetailProfileViewModel]?
 	var removeMember: [GroupDetailClientViewModel]?
 	var leaveGroup: GroupDetailBaseViewModel?
 }
 
 extension GroupDetailViewModels {
 
-	init(groups: IGroupDetailModels) {
-		let group = groups.groupModel.map { member in
+	init(avatar: IGroupDetailModels, clients: IGroupDetailModels) {
+		let group = clients.groupModel.map { member in
 			GroupDetailViewModel(member)
 		}
-		self.init(getGroup: group)
-	}
 
-	init(clients: IGroupDetailModels) {
 		var lst: [GroupDetailProfileViewModel] = []
-		clients.members?.forEach { member in
-			lst.append(GroupDetailProfileViewModel(member))
+		avatar.members?.forEach { client in
+			lst.append(GroupDetailProfileViewModel(user: client))
 		}
-		self.init(getClientInGroup: lst)
+		self.init(getGroup: group, getClientInGroup: lst)
 	}
 
 	init(users: IGroupDetailModels) {
@@ -62,20 +61,6 @@ extension GroupDetailViewModels {
 			GroupDetailBaseViewModel(errors)
 		}
 		self.init(groupBase: errorGroup)
-	}
-
-	init(profile: IGroupDetailModels) {
-		let user = profile.getProfile.map { member in
-			GroupDetailUserViewModels(profile: member)
-		}
-		self.init(getProfile: user)
-	}
-
-	init(myprofile: IGroupDetailModels) {
-		let user = myprofile.getProfile.map { member in
-			GroupDetailProfileViewModel(member)
-		}
-		self.init(myProfile: user)
 	}
 
 	init(profileInforWithLink: IGroupDetailModels) {
@@ -98,7 +83,7 @@ extension GroupDetailViewModels {
 
 	init(members: IGroupDetailModels) {
 		let client = members.groupModel?.groupMembers.map { member in
-			GroupDetailClientViewModel(member)
+			GroupDetailClientViewModel(member: member)
 		}
 		self.init(removeMember: client)
 

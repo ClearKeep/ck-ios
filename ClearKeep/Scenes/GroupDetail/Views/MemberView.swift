@@ -25,7 +25,7 @@ struct MemberView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Binding var loadable: Loadable<IGroupDetailViewModels>
-	@Binding var clientData: [GroupDetailProfileViewModel]
+	@Binding var member: [GroupDetailProfileViewModel]
 	@State private(set) var groupId: Int64 = 0
 	// MARK: - Init
 
@@ -33,7 +33,7 @@ struct MemberView: View {
 	var body: some View {
 		ScrollView(showsIndicators: false) {
 			VStack(alignment: .leading, spacing: Constants.spacing) {
-				ForEach(clientData) { client in
+				ForEach(member) { client in
 					Button(action: {
 						action()
 					}, label: {
@@ -55,11 +55,8 @@ struct MemberView: View {
 					})
 				}
 			}
+			.padding(.leading, Constants.padding)
 		}
-		.padding(.leading, Constants.padding)
-		.background(backgroundColorView)
-		.edgesIgnoringSafeArea(.all)
-		.hiddenNavigationBarStyle()
 		.applyNavigationBarPlainStyle(title: "GroupDetail.SeeMembers".localized,
 									  titleColor: titleColor,
 									  backgroundColors: backgroundButtonBack,
@@ -69,6 +66,9 @@ struct MemberView: View {
 									  rightBarItems: {
 			Spacer()
 		})
+		.background(backgroundColorView)
+		.edgesIgnoringSafeArea(.all)
+		.hiddenNavigationBarStyle()
 	}
 }
 
@@ -98,9 +98,7 @@ private extension MemberView {
 // MARK: - Private func
 private extension MemberView {
 	func customBack() {
-		Task {
-			loadable = await injected.interactors.groupDetailInteractor.getGroup(by: groupId)
-		}
+		self.presentationMode.wrappedValue.dismiss()
 	}
 
 	func action() {
@@ -120,7 +118,7 @@ private extension MemberView {
 #if DEBUG
 struct MemberView_Previews: PreviewProvider {
 	static var previews: some View {
-		MemberView(loadable: .constant(.notRequested), clientData: .constant([]))
+		MemberView(loadable: .constant(.notRequested), member: .constant([]))
 	}
 }
 #endif

@@ -49,9 +49,9 @@ public struct RemoveButtonView: View {
 									 urlCache: Constants.imageCache,
 									 content: { image in image.resizable() },
 									 placeholder: { ProgressView() })
+						.aspectRatio(contentMode: .fill)
 						.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
-						.cornerRadius(Constants.cornerRadius)
-						.padding(Constants.padding)
+						.clipShape(Circle())
 				} else {
 					// Fallback on earlier versions
 				}
@@ -97,14 +97,14 @@ public struct RemoveButtonView: View {
 	}
 }
 
-	// MARK: - Private Variables
-	private extension RemoveButtonView {
-		var backgroundColor: LinearGradient {
-			LinearGradient(gradient: Gradient(colors: commonUIConfig.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-		}
-
-		var foregroundTitle: Color {
-			colorScheme == .light ? commonUIConfig.colorSet.grey2 : commonUIConfig.colorSet.greyLight
-		}
-
+// MARK: - Private Variables
+private extension RemoveButtonView {
+	var backgroundColor: LinearGradient {
+		LinearGradient(gradient: Gradient(colors: commonUIConfig.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
+
+	var foregroundTitle: Color {
+		colorScheme == .light ? commonUIConfig.colorSet.grey2 : commonUIConfig.colorSet.greyLight
+	}
+
+}

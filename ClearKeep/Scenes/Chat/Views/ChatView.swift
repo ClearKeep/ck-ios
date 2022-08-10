@@ -95,6 +95,7 @@ struct ChatView: View {
 	
 	// MARK: - Body
 	var body: some View {
+		NavigationView {
 		ZStack {
 			backgroundColorView.edgesIgnoringSafeArea(.all)
 			content
@@ -183,6 +184,9 @@ struct ChatView: View {
 					  dismissButton: .default(Text("General.OK".localized)))
 		})
 		.progressHUD(isLoading)
+		}
+		.hiddenNavigationBarStyle()
+		.edgesIgnoringSafeArea(.all)
 	}
 }
 

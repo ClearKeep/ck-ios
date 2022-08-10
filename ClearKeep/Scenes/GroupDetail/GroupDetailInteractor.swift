@@ -12,11 +12,9 @@ import Model
 protocol IGroupDetailInteractor {
 	var worker: IGroupDetailWorker { get }
 
-	func getGroup(by groupId: Int64) async -> Loadable<IGroupDetailViewModels>
 	func getClientInGroup(by groupId: Int64) async -> Loadable<IGroupDetailViewModels>
 	func searchUser(keyword: String) async -> Loadable<IGroupDetailViewModels>
 	func addMember(_ user: GroupDetailUserViewModels, groupId: Int64) async -> Loadable<IGroupDetailViewModels>
-	func getProfile() async -> Loadable<IGroupDetailViewModels>
 	func getUserInfor(clientId: String, workSpace: String) async -> Loadable<IGroupDetailViewModels>
 	func searchUserWithEmail(email: String) async -> Loadable<IGroupDetailViewModels>
 	func checkPeopleLink(link: String) -> Bool
@@ -39,17 +37,6 @@ extension GroupDetailInteractor: IGroupDetailInteractor {
 		let remoteStore = GroupDetailRemoteStore(groupService: groupService, userService: userService)
 		let inMemoryStore = GroupDetailInMemoryStore()
 		return GroupDetailWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
-	}
-
-	func getGroup(by groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
-		let result = await worker.getGroup(by: groupId)
-
-		switch result {
-		case .success(let getGroup):
-			return .loaded(GroupDetailViewModels(groups: getGroup))
-		case .failure(let error):
-			return .failed(error)
-		}
 	}
 
 	func searchUser(keyword: String) async -> Loadable<IGroupDetailViewModels> {
@@ -87,21 +74,10 @@ extension GroupDetailInteractor: IGroupDetailInteractor {
 
 			switch result {
 			case .success(let user):
-				return .loaded(GroupDetailViewModels(clients: user))
+				return .loaded(GroupDetailViewModels(avatar: user, clients: groups))
 			case .failure(let error):
 				return .failed(error)
 			}
-		case .failure(let error):
-			return .failed(error)
-		}
-	}
-
-	func getProfile() async -> Loadable<IGroupDetailViewModels> {
-		let result = await worker.getProfile()
-
-		switch result {
-		case .success(let user):
-			return .loaded(GroupDetailViewModels(myprofile: user))
 		case .failure(let error):
 			return .failed(error)
 		}
@@ -180,10 +156,6 @@ struct StubGroupDetailInteractor: IGroupDetailInteractor {
 		return GroupDetailWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
-	func getGroup(by groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
-		return .notRequested
-	}
-
 	func searchUser(keyword: String) async -> Loadable<IGroupDetailViewModels> {
 		return .notRequested
 	}
@@ -193,10 +165,6 @@ struct StubGroupDetailInteractor: IGroupDetailInteractor {
 	}
 
 	func getClientInGroup(by groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
-		return .notRequested
-	}
-
-	func getProfile() async -> Loadable<IGroupDetailViewModels> {
 		return .notRequested
 	}
 
