@@ -272,8 +272,7 @@
 "GroupDetail.UserInitTitle" = "Users int his Group chat";
 "GroupDetail.Title.PlaceHoder" = "Paste your friend's link";
 "GroupDetail.Remove" = "Remove";
-"GroupDetail.LeadMesage.Remove" = " Do you want to remove ";
-"GroupDetail.Message.Remove" = "from the group chat?";
+"GroupDetail.LeadMesage.Remove" = " Do you want to remove %@ from the group chat?";
 
 // MARK: - Current Password
 "CurrentPassword.ButtonBack" = "Enter Your Current Password";

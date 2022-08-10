@@ -133,7 +133,7 @@ private extension RemoveMemberView {
 	}
 
 	var messagePopup: String {
-		"GroupDetail.LeadMesage.Remove".localized + "\(groupData.first?.userName ?? "") " + "GroupDetail.Message.Remove".localized
+		String(format: "GroupDetail.LeadMesage.Remove".localized, groupData.first?.userName ?? "")
 	}
 }
 
