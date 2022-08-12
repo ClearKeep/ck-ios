@@ -47,7 +47,7 @@ private extension GroupDetailView {
 		case .loaded(let data):
 			return loadedView(data)
 		case .failed(let error):
-			return AnyView(errorView(LoginViewError(error)))
+			return AnyView(errorView(GroupDetailErrorView(error)))
 		}
 	}
 }
@@ -104,7 +104,7 @@ private extension GroupDetailView {
 		return AnyView(DetailContentView(loadable: $loadable, groupData: .constant(nil), member: .constant([])))
 	}
 
-	func errorView(_ error: LoginViewError) -> some View {
+	func errorView(_ error: GroupDetailErrorView) -> some View {
 		return notRequestedView
 			.alert(isPresented: .constant(true)) {
 				Alert(title: Text(error.title),
