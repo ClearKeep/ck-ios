@@ -87,17 +87,19 @@ extension GroupService: IGroupService {
 		let apiService = channelStorage.getChannel(domain: domain)
 		guard let clientId = apiService.owner?.id,
 			  let userName = apiService.owner?.displayName else { return .failure(ServerError.unknown) }
-		var requestAddingMember = Group_MemberInfo()
-		requestAddingMember.id = user.id
-		requestAddingMember.workspaceDomain = user.workspaceDomain
-		requestAddingMember.displayName = user.displayName
-		requestAddingMember.status = ""
-		
 		var requestAddedMember = Group_MemberInfo()
+		requestAddedMember.id = user.id
+		requestAddedMember.workspaceDomain = user.workspaceDomain
+		requestAddedMember.displayName = user.displayName
+		requestAddedMember.status = ""
+		requestAddedMember.refGroupID = groupId
+		
+		var requestAddingMember = Group_MemberInfo()
 		requestAddingMember.id = clientId
 		requestAddingMember.workspaceDomain = domain
 		requestAddingMember.displayName = userName
 		requestAddingMember.status = ""
+		requestAddingMember.refGroupID = groupId
 		
 		var request = Group_AddMemberRequest()
 		request.addingMemberInfo = requestAddingMember
