@@ -180,8 +180,9 @@ private extension ChangePasswordContentView {
 					checkConfirm(text: text)
 				})
 
-			RoundedButton("General.Save".localized, action: dochangPassword)
-				.disabled(disableButton())
+			RoundedButton("General.Save".localized,
+						  disabled: .constant(disableButton()),
+						  action: dochangPassword)
 			Spacer()
 		}
 		.frame(maxHeight: .infinity)
