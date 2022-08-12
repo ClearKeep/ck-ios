@@ -276,6 +276,8 @@
 "GroupDetail.Remove" = "Remove";
 "GroupDetail.LeadMesage.Remove" = " Do you want to remove %@ from the group chat?";
 "GroupDetail.Success.Remove" = " Remove member success";
+"GroupDetail.Title.LeaveGroup" = " Are you sure you want to leave name group";
+"GroupDetail.Message.LeaveGroup" = " Leave Group chat";
 
 // MARK: - Current Password
 "CurrentPassword.ButtonBack" = "Enter Your Current Password";
