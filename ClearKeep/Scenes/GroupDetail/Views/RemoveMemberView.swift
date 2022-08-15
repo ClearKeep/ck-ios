@@ -75,7 +75,7 @@ struct RemoveMemberView: View {
 			Text(self.messagePopup)
 		}
 		.alert(isPresented: self.$isShowAlert) {
-			Alert(title: Text("GroupChat.Warning".localized),
+			Alert(title: Text("General.Success".localized),
 				  message: Text(self.messageAlert),
 				  dismissButton: .default(Text("GroupChat.Ok".localized), action: backAction))
 		}
@@ -119,7 +119,7 @@ private extension RemoveMemberView {
 		Task {
 			do {
 				let notification = try await injected.interactors.groupDetailInteractor.removeMember(groupData.first ?? GroupDetailClientViewModel(id: "", userName: "", domain: "", userState: "", userStatus: .undefined, phoneNumber: "", avatar: "", email: ""), groupId: groupId).get().groupBase?.error ?? "General.Error".localized
-				self.messageAlert = notification
+				self.messageAlert = notification.isEmpty ? "General.Error" .localized: "GroupDetail.Success.Remove".localized
 				self.isShowAlert = true
 			} catch {
 				self.messageAlert = "General.Error".localized

@@ -179,7 +179,6 @@ private extension ChangePasswordContentView {
 				.onChange(of: confirmPassword, perform: { text in
 					checkConfirm(text: text)
 				})
-
 			RoundedButton("General.Save".localized,
 						  disabled: .constant(disableButton()),
 						  action: dochangPassword)
@@ -189,5 +188,3 @@ private extension ChangePasswordContentView {
 		.padding(.all, Constants.padding)
 	}
 }
-
-// MARK: - Interactor

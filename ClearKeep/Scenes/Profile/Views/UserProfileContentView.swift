@@ -9,6 +9,7 @@ import Combine
 import Common
 import CommonUI
 import SwiftUI
+import PhoneNumberKit
 
 private enum Constants {
 	static let spacer = 16.0
@@ -61,7 +62,9 @@ struct UserProfileContentView: View {
 	@State private(set) var countryCodeStyle: TextInputStyle = .default
 	@State private(set) var onEditing: Bool = false
 	@State private var isShowToastCopy: Bool = false
-	
+	@State private(set) var profile: UserProfileViewModel?
+	let phoneNumberKit = PhoneNumberKit()
+	@State private var showAlertPopup: Bool = false
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -273,8 +276,13 @@ struct UserProfileContentView: View {
 			.hideKeyboardOnTapped()
 			.toast(message: "Menu.Copy.Title".localized, isShowing: $isShowToastCopy, duration: Toast.short)
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		}
-		.hiddenNavigationBarStyle()
+			.alert("GroupChat.Warning".localized, isPresented: $showAlertPopup) {
+				Button("General.Cancel".localized, role: .cancel) { }
+				Button("General.Leave".localized, role: .destructive) { presentationMode.wrappedValue.dismiss() }
+			} message: {
+				Text("UserProfile.Error.DoNotChange".localized)
+			}
+		}.hiddenNavigationBarStyle()
 	}
 }
 
@@ -315,12 +323,21 @@ private extension UserProfileContentView {
 		if !phoneInvalid {
 			return
 		}
+		do {
+			let phoneNumberOld = try phoneNumberKit.parse(profile?.phoneNumber ?? "")
+			let numberOld = String(phoneNumberOld.nationalNumber)
+			if phoneNumber != numberOld {
+				isEnable2FA = false
+			}
+		} catch {
+			print("parse phone number error")
+			isHavePhoneNumber = false
+		}
 		selectedImages.removeAll()
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
 			loadable = await injected.interactors.profileInteractor.updateProfile(displayName: username, avatar: urlAvatar, phoneNumber: "\(countryCode)\(phoneNumber)", clearPhoneNumber: false)
 		}
-		presentationMode.wrappedValue.dismiss()
 	}
 	
 	func limitText(_ upper: Int) {
@@ -334,7 +351,7 @@ private extension UserProfileContentView {
 
 private extension UserProfileContentView {
 	func customBack() {
-		presentationMode.wrappedValue.dismiss()
+		self.showAlertPopup = true
 	}
 	
 	func copyProfile() {
@@ -391,7 +408,7 @@ private extension UserProfileContentView {
 	var foregroundColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight
 	}
-
+	
 	var foregroundColorSetting: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight
 	}

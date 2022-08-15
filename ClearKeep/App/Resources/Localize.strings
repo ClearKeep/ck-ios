@@ -22,6 +22,8 @@
 "General.ConfirmPassword.Valid" = "Password and Confirm password do not match. Please try again";
 "General.Close" = "Close";
 "General.Cancel" = "Cancel";
+"General.Leave" = "Leave";
+"General.Success" = "Success";
 
 // MARK: - Error
 "Error.Unknow.Message" = "Unknow message (%ld)";
@@ -73,7 +75,7 @@
 "UserProfile.Phone.Valid" = "Invalid phone number";
 "UserProfile.UserName.Valid" = "This field is required";
 "UserProfile.Avatar.Size.Warning" = "Your Profile Picture cannot be larger than 5MB";
-
+"UserProfile.Error.DoNotChange" = " You have unsaved changes that will be lost";
 // MARK: - Country Codes
 "Country.Code" = "Country Codes";
 "Country.Search" = "Search";
@@ -135,7 +137,7 @@
 "AdvancedServer.Submit" = "Submit";
 "AdvancedServer.ServerUrl" = "Server URL";
 "AdvancedServer.Alert" = "You are using custom server";
-"AdvancedServer.Title.Error" = "Display Error";
+"AdvancedServer.Title.Error" = "Error";
 "AdvancedServer.Message.Error" = "Wrong server URL. Please try again";
 
 // MARK: - Home
@@ -275,6 +277,7 @@
 "GroupDetail.LeadMesage.Remove" = " Do you want to remove %@ from the group chat?";
 "GroupDetail.Title.LeaveGroup" = " Are you sure you want to leave name group";
 "GroupDetail.Message.LeaveGroup" = " Leave Group chat";
+"GroupDetail.Success.Remove" = " Remove member success";
 
 // MARK: - Current Password
 "CurrentPassword.ButtonBack" = "Enter Your Current Password";
@@ -307,4 +310,7 @@
 "2FA.Missing.Phone.Number" = "Type in your phone number";
 "2FA.Not.Support.Error" = "We are so sorry. This function is not supported for your account.";
 "2FA.Missing.Phone.Number.Error" = "You must input your phone number in order to enable this feature.";
+"2FA.Error.Pincode.RequestTimeout" = "Verification code has expired. Please request a new code and retry";
+"2FA.Error.PasswordInCorrect" = "The password is incorrect. Try again";
+"2FA.Error.Pincode.RequestTimeout" = "Verification code has expired. Please request a new code and retry";
 "2FA.Error.PasswordInCorrect" = "The password is incorrect. Try again";

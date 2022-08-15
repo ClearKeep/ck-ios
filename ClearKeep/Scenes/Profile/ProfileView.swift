@@ -26,6 +26,7 @@ struct ProfileView: View {
 				displayName = data.userProfileViewModel?.displayName ?? ""
 				urlAvatar = data.userProfileViewModel?.avatar ?? ""
 				email = data.userProfileViewModel?.email ?? ""
+				profile = data.userProfileViewModel
 				do {
 					let phoneNumber = try phoneNumberKit.parse(data.userProfileViewModel?.phoneNumber ?? "")
 					countryCode = "+\(phoneNumber.countryCode)"
@@ -47,14 +48,15 @@ struct ProfileView: View {
 	@State private var isHavePhoneNumber: Bool = false
 	@State private var isMfaEnable: Bool = false
 	let phoneNumberKit = PhoneNumberKit()
-	
+	@State private(set) var profile: UserProfileViewModel?
 	// MARK: - Body
 	var body: some View {
-		content
-			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.hiddenNavigationBarStyle()
-			.onAppear(perform: getProfile)
-			.hideKeyboardOnTapped()
+		NavigationView {
+			content
+				.onReceive(inspection.notice) { inspection.visit(self, $0) }
+				.onAppear(perform: getProfile)
+				.hideKeyboardOnTapped()
+		}.hiddenNavigationBarStyle()
 	}
 }
 
@@ -92,7 +94,8 @@ private extension ProfileView {
 							   email: $email,
 							   phoneNumber: $number,
 							   isHavePhoneNumber: $isHavePhoneNumber,
-							   isEnable2FA: $isMfaEnable)
+							   isEnable2FA: $isMfaEnable,
+							   profile: profile)
 	}
 	
 	var loadingView: some View {

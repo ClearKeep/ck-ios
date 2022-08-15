@@ -19,10 +19,13 @@ struct ChangePasswordView: View {
 	
 	// MARK: - Body
 	var body: some View {
-		content
-			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.hideKeyboardOnTapped()
-			.hiddenNavigationBarStyle()
+		NavigationView {
+			content
+				.onReceive(inspection.notice) { inspection.visit(self, $0) }
+				.hideKeyboardOnTapped()
+				.hiddenNavigationBarStyle()
+		}
+		.hiddenNavigationBarStyle()
 	}
 }
 
