@@ -31,6 +31,7 @@ public final class CallBox: NSObject {
 	public var type: CallType = .audio
 	public var isCallGroup = false
 	public var isCamera = true
+	public var roomRtcId: Int64 = 0
 	
 	// MARK: Call State Properties
 	

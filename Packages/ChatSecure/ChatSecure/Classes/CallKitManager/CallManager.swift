@@ -23,6 +23,7 @@ final public class CallManager: NSObject {
 		case hold = "holdCall"
 	}
 	
+	public var hasCall: Bool = false
 	public var awaitCallGroup: Int?
 	var answerCall: CallBox?
 	var outgoingCall: CallBox?
@@ -170,14 +171,14 @@ final public class CallManager: NSObject {
 			return
 		}
 		
-		if self.calls.first(where: { $0.roomId == Int64(callNotification.publication?.groupID ?? "0") }) != nil || Int64(callNotification.publication?.groupID ?? "0") ?? 0 == awaitCallGroup ?? -1 {
+		if self.calls.first(where: { $0.roomId == Int64(callNotification.publication?.groupRTCID ?? "0") }) != nil || Int64(callNotification.publication?.groupID ?? "0") ?? 0 == awaitCallGroup ?? -1 {
 			return
 		}
 		
 		self.awaitCallGroup = Int(callNotification.publication?.groupID ?? "-1")
 		
 		if let username = callNotification.publication?.fromClientName,
-		   let roomId = callNotification.publication?.groupID,
+		   let roomId = callNotification.publication?.groupRTCID,
 		   let clientId = callNotification.publication?.fromClientID,
 		   let callType = callNotification.publication?.callType,
 		   let groupRtcUrl = callNotification.publication?.groupRTCURL {
@@ -216,6 +217,7 @@ final public class CallManager: NSObject {
 			let callerName = isGroupCall ? groupName : username
 			reportIncomingCall(isCallGroup: isGroupCall,
 							   roomId: roomId,
+							   roomRtcId:  callNotification.publication?.groupID ?? "0",
 							   clientId: clientId,
 							   avatar: avatar,
 							   token: token,
@@ -276,7 +278,16 @@ final public class CallManager: NSObject {
 extension CallManager {
 	// MARK: Incoming Calls
 	/// Use CXProvider to report the incoming call to the system
-	func reportIncomingCall(isCallGroup: Bool, roomId: String, clientId: String, avatar: String?, token: String?, callerName: String, hasVideo: Bool = true, groupRtcUrl: String, completion: ((NSError?) -> Void)? = nil) {
+	func reportIncomingCall(isCallGroup: Bool,
+							roomId: String,
+							roomRtcId: String,
+							clientId: String,
+							avatar: String?,
+							token: String?,
+							callerName: String,
+							hasVideo: Bool = true,
+							groupRtcUrl: String,
+							completion: ((NSError?) -> Void)? = nil) {
 		// Construct a CXCallUpdate describing the incoming call, including the caller.
 		let update = CXCallUpdate()
 		update.remoteHandle = CXHandle(type: .generic, value: callerName)
@@ -298,6 +309,7 @@ extension CallManager {
 				let call = CallBox(uuid: uuid, clientId: clientId, rtcUrl: groupRtcUrl)
 				call.clientName = callerName
 				call.roomId = Int64(roomId) ?? 0
+				call.roomRtcId = Int64(roomRtcId) ?? 0
 				call.groupToken = token
 				call.avatar = avatar
 				call.isCallGroup = isCallGroup

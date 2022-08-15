@@ -184,7 +184,7 @@ class Janus: NSObject {
 	
 	func send(message msg: [String: Any], jsep: [String: Any]?, handleId: NSNumber, callback: @escaping PluginRequestCallback) {
 		mainque.async {
-			if  self.sessionId == 0 || self.janusWebSocket == nil {
+			if self.sessionId == 0 || self.janusWebSocket == nil {
 				let data = ["error_code": NSNumber(value: -1), "error": "sessionID januswebsocket = 0"] as [String: Any]
 				callback(data, nil)
 				return
