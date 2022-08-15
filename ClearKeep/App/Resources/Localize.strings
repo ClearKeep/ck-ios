@@ -273,6 +273,8 @@
 "GroupDetail.Title.PlaceHoder" = "Paste your friend's link";
 "GroupDetail.Remove" = "Remove";
 "GroupDetail.LeadMesage.Remove" = " Do you want to remove %@ from the group chat?";
+"GroupDetail.Title.LeaveGroup" = " Are you sure you want to leave name group";
+"GroupDetail.Message.LeaveGroup" = " Leave Group chat";
 
 // MARK: - Current Password
 "CurrentPassword.ButtonBack" = "Enter Your Current Password";
@@ -305,3 +307,4 @@
 "2FA.Missing.Phone.Number" = "Type in your phone number";
 "2FA.Not.Support.Error" = "We are so sorry. This function is not supported for your account.";
 "2FA.Missing.Phone.Number.Error" = "You must input your phone number in order to enable this feature.";
+"2FA.Error.PasswordInCorrect" = "The password is incorrect. Try again";

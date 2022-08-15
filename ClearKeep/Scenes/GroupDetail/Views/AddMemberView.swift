@@ -269,7 +269,7 @@ private extension AddMemberView {
 				loadable = await self.injected.interactors.groupDetailInteractor.addMember(user, groupId: groupId)
 			}
 		}
-
+		self.presentationMode.wrappedValue.dismiss()
 	}
 }
 

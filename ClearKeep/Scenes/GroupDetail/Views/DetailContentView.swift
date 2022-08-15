@@ -39,6 +39,7 @@ struct DetailContentView: View {
 	@State private var isSeeMember: Bool = false
 	@State private var isRemoveMember: Bool = false
 	@State private var isAddMember: Bool = false
+	@State private var isLogout: Bool = false
 
 	// MARK: - Init
 
@@ -122,6 +123,12 @@ struct DetailContentView: View {
 				}
 
 			}
+			.alert("GroupChat.Warning".localized, isPresented: $isLogout) {
+				Button("General.Cancel".localized, role: .cancel) { }
+				Button("GroupDetail.Message.LeaveGroup".localized, role: .none) { leaveGroup() }
+			} message: {
+				Text("GroupDetail.Title.LeaveGroup".localized)
+			}
 			.progressHUD(hudVisible)
 		}
 		.hiddenNavigationBarStyle()
@@ -180,12 +187,7 @@ private extension DetailContentView {
 		case .removeMember:
 			isRemoveMember.toggle()
 		case .leaveGroup:
-			let user = groupData?.groupMembers.filter { $0.id == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "" }
-			user?.forEach { profile in
-				Task {
-					loadable = await injected.interactors.groupDetailInteractor.leaveGroup(profile, groupId: groupData?.groupId ?? 0)
-				}
-			}
+			isLogout.toggle()
 		}
 
 	}
@@ -216,11 +218,19 @@ private extension DetailContentView {
 			})
 		case .leaveGroup:
 			return AnyView(LinkButton(detail.title, icon: detail.icon, alignment: .leading) { didSelectDetail(detail) }
-							.foregroundColor(detail.color)
-							.frame(height: Constants.itemHeight))
+					.foregroundColor(detail.color)
+					.frame(height: Constants.itemHeight))
 		}
 	}
-	
+
+	func leaveGroup() {
+		let user = groupData?.groupMembers.filter { $0.id == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "" }
+		user?.forEach { profile in
+			Task {
+				loadable = await injected.interactors.groupDetailInteractor.leaveGroup(profile, groupId: groupData?.groupId ?? 0)
+			}
+		}
+	}
 	private func call(callType type: CallType) {
 		if CallManager.shared.calls.count > 0 || CallManager.shared.awaitCallGroup ?? -1 == self.groupData?.groupId ?? 0 {
 			self.errorType = .existCall
