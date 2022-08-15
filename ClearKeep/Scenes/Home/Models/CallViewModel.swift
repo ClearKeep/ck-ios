@@ -139,7 +139,7 @@ class CallViewModel: NSObject, ObservableObject {
 			self.remotesVideoView.removeAll()
 			
 			if self.callGroup {
-				let groupId = self.callBox?.roomId ?? 0
+				let groupId = self.callBox?.roomRtcId != 0 ? self.callBox?.roomRtcId ?? 0 : self.callBox?.roomId ?? 0
 				if let lstRemote = self.callBox?.videoRoom?.remotes.values {
 					lstRemote.forEach { (listener) in
 						self.remotesVideoView.append(listener.videoRenderView)
@@ -177,7 +177,9 @@ class CallViewModel: NSObject, ObservableObject {
 			if !callBox.isCallGroup {
 				let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 				Task {
-				   await sceneDelegate?.systemEventsHandler?.container.interactors.peerCallInteractor.updateVideoCall(groupID: callBox.roomId, callType: CallType.cancelRequestCall)
+				   let id = callBox.roomRtcId != 0 ? callBox.roomRtcId : callBox.roomId
+				   await sceneDelegate?.systemEventsHandler?.container.interactors.peerCallInteractor.updateVideoCall(groupID: id,
+																													  callType: CallType.cancelRequestCall)
 				}
 			}
 			
@@ -353,7 +355,7 @@ class CallViewModel: NSObject, ObservableObject {
 	
 	func updateCallType(data: PublicationNotification) {
 		guard let callBox = self.callBox,
-			  callBox.roomId == Int64(data.groupID ?? "0")
+			  callBox.roomRtcId == Int64(data.groupID ?? "0")
 		else {
 			return
 		}
