@@ -9,6 +9,7 @@ import Combine
 import Common
 import CommonUI
 import SwiftUI
+import PhoneNumberKit
 
 private enum Constants {
 	static let spacer = 16.0
@@ -61,7 +62,9 @@ struct UserProfileContentView: View {
 	@State private(set) var countryCodeStyle: TextInputStyle = .default
 	@State private(set) var onEditing: Bool = false
 	@State private var isShowToastCopy: Bool = false
-	
+	@State private(set) var profile: UserProfileViewModel?
+	let phoneNumberKit = PhoneNumberKit()
+
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -312,12 +315,21 @@ private extension UserProfileContentView {
 		if !phoneInvalid {
 			return
 		}
+		do {
+			let phoneNumberOld = try phoneNumberKit.parse(profile?.phoneNumber ?? "")
+			let numberOld = String(phoneNumberOld.nationalNumber)
+			if phoneNumber != numberOld {
+				isEnable2FA = false
+			}
+		} catch {
+			print("parse phone number error")
+			isHavePhoneNumber = false
+		}
 		selectedImages.removeAll()
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
 			loadable = await injected.interactors.profileInteractor.updateProfile(displayName: username, avatar: urlAvatar, phoneNumber: "\(countryCode)\(phoneNumber)", clearPhoneNumber: false)
 		}
-		presentationMode.wrappedValue.dismiss()
 	}
 	
 	func limitText(_ upper: Int) {
