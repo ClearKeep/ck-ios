@@ -57,7 +57,7 @@ enum TwoFactorErrorView {
 		case .invalidPassword:
 			return "General.Password.Valid".localized
 		case .unauthorized:
-			return "Error.Authentication.UnAuthorized".localized
+			return "2FA.Error.PasswordInCorrect".localized
 		case .locked:
 			return "Error.Authentication.Locked".localized
 		case .unknownError(let errorCode):
@@ -69,6 +69,17 @@ enum TwoFactorErrorView {
 	}
 	
 	var primaryButtonTitle: String {
-		return "General.OK".localized
+		switch self {
+		case .invalidPassword:
+			return "General.OK".localized
+		case .unauthorized:
+			return "General.Close".localized
+		case .wrongOTP:
+			return "General.OK".localized
+		case .locked:
+			return "General.OK".localized
+		case .unknownError(let errorCode):
+			return "General.OK".localized
+		}
 	}
 }

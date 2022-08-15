@@ -412,7 +412,7 @@ private extension UserProfileContentView {
 	var foregroundColorSetting: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight
 	}
-
+	
 	var foregroundColorPicture: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight
 	}
