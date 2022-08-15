@@ -275,7 +275,6 @@
 "GroupDetail.Title.PlaceHoder" = "Paste your friend's link";
 "GroupDetail.Remove" = "Remove";
 "GroupDetail.LeadMesage.Remove" = " Do you want to remove %@ from the group chat?";
-"GroupDetail.Success.Remove" = " Remove member success";
 "GroupDetail.Title.LeaveGroup" = " Are you sure you want to leave name group";
 "GroupDetail.Message.LeaveGroup" = " Leave Group chat";
 "GroupDetail.Success.Remove" = " Remove member success";
@@ -314,3 +313,4 @@
 "2FA.Error.Pincode.RequestTimeout" = "Verification code has expired. Please request a new code and retry";
 "2FA.Error.PasswordInCorrect" = "The password is incorrect. Try again";
 "2FA.Error.Pincode.RequestTimeout" = "Verification code has expired. Please request a new code and retry";
+"2FA.Error.PasswordInCorrect" = "The password is incorrect. Try again";
