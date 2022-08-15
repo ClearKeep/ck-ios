@@ -312,3 +312,4 @@
 "2FA.Missing.Phone.Number.Error" = "You must input your phone number in order to enable this feature.";
 "2FA.Error.Pincode.RequestTimeout" = "Verification code has expired. Please request a new code and retry";
 "2FA.Error.PasswordInCorrect" = "The password is incorrect. Try again";
+"2FA.Error.Pincode.RequestTimeout" = "Verification code has expired. Please request a new code and retry";
