@@ -120,10 +120,6 @@ extension AppDelegate: PKPushRegistryDelegate {
 	}
 	
 	func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType, completion: @escaping () -> Void) {
-		defer {
-			completion()
-		}
-		
 		if type != PKPushType.voIP || DependencyResolver.shared.channelStorage.currentServer?.accessKey.isEmpty ?? false {
 			return
 		}
@@ -163,6 +159,7 @@ extension AppDelegate: PKPushRegistryDelegate {
 		
 		if notifiType == "request_call" {
 			CallManager.shared.handleIncomingPushEvent(payload: payload) { _ in
+				completion()
 			}
 		}
 

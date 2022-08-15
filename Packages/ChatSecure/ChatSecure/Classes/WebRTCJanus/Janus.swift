@@ -9,7 +9,7 @@
 // swiftlint:disable weak_delegate
 
 import UIKit
-var janusTransactions = [String: JanusRequestCallback]()
+
 class Janus: NSObject {
 	var delegate: JanusDelegate?
 	let server: URL
@@ -17,12 +17,13 @@ class Janus: NSObject {
 	var janusWebSocket: JanusWebSocket?
 	var pluginHandlers = [NSNumber: JanusPluginHandleProtocol]()
 	var delayReq = [[String: Any]]()
-	
+	var janusTransactions = [String: JanusRequestCallback]()
 	var token: String?
 	let apiSecret: String?
 	var keepAliveTimer: Timer?
 	let keepAliveInterval: Int
 	var connectCallback: ((Error?) -> Void)?
+	let mainque = DispatchQueue.main
 	
 	init(withServer server: URL, delegate: JanusDelegate? = nil, token: String?, apiSecret: String? = nil) {
 		self.server = server
@@ -60,85 +61,92 @@ class Janus: NSObject {
 		if let token = self.token {
 			params["token"] = token
 		}
-		janusTransactions.updateValue(callback, forKey: transaction)
-		janusWebSocket?.send(message: params)
+		mainque.sync(flags: .barrier) {
+			janusTransactions.updateValue(callback, forKey: transaction)
+			janusWebSocket?.send(message: params)
+		}
 	}
 	
 	// MARK: - Attach WebSocket
 	func attachPlugin(plugin: JanusPluginHandleProtocol,
 					  callback: @escaping AttachCallback) {
-		var transaction = randomString(withLength: 12)
-		while janusTransactions.keys.contains(transaction) {
-			transaction = randomString(withLength: 12)
-		}
-		
-		var params = ["janus": JanusMessage.attach.rawValue,
-					  "plugin": plugin.pluginName,
-					  "opaque_id": plugin.opaqueId,
-					  "transaction": transaction,
-					  "session_id": NSNumber(value: sessionId)] as [String: Any]
-		if let token = token {
-			params["token"] = token
-		}
-		if let secret = apiSecret {
-			params["apisecret"] = secret
-		}
-		let reqCallback: JanusRequestCallback = { [weak self] msg in
-			guard let self = self else { return }
-			self.handleAttachPluginCallback(plugin: plugin,
-											pluginCallback: callback,
-											msg: msg)
-		}
-		janusTransactions.updateValue(reqCallback, forKey: transaction)
-		if sessionId == 0 {
-			delayReq.append(params)
-			if janusWebSocket == nil {
-				janusWebSocket = JanusWebSocket(withServer: server)
-				janusWebSocket?.delegate = self
-				janusWebSocket?.start()
+		mainque.async {
+			var transaction = randomString(withLength: 12)
+			while self.janusTransactions.keys.contains(transaction) {
+				transaction = randomString(withLength: 12)
 			}
-		} else {
-			janusWebSocket?.send(message: params)
+			
+			var params = ["janus": JanusMessage.attach.rawValue,
+						  "plugin": plugin.pluginName,
+						  "opaque_id": plugin.opaqueId,
+						  "transaction": transaction,
+						  "session_id": NSNumber(value: self.sessionId)] as [String: Any]
+			if let token = self.token {
+				params["token"] = token
+			}
+			if let secret = self.apiSecret {
+				params["apisecret"] = secret
+			}
+			let reqCallback: JanusRequestCallback = { [weak self] msg in
+				guard let self = self else { return }
+				self.handleAttachPluginCallback(plugin: plugin,
+												pluginCallback: callback,
+												msg: msg)
+			}
+			self.janusTransactions.updateValue(reqCallback, forKey: transaction)
+			if self.sessionId == 0 {
+				self.delayReq.append(params)
+				if self.janusWebSocket == nil {
+					self.janusWebSocket = JanusWebSocket(withServer: self.server)
+					self.janusWebSocket?.delegate = self
+					self.janusWebSocket?.start()
+				}
+			} else {
+				self.janusWebSocket?.send(message: params)
+			}
 		}
 	}
 	
 	// MARK: - Detach WebSocket
 	func detachPlugin(plugin: JanusPluginHandleProtocol, callback: DetachCallback?) {
-		pluginHandlers.removeValue(forKey: plugin.handleId)
-		
-		if sessionId == 0 || !plugin.attached || janusWebSocket != nil {
-			if let reqCallback = callback {
-				reqCallback(nil)
-			}
-			return
-		}
-		
-		var transaction = randomString(withLength: 12)
-		while janusTransactions.keys.contains(transaction) {
-			transaction = randomString(withLength: 12)
-		}
-		
-		var params = ["janus": JanusMessage.detach,
-					  "handle_id": plugin.handleId,
-					  "transaction": transaction,
-					  "session_id": NSNumber(value: sessionId)] as [String: Any]
-		if let token = token {
-			params["token"] = token
-		}
-		if let secret = apiSecret {
-			params["apisecret"] = secret
-		}
-		let callbackJanus: JanusRequestCallback = {[weak self] msg in
-			if let reqCallback = callback {
-				if let janus = msg["janus"] as? String, janus == "success" {
+		mainque.async {
+			self.pluginHandlers.removeValue(forKey: plugin.handleId)
+			
+			if self.sessionId == 0 || !plugin.attached || self.janusWebSocket != nil {
+				if let reqCallback = callback {
 					reqCallback(nil)
-				} else if let janus = msg["janus"] as? String, janus == "error" {
-					reqCallback(JanusResultError.funcErr(msg: "Detach error"))
+				}
+				return
+			}
+			
+			var transaction = randomString(withLength: 12)
+			while self.janusTransactions.keys.contains(transaction) {
+				transaction = randomString(withLength: 12)
+			}
+			
+			var params = ["janus": JanusMessage.detach,
+						  "handle_id": plugin.handleId,
+						  "transaction": transaction,
+						  "session_id": NSNumber(value: self.sessionId)] as [String: Any]
+			if let token = self.token {
+				params["token"] = token
+			}
+			if let secret = self.apiSecret {
+				params["apisecret"] = secret
+			}
+			let callbackJanus: JanusRequestCallback = {[weak self] msg in
+				if let reqCallback = callback {
+					if let janus = msg["janus"] as? String, janus == "success" {
+						reqCallback(nil)
+					} else if let janus = msg["janus"] as? String, janus == "error" {
+						reqCallback(JanusResultError.funcErr(msg: "Detach error"))
+					}
 				}
 			}
+			
+			self.janusTransactions.updateValue(callbackJanus, forKey: transaction)
+			self.janusWebSocket?.send(message: params)
 		}
-		janusTransactions.updateValue(callbackJanus, forKey: transaction)
-		janusWebSocket?.send(message: params)
 	}
 	
 	// MARK: - Destroy Session
@@ -163,8 +171,10 @@ class Janus: NSObject {
 			self.sessionId = 0
 			self.delegate?.janusDestroy(self)
 		}
-		janusTransactions.updateValue(callback, forKey: transaction)
-		janusWebSocket?.send(message: params)
+		mainque.async {
+			self.janusTransactions.updateValue(callback, forKey: transaction)
+			self.janusWebSocket?.send(message: params)
+		}
 	}
 	
 	// MARK: - Send Message WebSocket
@@ -173,74 +183,79 @@ class Janus: NSObject {
 	}
 	
 	func send(message msg: [String: Any], jsep: [String: Any]?, handleId: NSNumber, callback: @escaping PluginRequestCallback) {
-		if sessionId == 0 || janusWebSocket == nil {
-			let data = ["error_code": NSNumber(value: -1), "error": "sessionID januswebsocket = 0"] as [String: Any]
-			callback(data, nil)
-			return
-		}
-		
-		var transaction = randomString(withLength: 12)
-		while janusTransactions.keys.contains(transaction) {
-			transaction = randomString(withLength: 12)
-		}
-		var params: [String: Any]
-		if let jsep = jsep {
-			params = ["janus": JanusMessage.message.rawValue,
-					  "body": msg,
-					  "jsep": jsep,
-					  "transaction": transaction,
-					  "session_id": NSNumber(value: sessionId),
-					  "handle_id": handleId]
-		} else {
-			params = ["janus": JanusMessage.message.rawValue,
-					  "body": msg,
-					  "transaction": transaction,
-					  "session_id": NSNumber(value: sessionId),
-					  "handle_id": handleId]
-		}
-		
-		if let token = self.token {
-			params["token"] = token
-		}
-		if let secret = self.apiSecret {
-			params["apisecret"] = secret
-		}
-		let callbackJanus: JanusRequestCallback = {[weak self] msg in
-			if let janus = msg["janus"] as? String, janus == "error",
-			   let error = msg["error"] as? [String: Any] {
-				let data: [String: Any] = ["error_code": error["code"] ?? "", "error_reason": error["reason"] ?? ""]
+		mainque.async {
+			if self.sessionId == 0 || self.janusWebSocket == nil {
+				let data = ["error_code": NSNumber(value: -1), "error": "sessionID januswebsocket = 0"] as [String: Any]
 				callback(data, nil)
-			} else if let pluginData = msg["plugindata"] as? [String: Any],
-					  let data = pluginData["data"] as? [String: Any] {
-				let jsep = msg["jsep"] as? [String: Any]
-				callback(data, jsep)
-			} else {
-				debugPrint("send no handle callback")
+				return
 			}
+			
+			var transaction = randomString(withLength: 12)
+			while self.janusTransactions.keys.contains(transaction) {
+				transaction = randomString(withLength: 12)
+			}
+			var params: [String: Any]
+			if let jsep = jsep {
+				params = ["janus": JanusMessage.message.rawValue,
+						  "body": msg,
+						  "jsep": jsep,
+						  "transaction": transaction,
+						  "session_id": NSNumber(value: self.sessionId),
+						  "handle_id": handleId]
+			} else {
+				params = ["janus": JanusMessage.message.rawValue,
+						  "body": msg,
+						  "transaction": transaction,
+						  "session_id": NSNumber(value: self.sessionId),
+						  "handle_id": handleId]
+			}
+			
+			if let token = self.token {
+				params["token"] = token
+			}
+			if let secret = self.apiSecret {
+				params["apisecret"] = secret
+			}
+			let callbackJanus: JanusRequestCallback = {[weak self] msg in
+				if let janus = msg["janus"] as? String, janus == "error",
+				   let error = msg["error"] as? [String: Any] {
+					let data: [String: Any] = ["error_code": error["code"] ?? "", "error_reason": error["reason"] ?? ""]
+					callback(data, nil)
+				} else if let pluginData = msg["plugindata"] as? [String: Any],
+						  let data = pluginData["data"] as? [String: Any] {
+					let jsep = msg["jsep"] as? [String: Any]
+					callback(data, jsep)
+				} else {
+					debugPrint("send no handle callback")
+				}
+			}
+			
+			self.janusTransactions.updateValue(callbackJanus, forKey: transaction)
+			self.janusWebSocket?.send(message: params)
 		}
-		janusTransactions.updateValue(callbackJanus, forKey: transaction)
-		janusWebSocket?.send(message: params)
 	}
 	
 	func send(trickleCandidate candidate: [String: Any], handleId: NSNumber) {
-		if sessionId == 0 || janusWebSocket == nil {
-			return
+		self.mainque.async {
+			if self.sessionId == 0 || self.janusWebSocket == nil {
+				return
+			}
+			
+			var transaction = randomString(withLength: 12)
+			while self.janusTransactions.keys.contains(transaction) {
+				transaction = randomString(withLength: 12)
+			}
+			
+			var params = ["janus": JanusMessage.trickle.rawValue,
+						  "candidate": candidate,
+						  "transaction": transaction,
+						  "handle_id": handleId,
+						  "session_id": NSNumber(value: self.sessionId)] as [String: Any]
+			if let token = self.token {
+				params["token"] = token
+			}
+			self.janusWebSocket?.send(message: params)
 		}
-		
-		var transaction = randomString(withLength: 12)
-		while janusTransactions.keys.contains(transaction) {
-			transaction = randomString(withLength: 12)
-		}
-		
-		var params = ["janus": JanusMessage.trickle.rawValue,
-					  "candidate": candidate,
-					  "transaction": transaction,
-					  "handle_id": handleId,
-					  "session_id": NSNumber(value: sessionId)] as [String: Any]
-		if let token = self.token {
-			params["token"] = token
-		}
-		janusWebSocket?.send(message: params)
 	}
 	
 	// MARK: - Private function
