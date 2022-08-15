@@ -64,7 +64,7 @@ struct UserProfileContentView: View {
 	@State private var isShowToastCopy: Bool = false
 	@State private(set) var profile: UserProfileViewModel?
 	let phoneNumberKit = PhoneNumberKit()
-
+	@State private var showAlertPopup: Bool = false
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -276,6 +276,12 @@ struct UserProfileContentView: View {
 			.hideKeyboardOnTapped()
 			.toast(message: "Menu.Copy.Title".localized, isShowing: $isShowToastCopy, duration: Toast.short)
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.alert("GroupChat.Warning".localized, isPresented: $showAlertPopup) {
+				Button("General.Cancel".localized, role: .cancel) { }
+				Button("General.Leave".localized, role: .destructive) { presentationMode.wrappedValue.dismiss() }
+			} message: {
+				Text("UserProfile.Error.DoNotChange".localized)
+			}
 		}.hiddenNavigationBarStyle()
 	}
 }
@@ -345,7 +351,7 @@ private extension UserProfileContentView {
 
 private extension UserProfileContentView {
 	func customBack() {
-		presentationMode.wrappedValue.dismiss()
+		self.showAlertPopup = true
 	}
 	
 	func copyProfile() {

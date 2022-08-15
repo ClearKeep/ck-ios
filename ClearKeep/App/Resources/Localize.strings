@@ -22,6 +22,8 @@
 "General.ConfirmPassword.Valid" = "Password and Confirm password do not match. Please try again";
 "General.Close" = "Close";
 "General.Cancel" = "Cancel";
+"General.Leave" = "Leave";
+"General.Success" = "Success";
 
 // MARK: - Error
 "Error.Unknow.Message" = "Unknow message (%ld)";
@@ -73,7 +75,7 @@
 "UserProfile.Phone.Valid" = "Invalid phone number";
 "UserProfile.UserName.Valid" = "This field is required";
 "UserProfile.Avatar.Size.Warning" = "Your Profile Picture cannot be larger than 5MB";
-
+"UserProfile.Error.DoNotChange" = " You have unsaved changes that will be lost";
 // MARK: - Country Codes
 "Country.Code" = "Country Codes";
 "Country.Search" = "Search";
@@ -135,7 +137,7 @@
 "AdvancedServer.Submit" = "Submit";
 "AdvancedServer.ServerUrl" = "Server URL";
 "AdvancedServer.Alert" = "You are using custom server";
-"AdvancedServer.Title.Error" = "Display Error";
+"AdvancedServer.Title.Error" = "Error";
 "AdvancedServer.Message.Error" = "Wrong server URL. Please try again";
 
 // MARK: - Home
@@ -273,6 +275,7 @@
 "GroupDetail.Title.PlaceHoder" = "Paste your friend's link";
 "GroupDetail.Remove" = "Remove";
 "GroupDetail.LeadMesage.Remove" = " Do you want to remove %@ from the group chat?";
+"GroupDetail.Success.Remove" = " Remove member success";
 
 // MARK: - Current Password
 "CurrentPassword.ButtonBack" = "Enter Your Current Password";
