@@ -51,11 +51,12 @@ struct ProfileView: View {
 	@State private(set) var profile: UserProfileViewModel?
 	// MARK: - Body
 	var body: some View {
-		content
-			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.hiddenNavigationBarStyle()
-			.onAppear(perform: getProfile)
-			.hideKeyboardOnTapped()
+		NavigationView {
+			content
+				.onReceive(inspection.notice) { inspection.visit(self, $0) }
+				.onAppear(perform: getProfile)
+				.hideKeyboardOnTapped()
+		}.hiddenNavigationBarStyle()
 	}
 }
 

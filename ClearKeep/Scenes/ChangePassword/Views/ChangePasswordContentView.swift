@@ -179,7 +179,7 @@ private extension ChangePasswordContentView {
 				.onChange(of: confirmPassword, perform: { text in
 					checkConfirm(text: text)
 				})
-
+			
 			RoundedButton("General.Save".localized, action: dochangPassword)
 				.disabled(disableButton())
 			Spacer()
