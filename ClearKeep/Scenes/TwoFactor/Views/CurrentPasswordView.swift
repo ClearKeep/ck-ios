@@ -28,20 +28,22 @@ struct CurrentPasswordView: View {
 	
 	// MARK: - Body
 	var body: some View {
-		content
-			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.applyNavigationBarPlainStyle(title: "",
-										  titleColor: navBarTitleColor,
-										  backgroundColors: backgroundButtonBack,
-										  leftBarItems: {
-				buttonBackView.padding(.top, Constant.spacer)
-			},
-										  rightBarItems: {
-				Spacer()
-			})
-			.background(background)
-			.edgesIgnoringSafeArea(.all)
-			.hideKeyboardOnTapped()
+		NavigationView {
+			content
+				.onReceive(inspection.notice) { inspection.visit(self, $0) }
+				.applyNavigationBarPlainStyle(title: "",
+											  titleColor: navBarTitleColor,
+											  backgroundColors: backgroundButtonBack,
+											  leftBarItems: {
+					buttonBackView.padding(.top, Constant.spacer)
+				},
+											  rightBarItems: {
+					Spacer()
+				})
+				.background(background)
+				.edgesIgnoringSafeArea(.all)
+				.hideKeyboardOnTapped()
+		}.hiddenNavigationBarStyle()
 	}
 }
 
@@ -78,9 +80,9 @@ private extension CurrentPasswordView {
 	}
 	
 	var buttonNext: some View {
-			RoundedButton("CurrentPass.Next".localized,
-						  disabled: .constant(disable()),
-						  action: doNext)
+		RoundedButton("CurrentPass.Next".localized,
+					  disabled: .constant(disable()),
+					  action: doNext)
 	}
 	
 	var textInputView: some View {
@@ -119,12 +121,12 @@ private extension CurrentPasswordView {
 	func doNext() {
 		Task {
 			loadable = .isLoading(last: nil, cancelBag: CancelBag())
-			loadable = await injected.interactors.twoFactorInteractor.validatePassword(password: currentPassword)
+			loadable = await injected.interactors.twoFactorInteractor.validatePassword(password: currentPassword.trimmingCharacters(in: .whitespacesAndNewlines))
 		}
 	}
 	
 	func disable() -> Bool {
-		return currentPassword.isEmpty
+		return currentPassword.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 	}
 }
 

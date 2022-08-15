@@ -66,212 +66,215 @@ struct UserProfileContentView: View {
 	
 	// MARK: - Body
 	var body: some View {
-		ScrollView {
-			VStack(alignment: .leading, spacing: Constants.spacer) {
-				HStack(spacing: Constants.spacer) {
-					Button(action: avartarOptions ) {
-						if selectedImages.isEmpty {
-							AvatarDefault(.constant(username), imageUrl: urlAvatar)
-								.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
-						} else {
-							Image(uiImage: selectedImages.first?.thumbnail ?? UIImage())
-								.resizable()
-								.aspectRatio(contentMode: .fill)
-								.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
-								.clipShape(Circle())
+		NavigationView {
+			ScrollView {
+				VStack(alignment: .leading, spacing: Constants.spacer) {
+					HStack(spacing: Constants.spacer) {
+						Button(action: avartarOptions ) {
+							if selectedImages.isEmpty {
+								AvatarDefault(.constant(username), imageUrl: urlAvatar)
+									.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
+							} else {
+								Image(uiImage: selectedImages.first?.thumbnail ?? UIImage())
+									.resizable()
+									.aspectRatio(contentMode: .fill)
+									.frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
+									.clipShape(Circle())
+							}
+						}
+
+						VStack(alignment: .leading, spacing: Constants.spacerSetting) {
+							Text("UserProfile.Picture.Change".localized)
+								.font(AppTheme.shared.fontSet.font(style: .body3))
+								.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+							Text("UserProfile.Picture.Size".localized)
+								.font(AppTheme.shared.fontSet.font(style: .placeholder3))
+								.foregroundColor(foregroundColorPicture)
 						}
 					}
 
-					VStack(alignment: .leading, spacing: Constants.spacerSetting) {
-						Text("UserProfile.Picture.Change".localized)
-							.font(AppTheme.shared.fontSet.font(style: .body3))
-							.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
-						Text("UserProfile.Picture.Size".localized)
-							.font(AppTheme.shared.fontSet.font(style: .placeholder3))
-							.foregroundColor(foregroundColorPicture)
-					}
-				}
+					VStack(alignment: .leading, spacing: Constants.spacer) {
+						VStack(alignment: .leading, spacing: Constants.spacerSetting) {
+							Text("UserProfile.Username".localized)
+								.font(AppTheme.shared.fontSet.font(style: .input3))
+								.foregroundColor(foregroundColor)
 
-				VStack(alignment: .leading, spacing: Constants.spacer) {
-					VStack(alignment: .leading, spacing: Constants.spacerSetting) {
-						Text("UserProfile.Username".localized)
-							.font(AppTheme.shared.fontSet.font(style: .input3))
-							.foregroundColor(foregroundColor)
-
-						CommonTextField(text: $username,
-										inputStyle: $usernameStyle,
-										placeHolder: "UserProfile.Username".localized,
-										keyboardType: .default,
-										onEditingChanged: { isEditing in
-							self.usernameStyle = isEditing ? .highlighted : .normal
-							if username.isEmpty {
-								usernameStyle = .error(message: "UserProfile.UserName.Valid".localized)
-							}
-						})
-							.onChange(of: self.username, perform: { text in
-								self.checkUserValid(text: text)
+							CommonTextField(text: $username,
+											inputStyle: $usernameStyle,
+											placeHolder: "UserProfile.Username".localized,
+											keyboardType: .default,
+											onEditingChanged: { isEditing in
+								self.usernameStyle = isEditing ? .highlighted : .normal
+								if username.isEmpty {
+									usernameStyle = .error(message: "UserProfile.UserName.Valid".localized)
+								}
 							})
-							.onReceive(Just(username)) { _ in limitText(Constants.userNameLimit) }
-					}
-					VStack(alignment: .leading, spacing: Constants.spacerSetting) {
-						Text("UserProfile.Email".localized)
-							.font(AppTheme.shared.fontSet.font(style: .input3))
-							.foregroundColor(foregroundColor)
-						CommonTextField(text: $email,
-										inputStyle: $emailStyle,
-										placeHolder: "UserProfile.Email".localized,
-										keyboardType: .default,
-										onEditingChanged: { _ in })
-							.disabled(true)
-					}
+								.onChange(of: self.username, perform: { text in
+									self.checkUserValid(text: text)
+								})
+								.onReceive(Just(username)) { _ in limitText(Constants.userNameLimit) }
+						}
+						VStack(alignment: .leading, spacing: Constants.spacerSetting) {
+							Text("UserProfile.Email".localized)
+								.font(AppTheme.shared.fontSet.font(style: .input3))
+								.foregroundColor(foregroundColor)
+							CommonTextField(text: $email,
+											inputStyle: $emailStyle,
+											placeHolder: "UserProfile.Email".localized,
+											keyboardType: .default,
+											onEditingChanged: { _ in })
+								.disabled(true)
+						}
 
-					VStack(alignment: .leading, spacing: Constants.spacerSetting) {
-						Text("UserProfile.PhoneNumber".localized)
-							.font(AppTheme.shared.fontSet.font(style: .input3))
-							.foregroundColor(foregroundColor)
+						VStack(alignment: .leading, spacing: Constants.spacerSetting) {
+							Text("UserProfile.PhoneNumber".localized)
+								.font(AppTheme.shared.fontSet.font(style: .input3))
+								.foregroundColor(foregroundColor)
 
-						HStack(spacing: Constants.spacerSetting) {
-							Button {
-								isShowCountryCode = true
-							} label: {
-								VStack(alignment: .leading, spacing: Constants.spacingVstack) {
-									HStack {
-										Text(countryCode)
-											.font(AppTheme.shared.fontSet.font(style: .input3))
-											.foregroundColor(foregroundColor)
-											.padding(.leading, Constants.paddingVertical)
-										Spacer()
-										AppTheme.shared.imageSet.chevDownIcon
-											.font(AppTheme.shared.fontSet.font(style: .input3))
-											.foregroundColor(foregroundColor)
-											.padding(.trailing, Constants.spacerCenter)
+							HStack(spacing: Constants.spacerSetting) {
+								Button {
+									isShowCountryCode = true
+								} label: {
+									VStack(alignment: .leading, spacing: Constants.spacingVstack) {
+										HStack {
+											Text(countryCode)
+												.font(AppTheme.shared.fontSet.font(style: .input3))
+												.foregroundColor(foregroundColor)
+												.padding(.leading, Constants.paddingVertical)
+											Spacer()
+											AppTheme.shared.imageSet.chevDownIcon
+												.font(AppTheme.shared.fontSet.font(style: .input3))
+												.foregroundColor(foregroundColor)
+												.padding(.trailing, Constants.spacerCenter)
 
+										}
+										.frame(width: Constants.widthButtonPhone, height: Constants.heightButtonPhone)
+										.background(backgroundInputCountryCode)
+										.cornerRadius(Constants.radius)
+										.overlay(
+											RoundedRectangle(cornerRadius: Constants.radius)
+												.stroke(borderColor, lineWidth: Constants.borderWidth)
+										)
 									}
-									.frame(width: Constants.widthButtonPhone, height: Constants.heightButtonPhone)
-									.background(backgroundInputCountryCode)
+								}
+								CommonTextField(text: $phoneNumber,
+												inputStyle: $phoneStyle,
+												placeHolder: "UserProfile.PhoneNumber".localized,
+												keyboardType: .phonePad,
+												onEditingChanged: { isEditing in
+									self.phoneStyle = isEditing ? .highlighted : .normal
+									self.onEditing = isEditing
+								})
+									.onChange(of: phoneNumber, perform: { text in
+										checkPhoneValid(text: text)
+									})
 									.cornerRadius(Constants.radius)
 									.overlay(
 										RoundedRectangle(cornerRadius: Constants.radius)
 											.stroke(borderColor, lineWidth: Constants.borderWidth)
 									)
+
+							}
+							if phoneInvalid == false {
+								Text("UserProfile.Phone.Valid".localized)
+									.font(AppTheme.shared.fontSet.font(style: .input3))
+									.frame(height: Constants.notifyHeight)
+									.padding(.leading, Constants.paddingText)
+									.foregroundColor(notifyColor)
+							}
+						}
+
+						Button(action: copyProfile) {
+							HStack {
+								Text("UserProfile.Link.Copy".localized)
+									.font(AppTheme.shared.fontSet.font(style: .body3))
+									.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+
+								Spacer()
+								AppTheme.shared.imageSet.copyIcon
+									.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+							}
+						}
+
+						NavigationLink(destination: ChangePasswordView(),
+									   isActive: $isChangePassword) {
+							Button(action: changePassword) {
+								HStack {
+									Text("UserProfile.Password.Change".localized)
+										.font(AppTheme.shared.fontSet.font(style: .body3))
+										.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+									Spacer()
+									AppTheme.shared.imageSet.arrowRightIcon
+										.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 								}
 							}
-							CommonTextField(text: $phoneNumber,
-											inputStyle: $phoneStyle,
-											placeHolder: "UserProfile.PhoneNumber".localized,
-											keyboardType: .phonePad,
-											onEditingChanged: { isEditing in
-								self.phoneStyle = isEditing ? .highlighted : .normal
-								self.onEditing = isEditing
-							})
-								.onChange(of: phoneNumber, perform: { text in
-									checkPhoneValid(text: text)
-								})
-								.cornerRadius(Constants.radius)
-								.overlay(
-									RoundedRectangle(cornerRadius: Constants.radius)
-										.stroke(borderColor, lineWidth: Constants.borderWidth)
-								)
-							
-						}
-						if phoneInvalid == false {
-							Text("UserProfile.Phone.Valid".localized)
-								.font(AppTheme.shared.fontSet.font(style: .input3))
-								.frame(height: Constants.notifyHeight)
-								.padding(.leading, Constants.paddingText)
-								.foregroundColor(notifyColor)
 						}
 					}
 
-					Button(action: copyProfile) {
-						HStack {
-							Text("UserProfile.Link.Copy".localized)
-								.font(AppTheme.shared.fontSet.font(style: .body3))
-								.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
-
+					VStack(alignment: .leading, spacing: Constants.spacerTop) {
+						HStack(alignment: .top) {
+							VStack(alignment: .leading, spacing: Constants.spacerTop) {
+								Text("UserProfile.Authen.2FA".localized)
+									.font(AppTheme.shared.fontSet.font(style: .body2))
+									.foregroundColor(foregroundColorSetting)
+								Text("UserProfile.2FA.Title".localized)
+									.font(AppTheme.shared.fontSet.font(style: .input3))
+									.foregroundColor(foregroundColor)
+							}
 							Spacer()
-							AppTheme.shared.imageSet.copyIcon
-								.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
-						}
-					}
 
-					NavigationLink(destination: ChangePasswordView(),
-								   isActive: $isChangePassword) {
-						Button(action: changePassword) {
-							HStack {
-								Text("UserProfile.Password.Change".localized)
-									.font(AppTheme.shared.fontSet.font(style: .body3))
-									.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
-								Spacer()
-								AppTheme.shared.imageSet.arrowRightIcon
-									.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+							NavigationLink(destination: TwoFactorView(twoFactorType: .setting),
+										   isActive: $isCurrentPass) {
+								Button(action: change2FAStatus) {
+									Text(statusTwoFA)
+										.font(AppTheme.shared.fontSet.font(style: .body3))
+										.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+								}
 							}
 						}
 					}
+					Spacer()
 				}
-
-				VStack(alignment: .leading, spacing: Constants.spacerTop) {
-					HStack(alignment: .top) {
-						VStack(alignment: .leading, spacing: Constants.spacerTop) {
-							Text("UserProfile.Authen.2FA".localized)
-								.font(AppTheme.shared.fontSet.font(style: .body2))
-								.foregroundColor(foregroundColorSetting)
-							Text("UserProfile.2FA.Title".localized)
-								.font(AppTheme.shared.fontSet.font(style: .input3))
-								.foregroundColor(foregroundColor)
-						}
-						Spacer()
-
-						NavigationLink(destination: TwoFactorView(twoFactorType: .setting),
-										isActive: $isCurrentPass) {
-							Button(action: change2FAStatus) {
-								Text(statusTwoFA)
-									.font(AppTheme.shared.fontSet.font(style: .body3))
-									.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
-							}
-						}
-					}
-				}
-				Spacer()
-			}
-			.padding([.horizontal, .top], Constants.spacer)
-		}
-		.edgesIgnoringSafeArea(.all)
-		.applyNavigationGradientPlainStyle(title: "UserProfile.Setting".localized, leftBarItems: { buttonLeft }, rightBarItems: { rightButton })
-		.confirmationDialog("", isPresented: $showingImageOptions, titleVisibility: .hidden) {
-			Button("Chat.TakePhoto".localized) {
-				showingCameraPicker = true
-			}
-			Button("Chat.Albums".localized, role: .destructive) {
-				isImagePickerPresented = true
-			}
-			Button("Chat.Cancel".localized, role: .cancel) {
-			}
-		}
-		.fullScreenCover(isPresented: $isShowCountryCode, content: {
-			CountryCode(selectedNum: $countryCode)
-		})
-		.fullScreenCover(isPresented: $showingCameraPicker, content: {
-			CameraImagePicker(sourceType: .camera) { addImage in
-				selectedImages.removeAll()
-				self.selectedImages.append(addImage)
-				updateAvata()
+				.padding([.horizontal, .top], Constants.spacer)
 			}
 			.edgesIgnoringSafeArea(.all)
-		})
-		.fullScreenCover(isPresented: $isImagePickerPresented) {
-			ImagePicker(doneAction: { photo in
-				selectedImages.removeAll()
-				selectedImages = photo.filter { $0.url != nil }
-				updateAvata()
+			.applyNavigationGradientPlainStyle(title: "UserProfile.Setting".localized, leftBarItems: { buttonLeft }, rightBarItems: { rightButton })
+			.confirmationDialog("", isPresented: $showingImageOptions, titleVisibility: .hidden) {
+				Button("Chat.TakePhoto".localized) {
+					showingCameraPicker = true
+				}
+				Button("Chat.Albums".localized, role: .destructive) {
+					isImagePickerPresented = true
+				}
+				Button("Chat.Cancel".localized, role: .cancel) {
+				}
+			}
+			.fullScreenCover(isPresented: $isShowCountryCode, content: {
+				CountryCode(selectedNum: $countryCode)
 			})
+			.fullScreenCover(isPresented: $showingCameraPicker, content: {
+				CameraImagePicker(sourceType: .camera) { addImage in
+					selectedImages.removeAll()
+					self.selectedImages.append(addImage)
+					updateAvata()
+				}
+				.edgesIgnoringSafeArea(.all)
+			})
+			.fullScreenCover(isPresented: $isImagePickerPresented) {
+				ImagePicker(doneAction: { photo in
+					selectedImages.removeAll()
+					selectedImages = photo.filter { $0.url != nil }
+					updateAvata()
+				})
+			}
+			.onChange(of: countryCode, perform: { _ in
+				checkPhoneValid(text: phoneNumber)
+			})
+			.hideKeyboardOnTapped()
+			.toast(message: "Menu.Copy.Title".localized, isShowing: $isShowToastCopy, duration: Toast.short)
+			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 		}
-		.onChange(of: countryCode, perform: { _ in
-			checkPhoneValid(text: phoneNumber)
-		})
-		.hideKeyboardOnTapped()
-		.toast(message: "Menu.Copy.Title".localized, isShowing: $isShowToastCopy, duration: Toast.short)
-		.onReceive(inspection.notice) { inspection.visit(self, $0) }
+		.hiddenNavigationBarStyle()
 	}
 }
 
@@ -392,7 +395,7 @@ private extension UserProfileContentView {
 	var foregroundColorSetting: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight
 	}
-
+	
 	var foregroundColorPicture: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight
 	}

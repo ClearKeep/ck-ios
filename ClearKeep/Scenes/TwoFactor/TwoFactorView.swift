@@ -16,7 +16,7 @@ enum TwoFactorType {
 struct TwoFactorView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
-
+	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@State private var loadable: Loadable<Bool> = .notRequested
@@ -25,12 +25,15 @@ struct TwoFactorView: View {
 	private(set) var userId: String = ""
 	private(set) var domain: String = ""
 	private(set) var password: String = ""
+	@State private(set) var isPopup: Bool = false
 	let twoFactorType: TwoFactorType
-
+	
 	// MARK: - Body
 	var body: some View {
-		content
-			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+		NavigationView {
+			content
+				.onReceive(inspection.notice) { inspection.visit(self, $0) }
+		}.hiddenNavigationBarStyle()
 	}
 }
 
@@ -69,20 +72,45 @@ private extension TwoFactorView {
 	}
 	
 	func errorView(_ error: TwoFactorErrorView) -> some View {
-		return notRequestedView
-			.alert(isPresented: .constant(true)) {
-				Alert(title: Text(error.title),
-					  message: Text(error.message),
-					  dismissButton: .default(Text(error.primaryButtonTitle)))
-			}
+		switch error {
+		case .invalidPassword:
+			return AnyView(CurrentPasswordView(loadable: $loadable))
+				.alert(isPresented: .constant(true)) {
+					Alert(title: Text(error.title),
+						  message: Text(error.message),
+						  dismissButton: .default(Text(error.primaryButtonTitle)))
+				}
+		case .unauthorized:
+			return AnyView(CurrentPasswordView(loadable: $loadable))
+				.alert(isPresented: .constant(true)) {
+					Alert(title: Text(error.title),
+						  message: Text(error.message),
+						  dismissButton: .default(Text(error.primaryButtonTitle)))
+				}
+		case .wrongOTP:
+			return AnyView(TwoFactorContentView(loadable: $loadable, twoFactorType: twoFactorType))
+				.alert(isPresented: .constant(true)) {
+					Alert(title: Text(error.title),
+						  message: Text(error.message),
+						  dismissButton: .default(Text(error.primaryButtonTitle)))
+				}
+		case .locked:
+			return AnyView(CurrentPasswordView(loadable: $loadable))
+				.alert(isPresented: .constant(true)) {
+					Alert(title: Text(error.title),
+						  message: Text(error.message),
+						  dismissButton: .default(Text(error.primaryButtonTitle)))
+				}
+		case .unknownError(let errorCode):
+			return AnyView(CurrentPasswordView(loadable: $loadable))
+				.alert(isPresented: .constant(true)) {
+					Alert(title: Text(error.title),
+						  message: Text(error.message),
+						  dismissButton: .default(Text(error.primaryButtonTitle)))
+				}
+		}
 	}
 }
-
-// MARK: - Interactor
-private extension TwoFactorView {
-	
-}
-
 // MARK: - Preview
 #if DEBUG
 struct TwoFactorView_Previews: PreviewProvider {
