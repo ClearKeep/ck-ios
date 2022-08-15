@@ -35,6 +35,9 @@ struct TwoFactorContentView: View {
 	private(set) var password: String = ""
 	let twoFactorType: TwoFactorType
 	let inspection = ViewInspector<Self>()
+	@State var timeRemaining = 120
+	let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+	@State private var showAlertPopup: Bool = false
 
 	// MARK: - Body
 	var body: some View {
@@ -49,6 +52,17 @@ struct TwoFactorContentView: View {
 										  rightBarItems: {
 				Spacer()
 			})
+			.onReceive(timer) { _ in
+				if timeRemaining > 0 {
+					timeRemaining -= 1
+					print("\(timeRemaining)")
+				}
+			}
+			.alert("GroupChat.Warning".localized, isPresented: $showAlertPopup) {
+				Button("General.Close".localized, role: .cancel) { }
+			} message: {
+				Text("2FA.Error.Pincode.RequestTimeout".localized)
+			}
 			.background(background)
 			.edgesIgnoringSafeArea(.all)
 	}
@@ -171,6 +185,9 @@ private extension TwoFactorContentView {
 	}
 
 	func doTwoFactor() {
+		if timeRemaining == 0 {
+			self.showAlertPopup = true
+		} else {
 		Task {
 			if twoFactorType == .login {
 				await injected.interactors.twoFactorInteractor.validateLoginOTP(loadable: $loadable, password: password, otp: otp, userId: userId, otpHash: otpHash, domain: domain)
@@ -182,6 +199,7 @@ private extension TwoFactorContentView {
 					}
 				}
 			}
+		}
 		}
 	}
 	
