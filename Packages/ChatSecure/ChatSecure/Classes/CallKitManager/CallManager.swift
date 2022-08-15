@@ -185,8 +185,11 @@ final public class CallManager: NSObject {
 			let avatar = callNotification.publication?.fromClientAvatar
 			let token = callNotification.publication?.groupRTCToken
 			let groupType = callNotification.publication?.groupType
-			let groupName = callNotification.publication?.groupName
-			
+			var groupName = callNotification.publication?.groupName
+
+			if groupName.isEmptyOrNil {
+				groupName = callNotification.publication?.fromClientName
+			}
 			// Save turnUser and turnPwd
 			let turnString = callNotification.publication?.turnServer ?? ""
 			let stunString = callNotification.publication?.stunServer ?? ""
@@ -244,7 +247,7 @@ final public class CallManager: NSObject {
 		}
 		
 		if let index = self.calls.firstIndex(where: { item in
-			item.roomId == Int64(callNotification.publication?.groupID ?? "0")
+			item.roomRtcId == Int64(callNotification.publication?.groupID ?? "0")
 		}) {
 			self.calls[index].type = .video
 			NotificationCenter.default.post(name: Notification.Name.CallService.changeTypeCall, object: callNotification.publication)

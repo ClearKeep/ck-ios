@@ -171,7 +171,8 @@ private extension PeerCallView {
 		guard let callBox = self.viewModel.callBox else { return }
 		self.loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			self.loadable = await injected.interactors.peerCallInteractor.updateVideoCall(groupID: callBox.roomId, callType: type)
+			let id = callBox.roomRtcId != 0 ? callBox.roomRtcId : callBox.roomId
+			self.loadable = await injected.interactors.peerCallInteractor.updateVideoCall(groupID: id, callType: type)
 		}
 	}
 }

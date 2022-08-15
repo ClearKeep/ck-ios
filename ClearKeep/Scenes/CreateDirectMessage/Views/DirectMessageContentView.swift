@@ -175,13 +175,13 @@ private extension DirectMessageContentView {
 
 	func search(text: String) {
 		Task {
-			loadable = await injected.interactors.createDirectMessageInteractor.searchUser(keyword: text)
+			loadable = await injected.interactors.createDirectMessageInteractor.searchUser(keyword: text.trimmingCharacters(in: .whitespacesAndNewlines))
 		}
 	}
 	
 	func createUserByLink() {
-		if !injected.interactors.createDirectMessageInteractor.checkPeopleLink(link: searchLinkText) {
-			let people = injected.interactors.chatGroupInteractor.getPeopleFromLink(link: searchLinkText)
+		if !injected.interactors.createDirectMessageInteractor.checkPeopleLink(link: searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines)) {
+			let people = injected.interactors.chatGroupInteractor.getPeopleFromLink(link: searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines))
 			if self.checkUserIsAdded(id: people?.id ?? "") {
 				return
 			}
@@ -208,7 +208,7 @@ private extension DirectMessageContentView {
 	func searchEmail() {
 		if searchEmailText.validEmail {
 			Task {
-				loadable = await self.injected.interactors.createDirectMessageInteractor.searchUserWithEmail(email: searchEmailText)
+				loadable = await self.injected.interactors.createDirectMessageInteractor.searchUserWithEmail(email: searchEmailText.trimmingCharacters(in: .whitespacesAndNewlines))
 			}
 		} else {
 			self.messageAlert = "GroupChat.EmailIsIncorrect".localized
