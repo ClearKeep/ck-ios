@@ -14,7 +14,7 @@ import Networking
 protocol ISearchRemoteStore {
 	func getJoinedGroup(domain: String) async -> Result<ISearchModels, Error>
 	func getMessageList(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
-	func getListStatus(domain: String, ids: [String]) async -> Result<ISearchModels, Error>
+	func getListStatus(domain: String, data: [[String: String]]) async -> Result<ISearchModels, Error>
 }
 
 struct SearchRemoteStore {
@@ -49,8 +49,8 @@ extension SearchRemoteStore: ISearchRemoteStore {
 		}
 	}
 	
-	func getListStatus(domain: String, ids: [String]) async -> Result<ISearchModels, Error> {
-		let result = await userService.getListStatus(ids: ids, workspaceDomain: domain, domain: domain)
+	func getListStatus(domain: String, data: [[String: String]]) async -> Result<ISearchModels, Error> {
+		let result = await userService.getListStatus(data: data, domain: domain)
 		switch result {
 		case .success(let response):
 			let client = response.lstClient.first(where: { $0.clientID == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId })

@@ -217,7 +217,7 @@ final public class CallManager: NSObject {
 			let callerName = isGroupCall ? groupName : username
 			reportIncomingCall(isCallGroup: isGroupCall,
 							   roomId: roomId,
-							   roomRtcId:  callNotification.publication?.groupID ?? "0",
+							   roomRtcId: callNotification.publication?.groupID ?? "0",
 							   clientId: clientId,
 							   avatar: avatar,
 							   token: token,

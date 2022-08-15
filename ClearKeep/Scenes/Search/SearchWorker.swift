@@ -16,7 +16,7 @@ protocol ISearchWorker {
 	var inMemoryStore: ISearchInMemoryStore { get }
 	func getJoinedGroup() async -> Result<ISearchModels, Error>
 	func getMessageList(groupId: Int64, loadSize: Int, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
-	func getListStatus(ids: [String]) async -> Result<ISearchModels, Error>
+	func getListStatus(data: [[String: String]]) async -> Result<ISearchModels, Error>
 }
 
 struct SearchWorker {
@@ -53,8 +53,8 @@ extension SearchWorker: ISearchWorker {
 		}
 	}
 	
-	func getListStatus(ids: [String]) async -> Result<ISearchModels, Error> {
-		let result = await remoteStore.getListStatus(domain: self.channelStorage.currentDomain, ids: ids)
+	func getListStatus(data: [[String: String]]) async -> Result<ISearchModels, Error> {
+		let result = await remoteStore.getListStatus(domain: self.channelStorage.currentDomain, data: data)
 		switch result {
 		case .success(let user):
 			return .success(user)
