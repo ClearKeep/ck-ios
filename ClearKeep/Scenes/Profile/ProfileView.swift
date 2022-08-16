@@ -36,6 +36,9 @@ struct ProfileView: View {
 					print("parse phone number error")
 					isHavePhoneNumber = false
 				}
+				if !(data.urlAvatarViewModel?.fileURL.isEmpty ?? true) {
+					urlAvatar = data.urlAvatarViewModel?.fileURL ?? ""
+				}
 			default: break
 			}
 		}
@@ -49,14 +52,13 @@ struct ProfileView: View {
 	@State private var isMfaEnable: Bool = false
 	let phoneNumberKit = PhoneNumberKit()
 	@State private(set) var profile: UserProfileViewModel?
+	
 	// MARK: - Body
 	var body: some View {
-		NavigationView {
-			content
-				.onReceive(inspection.notice) { inspection.visit(self, $0) }
-				.onAppear(perform: getProfile)
-				.hideKeyboardOnTapped()
-		}.hiddenNavigationBarStyle()
+		content
+			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.onAppear(perform: getProfile)
+			.hideKeyboardOnTapped()
 	}
 }
 

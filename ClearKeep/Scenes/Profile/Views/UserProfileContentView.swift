@@ -295,14 +295,9 @@ private extension UserProfileContentView {
 	func updateAvata() {
 		let url = selectedImages.first?.url ?? URL(fileURLWithPath: "")
 		let data = selectedImages.first?.thumbnail ?? UIImage()
+		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			do {
-				let urlAvata = try await injected.interactors.profileInteractor.uploadAvatar(url: url, imageData: data).get().urlAvatarViewModel?.fileURL ?? ""
-				self.urlAvatar = urlAvata
-			} catch {
-				print("Error retrieving the value: \(error)")
-				loadable = .failed(error)
-			}
+			loadable = await injected.interactors.profileInteractor.uploadAvatar(url: url, imageData: data)
 		}
 	}
 	
