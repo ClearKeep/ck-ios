@@ -91,7 +91,7 @@ private extension CreateDirectMessageView {
 		}
 
 		if let groupData = data.creatGroup {
-			return AnyView(ChatView(messageText: "", inputStyle: .default, groupId: groupData.groupID))
+			return AnyView(ChatView(messageText: "", inputStyle: .default, groupId: groupData.groupID, avatarLink: ""))
 		}
 
 		return AnyView(DirectMessageContentView(loadable: $loadable, userData: $searchData, profile: .constant(data.getProfile), searchText: $searchText, groups: self.groups))

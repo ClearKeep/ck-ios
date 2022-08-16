@@ -89,7 +89,7 @@ private extension ChatGroupView {
 		}
 		
 		if let groupData = data.creatGroup {
-			return AnyView(ChatView(messageText: "", inputStyle: .default, groupId: groupData.groupID))
+			return AnyView(ChatView(messageText: "", inputStyle: .default, groupId: groupData.groupID, avatarLink: ""))
 		}
 		
 		if let profileWithLink = data.profileWithLink,

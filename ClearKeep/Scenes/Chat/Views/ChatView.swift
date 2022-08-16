@@ -82,15 +82,18 @@ struct ChatView: View {
 	@State private var disableCall = false
 
 	private let groupId: Int64
+	private let avatarLink: String
 	private let inspection = ViewInspector<Self>()
 	
 	// MARK: - Init
 	init(messageText: String = "",
 		 inputStyle: TextInputStyle,
-		 groupId: Int64) {
+		 groupId: Int64,
+		 avatarLink: String) {
 		self._messageText = .init(initialValue: messageText)
 		self._inputStyle = .init(initialValue: inputStyle)
 		self.groupId = groupId
+		self.avatarLink = avatarLink
 	}
 	
 	// MARK: - Body
@@ -633,6 +636,7 @@ private extension ChatView {
 	func updateGroup() {
 		Task {
 			group = await injected.interactors.chatInteractor.updateGroupWithId(loadable: $loadable, groupId: groupId)
+			group?.groupAvatar = self.avatarLink
 		}
 	}
 	
