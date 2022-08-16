@@ -165,7 +165,8 @@ struct InCallModifier: ViewModifier {
 					VideoView(rtcVideoView: videoView)
 				} else {
 					ZStack {
-						if let avatar = callViewModel.callBox?.avatar {
+						if let avatar = callViewModel.callBox?.avatar,
+						   !avatar.isEmpty {
 							AsyncImage(url: URL(string: avatar)) { image in
 								// 1
 								image
@@ -178,10 +179,8 @@ struct InCallModifier: ViewModifier {
 							.frame(maxWidth: .infinity, maxHeight: .infinity)
 							.blur(radius: 70)
 						} else {
-							Image("bg_call")
-								.resizable()
+							LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 								.frame(maxWidth: .infinity, maxHeight: .infinity)
-								.blur(radius: 70)
 						}
 						
 						VStack {

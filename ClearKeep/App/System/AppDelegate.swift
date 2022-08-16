@@ -170,7 +170,8 @@ extension AppDelegate: PKPushRegistryDelegate {
 			}
 			
 			Task {
-				await self.systemEventsHandler?.container.interactors.peerCallInteractor.updateVideoCall(groupID: call.roomId, callType: .cancelRequestCall)
+				let id = call.roomRtcId != 0 ? call.roomRtcId : call.roomId
+				await self.systemEventsHandler?.container.interactors.peerCallInteractor.updateVideoCall(groupID: id, callType: .cancelRequestCall)
 			}
 		}
 	}
