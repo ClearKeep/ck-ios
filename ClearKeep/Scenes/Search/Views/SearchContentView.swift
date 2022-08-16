@@ -52,6 +52,7 @@ struct SearchContentView: View {
 				ImageButton(AppTheme.shared.imageSet.crossIcon, action: back)
 					.foregroundColor(titleColor)
 			})
+			.onAppear(perform: getUserGroup)
 	}
 }
 
@@ -206,6 +207,15 @@ private extension SearchContentView {
 	
 	func back() {
 		self.presentationMode.wrappedValue.dismiss()
+	}
+
+	func getUserGroup() {
+		searchGroup.forEach { data in
+			data.groupMembers.map { memberData in
+				let data = SearchGroupViewModel(member: memberData)
+				self.searchUserData.append(data)
+			}
+		}
 	}
 }
 

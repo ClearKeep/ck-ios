@@ -44,6 +44,7 @@ struct SearchGroupViewModels: ISearchGroupViewModels {
 
 struct SearchGroupViewModel: Identifiable {
 	var id: String { "\(groupId)" }
+	var userid: String
 	var groupId: Int64
 	var groupName: String
 	var groupAvatar: String
@@ -53,14 +54,27 @@ struct SearchGroupViewModel: Identifiable {
 	var hasUnreadMessage: Bool = false
 	var groupMembers: [IMemberModel] = []
 
-	init(_ model: IGroupModel) {
-		self.groupId = model.groupId
-		self.groupName = model.groupName
-		self.groupAvatar = model.groupAvatar
-		self.groupType = model.groupType
-		self.hasUnreadMessage = model.hasUnreadMessage
-		self.createdAt = model.createdAt
-		self.updatedAt = getTimeAsString(timeMs: model.updatedAt)
-		self.groupMembers = model.groupMembers
+	init(group: IGroupModel) {
+		self.groupId = group.groupId
+		self.userid = ""
+		self.groupName = group.groupName
+		self.groupAvatar = group.groupAvatar
+		self.groupType = group.groupType
+		self.hasUnreadMessage = group.hasUnreadMessage
+		self.createdAt = group.createdAt
+		self.updatedAt = getTimeAsString(timeMs: group.updatedAt)
+		self.groupMembers = group.groupMembers
+	}
+
+	init(member: IMemberModel) {
+		self.groupId = 0
+		self.userid = member.userId
+		self.groupName = member.userName
+		self.groupAvatar = member.avatar
+		self.groupType = ""
+		self.hasUnreadMessage = false
+		self.createdAt = 0
+		self.updatedAt = ""
+		self.groupMembers = []
 	}
 }

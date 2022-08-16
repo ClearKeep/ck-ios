@@ -73,10 +73,10 @@ private extension SearchView {
 	func loadedView(_ data: ISearchViewModels) -> AnyView {
 		if let searchGroup = data.groupViewModel?.viewModelGroup {
 			let lstGroup = searchGroup.filter { $0.groupType == "group" }.compactMap { profile in
-				SearchGroupViewModel(profile)}
+				SearchGroupViewModel(group: profile)}
 			
 			let lstUser = searchGroup.filter { $0.groupType == "peer" }.compactMap { profile in
-				SearchGroupViewModel(profile)}
+				SearchGroupViewModel(group: profile)}
 			
 			return AnyView(SearchContentView(serverText: serverText, searchCatalogy: .all, searchUser: .constant(lstUser), searchGroup: .constant(lstGroup), searchMessage: .constant([]), loadable: $loadable))
 		}
