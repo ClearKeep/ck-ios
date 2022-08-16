@@ -66,11 +66,14 @@ extension GroupDetailInteractor: IGroupDetailInteractor {
 		switch result {
 		case .success(let groups):
 
-			var ids: [String] = []
+			var ids: [[String: String]] = []
 			groups.groupModel?.groupMembers.filter { $0.userState == "active" }.forEach({ data in
-				ids.append(data.userId)
+				let idMembers = [["id": data.userId, "domain": data.domain]]
+				ids.append(contentsOf: idMembers)
 			})
-			let result = await worker.getListStatus(ids: Array(Set(ids)))
+			ids.append(["id": DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "",
+						"domain": DependencyResolver.shared.channelStorage.currentDomain])
+			let result = await worker.getListStatus(data: Array(Set(ids)))
 
 			switch result {
 			case .success(let user):

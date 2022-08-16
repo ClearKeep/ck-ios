@@ -66,13 +66,14 @@ extension HomeInteractor: IHomeInteractor {
 		
 		switch result {
 		case .success(let groups):
-			var ids: [String] = []
+			var ids: [[String: String]] = []
 		    groups.groupModel?.forEach({ data in
-				let idMembers = data.groupMembers.map({ $0.userId })
+				let idMembers = data.groupMembers.map({ ["id": $0.userId, "domain": $0.domain] })
 				ids.append(contentsOf: idMembers)
 			})
-			ids.append(DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "")
-			let result = await worker.getListStatus(ids: Array(Set(ids)))
+			ids.append(["id": DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "",
+						"domain": DependencyResolver.shared.channelStorage.currentDomain])
+			let result = await worker.getListStatus(data: Array(Set(ids)))
 
 			switch result {
 			case .success(let user):
@@ -89,7 +90,8 @@ extension HomeInteractor: IHomeInteractor {
 		let result = await worker.updateStatus(status: status)
 		switch result {
 		case .success:
-			let result = await worker.getListStatus(ids: [DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? ""])
+			let result = await worker.getListStatus(data: [["id": DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "",
+														   "domain": DependencyResolver.shared.channelStorage.currentDomain]])
 			switch result {
 			case .success(let user):
 				return .loaded(UserViewModels(user))
