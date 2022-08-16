@@ -13,7 +13,7 @@ import UIKit
 protocol IProfileInteractor {
 	var worker: IProfileWorker { get }
 	func getProfile() async -> Loadable<IProfileViewModels>
-	func uploadAvatar(url: URL, imageData: UIImage) async -> (Result<IProfileViewModels, Error>)
+	func uploadAvatar(url: URL, imageData: UIImage) async -> Loadable<IProfileViewModels>
 	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool) async -> Loadable<IProfileViewModels>
 	func validate(phoneNumber: String) -> Bool
 	func updateMfaSettings(loadable: LoadableSubject<IProfileViewModels>, enabled: Bool, isHavePhoneNumber: Bool) async -> Bool
@@ -50,16 +50,16 @@ extension ProfileInteractor: IProfileInteractor {
 		}
 	}
 
-	func uploadAvatar(url: URL, imageData: UIImage) async -> (Result<IProfileViewModels, Error>) {
+	func uploadAvatar(url: URL, imageData: UIImage) async -> Loadable<IProfileViewModels> {
 		if !worker.isValidAvatarSize(url: url) {
-			return .failure(ProfileError.avatarSize)
+			return .failed(ProfileError.avatarSize)
 		}
 		let result = await worker.uploadAvatar(url: url, imageData: imageData)
 		switch result {
 		case .success(let imageData):
-			return .success(ProfileViewModels(responseAvatar: imageData))
+			return .loaded(ProfileViewModels(responseAvatar: imageData))
 		case .failure(let error):
-			return .failure(error)
+			return .failed(error)
 		}
 	}
 	
@@ -112,23 +112,12 @@ struct StubProfileInteractor: IProfileInteractor {
 		return .notRequested
 	}
 	
-	func uploadAvatar(imageData: ProfileUploadImageViewModel) async -> Loadable<IProfileViewModels> {
-		return .notRequested
-	}
-	
 	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool) async -> Loadable<IProfileViewModels> {
 		return .notRequested
 	}
 
-	func uploadAvatar(url: URL, imageData: UIImage) async -> (Result<IProfileViewModels, Error>) {
-		let result = await worker.uploadAvatar(url: url, imageData: imageData)
-
-		switch result {
-		case .success(let imageData):
-			return .success(ProfileViewModels(responseAvatar: imageData))
-		case .failure(let error):
-			return .failure(error)
-		}
+	func uploadAvatar(url: URL, imageData: UIImage) async -> Loadable<IProfileViewModels> {
+		return .notRequested
 	}
 
 	func validate(phoneNumber: String) -> Bool {

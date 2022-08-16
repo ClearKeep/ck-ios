@@ -59,7 +59,7 @@ extension ProfileWorker: IProfileWorker {
 		
 		let fileName = url.lastPathComponent
 		let fileType = "image/\(url.pathExtension)"
-		let fileData = imageData.jpegData(compressionQuality: 0.4) ?? Data()
+		let fileData = imageData.jpegData(compressionQuality: 1) ?? Data()
 		let fileHash = fileData.md5().map { String(format: "%02hhx", $0) }.joined()
 		let result = await remoteStore.uploadAvatar(fileName: fileName, fileContentType: fileType, fileData: fileData, fileHash: fileHash, domain: currentDomain ?? channelStorage.currentDomain)
 		
