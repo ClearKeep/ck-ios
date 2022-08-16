@@ -162,7 +162,7 @@ private extension MenuView {
 		if servers.count < 2 {
 			Task {
 				await injected.interactors.homeInteractor.signOut()
-				await injected.interactors.homeInteractor.removeServer()
+				injected.interactors.homeInteractor.removeServer()
 			}
 			DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
 				injected.appState[\.authentication.servers] = []
@@ -170,7 +170,7 @@ private extension MenuView {
 		} else {
 			Task {
 				await injected.interactors.homeInteractor.signOut()
-				await injected.interactors.homeInteractor.removeServer()
+				injected.interactors.homeInteractor.removeServer()
 			}
 			DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
 				NotificationCenter.default.post(name: NSNotification.LogOut, object: nil)

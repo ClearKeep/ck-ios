@@ -7,6 +7,8 @@
 
 import Foundation
 import Networking
+import LibSignalClient
+import SwiftSRP
 
 public protocol IGroupService {
 	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [Group_ClientInGroupObject], domain: String) async -> (Result<Group_GroupObjectResponse, Error>)
@@ -20,7 +22,12 @@ public protocol IGroupService {
 }
 
 public class GroupService {
-	public init() {
+	private let senderStore: ISenderKeyStore
+	private let signalStore: ISignalProtocolInMemoryStore
+	
+	public init(senderStore: ISenderKeyStore, signalStore: ISignalProtocolInMemoryStore) {
+		self.senderStore = senderStore
+		self.signalStore = signalStore
 	}
 }
 
@@ -67,7 +74,14 @@ extension GroupService: IGroupService {
 		switch response {
 		case .success(let data):
 			print(data)
-			return await .success(channelStorage.realmManager.addAndUpdateGroups(group: data, domain: domain))
+			let server = channelStorage.realmManager.getServer(by: domain)
+			guard let server = server, let profile = server.profile else {
+				return .success([])
+			}
+			let groups = await convertGroupFromResponse(groups: data, server: server)
+			await channelStorage.realmManager.addAndUpdateGroups(groups: groups)
+			return .success(groups)
+
 		case .failure(let error):
 			return .failure(error)
 		}
@@ -133,5 +147,82 @@ extension GroupService: IGroupService {
 		request.groupID = groupId
 		
 		return await channelStorage.getChannel(domain: domain).leaveGroup(request)
+	}
+}
+
+private extension GroupService {
+	func convertGroupFromResponse(groups: Group_GetJoinedGroupsResponse, server: RealmServer) async -> [RealmGroup] {
+		return await withCheckedContinuation({ continuation in
+			var realmGroups: [RealmGroup] = []
+			guard let profile = server.profile else {
+				return
+			}
+			groups.lstGroup.forEach { groupResponse in
+				let oldGroup = channelStorage.realmManager.getGroup(by: groupResponse.groupID, domain: server.serverDomain, ownerId: profile.userId)
+				var isRegisteredKey = oldGroup?.isJoined ?? false
+				let lastMessageSyncTime = oldGroup?.lastMessageSyncTimestamp ?? (server.loginTime ?? Int64(Date().timeIntervalSince1970))
+				
+				if groupResponse.clientKey.senderKey.count != 0 && groupResponse.groupType == "group" && !isRegisteredKey {
+					do {
+						let identityKey = try signalStore.identityStore.identityKeyPair(context: NullContext())
+						let privateKey = identityKey.privateKey
+						let pbkdf2 = PBKDF2(passPharse: bytesConvertToHexString(bytes: privateKey.serialize()))
+						let senderKeyDecrypted = pbkdf2.decrypt(data: [UInt8](groupResponse.clientKey.senderKey), saltEncrypt: server.salt.hexaBytes, ivParameterSpec: server.iv.hexaBytes)
+						
+						let senderAddress = try ProtocolAddress(name: "\(server.serverDomain)_\(profile.userId)", deviceId: UInt32(Constants.senderDeviceId))
+						let senderKeyRecord = try SenderKeyRecord(bytes: Data(senderKeyDecrypted ?? []))
+						guard let uuid = senderStore.getSenderDistributionID(senderID: profile.userId, groupId: groupResponse.groupID, isCreateNew: true) else { return }
+						try senderStore.storeSenderKey(from: senderAddress, distributionId: uuid, record: senderKeyRecord, context: NullContext())
+						isRegisteredKey = true
+					} catch {
+						return
+					}
+				}
+				
+				let realmGroup = RealmGroup()
+				let groupMembers = groupResponse.lstClient.map { member -> RealmMember in
+					let realmMember = RealmMember()
+					realmMember.userId = member.id
+					realmMember.userName = member.displayName
+					realmMember.domain = member.workspaceDomain
+					realmMember.userState = member.status
+					return realmMember
+				}
+				
+				realmGroup.generateId = oldGroup?.generateId ?? UUID().uuidString
+				realmGroup.groupId = groupResponse.groupID
+				if groupResponse.groupType == "group" {
+					realmGroup.groupName = groupResponse.groupName
+				} else {
+					realmGroup.groupName = groupResponse.lstClient.first { $0.id != profile.userId }?.displayName ?? ""
+				}
+				realmGroup.groupAvatar = groupResponse.groupAvatar
+				realmGroup.groupType = groupResponse.groupType
+				realmGroup.createdBy = groupResponse.createdByClientID
+				realmGroup.createdAt = groupResponse.createdAt
+				realmGroup.updatedBy = groupResponse.updatedByClientID
+				realmGroup.updatedAt = groupResponse.updatedAt
+				realmGroup.rtcToken = groupResponse.groupRtcToken
+				realmGroup.groupMembers.append(objectsIn: groupMembers)
+				realmGroup.isJoined = isRegisteredKey
+				realmGroup.ownerDomain = server.serverDomain
+				realmGroup.ownerClientId = profile.userId
+				realmGroup.lastMessage = nil
+				realmGroup.lastMessageAt = groupResponse.lastMessageAt
+				realmGroup.lastMessageSyncTimestamp = lastMessageSyncTime
+				realmGroup.isDeletedUserPeer = false
+				realmGroup.hasUnreadMessage = groupResponse.hasUnreadMessage_p
+				
+				realmGroups.append(realmGroup)
+				
+			}
+			continuation.resume(returning: realmGroups)
+		})
+	}
+	
+	func bytesConvertToHexString(bytes: [UInt8]) -> String {
+		return bytes.compactMap {
+			String(format: "%02x", $0)
+		}.joined()
 	}
 }

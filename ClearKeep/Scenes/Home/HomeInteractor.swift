@@ -22,7 +22,7 @@ protocol IHomeInteractor {
 	func signOut() async
 	func updateStatus(status: String) async -> Loadable<UserViewModels>
 
-	func removeServer() async
+	func removeServer()
 }
 
 struct HomeInteractor {
@@ -56,8 +56,8 @@ extension HomeInteractor: IHomeInteractor {
 		return worker.servers.compactMap { ServerViewModel($0) }
 	}
 
-	func removeServer() async {
-		_ = await worker.removeServer()
+	func removeServer() {
+		worker.removeServer()
 	}
 
 	func getServerInfo() async -> Loadable<HomeViewModels> {
@@ -156,8 +156,8 @@ struct StubHomeInteractor: IHomeInteractor {
 		return .notRequested
 	}
 
-	func removeServer() async {
-		_ = await worker.removeServer()
+	func removeServer() {
+		worker.removeServer()
 	}
 
 }

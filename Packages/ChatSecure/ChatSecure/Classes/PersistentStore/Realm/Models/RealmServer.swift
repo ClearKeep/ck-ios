@@ -19,6 +19,8 @@ public class RealmServer: Object {
 	@objc public dynamic var hashKey: String
 	@objc public dynamic var refreshToken: String
 	@objc public dynamic var isActive: Bool
+	@objc public dynamic var salt: String
+	@objc public dynamic var iv: String
 	@objc public dynamic var profile: RealmProfile?
 	
 	public override class func primaryKey() -> String? {
@@ -36,8 +38,9 @@ public class RealmServer: Object {
 		hashKey = String()
 		refreshToken = String()
 		isActive = Bool()
+		salt = String()
+		iv = String()
 		profile = nil
-		
 		super.init()
 	}
 }

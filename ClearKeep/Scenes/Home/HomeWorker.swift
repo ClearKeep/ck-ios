@@ -24,7 +24,7 @@ protocol IHomeWorker {
 	func getListStatus(data: [[String: String]]) async -> Result<IHomeModels, Error>
 	func pingRequest() async
 	func updateStatus(status: String) async -> Result<IHomeModels?, Error>
-	func removeServer() async
+	func removeServer()
 }
 
 class HomeWorker {
@@ -75,8 +75,10 @@ extension HomeWorker: IHomeWorker {
 		})
 	}
 
-	func removeServer() async {
-		return await channelStorage.removeServer(currentDomain ?? channelStorage.currentDomain)
+	func removeServer() {
+		let domain = currentDomain ?? channelStorage.currentDomain
+		channelStorage.removeServer(domain)
+		channelStorage.removeGroup(domain)
 	}
 
 	func getProfile() async -> Result<IHomeModels, Error> {
