@@ -64,7 +64,7 @@ struct HomeContentView: View {
 								$isExpandDirectMessage)
 			}
 		}
-		NavigationLink(destination: ChatView(messageText: "", inputStyle: .default, groupId: selectedGroup?.groupId ?? 0),
+		NavigationLink(destination: ChatView(messageText: "", inputStyle: .default, groupId: selectedGroup?.groupId ?? 0, avatarLink: selectedGroup?.avatar ?? ""),
 					   isActive: $isNext) {
 			
 		}.buttonStyle(.plain)

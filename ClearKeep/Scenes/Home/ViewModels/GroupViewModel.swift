@@ -51,6 +51,14 @@ struct GroupViewModel: Identifiable {
 	var hasUnreadMessage: Bool = false
 	var groupMembers: [IMemberModel] = []
 
+	var avatar: String {
+		if groupType == "peer" {
+		  return groupMembers.first(where: { $0.userId != DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "" })?.avatar ?? ""
+		}
+		
+		return ""
+	}
+	
 	init(_ model: IGroupModel) {
 		self.groupId = model.groupId
 		self.groupName = model.groupName

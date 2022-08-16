@@ -176,10 +176,9 @@ struct GroupIncallView_Previews: PreviewProvider {
 private extension GroupIncallView {
 	func changeCallToVideo(type: CallType) {
 		guard let callBox = self.viewModel.callBox else { return }
-		let roomId = callBox.roomRtcId != 0 ? callBox.roomRtcId : callBox.roomId
 		self.loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			self.loadable = await injected.interactors.peerCallInteractor.updateVideoCall(groupID: roomId, callType: type)
+			self.loadable = await injected.interactors.peerCallInteractor.updateVideoCall(groupID: callBox.roomRtcId, callType: type)
 		}
 	}
 }

@@ -31,7 +31,7 @@ struct SearchGroupView: View {
 		ForEach(searchGroup) { item in
 			VStack(alignment: .leading) {
 				NavigationLink(
-					destination: ChatView(inputStyle: .default, groupId: item.groupId),
+					destination: ChatView(inputStyle: .default, groupId: item.groupId, avatarLink: ""),
 					isActive: $isGroupChat,
 					label: {
 						Button(action: action) {

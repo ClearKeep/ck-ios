@@ -33,7 +33,7 @@ struct SearchUserView: View {
 		ForEach(searchUser) { item in
 			VStack(alignment: .leading, spacing: Constants.spacing) {
 				NavigationLink(
-					destination: ChatView(inputStyle: .default, groupId: item.groupId),
+					destination: ChatView(inputStyle: .default, groupId: item.groupId, avatarLink: item.groupAvatar),
 					isActive: $isUserChat,
 					label: {
 						Button(action: tapAaction) {

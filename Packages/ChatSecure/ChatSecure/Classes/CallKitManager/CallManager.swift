@@ -57,6 +57,7 @@ final public class CallManager: NSObject {
 				   clientName: String?,
 				   avatar: String? = nil,
 				   groupId: Int64,
+				   groupRtcId: Int64,
 				   groupToken: String,
 				   callType type: CallType = .audio ,
 				   isCallGroup: Bool,
@@ -68,6 +69,7 @@ final public class CallManager: NSObject {
 		call.roomId = groupId
 		call.type = type
 		call.isCallGroup = isCallGroup
+		call.roomRtcId = groupRtcId
 		call.hasStartedConnectingDidChange = { [weak self] in
 			guard let self = self else { return }
 			self.provider.reportOutgoingCall(with: call.uuid, startedConnectingAt: call.connectingDate)
