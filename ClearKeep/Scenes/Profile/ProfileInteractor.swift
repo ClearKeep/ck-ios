@@ -112,23 +112,11 @@ struct StubProfileInteractor: IProfileInteractor {
 		return .notRequested
 	}
 	
-//	func uploadAvatar(imageData: ProfileUploadImageViewModel) async -> Loadable<IProfileViewModels> {
-//		return .notRequested
-//	}
-	
 	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool) async -> Loadable<IProfileViewModels> {
 		return .notRequested
 	}
 
 	func uploadAvatar(url: URL, imageData: UIImage) async -> Loadable<IProfileViewModels> {
-//		let result = await worker.uploadAvatar(url: url, imageData: imageData)
-//
-//		switch result {
-//		case .success(let imageData):
-//			return .success(ProfileViewModels(responseAvatar: imageData))
-//		case .failure(let error):
-//			return .failure(error)
-//		}
 		return .notRequested
 	}
 

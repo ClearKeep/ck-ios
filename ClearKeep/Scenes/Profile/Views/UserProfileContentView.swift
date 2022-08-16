@@ -30,13 +30,13 @@ private enum Constants {
 }
 
 struct UserProfileContentView: View {
-
+	
 	// MARK: - Variables
 	let inspection = ViewInspector<Self>()
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
+	
 	@Binding private(set) var countryCode: String
 	@Binding var loadable: Loadable<IProfileViewModels>
 	@Binding private(set) var urlAvatar: String
@@ -85,7 +85,7 @@ struct UserProfileContentView: View {
 									.clipShape(Circle())
 							}
 						}
-
+						
 						VStack(alignment: .leading, spacing: Constants.spacerSetting) {
 							Text("UserProfile.Picture.Change".localized)
 								.font(AppTheme.shared.fontSet.font(style: .body3))
@@ -95,13 +95,13 @@ struct UserProfileContentView: View {
 								.foregroundColor(foregroundColorPicture)
 						}
 					}
-
+					
 					VStack(alignment: .leading, spacing: Constants.spacer) {
 						VStack(alignment: .leading, spacing: Constants.spacerSetting) {
 							Text("UserProfile.Username".localized)
 								.font(AppTheme.shared.fontSet.font(style: .input3))
 								.foregroundColor(foregroundColor)
-
+							
 							CommonTextField(text: $username,
 											inputStyle: $usernameStyle,
 											placeHolder: "UserProfile.Username".localized,
@@ -128,12 +128,12 @@ struct UserProfileContentView: View {
 											onEditingChanged: { _ in })
 								.disabled(true)
 						}
-
+						
 						VStack(alignment: .leading, spacing: Constants.spacerSetting) {
 							Text("UserProfile.PhoneNumber".localized)
 								.font(AppTheme.shared.fontSet.font(style: .input3))
 								.foregroundColor(foregroundColor)
-
+							
 							HStack(spacing: Constants.spacerSetting) {
 								Button {
 									isShowCountryCode = true
@@ -149,7 +149,7 @@ struct UserProfileContentView: View {
 												.font(AppTheme.shared.fontSet.font(style: .input3))
 												.foregroundColor(foregroundColor)
 												.padding(.trailing, Constants.spacerCenter)
-
+											
 										}
 										.frame(width: Constants.widthButtonPhone, height: Constants.heightButtonPhone)
 										.background(backgroundInputCountryCode)
@@ -176,7 +176,7 @@ struct UserProfileContentView: View {
 										RoundedRectangle(cornerRadius: Constants.radius)
 											.stroke(borderColor, lineWidth: Constants.borderWidth)
 									)
-
+								
 							}
 							if phoneInvalid == false {
 								Text("UserProfile.Phone.Valid".localized)
@@ -186,19 +186,19 @@ struct UserProfileContentView: View {
 									.foregroundColor(notifyColor)
 							}
 						}
-
+						
 						Button(action: copyProfile) {
 							HStack {
 								Text("UserProfile.Link.Copy".localized)
 									.font(AppTheme.shared.fontSet.font(style: .body3))
 									.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
-
+								
 								Spacer()
 								AppTheme.shared.imageSet.copyIcon
 									.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 							}
 						}
-
+						
 						NavigationLink(destination: ChangePasswordView(),
 									   isActive: $isChangePassword) {
 							Button(action: changePassword) {
@@ -213,7 +213,7 @@ struct UserProfileContentView: View {
 							}
 						}
 					}
-
+					
 					VStack(alignment: .leading, spacing: Constants.spacerTop) {
 						HStack(alignment: .top) {
 							VStack(alignment: .leading, spacing: Constants.spacerTop) {
@@ -225,7 +225,7 @@ struct UserProfileContentView: View {
 									.foregroundColor(foregroundColor)
 							}
 							Spacer()
-
+							
 							NavigationLink(destination: TwoFactorView(twoFactorType: .setting),
 										   isActive: $isCurrentPass) {
 								Button(action: change2FAStatus) {
@@ -291,7 +291,7 @@ private extension UserProfileContentView {
 	func avartarOptions() {
 		self.showingImageOptions.toggle()
 	}
-
+	
 	func updateAvata() {
 		let url = selectedImages.first?.url ?? URL(fileURLWithPath: "")
 		let data = selectedImages.first?.thumbnail ?? UIImage()
@@ -302,8 +302,12 @@ private extension UserProfileContentView {
 	}
 	
 	func checkPhoneValid(text: String) {
-		let checkNumber = "\(countryCode)\(text)"
-		phoneInvalid = injected.interactors.profileInteractor.validate(phoneNumber: checkNumber)
+		if countryCode.isEmpty {
+			phoneInvalid = false
+		} else {
+			let checkNumber = "\(countryCode)\(text)"
+			phoneInvalid = injected.interactors.profileInteractor.validate(phoneNumber: checkNumber)
+		}
 	}
 	
 	func checkUserValid(text: String) {
@@ -313,7 +317,7 @@ private extension UserProfileContentView {
 			usernameStyle = .highlighted
 		}
 	}
-
+	
 	func saveAction() {
 		if !phoneInvalid {
 			return
@@ -346,7 +350,12 @@ private extension UserProfileContentView {
 
 private extension UserProfileContentView {
 	func customBack() {
-		self.showAlertPopup = true
+		let myProfile = DependencyResolver.shared.channelStorage.currentServer?.profile
+		if urlAvatar != myProfile?.avatar || username != myProfile?.userName || "\(countryCode)\(phoneNumber)" != myProfile?.phoneNumber {
+			self.showAlertPopup = true
+		} else {
+			presentationMode.wrappedValue.dismiss()
+		}
 	}
 	
 	func copyProfile() {
@@ -355,11 +364,11 @@ private extension UserProfileContentView {
 		UIPasteboard.general.string = "\(currentDomain)/\(user?.userName.replacingOccurrences(of: " ", with: "") ?? "name")/\(user?.userId ?? "id")"
 		self.isShowToastCopy = true
 	}
-
+	
 	func changePassword() {
 		isChangePassword = true
 	}
-
+	
 	func change2FAStatus() {
 		Task {
 			let result = await injected.interactors.profileInteractor.updateMfaSettings(loadable: $loadable, enabled: !isEnable2FA, isHavePhoneNumber: isHavePhoneNumber)
@@ -372,20 +381,20 @@ private extension UserProfileContentView {
 			}
 		}
 	}
-
+	
 	var statusTwoFA: String {
 		isEnable2FA ? "Disable" : "Enable"
 	}
-
+	
 	var imageAvatar: Image {
 		AppTheme.shared.imageSet.userImage
 	}
-
+	
 	var buttonLeft: some View {
 		ImageButton(AppTheme.shared.imageSet.crossIcon, action: { customBack() })
 			.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight)
 	}
-
+	
 	var rightButton: some View {
 		TextButton("UserProfile.Save".localized, action: { saveAction() })
 			.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
@@ -395,11 +404,11 @@ private extension UserProfileContentView {
 // MARK: - Color func
 
 private extension UserProfileContentView {
-
+	
 	var backgroundInputCountryCode: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.darkGrey2
 	}
-
+	
 	var foregroundColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight
 	}
@@ -419,9 +428,9 @@ private extension UserProfileContentView {
 	var borderColor: Color {
 		phoneInvalid == false ? (colorScheme == .light ? AppTheme.shared.colorSet.errorDefault : AppTheme.shared.colorSet.primaryDefault) : borderColorOnEdit
 	}
-
+	
 	var borderColorOnEdit: Color {
 		colorScheme == .light ? (onEditing == false ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.black) : (onEditing == true ? AppTheme.shared.colorSet.darkgrey3 : AppTheme.shared.colorSet.greyLight)
 	}
-
+	
 }
