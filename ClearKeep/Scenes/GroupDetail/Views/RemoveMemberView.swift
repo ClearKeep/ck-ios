@@ -26,7 +26,7 @@ struct RemoveMemberView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Binding var loadable: Loadable<IGroupDetailViewModels>
 	@Binding var member: [GroupDetailProfileViewModel]
-	@State private(set) var groupData: [GroupDetailClientViewModel] = []
+	@State private(set) var groupData: [GroupDetailProfileViewModel] = []
 	@State private(set) var groupId: Int64 = 0
 	@State private(set) var searchStyle: TextInputStyle = .default
 	@State private(set) var searchText: String = ""
@@ -79,6 +79,7 @@ struct RemoveMemberView: View {
 				  message: Text(self.messageAlert),
 				  dismissButton: .default(Text("GroupChat.Ok".localized), action: backAction))
 		}
+		.onAppear(perform: dataLoaded)
 	}
 }
 
@@ -113,20 +114,26 @@ private extension RemoveMemberView {
 		}
 	}
 
+	func dataLoaded() {
+		self.member = member.filter { $0.id != DependencyResolver.shared.channelStorage.currentServer?.profile?.userId }
+	}
+
 	func chosseUser(_ data: GroupDetailProfileViewModel) {
 		self.isShowPopUp = true
-		self.groupData = groupData.filter { $0.id == data.id }
+		self.groupData = member.filter { $0.id == data.id }
 	}
 
 	func deleteUser() {
-		Task {
-			do {
-				let notification = try await injected.interactors.groupDetailInteractor.removeMember(groupData.first ?? GroupDetailClientViewModel(id: "", userName: "", domain: "", userState: "", userStatus: .undefined, phoneNumber: "", avatar: "", email: ""), groupId: groupId).get().groupBase?.error ?? "General.Error".localized
-				self.messageAlert = notification.isEmpty ? "General.Error" .localized: "GroupDetail.Success.Remove".localized
-				self.isShowAlert = true
-			} catch {
-				self.messageAlert = "General.Error".localized
-				self.isShowAlert = true
+		groupData.forEach { member in
+			Task {
+				do {
+					let notification = try await injected.interactors.groupDetailInteractor.removeMember(member, groupId: groupId).get().groupBase?.error ?? "General.Error".localized
+					self.messageAlert = notification.isEmpty ? "General.Error" .localized: "GroupDetail.Success.Remove".localized
+					self.isShowAlert = true
+				} catch {
+					self.messageAlert = "General.Error".localized
+					self.isShowAlert = true
+				}
 			}
 		}
 	}
@@ -136,15 +143,6 @@ private extension RemoveMemberView {
 	}
 
 	var messagePopup: String {
-		String(format: "GroupDetail.LeadMesage.Remove".localized, groupData.first?.userName ?? "")
+		String(format: "GroupDetail.LeadMesage.Remove".localized, groupData.first?.displayName ?? "")
 	}
-}
-
-// MARK: - Loading Content
-private extension RemoveMemberView {
-
-}
-
-// MARK: - Interactor
-private extension RemoveMemberView {
 }

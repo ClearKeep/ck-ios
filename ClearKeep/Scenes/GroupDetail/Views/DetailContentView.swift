@@ -31,6 +31,7 @@ struct DetailContentView: View {
 	@Binding var loadable: Loadable<IGroupDetailViewModels>
 	@Binding var groupData: GroupDetailViewModel?
 	@Binding var member: [GroupDetailProfileViewModel]
+	@State private var memberRemove: [GroupDetailProfileViewModel] = []
 	@State private var messageAlert: String = ""
 	@State private var isShowAlert: Bool = false
 	@State private var errorType: ErrorType = .error
@@ -132,6 +133,7 @@ struct DetailContentView: View {
 		}
 		.hiddenNavigationBarStyle()
 		.edgesIgnoringSafeArea(.all)
+		.onAppear(perform: dataloaded)
 	}
 }
 
@@ -177,6 +179,10 @@ private extension DetailContentView {
 		self.call(callType: .video)
 	}
 
+	func dataloaded() {
+		self.memberRemove = member
+	}
+
 	func didSelectDetail(_ menu: DetailType) {
 		switch menu {
 		case .seeMember:
@@ -208,8 +214,7 @@ private extension DetailContentView {
 				.frame(height: Constants.itemHeight)
 			})
 		case .removeMember:
-			let memberRemove = member.filter { $0.id != DependencyResolver.shared.channelStorage.currentServer?.profile?.userId }
-			return AnyView(NavigationLink(destination: RemoveMemberView(loadable: $loadable, member: .constant(memberRemove), groupData: groupData?.groupMembers ?? [], groupId: groupData?.groupId ?? 0),
+			return AnyView(NavigationLink(destination: RemoveMemberView(loadable: $loadable, member: $memberRemove, groupId: groupData?.groupId ?? 0),
 										  isActive: $isRemoveMember) {
 				LinkButton(detail.title, icon: detail.icon, alignment: .leading) { didSelectDetail(detail) }
 				.foregroundColor(detail.color)
@@ -217,14 +222,14 @@ private extension DetailContentView {
 			})
 		case .leaveGroup:
 			return AnyView(LinkButton(detail.title, icon: detail.icon, alignment: .leading) { didSelectDetail(detail) }
-					.foregroundColor(detail.color)
-					.frame(height: Constants.itemHeight))
+							.foregroundColor(detail.color)
+							.frame(height: Constants.itemHeight))
 		}
 	}
 
 	func leaveGroup() {
-		let user = groupData?.groupMembers.filter { $0.id == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "" }
-		user?.forEach { profile in
+		let user = member.filter { $0.id == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "" }
+		user.forEach { profile in
 			Task {
 				loadable = await injected.interactors.groupDetailInteractor.leaveGroup(profile, groupId: groupData?.groupId ?? 0)
 			}
@@ -266,15 +271,6 @@ private extension DetailContentView {
 			})
 		})
 	}
-}
-
-// MARK: - Loading Content
-private extension DetailContentView {
-
-}
-
-// MARK: - Interactor
-private extension DetailContentView {
 }
 
 // MARK: - Preview

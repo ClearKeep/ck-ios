@@ -20,8 +20,8 @@ protocol IGroupDetailInteractor {
 	func checkPeopleLink(link: String) -> Bool
 	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)?
 	func lstMemberRemove(by groupId: Int64) async -> Loadable<IGroupDetailViewModels>
-	func removeMember(_ user: GroupDetailClientViewModel, groupId: Int64) async -> (Result<IGroupDetailViewModels, Error>)
-	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels>
+	func removeMember(_ user: GroupDetailProfileViewModel, groupId: Int64) async -> (Result<IGroupDetailViewModels, Error>)
+	func leaveGroup(_ user: GroupDetailProfileViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels>
 }
 
 struct GroupDetailInteractor {
@@ -139,7 +139,7 @@ extension GroupDetailInteractor: IGroupDetailInteractor {
 		}
 	}
 
-	func removeMember(_ user: GroupDetailClientViewModel, groupId: Int64) async -> (Result<IGroupDetailViewModels, Error>) {
+	func removeMember(_ user: GroupDetailProfileViewModel, groupId: Int64) async -> (Result<IGroupDetailViewModels, Error>) {
 		let result = await worker.leaveGroup(user, groupId: groupId)
 
 		switch result {
@@ -150,7 +150,7 @@ extension GroupDetailInteractor: IGroupDetailInteractor {
 		}
 	}
 
-	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
+	func leaveGroup(_ user: GroupDetailProfileViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
 		let result = await worker.leaveGroup(user, groupId: groupId)
 		switch result {
 		case .success(let member):
@@ -206,7 +206,7 @@ struct StubGroupDetailInteractor: IGroupDetailInteractor {
 		return .notRequested
 	}
 
-	func removeMember(_ user: GroupDetailClientViewModel, groupId: Int64) async -> (Result<IGroupDetailViewModels, Error>) {
+	func removeMember(_ user: GroupDetailProfileViewModel, groupId: Int64) async -> (Result<IGroupDetailViewModels, Error>) {
 		let result = await worker.leaveGroup(user, groupId: groupId)
 
 		switch result {
@@ -217,7 +217,7 @@ struct StubGroupDetailInteractor: IGroupDetailInteractor {
 		}
 	}
 
-	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
+	func leaveGroup(_ user: GroupDetailProfileViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
 		return .notRequested
 	}
 }

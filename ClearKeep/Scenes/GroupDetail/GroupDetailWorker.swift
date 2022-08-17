@@ -17,7 +17,7 @@ protocol IGroupDetailWorker {
 	func getGroup(by groupId: Int64) async -> (Result<IGroupDetailModels, Error>)
 	func searchUser(keyword: String) async -> (Result<IGroupDetailModels, Error>)
 	func addMember(_ user: GroupDetailUserViewModels, groupId: Int64) async -> (Result<IGroupDetailModels, Error>)
-	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64) async -> (Result<IGroupDetailModels, Error>)
+	func leaveGroup(_ user: GroupDetailProfileViewModel, groupId: Int64) async -> (Result<IGroupDetailModels, Error>)
 	func getUserInfor(clientId: String, workspaceDomain: String) async -> (Result<IGroupDetailModels, Error>)
 	func searchUserWithEmail(email: String) async -> (Result<IGroupDetailModels, Error>)
 	func checkPeopleLink(link: String) -> Bool
@@ -75,7 +75,7 @@ extension GroupDetailWorker: IGroupDetailWorker {
 		}
 	}
 
-	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64) async -> (Result<IGroupDetailModels, Error>) {
+	func leaveGroup(_ user: GroupDetailProfileViewModel, groupId: Int64) async -> (Result<IGroupDetailModels, Error>) {
 		let result = await remoteStore.leaveGroup(user, groupId: groupId, domain: currentDomain ?? channelStorage.currentDomain)
 
 		switch result {
