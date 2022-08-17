@@ -49,11 +49,8 @@ extension GroupDetailViewModels {
 		self.init(getGroup: group, getClientInGroup: lst)
 	}
 
-	init(users: IGroupDetailModels) {
-		let searchUsers = users.searchUser?.lstUser.map { member in
-			GroupDetailUserViewModels(user: member)
-		}
-		self.init(searchUser: searchUsers)
+	init(users: [GroupDetailUserViewModels]) {
+		self.init(searchUser: users)
 	}
 
 	init(error: IGroupDetailModels) {

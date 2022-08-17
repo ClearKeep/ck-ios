@@ -9,6 +9,7 @@ import Foundation
 import Networking
 
 enum GroupDetailErrorView {
+	case wrongLink
 	case memberAdded
 	case unauthorized
 	case unknownError(errorCode: Int?)
@@ -22,6 +23,8 @@ enum GroupDetailErrorView {
 
 		let errorCode = errorResponse.status
 		switch errorCode {
+		case 1005 :
+			self = .wrongLink
 		case 1057:
 			self = .memberAdded
 		case 1077:
@@ -34,6 +37,8 @@ enum GroupDetailErrorView {
 	// MARK: Content
 	var title: String {
 		switch self {
+		case.wrongLink:
+			return "General.Warning".localized
 		case .memberAdded:
 			return "General.Warning".localized
 		case .unauthorized:
@@ -48,6 +53,8 @@ enum GroupDetailErrorView {
 
 	var message: String {
 		switch self {
+		case.wrongLink:
+			return "AdvancedServer.Message.Error".localized
 		case .memberAdded:
 			return "Error.Authentication.UnAuthorized".localized
 		case .unauthorized:

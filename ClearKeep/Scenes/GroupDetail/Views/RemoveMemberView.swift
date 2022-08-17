@@ -85,7 +85,7 @@ struct RemoveMemberView: View {
 // MARK: - Private
 private extension RemoveMemberView {
 	func backAction() {
-		self.presentationMode.wrappedValue.dismiss()
+		self.member = member.filter { $0.id != groupData.first?.id }
 	}
 }
 
@@ -107,7 +107,10 @@ private extension RemoveMemberView {
 // MARK: - Private func
 private extension RemoveMemberView {
 	func customBack() {
-		self.presentationMode.wrappedValue.dismiss()
+		loadable = .isLoading(last: nil, cancelBag: CancelBag())
+		Task {
+			loadable = await injected.interactors.groupDetailInteractor.getClientInGroup(by: groupId)
+		}
 	}
 
 	func chosseUser(_ data: GroupDetailProfileViewModel) {

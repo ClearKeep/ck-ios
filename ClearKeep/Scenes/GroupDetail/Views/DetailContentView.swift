@@ -80,7 +80,6 @@ struct DetailContentView: View {
 					ImageButtonCircleCall("General.Video".localized, image: AppTheme.shared.imageSet.videoIcon, action: videoAction).disabled(self.disableCall)
 				}
 				.padding(.horizontal, Constants.paddingHorizontal)
-				.padding(.vertical, Constants.paddingVertical)
 				ForEach(DetailType.allCases, id: \.self) { detail in
 					didSelect(detail)
 				}
