@@ -16,7 +16,7 @@ protocol IProfileInteractor {
 	func uploadAvatar(url: URL, imageData: UIImage) async -> Loadable<IProfileViewModels>
 	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool) async -> Loadable<IProfileViewModels>
 	func validate(phoneNumber: String) -> Bool
-	func updateMfaSettings(loadable: LoadableSubject<IProfileViewModels>, enabled: Bool, isHavePhoneNumber: Bool) async -> Bool
+	func updateMfaSettings(enabled: Bool, isHavePhoneNumber: Bool) async -> Loadable<Bool>
 }
 
 struct ProfileInteractor {
@@ -77,22 +77,19 @@ extension ProfileInteractor: IProfileInteractor {
 		return worker.validate(phoneNumber: phoneNumber)
 	}
 	
-	func updateMfaSettings(loadable: LoadableSubject<IProfileViewModels>, enabled: Bool, isHavePhoneNumber: Bool) async -> Bool {
+	func updateMfaSettings(enabled: Bool, isHavePhoneNumber: Bool) async -> Loadable<Bool> {
 		if !isHavePhoneNumber {
-			loadable.wrappedValue = .failed(ProfileError.emptyPhoneNumber)
-			return false
+			return .failed(ProfileError.emptyPhoneNumber)
 		}
 		if channelStorage.currentServer?.profile?.isSocialAccount ?? false {
-			loadable.wrappedValue = .failed(ProfileError.socialAccount)
-			return false
+			return .failed(ProfileError.socialAccount)
 		}
 		let result = await worker.updateMfaSettings(enabled: enabled)
 		switch result {
 		case .success(let mfa):
-			return mfa
+			return .loaded(mfa)
 		case .failure(let error):
-			loadable.wrappedValue = .failed(error)
-			return false
+			return .failed(error)
 		}
 	}
 }
@@ -124,7 +121,7 @@ struct StubProfileInteractor: IProfileInteractor {
 		return worker.validate(phoneNumber: phoneNumber)
 	}
 	
-	func updateMfaSettings(loadable: LoadableSubject<IProfileViewModels>, enabled: Bool, isHavePhoneNumber: Bool) async -> Bool {
-		return true
+	func updateMfaSettings(enabled: Bool, isHavePhoneNumber: Bool) async -> Loadable<Bool> {
+		return .notRequested
 	}
 }
