@@ -75,7 +75,7 @@ struct MessageTextField: UIViewRepresentable {
 		textField.textColor = UIColor(textColor)
 		textField.tintColor = UIColor(textColor)
 		textField.layer.borderColor = UIColor(textColor).cgColor
-		
+		textField.text = text
 		return textField
 	}
 	

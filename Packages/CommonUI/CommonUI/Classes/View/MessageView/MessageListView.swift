@@ -16,13 +16,13 @@ public struct MessageListView: View {
 	@Binding private var isShowLoading: Bool
 	@Binding private var showScrollToLatestButton: Bool
 	@Binding private var scrollToLastest: Bool
-
+	@Binding private var rediectMessageId: String
 	@State private var scrollOffset: CGFloat = 0
 	
 	var onPressFile: (String) -> Void
 	var onClickLink: (URL) -> Void
 	var onLongPress: (IMessageViewModel) -> Void
-	
+	var onTapQuoteMessage: (String) -> Void
 	// MARK: - Constants
 	private let scrollAreaId = "scrollArea"
 	
@@ -32,17 +32,21 @@ public struct MessageListView: View {
 				isShowLoading: Binding<Bool>,
 				showScrollToLatestButton: Binding<Bool>,
 				scrollToLastest: Binding<Bool>,
+				rediectMessageId: Binding<String>,
 				onPressFile: @escaping (String) -> Void,
 				onClickLink: @escaping (URL) -> Void,
-				onLongPress: @escaping (IMessageViewModel) -> Void) {
+				onLongPress: @escaping (IMessageViewModel) -> Void,
+	            onTapQuoteMessage: @escaping (String) -> Void) {
 		self.listMessages = messages
 		self._hasReachedTop = hasReachedTop
 		self._isShowLoading = isShowLoading
 		self._showScrollToLatestButton = showScrollToLatestButton
 		self._scrollToLastest = scrollToLastest
+		self._rediectMessageId = rediectMessageId
 		self.onPressFile = onPressFile
 		self.onClickLink = onClickLink
 		self.onLongPress = onLongPress
+		self.onTapQuoteMessage = onTapQuoteMessage
 	}
 	
 	public var body: some View {
@@ -65,6 +69,8 @@ public struct MessageListView: View {
 								onPressFile(fileUrl)
 							}, onTapLink: { url in
 								onClickLink(url)
+							}, onTapQuoteMessage: { id in
+								onTapQuoteMessage(id)
 							})
 							.onTapGesture { }
 								.onLongPressGesture(perform: { onLongPress(message.message) })
@@ -114,6 +120,17 @@ public struct MessageListView: View {
 				.onChange(of: scrollToLastest) { _ in
 					withAnimation {
 						scrollView.scrollTo(listMessages.first?.id, anchor: .bottom)
+					}
+				}
+				.onChange(of: rediectMessageId) { _ in
+					if rediectMessageId.isEmpty {
+						return
+					}
+					withAnimation {
+						if let message = listMessages.first(where: { $0.id == rediectMessageId }) {
+							scrollView.scrollTo(rediectMessageId, anchor: .center)
+							rediectMessageId = ""
+						}
 					}
 				}
 			}

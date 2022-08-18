@@ -27,5 +27,6 @@ public protocol IMessageViewModel {
 	func getQuoteMessageReply() -> String
 	func getQuoteMessageTime() -> String
 	func getQuoteMessageName() -> String
-	
+	func getQuoteDateString() -> String
+	func getQuoteMessageId() -> String
 }

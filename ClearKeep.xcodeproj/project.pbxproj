@@ -125,6 +125,7 @@
 		226977FA28694A000000D0AE /* FileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226977F928694A000000D0AE /* FileModel.swift */; };
 		228C49ED285B28C6003C4FA0 /* ForwardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228C49EC285B28C6003C4FA0 /* ForwardViewModel.swift */; };
 		228F2C84281B9E6F0012B07A /* ForwardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228F2C83281B9E6F0012B07A /* ForwardView.swift */; };
+		2298225928AE3FBC0080D89B /* ChatErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2298225828AE3FBC0080D89B /* ChatErrorView.swift */; };
 		229FC893289A198600F38806 /* ProfileErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229FC892289A198500F38806 /* ProfileErrorView.swift */; };
 		22A1C6992812B1D500FE957F /* ChatInMemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6942812B1D500FE957F /* ChatInMemoryStore.swift */; };
 		22A1C69A2812B1D500FE957F /* ChatWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6952812B1D500FE957F /* ChatWorker.swift */; };
@@ -421,6 +422,7 @@
 		226977F928694A000000D0AE /* FileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileModel.swift; sourceTree = "<group>"; };
 		228C49EC285B28C6003C4FA0 /* ForwardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardViewModel.swift; sourceTree = "<group>"; };
 		228F2C83281B9E6F0012B07A /* ForwardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardView.swift; sourceTree = "<group>"; };
+		2298225828AE3FBC0080D89B /* ChatErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatErrorView.swift; sourceTree = "<group>"; };
 		229FC892289A198500F38806 /* ProfileErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileErrorView.swift; sourceTree = "<group>"; };
 		22A1C6942812B1D500FE957F /* ChatInMemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInMemoryStore.swift; sourceTree = "<group>"; };
 		22A1C6952812B1D500FE957F /* ChatWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatWorker.swift; sourceTree = "<group>"; };
@@ -965,6 +967,7 @@
 			isa = PBXGroup;
 			children = (
 				226977F928694A000000D0AE /* FileModel.swift */,
+				2298225828AE3FBC0080D89B /* ChatErrorView.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2084,6 +2087,7 @@
 				04589882286C0C3300A0631C /* GroupDetailViewModel.swift in Sources */,
 				0499341027E96DD7003BD4C4 /* FogotPasswordView.swift in Sources */,
 				229FC893289A198600F38806 /* ProfileErrorView.swift in Sources */,
+				2298225928AE3FBC0080D89B /* ChatErrorView.swift in Sources */,
 				22D363A3288E2E4E009B3BDA /* PeerCallInMemoryStore.swift in Sources */,
 				0499344427E97035003BD4C4 /* ChangePasswordInMemoryStore.swift in Sources */,
 				04E8DD4928AE222C002EDD1D /* HomeErrorView.swift in Sources */,

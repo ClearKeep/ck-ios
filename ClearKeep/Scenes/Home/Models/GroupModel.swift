@@ -9,27 +9,32 @@ import Model
 import ChatSecure
 
 struct GroupModel: IGroupModel {
-	var groupId: Int64
-	var groupName: String
-	var groupAvatar: String
-	var groupType: String
-	var createdBy: String
-	var createdAt: Int64
-	var updatedBy: String
-	var updatedAt: Int64
-	var rtcToken: String
+	var groupId: Int64 = 0
+	var groupName: String = ""
+	var groupAvatar: String = ""
+	var groupType: String = ""
+	var createdBy: String = ""
+	var createdAt: Int64 = 0
+	var updatedBy: String = ""
+	var updatedAt: Int64 = 0
+	var rtcToken: String = ""
 	var groupMembers: [IMemberModel]
-	var isJoined: Bool
-	var ownerDomain: String
-	var ownerClientId: String
-	var lastMessage: IMessageModel?
-	var lastMessageAt: Int64
-	var lastMessageSyncTimestamp: Int64
-	var isDeletedUserPeer: Bool
-	var hasUnreadMessage: Bool
+	var isJoined: Bool = false
+	var ownerDomain: String = ""
+	var ownerClientId: String = ""
+	var lastMessage: IMessageModel? = nil
+	var lastMessageAt: Int64 = 0
+	var lastMessageSyncTimestamp: Int64 = 0
+	var isDeletedUserPeer: Bool = false
+	var hasUnreadMessage: Bool = false
 }
 
 extension GroupModel {
+	
+	init(groupMembers: [IMemberModel]?) {
+		self.groupMembers = groupMembers ?? []
+	}
+	
 	init(_ realmGroup: RealmGroup) {
 		let groupMembers = realmGroup.groupMembers.lazyList.map({ MemberModel($0) })
 		

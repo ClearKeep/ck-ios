@@ -32,4 +32,12 @@ public struct ClientStore {
 		}
 		return deviceId
 	}
+	
+	public func saveDraftMessage(message: String, roomId: Int64, clientId: String, domain: String) {
+		persistentStoreService.set(value: message, key: "\(roomId)\(clientId)\(domain)")
+	}
+	
+	public func getDraftMessage(roomId: Int64, clientId: String, domain: String) -> String? {
+		return persistentStoreService.get(key: "\(roomId)\(clientId)\(domain)") as? String
+	}
 }

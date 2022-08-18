@@ -192,6 +192,14 @@ struct HomeView: View {
 				self.serverInfo()
 				self.getServers()
 			})
+			.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.SubscribeAndListenService.didReceiveNotification), perform: { (obj) in
+				if let userInfo = obj.userInfo,
+				   let publication = userInfo["notification"] as? Notification_NotifyObjectResponse {
+					if publication.notifyType == "new-peer" || publication.notifyType == "new-group" {
+						getServerInfo()
+					}
+				}
+			})
 			.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.SubscribeAndListenService.didReceiveMessage)) { (obj) in
 				print("received message banner...... \(obj)")
 				if let userInfo = obj.userInfo,
