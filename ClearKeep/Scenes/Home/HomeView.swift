@@ -34,7 +34,9 @@ struct HomeView: View {
 	@State private var isFirstShowGroup: Bool = false
 	@State private var isFirstShowPeer: Bool = false
 	@State private var navigateToChat: Bool = false
-	
+	@State private var navigateToLogin: Bool = false
+	@State private(set) var customServer: CustomServer = CustomServer()
+	@State private var serverURL: String = ""
 	@State private(set) var loadable: Loadable<HomeViewModels> = .notRequested {
 		didSet {
 			switch loadable {
@@ -59,7 +61,7 @@ struct HomeView: View {
 				self.user = [UserViewModel(load.userViewModel?.viewModelUser)]
 			case .failed(let error):
 				isLoading = false
-				self.error = LoginViewError(error)
+				self.error = HomeErrorView(error)
 				self.isShowError = true
 			case .isLoading:
 				isLoading = true
@@ -76,7 +78,7 @@ struct HomeView: View {
 				self.user = [UserViewModel(load.viewModelUser)]
 			case .failed(let error):
 				isLoading = false
-				self.error = LoginViewError(error)
+				self.error = HomeErrorView(error)
 				self.isShowError = true
 			case .isLoading:
 				isLoading = true
@@ -84,7 +86,25 @@ struct HomeView: View {
 			}
 		}
 	}
-	
+
+	@State private(set) var loadableUrl: Loadable<Bool> = .notRequested {
+		didSet {
+			switch loadableUrl {
+			case .loaded:
+				isLoading = false
+				customServer.customServerURL = serverURL
+				customServer.isSelectedCustomServer = true
+				navigateToLogin = true
+			case .failed(let error):
+				isLoading = false
+				self.error = HomeErrorView(error)
+				self.isShowError = true
+			case .isLoading:
+				isLoading = true
+			default: break
+			}
+		}
+	}
 	@StateObject var callViewModel: CallViewModel = CallViewModel()
 	
 	@State private(set) var servers: [ServerViewModel] = []
@@ -97,11 +117,12 @@ struct HomeView: View {
 	@State private(set) var user: [UserViewModel] = [UserViewModel]()
 	@State private var isLoading: Bool = false
 	@State private var isShowError: Bool = false
-	@State private var error: LoginViewError?
+	@State private var error: HomeErrorView?
 	@State private var isInCall = false
 	
 	let inspection = ViewInspector<Self>()
-	
+
+	// MARK: - Body
 	var body: some View {
 		NavigationView {
 			GeometryReader { geometry in
@@ -132,6 +153,11 @@ struct HomeView: View {
 					NavigationLink(destination: ChatView(inputStyle: .default, groupId: selectedGroupId, avatarLink: ""), isActive: $navigateToChat) {
 						EmptyView()
 					}
+					NavigationLink(
+						destination: LoginView(customServer: customServer, navigateToHome: navigateToLogin, rootIsActive: $navigateToLogin),
+						isActive: $navigateToLogin,
+						label: {
+						})
 				}
 				.hiddenNavigationBarStyle()
 				
@@ -176,7 +202,6 @@ struct HomeView: View {
 			.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
 			.hiddenNavigationBarStyle()
 		}
-		.progressHUD(isLoading)
 		.alert(isPresented: $isShowError) {
 			Alert(title: Text(self.error?.title ?? ""),
 				  message: Text(self.error?.message ?? ""),
@@ -186,6 +211,7 @@ struct HomeView: View {
 			navigateToChat = true
 		})
 		.inCallModifier(callViewModel: callViewModel, isInCall: $isInCall)
+
 	}
 }
 
@@ -193,9 +219,15 @@ struct HomeView: View {
 private extension HomeView {
 	var content: AnyView {
 		if isAddNewServer {
-			return AnyView(JoinServerView())
+			return AnyView(JoinServerView(serverURL: serverURL, checkUrl: { urlString in
+				serverURL = urlString
+				loadableUrl = .isLoading(last: nil, cancelBag: CancelBag())
+				Task {
+					loadableUrl = await injected.interactors.homeInteractor.workspaceInfo(workspaceDomain: urlString)
+				}
+			}).progressHUD(isLoading))
 		} else {
-			return AnyView(HomeContentView(groups: $groups, peers: $peers, serverName: .constant(serverName), isExpandGroup: $isExpandGroup, isExpandDirectMessage: $isExpandDirectMessage))
+			return AnyView(HomeContentView(groups: $groups, peers: $peers, serverName: .constant(serverName), isExpandGroup: $isExpandGroup, isExpandDirectMessage: $isExpandDirectMessage).progressHUD(isLoading))
 		}
 	}
 	
@@ -210,14 +242,6 @@ private extension HomeView {
 			return "JoinServer.Title".localized
 		}
 	}
-}
-
-// MARK: - Loading Content
-private extension HomeView {
-}
-
-// MARK: - Displaying Content
-private extension HomeView {
 }
 
 // MARK: - Interactors

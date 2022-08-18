@@ -17,12 +17,10 @@ struct JoinServerView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.injected) private var injected: DIContainer
-	@State private var serverURL: String = ""
+	@State private(set) var serverURL: String = ""
 	@State private var serverURLInputStyle: TextInputStyle = .default
-	@State private var isValid: Bool = false
-	@State private var navigateToLogin: Bool = false
-	@State private(set) var customServer: CustomServer = CustomServer()
-	
+	var checkUrl: (String) -> Void
+
 	// MARK: - Body
 	var body: some View {
 		VStack {
@@ -47,20 +45,12 @@ struct JoinServerView: View {
 			}
 			Spacer()
 		}
-		NavigationLink(
-			destination: LoginView(customServer: customServer, navigateToHome: navigateToLogin, rootIsActive: $navigateToLogin),
-			isActive: $navigateToLogin,
-			label: {
-			})
 	}
 }
 
 // MARK: - Action
 private extension JoinServerView {
 	func joinServerAction() {
-
-		customServer.customServerURL = serverURL
-		customServer.isSelectedCustomServer = true
-		navigateToLogin.toggle()
+		checkUrl(serverURL)
 	}
 }
