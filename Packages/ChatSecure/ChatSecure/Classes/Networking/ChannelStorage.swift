@@ -17,13 +17,17 @@ public protocol IChannelStorage {
 	var servers: [RealmServer] { get }
 	
 	func getServers(isFirstLoad: Bool) -> [RealmServer]
+	@discardableResult
 	func didSelectServer(_ domain: String?) -> [RealmServer]
 	func registerToken(_ token: String)
 	func removeServer(_ domain: String)
 	func removeGroup(_ domain: String)
+	func removeUser(_ server: RealmServer)
+	func removeProfile(_ profileId: String)
 	func updateServerUser(displayName: String, avatar: String, phoneNumber: String, domain: String)
 	func getSenderName(fromClientId: String, groupId: Int64, domain: String, ownerId: String) -> String
 	func getGroupName(groupId: Int64, domain: String, ownerId: String) -> String
+	func getServerWithClientId(clientId: String) -> RealmServer?
 }
 
 public class ChannelStorage: IChannelStorage {
@@ -57,7 +61,8 @@ public class ChannelStorage: IChannelStorage {
 		}
 		return servers
 	}
-
+	
+	@discardableResult
 	public func didSelectServer(_ domain: String?) -> [RealmServer] {
 		return realmManager.activeServer(domain: domain)
 	}
@@ -68,6 +73,14 @@ public class ChannelStorage: IChannelStorage {
 	
 	public func removeGroup(_ domain: String) {
 		realmManager.removeGroups(domain: domain)
+	}
+	
+	public func removeUser(_ server: RealmServer) {
+		realmManager.removeMember(server: server)
+	}
+	
+	public func removeProfile(_ profileId: String) {
+		realmManager.removeProfile(userId: profileId)
 	}
 
 	public func registerToken(_ token: String) {
@@ -87,6 +100,10 @@ public class ChannelStorage: IChannelStorage {
 	
 	public func getGroupName(groupId: Int64, domain: String, ownerId: String) -> String {
 		return realmManager.getGroupName(by: groupId, domain: domain, ownerId: ownerId)
+	}
+	
+	public func getServerWithClientId(clientId: String) -> RealmServer? {
+		return realmManager.getServerWithClientId(clientId: clientId)?.detached()
 	}
 }
 

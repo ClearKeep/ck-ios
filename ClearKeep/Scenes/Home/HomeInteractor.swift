@@ -18,6 +18,7 @@ protocol IHomeInteractor {
 	func subscribeAndListenServers()
 	func getServers() -> [ServerViewModel]
 	func getServerInfo() async -> Loadable<HomeViewModels>
+	@discardableResult
 	func didSelectServer(_ domain: String?) -> [ServerViewModel]
 	func signOut() async
 	func updateStatus(status: String) async -> Loadable<UserViewModels>
@@ -106,6 +107,7 @@ extension HomeInteractor: IHomeInteractor {
 		}
 	}
 	
+	@discardableResult
 	func didSelectServer(_ domain: String?) -> [ServerViewModel] {
 		return worker.didSelectServer(domain).compactMap { ServerViewModel($0) }
 	}

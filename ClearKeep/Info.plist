@@ -69,6 +69,8 @@
 	<string>$(CLK_PORT)</string>
 	<key>CODE_SIGNING_ENTITLEMENTS</key>
 	<string>$(CODE_SIGNING_ENTITLEMENTS)</string>
+	<key>DATABASE_DEBUG</key>
+	<string>$(DATABASE_DEBUG)</string>
 	<key>DATABASE_PATH</key>
 	<string>$(DATABASE_PATH)</string>
 	<key>FacebookAppID</key>
@@ -102,13 +104,13 @@
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>""</string>
+	<string>&quot;&quot;</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>""</string>
+	<string>&quot;&quot;</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>""</string>
+	<string>&quot;&quot;</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>""</string>
+	<string>&quot;&quot;</string>
 	<key>OFFICE_CLIENT_ID</key>
 	<string>$(OFFICE_CLIENT_ID)</string>
 	<key>OFFICE_REDIRECT_URI</key>
