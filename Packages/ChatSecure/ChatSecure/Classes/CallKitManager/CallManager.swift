@@ -174,6 +174,10 @@ final public class CallManager: NSObject {
 		}
 		
 		if self.calls.first(where: { $0.roomId == Int64(callNotification.publication?.groupRTCID ?? "0") }) != nil || Int64(callNotification.publication?.groupID ?? "0") ?? 0 == awaitCallGroup ?? -1 {
+			if let call = calls.first, !call.isCallGroup {
+				self.end(call: call)
+			}
+		
 			return
 		}
 		

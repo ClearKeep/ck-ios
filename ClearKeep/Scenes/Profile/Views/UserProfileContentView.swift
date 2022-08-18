@@ -10,6 +10,7 @@ import Common
 import CommonUI
 import SwiftUI
 import PhoneNumberKit
+import Kingfisher
 
 private enum Constants {
 	static let spacer = 16.0
@@ -38,13 +39,16 @@ struct UserProfileContentView: View {
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	
 	@Binding private(set) var countryCode: String
-	@Binding var loadable: Loadable<IProfileViewModels>
 	@Binding private(set) var urlAvatar: String
 	@Binding private(set) var username: String
 	@Binding private(set) var email: String
 	@Binding private(set) var phoneNumber: String
 	@Binding private(set) var isHavePhoneNumber: Bool
 	@Binding private(set) var isEnable2FA: Bool
+	@Binding private(set) var showLoading: Bool
+	@Binding private(set) var showError: Bool
+	@Binding private(set) var error: ProfileErrorView?
+	
 	@State private(set) var usernameStyle: TextInputStyle = .default
 	@State private(set) var emailStyle: TextInputStyle = .default
 	@State private(set) var phoneStyle: TextInputStyle = .default
@@ -295,9 +299,25 @@ private extension UserProfileContentView {
 	func updateAvata() {
 		let url = selectedImages.first?.url ?? URL(fileURLWithPath: "")
 		let data = selectedImages.first?.thumbnail ?? UIImage()
-		loadable = .isLoading(last: nil, cancelBag: CancelBag())
+		self.showLoading = true
 		Task {
-			loadable = await injected.interactors.profileInteractor.uploadAvatar(url: url, imageData: data)
+			let loadable = await injected.interactors.profileInteractor.uploadAvatar(url: url, imageData: data)
+			self.showLoading = false
+			switch loadable {
+			case .loaded(let data):
+				guard let urlData = data.urlAvatarViewModel,
+				let url = URL(string: urlData.fileURL) else {
+					return
+				}
+				URLCache.shared.removeCachedResponse(for: URLRequest(url: url))
+				self.urlAvatar = urlData.fileURL
+			case .failed(let error):
+				let error = ProfileErrorView(error)
+				self.error = error
+				self.showError = true
+			default:
+				return
+			}
 		}
 	}
 	
@@ -333,9 +353,18 @@ private extension UserProfileContentView {
 			isHavePhoneNumber = false
 		}
 		selectedImages.removeAll()
-		loadable = .isLoading(last: nil, cancelBag: CancelBag())
+		self.showLoading = true
 		Task {
-			loadable = await injected.interactors.profileInteractor.updateProfile(displayName: username, avatar: urlAvatar, phoneNumber: "\(countryCode)\(phoneNumber)", clearPhoneNumber: false)
+			let loadable = await injected.interactors.profileInteractor.updateProfile(displayName: username, avatar: urlAvatar, phoneNumber: "\(countryCode)\(phoneNumber)", clearPhoneNumber: false)
+			self.showLoading = false
+			switch loadable {
+			case .failed(let error):
+				let error = ProfileErrorView(error)
+				self.error = error
+				self.showError = true
+			default:
+				return
+			}
 		}
 	}
 	
@@ -371,13 +400,24 @@ private extension UserProfileContentView {
 	
 	func change2FAStatus() {
 		Task {
-			let result = await injected.interactors.profileInteractor.updateMfaSettings(loadable: $loadable, enabled: !isEnable2FA, isHavePhoneNumber: isHavePhoneNumber)
-			if result {
+			let loadable = await injected.interactors.profileInteractor.updateMfaSettings(enabled: !isEnable2FA, isHavePhoneNumber: isHavePhoneNumber)
+			switch loadable {
+			case .failed(let error):
+				let error = ProfileErrorView(error)
+				self.error = error
+				self.showError = true
+			case .loaded(let result):
+				if !result {
+					return
+				}
+				
 				if isEnable2FA {
 					isEnable2FA = false
 				} else {
 					isCurrentPass = true
 				}
+			default:
+				return
 			}
 		}
 	}
