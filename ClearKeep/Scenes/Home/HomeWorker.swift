@@ -25,6 +25,7 @@ protocol IHomeWorker {
 	func pingRequest() async
 	func updateStatus(status: String) async -> Result<IHomeModels?, Error>
 	func removeServer()
+	func workspaceInfo(workspaceDomain: String) async -> Result<Bool, Error>
 }
 
 class HomeWorker {
@@ -127,5 +128,9 @@ extension HomeWorker: IHomeWorker {
 		case .failure(let error):
 			return .failure(error)
 		}
+	}
+
+	func workspaceInfo(workspaceDomain: String) async -> Result<Bool, Error> {
+		await remoteStore.workspaceInfo(workspaceDomain: workspaceDomain)
 	}
 }

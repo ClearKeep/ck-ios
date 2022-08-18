@@ -36,7 +36,7 @@ extension AppEnvironment {
 	}
 	
 	private static func configuredInteractors(appState: Store<AppState>) -> DIContainer.Interactors {
-		let homeInteractor = HomeInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService)
+		let homeInteractor = HomeInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, workspaceService: DependencyResolver.shared.workspaceService)
 		let loginInteractor = LoginInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, socialAuthenticationService: DependencyResolver.shared.socialAuthenticationService, authenticationService: DependencyResolver.shared.authenticationService, appTokenService: DependencyResolver.shared.appTokenService)
 		let twoFactorInteractor = TwoFactorInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, userService: DependencyResolver.shared.userService, authService: DependencyResolver.shared.authenticationService)
 		let registerInteractor = RegisterInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService)

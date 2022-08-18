@@ -24,6 +24,7 @@ protocol IHomeInteractor {
 	func getSenderName(fromClientId: String, groupID: Int64) -> String
 	func getGroupName(groupID: Int64) -> String
 	func removeServer()
+	func workspaceInfo(workspaceDomain: String) async -> Loadable<Bool>
 }
 
 struct HomeInteractor {
@@ -32,11 +33,12 @@ struct HomeInteractor {
 	let authenticationService: IAuthenticationService
 	let groupService: IGroupService
 	let userService: IUserService
+	let workspaceService: IWorkspaceService
 }
 
 extension HomeInteractor: IHomeInteractor {
 	var worker: IHomeWorker {
-		let remoteStore = HomeRemoteStore(authenticationService: authenticationService, groupService: groupService, userService: userService)
+		let remoteStore = HomeRemoteStore(authenticationService: authenticationService, groupService: groupService, userService: userService, workspaceService: workspaceService)
 		let inMemoryStore = HomeInMemoryStore()
 		return HomeWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
@@ -125,6 +127,17 @@ extension HomeInteractor: IHomeInteractor {
 		let name = channelStorage.getGroupName(groupId: groupID, domain: server.serverDomain, ownerId: ownerId)
 		return name
 	}
+
+	func workspaceInfo(workspaceDomain: String) async -> Loadable<Bool> {
+		let result = await worker.workspaceInfo(workspaceDomain: workspaceDomain)
+
+		switch result {
+		case .success(let data):
+			return .loaded(data)
+		case .failure(let error):
+			return .failed(error)
+		}
+	}
 }
 
 struct StubHomeInteractor: IHomeInteractor {
@@ -132,9 +145,10 @@ struct StubHomeInteractor: IHomeInteractor {
 	let authenticationService: IAuthenticationService
 	let groupService: IGroupService
 	let userService: IUserService
+	let workspaceService: IWorkspaceService
 	
 	var worker: IHomeWorker {
-		let remoteStore = HomeRemoteStore(authenticationService: authenticationService, groupService: groupService, userService: userService)
+		let remoteStore = HomeRemoteStore(authenticationService: authenticationService, groupService: groupService, userService: userService, workspaceService: workspaceService)
 		let inMemoryStore = HomeInMemoryStore()
 		return HomeWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
@@ -181,5 +195,9 @@ struct StubHomeInteractor: IHomeInteractor {
 	
 	func getGroupName(groupID: Int64) -> String {
 		return ""
+	}
+
+	func workspaceInfo(workspaceDomain: String) async -> Loadable<Bool> {
+		return .notRequested
 	}
 }

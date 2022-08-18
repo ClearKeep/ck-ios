@@ -17,12 +17,14 @@ protocol IHomeRemoteStore {
 	func signOut(domain: String) async -> Result<HomeModels, Error>
 	func pingServer(domain: String) async
 	func changeStatus(domain: String, status: String) async -> Result<IHomeModels?, Error>
+	func workspaceInfo(workspaceDomain: String) async -> Result<Bool, Error>
 }
 
 struct HomeRemoteStore {
 	let authenticationService: IAuthenticationService
 	let groupService: IGroupService
 	let userService: IUserService
+	let workspaceService: IWorkspaceService
 }
 
 extension HomeRemoteStore: IHomeRemoteStore {
@@ -85,4 +87,15 @@ extension HomeRemoteStore: IHomeRemoteStore {
 			return .failure(error)
 		}
 	}
+
+	func workspaceInfo(workspaceDomain: String) async -> Result<Bool, Error> {
+		let result = await workspaceService.workspaceInfo(workspaceDomain: workspaceDomain)
+		switch result {
+		case .success:
+			return .success(true)
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+
 }
