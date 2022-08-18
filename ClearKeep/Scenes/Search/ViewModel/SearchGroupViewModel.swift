@@ -53,6 +53,7 @@ struct SearchGroupViewModel: Identifiable {
 	var updatedAt: String
 	var hasUnreadMessage: Bool = false
 	var groupMembers: [IMemberModel] = []
+	var lastMessage: IMessageModel?
 
 	init(group: IGroupModel) {
 		self.groupId = group.groupId
@@ -64,6 +65,7 @@ struct SearchGroupViewModel: Identifiable {
 		self.createdAt = group.createdAt
 		self.updatedAt = getTimeAsString(timeMs: group.updatedAt)
 		self.groupMembers = group.groupMembers
+		self.lastMessage = group.lastMessage
 	}
 
 	init(member: IMemberModel) {
@@ -76,5 +78,6 @@ struct SearchGroupViewModel: Identifiable {
 		self.createdAt = 0
 		self.updatedAt = ""
 		self.groupMembers = []
+		self.lastMessage = nil
 	}
 }

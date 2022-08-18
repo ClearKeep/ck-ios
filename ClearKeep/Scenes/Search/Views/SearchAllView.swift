@@ -25,8 +25,8 @@ struct SearchAllView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Binding var searchUser: [SearchGroupViewModel]
 	@Binding var searchGroup: [SearchGroupViewModel]
-	@Binding var searchMessage: [SearchGroupViewModel]
 	@Binding var searchText: String
+	@Binding var dataMessages: [SearchMessageViewModel]
 	
 	// MARK: - Init
 	
@@ -98,17 +98,9 @@ private extension SearchAllView {
 				Text("Search.Message".localized.uppercased())
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundColorTitle)
-				SearchMessageView(searchMessage: $searchMessage, searchText: $searchText)
+				SearchMessageView(searchText: $searchText, dataMessages: $dataMessages)
 				Spacer()
 			}
 		}
 	}
 }
-// MARK: - Preview
-#if DEBUG
-struct SearchAllView_Previews: PreviewProvider {
-	static var previews: some View {
-		SearchAllView(searchUser: .constant([]), searchGroup: .constant([]), searchMessage: .constant([]), searchText: .constant(""))
-	}
-}
-#endif

@@ -64,6 +64,14 @@ struct FogotPasswordView: View {
 					  message: Text(error?.message ?? ""),
 					  dismissButton: .default(Text(error?.primaryButtonTitle ?? "")))
 			}
+			.alert("ForgotPassword.CheckYourEmail".localized, isPresented: $showAlert) {
+				Button("ForgotPassword.OK".localized) {
+					showAlert = false
+					self.customBack()
+				}
+			} message: {
+				Text("ForgotPassword.ALinkResetYourPasswordHasBeenSentEmail".localized)
+			}
 	}
 }
 

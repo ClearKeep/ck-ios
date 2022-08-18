@@ -43,7 +43,7 @@ extension DIContainer {
 				  groupDetailInteractor: StubGroupDetailInteractor(groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, channelStorage: DependencyResolver.shared.channelStorage),
 				  peerCallInteractor: StubPeerCallInteractor(channelStorage: DependencyResolver.shared.channelStorage, callService: DependencyResolver.shared.callService),
 				  profileInteractor: StubProfileInteractor(channelStorage: DependencyResolver.shared.channelStorage, userService: DependencyResolver.shared.userService),
-				  searchInteractor: StubSearchInteractor(channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, messageService: DependencyResolver.shared.messageService),
+				  searchInteractor: StubSearchInteractor(channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, messageService: DependencyResolver.shared.messageService, realmManager: DependencyResolver.shared.realmManager),
 				  advancedSeverInteractor: StubAdvancedSeverInteractor(channelStorage: DependencyResolver.shared.channelStorage, workspaceService: DependencyResolver.shared.workspaceService),
 				  settingServerInteractor: StubSettingServerInteractor(channelStorage: DependencyResolver.shared.channelStorage))
 		}

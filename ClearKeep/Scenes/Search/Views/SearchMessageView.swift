@@ -24,32 +24,33 @@ struct SearchMessageView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@State private var isMessageChat: Bool = false
-	@Binding var searchMessage: [SearchGroupViewModel]
 	@Binding var searchText: String
-	
+	@Binding var dataMessages: [SearchMessageViewModel]
+
 	// MARK: - Init
 	
 	// MARK: - Body
 	var body: some View {
-		ForEach(searchMessage) { item in
+		ForEach(dataMessages, id: \.id) { item in
 			VStack(alignment: .leading, spacing: Constants.paddingVstack) {
 				NavigationLink(
 					destination: EmptyView(),
 					isActive: $isMessageChat,
 					label: {
 						HStack(spacing: Constants.spacingHstack) {
-							AvatarDefault(.constant(item.groupName), imageUrl: item.groupAvatar)
+							AvatarDefault(.constant(item.fromClientName), imageUrl: item.avatar)
 								.frame(width: Constants.sizeImage, height: Constants.sizeImage)
 							VStack(alignment: .leading, spacing: Constants.spacing) {
-								Text(item.groupName)
+								Text(item.fromClientName)
 									.font(AppTheme.shared.fontSet.font(style: .body2))
 									.foregroundColor(foregroundColorUserName)
-								Text("")
+								Text(makeAttributedString(text: item.message))
 									.font(AppTheme.shared.fontSet.font(style: .input3))
 									.foregroundColor(foregroundColorUserName)
 									.frame(alignment: .center)
+									.lineLimit(1)
 								HStack {
-									Text(getTimeAsString(timeMs: 0, includeTime: true))
+									Text(getTimeAsString(timeMs: item.dateCreated, includeTime: true))
 										.font(AppTheme.shared.fontSet.font(style: .input3))
 										.foregroundColor(foregroundColorUserName)
 									Text(item.groupName)
@@ -83,13 +84,20 @@ private extension SearchMessageView {
 
 // MARK: - Private func
 private extension SearchMessageView {
+	func makeAttributedString(text: String) -> AttributedString {
+		var string = AttributedString(text)
+		if let range = AttributedString(text.lowercased()).range(of: searchText) {
+			string[range].foregroundColor = AppTheme.shared.colorSet.black
+		}
+		return string
+	}
 }
 
 // MARK: - Preview
 #if DEBUG
 struct SearchMessageView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchMessageView(searchMessage: .constant([]), searchText: .constant(""))
+		SearchMessageView(searchText: .constant(""), dataMessages: .constant([]))
 	}
 }
 #endif

@@ -50,7 +50,7 @@ extension AppEnvironment {
 		let peerCallInteractor = PeerCallInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, callService: DependencyResolver.shared.callService)
 		let groupDetailInteractor = GroupDetailInteractor(appState: appState, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, channelStorage: DependencyResolver.shared.channelStorage)
 		let profileInteractor = ProfileInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, userService: DependencyResolver.shared.userService)
-		let searchInteractor = SearchInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, messageService: DependencyResolver.shared.messageService)
+		let searchInteractor = SearchInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, messageService: DependencyResolver.shared.messageService, realmManager: DependencyResolver.shared.realmManager)
 		let advancedSeverInteractor = AdvancedSeverInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, workspaceService: DependencyResolver.shared.workspaceService)
 		let settingServerInteractor = SettingServerInteractor(channelStorage: DependencyResolver.shared.channelStorage)
 		return .init(homeInteractor: homeInteractor,

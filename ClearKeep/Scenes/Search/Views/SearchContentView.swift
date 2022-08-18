@@ -9,6 +9,8 @@ import SwiftUI
 import Combine
 import Common
 import CommonUI
+import RealmSwift
+import ChatSecure
 
 private enum Constants {
 	static let spacing = 20.0
@@ -31,9 +33,10 @@ struct SearchContentView: View {
 	@State private var searchKeywordStyle: TextInputStyle = .default
 	@Binding var searchUser: [SearchGroupViewModel]
 	@Binding var searchGroup: [SearchGroupViewModel]
-	@Binding var searchMessage: [SearchGroupViewModel]
 	@Binding var loadable: Loadable<ISearchViewModels>
-	
+	@Binding var dataMessages: [SearchMessageViewModel]
+	@State private(set) var searchdataMessages: [SearchMessageViewModel] = []
+
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -175,7 +178,7 @@ private extension SearchContentView {
 	}
 	
 	var allView: some View {
-		SearchAllView(searchUser: .constant(searchUserData), searchGroup: .constant(searchGroupData), searchMessage: .constant(searchMessage), searchText: $searchText)
+		SearchAllView(searchUser: .constant(searchUserData), searchGroup: .constant(searchGroupData), searchText: $searchText, dataMessages: $searchdataMessages)
 	}
 	
 	var peopleView: some View {
@@ -192,7 +195,7 @@ private extension SearchContentView {
 	
 	var messageView: some View {
 		ScrollView(showsIndicators: false) {
-			SearchMessageView(searchMessage: .constant(searchMessage), searchText: $searchText)
+			SearchMessageView(searchText: $searchText, dataMessages: $searchdataMessages)
 		}
 	}
 	
@@ -203,6 +206,7 @@ private extension SearchContentView {
 	func seachAction(text: String) {
 		self.searchUserData = searchUser.filter { $0.groupName.lowercased().contains(text) }.sorted { $0.updatedAt > $1.updatedAt }
 		self.searchGroupData = searchGroup.filter { $0.groupName.lowercased().contains(text) }.sorted { $0.updatedAt > $1.updatedAt }
+		self.searchdataMessages = dataMessages.filter { $0.message.lowercased().contains(text) }.sorted { $0.dateCreated > $1.dateCreated }
 	}
 	
 	func back() {
@@ -223,7 +227,7 @@ private extension SearchContentView {
 #if DEBUG
 struct SearchContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchContentView(searchUser: .constant([]), searchGroup: .constant([]), searchMessage: .constant([]), loadable: .constant(.notRequested))
+		SearchContentView(searchUser: .constant([]), searchGroup: .constant([]), loadable: .constant(.notRequested), dataMessages: .constant([]))
 	}
 }
 #endif
