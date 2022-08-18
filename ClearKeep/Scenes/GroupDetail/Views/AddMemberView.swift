@@ -127,6 +127,7 @@ struct AddMemberView: View {
 				  message: Text(self.messageAlert),
 				  dismissButton: .default(Text("General.OK".localized)))
 		}
+		.onAppear(perform: notloaded)
 	}
 }
 
@@ -196,11 +197,6 @@ private extension AddMemberView {
 	}
 }
 
-// MARK: - Loading Content
-private extension AddMemberView {
-
-}
-
 // MARK: - Interactor
 private extension AddMemberView {
 	func search(text: String) {
@@ -209,12 +205,15 @@ private extension AddMemberView {
 			return
 		}
 		Task {
-			loadable = await injected.interactors.groupDetailInteractor.searchUser(keyword: text)
+			loadable = await injected.interactors.groupDetailInteractor.searchUser(keyword: text, groupId: groupId)
 		}
 	}
 
 	func customBack() {
-		self.presentationMode.wrappedValue.dismiss()
+		loadable = .isLoading(last: nil, cancelBag: CancelBag())
+		Task {
+			loadable = await injected.interactors.groupDetailInteractor.getClientInGroup(by: groupId)
+		}
 	}
 
 	func nextAction() {
@@ -267,9 +266,13 @@ private extension AddMemberView {
 		addMember.forEach { user in
 			Task {
 				loadable = await self.injected.interactors.groupDetailInteractor.addMember(user, groupId: groupId)
+				loadable = await injected.interactors.groupDetailInteractor.getClientInGroup(by: groupId)
 			}
 		}
-		self.presentationMode.wrappedValue.dismiss()
+	}
+
+	func notloaded() {
+		loadable = .loaded(GroupDetailViewModels(searchUser: []))
 	}
 }
 

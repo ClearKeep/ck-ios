@@ -15,7 +15,7 @@ protocol IGroupDetailRemoteStore {
 	func getGroup(by groupId: Int64, domain: String) async -> (Result<IGroupDetailModels, Error>)
 	func searchUser(keyword: String, domain: String) async -> (Result<IGroupDetailModels, Error>)
 	func addMember(_ user: GroupDetailUserViewModels, groupId: Int64, domain: String) async -> (Result<IGroupDetailModels, Error>)
-	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64, domain: String) async -> (Result<IGroupDetailModels, Error>)
+	func leaveGroup(_ user: GroupDetailProfileViewModel, groupId: Int64, domain: String) async -> (Result<IGroupDetailModels, Error>)
 	func getUserProfile(clientId: String, workspaceDomain: String, domain: String) async -> Result<IGroupDetailModels, Error>
 	func searchUserWithEmail(keyword: String, domain: String) async -> (Result<IGroupDetailModels, Error>)
 	func getListStatus(domain: String, data: [[String: String]]) async -> Result<IGroupDetailModels, Error>
@@ -63,10 +63,10 @@ extension GroupDetailRemoteStore: IGroupDetailRemoteStore {
 		}
 	}
 
-	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64, domain: String) async -> (Result<IGroupDetailModels, Error>) {
+	func leaveGroup(_ user: GroupDetailProfileViewModel, groupId: Int64, domain: String) async -> (Result<IGroupDetailModels, Error>) {
 		var client = Group_ClientInGroupObject()
 		client.id = user.id
-		client.displayName = user.userName
+		client.displayName = user.displayName
 		client.workspaceDomain = user.domain
 		let result = await groupService.leaveGroup(client, groupId: groupId, domain: domain)
 

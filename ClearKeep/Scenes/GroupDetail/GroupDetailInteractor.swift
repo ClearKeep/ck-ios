@@ -13,15 +13,15 @@ protocol IGroupDetailInteractor {
 	var worker: IGroupDetailWorker { get }
 
 	func getClientInGroup(by groupId: Int64) async -> Loadable<IGroupDetailViewModels>
-	func searchUser(keyword: String) async -> Loadable<IGroupDetailViewModels>
+	func searchUser(keyword: String, groupId: Int64) async -> Loadable<IGroupDetailViewModels>
 	func addMember(_ user: GroupDetailUserViewModels, groupId: Int64) async -> Loadable<IGroupDetailViewModels>
 	func getUserInfor(clientId: String, workSpace: String) async -> Loadable<IGroupDetailViewModels>
 	func searchUserWithEmail(email: String) async -> Loadable<IGroupDetailViewModels>
 	func checkPeopleLink(link: String) -> Bool
 	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)?
 	func lstMemberRemove(by groupId: Int64) async -> Loadable<IGroupDetailViewModels>
-	func removeMember(_ user: GroupDetailClientViewModel, groupId: Int64) async -> (Result<IGroupDetailViewModels, Error>)
-	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels>
+	func removeMember(_ user: GroupDetailProfileViewModel, groupId: Int64) async -> (Result<IGroupDetailViewModels, Error>)
+	func leaveGroup(_ user: GroupDetailProfileViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels>
 }
 
 struct GroupDetailInteractor {
@@ -39,12 +39,27 @@ extension GroupDetailInteractor: IGroupDetailInteractor {
 		return GroupDetailWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
-	func searchUser(keyword: String) async -> Loadable<IGroupDetailViewModels> {
+	func searchUser(keyword: String, groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
 		let result = await worker.searchUser(keyword: keyword)
 
 		switch result {
-		case .success(let searchUser):
-			return .loaded(GroupDetailViewModels(users: searchUser))
+		case .success(let user):
+			let result = await worker.getGroup(by: groupId)
+			switch result {
+			case .success(let group):
+				let members = group.groupModel?.groupMembers.filter({ $0.userState == "active" }) ?? []
+				let lstUserGroup = user.searchUser?.lstUser.map { lst in
+					GroupDetailUserViewModels(user: lst)
+				}.filter({ data in
+					return !(members.contains(where: { user in
+						user.userId == data.id
+					}))
+				})
+
+				return .loaded(GroupDetailViewModels(users: lstUserGroup ?? []))
+			case .failure(let error):
+				return .failed(error)
+			}
 		case .failure(let error):
 			return .failed(error)
 		}
@@ -124,7 +139,7 @@ extension GroupDetailInteractor: IGroupDetailInteractor {
 		}
 	}
 
-	func removeMember(_ user: GroupDetailClientViewModel, groupId: Int64) async -> (Result<IGroupDetailViewModels, Error>) {
+	func removeMember(_ user: GroupDetailProfileViewModel, groupId: Int64) async -> (Result<IGroupDetailViewModels, Error>) {
 		let result = await worker.leaveGroup(user, groupId: groupId)
 
 		switch result {
@@ -135,7 +150,7 @@ extension GroupDetailInteractor: IGroupDetailInteractor {
 		}
 	}
 
-	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
+	func leaveGroup(_ user: GroupDetailProfileViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
 		let result = await worker.leaveGroup(user, groupId: groupId)
 		switch result {
 		case .success(let member):
@@ -159,7 +174,7 @@ struct StubGroupDetailInteractor: IGroupDetailInteractor {
 		return GroupDetailWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
-	func searchUser(keyword: String) async -> Loadable<IGroupDetailViewModels> {
+	func searchUser(keyword: String, groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
 		return .notRequested
 	}
 
@@ -191,7 +206,7 @@ struct StubGroupDetailInteractor: IGroupDetailInteractor {
 		return .notRequested
 	}
 
-	func removeMember(_ user: GroupDetailClientViewModel, groupId: Int64) async -> (Result<IGroupDetailViewModels, Error>) {
+	func removeMember(_ user: GroupDetailProfileViewModel, groupId: Int64) async -> (Result<IGroupDetailViewModels, Error>) {
 		let result = await worker.leaveGroup(user, groupId: groupId)
 
 		switch result {
@@ -202,7 +217,7 @@ struct StubGroupDetailInteractor: IGroupDetailInteractor {
 		}
 	}
 
-	func leaveGroup(_ user: GroupDetailClientViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
+	func leaveGroup(_ user: GroupDetailProfileViewModel, groupId: Int64) async -> Loadable<IGroupDetailViewModels> {
 		return .notRequested
 	}
 }

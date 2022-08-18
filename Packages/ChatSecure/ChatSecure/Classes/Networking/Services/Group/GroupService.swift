@@ -106,7 +106,7 @@ extension GroupService: IGroupService {
 		requestAddedMember.workspaceDomain = user.workspaceDomain
 		requestAddedMember.displayName = user.displayName
 		requestAddedMember.status = ""
-		requestAddedMember.refGroupID = groupId
+		requestAddedMember.refGroupID = 0
 		
 		var requestAddingMember = Group_MemberInfo()
 		requestAddingMember.id = clientId
