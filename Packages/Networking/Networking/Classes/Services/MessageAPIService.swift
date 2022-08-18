@@ -11,7 +11,7 @@ import Combine
 public protocol IMessageAPIService {
 	func getMessage(_ request: Message_GetMessagesInGroupRequest) async -> Result<Message_GetMessagesInGroupResponse, Error>
 	func getMessageWorkspace(_ request: Message_WorkspaceGetMessagesInGroupRequest) async -> Result<Message_GetMessagesInGroupResponse, Error>
-	func subscribe(_ request: Message_SubscribeRequest, completion: @escaping (Result<Message_BaseResponse, Error>) -> Void)
+	func subscribe(_ request: Message_SubscribeRequest, completion:@escaping (() -> Void))
 	func unSubscribe(_ request: Message_UnSubscribeRequest, completion: @escaping (Result<Message_BaseResponse, Error>) -> Void)
 	func listen(_ request: Message_ListenRequest, completion: @escaping (Result<Message_MessageObjectResponse, Error>) -> Void)
 	func sendMessage(_ request: Message_PublishRequest) async -> Result<Message_MessageObjectResponse, Error>
@@ -61,32 +61,15 @@ extension APIService: IMessageAPIService {
 		})
 	}
 	
-	public func subscribe(_ request: Message_SubscribeRequest, completion: @escaping (Result<Message_BaseResponse, Error>) -> Void) {
-		let caller = clientMessage.subscribe(request, callOptions: callOptions)
+	public func subscribe(_ request: Message_SubscribeRequest, completion: @escaping (() -> Void)) {
+		let caller = clientMessage.subscribe(request, callOptions: callOptions).response
 		
-		caller.status.whenComplete({ [weak self] result in
-			switch result {
-			case .success(let status):
-				if status.isOk {
-					caller.response.whenComplete { result in
-						switch result {
-						case .success:
-							var listenRequest = Message_ListenRequest()
-							listenRequest.deviceID = request.deviceID
-							self?.listen(listenRequest) { result in
-								print(result)
-							}
-						case .failure(let error):
-							completion(.failure(ServerError(error)))
-						}
-					}
-				} else {
-					completion(.failure(ServerError(status)))
-				}
-			case .failure(let error):
-				completion(.failure(ServerError(error)))
-			}
-		})
+		caller.whenComplete { (_) in
+			completion()
+		}
+		caller.whenFailure { error in
+			print("\(error) subscribe signal failed")
+		}
 	}
 	
 	public func unSubscribe(_ request: Message_UnSubscribeRequest, completion: @escaping (Result<Message_BaseResponse, Error>) -> Void) {

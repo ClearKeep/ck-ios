@@ -31,7 +31,7 @@ extension RealmManager {
 		}
 	}
 	
-	func saveMessage(message: RealmMessage) {
+	public func saveMessage(message: RealmMessage) {
 		write { realm in
 			realm.add(message, update: .modified)
 		}
@@ -59,6 +59,17 @@ extension RealmManager {
 	
 	func deleteMessagesByDomain(domain: String, ownerId: String) {
 		delete(listOf: RealmMessage.self, filter: NSPredicate(format: "ownerDomain == %@ && ownerClientId == %@", domain, ownerId))
+	}
+	
+	func getSenderName(fromClientId: String, groupId: Int64, domain: String, ownerId: String) -> String {
+		let group = getGroup(by: groupId, domain: domain, ownerId: ownerId)
+		let user = group?.groupMembers.filter { $0.userId == fromClientId }.first
+		return user?.userName ?? ""
+	}
+	
+	func getGroupName(groupId: Int64, domain: String, ownerId: String) -> String {
+		let group = getGroup(by: groupId, domain: domain, ownerId: ownerId)
+		return group?.groupName ?? ""
 	}
 }
 
@@ -146,6 +157,10 @@ extension RealmManager {
 	public func getJoinedGroup(ownerId: String, domain: String) -> [RealmGroup] {
 		let groups = load(listOf: RealmGroup.self, filter: NSPredicate(format: "ownerDomain == %@ && ownerClientId == %@", domain, ownerId))
 		return groups
+	}
+	
+	func getGroupName(by groupId: Int64, domain: String, ownerId: String) -> String {
+		return getGroup(by: groupId, domain: domain, ownerId: ownerId)?.groupName ?? ""
 	}
 }
 

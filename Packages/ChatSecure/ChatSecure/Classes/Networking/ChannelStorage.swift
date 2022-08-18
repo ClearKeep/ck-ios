@@ -14,14 +14,16 @@ public protocol IChannelStorage {
 	var channels: [String: APIService] { get }
 	var currentServer: RealmServer? { get }
 	var currentDomain: String { get }
-
+	var servers: [RealmServer] { get }
+	
 	func getServers(isFirstLoad: Bool) -> [RealmServer]
 	func didSelectServer(_ domain: String?) -> [RealmServer]
 	func registerToken(_ token: String)
-	func subscribeAndListenServers() -> [RealmServer]
 	func removeServer(_ domain: String)
 	func removeGroup(_ domain: String)
 	func updateServerUser(displayName: String, avatar: String, phoneNumber: String, domain: String)
+	func getSenderName(fromClientId: String, groupId: Int64, domain: String, ownerId: String) -> String
+	func getGroupName(groupId: Int64, domain: String, ownerId: String) -> String
 }
 
 public class ChannelStorage: IChannelStorage {
@@ -35,7 +37,7 @@ public class ChannelStorage: IChannelStorage {
 	}
 
 	let realmManager: RealmManager
-	private var servers: [RealmServer] = []
+	public var servers: [RealmServer] = []
 	private let clientStore: ClientStore
 
 	public init(config: IChatSecureConfig, clientStore: ClientStore, realmManager: RealmManager) {
@@ -74,18 +76,17 @@ public class ChannelStorage: IChannelStorage {
 			notificationService.registerToken(token, domain: server.serverDomain)
 		}
 	}
-
-	public func subscribeAndListenServers() -> [RealmServer] {
-		servers.forEach { server in
-			let subscribeAndListenService = SubscribeAndListenService(clientStore: clientStore)
-			subscribeAndListenService.subscribe(server)
-		}
-
-		return servers
-	}
 	
 	public func updateServerUser(displayName: String, avatar: String, phoneNumber: String, domain: String) {
 		realmManager.updateServerUser(displayName: displayName, avatar: avatar, phoneNumber: phoneNumber, domain: domain)
+	}
+	
+	public func getSenderName(fromClientId: String, groupId: Int64, domain: String, ownerId: String) -> String {
+		return realmManager.getSenderName(fromClientId: fromClientId, groupId: groupId, domain: domain, ownerId: ownerId)
+	}
+	
+	public func getGroupName(groupId: Int64, domain: String, ownerId: String) -> String {
+		return realmManager.getGroupName(by: groupId, domain: domain, ownerId: ownerId)
 	}
 }
 

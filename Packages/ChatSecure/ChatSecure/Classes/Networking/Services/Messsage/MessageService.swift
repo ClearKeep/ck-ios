@@ -37,6 +37,9 @@ public protocol IMessageService {
 					isGroup: Bool,
 					lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
 	
+	func decryptPeerMessage(senderName: String, message: Data, messageId: String) -> String?
+	func decryptGroupMessage(senderId: String, senderDomain: String, ownerId: String, ownerDomain: String, groupID: Int64, message: Data) async -> String?
+	
 }
 
 public class MessageService {
@@ -155,9 +158,9 @@ extension MessageService: IMessageService {
 						decryptedMessage = await decryptGroupMessage(senderId: message.fromClientID, senderDomain: message.fromClientWorkspaceDomain, ownerId: ownerId, ownerDomain: ownerDomain, groupID: groupId, message: message.message) ?? ""
 					} else {
 						if message.fromClientID == ownerId {
-							decryptedMessage = decryptPeerMessage(senderName: "\(ownerDomain)_\(ownerId)", message: message.senderMessage) ?? ""
+							decryptedMessage = decryptPeerMessage(senderName: "\(ownerDomain)_\(ownerId)", message: message.senderMessage, messageId: message.id) ?? ""
 						} else {
-							decryptedMessage = decryptPeerMessage(senderName: "\(message.fromClientWorkspaceDomain)_\(message.fromClientID)", message: message.message) ?? ""
+							decryptedMessage = decryptPeerMessage(senderName: "\(message.fromClientWorkspaceDomain)_\(message.fromClientID)", message: message.message, messageId: message.id) ?? ""
 						}
 					}
 					
@@ -319,7 +322,7 @@ private extension MessageService {
 		}
 	}
 	
-	func decryptPeerMessage(senderName: String, message: Data) -> String? {
+	public func decryptPeerMessage(senderName: String, message: Data, messageId: String) -> String? {
 		do {
 			let signalProtocolAddress = try ProtocolAddress(name: senderName, deviceId: UInt32(Constants.receiverDeviceId))
 			let preKeyMessage = try PreKeySignalMessage(bytes: message)
@@ -334,25 +337,18 @@ private extension MessageService {
 			return String(bytes: decryptMessage, encoding: .utf8)
 		} catch SignalError.duplicatedMessage {
 			Debug.DLog("decrypt peer message fail: Duplicate message")
-//			/**
-//			 * To fix case: both load message and receive message from socket at the same time
-//			 * Need wait 1.5s to load old message before save unableDecryptMessage
-//			 */
-//			DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-//				if let oldMessage = channelStorage.realmManager.getMessage(groupId: message.groupID, messageId: message.id) {
-//					realmMessages.append(oldMessage)
-//				} else {
-//					return nil
-//				}
-//			}
-			return nil
+			if let oldMessage = channelStorage.realmManager.getMessage(messageId: messageId) {
+				return oldMessage.message
+			} else {
+				return nil
+			}
 		} catch {
 			Debug.DLog("decrypt peer message fail: \(error)")
 			return nil
 		}
 	}
 	
-	func decryptGroupMessage(senderId: String, senderDomain: String, ownerId: String, ownerDomain: String, groupID: Int64, message: Data) async -> String? {
+	public func decryptGroupMessage(senderId: String, senderDomain: String, ownerId: String, ownerDomain: String, groupID: Int64, message: Data) async -> String? {
 		do {
 			let senderAddress: ProtocolAddress
 			let distributionId: UUID?

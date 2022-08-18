@@ -24,6 +24,7 @@
 "General.Cancel" = "Cancel";
 "General.Leave" = "Leave";
 "General.Success" = "Success";
+"General.Message.Banner" = "New message from %@";
 
 // MARK: - Error
 "Error.Unknow.Message" = "Unknow message (%ld)";
