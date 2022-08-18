@@ -5,11 +5,11 @@
 //  Created by MinhDev on 05/04/2022.
 //
 
-import Combine
-import Common
 import Networking
 import Model
 import ChatSecure
+import RealmSwift
+
 
 protocol ISearchWorker {
 	var remoteStore: ISearchRemoteStore { get }
@@ -17,6 +17,7 @@ protocol ISearchWorker {
 	func getJoinedGroup() async -> Result<ISearchModels, Error>
 	func getMessageList(groupId: Int64, loadSize: Int, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
 	func getListStatus(data: [[String: String]]) async -> Result<ISearchModels, Error>
+	func getMessageFromLocal(groupId: Int64, ownerDomain: String, ownerId: String) -> Results<RealmMessage>?
 }
 
 struct SearchWorker {
@@ -62,5 +63,8 @@ extension SearchWorker: ISearchWorker {
 			return .failure(error)
 		}
 	}
-	
+
+	func getMessageFromLocal(groupId: Int64, ownerDomain: String, ownerId: String) -> Results<RealmMessage>? {
+		return inMemoryStore.getMessageFromLocal(groupId: groupId, ownerDomain: ownerDomain, ownerId: ownerId)
+	}
 }

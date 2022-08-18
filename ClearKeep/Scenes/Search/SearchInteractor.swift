@@ -8,6 +8,7 @@
 import Common
 import ChatSecure
 import Model
+import RealmSwift
 
 private enum Constants {
 	static let loadSize = 20
@@ -16,6 +17,7 @@ private enum Constants {
 protocol ISearchInteractor {
 	func getJoinedGroup() async -> Loadable<ISearchViewModels>
 	func getMessageList(_ keyword: String, groupId: Int64, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
+	func getMessageFromLocal(groupId: Int64) -> Results<RealmMessage>?
 }
 
 struct SearchInteractor {
@@ -24,13 +26,14 @@ struct SearchInteractor {
 	let groupService: IGroupService
 	let userService: IUserService
 	let messageService: IMessageService
+	let realmManager: RealmManager
 }
 
 extension SearchInteractor: ISearchInteractor {
-	
+
 	var worker: ISearchWorker {
 		let remoteStore = SearchRemoteStore(groupAPIService: groupService, userService: userService, messageService: messageService)
-		let inMemoryStore = SearchInMemoryStore()
+		let inMemoryStore = SearchInMemoryStore(realmManager: realmManager)
 		return SearchWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
@@ -61,6 +64,12 @@ extension SearchInteractor: ISearchInteractor {
 		let result = await worker.getMessageList(groupId: groupId, loadSize: Constants.loadSize, isGroup: isGroup, lastMessageAt: lastMessageAt)
 		return result
 	}
+
+	func getMessageFromLocal(groupId: Int64) -> Results<RealmMessage>? {
+		guard let server = channelStorage.currentServer,
+			  let ownerId = server.profile?.userId else { return nil }
+		return worker.getMessageFromLocal(groupId: groupId, ownerDomain: server.serverDomain, ownerId: ownerId)
+	}
 }
 
 struct StubSearchInteractor: ISearchInteractor {
@@ -69,10 +78,11 @@ struct StubSearchInteractor: ISearchInteractor {
 	let groupService: IGroupService
 	let userService: IUserService
 	let messageService: IMessageService
-	
+	let realmManager: RealmManager
+
 	var worker: ISearchWorker {
 		let remoteStore = SearchRemoteStore(groupAPIService: groupService, userService: userService, messageService: messageService)
-		let inMemoryStore = SearchInMemoryStore()
+		let inMemoryStore = SearchInMemoryStore(realmManager: realmManager)
 		return SearchWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 	
@@ -83,5 +93,11 @@ struct StubSearchInteractor: ISearchInteractor {
 	func getMessageList(_ keyword: String, groupId: Int64, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
 		let result = await worker.getMessageList(groupId: groupId, loadSize: Constants.loadSize, isGroup: isGroup, lastMessageAt: lastMessageAt)
 		return result
+	}
+
+	func getMessageFromLocal(groupId: Int64) -> Results<RealmMessage>? {
+		guard let server = channelStorage.currentServer,
+			  let ownerId = server.profile?.userId else { return nil }
+		return worker.getMessageFromLocal(groupId: groupId, ownerDomain: server.serverDomain, ownerId: ownerId)
 	}
 }

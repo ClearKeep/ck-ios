@@ -11,6 +11,8 @@ import Common
 import CommonUI
 import Model
 import Networking
+import RealmSwift
+import ChatSecure
 
 private enum Constants {
 	static let paddingLeading = 100.0
@@ -28,9 +30,7 @@ struct SearchView: View {
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	@State private(set) var loadable: Loadable<ISearchViewModels> = .notRequested
 	@State private(set) var serverText: String = ""
-	
-	// MARK: - Init
-	
+
 	// MARK: - Body
 	var body: some View {
 		GeometryReader { _ in
@@ -63,7 +63,7 @@ private extension SearchView {
 // MARK: - Displaying Content
 private extension SearchView {
 	var notRequestedView: some View {
-		SearchContentView(serverText: serverText, searchUser: .constant([]), searchGroup: .constant([]), searchMessage: .constant([]), loadable: $loadable)
+		SearchContentView(serverText: serverText, searchUser: .constant([]), searchGroup: .constant([]), loadable: $loadable, dataMessages: .constant([]))
 	}
 	
 	var loadingView: some View {
@@ -73,15 +73,23 @@ private extension SearchView {
 	func loadedView(_ data: ISearchViewModels) -> AnyView {
 		if let searchGroup = data.groupViewModel?.viewModelGroup {
 			let lstGroup = searchGroup.filter { $0.groupType == "group" }.compactMap { profile in
-				SearchGroupViewModel(profile)}
+				SearchGroupViewModel(group: profile)}
 			
 			let lstUser = searchGroup.filter { $0.groupType == "peer" }.compactMap { profile in
-				SearchGroupViewModel(profile)}
+				SearchGroupViewModel(group: profile)}
 			
-			return AnyView(SearchContentView(serverText: serverText, searchCatalogy: .all, searchUser: .constant(lstUser), searchGroup: .constant(lstGroup), searchMessage: .constant([]), loadable: $loadable))
+			var dataMessages = [SearchMessageViewModel]()
+			searchGroup.forEach { group in
+				let messages = injected.interactors.searchInteractor.getMessageFromLocal(groupId: group.groupId)
+				messages?.forEach { message in
+					dataMessages.append(SearchMessageViewModel(data: message, members: group.groupMembers, group: group.groupName))
+				}
+			}
+
+			return AnyView(SearchContentView(serverText: serverText, searchCatalogy: .all, searchUser: .constant(lstUser), searchGroup: .constant(lstGroup), loadable: $loadable, dataMessages: .constant(dataMessages)))
 		}
 		
-		return AnyView(SearchContentView(serverText: serverText, searchUser: .constant([]), searchGroup: .constant([]), searchMessage: .constant([]), loadable: $loadable))
+		return AnyView(SearchContentView(serverText: serverText, searchUser: .constant([]), searchGroup: .constant([]), loadable: $loadable, dataMessages: .constant([])))
 	}
 	
 	func errorView(_ error: LoginViewError) -> some View {
