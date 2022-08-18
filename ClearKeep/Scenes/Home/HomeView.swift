@@ -26,6 +26,7 @@ struct HomeView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.injected) private var injected: DIContainer
+	@Environment(\.joinServerClosure) private var joinServerClosure: JoinServerClosure
 	@State private var selectedGroupId: Int64 = 0
 	@State private var showMessageBanner: Bool = false
 	@State private var messageData: MessagerBannerViewModifier.MessageData?
@@ -61,8 +62,15 @@ struct HomeView: View {
 				self.user = [UserViewModel(load.userViewModel?.viewModelUser)]
 			case .failed(let error):
 				isLoading = false
-				self.error = HomeErrorView(error)
-				self.isShowError = true
+				let error = HomeErrorView(error)
+				switch error {
+				case .unauthorized:
+					self.handleLogout()
+				default:
+					self.error = error
+					self.isShowError = true
+				}
+				
 			case .isLoading:
 				isLoading = true
 			default: break
@@ -179,7 +187,8 @@ struct HomeView: View {
 			.hiddenNavigationBarStyle()
 			.onAppear(perform: getServers)
 			.onAppear(perform: getServerInfo)
-			.onReceive(NotificationCenter.default.publisher(for: NSNotification.LogOut, object: nil), perform: { _ in
+			.onReceive(NotificationCenter.default.publisher(for: NSNotification.reloadDataHome, object: nil), perform: { _ in
+				self.isShowMenu = false
 				self.serverInfo()
 				self.getServers()
 			})
@@ -211,7 +220,10 @@ struct HomeView: View {
 			navigateToChat = true
 		})
 		.inCallModifier(callViewModel: callViewModel, isInCall: $isInCall)
-
+		.environment(\.joinServerClosure, { domain in
+			self.injected.interactors.homeInteractor.didSelectServer(domain)
+			self.isAddNewServer = false
+		})
 	}
 }
 
@@ -269,11 +281,36 @@ private extension HomeView {
 			loadableStatus = await injected.interactors.homeInteractor.updateStatus(status: status.rawValue)
 		}
 	}
+	
+	func handleLogout() {
+		injected.interactors.homeInteractor.removeServer()
+		let servers = DependencyResolver.shared.channelStorage.getServers(isFirstLoad: false).compactMap({
+			ServerModel($0)
+		})
+		
+		if servers.isEmpty {
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+				let appDelegate = UIApplication.shared.delegate as? AppDelegate
+				appDelegate?.systemEventsHandler?.container.appState[\.authentication.servers] = []
+			})
+			return
+		}
+		
+		if servers.filter({ $0.isActive }).isEmpty {
+			DependencyResolver.shared.channelStorage.didSelectServer(servers.last?.serverDomain ?? "")
+		}
+		
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+			self.isShowMenu = false
+			self.serverInfo()
+			self.getServers()
+		})
+	}
 }
 
 // MARK: - extension
 extension NSNotification {
-	static let LogOut = Notification.Name.init("LogOut")
+	static let reloadDataHome = Notification.Name.init("reloadDataHome")
 }
 
 // MARK: - Preview

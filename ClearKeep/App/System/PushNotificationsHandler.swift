@@ -7,6 +7,8 @@
 //
 
 import UserNotifications
+import UIKit
+import CommonUI
 
 typealias NotificationPayload = [AnyHashable: Any]
 
@@ -33,6 +35,7 @@ extension PushNotificationsHandler: UNUserNotificationCenterDelegate {
 								willPresent notification: UNNotification,
 								withCompletionHandler completionHandler:
 								@escaping (UNNotificationPresentationOptions) -> Void) {
+		self.handleNotification(userInfo: notification.request.content.userInfo, completionHandler: {})
 		completionHandler([.banner, .sound, .list])
 	}
 	
@@ -47,6 +50,14 @@ extension PushNotificationsHandler: UNUserNotificationCenterDelegate {
 	func handleNotification(userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
 		if let jsonString = userInfo["publication"] as? String,
 		   let jsonData = jsonString.data(using: .utf8) {
+			
+			if let publicationJson = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any],
+			   let deactiveAccountId = publicationJson["deactive_account_id"] as? String {
+				handleLogout(deactiveAccountId: deactiveAccountId)
+				completionHandler()
+				return
+			}
+			
 			do {
 				let publication = try JSONDecoder().decode(PublicationMessageNotification.self, from: jsonData)
 				//container.appState[\.authentication.selectedGroupId] = publication.groupId
@@ -54,9 +65,40 @@ extension PushNotificationsHandler: UNUserNotificationCenterDelegate {
 			} catch {
 				completionHandler()
 			}
-		} else {
-			completionHandler()
+			return
 		}
+		
+		completionHandler()
+	}
+	
+	fileprivate func handleLogout(deactiveAccountId: String) {
+		guard let serverLogout = DependencyResolver.shared.channelStorage.getServerWithClientId(clientId: deactiveAccountId) else {
+			return
+		}
+		
+		DependencyResolver.shared.channelStorage.removeUser(serverLogout)
+		DependencyResolver.shared.channelStorage.removeGroup(serverLogout.serverDomain)
+		DependencyResolver.shared.channelStorage.removeServer(serverLogout.serverDomain)
+		DependencyResolver.shared.channelStorage.removeProfile(deactiveAccountId)
+		let servers = DependencyResolver.shared.channelStorage.getServers(isFirstLoad: false).compactMap({
+			ServerModel($0)
+		})
+		
+		if servers.isEmpty {
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+				let appDelegate = UIApplication.shared.delegate as? AppDelegate
+				appDelegate?.systemEventsHandler?.container.appState[\.authentication.servers] = []
+			})
+			return
+		}
+		
+		if servers.filter({ $0.isActive }).isEmpty {
+			DependencyResolver.shared.channelStorage.didSelectServer(servers.last?.serverDomain ?? "")
+		}
+		
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+			NotificationCenter.default.post(name: NSNotification.reloadDataHome, object: nil)
+		})
 	}
 }
 

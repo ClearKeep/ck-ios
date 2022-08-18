@@ -29,7 +29,7 @@ enum HomeErrorView {
 			self = .existed
 		case 1001:
 			self = .wrongInformation
-		case 1079:
+		case 1079, 1077:
 			self = .unauthorized
 		case 1026:
 			self = .notActivated

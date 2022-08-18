@@ -186,6 +186,7 @@ private extension GroupService {
 					realmMember.userName = member.displayName
 					realmMember.domain = member.workspaceDomain
 					realmMember.userState = member.status
+					realmMember.server = server
 					return realmMember
 				}
 				
@@ -212,6 +213,7 @@ private extension GroupService {
 				realmGroup.lastMessageSyncTimestamp = lastMessageSyncTime
 				realmGroup.isDeletedUserPeer = false
 				realmGroup.hasUnreadMessage = groupResponse.hasUnreadMessage_p
+				realmGroup.server = server
 				
 				realmGroups.append(realmGroup)
 				

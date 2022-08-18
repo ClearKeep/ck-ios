@@ -21,6 +21,7 @@ enum ConfigurationProvider: IConfiguration {
 		static let googleClientId = "GOOGLE_CLIENT_ID"
 		static let officeClientId = "OFFICE_CLIENT_ID"
 		static let officeRedirectUri = "OFFICE_REDIRECT_URI"
+		static let databaseDebug = "DATABASE_DEBUG"
 		static let databasePath = "DATABASE_PATH"
 		static let appGroupName = "APP_GROUP_NAME"
 		static let yapDatabasePath = "YAP_DATABASE_PATH"
@@ -54,7 +55,17 @@ enum ConfigurationProvider: IConfiguration {
 		Configuration.value(for: Keys.officeRedirectUri)
 	}
 	
+	var dataBaseDebug: String {
+		Configuration.value(for: Keys.databaseDebug)
+	}
+	
 	var databaseURL: URL? {
+		if dataBaseDebug == "true" {
+			let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)
+			let baseDir = paths.count > 0 ? paths[0] : NSTemporaryDirectory()
+			return URL(fileURLWithPath: baseDir).appendingPathComponent(Configuration.value(for: Keys.databasePath))
+		}
+		
 		let sharedDirectoryURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Configuration.value(for: Keys.appGroupName))
 		return sharedDirectoryURL?.appendingPathComponent(Configuration.value(for: Keys.databasePath))
 	}

@@ -28,6 +28,7 @@ public class RealmGroup: Object {
 	@objc public dynamic var lastMessageSyncTimestamp: Int64
 	@objc public dynamic var isDeletedUserPeer: Bool
 	@objc public dynamic var hasUnreadMessage: Bool
+	@objc public dynamic var server: RealmServer?
 	
 	public override class func primaryKey() -> String? {
 		return "generateId"
@@ -52,6 +53,7 @@ public class RealmGroup: Object {
 		lastMessageSyncTimestamp = Int64()
 		isDeletedUserPeer = Bool()
 		hasUnreadMessage = Bool()
+		server = RealmServer.init()
 		
 		super.init()
 	}
@@ -66,6 +68,7 @@ public class RealmMember: Object {
 	@objc public dynamic var phoneNumber: String
 	@objc public dynamic var avatar: String
 	@objc public dynamic var email: String
+	@objc public dynamic var server: RealmServer?
 	
 	required override init() {
 		userId = String()
@@ -76,6 +79,7 @@ public class RealmMember: Object {
 		phoneNumber = String()
 		avatar = String()
 		email = String()
+		server = RealmServer.init()
 		
 		super.init()
 	}

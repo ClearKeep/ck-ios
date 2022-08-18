@@ -34,6 +34,7 @@ struct MenuView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
+	@Environment(\.joinServerClosure) private var joinServerClosure: JoinServerClosure
 	@Binding var isShowMenu: Bool
 	@State private var userProfile: String = ""
 	@Binding var user: [UserViewModel]
@@ -163,19 +164,22 @@ private extension MenuView {
 			Task {
 				await injected.interactors.homeInteractor.signOut()
 				injected.interactors.homeInteractor.removeServer()
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+					injected.appState[\.authentication.servers] = []
+				})
 			}
-			DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
-				injected.appState[\.authentication.servers] = []
-			})
 		} else {
 			Task {
 				await injected.interactors.homeInteractor.signOut()
 				injected.interactors.homeInteractor.removeServer()
+				if let joinServer = injected.interactors.homeInteractor.getServers().last {
+					self.joinServerClosure?(joinServer.serverDomain)
+				}
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+					NotificationCenter.default.post(name: NSNotification.reloadDataHome, object: nil)
+				})
+				self.isShowMenu.toggle()
 			}
-			DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
-				NotificationCenter.default.post(name: NSNotification.LogOut, object: nil)
-			})
-			self.isShowMenu.toggle()
 		}
 	}
 

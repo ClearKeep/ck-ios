@@ -103,6 +103,7 @@ extension RealmManager {
 					realmMember.userName = member.displayName
 					realmMember.domain = member.workspaceDomain
 					realmMember.userState = member.status
+					realmMember.server = server
 					return realmMember
 				}
 				
@@ -129,6 +130,7 @@ extension RealmManager {
 				realmGroup.lastMessageSyncTimestamp = lastMessageSyncTime
 				realmGroup.isDeletedUserPeer = false
 				realmGroup.hasUnreadMessage = group.hasUnreadMessage_p
+				realmGroup.server = server
 							
 			write { realm in
 				realm.add(realmGroup, update: .modified)
@@ -226,7 +228,7 @@ extension RealmManager {
 	}
 
 	func removeServer(domain: String) {
-		delete(listOf: RealmServer.self, filter: NSPredicate(format: "serverDomain == %@", domain))
+		delete(listOf: RealmServer.self, filter: NSPredicate(format: "%K == %@", #keyPath(RealmServer.serverDomain), domain))
 	}
 	
 	func deactiveAllServer(completion: @escaping (_ realm: Realm) -> Void) {
@@ -256,6 +258,12 @@ extension RealmManager {
 		}
 		return getServers()
 	}
+	
+	func getServerWithClientId(clientId: String) -> RealmServer? {
+		let servers = load(listOf: RealmServer.self, filter: NSPredicate(format: "%K == %@", #keyPath(RealmServer.ownerClientId), clientId))
+		return servers.first
+	}
+
 }
 
 extension RealmManager {
@@ -345,5 +353,19 @@ private extension RealmManager {
 		write { realm in
 			realm.deleteAll()
 		}
+	}
+}
+
+// MARK: - User
+extension RealmManager {
+	func removeMember(server: RealmServer) {
+		delete(listOf: RealmMember.self, filter: NSPredicate(format: "%K.%K == %d", #keyPath(RealmMember.server), #keyPath(RealmServer.generateId), server.generateId))
+	}
+}
+
+// MARK: - Profile
+extension RealmManager {
+	func removeProfile(userId: String) {
+		delete(listOf: RealmProfile.self, filter: NSPredicate(format: "%K == %@", #keyPath(RealmProfile.userId), userId))
 	}
 }

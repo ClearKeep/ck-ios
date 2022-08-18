@@ -17,6 +17,7 @@ IOS_NOTIFICATION_EXTENSION_BUNDLE_ID = com.telred.clearkeep.notificationextensio
 CODE_SIGNING_ENTITLEMENTS =  ClearKeep/Environments/Production/ClearKeepProduction.entitlements
 URL_SCHEME = clearkeep
 APP_GROUP_NAME = group.com.telred.clearkeep
+DATABASE_DEBUG = false
 DATABASE_PATH = production.db
 YAP_DATABASE_PATH = production.sqlite
 MARKETING_VERSION = 3.0.0

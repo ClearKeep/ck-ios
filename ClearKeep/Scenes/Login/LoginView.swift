@@ -24,6 +24,7 @@ struct LoginView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
+	@Environment(\.joinServerClosure) var joinServerClosure: JoinServerClosure
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	@State private(set) var loadable: Loadable<IAuthenticationModel> = .notRequested
 	@State private(set) var customServer: CustomServer = CustomServer()
@@ -120,6 +121,7 @@ private extension LoginView {
 			} else {
 				if navigateToHome {
 					self.presentationMode.wrappedValue.dismiss()
+					self.joinServerClosure?(customServer.customServerURL)
 				}
 				if let token = UserDefaults.standard.data(forKey: "keySaveTokenPushNotification") {
 					injected.interactors.homeInteractor.registerToken(token)
@@ -183,6 +185,7 @@ private extension LoginView {
 	func dismiss() {
 		if navigateToHome {
 			self.rootIsActive = false
+			joinServerClosure?(customServer.customServerURL)
 		}
 	}
 }

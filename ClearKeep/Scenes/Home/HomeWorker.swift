@@ -81,6 +81,10 @@ extension HomeWorker: IHomeWorker {
 
 	func removeServer() {
 		let domain = currentDomain ?? channelStorage.currentDomain
+		if let currentServer = channelStorage.currentServer {
+			channelStorage.removeUser(currentServer)
+		}
+		channelStorage.removeProfile(channelStorage.currentServer?.ownerClientId ?? "")
 		channelStorage.removeServer(domain)
 		channelStorage.removeGroup(domain)
 	}
