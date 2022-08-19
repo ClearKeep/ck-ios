@@ -17,6 +17,7 @@ enum TwoFactorErrorView {
 	case unauthorized
 	case wrongOTP
 	case locked
+	case expiredOTP
 	case unknownError(errorCode: Int?)
 	
 	// MARK: Init
@@ -40,6 +41,8 @@ enum TwoFactorErrorView {
 			self = .unauthorized
 		case 1069:
 			self = .locked
+		case 1068, 1072:
+			self = .expiredOTP
 		default:
 			self = .unknownError(errorCode: errorCode)
 		}
@@ -65,6 +68,8 @@ enum TwoFactorErrorView {
 				return String(format: "Error.Unknow.Message".localized, errorCode)
 			}
 			return "Unknow.Message".localized
+		case .expiredOTP:
+			return "2FA.Error.Pincode.RequestTimeout".localized
 		}
 	}
 	
@@ -79,6 +84,8 @@ enum TwoFactorErrorView {
 		case .locked:
 			return "General.OK".localized
 		case .unknownError(let errorCode):
+			return "General.OK".localized
+		case .expiredOTP:
 			return "General.OK".localized
 		}
 	}

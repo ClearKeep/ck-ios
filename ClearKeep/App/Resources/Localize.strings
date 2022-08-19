@@ -313,7 +313,5 @@
 "2FA.Missing.Phone.Number" = "Type in your phone number";
 "2FA.Not.Support.Error" = "We are so sorry. This function is not supported for your account.";
 "2FA.Missing.Phone.Number.Error" = "You must input your phone number in order to enable this feature.";
-"2FA.Error.Pincode.RequestTimeout" = "Verification code has expired. Please request a new code and retry";
 "2FA.Error.PasswordInCorrect" = "The password is incorrect. Try again";
 "2FA.Error.Pincode.RequestTimeout" = "Verification code has expired. Please request a new code and retry";
-"2FA.Error.PasswordInCorrect" = "The password is incorrect. Try again";

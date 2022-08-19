@@ -8,12 +8,13 @@
 import Foundation
 import Combine
 import ChatSecure
+import Networking
 
 protocol ITwoFactorRemoteStore {
 	func validateOTP(otp: String, domain: String) async -> Result<Bool, Error>
 	func validatePassword(password: String, domain: String) async -> Result<Bool, Error>
 	func resendOTP(domain: String) async -> Result<Bool, Error>
-	func resendLoginOTP(userId: String, otpHash: String, domain: String) async -> Result<Bool, Error>
+	func resendLoginOTP(userId: String, otpHash: String, domain: String) async -> Result<String, Error>
 	func validateLoginOTP(password: String, userId: String, otpHash: String, otp: String, domain: String) async -> Result<Bool, Error>
 }
 
@@ -53,11 +54,15 @@ extension TwoFactorRemoteStore: ITwoFactorRemoteStore {
 		}
 	}
 	
-	func resendLoginOTP(userId: String, otpHash: String, domain: String) async -> Result<Bool, Error> {
+	func resendLoginOTP(userId: String, otpHash: String, domain: String) async -> Result<String, Error> {
 		let response = await authService.mfaResendOTP(userId: userId, otpHash: otpHash, domain: domain)
 		switch response {
 		case .success(let data):
-			return .success(data.success)
+			if data.success {
+				return .success(data.preAccessToken)
+			} else {
+				return .failure(ServerError.unknown)
+			}
 		case .failure(let error):
 			return .failure(error)
 		}

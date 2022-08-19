@@ -14,7 +14,7 @@ protocol ITwoFactorInteractor {
 	func validatePassword(password: String) async -> Loadable<Bool>
 	func resendOTP(loadable: LoadableSubject<Bool>) async
 	func validateLoginOTP(loadable: LoadableSubject<Bool>, password: String, otp: String, userId: String, otpHash: String, domain: String) async
-	func resendLoginOTP(loadable: LoadableSubject<Bool>, userId: String, otpHash: String, domain: String) async
+	func resendLoginOTP(loadable: LoadableSubject<Bool>, userId: String, otpHash: String, domain: String) async -> String
 }
 
 struct TwoFactorInteractor {
@@ -79,13 +79,15 @@ extension TwoFactorInteractor: ITwoFactorInteractor {
 		}
 	}
 	
-	func resendLoginOTP(loadable: LoadableSubject<Bool>, userId: String, otpHash: String, domain: String) async {
+	func resendLoginOTP(loadable: LoadableSubject<Bool>, userId: String, otpHash: String, domain: String) async -> String {
 		let result = await worker.resendLoginOTP(userId: userId, otpHash: otpHash, domain: domain)
 		switch result {
 		case .success(let value):
 			print(value)
+			return value
 		case .failure(let error):
 			loadable.wrappedValue = .failed(error)
+			return ""
 		}
 	}
 	
@@ -120,7 +122,7 @@ struct StubTwoFactorInteractor: ITwoFactorInteractor {
 	func validateLoginOTP(loadable: LoadableSubject<Bool>, password: String, otp: String, userId: String, otpHash: String, domain: String) async {
 	}
 	
-	func resendLoginOTP(loadable: LoadableSubject<Bool>, userId: String, otpHash: String, domain: String) async {
-		
+	func resendLoginOTP(loadable: LoadableSubject<Bool>, userId: String, otpHash: String, domain: String) async -> String {
+		return ""
 	}
 }
