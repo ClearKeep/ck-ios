@@ -14,6 +14,7 @@ public enum CallType: String {
 	case audio
 	case video
 	case cancelRequestCall = "cancel_request_call"
+	case acceptCall = "accept_request_call"
 }
 
 final public class CallManager: NSObject {
@@ -28,6 +29,8 @@ final public class CallManager: NSObject {
 	var answerCall: CallBox?
 	var outgoingCall: CallBox?
 	public var endCall: ((CallBox) -> Void)?
+	public var acceptCall: ((CallBox?) -> Void)?
+	
 	let callController = CXCallController()
 	static let CallsChangedNotification = Notification.Name("CallManagerCallsChangedNotification")
 	private let provider: CXProvider
@@ -282,6 +285,31 @@ final public class CallManager: NSObject {
 			NotificationCenter.default.post(name: Notification.Name.CallService.changeStatusBusyCall, object: nil)
 		}
 	}
+	
+	public func handleAcceptCall(payload: PKPushPayload) {
+		print("Payload accept call: \(payload.dictionaryPayload)")
+		let decoder = JSONDecoder()
+		guard let data = try? JSONSerialization.data(withJSONObject: payload.dictionaryPayload, options: []),
+				  let callNotification = try? decoder.decode(CallNotification.self, from: data) else {
+					  return
+				  }
+		
+		if callNotification.publication?.clientID == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId {
+			return
+		}
+		
+		if let index = self.calls.firstIndex(where: { item in
+			item.roomId == Int64(callNotification.publication?.groupID ?? "0") && !item.isCallGroup
+		}) {
+			let call = calls[index]
+			let endCallAction = CXEndCallAction(call: call.uuid)
+			let transaction = CXTransaction()
+			transaction.addAction(endCallAction)
+			call.endCall()
+			requestTransaction(transaction, action: Call.end.rawValue)
+			calls.removeAll()
+		}
+	}
 }
 
 extension CallManager {
@@ -484,6 +512,7 @@ extension CallManager: CXProviderDelegate {
 		answerCall?.answerCall(withAudioSession: audioSession) { [weak self] isSuccess in
 			guard let self = self else { return }
 			if isSuccess {
+				self.acceptCall?(self.calls.first)
 				DispatchQueue.main.async {
 					NotificationCenter.default.post(name: NSNotification.Name.CallService.receiveCall, object: nil)
 				}
