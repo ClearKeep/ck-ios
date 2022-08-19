@@ -8,10 +8,10 @@
 import SwiftUI
 
 public struct FilePickerView: UIViewControllerRepresentable {
-	@Binding var fileURLs: [URL]
+	private var onSelectedFiles: ([URL]) -> Void
 	
-	public init(fileURLs: Binding<[URL]>) {
-		self._fileURLs = fileURLs
+	public init(onSelectedFiles: @escaping ([URL]) -> Void) {
+		self.onSelectedFiles = onSelectedFiles
 	}
 	
 	public func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
@@ -26,19 +26,19 @@ public struct FilePickerView: UIViewControllerRepresentable {
 	}
 	
 	public func makeCoordinator() -> FilePickerView.Coordinator {
-		FilePickerView.Coordinator(fileURLs: $fileURLs)
+		FilePickerView.Coordinator(onSelectedFiles: onSelectedFiles)
 	}
 	
 	public class Coordinator: NSObject, UIDocumentPickerDelegate {
-		var fileURLs: Binding<[URL]>
+		let onSelectedFiles: ([URL]) -> Void
 		
-		init(fileURLs: Binding<[URL]>) {
-			self.fileURLs = fileURLs
+		init(onSelectedFiles: @escaping ([URL]) -> Void) {
+			self.onSelectedFiles = onSelectedFiles
 		}
 	
 		public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
 			withAnimation {
-				fileURLs.wrappedValue.append(contentsOf: urls)
+				onSelectedFiles(urls)
 			}
 		}
 	}

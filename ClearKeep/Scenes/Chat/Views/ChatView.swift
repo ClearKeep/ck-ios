@@ -37,7 +37,33 @@ struct ChatView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	
 	// MARK: - Variables
-	@State private(set) var loadable: Loadable<IGroupModel> = .notRequested
+	@State private(set) var loadable: Loadable<IGroupModel?> = .notRequested {
+		didSet {
+			switch loadable {
+			case .loaded(let data):
+				isShowLoading = false
+				group = data
+				DispatchQueue.main.async {
+					loadLocalMessage()
+				}
+			case .failed(let error):
+				self.errorType = ChatErrorView(error)
+				alertVisible = true
+			default: break
+			}
+		}
+	}
+	
+	@State private(set) var sendMessageLoadable: Loadable<Void> = .notRequested {
+		didSet {
+			switch sendMessageLoadable {
+			case .failed(let error):
+				self.errorType = ChatErrorView(error)
+				alertVisible = true
+			default: break
+			}
+		}
+	}
 		
 	@State private(set) var group: IGroupModel?
 	@State private(set) var messageText: String
@@ -58,7 +84,7 @@ struct ChatView: View {
 	@State private var isShowingFloatingButton = false
 	@State private var isReplying = false
 	@State private var shouldPaginate = false
-	@State private var isLoading = false
+	@State private var isMessageLoading = false
 	@State private var isEndOfPage = false
 	@State private var isNewSentMessage = false
 	@State private var isQuoteMessage = false
@@ -68,6 +94,7 @@ struct ChatView: View {
 	@State private var isImagePickerPresented = false
 	@State private var showingCameraPicker = false
 	@State private var isFirstLoad = true
+	@State private var isShowLoading = false
 	
 	@State private var selectedImages = [SelectedImageModel]()
 	@State private var isDetail = false
@@ -77,10 +104,11 @@ struct ChatView: View {
 	@State private var isFirstLoadData: Bool = true
 	@State private var isShowingCall: Bool = false
 	@State private var alertVisible = false
-	@State private var alertType: CallError = .permission
 	@State private var hudVisible = false
 	@State private var disableCall = false
-
+	@State private var errorType: ChatErrorView = .locked
+	@State private var rediectMessageId = ""
+	
 	private let groupId: Int64
 	private let avatarLink: String
 	private let inspection = ViewInspector<Self>()
@@ -143,7 +171,7 @@ struct ChatView: View {
 				print(files)
 				isNewSentMessage = true
 				Task {
-					await injected.interactors.chatInteractor.uploadFiles(loadable: $loadable, message: "", fileURLs: files, group: group, appendFileSize: true, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
+					sendMessageLoadable = await injected.interactors.chatInteractor.uploadFiles(message: "", fileURLs: files, group: group, appendFileSize: true, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
 				}
 			}
 		}
@@ -164,9 +192,9 @@ struct ChatView: View {
 				updateGroup()
 				isFirstLoadData = false
 			}
-			loadLocalMessage()
 		}
 		.onDisappear {
+			injected.interactors.chatInteractor.saveDraftMessage(message: messageText, roomId: groupId)
 			notificationToken?.invalidate()
 		}
 		.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.SubscribeAndListenService.didReceiveNotification)) { (obj) in
@@ -180,9 +208,10 @@ struct ChatView: View {
 		}
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 		.alert(isPresented: $alertVisible, content: {
-			if alertType == .permission {
-				return Alert(title: Text("Call.PermistionCall".localized),
-					  message: Text("Call.GoToSetting".localized),
+			switch errorType {
+			case .permission:
+				return Alert(title: Text(errorType.title),
+							 message: Text(errorType.message),
 					  primaryButton: .default(Text("Call.Settings".localized), action: {
 					guard let url = URL(string: UIApplication.openSettingsURLString) else {
 						return
@@ -190,13 +219,13 @@ struct ChatView: View {
 					UIApplication.shared.open(url)
 				}),
 					  secondaryButton: .default(Text("Call.Cancel".localized)))
+			default:
+				return Alert(title: Text(errorType.title),
+							 message: Text(errorType.message),
+							 dismissButton: .default(Text(errorType.primaryButtonTitle)))
 			}
-			
-			return Alert(title: Text("General.Warning".localized),
-						 message: Text("Call.HaveExistCall".localized),
-					  dismissButton: .default(Text("General.OK".localized)))
 		})
-		.progressHUD(isLoading)
+		.progressHUD(isShowLoading)
 		}
 		.hiddenNavigationBarStyle()
 		.edgesIgnoringSafeArea(.all)
@@ -206,19 +235,7 @@ struct ChatView: View {
 // MARK: - Private
 private extension ChatView {
 	var content: AnyView {
-		switch loadable {
-		case .notRequested:
-			return AnyView(notRequestedView)
-		case .isLoading:
-			return AnyView(loadingView)
-		case .loaded(let data):
-			return AnyView(loadedView(data))
-		case .failed(let error):
-			guard let error = error as? IServerError else {
-				return AnyView(errorView(ServerError.unknown))
-			}
-			return AnyView(errorView(error))
-		}
+		AnyView(notRequestedView)
 	}
 	
 	var audioButtonView: some View {
@@ -297,7 +314,7 @@ private extension ChatView {
 	var quoteMessageView: some View {
 		VStack(alignment: .leading, spacing: 4) {
 			HStack {
-				Text("Chat.Replying".localized + (selectedMessage?.fromClientName ?? ""))
+				Text("Chat.Replying".localized + ((selectedMessage?.isMine ?? false) ? "You" : (selectedMessage?.fromClientName ?? "")))
 					.font(AppTheme.shared.fontSet.font(style: .placeholder2))
 					.foregroundColor(foregroundFloatingButton)
 				Spacer()
@@ -425,7 +442,7 @@ private extension ChatView {
 				let selectedImageURL = selectedImages.compactMap { $0.url }
 				print(selectedImageURL)
 				selectedImages.removeAll()
-				await injected.interactors.chatInteractor.uploadFiles(loadable: $loadable, message: trimmedMessage, fileURLs: selectedImageURL, group: group, appendFileSize: false, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
+				sendMessageLoadable = await injected.interactors.chatInteractor.uploadFiles(message: trimmedMessage, fileURLs: selectedImageURL, group: group, appendFileSize: false, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
 			}
 			return
 		}
@@ -438,15 +455,15 @@ private extension ChatView {
 		Task {
 			var encodedMessage = ""
 			if isQuoteMessage {
-				encodedMessage = "```\(selectedMessage?.fromClientName ?? "")|\(selectedMessage?.message ?? "")|\(selectedMessage?.dateCreated ?? 0)|\(trimmedMessage)"
+				encodedMessage = "```\(selectedMessage?.fromClientName ?? "")|\(selectedMessage?.message ?? "")|\(selectedMessage?.dateCreated ?? 0)|\(selectedMessage?.id ?? "")|\(trimmedMessage)"
 			} else {
 				encodedMessage = trimmedMessage
 			}
 			if group?.groupType == "peer" {
-				await injected.interactors.chatInteractor.sendMessageInPeer(loadable: $loadable, message: encodedMessage, groupId: groupId, group: group, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
+				sendMessageLoadable = await injected.interactors.chatInteractor.sendMessageInPeer(message: encodedMessage, groupId: groupId, group: group, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
 			} else {
 				let isJoined = group?.isJoined ?? false
-				await injected.interactors.chatInteractor.sendMessageInGroup(loadable: $loadable, message: encodedMessage, groupId: groupId, isJoined: isJoined, isForward: false)
+				sendMessageLoadable = await injected.interactors.chatInteractor.sendMessageInGroup(message: encodedMessage, groupId: groupId, isJoined: isJoined, isForward: false)
 			}
 		}
 		isShowingQuoteView = false
@@ -455,7 +472,7 @@ private extension ChatView {
 	
 	private func call(callType type: CallType) {
 		if CallManager.shared.calls.count > 0 || CallManager.shared.awaitCallGroup == Int(self.groupId) {
-			self.alertType = .haveExistACall
+			self.errorType = .haveExistACall
 			alertVisible = true
 			self.disableCall = false
 			return
@@ -486,7 +503,7 @@ private extension ChatView {
 						}
 					}
 				} else {
-					self.alertType = .permission
+					self.errorType = .permission
 					self.alertVisible = true
 					self.disableCall = false
 					CallManager.shared.awaitCallGroup = nil
@@ -533,6 +550,7 @@ private extension ChatView {
 								isShowLoading: $isEndOfPage,
 								showScrollToLatestButton: $isShowingFloatingButton,
 								scrollToLastest: $scrollToBottom,
+								rediectMessageId: $rediectMessageId,
 								onPressFile: { url in
 					Task {
 						await injected.interactors.chatInteractor.downloadFile(urlString: url)
@@ -543,6 +561,8 @@ private extension ChatView {
 				}, onLongPress: { message in
 					tempSelectedMessage = message
 					showingMessageOptions = true
+				}, onTapQuoteMessage: { messageId in
+					rediectMessageId = messageId
 				})
 				.confirmationDialog("", isPresented: $showingMessageOptions, titleVisibility: .hidden) {
 					Button("Chat.CopyButton".localized) {
@@ -613,38 +633,24 @@ private extension ChatView {
 				return
 			}
 			if newValue {
-				if !isLoading && !isEndOfPage {
-					isLoading.toggle()
+				if !isMessageLoading && !isEndOfPage {
+					isMessageLoading.toggle()
 					updateMessages()
 				}
 			}
 		}
 	}
-	
-	var loadingView: some View {
-		notRequestedView.progressHUD(true)
-	}
-	
-	func loadedView(_ data: IGroupModel) -> some View {
-		return notRequestedView
-	}
-	
-	func errorView(_ error: IServerError) -> some View {
-		return notRequestedView
-			.alert(isPresented: .constant(true)) {
-				Alert(title: Text("General.Error".localized),
-					  message: Text(error.message ?? "General.Unknown".localized),
-					  dismissButton: .default(Text("General.OK".localized)))
-			}
-	}
-	
 }
 
 // MARK: - Interactor
 private extension ChatView {
 	func updateGroup() {
+		isShowLoading = true
+		if let draftMessage = injected.interactors.chatInteractor.getDraftMessage(roomId: groupId) {
+			messageText = draftMessage
+		}
 		Task {
-			group = await injected.interactors.chatInteractor.updateGroupWithId(loadable: $loadable, groupId: groupId)
+			loadable = await injected.interactors.chatInteractor.updateGroupWithId(groupId: groupId)
 			group?.groupAvatar = self.avatarLink
 		}
 	}
@@ -686,7 +692,7 @@ private extension ChatView {
 			case .error(let error):
 				print("load message error: \(error)")
 			}
-			isLoading = false
+			isMessageLoading = false
 		})
 	}
 	
@@ -705,12 +711,5 @@ private extension ChatView {
 			self.joinedPeers = groups.filter { $0.groupType == "peer" }.sorted { $0.updatedAt > $1.updatedAt }.compactMap { group in
 				ForwardViewModel(groupModel: group) }
 		}
-	}
-}
-
-extension ChatView {
-	enum CallError {
-		case haveExistACall
-		case permission
 	}
 }

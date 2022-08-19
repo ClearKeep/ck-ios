@@ -38,7 +38,10 @@ struct FilePickerContainerView: View {
 		content
 			.edgesIgnoringSafeArea(.all)
 			.sheet(isPresented: $filePickerShown) {
-				FilePickerView(fileURLs: $selectedFileURLs)
+				FilePickerView { urls in
+					fileURLs.append(contentsOf: urls)
+					selectedFileURLs.append(contentsOf: urls)
+				}
 			}
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 	}
@@ -121,7 +124,7 @@ private extension FilePickerContainerView {
 	
 	private var fileListView: some View {
 		ScrollView(showsIndicators: false) {
-			ForEach(selectedFileURLs, id: \.self) { file in
+			ForEach(fileURLs, id: \.self) { file in
 				VStack(spacing: 18) {
 					HStack(spacing: 14) {
 						AppTheme.shared.imageSet.fileDocIcon
@@ -130,11 +133,23 @@ private extension FilePickerContainerView {
 							.foregroundColor(textColor)
 						Spacer()
 						Button(action: {
-							
+							if selectedFileURLs.contains(file) {
+								if let index = selectedFileURLs.firstIndex(of: file) {
+									selectedFileURLs.remove(at: index)
+								}
+							} else {
+								selectedFileURLs.append(file)
+							}
 						}) {
-							AppTheme.shared.imageSet.checkedIcon
-								.resizable()
-								.frame(width: 32, height: 32)
+							Group {
+								if selectedFileURLs.contains(file) {
+									AppTheme.shared.imageSet.checkedIcon
+										.resizable()
+								} else {
+									AppTheme.shared.imageSet.unCheckIcon
+										.resizable()
+								}
+							}.frame(width: 32, height: 32)
 						}.padding(.trailing, 10)
 					}.padding(.top, 14)
 					Divider().foregroundColor(AppTheme.shared.colorSet.seperatorDefault)

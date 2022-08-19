@@ -86,9 +86,9 @@ public class MessageUtils {
 		} else {
 			switch index {
 			case 0:
-				return [.topLeft, .topRight, .bottomRight]
+				return [.topRight, .bottomRight, .bottomLeft]
 			case size - 1:
-				return [.topRight, .bottomLeft, .bottomRight]
+				return [.topLeft, .topRight, .bottomRight]
 			default:
 				return [.topRight, .bottomRight]
 			}

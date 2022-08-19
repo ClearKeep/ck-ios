@@ -304,6 +304,8 @@
 "Chat.YourFile" = "Your File";
 "Chat.AddFile" = "Add File";
 "Chat.NextButton" = "Next";
+"Chat.Error.FileLimit" = "Maximum number of attachments in a message reached (10)";
+"Chat.Error.FileSizeLimit" = "Your file cannot be larger than 1GB.";
 
 // MARK: - 2FA setting
 "2FA.Authentication.Fail.Error" = "Authentication failed. Please retry";

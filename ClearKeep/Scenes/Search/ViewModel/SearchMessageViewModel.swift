@@ -89,6 +89,14 @@ public struct SearchMessageViewModel: Identifiable, Equatable, IMessageViewModel
 			return ""
 		}
 	}
+	
+	public func getQuoteMessageId() -> String {
+		return ""
+	}
+	
+	public func getQuoteDateString() -> String {
+		return ""
+	}
 }
 
 private extension SearchMessageViewModel {

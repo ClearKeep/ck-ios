@@ -26,21 +26,24 @@ public struct MessageBubbleView: View {
 	
 	@State private var contentSizeThatFits: CGSize = .zero
 	var messageViewModel: IMessageViewModel
-	var userName: String?
 	var isGroup: Bool = false
 	var isShowAvatarAndUserName: Bool = false
 	var rectCorner: UIRectCorner
 	var onTapFile: (String) -> Void
 	var onTapLink: (URL) -> Void
+	var onTapQuoteMessage: (String) -> Void
 		
 	public init(messageViewModel: IMessageViewModel,
 				rectCorner: UIRectCorner,
 				onTapFile: @escaping (String) -> Void,
-				onTapLink: @escaping (URL) -> Void) {
+				onTapLink: @escaping (URL) -> Void,
+				onTapQuoteMessage: @escaping (String) -> Void) {
 		self.messageViewModel = messageViewModel
+		self.isGroup = messageViewModel.groupType == "group"
 		self.rectCorner = rectCorner
 		self.onTapFile = onTapFile
 		self.onTapLink = onTapLink
+		self.onTapQuoteMessage = onTapQuoteMessage
 	}
 	
 	public var body: some View {
@@ -89,7 +92,7 @@ private extension MessageBubbleView {
 				} else if messageViewModel.isFileMessage {
 					fileContentView
 				} else {
-					messageContentView
+					messageContentView(isMine: true)
 						.frame(width: Constants.maxWidthBuble, alignment: .trailing)
 				}
 			}
@@ -110,7 +113,7 @@ private extension MessageBubbleView {
 				} else if messageViewModel.isFileMessage {
 					fileContentView
 				} else {
-					messageContentView
+					messageContentView(isMine: false)
 						.frame(width: Constants.maxWidthBuble, alignment: .leading)
 				}
 				Spacer()
@@ -156,7 +159,7 @@ private extension MessageBubbleView {
 				}
 				Text(messageViewModel.getQuoteMessageReply())
 					.modifier(MessageTextViewModifier())
-					.background(commonUIConfig.colorSet.grey2)
+					.background(commonUIConfig.colorSet.primaryDefault)
 					.clipShape(BubbleArrow(rectCorner: rectCorner))
 					.foregroundColor(foregroundText)
 				
@@ -189,7 +192,7 @@ private extension MessageBubbleView {
 					Spacer()
 				}.padding(.top, Constants.spacer)
 				
-				messageContentView
+				messageContentView(isMine: false)
 					.padding(.leading, Constants.groupMessageLeadingSpacing)
 					.frame(width: Constants.maxWidthBuble, alignment: .leading)
 			}
@@ -251,21 +254,24 @@ private extension MessageBubbleView {
 	var quoteContentView: some View {
 		VStack(alignment: .leading, spacing: 10) {
 			clickableText(content: messageViewModel.getQuoteMessage(), textColor: UIColor(commonUIConfig.colorSet.grey2))
-			Text(messageViewModel.getQuoteMessageName() + " " + messageViewModel.dateCreatedString())
+			Text(messageViewModel.getQuoteMessageName() + " " + messageViewModel.getQuoteDateString())
 				.font(commonUIConfig.fontSet.font(style: .placeholder2))
 				.foregroundColor(commonUIConfig.colorSet.grey3)
 		}
 		.padding(.vertical, 8.0)
 		.padding(.horizontal, 24.0)
 		.background(quoteMessageBubbleBackground)
-		.clipShape(BubbleArrow(rectCorner: rectCorner))
+		.clipShape(QuoteBubbleArrow(rectCorner: rectCorner))
+		.onTapGesture {
+			onTapQuoteMessage(messageViewModel.getQuoteMessageId())
+		}
 	}
 	
-	var messageContentView: some View {
-		clickableText(content: messageViewModel.isForwardedMessage ? String(messageViewModel.message.dropFirst(3)) : messageViewModel.message, textColor: UIColor(foregroundText))
+	func messageContentView(isMine: Bool) -> some View {
+		return clickableText(content: messageViewModel.isForwardedMessage ? String(messageViewModel.message.dropFirst(3)) : messageViewModel.message, textColor: UIColor(foregroundText))
 			.padding(.vertical, 16.0)
 			.padding(.horizontal, 24.0)
-			.background(commonUIConfig.colorSet.grey2)
+			.background(isMine ? commonUIConfig.colorSet.grey2 : commonUIConfig.colorSet.primaryDefault)
 			.clipShape(BubbleArrow(rectCorner: rectCorner))
 	}
 	

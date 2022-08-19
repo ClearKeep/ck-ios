@@ -23,6 +23,8 @@ protocol IChatWorker {
 	func downloadFile(urlString: String) async -> Result<String, Error>
 	func getMessageFromLocal(groupId: Int64, ownerDomain: String, ownerId: String) -> Results<RealmMessage>?
 	func requestCall(groupId: Int64, isAudioCall: Bool, domain: String) async -> Result<CallServer, Error>
+	func saveDraftMessage(message: String, roomId: Int64, clientId: String, domain: String)
+	func getDraftMessage(roomId: Int64, clientId: String, domain: String) -> String?
 }
 
 struct ChatWorker {
@@ -118,5 +120,13 @@ extension ChatWorker: IChatWorker {
 	
 	func requestCall(groupId: Int64, isAudioCall: Bool, domain: String) async -> Result<CallServer, Error> {
 		return await remoteStore.requestCall(groupId: groupId, isAudioCall: isAudioCall, domain: domain)
+	}
+	
+	func saveDraftMessage(message: String, roomId: Int64, clientId: String, domain: String) {
+		inMemoryStore.saveDraftMessage(message: message, roomId: roomId, clientId: clientId, domain: domain)
+	}
+	
+	func getDraftMessage(roomId: Int64, clientId: String, domain: String) -> String? {
+		return inMemoryStore.getDraftMessage(roomId: roomId, clientId: clientId, domain: domain)
 	}
 }

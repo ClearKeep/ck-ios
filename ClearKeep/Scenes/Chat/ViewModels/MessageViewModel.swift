@@ -63,12 +63,16 @@ public struct MessageViewModel: Identifiable, Equatable, IMessageViewModel {
 		return MessageViewModel.dateString(from: dateCreated)
 	}
 	
+	public func getQuoteDateString() -> String {
+		return MessageViewModel.quoteDateString(from: getQuoteMessageTime())
+	}
+	
 	public func getQuoteMessage() -> String {
 		if isForwardedMessage {
 			return String(message.dropFirst(3))
 		}
 		let parts = message.dropFirst(3).split(separator: "|")
-		if parts.count == 4 {
+		if parts.count == 5 {
 			return String(parts[1])
 		} else {
 			return message
@@ -77,8 +81,8 @@ public struct MessageViewModel: Identifiable, Equatable, IMessageViewModel {
 	
 	public func getQuoteMessageReply() -> String {
 		let parts = message.dropFirst(3).split(separator: "|")
-		if parts.count == 4 {
-			return String(parts[3])
+		if parts.count == 5 {
+			return String(parts[4])
 		} else {
 			return ""
 		}
@@ -86,7 +90,7 @@ public struct MessageViewModel: Identifiable, Equatable, IMessageViewModel {
 	
 	public func getQuoteMessageTime() -> String {
 		let parts = message.dropFirst(3).split(separator: "|")
-		if parts.count == 4 {
+		if parts.count == 5 {
 			return String(parts[2])
 		} else {
 			return ""
@@ -95,8 +99,17 @@ public struct MessageViewModel: Identifiable, Equatable, IMessageViewModel {
 	
 	public func getQuoteMessageName() -> String {
 		let parts = message.dropFirst(3).split(separator: "|")
-		if parts.count == 4 {
+		if parts.count == 5 {
 			return String(parts[0])
+		} else {
+			return ""
+		}
+	}
+	
+	public func getQuoteMessageId() -> String {
+		let parts = message.dropFirst(3).split(separator: "|")
+		if parts.count == 5 {
+			return String(parts[3])
 		} else {
 			return ""
 		}
@@ -108,6 +121,14 @@ private extension MessageViewModel {
 		let date = NSDate(timeIntervalSince1970: TimeInterval(miliseconds / 1000))
 		let formatDate = DateFormatter()
 		formatDate.dateFormat = "HH:mm"
+		return formatDate.string(from: date as Date)
+	}
+	
+	static func quoteDateString(from miliseconds: String) -> String {
+		guard let dateMilliseconds = Int64(miliseconds) else { return "" }
+		let date = NSDate(timeIntervalSince1970: TimeInterval(dateMilliseconds / 1000))
+		let formatDate = DateFormatter()
+		formatDate.dateFormat = "HH:mm dd/MM"
 		return formatDate.string(from: date as Date)
 	}
 	

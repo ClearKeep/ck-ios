@@ -110,8 +110,8 @@ private extension ForwardView {
 						allGroups = groups
 						firstTimeSearch = false
 					}
-					groups = allGroups.filter { $0.groupModel.groupName.lowercased().contains(searchText) }
-					users = allUsers.filter { $0.groupModel.groupName.lowercased().contains(searchText) }
+					groups = allGroups.filter { $0.groupModel.groupName.lowercased().contains(searchText.trimmingCharacters(in: .whitespaces).lowercased()) }
+					users = allUsers.filter { $0.groupModel.groupName.lowercased().contains(searchText.trimmingCharacters(in: .whitespaces).lowercased()) }
 					if searchText == "" {
 						users = allUsers
 						groups = allGroups

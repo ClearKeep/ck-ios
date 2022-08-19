@@ -42,6 +42,6 @@ public extension String {
 		for index in self.asciiArray {
 			hash = 31 &* hash &+ Int32(index)
 		}
-		return hash
+		return abs(hash)
 	}
 }
