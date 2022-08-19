@@ -162,7 +162,11 @@ extension AppDelegate: PKPushRegistryDelegate {
 				completion()
 			}
 		}
-
+		
+		if notifiType == "accept_request_call" {
+			CallManager.shared.handleAcceptCall(payload: payload)
+		}
+		
 		CallManager.shared.endCall = {[weak self] call in
 			guard let self = self else { return }
 			if call.isCallGroup {
@@ -171,6 +175,16 @@ extension AppDelegate: PKPushRegistryDelegate {
 			
 			Task {
 				await self.systemEventsHandler?.container.interactors.peerCallInteractor.updateVideoCall(groupID: call.roomRtcId, callType: .cancelRequestCall)
+			}
+		}
+		
+		CallManager.shared.acceptCall = {[weak self] call in
+			guard let call = call,
+				  let self = self else {
+				return
+			}
+			Task {
+				await self.systemEventsHandler?.container.interactors.peerCallInteractor.updateVideoCall(groupID: call.roomRtcId, callType: .acceptCall)
 			}
 		}
 	}
