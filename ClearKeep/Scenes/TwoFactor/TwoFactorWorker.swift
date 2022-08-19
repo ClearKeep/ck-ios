@@ -17,7 +17,7 @@ protocol ITwoFactorWorker {
 	func validateOTP(otp: String) async -> Result<Bool, Error>
 	func validatePassword(password: String) async -> Result<Bool, Error>
 	func resendOTP() async -> Result<Bool, Error>
-	func resendLoginOTP(userId: String, otpHash: String, domain: String) async -> Result<Bool, Error>
+	func resendLoginOTP(userId: String, otpHash: String, domain: String) async -> Result<String, Error>
 	func validateLoginOTP(password: String, userId: String, otpHash: String, otp: String, domain: String) async -> Result<Bool, Error>
 }
 
@@ -50,7 +50,7 @@ extension TwoFactorWorker: ITwoFactorWorker {
 		return await remoteStore.validatePassword(password: password, domain: currentDomain)
 	}
 	
-	func resendLoginOTP(userId: String, otpHash: String, domain: String) async -> Result<Bool, Error> {
+	func resendLoginOTP(userId: String, otpHash: String, domain: String) async -> Result<String, Error> {
 		return await remoteStore.resendLoginOTP(userId: userId, otpHash: otpHash, domain: domain)
 	}
 	

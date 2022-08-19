@@ -87,8 +87,8 @@ private extension TwoFactorView {
 						  message: Text(error.message),
 						  dismissButton: .default(Text(error.primaryButtonTitle)))
 				}
-		case .wrongOTP:
-			return AnyView(TwoFactorContentView(loadable: $loadable, twoFactorType: twoFactorType))
+		case .wrongOTP, .expiredOTP:
+			return AnyView(TwoFactorContentView(loadable: $loadable, otpHash: otpHash, userId: userId, domain: domain, password: password, twoFactorType: twoFactorType))
 				.alert(isPresented: .constant(true)) {
 					Alert(title: Text(error.title),
 						  message: Text(error.message),

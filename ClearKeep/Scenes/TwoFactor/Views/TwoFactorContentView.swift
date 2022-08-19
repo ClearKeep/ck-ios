@@ -29,7 +29,7 @@ struct TwoFactorContentView: View {
 	@State private var otp: String = ""
 	@State private var otpStyle: TextInputStyle = .default
 	@State private var isToHome: Bool = false
-	private(set) var otpHash: String = ""
+	@State private(set) var otpHash: String = ""
 	private(set) var userId: String = ""
 	private(set) var domain: String = ""
 	private(set) var password: String = ""
@@ -206,7 +206,7 @@ private extension TwoFactorContentView {
 	func doResendOTP() {
 		Task {
 			if twoFactorType == .login {
-				await injected.interactors.twoFactorInteractor.resendLoginOTP(loadable: $loadable, userId: userId, otpHash: otpHash, domain: domain)
+				otpHash = await injected.interactors.twoFactorInteractor.resendLoginOTP(loadable: $loadable, userId: userId, otpHash: otpHash, domain: domain)
 			} else {
 				await injected.interactors.twoFactorInteractor.resendOTP(loadable: $loadable)
 			}
