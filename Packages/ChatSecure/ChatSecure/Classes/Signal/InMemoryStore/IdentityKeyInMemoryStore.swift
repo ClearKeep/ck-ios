@@ -17,7 +17,7 @@ final class IdentityKeyInMemoryStore {
 	// MARK: - Variables
 	private let storage: YapDatabaseManager
 	private let channelStorage: ChannelStorage
-	private var identityKey: SignalIdentityKey?
+	private var identityKeys: [String: SignalIdentityKey] = [:]
 	private var publicKeys: [ProtocolAddress: IdentityKey] = [:]
 	
 	// MARK: - Init
@@ -31,10 +31,13 @@ final class IdentityKeyInMemoryStore {
 			let currrentServer = channelStorage.realmManager.getCurrentServer()
 			let clientId = currrentServer?.profile?.userId ?? ""
 			let domain = currrentServer?.serverDomain ?? ""
+			if let tempKey = identityKeys[clientId + domain] {
+				return tempKey
+			}
 			let jsonDecoder = JSONDecoder()
 			if let keyData: Data = storage.object(forKey: clientId + domain, collection: .domain(domain)) {
 				let key = try jsonDecoder.decode(SignalIdentityKey.self, from: keyData)
-				identityKey = key
+				identityKeys[clientId + domain] = key
 				return key
 			} else {
 				return nil
@@ -65,21 +68,18 @@ extension IdentityKeyInMemoryStore: IIdentityKeyInMemoryStore {
 	func saveUserIdentity(identity: SignalIdentityKey) throws {
 		let jsonEncoder = JSONEncoder()
 		let identityData = try jsonEncoder.encode(identity)
-		identityKey = identity
+		let currrentServer = channelStorage.realmManager.getCurrentServer()
+		let clientId = currrentServer?.profile?.userId ?? ""
+		let domain = currrentServer?.serverDomain ?? ""
+		identityKeys[clientId + domain] = identity
 		storage.insert(identityData, forKey: identity.userId + identity.domain, collection: .domain(identity.domain))
 	}
-
+	
 	func identityKeyPair(context: StoreContext) throws -> IdentityKeyPair {
-		if let indentityKeyPair = identityKey?.identityKeyPair {
-			return try IdentityKeyPair(bytes: indentityKeyPair)
-		}
 		return try getIdentityKeyPair()
 	}
 	
 	func localRegistrationId(context: StoreContext) throws -> UInt32 {
-		if let id = identityKey?.registrationId {
-			return id
-		}
 		return try getRegistrationId()
 	}
 	
