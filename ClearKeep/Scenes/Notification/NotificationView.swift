@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Common
+import CommonUI
 
 private enum Constants {
 	static let spacer = 25.0
@@ -26,16 +27,10 @@ struct NotificationView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) private var colorScheme
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
-	@State private(set) var samples: Loadable<[IServerSettingModel]>
-	@State private(set) var isShowUserProfile = false
-	@State private(set) var isShowPreview = true
-	@State private(set) var isShowDisturb = true
+	@State private(set) var samples: Loadable<[IServerSettingModel]> = .notRequested
+	@AppStorage("preview") private var isShowPreview = true
+	@AppStorage("disturb") private var isShowDisturb = true
 
-	// MARK: - Init
-	init(samples: Loadable<[IServerSettingModel]> = .notRequested) {
-		self._samples = .init(initialValue: samples)
-	}
-	
 	// MARK: - Body
 	var body: some View {
 		VStack(spacing: Constants.spacer) {
@@ -43,9 +38,7 @@ struct NotificationView: View {
 				.frame(maxWidth: .infinity, maxHeight: Constants.heightBackground)
 			VStack(spacing: Constants.spacer) {
 				HStack {
-					Button(action: {
-						self.presentationMode.wrappedValue.dismiss()
-					}, label: {
+					Button(action: backAction, label: {
 						AppTheme.shared.imageSet.crossIcon
 							.foregroundColor(foregroundCrossButton)
 					})
@@ -57,40 +50,51 @@ struct NotificationView: View {
 					.frame(maxWidth: .infinity, alignment: .leading)
 					.font(AppTheme.shared.fontSet.font(style: .body1))
 
-				VStack {
-					HStack {
-						Text("Notification.Preview".localized)
-							.font(AppTheme.shared.fontSet.font(style: .placeholder1))
-							.foregroundColor(foregroundNotificationTitle)
-						Toggle("", isOn: $isShowPreview)
-							.toggleStyle(SwitchToggleStyle(tint: AppTheme.shared.colorSet.primaryDefault))
-					}
+				VStack(alignment: .leading) {
+					ToggleCustom(text: "Notification.Preview".localized, isChecked: $isShowPreview)
+						.onChange(of: isShowPreview) { _ in
+							changeStatusPreview()
+						}
 					Text("Notification.Preview.Title".localized)
 						.font(AppTheme.shared.fontSet.font(style: .placeholder3))
 						.foregroundColor(foregroundShowPreviewTitle)
 						.padding(.trailing, Constants.paddingTitlePreview)
 				}
-
-				HStack {
-					Text("Notification.Disturb".localized)
-						.font(AppTheme.shared.fontSet.font(style: .placeholder1))
-						.foregroundColor(foregroundNotificationTitle)
-					Toggle("", isOn: $isShowDisturb)
-						.toggleStyle(SwitchToggleStyle(tint: AppTheme.shared.colorSet.primaryDefault))
+				ToggleCustom(text: "Notification.Disturb".localized, isChecked: $isShowDisturb).onChange(of: isShowDisturb) { _ in
+					changeStatusDistub()
 				}
 				Spacer()
 			}
 			.padding(.horizontal, Constants.paddingHorizontal)
 		}
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		.navigationBarBackButtonHidden(true)
 		.edgesIgnoringSafeArea(.all)
-		.onReceive(inspection.notice) { inspection.visit(self, $0) }
+		.hiddenNavigationBarStyle()
 	}
 }
 
 // MARK: - Interactor
 private extension NotificationView {
+
+	func backAction() {
+		self.presentationMode.wrappedValue.dismiss()
+	}
+
+	func unregisterForRemoteNotifications() {
+		UIApplication.shared.unregisterForRemoteNotifications()
+	}
+
+	func registerForRemoteNotifications() {
+		UIApplication.shared.registerForRemoteNotifications()
+	}
+
+	func changeStatusDistub() {
+		isShowDisturb ? registerForRemoteNotifications() : unregisterForRemoteNotifications()
+	}
+
+	func changeStatusPreview() {
+		isShowPreview.toggle()
+	}
 }
 
 // MARK: - Colors

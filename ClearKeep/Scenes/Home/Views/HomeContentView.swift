@@ -42,41 +42,44 @@ struct HomeContentView: View {
 				.padding()
 				.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
 			})
-			.frame(height: Constants.searchHeight)
-			.background(colorScheme == .light ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.darkgrey3)
-			.cornerRadius(Constants.cornerRadius)
-			ScrollView {
-				ListGroupView(title: "Home.GroupChat".localized + " (\(groups.count)) ",
-							  groups: groups,
-							  action: { isCreateGroup.toggle() }, onChooseGroup: { group in
-					selectedGroup = group
-					isNext.toggle()
-				},
-							  isExpand: $isExpandGroup)
-				
-				ListGroupView(title: "Home.DirectMessages".localized + " (\(peers.count)) ",
-							  groups: peers,
-							  action: { isCreateMessage.toggle() },
-							  onChooseGroup: { group in
-					selectedGroup = group
-					isNext.toggle()
-				}, isExpand:
-								$isExpandDirectMessage)
+				.frame(height: Constants.searchHeight)
+				.background(colorScheme == .light ? AppTheme.shared.colorSet.grey5 : AppTheme.shared.colorSet.darkgrey3)
+				.cornerRadius(Constants.cornerRadius)
+			ScrollView(.vertical, showsIndicators: false) {
+				VStack {
+					ListGroupView(title: "Home.GroupChat".localized + " (\(groups.count)) ",
+								  groups: groups,
+								  action: { isCreateGroup.toggle() },
+								  onChooseGroup: { group in
+						selectedGroup = group
+						isNext.toggle()
+					},
+								  isExpand: $isExpandGroup)
+
+					ListGroupView(title: "Home.DirectMessages".localized + " (\(peers.count)) ",
+								  groups: peers,
+								  action: { isCreateMessage.toggle() },
+								  onChooseGroup: { group in
+						selectedGroup = group
+						isNext.toggle()
+					}, isExpand:
+									$isExpandDirectMessage)
+				}
+				NavigationLink(destination: ChatView(messageText: "", inputStyle: .default, groupId: selectedGroup?.groupId ?? 0, avatarLink: selectedGroup?.avatar ?? ""),
+							   isActive: $isNext) {
+					
+				}.buttonStyle(.plain)
+
+				NavigationLink(destination: CreateDirectMessageView(groups: peers),
+							   isActive: $isCreateMessage) {}
+
+				NavigationLink(destination: ChatGroupView(),
+							   isActive: $isCreateGroup) {}
+
+				NavigationLink(destination: SearchView(serverText: serverName),
+							   isActive: $isSearchView) {}
 			}
 		}
-		NavigationLink(destination: ChatView(messageText: "", inputStyle: .default, groupId: selectedGroup?.groupId ?? 0, avatarLink: selectedGroup?.avatar ?? ""),
-					   isActive: $isNext) {
-			
-		}.buttonStyle(.plain)
-		
-		NavigationLink(destination: CreateDirectMessageView(groups: peers),
-					   isActive: $isCreateMessage) {}
-		
-		NavigationLink(destination: ChatGroupView(),
-					   isActive: $isCreateGroup) {}
-
-		NavigationLink(destination: SearchView(serverText: serverName),
-					   isActive: $isSearchView) {}
 	}
 }
 
