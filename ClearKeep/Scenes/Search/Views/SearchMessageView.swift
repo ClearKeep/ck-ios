@@ -34,7 +34,7 @@ struct SearchMessageView: View {
 		ForEach(dataMessages, id: \.id) { item in
 			VStack(alignment: .leading, spacing: Constants.paddingVstack) {
 				NavigationLink(
-					destination: EmptyView(),
+					destination: ChatView(inputStyle: .default, groupId: item.groupId, avatarLink: ""),
 					isActive: $isMessageChat,
 					label: {
 						HStack(spacing: Constants.spacingHstack) {

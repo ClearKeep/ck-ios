@@ -127,7 +127,7 @@ struct HomeView: View {
 	@State private var isShowError: Bool = false
 	@State private var error: HomeErrorView?
 	@State private var isInCall = false
-	
+	@AppStorage("preview") private var isPreviewBanner: Bool?
 	let inspection = ViewInspector<Self>()
 
 	// MARK: - Body
@@ -167,13 +167,17 @@ struct HomeView: View {
 						label: {
 						})
 				}
+				.edgesIgnoringSafeArea(.bottom)
+				.progressHUD(isLoading)
 				.hiddenNavigationBarStyle()
 				
 				if isShowMenu {
 					LinearGradient(gradient: Gradient(colors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary.compactMap({ $0.opacity(Constants.opacity) }) : AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
 						.blur(radius: Constants.blur)
 						.edgesIgnoringSafeArea(.vertical)
-					MenuView(isShowMenu: $isShowMenu, user: $user, chageStatus: { status in
+					MenuView(isShowMenu: $isShowMenu,
+							 user: $user,
+							 chageStatus: { status in
 						self.changeStatus(status: status)
 					}, servers: $servers)
 						.frame(width: geometry.size.width)
@@ -184,7 +188,6 @@ struct HomeView: View {
 						.padding(.top, Constants.paddingMenu)
 				}
 			}
-			.hiddenNavigationBarStyle()
 			.onAppear(perform: getServers)
 			.onAppear(perform: getServerInfo)
 			.onReceive(NotificationCenter.default.publisher(for: NSNotification.reloadDataHome, object: nil), perform: { _ in
@@ -207,18 +210,26 @@ struct HomeView: View {
 					if message.groupType == "group" {
 						let groupName = injected.interactors.homeInteractor.getGroupName(groupID: message.groupId)
 						let senderName = injected.interactors.homeInteractor.getSenderName(fromClientId: message.senderId, groupID: message.groupId)
-						self.messageData = MessagerBannerViewModifier.MessageData(groupName: groupName, senderName: senderName, message: message.message)
+						if isPreviewBanner ?? true {
+							self.messageData = MessagerBannerViewModifier.MessageData(groupName: groupName, senderName: senderName, message: "General.Message.Banner.Preview".localized)
+						} else {
+							self.messageData = MessagerBannerViewModifier.MessageData(groupName: groupName, senderName: senderName, message: message.message)
+						}
 					} else {
 						let senderName = injected.interactors.homeInteractor.getSenderName(fromClientId: message.senderId, groupID: message.groupId)
-						self.messageData = MessagerBannerViewModifier.MessageData(senderName: senderName, message: message.message)
+						if isPreviewBanner ?? true {
+							self.messageData = MessagerBannerViewModifier.MessageData(senderName: senderName, message: "General.Message.Banner.Preview".localized)
+						} else {
+							self.messageData = MessagerBannerViewModifier.MessageData(senderName: senderName, message: message.message)
+						}
 					}
 					self.selectedGroupId = message.groupId
 					self.showMessageBanner = true
 				}
 			}
 			.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
-			.hiddenNavigationBarStyle()
 		}
+		.hiddenNavigationBarStyle()
 		.alert(isPresented: $isShowError) {
 			Alert(title: Text(self.error?.title ?? ""),
 				  message: Text(self.error?.message ?? ""),
@@ -247,7 +258,7 @@ private extension HomeView {
 				}
 			}).progressHUD(isLoading))
 		} else {
-			return AnyView(HomeContentView(groups: $groups, peers: $peers, serverName: .constant(serverName), isExpandGroup: $isExpandGroup, isExpandDirectMessage: $isExpandDirectMessage).progressHUD(isLoading))
+			return AnyView(HomeContentView(groups: $groups, peers: $peers, serverName: .constant(serverName), isExpandGroup: $isExpandGroup, isExpandDirectMessage: $isExpandDirectMessage))
 		}
 	}
 	
@@ -271,6 +282,7 @@ private extension HomeView {
 	}
 	
 	func getServerInfo() {
+		self.loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
 			loadable = await injected.interactors.homeInteractor.getServerInfo()
 		}
