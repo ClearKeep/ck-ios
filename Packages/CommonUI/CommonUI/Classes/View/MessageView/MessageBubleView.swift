@@ -88,9 +88,9 @@ private extension MessageBubbleView {
 					dateCreatedView
 				}
 				if messageViewModel.isImageMessage {
-					imageContentView
+					imageContentView(isMine: true)
 				} else if messageViewModel.isFileMessage {
-					fileContentView
+					fileContentView(isMine: true)
 				} else {
 					messageContentView(isMine: true)
 						.frame(width: Constants.maxWidthBuble, alignment: .trailing)
@@ -109,9 +109,9 @@ private extension MessageBubbleView {
 			}
 			HStack {
 				if messageViewModel.isImageMessage {
-					imageContentView
+					imageContentView(isMine: false)
 				} else if messageViewModel.isFileMessage {
-					fileContentView
+					fileContentView(isMine: false)
 				} else {
 					messageContentView(isMine: false)
 						.frame(width: Constants.maxWidthBuble, alignment: .leading)
@@ -303,8 +303,8 @@ private extension MessageBubbleView {
 		)
 	}
 	
-	var imageContentView: some View {
-		VStack(alignment: messageViewModel.isMine ? .trailing : .leading, spacing: 0) {
+	func imageContentView(isMine: Bool) -> some View {
+		return VStack(alignment: messageViewModel.isMine ? .trailing : .leading, spacing: 0) {
 			MessageImageView(listImageURL: MessageUtils.getImageUriStrings(content: messageViewModel.message), fromClientName: messageViewModel.fromClientName)
 			if let message = MessageUtils.getImageMessageContent(content: messageViewModel.message) {
 				Text(message)
@@ -315,11 +315,11 @@ private extension MessageBubbleView {
 					.foregroundColor(foregroundText)
 			}
 		}
-		.background(commonUIConfig.colorSet.grey2)
+		.background(isMine ? commonUIConfig.colorSet.grey2 : commonUIConfig.colorSet.primaryDefault)
 		.clipShape(BubbleArrow(rectCorner: rectCorner))
 	}
 	
-	var fileContentView: some View {
+	func fileContentView(isMine: Bool) -> some View {
 		let listFileUrl = MessageUtils.getFileUriStrings(content: messageViewModel.message)
 		return VStack(alignment: .leading, spacing: 16) {
 			ForEach(listFileUrl, id: \.self) { fileUrl in
@@ -340,7 +340,7 @@ private extension MessageBubbleView {
 			}
 		}.padding(.horizontal, 24)
 			.padding(.vertical, 16)
-			.background(commonUIConfig.colorSet.grey2)
+			.background(isMine ? commonUIConfig.colorSet.grey2 : commonUIConfig.colorSet.primaryDefault)
 			.clipShape(BubbleArrow(rectCorner: rectCorner))
 	}
 }

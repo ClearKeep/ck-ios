@@ -127,7 +127,7 @@ extension SubscribeAndListenService: ISubscribeAndListenService {
 		}
 		messageModel.message = decryptedMessage
 		channelStorage.realmManager.saveMessage(message: RealmMessage(message: messageModel))
-		let userInfo: [String: Any] = ["clientId": ownerId, "message": messageModel]
+		let userInfo: [String: Any] = ["domain": domain, "message": messageModel]
 		
 		DispatchQueue.main.async {
 			NotificationCenter.default.post(name: NSNotification.Name.SubscribeAndListenService.didReceiveMessage,

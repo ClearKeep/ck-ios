@@ -189,11 +189,13 @@ struct ChatView: View {
 		})
 		.onAppear {
 			if isFirstLoadData {
+				DependencyResolver.shared.messageService.updateCurrentRoom(roomId: groupId)
 				updateGroup()
 				isFirstLoadData = false
 			}
 		}
 		.onDisappear {
+			DependencyResolver.shared.messageService.updateCurrentRoom(roomId: 0)
 			injected.interactors.chatInteractor.saveDraftMessage(message: messageText, roomId: groupId)
 			notificationToken?.invalidate()
 		}
@@ -657,10 +659,18 @@ private extension ChatView {
 	
 	func loadLocalMessage() {
 		messages = injected.interactors.chatInteractor.getMessageFromLocal(groupId: groupId)
-
+		if messages?.count ?? 0 < 20 {
+			isEndOfPage = true
+		}
+		messages?.forEach({ message in
+			dataMessages.append(MessageViewModel(data: message, members: group?.groupMembers ?? []))
+		})
 		notificationToken = messages?.observe({ changes in
 			switch changes {
 			case .initial:
+				if dataMessages.count > 0 {
+					return
+				}
 				if messages?.count ?? 0 < 20 {
 					isEndOfPage = true
 				}

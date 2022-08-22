@@ -28,6 +28,7 @@ struct HomeView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.joinServerClosure) private var joinServerClosure: JoinServerClosure
 	@State private var selectedGroupId: Int64 = 0
+	@State private var selectedNotiDomain: String = ""
 	@State private var showMessageBanner: Bool = false
 	@State private var messageData: MessagerBannerViewModifier.MessageData?
 	@State private(set) var isExpandGroup: Bool = false
@@ -51,7 +52,7 @@ struct HomeView: View {
 					isFirstShowGroup = true
 					isExpandGroup = true
 				}
-
+				
 				if !peers.isEmpty && !isFirstShowPeer {
 					isFirstShowPeer = true
 					isExpandDirectMessage = true
@@ -94,7 +95,7 @@ struct HomeView: View {
 			}
 		}
 	}
-
+	
 	@State private(set) var loadableUrl: Loadable<Bool> = .notRequested {
 		didSet {
 			switch loadableUrl {
@@ -129,7 +130,7 @@ struct HomeView: View {
 	@State private var isInCall = false
 	@AppStorage("preview") private var isPreviewBanner: Bool?
 	let inspection = ViewInspector<Self>()
-
+	
 	// MARK: - Body
 	var body: some View {
 		NavigationView {
@@ -180,12 +181,12 @@ struct HomeView: View {
 							 chageStatus: { status in
 						self.changeStatus(status: status)
 					}, servers: $servers)
-						.frame(width: geometry.size.width)
-						.offset(x: isShowMenu ? 0 : geometry.size.width * 2)
-						.transition(.move(edge: .trailing))
-						.animation(.default, value: Constants.duration)
-						.ignoresSafeArea()
-						.padding(.top, Constants.paddingMenu)
+					.frame(width: geometry.size.width)
+					.offset(x: isShowMenu ? 0 : geometry.size.width * 2)
+					.transition(.move(edge: .trailing))
+					.animation(.default, value: Constants.duration)
+					.ignoresSafeArea()
+					.padding(.top, Constants.paddingMenu)
 				}
 			}
 			.onAppear(perform: getServers)
@@ -206,7 +207,11 @@ struct HomeView: View {
 			.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.SubscribeAndListenService.didReceiveMessage)) { (obj) in
 				print("received message banner...... \(obj)")
 				if let userInfo = obj.userInfo,
+				   let ownerDomain = userInfo["domain"] as? String,
 				   let message = userInfo["message"] as? IMessageModel {
+					if DependencyResolver.shared.messageService.currentRoomId == message.groupId {
+						return
+					}
 					if message.groupType == "group" {
 						let groupName = injected.interactors.homeInteractor.getGroupName(groupID: message.groupId)
 						let senderName = injected.interactors.homeInteractor.getSenderName(fromClientId: message.senderId, groupID: message.groupId)
@@ -224,6 +229,7 @@ struct HomeView: View {
 						}
 					}
 					self.selectedGroupId = message.groupId
+					self.selectedNotiDomain = ownerDomain
 					self.showMessageBanner = true
 				}
 			}
@@ -236,6 +242,7 @@ struct HomeView: View {
 				  dismissButton: .default(Text(error?.primaryButtonTitle ?? "")))
 		}
 		.messagerBannerModifier(data: $messageData, show: $showMessageBanner, onTap: {
+			servers = injected.interactors.homeInteractor.didSelectServer(selectedNotiDomain)
 			navigateToChat = true
 		})
 		.inCallModifier(callViewModel: callViewModel, isInCall: $isInCall)

@@ -11,8 +11,12 @@ import Common
 import SignalServiceKit
 import LibSignalClient
 import SwiftSRP
-
+// swiftlint:disable function_body_length
 public protocol IMessageService {
+	var currentRoomId: Int64 { get set }
+	
+	func updateCurrentRoom(roomId: Int64)
+	
 	func sendMessageInPeer(senderId: String,
 						   ownerDomain: String,
 						   receiverId: String,
@@ -52,9 +56,16 @@ public class MessageService {
 		self.signalStore = signalStore
 		self.senderStore = senderStore
 	}
+	
+	public var currentRoomId: Int64 = 0
 }
 
 extension MessageService: IMessageService {
+	
+	public func updateCurrentRoom(roomId: Int64) {
+		self.currentRoomId = roomId
+	}
+	
 	public func sendMessageInPeer(senderId: String, ownerDomain: String, receiverId: String, receiverDomain: String, groupId: Int64, plainMessage: String, isForceProcessKey: Bool, cachedMessageId: Int) async -> Result<RealmMessage, Error> {
 		Debug.DLog("sendMessageInPeer: receivcerId: \(receiverId), groupID: \(groupId)")
 		do {
@@ -150,10 +161,10 @@ extension MessageService: IMessageService {
 			}
 			
 			await messageRespone.lstMessage.asyncForEach({ message in
+				var decryptedMessage = ""
 				if let oldMessage = channelStorage.realmManager.getMessage(messageId: message.id) {
-					realmMessages.append(oldMessage)
+					decryptedMessage = oldMessage.message
 				} else {
-					var decryptedMessage = ""
 					if isGroup {
 						decryptedMessage = await decryptGroupMessage(senderId: message.fromClientID, senderDomain: message.fromClientWorkspaceDomain, ownerId: ownerId, ownerDomain: ownerDomain, groupID: groupId, message: message.message) ?? ""
 					} else {
@@ -163,20 +174,19 @@ extension MessageService: IMessageService {
 							decryptedMessage = decryptPeerMessage(senderName: "\(message.fromClientWorkspaceDomain)_\(message.fromClientID)", message: message.message, messageId: message.id) ?? ""
 						}
 					}
-					
-					let realmMessage = RealmMessage()
-					realmMessage.ownerDomain = ownerDomain
-					realmMessage.createdTime = message.createdAt
-					realmMessage.groupId = message.groupID
-					realmMessage.receiverId = message.clientID
-					realmMessage.groupType = message.groupType
-					realmMessage.senderId = message.fromClientID
-					realmMessage.messageId = message.id
-					realmMessage.updatedTime = message.updatedAt
-					realmMessage.ownerClientId = ownerId
-					realmMessage.message = decryptedMessage
-					realmMessages.append(realmMessage)
 				}
+				let realmMessage = RealmMessage()
+				realmMessage.ownerDomain = ownerDomain
+				realmMessage.createdTime = message.createdAt
+				realmMessage.groupId = message.groupID
+				realmMessage.receiverId = message.clientID
+				realmMessage.groupType = message.groupType
+				realmMessage.senderId = message.fromClientID
+				realmMessage.messageId = message.id
+				realmMessage.updatedTime = message.updatedAt
+				realmMessage.ownerClientId = ownerId
+				realmMessage.message = decryptedMessage
+				realmMessages.append(realmMessage)
 			})
 			if !realmMessages.isEmpty {
 				channelStorage.realmManager.saveMessages(messages: realmMessages)
