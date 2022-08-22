@@ -11,6 +11,7 @@ import Model
 
 public protocol ISubscribeAndListenService {
 	func subscribe(_ server: RealmServer)
+	func unSubscribe(_ server: RealmServer)
 }
 
 public class SubscribeAndListenService {
@@ -41,6 +42,25 @@ extension SubscribeAndListenService: ISubscribeAndListenService {
 			self.notificationListen(deviceID: deviceId, domain: server.serverDomain)
 		}
 	}
+
+	public func unSubscribe(_ server: RealmServer) {
+		guard let ownerId = server.profile?.userId else { return }
+		let deviceId = clientStore.getUniqueDeviceId()
+		var messageRequest = Message_UnSubscribeRequest()
+		messageRequest.deviceID = deviceId
+		channelStorage.getChannel(domain: server.serverDomain).unSubscribe(messageRequest) {
+			print("unSubscribe message channel success")
+			self.messageListen(deviceID: deviceId, domain: server.serverDomain, ownerId: ownerId)
+		}
+
+		var notificationRequest = Notification_UnSubscribeRequest()
+		notificationRequest.deviceID = deviceId
+		channelStorage.getChannel(domain: server.serverDomain).unSubscribe(notificationRequest) {
+			print("unSubscribe notification channel success")
+			self.notificationListen(deviceID: deviceId, domain: server.serverDomain)
+		}
+	}
+
 	
 	private func messageListen(deviceID: String, domain: String, ownerId: String) {
 		var request = Message_ListenRequest()

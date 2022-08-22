@@ -12,7 +12,7 @@ public protocol IMessageAPIService {
 	func getMessage(_ request: Message_GetMessagesInGroupRequest) async -> Result<Message_GetMessagesInGroupResponse, Error>
 	func getMessageWorkspace(_ request: Message_WorkspaceGetMessagesInGroupRequest) async -> Result<Message_GetMessagesInGroupResponse, Error>
 	func subscribe(_ request: Message_SubscribeRequest, completion:@escaping (() -> Void))
-	func unSubscribe(_ request: Message_UnSubscribeRequest, completion: @escaping (Result<Message_BaseResponse, Error>) -> Void)
+	func unSubscribe(_ request: Message_UnSubscribeRequest, completion: @escaping (() -> Void))
 	func listen(_ request: Message_ListenRequest, completion: @escaping (Result<Message_MessageObjectResponse, Error>) -> Void)
 	func sendMessage(_ request: Message_PublishRequest) async -> Result<Message_MessageObjectResponse, Error>
 	func sendMessageWorkspace(_ request: Message_WorkspacePublishRequest) async -> Result<Message_MessageObjectResponse, Error>
@@ -72,23 +72,15 @@ extension APIService: IMessageAPIService {
 		}
 	}
 	
-	public func unSubscribe(_ request: Message_UnSubscribeRequest, completion: @escaping (Result<Message_BaseResponse, Error>) -> Void) {
-		let caller = clientMessage.unSubscribe(request, callOptions: callOptions)
+	public func unSubscribe(_ request: Message_UnSubscribeRequest, completion: @escaping (() -> Void)) {
+		let caller = clientMessage.unSubscribe(request, callOptions: callOptions).response
 		
-		caller.status.whenComplete({ result in
-			switch result {
-			case .success(let status):
-				if status.isOk {
-					caller.response.whenComplete { result in
-						completion(result)
-					}
-				} else {
-					completion(.failure(ServerError(status)))
-				}
-			case .failure(let error):
-				completion(.failure(ServerError(error)))
-			}
-		})
+		caller.whenComplete { (_) in
+			completion()
+		}
+		caller.whenFailure { error in
+			print("\(error) subscribe signal failed")
+		}
 	}
 	
 	public func listen(_ request: Message_ListenRequest, completion: @escaping (Result<Message_MessageObjectResponse, Error>) -> Void) {

@@ -211,16 +211,16 @@ struct HomeView: View {
 						let groupName = injected.interactors.homeInteractor.getGroupName(groupID: message.groupId)
 						let senderName = injected.interactors.homeInteractor.getSenderName(fromClientId: message.senderId, groupID: message.groupId)
 						if isPreviewBanner ?? true {
-							self.messageData = MessagerBannerViewModifier.MessageData(groupName: groupName, senderName: senderName, message: "General.Message.Banner.Preview".localized)
-						} else {
 							self.messageData = MessagerBannerViewModifier.MessageData(groupName: groupName, senderName: senderName, message: message.message)
+						} else {
+							self.messageData = MessagerBannerViewModifier.MessageData(groupName: groupName, senderName: senderName, message: "General.Message.Banner.Preview".localized)
 						}
 					} else {
 						let senderName = injected.interactors.homeInteractor.getSenderName(fromClientId: message.senderId, groupID: message.groupId)
 						if isPreviewBanner ?? true {
-							self.messageData = MessagerBannerViewModifier.MessageData(senderName: senderName, message: "General.Message.Banner.Preview".localized)
-						} else {
 							self.messageData = MessagerBannerViewModifier.MessageData(senderName: senderName, message: message.message)
+						} else {
+							self.messageData = MessagerBannerViewModifier.MessageData(senderName: senderName, message: "General.Message.Banner.Preview".localized)
 						}
 					}
 					self.selectedGroupId = message.groupId

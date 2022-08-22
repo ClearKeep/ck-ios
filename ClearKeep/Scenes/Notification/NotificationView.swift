@@ -29,7 +29,7 @@ struct NotificationView: View {
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	@State private(set) var samples: Loadable<[IServerSettingModel]> = .notRequested
 	@AppStorage("preview") private var isShowPreview = true
-	@AppStorage("disturb") private var isShowDisturb = true
+	@AppStorage("disturb") private var isShowDisturb = false
 
 	// MARK: - Body
 	var body: some View {
@@ -81,15 +81,19 @@ private extension NotificationView {
 	}
 
 	func unregisterForRemoteNotifications() {
+		injected.interactors.notificationInteractor.unSubscribeAndListenServers()
 		UIApplication.shared.unregisterForRemoteNotifications()
+
 	}
 
 	func registerForRemoteNotifications() {
+		injected.interactors.homeInteractor.subscribeAndListenServers()
 		UIApplication.shared.registerForRemoteNotifications()
+
 	}
 
 	func changeStatusDistub() {
-		isShowDisturb ? registerForRemoteNotifications() : unregisterForRemoteNotifications()
+		isShowDisturb ? unregisterForRemoteNotifications() : registerForRemoteNotifications()
 	}
 
 	func changeStatusPreview() {
