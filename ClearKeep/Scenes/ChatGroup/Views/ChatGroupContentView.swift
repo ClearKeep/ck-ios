@@ -134,7 +134,7 @@ struct ChatGroupContentView: View {
 				Spacer()
 			})
 		}
-    }
+	}
 }
 
 // MARK: - Private
