@@ -53,6 +53,8 @@ extension AppEnvironment {
 		let searchInteractor = SearchInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, messageService: DependencyResolver.shared.messageService, realmManager: DependencyResolver.shared.realmManager)
 		let advancedSeverInteractor = AdvancedSeverInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage, workspaceService: DependencyResolver.shared.workspaceService)
 		let settingServerInteractor = SettingServerInteractor(channelStorage: DependencyResolver.shared.channelStorage)
+		let notificationInteractor = NotificationInteractor(appState: appState, channelStorage: DependencyResolver.shared.channelStorage)
+
 		return .init(homeInteractor: homeInteractor,
 					 loginInteractor: loginInteractor,
 					 twoFactorInteractor: twoFactorInteractor,
@@ -69,7 +71,8 @@ extension AppEnvironment {
 					 profileInteractor: profileInteractor,
 					 searchInteractor: searchInteractor,
 					 advancedSeverInteractor: advancedSeverInteractor,
-					 settingServerInteractor: settingServerInteractor)
+					 settingServerInteractor: settingServerInteractor,
+					 notificationInteractor: notificationInteractor)
 	}
 }
 

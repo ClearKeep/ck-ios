@@ -65,7 +65,7 @@ struct ListGroupView: View {
 								ZStack {
 									MessageAvatarView(avatarSize: Constants.avatarSize,
 													  statusSize: Constants.statusSize,
-													  userName: group.groupName,
+													  userName: self.getPartnerUser(group: group)?.userName ?? "",
 													  font: AppTheme.shared.fontSet.font(style: .input3),
 													  image: self.getPartnerUser(group: group)?.avatar ?? ""
 									).padding(.trailing, 16)
@@ -85,7 +85,7 @@ struct ListGroupView: View {
 										height: Constants.avatarSize.height,
 										alignment: .bottomTrailing)
 							}
-							Text(group.groupName)
+							Text(group.groupType == "peer" ? (self.getPartnerUser(group: group)?.userName ?? "") : group.groupName)
 								.font(group.hasUnreadMessage ? AppTheme.shared.fontSet.font(style: .body3) : AppTheme.shared.fontSet.font(style: .input3))
 								.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight)
 								.frame(height: Constants.itemHeight)
@@ -95,6 +95,7 @@ struct ListGroupView: View {
 				}
 			}
 		}
+		.edgesIgnoringSafeArea(.bottom)
 	}
 }
 

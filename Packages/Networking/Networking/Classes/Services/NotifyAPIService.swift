@@ -11,7 +11,7 @@ public protocol INotifyAPIService {
 	func readNotify(_ request: Notification_ReadNotifyRequest) async -> Result<Notification_BaseResponse, Error>
 	func getUnreadNotifies(_ request: Notification_Empty) async -> Result<Notification_GetNotifiesResponse, Error>
 	func subscribe(_ request: Notification_SubscribeRequest, completion: @escaping (() -> Void))
-	func unSubscribe(_ request: Notification_UnSubscribeRequest, completion: @escaping (Result<Notification_BaseResponse, Error>) -> Void)
+	func unSubscribe(_ request: Notification_UnSubscribeRequest, completion: @escaping (() -> Void))
 	func listen(_ request: Notification_ListenRequest, completion: @escaping (Result<Notification_NotifyObjectResponse, Error>) -> Void)
 }
 
@@ -69,23 +69,15 @@ extension APIService: INotifyAPIService {
 		}
 	}
 	
-	public func unSubscribe(_ request: Notification_UnSubscribeRequest, completion: @escaping (Result<Notification_BaseResponse, Error>) -> Void) {
-		let caller = clientNotify.un_subscribe(request, callOptions: callOptions)
+	public func unSubscribe(_ request: Notification_UnSubscribeRequest, completion: @escaping (() -> Void)) {
+		let caller = clientNotify.un_subscribe(request, callOptions: callOptions).response
 		
-		caller.status.whenComplete({ result in
-			switch result {
-			case .success(let status):
-				if status.isOk {
-					caller.response.whenComplete { result in
-						completion(result)
-					}
-				} else {
-					completion(.failure(ServerError(status)))
-				}
-			case .failure(let error):
-				completion(.failure(ServerError(error)))
-			}
-		})
+		caller.whenComplete { (_) in
+			completion()
+		}
+		caller.whenFailure { error in
+			print("\(error) subscribe signal failed")
+		}
 	}
 	
 	public func listen(_ request: Notification_ListenRequest, completion: @escaping (Result<Notification_NotifyObjectResponse, Error>) -> Void) {

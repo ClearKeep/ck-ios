@@ -149,7 +149,6 @@ struct MenuView: View {
 					  primaryButton: .cancel({ self.isShowAlert.toggle() }),
 					  secondaryButton: .default(Text("Home.SignOut".localized), action: signOut))
 			}
-			.hiddenNavigationBarStyle()
 	}
 }
 

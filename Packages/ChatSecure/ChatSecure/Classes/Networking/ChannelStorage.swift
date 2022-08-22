@@ -34,7 +34,7 @@ public class ChannelStorage: IChannelStorage {
 	public let config: IChatSecureConfig
 	public var channels: [String: APIService]
 	public var currentServer: RealmServer? {
-		return realmManager.getCurrentServer()
+		return realmManager.getCurrentServer()?.detached()
 	}
 	public var currentDomain: String {
 		currentServer?.serverDomain ?? config.clkDomain + ":" + config.clkPort

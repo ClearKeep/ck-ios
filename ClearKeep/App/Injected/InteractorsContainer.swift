@@ -27,6 +27,7 @@ extension DIContainer {
 		let searchInteractor: ISearchInteractor
 		let advancedSeverInteractor: IAdvancedSeverInteractor
 		let settingServerInteractor: ISettingServerInteractor
+		let notificationInteractor: INotificationInteractor
 
 		static var stub: Self {
 			.init(homeInteractor: StubHomeInteractor(channelStorage: DependencyResolver.shared.channelStorage, authenticationService: DependencyResolver.shared.authenticationService, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, workspaceService: DependencyResolver.shared.workspaceService),
@@ -45,7 +46,8 @@ extension DIContainer {
 				  profileInteractor: StubProfileInteractor(channelStorage: DependencyResolver.shared.channelStorage, userService: DependencyResolver.shared.userService),
 				  searchInteractor: StubSearchInteractor(channelStorage: DependencyResolver.shared.channelStorage, groupService: DependencyResolver.shared.groupService, userService: DependencyResolver.shared.userService, messageService: DependencyResolver.shared.messageService, realmManager: DependencyResolver.shared.realmManager),
 				  advancedSeverInteractor: StubAdvancedSeverInteractor(channelStorage: DependencyResolver.shared.channelStorage, workspaceService: DependencyResolver.shared.workspaceService),
-				  settingServerInteractor: StubSettingServerInteractor(channelStorage: DependencyResolver.shared.channelStorage))
+				  settingServerInteractor: StubSettingServerInteractor(channelStorage: DependencyResolver.shared.channelStorage),
+				  notificationInteractor: StubNotificationInteractor(channelStorage: DependencyResolver.shared.channelStorage))
 		}
 	}
 }
