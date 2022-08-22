@@ -80,7 +80,7 @@ private extension AdvancedSeverView {
 					severUrlStyle = isEditing ? .highlighted : .normal
 				})
 				RoundedButton("AdvancedServer.Submit".localized,
-							  disabled: .constant(editingCustomServer.customServerURL.isEmpty),
+							  disabled: .constant(editingCustomServer.customServerURL.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty),
 							  action: submitAction)
 					.padding(.top, Constants.paddingTopButton)
 			}
@@ -103,6 +103,8 @@ private extension AdvancedSeverView {
 	}
 	
 	var loadedView: some View {
+		editingCustomServer = CustomServer(isSelectedCustomServer: editingCustomServer.isSelectedCustomServer,
+										   customServerURL: editingCustomServer.customServerURL.trimmingCharacters(in: .whitespacesAndNewlines))
 		return AnyView(LoginView(customServer: editingCustomServer, rootIsActive: .constant(false)))
 	}
 	
