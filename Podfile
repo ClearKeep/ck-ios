@@ -40,7 +40,8 @@ end
 def socialLogin
 	pod 'GoogleSignIn'
 	pod 'MSAL'
-	pod 'FBSDKLoginKit'
+	pod 'FBSDKCoreKit/Swift'
+	pod 'FBSDKLoginKit/Swift'
 end
 
 def security
