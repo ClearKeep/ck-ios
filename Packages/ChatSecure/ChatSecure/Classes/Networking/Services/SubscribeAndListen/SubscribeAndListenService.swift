@@ -60,7 +60,6 @@ extension SubscribeAndListenService: ISubscribeAndListenService {
 			self.notificationListen(deviceID: deviceId, domain: server.serverDomain)
 		}
 	}
-
 	
 	private func messageListen(deviceID: String, domain: String, ownerId: String) {
 		var request = Message_ListenRequest()
