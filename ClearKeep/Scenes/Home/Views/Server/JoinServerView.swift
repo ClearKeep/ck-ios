@@ -37,7 +37,7 @@ struct JoinServerView: View {
 								onEditingChanged: { isEditting in
 					serverURLInputStyle = isEditting ? .highlighted : .normal
 				})
-				RoundedGradientButton("JoinServer.Join".localized, disabled: .constant(serverURL.isEmpty), action: joinServerAction)
+				RoundedGradientButton("JoinServer.Join".localized, disabled: .constant(serverURL.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty), action: joinServerAction)
 				Text("JoinServer.Tips".localized)
 					.frame(maxWidth: .infinity, alignment: .leading)
 					.font(AppTheme.shared.fontSet.font(style: .placeholder3))
@@ -51,6 +51,6 @@ struct JoinServerView: View {
 // MARK: - Action
 private extension JoinServerView {
 	func joinServerAction() {
-		checkUrl(serverURL)
+		checkUrl(serverURL.trimmingCharacters(in: .whitespacesAndNewlines))
 	}
 }

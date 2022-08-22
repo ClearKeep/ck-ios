@@ -229,21 +229,21 @@ private extension DirectMessageContentView {
 	
 	private func checkDisableButton() -> Bool {
 		if self.isShowingLinkUser {
-			if self.searchLinkText.isEmpty {
+			if self.searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
 				return true
 			}
 			
-			guard let first = searchLinkText.components(separatedBy: ":").first,
-				  let last = searchLinkText.components(separatedBy: ":").last else {
+			guard let first = searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: ":").first,
+				  let last = searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: ":").last else {
 				return true
 			}
 			
-			let validated = first.textFieldValidatorURL() && (first != last) && searchLinkText.last != ":"
+			let validated = first.textFieldValidatorURL() && (first != last) && searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines).last != ":"
 			if !validated {
 				return true
 			}
 			
-			if self.searchLinkText.split(separator: "/").count != 3 {
+			if self.searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: "/").count != 3 {
 				return true
 			}
 			
@@ -251,7 +251,7 @@ private extension DirectMessageContentView {
 		}
 		
 		if self.useFindByEmail {
-			if self.searchEmailText.isEmpty {
+			if self.searchEmailText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
 				return true
 			}
 			

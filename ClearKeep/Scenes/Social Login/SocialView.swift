@@ -199,13 +199,13 @@ private extension SocialView {
 				isNext = true
 			case .confirmSecurity:
 				self.isLoading = true
-				result = await injected.interactors.socialInteractor.registerSocialPin(userName: userName, rawPin: self.convertString(text: security), customServer: customServer)
+				result = await injected.interactors.socialInteractor.registerSocialPin(userName: userName, rawPin: self.convertString(text: security.trimmingCharacters(in: .whitespacesAndNewlines)), customServer: customServer)
 			case .verifySecurity:
 				self.isLoading = true
-				result = await injected.interactors.socialInteractor.verifySocialPin(userName: userName, rawPin: self.convertString(text: security), customServer: customServer)
+				result = await injected.interactors.socialInteractor.verifySocialPin(userName: userName, rawPin: self.convertString(text: security.trimmingCharacters(in: .whitespacesAndNewlines)), customServer: customServer)
 			case .confirmResetSecurity:
 				self.isLoading = true
-				result = await injected.interactors.socialInteractor.resetSocialPin(userName: userName, rawPin: self.convertString(text: security), token: self.resetToken, customServer: customServer)
+				result = await injected.interactors.socialInteractor.resetSocialPin(userName: userName, rawPin: self.convertString(text: security.trimmingCharacters(in: .whitespacesAndNewlines)), token: self.resetToken, customServer: customServer)
 			}
 			
 			self.isLoading = false

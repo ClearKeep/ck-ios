@@ -196,21 +196,21 @@ private extension ChatGroupContentView {
 	
 	private func checkDisableButton() -> Bool {
 		if self.useCustomServerChecked {
-			if self.searchLinkText.isEmpty {
+			if self.searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
 				return true
 			}
 			
-			guard let first = searchLinkText.components(separatedBy: ":").first,
-				  let last = searchLinkText.components(separatedBy: ":").last else {
+			guard let first = searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: ":").first,
+				  let last = searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: ":").last else {
 				return true
 			}
 			
-			let validated = first.textFieldValidatorURL() && (first != last) && searchLinkText.last != ":"
+			let validated = first.textFieldValidatorURL() && (first != last) && searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines).last != ":"
 			if !validated {
 				return true
 			}
 			
-			if self.searchLinkText.split(separator: "/").count != 3 {
+			if searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: "/").count != 3 {
 				return true
 			}
 			
