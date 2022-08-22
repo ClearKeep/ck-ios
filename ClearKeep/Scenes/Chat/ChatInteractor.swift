@@ -60,6 +60,7 @@ extension ChatInteractor: IChatInteractor {
 	}
 	
 	func updateGroupWithId(groupId: Int64) async -> Loadable<IGroupModel?> {
+		DependencyResolver.shared.messageService.updateCurrentRoom(roomId: groupId)
 		let result = await worker.getGroupWithId(groupId: groupId)
 		
 		switch result {

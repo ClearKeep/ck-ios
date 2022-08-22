@@ -67,6 +67,7 @@ extension MessageService: IMessageService {
 	}
 	
 	public func sendMessageInPeer(senderId: String, ownerDomain: String, receiverId: String, receiverDomain: String, groupId: Int64, plainMessage: String, isForceProcessKey: Bool, cachedMessageId: Int) async -> Result<RealmMessage, Error> {
+		channelStorage.updateTempServer(server: TempServer(serverDomain: ownerDomain, ownerClientId: senderId))
 		Debug.DLog("sendMessageInPeer: receivcerId: \(receiverId), groupID: \(groupId)")
 		do {
 			let receiverAddress = try ProtocolAddress(name: "\(receiverDomain)_\(receiverId)", deviceId: UInt32(Constants.senderDeviceId))
@@ -132,6 +133,7 @@ extension MessageService: IMessageService {
 	}
 	
 	public func sendMessageInGroup(senderId: String, ownerWorkspace: String, groupId: Int64, isJoined: Bool, plainMessage: String, cachedMessageId: Int, isForward: Bool) async -> Result<RealmMessage, Error> {
+		channelStorage.updateTempServer(server: TempServer(serverDomain: ownerWorkspace, ownerClientId: senderId))
 		if isJoined {
 			return await sendGroupMessage(senderId: senderId, ownerWorkspace: ownerWorkspace, groupId: groupId, plainMessage: plainMessage, cachedMessageId: cachedMessageId, isForward: isForward)
 		} else {
@@ -146,6 +148,7 @@ extension MessageService: IMessageService {
 	}
 	
 	public func getMessage(ownerDomain: String, ownerId: String, groupId: Int64, loadSize: Int, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
+		channelStorage.updateTempServer(server: TempServer(serverDomain: ownerDomain, ownerClientId: ownerId))
 		var request = Message_GetMessagesInGroupRequest()
 		request.groupID = groupId
 		request.lastMessageAt = lastMessageAt

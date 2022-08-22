@@ -187,18 +187,6 @@ struct ChatView: View {
 					.edgesIgnoringSafeArea(.all)
 			}
 		})
-		.onAppear {
-			if isFirstLoadData {
-				DependencyResolver.shared.messageService.updateCurrentRoom(roomId: groupId)
-				updateGroup()
-				isFirstLoadData = false
-			}
-		}
-		.onDisappear {
-			DependencyResolver.shared.messageService.updateCurrentRoom(roomId: 0)
-			injected.interactors.chatInteractor.saveDraftMessage(message: messageText, roomId: groupId)
-			notificationToken?.invalidate()
-		}
 		.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.SubscribeAndListenService.didReceiveNotification)) { (obj) in
 			print("received...... \(obj)")
 			if let userInfo = obj.userInfo,
@@ -231,6 +219,16 @@ struct ChatView: View {
 		}
 		.hiddenNavigationBarStyle()
 		.edgesIgnoringSafeArea(.all)
+		.onAppear {
+			if isFirstLoadData {
+				updateGroup()
+				isFirstLoadData = false
+			}
+		}
+		.onDisappear {
+			injected.interactors.chatInteractor.saveDraftMessage(message: messageText, roomId: groupId)
+			notificationToken?.invalidate()
+		}
 	}
 }
 
@@ -658,6 +656,7 @@ private extension ChatView {
 	}
 	
 	func loadLocalMessage() {
+		print("load local message")
 		messages = injected.interactors.chatInteractor.getMessageFromLocal(groupId: groupId)
 		if messages?.count ?? 0 < 20 {
 			isEndOfPage = true

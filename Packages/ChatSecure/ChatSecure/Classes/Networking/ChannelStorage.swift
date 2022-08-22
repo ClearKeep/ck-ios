@@ -15,7 +15,9 @@ public protocol IChannelStorage {
 	var currentServer: RealmServer? { get }
 	var currentDomain: String { get }
 	var servers: [RealmServer] { get }
+	var tempServer: TempServer? { get }
 	
+	func updateTempServer(server: TempServer)
 	func getServers(isFirstLoad: Bool) -> [RealmServer]
 	@discardableResult
 	func didSelectServer(_ domain: String?) -> [RealmServer]
@@ -43,13 +45,21 @@ public class ChannelStorage: IChannelStorage {
 	let realmManager: RealmManager
 	public var servers: [RealmServer] = []
 	private let clientStore: ClientStore
-
+	
+	public var tempServer: TempServer?
+	
 	public init(config: IChatSecureConfig, clientStore: ClientStore, realmManager: RealmManager) {
 		self.config = config
 		self.clientStore = clientStore
 		self.realmManager = realmManager
 		self.channels = [config.clkDomain + ":" + config.clkPort: APIService(domain: config.clkDomain + ":" + config.clkPort,
 																			 owner: realmManager.getOwnerServer(domain: config.clkDomain + ":" + config.clkPort))]
+	}
+	
+	public func updateTempServer(server: TempServer) {
+		if server.serverDomain != tempServer?.serverDomain {
+			self.tempServer = server
+		}
 	}
 
 	public func getServers(isFirstLoad: Bool) -> [RealmServer] {

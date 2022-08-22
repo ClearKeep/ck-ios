@@ -28,9 +28,9 @@ final class IdentityKeyInMemoryStore {
 	
 	private func getIdentityKey() -> SignalIdentityKey? {
 		do {
-			let currrentServer = channelStorage.realmManager.getCurrentServer()
-			let clientId = currrentServer?.profile?.userId ?? ""
-			let domain = currrentServer?.serverDomain ?? ""
+			let currrentServer = channelStorage.tempServer
+			let clientId = currrentServer?.ownerClientId ?? channelStorage.currentServer?.ownerClientId ?? ""
+			let domain = currrentServer?.serverDomain ?? channelStorage.currentDomain
 			if let tempKey = identityKeys[clientId + domain] {
 				return tempKey
 			}
@@ -68,10 +68,7 @@ extension IdentityKeyInMemoryStore: IIdentityKeyInMemoryStore {
 	func saveUserIdentity(identity: SignalIdentityKey) throws {
 		let jsonEncoder = JSONEncoder()
 		let identityData = try jsonEncoder.encode(identity)
-		let currrentServer = channelStorage.realmManager.getCurrentServer()
-		let clientId = currrentServer?.profile?.userId ?? ""
-		let domain = currrentServer?.serverDomain ?? ""
-		identityKeys[clientId + domain] = identity
+		identityKeys[identity.userId + identity.domain] = identity
 		storage.insert(identityData, forKey: identity.userId + identity.domain, collection: .domain(identity.domain))
 	}
 	

@@ -209,9 +209,6 @@ struct HomeView: View {
 				if let userInfo = obj.userInfo,
 				   let ownerDomain = userInfo["domain"] as? String,
 				   let message = userInfo["message"] as? IMessageModel {
-					if DependencyResolver.shared.messageService.currentRoomId == message.groupId {
-						return
-					}
 					if message.groupType == "group" {
 						let groupName = injected.interactors.homeInteractor.getGroupName(groupID: message.groupId)
 						let senderName = injected.interactors.homeInteractor.getSenderName(fromClientId: message.senderId, groupID: message.groupId)
@@ -228,9 +225,11 @@ struct HomeView: View {
 							self.messageData = MessagerBannerViewModifier.MessageData(senderName: senderName, message: "General.Message.Banner.Preview".localized)
 						}
 					}
-					self.selectedGroupId = message.groupId
-					self.selectedNotiDomain = ownerDomain
-					self.showMessageBanner = true
+					if DependencyResolver.shared.messageService.currentRoomId != message.groupId {
+						self.selectedGroupId = message.groupId
+						self.selectedNotiDomain = ownerDomain
+						self.showMessageBanner = true
+					}
 				}
 			}
 			.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
@@ -285,6 +284,8 @@ private extension HomeView {
 // MARK: - Interactors
 private extension HomeView {
 	func getServers() {
+		print("get serverrrrr")
+		DependencyResolver.shared.messageService.updateCurrentRoom(roomId: 0)
 		servers = injected.interactors.homeInteractor.getServers()
 	}
 	

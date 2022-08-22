@@ -13,7 +13,7 @@ import Common
 import GRPC
 import CryptoTokenKit
 import LibSignalClient
-
+// swiftlint:disable file_length
 public enum SocialType {
 	case google
 	case facebook
@@ -490,7 +490,7 @@ private extension CLKAuthenticationService {
 				registrationId: UInt32(bitPattern: registrationID),
 				domain: domain,
 				userId: clientId)
-			
+			channelStorage.updateTempServer(server: TempServer(serverDomain: domain, ownerClientId: clientId))
 			try signalStore.saveUserIdentity(identity: signalIdentityKey)
 			try signalStore.saveUserPreKey(preKey: preKeyRecord, id: UInt32(bitPattern: preKeyId))
 			try signalStore.saveUserSignedPreKey(signedPreKey: signedPreKeyRecord, id: UInt32(bitPattern: signedPreKeyId))
