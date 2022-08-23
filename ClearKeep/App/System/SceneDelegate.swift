@@ -13,6 +13,7 @@ import SwiftUI
 import Combine
 import Foundation
 import ChatSecure
+import FBSDKLoginKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	
@@ -37,7 +38,17 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	}
 	
 	func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+		guard let url = URLContexts.first?.url else {
+			return
+		}
 		systemEventsHandler?.sceneOpenURLContexts(URLContexts)
+
+		// Facebook login redirect
+		ApplicationDelegate.shared.application(
+			UIApplication.shared,
+			open: url,
+			sourceApplication: nil,
+			annotation: [UIApplication.OpenURLOptionsKey.annotation])
 	}
 	
 	func sceneDidBecomeActive(_ scene: UIScene) {

@@ -104,13 +104,13 @@
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>&quot;&quot;</string>
+	<string>""</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>&quot;&quot;</string>
+	<string>""</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>&quot;&quot;</string>
+	<string>""</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>&quot;&quot;</string>
+	<string>""</string>
 	<key>OFFICE_CLIENT_ID</key>
 	<string>$(OFFICE_CLIENT_ID)</string>
 	<key>OFFICE_REDIRECT_URI</key>
