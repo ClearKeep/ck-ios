@@ -282,12 +282,13 @@ private extension ChatView {
 					   isActive: $isDetail) {
 			Button(action: userAction) {
 				HStack(spacing: 20) {
+					let member = self.getPartnerUser(group: self.group)
 					MessageAvatarView(avatarSize: Constants.sizeImage,
-									  userName: group?.groupName ?? "",
+									  userName: group?.groupType == "peer" ? member == nil ? "Deleted user" : member?.userName ?? "" : group?.groupName ?? "",
 									  font: AppTheme.shared.fontSet.font(style: .input3),
 									  image: group?.groupAvatar ?? ""
 					)
-					Text(group?.groupName ?? "")
+					Text(group?.groupType == "peer" ? member == nil ? "Deleted user" : member?.userName ?? "" : group?.groupName ?? "")
 						.lineLimit(1)
 						.font(AppTheme.shared.fontSet.font(style: .body1))
 						.frame(maxWidth: .infinity, alignment: .leading)
@@ -721,5 +722,9 @@ private extension ChatView {
 			self.joinedPeers = groups.filter { $0.groupType == "peer" }.sorted { $0.updatedAt > $1.updatedAt }.compactMap { group in
 				ForwardViewModel(groupModel: group) }
 		}
+	}
+	
+	func getPartnerUser(group: IGroupModel?) -> IMemberModel? {
+		return group?.groupMembers.first(where: { $0.userId != DependencyResolver.shared.channelStorage.currentServer?.profile?.userId })
 	}
 }
