@@ -45,7 +45,8 @@ struct ProfileView: View {
 							   showLoading: $showLoading,
 							   showError: $showError,
 							   error: $error,
-							   profile: profile)
+							   profile: profile,
+							   isSocialAccount: DependencyResolver.shared.channelStorage.currentServer?.profile?.isSocialAccount ?? false)
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.onAppear(perform: getProfile)
 			.hideKeyboardOnTapped()

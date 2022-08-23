@@ -69,6 +69,8 @@ struct UserProfileContentView: View {
 	@State private(set) var profile: UserProfileViewModel?
 	let phoneNumberKit = PhoneNumberKit()
 	@State private var showAlertPopup: Bool = false
+	@State private(set) var isSocialAccount: Bool = false
+
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -202,17 +204,18 @@ struct UserProfileContentView: View {
 									.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
 							}
 						}
-						
-						NavigationLink(destination: ChangePasswordView(),
-									   isActive: $isChangePassword) {
-							Button(action: changePassword) {
-								HStack {
-									Text("UserProfile.Password.Change".localized)
-										.font(AppTheme.shared.fontSet.font(style: .body3))
-										.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
-									Spacer()
-									AppTheme.shared.imageSet.arrowRightIcon
-										.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+						if !isSocialAccount {
+							NavigationLink(destination: ChangePasswordView(),
+										   isActive: $isChangePassword) {
+								Button(action: changePassword) {
+									HStack {
+										Text("UserProfile.Password.Change".localized)
+											.font(AppTheme.shared.fontSet.font(style: .body3))
+											.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+										Spacer()
+										AppTheme.shared.imageSet.arrowRightIcon
+											.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+									}
 								}
 							}
 						}
