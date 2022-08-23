@@ -15,6 +15,7 @@ enum LoginViewPopUp {
 	case emailBlank
 	case passwordBlank
 	case forgotPassword
+	case error(err: LoginViewError?)
 	// MARK: Content
 	var title: String {
 		switch self {
@@ -28,6 +29,8 @@ enum LoginViewPopUp {
 			return "Login.Popup.PassBlank".localized
 		case .forgotPassword:
 			return "ForgotPassword.Warning".localized
+		case .error(let error):
+			return error?.title ?? ""
 		}
 	}
 
@@ -43,10 +46,17 @@ enum LoginViewPopUp {
 			return "Login.Popup.Message".localized
 		case .forgotPassword:
 			return "ForgotPassword.ForgettingYourPasswordWillResetAllYourData".localized
+		case .error(let error):
+			return error?.message ?? ""
 		}
 	}
 
 	var primaryButtonTitle: String {
-		return "General.OK".localized
+		switch self {
+		case .error(let err):
+			return err?.primaryButtonTitle ?? ""
+		default:
+			return "General.OK".localized
+		}
 	}
 }

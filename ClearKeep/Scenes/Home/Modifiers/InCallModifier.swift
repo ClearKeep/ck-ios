@@ -40,68 +40,10 @@ struct InCallModifier: ViewModifier {
 	func body(content: Content) -> some View {
 		ZStack(alignment: .topLeading) {
 			VStack {
-				if isInCall {
-					Spacer()
-				}
 				content
 			}
-			if isInCall {
-				HStack(alignment: .bottom) {
-					if !callViewModel.callGroup {
-						AvatarDefault(.constant(callViewModel.getUserName()), imageUrl: callViewModel.getAvatar())
-							.frame(width: 34, height: 34)
-							.padding(.trailing, 16)
-							.padding(.leading, 24)
-					} else {
-						VStack{
-							
-						}.frame(width: 15, height: 34)
-							.padding(.leading, 24)
-					}
-					VStack(alignment: .leading) {
-						Spacer()
-						Text(callViewModel.getUserName())
-							.font(AppTheme.shared.fontSet.font(style: .body2))
-							.foregroundColor(AppTheme.shared.colorSet.grey5)
-							.lineLimit(1)
-						Text("Call.TapHereRetutnCall".localized)
-							.font(AppTheme.shared.fontSet.font(style: .placeholder3))
-							.foregroundColor(AppTheme.shared.colorSet.background)
-							.lineLimit(1)
-					}
-					Spacer()
-					Text(callViewModel.timeCall)
-						.font(AppTheme.shared.fontSet.font(style: .placeholder3))
-						.foregroundColor(AppTheme.shared.colorSet.offWhite)
-						.lineLimit(1)
-						.padding(.trailing, 24)
-				}
-				.padding(.bottom, 16)
-				.frame(height: globalSafeAreaInsets().top + 50)
-				.background(RoundedCorner(radius: 20, rectCorner: [.bottomLeft, .bottomRight]).fill(AppTheme.shared.colorSet.successDefault))
-				.edgesIgnoringSafeArea(.all)
-				.onTapGesture {
-					callViewModel.backHandler = {
-						callController?.dismiss(animated: true)
-						withAnimation {
-							isInMinimizeMode = true
-							isInCall = true
-						}
-					}
-					
-					isInMinimizeMode = false
-					
-					let viewController = UIHostingController(rootView: InCallView(viewModel: callViewModel))
-					viewController.modalPresentationStyle = .overFullScreen
-					callController = viewController
-					let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-					sceneDelegate?.window?.rootViewController?.present(viewController, animated: true)
-				}
-				.transition(.move(edge: .top))
-				
-				if isInMinimizeMode {
-					mimimumView
-				}
+			if isInCall && isInMinimizeMode {
+				mimimumView
 			}
 		}
 		.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.CallService.receiveCall)) { _ in
@@ -177,7 +119,7 @@ struct InCallModifier: ViewModifier {
 								Color.red.opacity(0.5)
 							}
 							.frame(maxWidth: .infinity, maxHeight: .infinity)
-							.blur(radius: 70)
+							.blur(radius: 5)
 						} else {
 							LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 								.frame(maxWidth: .infinity, maxHeight: .infinity)

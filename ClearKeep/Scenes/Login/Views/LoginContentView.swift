@@ -27,10 +27,12 @@ struct LoginContentView: View {
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
-	@Binding var loadable: Loadable<IAuthenticationModel>
+	@Environment(\.joinServerClosure) private var joinServerClosure: JoinServerClosure
+	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	@Binding var customServer: CustomServer
+	var dismiss: (() -> Void)
 	@State private var email: String = ""
-	@Binding private(set) var password: String
+	@State private var password: String = ""
 	@State private var emailStyle: TextInputStyle = .default
 	@State private var passwordStyle: TextInputStyle = .default
 	@State private var appVersion: String = "General.Version".localized
@@ -42,11 +44,34 @@ struct LoginContentView: View {
 	@State private(set) var navigateToHome: Bool = false
 	@State private(set) var isShowAlertLogin: Bool = false
 	@State private var activeAlert: LoginViewPopUp = .invalidEmail
+	@State private var isShowLoading: Bool = false
+	@State private var normalLogin: INormalLoginModel?
+	@State private var navigationTwoFace: Int? = 0
+	@State private var userName: String = ""
+	@State private var socialStyle: SocialCommonStyle = .setSecurity
+	@State private var resetPincodeToken: String = ""
 	// MARK: - Init
 	
 	// MARK: - Body
 	var body: some View {
 		VStack {
+			NavigationLink(destination: TwoFactorView(otpHash: normalLogin?.otpHash ?? "",
+													  userId: normalLogin?.sub ?? "",
+													  domain: normalLogin?.workspaceDomain ?? "",
+													  password: password,
+													  twoFactorType: .login),
+						   tag: 1,
+						   selection: $navigationTwoFace,
+						   label: {
+				EmptyView()
+			})
+			
+			NavigationLink(destination: SocialView(userName: userName, resetToken: resetPincodeToken, pinCode: nil, socialStyle: socialStyle, customServer: $customServer, dismiss: self.dismiss),
+						   tag: 2,
+						   selection: $navigationTwoFace,
+						   label: {
+				EmptyView()
+			})
 			inputView
 			extraButtonView
 				.frame(height: Constants.extraButtonViewHeight)
@@ -70,19 +95,7 @@ struct LoginContentView: View {
 		}
 		.alert(isPresented: $isShowAlertLogin) {
 			switch activeAlert {
-			case .invalid:
-				return Alert(title: Text(activeAlert.title),
-							 message: Text(activeAlert.message),
-							 dismissButton: .default(Text(activeAlert.primaryButtonTitle)))
-			case .invalidEmail:
-				return Alert(title: Text(activeAlert.title),
-							 message: Text(activeAlert.message),
-							 dismissButton: .default(Text(activeAlert.primaryButtonTitle)))
-			case .emailBlank:
-				return Alert(title: Text(activeAlert.title),
-							 message: Text(activeAlert.message),
-							 dismissButton: .default(Text(activeAlert.primaryButtonTitle)))
-			case .passwordBlank:
+			case .invalid, .error, .invalidEmail, .emailBlank, .passwordBlank:
 				return Alert(title: Text(activeAlert.title),
 							 message: Text(activeAlert.message),
 							 dismissButton: .default(Text(activeAlert.primaryButtonTitle)))
@@ -95,6 +108,7 @@ struct LoginContentView: View {
 			  }))
 			}
 		}
+		.progressHUD(isShowLoading)
 	}
 }
 
@@ -185,38 +199,101 @@ private extension LoginContentView {
 	}
 	
 	func checkValid() {
-		email.isEmpty ? ({ self.activeAlert = .emailBlank })() : passwordValid()
-		self.isShowAlertLogin = true
+		email.isEmpty ? {
+			self.activeAlert = .emailBlank
+			self.isShowAlertLogin = true
+		}() : passwordValid()
 	}
 	
 	func passwordValid() {
-		password.isEmpty ? ({ self.activeAlert = .passwordBlank })() : emailValid()
-		self.isShowAlertLogin = true
+		password.isEmpty ? {
+			self.activeAlert = .passwordBlank
+			self.isShowAlertLogin = true
+		}() : emailValid()
 	}
 
 	func emailValid() {
 		let emailValidate = injected.interactors.loginInteractor.emailValid(email: email.trimmingCharacters(in: .whitespacesAndNewlines))
-		emailValidate ? passvalid() : ({ self.activeAlert = .invalidEmail })()
-		self.isShowAlertLogin = true
+		emailValidate ? passvalid() : ({
+			self.activeAlert = .invalidEmail
+			self.isShowAlertLogin = true
+		})()
+	
 	}
 
 	func passvalid() {
 		let passValidate = injected.interactors.loginInteractor.passwordValid(password: password)
-		passValidate ? doLogin() : ({ self.activeAlert = .invalidEmail })()
-		self.isShowAlertLogin = true
+		passValidate ? doLogin() : ({
+			self.activeAlert = .invalidEmail
+			self.isShowAlertLogin = true
+		})()
 	}
 
 	func doLogin() {
-		loadable = .isLoading(last: nil, cancelBag: CancelBag())
+		self.isShowLoading = true
 		Task {
-			loadable = await injected.interactors.loginInteractor.signIn(email: email.trimmingCharacters(in: .whitespacesAndNewlines), password: password, customServer: customServer)
+			let loadable = await injected.interactors.loginInteractor.signIn(email: email.trimmingCharacters(in: .whitespacesAndNewlines), password: password, customServer: customServer)
+			self.isShowLoading = false
+			switch loadable {
+			case .loaded(let data):
+				guard let normalLogin = data.normalLogin else {
+					return
+				}
+				let accessToken = normalLogin.accessToken ?? ""
+				if accessToken.isEmpty {
+					navigationTwoFace = 1
+					return
+				}
+				
+				if navigateToHome {
+					self.presentationMode.wrappedValue.dismiss()
+					self.joinServerClosure?(customServer.customServerURL)
+				}
+				if let token = UserDefaults.standard.data(forKey: "keySaveTokenPushNotification") {
+					injected.interactors.homeInteractor.registerToken(token)
+				}
+				
+			case .failed(let error):
+				self.isShowAlertLogin = true
+				self.activeAlert = .error(err: LoginViewError(error))
+			default:
+				break
+			}
 		}
 	}
 	
 	func doSocialLogin(type: SocialType) {
-		loadable = .isLoading(last: nil, cancelBag: CancelBag())
+		self.isShowLoading = true
 		Task {
-			loadable = await injected.interactors.loginInteractor.signInSocial(type, customServer: customServer)
+			let loadable = await injected.interactors.loginInteractor.signInSocial(type, customServer: customServer)
+			self.isShowLoading = false
+			switch loadable {
+			case .loaded(let data):
+				guard let socialLogin = data.socialLogin,
+					  let userName = socialLogin.userName else {
+					return
+				}
+					switch socialLogin.requireAction {
+					case "register_pincode":
+						self.socialStyle = .setSecurity
+						self.resetPincodeToken = ""
+						self.userName = userName
+						self.navigationTwoFace = 2
+					case "verify_pincode":
+						self.socialStyle = .verifySecurity
+						self.resetPincodeToken = socialLogin.resetPincodeToken ?? ""
+						self.userName = userName
+						self.navigationTwoFace = 2
+					default:
+						break
+					}
+				
+			case .failed(let error):
+				self.isShowAlertLogin = true
+				self.activeAlert = .error(err: LoginViewError(error))
+			default:
+				break
+			}
 		}
 	}
 	
@@ -237,7 +314,7 @@ private extension LoginContentView {
 #if DEBUG
 struct LoginContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		LoginContentView(loadable: .constant(.notRequested), customServer: .constant(CustomServer()), password: .constant(""))
+		LoginContentView(customServer: .constant(CustomServer()), dismiss: {})
 	}
 }
 #endif
