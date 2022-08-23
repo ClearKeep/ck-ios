@@ -21,9 +21,9 @@ final class PreKeyInMemoryStore {
 	}
 	
 	private func getIndex(preKeyId: UInt32) -> UInt32 {
-		let currrentServer = channelStorage.realmManager.getCurrentServer()
-		let userId = currrentServer?.profile?.userId ?? ""
-		let domain = currrentServer?.serverDomain ?? ""
+		let currrentServer = channelStorage.tempServer
+		let userId = currrentServer?.ownerClientId ?? channelStorage.currentServer?.ownerClientId ?? ""
+		let domain = currrentServer?.serverDomain ?? channelStorage.currentDomain
 		let index = ("\(preKeyId)" + domain + userId).hashCode()
 		return UInt32(bitPattern: index)
 	}

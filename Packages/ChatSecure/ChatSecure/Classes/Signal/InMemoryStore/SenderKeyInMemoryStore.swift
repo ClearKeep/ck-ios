@@ -40,7 +40,7 @@ extension SenderKeyInMemoryStore: ISenderKeyStore {
 		senderKeyMap[SenderKeyName(sender: sender, distributionId: distributionId)] = record
 		let data = Data(record.serialize())
 		let key = getKey(distributionId: distributionId, name: sender.name)
-		storage.insert(data, forKey: key, collection: .domain(channelStorage.currentDomain))
+		storage.insert(data, forKey: key, collection: .domain(channelStorage.tempServer?.serverDomain ?? channelStorage.currentDomain))
 	}
 	
 	public func loadSenderKey(from sender: ProtocolAddress, distributionId: UUID, context: StoreContext) throws -> SenderKeyRecord? {
@@ -48,7 +48,7 @@ extension SenderKeyInMemoryStore: ISenderKeyStore {
 			return record
 		} else {
 			let key = getKey(distributionId: distributionId, name: sender.name)
-			if let data: Data = storage.object(forKey: key, collection: .domain(channelStorage.currentDomain)) {
+			if let data: Data = storage.object(forKey: key, collection: .domain(channelStorage.tempServer?.serverDomain ?? channelStorage.currentDomain)) {
 				let senderKeyRecord = try SenderKeyRecord(bytes: data)
 				senderKeyMap[SenderKeyName(sender: sender, distributionId: distributionId)] = senderKeyRecord
 				return senderKeyRecord

@@ -30,7 +30,6 @@ struct RootView: View {
 				if !servers.isEmpty && (newServerDomain?.isEmpty ?? true) {
 					HomeView()
 						.inject(container)
-						.onAppear(perform: subscribeAndListen)
 				} else {
 					LoginView(rootIsActive: .constant(false))
 						.inject(container)
@@ -38,6 +37,9 @@ struct RootView: View {
 			}
 		}
 		.onReceive(serversUpdate) { servers in
+			if self.servers != servers {
+				subscribeAndListen()
+			}
 			self.servers = servers
 		}
 		.onReceive(newServerDomainUpdate) { newServerDomain in

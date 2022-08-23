@@ -117,16 +117,14 @@ extension HomeInteractor: IHomeInteractor {
 	}
 	
 	func getSenderName(fromClientId: String, groupID: Int64) -> String {
-		guard let server = channelStorage.currentServer,
-			  let ownerId = server.profile?.userId else { return "" }
-		let name = channelStorage.getSenderName(fromClientId: fromClientId, groupId: groupID, domain: server.serverDomain, ownerId: ownerId)
+		guard let server = channelStorage.tempServer else { return "" }
+		let name = channelStorage.getSenderName(fromClientId: fromClientId, groupId: groupID, domain: server.serverDomain, ownerId: server.ownerClientId)
 		return name
 	}
 	
 	func getGroupName(groupID: Int64) -> String {
-		guard let server = channelStorage.currentServer,
-			  let ownerId = server.profile?.userId else { return "" }
-		let name = channelStorage.getGroupName(groupId: groupID, domain: server.serverDomain, ownerId: ownerId)
+		guard let server = channelStorage.tempServer else { return "" }
+		let name = channelStorage.getGroupName(groupId: groupID, domain: server.serverDomain, ownerId: server.ownerClientId)
 		return name
 	}
 
