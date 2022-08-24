@@ -13,7 +13,7 @@ private enum Constants {
 	static let spacing = 5.0
 	static let spacingHstack = 16.0
 	static let sizeImage = 64.0
-	static let paddingTop = 28.0
+	static let paddingTop = 16.0
 	static let leading = 16.0
 	static let paddingVstack = 22.0
 }
@@ -28,7 +28,7 @@ struct SearchMessageView: View {
 	@Binding var dataMessages: [SearchMessageViewModel]
 
 	// MARK: - Init
-	
+
 	// MARK: - Body
 	var body: some View {
 		ForEach(dataMessages, id: \.id) { item in
@@ -72,11 +72,11 @@ private extension SearchMessageView {
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
 	}
-	
+
 	var foregroundColorUserName: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey2 : AppTheme.shared.colorSet.greyLight
 	}
-	
+
 	var foregroundColorText: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.greyLight2 : AppTheme.shared.colorSet.greyLight
 	}
@@ -86,7 +86,7 @@ private extension SearchMessageView {
 private extension SearchMessageView {
 	func makeAttributedString(text: String) -> AttributedString {
 		var string = AttributedString(text)
-		if let range = AttributedString(text.lowercased()).range(of: searchText) {
+		if let range = AttributedString(text.lowercased()).range(of: searchText.lowercased()) {
 			string[range].foregroundColor = AppTheme.shared.colorSet.black
 		}
 		return string

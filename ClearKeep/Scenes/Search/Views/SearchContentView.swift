@@ -11,6 +11,7 @@ import Common
 import CommonUI
 import RealmSwift
 import ChatSecure
+import Model
 
 private enum Constants {
 	static let spacing = 20.0
@@ -20,7 +21,7 @@ private enum Constants {
 struct SearchContentView: View {
 	// MARK: - Constants
 	@Environment(\.colorScheme) var colorScheme
-	
+
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
@@ -38,7 +39,7 @@ struct SearchContentView: View {
 	@State private(set) var searchdataMessages: [SearchMessageViewModel] = []
 
 	// MARK: - Init
-	
+
 	// MARK: - Body
 	var body: some View {
 		content
@@ -55,7 +56,7 @@ struct SearchContentView: View {
 				ImageButton(AppTheme.shared.imageSet.crossIcon, action: back)
 					.foregroundColor(titleColor)
 			})
-			.onAppear(perform: getUserGroup)
+//			.onAppear(perform: getUserGroup)
 	}
 }
 
@@ -64,25 +65,25 @@ private extension SearchContentView {
 	var content: AnyView {
 		AnyView(contentView)
 	}
-	
+
 	var allContent: AnyView {
 		AnyView(allView)
 	}
-	
+
 	var peopleContent: AnyView {
 		AnyView((peopleView))
 	}
-	
+
 	var groupContent: AnyView {
 		AnyView(groupView)
 	}
-	
+
 	var messageContent: AnyView {
 		AnyView(messageView)
 	}
-	
+
 	var resultView: AnyView {
-		searchUserData.isEmpty && searchGroupData.isEmpty ? AnyView(notRequestView) : AnyView(catalogView)
+		searchUserData.isEmpty && searchGroupData.isEmpty && searchdataMessages.isEmpty ? AnyView(notRequestView) : AnyView(catalogView)
 	}
 }
 
@@ -91,35 +92,35 @@ private extension SearchContentView {
 	var backgroundColorView: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.background : AppTheme.shared.colorSet.black
 	}
-	
+
 	var foregroundColorButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
 	}
-	
-	var foregroundColorTitle: Color {
+
+	var forehigroundColorTitle: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight
 	}
-	
+
 	var backgroundButton: LinearGradient {
 		colorScheme == .light ? backgroundButtonLight : backgroundButtonDark
 	}
-	
+
 	var backgroundButtonDark: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
 	}
-	
+
 	var backgroundButtonLight: LinearGradient {
 		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
 	}
-	
+
 	var backgroundButtonBack: [Color] {
 		colorScheme == .light ? [AppTheme.shared.colorSet.background, AppTheme.shared.colorSet.background] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
-	
+
 	var titleColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
 	}
-	
+
 	var forceColorTitle: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight
 	}
@@ -143,12 +144,11 @@ private extension SearchContentView {
 				}
 			CatalogyView(states: SearchCatalogy.allCases, selectedState: $searchCatalogy, selected: SearchCatalogy.all.title)
 			resultView
-				.padding(.top, 16)
 			Spacer()
 		}
 		.padding(.horizontal, Constants.spacingSearch)
 	}
-	
+
 	var catalogView: some View {
 		Group {
 			switch searchCatalogy {
@@ -176,53 +176,62 @@ private extension SearchContentView {
 			Spacer()
 		}
 	}
-	
+
 	var allView: some View {
-		SearchAllView(searchUser: .constant(searchUserData), searchGroup: .constant(searchGroupData), searchText: $searchText, dataMessages: $searchdataMessages)
+		SearchAllView(searchUser: $searchUserData, searchGroup: $searchGroupData, searchText: $searchText, dataMessages: $searchdataMessages)
 	}
-	
+
 	var peopleView: some View {
 		ScrollView(showsIndicators: false) {
 			SearchUserView(searchUser: $searchUserData, searchText: $searchText)
 		}
 	}
-	
+
 	var groupView: some View {
 		ScrollView(showsIndicators: false) {
 			SearchGroupView( searchGroup: $searchGroupData, searchText: $searchText)
 		}
 	}
-	
+
 	var messageView: some View {
 		ScrollView(showsIndicators: false) {
 			SearchMessageView(searchText: $searchText, dataMessages: $searchdataMessages)
 		}
 	}
-	
+
 }
 
 // MARK: - Interactor
 private extension SearchContentView {
 	func seachAction(text: String) {
-		self.searchUserData = searchUser.filter { $0.groupName.lowercased().contains(text) }.sorted { $0.updatedAt > $1.updatedAt }
+		self.searchUserData = searchUser.filter { $0.groupName.lowercased().contains(text) }
 		self.searchGroupData = searchGroup.filter { $0.groupName.lowercased().contains(text) }.sorted { $0.updatedAt > $1.updatedAt }
 		self.searchdataMessages = dataMessages.filter { $0.message.lowercased().contains(text) }.sorted { $0.dateCreated > $1.dateCreated }
+		let data = searchGroup.map { $0.groupMembers }.flatMap({ $0 }).filter({ $0.userName.lowercased().contains(text) })
+		var groups: [IMemberModel] = []
+		data.forEach { item in
+			if !groups.contains(where: { $0.userId == item.userId }) {
+				groups.append(item)
+			}
+		}
+
+		searchUserData = groups.map({ SearchGroupViewModel(member: $0) })
 	}
-	
+
 	func back() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
 
-	func getUserGroup() {
-		searchGroup.forEach { data in
-			data.groupMembers.map { memberData in
-				let data = SearchGroupViewModel(member: memberData)
-				self.searchUserData.append(data)
-			}
-		}
-	}
-}
+//	func getUserGroup() {
+//		searchGroup.forEach { data in
+//			data.groupMembers.map { memberData in
+//				let searchdata = SearchGroupViewModel(member: memberData)
+//				self.searchUserData.append(searchdata)
+//			}
+//		}
+//	}
 
+}
 // MARK: - Preview
 #if DEBUG
 struct SearchContentView_Previews: PreviewProvider {

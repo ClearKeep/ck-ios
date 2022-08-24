@@ -69,11 +69,11 @@ struct SearchGroupViewModel: Identifiable {
 	}
 
 	init(member: IMemberModel) {
-		self.groupId = 0
+		self.groupId = Int64(UUID().uuidString.hash)
 		self.userid = member.userId
 		self.groupName = member.userName
 		self.groupAvatar = member.avatar
-		self.groupType = ""
+		self.groupType = "peer"
 		self.hasUnreadMessage = false
 		self.createdAt = 0
 		self.updatedAt = ""
