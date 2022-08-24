@@ -43,10 +43,6 @@ class CustomVideoViewConfig: ObservableObject {
 		timeoutTimer = nil
 	}
 	
-	func fetchLocalUserName() {
-		self.userName = ""
-	}
-	
 	init(clientId: String, groupId: Int64) {
 		self.clientId = clientId
 		self.groupId = groupId
@@ -54,7 +50,7 @@ class CustomVideoViewConfig: ObservableObject {
 		if let myClientId = DependencyResolver.shared.channelStorage.currentServer?.profile?.userId, myClientId == clientId {
 			self.userName = DependencyResolver.shared.channelStorage.currentServer?.profile?.userName ?? ""
 		} else {
-			fetchLocalUserName()
+			self.userName = DependencyResolver.shared.channelStorage.getMemberWithId(clientId: clientId)?.userName ?? "unknown"
 		}
 	}
 }

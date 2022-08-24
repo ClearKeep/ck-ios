@@ -28,6 +28,7 @@ public protocol IChannelStorage {
 	func getSenderName(fromClientId: String, groupId: Int64, domain: String, ownerId: String) -> String
 	func getGroupName(groupId: Int64, domain: String, ownerId: String) -> String
 	func getServerWithClientId(clientId: String) -> RealmServer?
+	func getMemberWithId(clientId: String) -> RealmMember?
 }
 
 public class ChannelStorage: IChannelStorage {
@@ -104,6 +105,10 @@ public class ChannelStorage: IChannelStorage {
 	
 	public func getServerWithClientId(clientId: String) -> RealmServer? {
 		return realmManager.getServerWithClientId(clientId: clientId)?.detached()
+	}
+	
+	public func getMemberWithId(clientId: String) -> RealmMember? {
+		return realmManager.getMemeberWithId(clientId: clientId)?.detached()
 	}
 }
 

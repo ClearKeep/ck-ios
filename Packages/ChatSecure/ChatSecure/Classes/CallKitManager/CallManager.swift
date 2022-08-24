@@ -218,6 +218,7 @@ final public class CallManager: NSObject {
 					UserDefaults.standard.setValue(turnPwd, forKey: Constants.keySaveTurnServerPWD)
 					UserDefaults.standard.setValue(turnServer, forKey: Constants.keySaveTurnServer)
 					UserDefaults.standard.setValue(stunServer, forKey: Constants.keySaveStunServer)
+					UserDefaults.standard.setValue(callNotification.publication?.clientID ?? "", forKey: Constants.keyDisplayname)
 					UserDefaults.standard.synchronize()
 				}
 			} catch let error as NSError {
@@ -252,6 +253,10 @@ final public class CallManager: NSObject {
 			let savedCurrentUserId = DependencyResolver.shared.channelStorage.currentServer?.profile?.userId, currentUserId != savedCurrentUserId {
 			print("This call is not belong to me")
 			print("\(currentUserId) # \(savedCurrentUserId)")
+			return
+		}
+		
+		if DependencyResolver.shared.channelStorage.currentServer?.profile?.userId == callNotification.publication?.fromClientID {
 			return
 		}
 		

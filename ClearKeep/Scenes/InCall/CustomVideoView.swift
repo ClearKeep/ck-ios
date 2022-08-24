@@ -89,7 +89,7 @@ struct CustomVideoView: View {
 				VStack(alignment: .center) {
 					Spacer()
 					Text(videoViewConfig.userName)
-						.font(AppTheme.shared.fontSet.font(style: .display3))
+						.font(AppTheme.shared.fontSet.font(style: .body4))
 						.foregroundColor(AppTheme.shared.colorSet.offWhite)
 						.padding(.bottom, 24)
 				}
@@ -100,7 +100,6 @@ struct CustomVideoView: View {
 			}
 		}
 	}
-	
 	
 	func getFrame(lstVideo: [RTCMTLEAGLVideoView], containerHeight: CGFloat) -> CGSize {
 		let indexInTheListList = lstVideo.firstIndex(of: self.rtcVideoView) ?? -1
