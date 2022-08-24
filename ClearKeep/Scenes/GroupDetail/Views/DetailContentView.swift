@@ -127,7 +127,7 @@ struct DetailContentView: View {
 				Button("General.Cancel".localized, role: .cancel) { }
 				Button("GroupDetail.Message.LeaveGroup".localized, role: .none) { leaveGroup() }
 			} message: {
-				Text("GroupDetail.Title.LeaveGroup".localized)
+				Text(String(format:"GroupDetail.Title.LeaveGroup".localized, groupData?.groupName ?? ""))
 			}
 			.progressHUD(hudVisible)
 		}

@@ -277,7 +277,7 @@
 "GroupDetail.Title.PlaceHoder" = "Paste your friend's link";
 "GroupDetail.Remove" = "Remove";
 "GroupDetail.LeadMesage.Remove" = " Do you want to remove %@ from the group chat?";
-"GroupDetail.Title.LeaveGroup" = " Are you sure you want to leave name group";
+"GroupDetail.Title.LeaveGroup" = " Are you sure you want to leave %@";
 "GroupDetail.Message.LeaveGroup" = " Leave Group chat";
 "GroupDetail.Success.Remove" = " Remove member success";
 
@@ -307,6 +307,7 @@
 "Chat.NextButton" = "Next";
 "Chat.Error.FileLimit" = "Maximum number of attachments in a message reached (10)";
 "Chat.Error.FileSizeLimit" = "Your file cannot be larger than 1GB.";
+"Chat.Error.Removed" = "You have been removed from the conversation.";
 
 // MARK: - 2FA setting
 "2FA.Authentication.Fail.Error" = "Authentication failed. Please retry";

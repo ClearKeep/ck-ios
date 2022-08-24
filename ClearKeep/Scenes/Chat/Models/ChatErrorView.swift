@@ -12,6 +12,7 @@ enum ChatError: Error {
 	case fileSize
 	case haveExistACall
 	case permission
+	case removed
 }
 
 enum ChatErrorView {
@@ -21,6 +22,7 @@ enum ChatErrorView {
 	case fileSize
 	case haveExistACall
 	case permission
+	case removed
 	case unknownError(errorCode: Int?)
 
 	// MARK: Init
@@ -35,7 +37,9 @@ enum ChatErrorView {
 				self = .haveExistACall
 			case .permission:
 				self = .permission
-			}
+		case .removed:
+			self = .removed
+		}
 			return
 		}
 		guard let errorResponse = error as? IServerError else {
@@ -70,7 +74,10 @@ enum ChatErrorView {
 			return "General.Warning".localized
 		case .permission:
 			return "Call.PermistionCall".localized
+		case .removed:
+			return ""
 		}
+
 	}
 
 	var message: String {
@@ -92,6 +99,8 @@ enum ChatErrorView {
 			return "Call.HaveExistCall".localized
 		case .permission:
 			return "Call.GoToSetting".localized
+		case .removed :
+			return "Chat.Error.Removed".localized
 		}
 	}
 

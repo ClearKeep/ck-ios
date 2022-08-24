@@ -35,6 +35,7 @@ extension PushNotificationsHandler: UNUserNotificationCenterDelegate {
 								willPresent notification: UNNotification,
 								withCompletionHandler completionHandler:
 								@escaping (UNNotificationPresentationOptions) -> Void) {
+		
 		self.handleNotification(userInfo: notification.request.content.userInfo, completionHandler: {})
 		completionHandler([.banner, .sound, .list])
 	}
@@ -44,7 +45,7 @@ extension PushNotificationsHandler: UNUserNotificationCenterDelegate {
 								withCompletionHandler completionHandler: @escaping () -> Void) {
 		let userInfo = response.notification.request.content.userInfo
 		print("notification payload: \(userInfo)")
-		handleNotification(userInfo: userInfo, completionHandler: completionHandler)
+		self.handleNotification(userInfo: userInfo, completionHandler: completionHandler)
 	}
 	
 	func handleNotification(userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
@@ -57,7 +58,20 @@ extension PushNotificationsHandler: UNUserNotificationCenterDelegate {
 				completionHandler()
 				return
 			}
-			
+			if let publicationRemove = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any],
+			   let remove = publicationRemove["leave_member"] as? String {
+				handleAlert()
+				return
+			}
+
+			if let publicationRemove = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any],
+			   let add = publicationRemove["added_member_id"] as? String {
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+					NotificationCenter.default.post(name: NSNotification.reloadDataHome, object: nil)
+				})
+				return
+			}
+
 			do {
 				let publication = try JSONDecoder().decode(PublicationMessageNotification.self, from: jsonData)
 				//container.appState[\.authentication.selectedGroupId] = publication.groupId
@@ -67,7 +81,7 @@ extension PushNotificationsHandler: UNUserNotificationCenterDelegate {
 			}
 			return
 		}
-		
+
 		completionHandler()
 	}
 	
@@ -100,6 +114,12 @@ extension PushNotificationsHandler: UNUserNotificationCenterDelegate {
 			NotificationCenter.default.post(name: NSNotification.reloadDataHome, object: nil)
 		})
 	}
+
+	fileprivate func handleAlert() {
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+			NotificationCenter.default.post(name: NSNotification.alertChat, object: nil)
+		})
+	}
 }
 
 private class PublicationMessageNotification: Codable {
@@ -124,7 +144,7 @@ private class PublicationMessageNotification: Codable {
 	}
 	
 	required init(from decoder: Decoder) throws {
-	   let container = try decoder.container(keyedBy: CodingKeys.self)
+		let container = try decoder.container(keyedBy: CodingKeys.self)
 		id = try container.decode(String.self, forKey: .id)
 		clientId = try container.decode(String.self, forKey: .clientId)
 		fromClientId = try container.decode(String.self, forKey: .fromClientId)

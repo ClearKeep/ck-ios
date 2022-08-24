@@ -64,7 +64,7 @@ struct ChatView: View {
 			}
 		}
 	}
-		
+	
 	@State private(set) var group: IGroupModel?
 	@State private(set) var messageText: String
 	@State private(set) var inputStyle: TextInputStyle = .default
@@ -127,95 +127,99 @@ struct ChatView: View {
 	// MARK: - Body
 	var body: some View {
 		NavigationView {
-		ZStack {
-			backgroundColorView.edgesIgnoringSafeArea(.all)
-			content
-				.edgesIgnoringSafeArea([.trailing, .leading, .top])
-				.applyNavigationBarGradidentStyle(leftBarItems: {
-					HStack {
-						buttonBackView
-						buttonUserView
+			ZStack {
+				backgroundColorView.edgesIgnoringSafeArea(.all)
+				content
+					.edgesIgnoringSafeArea([.trailing, .leading, .top])
+					.applyNavigationBarGradidentStyle(leftBarItems: {
+						HStack {
+							buttonBackView
+							buttonUserView
+						}
+					}, rightBarItems: {
+						HStack(spacing: 24) {
+							audioButtonView
+							videoButtonView
+						}
+					})
+			}.bottomSheet(
+				isPresented: $showingForwardView,
+				detents: .custom(Constants.forwardViewHeight),
+				shouldScrollExpandSheet: true,
+				showGrabber: false,
+				cornerRadius: Constants.bottomSheetRadius
+			) {
+				ForwardView(inputStyle: inputStyle, groups: $joinedGroups, users: $joinedPeers, onForwardMessage: { (isGroup, model) in
+					if isGroup {
+						forwardGroupMessage(model: model)
+					} else {
+						forwardPeerMessage(model: model)
 					}
-				}, rightBarItems: {
-					HStack(spacing: 24) {
-						audioButtonView
-						videoButtonView
-					}
-				})
-		}.bottomSheet(
-			isPresented: $showingForwardView,
-			detents: .custom(Constants.forwardViewHeight),
-			shouldScrollExpandSheet: true,
-			showGrabber: false,
-			cornerRadius: Constants.bottomSheetRadius
-		) {
-			ForwardView(inputStyle: inputStyle, groups: $joinedGroups, users: $joinedPeers, onForwardMessage: { (isGroup, model) in
-				if isGroup {
-					forwardGroupMessage(model: model)
-				} else {
-					forwardPeerMessage(model: model)
-				}
-			}).onAppear {
-				getJoinedGroup()
-			}
-		}
-		.bottomSheet(
-			isPresented: $showingFilePicker,
-			detents: .custom(Constants.filePickerViewHeight),
-			shouldScrollExpandSheet: true,
-			showGrabber: true,
-			cornerRadius: Constants.bottomSheetRadius
-		) {
-			FilePickerContainerView { files in
-				if files.isEmpty { return }
-				print(files)
-				isNewSentMessage = true
-				Task {
-					sendMessageLoadable = await injected.interactors.chatInteractor.uploadFiles(message: "", fileURLs: files, group: group, appendFileSize: true, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
+				}).onAppear {
+					getJoinedGroup()
 				}
 			}
-		}
-		.fullScreenCover(isPresented: $showingCameraPicker, content: {
-			CameraImagePicker(sourceType: .camera) { addImage in
-				self.selectedImages.append(addImage)
-			}
-			.edgesIgnoringSafeArea(.all)
-		})
-		.sheet(isPresented: $showingLinkWebView, content: {
-			if let url = selectedLink {
-				WebView(url: url)
-					.edgesIgnoringSafeArea(.all)
-			}
-		})
-		.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.SubscribeAndListenService.didReceiveNotification)) { (obj) in
-			print("received...... \(obj)")
-			if let userInfo = obj.userInfo,
-			   let publication = userInfo["notification"] as? Notification_NotifyObjectResponse {
-				if publication.notifyType == "peer-update-key" {
-					self.isLatestPeerSignalKeyProcessed = false
+			.bottomSheet(
+				isPresented: $showingFilePicker,
+				detents: .custom(Constants.filePickerViewHeight),
+				shouldScrollExpandSheet: true,
+				showGrabber: true,
+				cornerRadius: Constants.bottomSheetRadius
+			) {
+				FilePickerContainerView { files in
+					if files.isEmpty { return }
+					print(files)
+					isNewSentMessage = true
+					Task {
+						sendMessageLoadable = await injected.interactors.chatInteractor.uploadFiles(message: "", fileURLs: files, group: group, appendFileSize: true, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
+					}
 				}
 			}
-		}
-		.onReceive(inspection.notice) { inspection.visit(self, $0) }
-		.alert(isPresented: $alertVisible, content: {
-			switch errorType {
-			case .permission:
-				return Alert(title: Text(errorType.title),
-							 message: Text(errorType.message),
-					  primaryButton: .default(Text("Call.Settings".localized), action: {
-					guard let url = URL(string: UIApplication.openSettingsURLString) else {
-						return
+			.fullScreenCover(isPresented: $showingCameraPicker, content: {
+				CameraImagePicker(sourceType: .camera) { addImage in
+					self.selectedImages.append(addImage)
+				}
+				.edgesIgnoringSafeArea(.all)
+			})
+			.sheet(isPresented: $showingLinkWebView, content: {
+				if let url = selectedLink {
+					WebView(url: url)
+						.edgesIgnoringSafeArea(.all)
+				}
+			})
+			.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.SubscribeAndListenService.didReceiveNotification)) { (obj) in
+				print("received...... \(obj)")
+				if let userInfo = obj.userInfo,
+				   let publication = userInfo["notification"] as? Notification_NotifyObjectResponse {
+					if publication.notifyType == "peer-update-key" {
+						self.isLatestPeerSignalKeyProcessed = false
 					}
-					UIApplication.shared.open(url)
-				}),
-					  secondaryButton: .default(Text("Call.Cancel".localized)))
-			default:
-				return Alert(title: Text(errorType.title),
-							 message: Text(errorType.message),
-							 dismissButton: .default(Text(errorType.primaryButtonTitle)))
+				}
 			}
-		})
-		.progressHUD(isShowLoading)
+			.onReceive(NotificationCenter.default.publisher(for: NSNotification.alertChat, object: nil), perform: { _ in
+				self.errorType = .removed
+				self.alertVisible = true
+			})
+			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.alert(isPresented: $alertVisible, content: {
+				switch errorType {
+				case .permission:
+					return Alert(title: Text(errorType.title),
+								 message: Text(errorType.message),
+								 primaryButton: .default(Text("Call.Settings".localized), action: {
+						guard let url = URL(string: UIApplication.openSettingsURLString) else {
+							return
+						}
+						UIApplication.shared.open(url)
+					}),
+								 secondaryButton: .default(Text("Call.Cancel".localized)))
+				default:
+					return Alert(title: Text(errorType.title),
+								 message: Text(errorType.message),
+								 dismissButton: .default(Text(errorType.primaryButtonTitle)))
+				}
+			})
+			.progressHUD(isShowLoading)
 		}
 		.hiddenNavigationBarStyle()
 		.edgesIgnoringSafeArea(.all)
@@ -295,7 +299,7 @@ private extension ChatView {
 				.foregroundColor(foregroundBackButton)
 			}
 		}
-		.disabled( disableButton() )
+					   .disabled( disableButton() )
 	}
 	
 	var floatingButton: some View {
@@ -359,7 +363,7 @@ private extension ChatView {
 			scrollView.clipsToBounds = false
 		}
 	}
-
+	
 }
 
 // MARK: - Color Variables
@@ -487,10 +491,10 @@ private extension ChatView {
 					Task {
 						let response = await self.injected.interactors.chatInteractor.requestVideoCall(isCallGroup: group?.groupType != "peer",
 																									   clientId: DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "",
-																								 clientName: self.group?.groupName ?? "",
-																								 avatar: self.group?.groupAvatar ?? "",
-																								 groupId: self.groupId,
-																								 callType: type)
+																									   clientName: self.group?.groupName ?? "",
+																									   avatar: self.group?.groupAvatar ?? "",
+																									   groupId: self.groupId,
+																									   callType: type)
 						switch response {
 						case .success:
 							hudVisible = false
@@ -535,7 +539,7 @@ private extension ChatView {
 	func copyMessage(message: String) {
 		UIPasteboard.general.setValue(message, forPasteboardType: UTType.plainText.identifier)
 	}
-
+	
 	func disableButton() -> Bool {
 		return group?.groupType == "peer" ? true : false
 	}
@@ -565,24 +569,24 @@ private extension ChatView {
 				}, onTapQuoteMessage: { messageId in
 					rediectMessageId = messageId
 				})
-				.confirmationDialog("", isPresented: $showingMessageOptions, titleVisibility: .hidden) {
-					Button("Chat.CopyButton".localized) {
-						copyMessage(message: self.tempSelectedMessage?.message ?? "")
+					.confirmationDialog("", isPresented: $showingMessageOptions, titleVisibility: .hidden) {
+						Button("Chat.CopyButton".localized) {
+							copyMessage(message: self.tempSelectedMessage?.message ?? "")
+						}
+						Button("Chat.ForwardButton".localized) {
+							selectedMessage = tempSelectedMessage
+							showingForwardView = true
+							hideKeyboard()
+						}
+						Button("Chat.QuoteButton".localized) {
+							selectedMessage = tempSelectedMessage
+							isShowingQuoteView = true
+							isQuoteMessage = true
+							isReplying = true
+						}
+						Button("Chat.Cancel".localized, role: .cancel) {
+						}
 					}
-					Button("Chat.ForwardButton".localized) {
-						selectedMessage = tempSelectedMessage
-						showingForwardView = true
-						hideKeyboard()
-					}
-					Button("Chat.QuoteButton".localized) {
-						selectedMessage = tempSelectedMessage
-						isShowingQuoteView = true
-						isQuoteMessage = true
-						isReplying = true
-					}
-					Button("Chat.Cancel".localized, role: .cancel) {
-					}
-				}
 				VStack(alignment: .trailing) {
 					Spacer()
 					HStack {
@@ -612,22 +616,22 @@ private extension ChatView {
 			}, sharePhoto: { photoAction() },
 							shareFile: { fileAction() }
 			)
-			.padding(.horizontal, Constants.padding)
-			.confirmationDialog("", isPresented: $showingImageOptions, titleVisibility: .hidden) {
-				Button("Chat.TakePhoto".localized) {
-					showingCameraPicker = true
+				.padding(.horizontal, Constants.padding)
+				.confirmationDialog("", isPresented: $showingImageOptions, titleVisibility: .hidden) {
+					Button("Chat.TakePhoto".localized) {
+						showingCameraPicker = true
+					}
+					Button("Chat.Albums".localized, role: .destructive) {
+						isImagePickerPresented = true
+					}
+					Button("Chat.Cancel".localized, role: .cancel) {
+					}
 				}
-				Button("Chat.Albums".localized, role: .destructive) {
-					isImagePickerPresented = true
+				.fullScreenCover(isPresented: $isImagePickerPresented) {
+					MultipleImagePicker(doneAction: { photo in
+						selectedImages = photo.filter { $0.url != nil }
+					})
 				}
-				Button("Chat.Cancel".localized, role: .cancel) {
-				}
-			}
-			.fullScreenCover(isPresented: $isImagePickerPresented) {
-				MultipleImagePicker(doneAction: { photo in
-					selectedImages = photo.filter { $0.url != nil }
-				})
-			}
 		}.onChange(of: shouldPaginate) { newValue in
 			if isFirstLoad {
 				isFirstLoad = false
@@ -726,4 +730,7 @@ private extension ChatView {
 	func getPartnerUser(group: IGroupModel?) -> IMemberModel? {
 		return group?.groupMembers.first(where: { $0.userId != DependencyResolver.shared.channelStorage.currentServer?.profile?.userId })
 	}
+}
+extension NSNotification {
+	static let alertChat = Notification.Name.init("alertChat")
 }

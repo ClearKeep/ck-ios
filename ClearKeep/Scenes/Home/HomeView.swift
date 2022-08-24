@@ -181,12 +181,12 @@ struct HomeView: View {
 							 chageStatus: { status in
 						self.changeStatus(status: status)
 					}, servers: $servers)
-					.frame(width: geometry.size.width)
-					.offset(x: isShowMenu ? 0 : geometry.size.width * 2)
-					.transition(.move(edge: .trailing))
-					.animation(.default, value: Constants.duration)
-					.ignoresSafeArea()
-					.padding(.top, Constants.paddingMenu)
+						.frame(width: geometry.size.width)
+						.offset(x: isShowMenu ? 0 : geometry.size.width * 2)
+						.transition(.move(edge: .trailing))
+						.animation(.default, value: Constants.duration)
+						.ignoresSafeArea()
+						.padding(.top, Constants.paddingMenu)
 				}
 			}
 			.onAppear(perform: getServers)
