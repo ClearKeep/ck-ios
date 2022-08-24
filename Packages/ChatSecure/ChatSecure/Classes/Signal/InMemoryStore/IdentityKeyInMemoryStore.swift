@@ -10,7 +10,7 @@ import LibSignalClient
 
 public protocol IIdentityKeyInMemoryStore: IdentityKeyStore {
 	func saveUserIdentity(identity: SignalIdentityKey) throws
-	func deleteUserIdentity(domain: String)
+	func deleteUserIdentity(domain: String, clientId: String)
 }
 
 final class IdentityKeyInMemoryStore {
@@ -69,7 +69,9 @@ extension IdentityKeyInMemoryStore: IIdentityKeyInMemoryStore {
 		let jsonEncoder = JSONEncoder()
 		let identityData = try jsonEncoder.encode(identity)
 		identityKeys[identity.userId + identity.domain] = identity
-		storage.insert(identityData, forKey: identity.userId + identity.domain, collection: .domain(identity.domain))
+		let currrentServer = channelStorage.tempServer
+		let domain = currrentServer?.serverDomain ?? channelStorage.currentDomain
+		storage.insert(identityData, forKey: identity.userId + identity.domain, collection: .domain(domain))
 	}
 	
 	func identityKeyPair(context: StoreContext) throws -> IdentityKeyPair {
@@ -100,7 +102,9 @@ extension IdentityKeyInMemoryStore: IIdentityKeyInMemoryStore {
 		publicKeys[address]
 	}
 	
-	func deleteUserIdentity(domain: String) {
+	func deleteUserIdentity(domain: String, clientId: String) {
 		storage.removeAllObjects(collection: .domain(domain))
+		publicKeys.removeAll()
+		identityKeys.removeAll()
 	}
 }

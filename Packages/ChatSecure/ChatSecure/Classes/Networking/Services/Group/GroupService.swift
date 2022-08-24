@@ -175,6 +175,7 @@ private extension GroupService {
 						try senderStore.storeSenderKey(from: senderAddress, distributionId: uuid, record: senderKeyRecord, context: NullContext())
 						isRegisteredKey = true
 					} catch {
+						print(error)
 						return
 					}
 				}

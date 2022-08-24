@@ -27,4 +27,8 @@ public extension String {
 		let urlPredicate = NSPredicate(format: "SELF MATCHES %@", urlFormat)
 		return urlPredicate.evaluate(with: self)
 	}
+	
+	func removingWhitespaces() -> String {
+		return components(separatedBy: .whitespaces).joined()
+	}
 }

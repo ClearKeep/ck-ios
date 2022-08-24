@@ -13,6 +13,7 @@ enum ChatError: Error {
 	case haveExistACall
 	case permission
 	case removed
+	case downloadFail
 }
 
 enum ChatErrorView {
@@ -23,6 +24,7 @@ enum ChatErrorView {
 	case haveExistACall
 	case permission
 	case removed
+	case downloadFail
 	case unknownError(errorCode: Int?)
 
 	// MARK: Init
@@ -37,9 +39,11 @@ enum ChatErrorView {
 				self = .haveExistACall
 			case .permission:
 				self = .permission
-		case .removed:
-			self = .removed
-		}
+			case .removed:
+				self = .removed
+			case .downloadFail:
+				self = .downloadFail
+			}
 			return
 		}
 		guard let errorResponse = error as? IServerError else {
@@ -70,12 +74,16 @@ enum ChatErrorView {
 				return String(format: "Error.Unknow.Message".localized, errorCode)
 			}
 			return "Unknow.Message".localized
-		case .fileLimit, .fileSize, .haveExistACall:
+		case .haveExistACall:
 			return "General.Warning".localized
+		case .fileLimit, .fileSize:
+			return "Error.SendMessage.Title".localized
 		case .permission:
 			return "Call.PermistionCall".localized
 		case .removed:
 			return ""
+		case .downloadFail:
+			return "General.Error".localized
 		}
 
 	}
@@ -101,10 +109,22 @@ enum ChatErrorView {
 			return "Call.GoToSetting".localized
 		case .removed :
 			return "Chat.Error.Removed".localized
+		case .downloadFail:
+			return "Chat.Error.DownloadFail".localized
 		}
 	}
 
 	var primaryButtonTitle: String {
-		return "General.OK".localized
+		switch self {
+		case .unauthorized, .locked, .haveExistACall, .permission, .removed, .downloadFail:
+			return "General.OK".localized
+		case .fileLimit, .fileSize:
+			return "General.Close".localized
+		case .unknownError(let errorCode):
+			if let errorCode = errorCode {
+				return String(format: "Error.Unknow.Message".localized, errorCode)
+			}
+			return "General.OK".localized
+		}
 	}
 }

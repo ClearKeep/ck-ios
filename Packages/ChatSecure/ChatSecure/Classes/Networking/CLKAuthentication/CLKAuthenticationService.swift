@@ -400,8 +400,8 @@ extension CLKAuthenticationService: IAuthenticationService {
 		
 		let response = await channelStorage.getChannel(domain: server.serverDomain).logout(request)
 		channelStorage.realmManager.deleteMessagesByDomain(domain: domain, ownerId: ownerId)
-		signalStore.deleteKeys(domain: domain)
-		senderKeyStore.removeSenderKey()
+		signalStore.deleteKeys(domain: domain, clientId: ownerId)
+		senderKeyStore.removeSenderKey(domain: domain)
 		switch response {
 		case .success(let data):
 			return(.success(data))

@@ -71,7 +71,7 @@ struct SystemEventsHandler: ISystemEventsHandler {
 	
 	func sceneDidBecomeActive() {
 		container.appState[\.system.isActive] = true
-		NotificationCenter.default.post(name: NSNotification.reloadDataHome, object: nil)
+		// NotificationCenter.default.post(name: NSNotification.reloadDataHome, object: nil)
 	}
 	
 	func sceneWillResignActive() {

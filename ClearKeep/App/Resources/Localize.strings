@@ -33,6 +33,7 @@
 "Error.Authentication.UnAuthorized" = "Please check your details and try again!";
 "Error.Authentication.NotActivated" = "Your account has not been activated. Please check the email for the activation link!";
 "Error.Authentication.Locked" = "Your account has been locked out due to too many attempts. Please try again later!";
+"Error.SendMessage.Title" = "Failed to send message";
 
 // MARK: - Social Login
 "Social.SetPhrase.Back" = "Set Your Security Phrase";
@@ -306,8 +307,10 @@
 "Chat.AddFile" = "Add File";
 "Chat.NextButton" = "Next";
 "Chat.Error.FileLimit" = "Maximum number of attachments in a message reached (10)";
-"Chat.Error.FileSizeLimit" = "Your file cannot be larger than 1GB.";
+"Chat.Error.FileSizeLimit" = "File is larger than 1 GB.";
 "Chat.Error.Removed" = "You have been removed from the conversation.";
+"Chat.Error.DownloadFail" = "Download failed. Please try again.";
+"Chat.DownloadSuccess" = "Download file success.";
 
 // MARK: - 2FA setting
 "2FA.Authentication.Fail.Error" = "Authentication failed. Please retry";

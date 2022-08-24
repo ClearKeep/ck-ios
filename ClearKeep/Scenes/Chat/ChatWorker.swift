@@ -97,7 +97,7 @@ extension ChatWorker: IChatWorker {
 				
 				for try await result in taskGroup {
 					if let fileUrl = result {
-						fileUrlsString.append("\(fileUrl) ")
+						fileUrlsString.append("\(fileUrl.removingWhitespaces()) ")
 					} else {
 						taskGroup.cancelAll()
 					}

@@ -108,6 +108,7 @@ struct ChatView: View {
 	@State private var disableCall = false
 	@State private var errorType: ChatErrorView = .locked
 	@State private var rediectMessageId = ""
+	@State private var isShowDownloadToast = false
 	
 	private let groupId: Int64
 	private let avatarLink: String
@@ -219,6 +220,7 @@ struct ChatView: View {
 								 dismissButton: .default(Text(errorType.primaryButtonTitle)))
 				}
 			})
+			.toast(message: "Chat.DownloadSuccess".localized, isShowing: $isShowDownloadToast, duration: Toast.short)
 			.progressHUD(isShowLoading)
 		}
 		.hiddenNavigationBarStyle()
@@ -558,7 +560,13 @@ private extension ChatView {
 								rediectMessageId: $rediectMessageId,
 								onPressFile: { url in
 					Task {
-						await injected.interactors.chatInteractor.downloadFile(urlString: url)
+						let result = await injected.interactors.chatInteractor.downloadFile(urlString: url)
+						if result {
+							isShowDownloadToast = true
+						} else {
+							self.errorType = .downloadFail
+							alertVisible = true
+						}
 					}
 				}, onClickLink: { url in
 					showingLinkWebView = true
@@ -663,12 +671,13 @@ private extension ChatView {
 	func loadLocalMessage() {
 		print("load local message")
 		messages = injected.interactors.chatInteractor.getMessageFromLocal(groupId: groupId)
-		if messages?.count ?? 0 < 20 {
-			isEndOfPage = true
-		}
-		messages?.forEach({ message in
+
+		messages?.filter { !$0.message.isEmpty }.forEach({ message in
 			dataMessages.append(MessageViewModel(data: message, members: group?.groupMembers ?? []))
 		})
+		if dataMessages.count < 20 {
+			isEndOfPage = true
+		}
 		notificationToken = messages?.observe({ changes in
 			switch changes {
 			case .initial:
@@ -678,7 +687,7 @@ private extension ChatView {
 				if messages?.count ?? 0 < 20 {
 					isEndOfPage = true
 				}
-				messages?.forEach({ message in
+				messages?.filter { !$0.message.isEmpty }.forEach({ message in
 					dataMessages.append(MessageViewModel(data: message, members: group?.groupMembers ?? []))
 				})
 			case .update(_, _, insertions: let insertions, _):
@@ -688,11 +697,11 @@ private extension ChatView {
 				}
 				if let newMessages = messages?.objects(at: IndexSet(insertions)) {
 					if insertions.first ?? 0 >= dataMessages.count {
-						newMessages.forEach { message in
+						newMessages.filter { !$0.message.isEmpty }.forEach { message in
 							dataMessages.append(MessageViewModel(data: message, members: group?.groupMembers ?? []))
 						}
 					} else {
-						newMessages.forEach { message in
+						newMessages.filter { !$0.message.isEmpty }.forEach { message in
 							dataMessages.insert(MessageViewModel(data: message, members: group?.groupMembers ?? []), at: 0)
 						}
 						scrollToBottom = true
