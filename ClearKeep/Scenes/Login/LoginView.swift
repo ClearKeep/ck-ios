@@ -79,23 +79,6 @@ private extension LoginView {
 	var newServerDomainStateUpdate: AnyPublisher<String?, Never> {
 		injected.appState.updates(for: \.authentication.newServerDomain)
 	}
-//
-//	var content: AnyView {
-//		switch loadable {
-//		case .notRequested:
-//			return AnyView(notRequestedView)
-//		case .isLoading:
-//			return AnyView(loadingView)
-//		case .loaded(let data):
-//			return loadedView(data)
-//		case .failed(let error):
-//			if let errorResponse = error as? IServerError,
-//			   errorResponse.message == nil && errorResponse.name == nil && errorResponse.status == nil {
-//				return AnyView(notRequestedView)
-//			}
-//			return AnyView(errorView(LoginViewError(error)))
-//		}
-//	}
 }
 
 // MARK: - Displaying Content
