@@ -294,7 +294,8 @@ final public class CallManager: NSObject {
 					  return
 				  }
 		
-		if callNotification.publication?.clientID == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId {
+		if callNotification.publication?.clientID == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ||
+		   callNotification.publication?.fromClientID == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId {
 			return
 		}
 		
