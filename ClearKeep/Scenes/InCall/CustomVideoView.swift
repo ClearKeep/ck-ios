@@ -135,9 +135,3 @@ struct CustomVideoView: View {
 	}
 	
 }
-
-//struct CustomVideoView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CustomVideoView()
-//    }
-//}

@@ -10,6 +10,7 @@ import Common
 import CommonUI
 import Model
 import ChatSecure
+import Networking
 
 private enum Constants {
 	static let inputViewSpacing = 24.0
@@ -289,6 +290,10 @@ private extension LoginContentView {
 					}
 				
 			case .failed(let error):
+				if let errorResponse = error as? IServerError,
+				   errorResponse.message == nil && errorResponse.name == nil && errorResponse.status == nil {
+					return
+				}
 				self.isShowAlertLogin = true
 				self.activeAlert = .error(err: LoginViewError(error))
 			default:
