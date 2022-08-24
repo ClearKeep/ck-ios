@@ -38,14 +38,21 @@ PODS:
     - Introspect
     - Kingfisher (~> 7.0)
   - CryptoSwift (1.4.3)
-  - FBAEMKit (13.1.0):
-    - FBSDKCoreKit_Basics (= 13.1.0)
-  - FBSDKCoreKit (13.1.0):
-    - FBAEMKit (= 13.1.0)
-    - FBSDKCoreKit_Basics (= 13.1.0)
-  - FBSDKCoreKit_Basics (13.1.0)
-  - FBSDKLoginKit (13.1.0):
-    - FBSDKCoreKit (= 13.1.0)
+  - FBSDKCoreKit (6.5.2):
+    - FBSDKCoreKit/Basics (= 6.5.2)
+    - FBSDKCoreKit/Core (= 6.5.2)
+  - FBSDKCoreKit/Basics (6.5.2)
+  - FBSDKCoreKit/Core (6.5.2):
+    - FBSDKCoreKit/Basics
+  - FBSDKCoreKit/Swift (6.5.2):
+    - FBSDKCoreKit/Core
+  - FBSDKLoginKit (6.5.2):
+    - FBSDKLoginKit/Login (= 6.5.2)
+  - FBSDKLoginKit/Login (6.5.2):
+    - FBSDKCoreKit (~> 6.5.2)
+  - FBSDKLoginKit/Swift (6.5.2):
+    - FBSDKCoreKit/Swift (~> 6.5.2)
+    - FBSDKLoginKit/Login
   - Firebase/Analytics (8.15.0):
     - Firebase/Core
   - Firebase/Core (8.15.0):
@@ -370,7 +377,8 @@ DEPENDENCIES:
   - ChatSecure (from `./Packages/ChatSecure`)
   - Common (from `./Packages/Common`)
   - CommonUI (from `./Packages/CommonUI`)
-  - FBSDKLoginKit
+  - FBSDKCoreKit/Swift
+  - FBSDKLoginKit/Swift
   - Firebase/Analytics
   - GoogleSignIn
   - GoogleWebRTC
@@ -402,9 +410,7 @@ SPEC REPOS:
     - CNIOWindows
     - CocoaLumberjack
     - CryptoSwift
-    - FBAEMKit
     - FBSDKCoreKit
-    - FBSDKCoreKit_Basics
     - FBSDKLoginKit
     - Firebase
     - FirebaseAnalytics
@@ -501,10 +507,8 @@ SPEC CHECKSUMS:
   Common: 113b48b1abf3ffb950cc5d572b2d0fcac54cd672
   CommonUI: 7e13d3080c01ca6c10e014cf05c1baba5acb8f20
   CryptoSwift: a0799ee936271bd2253a006f1e4523df21845000
-  FBAEMKit: 3be32ffb79fe7c0603fed00d81742b23241e89a5
-  FBSDKCoreKit: eff97dea778dbe6cc4498959cffb619c75675102
-  FBSDKCoreKit_Basics: c151609a1cf6976a5958febcf0043266a8fd5151
-  FBSDKLoginKit: 42932c7ad6f6b91854fc0a6bcc79b7e807bcde4b
+  FBSDKCoreKit: ada5c8a05188daefc9addb985c52b8a1b26da519
+  FBSDKLoginKit: caa165495afa29a12324cb2307fe6e5b33783142
   Firebase: 5f8193dff4b5b7c5d5ef72ae54bb76c08e2b841d
   FirebaseAnalytics: 7761cbadb00a717d8d0939363eb46041526474fa
   FirebaseCore: 5743c5785c074a794d35f2fff7ecc254a91e08b1
@@ -558,6 +562,6 @@ SPEC CHECKSUMS:
   SwiftSRP: 98943ac8497e2e7fb1ab1b63f68810aefc28010c
   YapDatabase: 350ab72b61f9dcc32504594da1a52a93f5ef1476
 
-PODFILE CHECKSUM: 909fafabcf7c96c27e245825c29e5e7828cea7f9
+PODFILE CHECKSUM: 1120ee3139e0b70063a3b09c7e402556c77303c2
 
 COCOAPODS: 1.11.3
