@@ -139,24 +139,25 @@ class CallViewModel: NSObject, ObservableObject {
 			self.remotesVideoView.removeAll()
 			
 			if self.callGroup {
-				let groupId =  self.callBox?.roomRtcId ?? 0
+				let groupId = self.callBox?.roomRtcId ?? 0
 				if let lstRemote = self.callBox?.videoRoom?.remotes.values {
 					lstRemote.forEach { (listener) in
-						self.remotesVideoView.append(listener.videoRenderView)
-					   
+						let videoRenderView = listener.videoRenderView
 						if let clientId = listener.display {
 							let keyClientId = "\(clientId)"
-							self.remotesVideoViewDict[keyClientId] = listener.videoRenderView
+							print("dasdasdas", clientId)
+							self.remotesVideoViewDict[keyClientId] = videoRenderView
 							if self.remotesVideoViewConfig[keyClientId] == nil {
 								self.remotesVideoViewConfig[keyClientId] = CustomVideoViewConfig(clientId: keyClientId, groupId: groupId)
 							}
 						}
+						self.remotesVideoView.append(videoRenderView)
 					}
 				}
 				
 				if let localVideo = self.localVideoView {
 					self.remotesVideoView.append(localVideo)
-					
+
 					if let currentUserId = DependencyResolver.shared.channelStorage.currentServer?.profile?.userId {
 						self.remotesVideoViewDict[currentUserId] = localVideo
 						if self.remotesVideoViewConfig[currentUserId] == nil {

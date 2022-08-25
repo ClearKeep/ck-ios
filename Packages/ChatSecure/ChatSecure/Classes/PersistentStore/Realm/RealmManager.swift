@@ -356,10 +356,15 @@ private extension RealmManager {
 	}
 }
 
-// MARK: - User
+// MARK: - Memeber
 extension RealmManager {
 	func removeMember(server: RealmServer) {
 		delete(listOf: RealmMember.self, filter: NSPredicate(format: "%K.%K == %d", #keyPath(RealmMember.server), #keyPath(RealmServer.generateId), server.generateId))
+	}
+	
+	func getMemeberWithId(clientId: String) -> RealmMember? {
+		let members = load(listOf: RealmMember.self, filter: NSPredicate(format: "%K == %@", #keyPath(RealmMember.userId), clientId))
+		return members.first
 	}
 }
 

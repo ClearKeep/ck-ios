@@ -134,11 +134,11 @@ public class JanusRole: JanusPlugin {
 		self.roomId = roomId
 		var msg: [String: Any]
 		if pType == .publish {
-			msg = ["request": "join", "room": NSNumber(value: roomId), "ptype": "publisher"]
-			//            msg["display"] = Multiserver.instance.currentServer.getUserLogin()?.id
-			//            if let username = username {
-			//                msg["display"] = Multiserver.instance.currentServer.getUserLogin()?.id ?? username
-			//            }
+			msg = ["request": "join", "room": NSNumber(value: roomId), "ptype": "publisher", "display": self.display]
+			let displayName = UserDefaults.standard.string(forKey: ChatSecure.Constants.keyDisplayname)
+			if let displayName = displayName {
+				msg["display"] = displayName
+			}
 		} else {
 			msg = ["request": "join", "room": NSNumber(value: roomId), "ptype": "subscriber"]
 			if let id = self.id, let privateId = self.privateId {

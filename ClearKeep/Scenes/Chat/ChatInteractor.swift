@@ -21,6 +21,7 @@ private enum Constants {
 	static let keySaveTurnServerPWD = "keySaveTurnServerPWD"
 	static let keySaveTurnServer = "keySaveTurnServer"
 	static let keySaveStunServer = "keySaveStunServer"
+	static let keyDisplayname = "keyDisplayname"
 }
 
 protocol IChatInteractor {
@@ -245,6 +246,7 @@ extension ChatInteractor: IChatInteractor {
 			UserDefaults.standard.setValue(data.turnServer.pwd, forKey: Constants.keySaveTurnServerPWD)
 			UserDefaults.standard.setValue(data.turnServer.server, forKey: Constants.keySaveTurnServer)
 			UserDefaults.standard.setValue(data.stunServer.server, forKey: Constants.keySaveStunServer)
+			UserDefaults.standard.setValue(DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "", forKey: Constants.keyDisplayname)
 			UserDefaults.standard.synchronize()
 			CallManager.shared.startCall(clientId: clientId,
 										 clientName: clientName,
