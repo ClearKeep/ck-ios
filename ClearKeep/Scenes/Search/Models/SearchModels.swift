@@ -14,12 +14,16 @@ protocol ISearchModels {
 	var groupModel: [IGroupModel]? { get }
 	var userModel: IUser? { get }
 	var members: [IUser]? { get }
+	var searchUserModel: IGetUserResponse? { get }
+	var creatGroupModel: IGroupResponseModel? { get }
 }
 
 struct SearchModels {
 	var groupModel: [IGroupModel]?
 	var userModel: IUser?
 	var members: [IUser]?
+	var searchUserModel: IGetUserResponse?
+	var creatGroupModel: IGroupResponseModel?
 }
 
 extension SearchModels: ISearchModels {
@@ -36,5 +40,13 @@ extension SearchModels: ISearchModels {
 			return UserModel(response: item)
 		}
 		self.init(userModel: UserModel(response: responseUser), members: memberTeams)
+	}
+	
+	init(searchUser: User_SearchUserResponse) {
+		self.init(searchUserModel: UserResponseModel(searchUser: searchUser))
+	}
+	
+	init(creatGroups: Group_GroupObjectResponse) {
+		self.init(creatGroupModel: GroupResponseModel(creatGroups))
 	}
 }

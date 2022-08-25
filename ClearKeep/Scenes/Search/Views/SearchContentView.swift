@@ -11,6 +11,7 @@ import Common
 import CommonUI
 import RealmSwift
 import ChatSecure
+import Model
 
 private enum Constants {
 	static let spacing = 20.0
@@ -29,41 +30,24 @@ struct SearchContentView: View {
 	@State private(set) var searchUserData: [SearchGroupViewModel] = []
 	@State private(set) var searchGroupData: [SearchGroupViewModel] = []
 	@State private(set) var serverText: String = ""
-	@State private(set) var searchCatalogy: SearchCatalogy = .all
+	@Binding var searchCatalogy: SearchCatalogy
 	@State private var searchKeywordStyle: TextInputStyle = .default
-	@Binding var searchUser: [SearchGroupViewModel]
-	@Binding var searchGroup: [SearchGroupViewModel]
+	@State private(set) var searchUser: [SearchGroupViewModel] = []
+	@State private(set) var searchGroup: [SearchGroupViewModel] = []
 	@Binding var loadable: Loadable<ISearchViewModels>
-	@Binding var dataMessages: [SearchMessageViewModel]
+	@State private(set) var dataMessages: [SearchMessageViewModel] = []
 	@State private(set) var searchdataMessages: [SearchMessageViewModel] = []
-
+	
 	// MARK: - Init
 	
 	// MARK: - Body
 	var body: some View {
 		content
-			.background(backgroundColorView)
-			.applyNavigationBarPlainStyle(title: "",
-										  titleColor: titleColor,
-										  backgroundColors: backgroundButtonBack,
-										  leftBarItems: {
-				Text(serverText)
-					.font(AppTheme.shared.fontSet.font(style: .display3))
-					.foregroundColor(titleColor)
-			},
-										  rightBarItems: {
-				ImageButton(AppTheme.shared.imageSet.crossIcon, action: back)
-					.foregroundColor(titleColor)
-			})
-			.onAppear(perform: getUserGroup)
 	}
 }
 
 // MARK: - Private
 private extension SearchContentView {
-	var content: AnyView {
-		AnyView(contentView)
-	}
 	
 	var allContent: AnyView {
 		AnyView(allView)
@@ -81,8 +65,8 @@ private extension SearchContentView {
 		AnyView(messageView)
 	}
 	
-	var resultView: AnyView {
-		searchUserData.isEmpty && searchGroupData.isEmpty ? AnyView(notRequestView) : AnyView(catalogView)
+	var content: AnyView {
+		searchUser.isEmpty && searchGroup.isEmpty && dataMessages.isEmpty ? AnyView(notRequestView) : AnyView(contentView)
 	}
 }
 
@@ -96,7 +80,7 @@ private extension SearchContentView {
 		colorScheme == .light ? AppTheme.shared.colorSet.primaryDefault : AppTheme.shared.colorSet.offWhite
 	}
 	
-	var foregroundColorTitle: Color {
+	var forehigroundColorTitle: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey1 : AppTheme.shared.colorSet.greyLight
 	}
 	
@@ -127,29 +111,8 @@ private extension SearchContentView {
 
 // MARK: - Loading Content
 private extension SearchContentView {
-	var contentView: some View {
-		VStack {
-			SearchTextField(searchText: $searchText,
-							inputStyle: $searchKeywordStyle,
-							placeHolder: "Search.Placehodel".localized,
-							onEditingChanged: { isEditing in
-				searchKeywordStyle = isEditing ? .highlighted : .normal
-			})
-				.onChange(of: searchText, perform: { writing in
-					seachAction(text: writing.lowercased())
-				})
-				.onReceive(searchText.publisher.collect()) {
-					self.searchText = String($0.prefix(200))
-				}
-			CatalogyView(states: SearchCatalogy.allCases, selectedState: $searchCatalogy, selected: SearchCatalogy.all.title)
-			resultView
-				.padding(.top, 16)
-			Spacer()
-		}
-		.padding(.horizontal, Constants.spacingSearch)
-	}
 	
-	var catalogView: some View {
+	var contentView: some View {
 		Group {
 			switch searchCatalogy {
 			case .all:
@@ -178,24 +141,24 @@ private extension SearchContentView {
 	}
 	
 	var allView: some View {
-		SearchAllView(searchUser: .constant(searchUserData), searchGroup: .constant(searchGroupData), searchText: $searchText, dataMessages: $searchdataMessages)
+		SearchAllView(searchUser: .constant(searchUser), searchGroup: .constant(searchGroup), searchText: $searchText, dataMessages: .constant(dataMessages), loadable: $loadable )
 	}
 	
 	var peopleView: some View {
 		ScrollView(showsIndicators: false) {
-			SearchUserView(searchUser: $searchUserData, searchText: $searchText)
+			SearchUserView(searchUser: .constant(searchUser), searchText: $searchText, loadable: $loadable)
 		}
 	}
 	
 	var groupView: some View {
 		ScrollView(showsIndicators: false) {
-			SearchGroupView( searchGroup: $searchGroupData, searchText: $searchText)
+			SearchGroupView( searchGroup: .constant(searchGroup), searchText: $searchText)
 		}
 	}
 	
 	var messageView: some View {
 		ScrollView(showsIndicators: false) {
-			SearchMessageView(searchText: $searchText, dataMessages: $searchdataMessages)
+			SearchMessageView(searchText: $searchText, dataMessages: .constant(dataMessages))
 		}
 	}
 	
@@ -203,31 +166,15 @@ private extension SearchContentView {
 
 // MARK: - Interactor
 private extension SearchContentView {
-	func seachAction(text: String) {
-		self.searchUserData = searchUser.filter { $0.groupName.lowercased().contains(text) }.sorted { $0.updatedAt > $1.updatedAt }
-		self.searchGroupData = searchGroup.filter { $0.groupName.lowercased().contains(text) }.sorted { $0.updatedAt > $1.updatedAt }
-		self.searchdataMessages = dataMessages.filter { $0.message.lowercased().contains(text) }.sorted { $0.dateCreated > $1.dateCreated }
-	}
-	
 	func back() {
 		self.presentationMode.wrappedValue.dismiss()
 	}
-
-	func getUserGroup() {
-		searchGroup.forEach { data in
-			data.groupMembers.map { memberData in
-				let data = SearchGroupViewModel(member: memberData)
-				self.searchUserData.append(data)
-			}
-		}
-	}
 }
-
 // MARK: - Preview
 #if DEBUG
 struct SearchContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		SearchContentView(searchUser: .constant([]), searchGroup: .constant([]), loadable: .constant(.notRequested), dataMessages: .constant([]))
+		SearchContentView(searchCatalogy: .constant(.all), loadable: .constant(.notRequested))
 	}
 }
 #endif

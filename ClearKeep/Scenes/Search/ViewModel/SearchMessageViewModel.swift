@@ -25,7 +25,7 @@ public struct SearchMessageViewModel: Identifiable, Equatable, IMessageViewModel
 	public var isImageMessage: Bool
 	public var isFileMessage: Bool
 	public var clientWorkspaceDomain: String
-	public var avatar : String
+	public var avatar: String
 	public var groupName: String
 
 	public init(data: RealmMessage, members: [IMemberModel], group: String) {
@@ -120,7 +120,7 @@ private extension SearchMessageViewModel {
 		}
 		return member?.avatar ?? ""
 	}
-
+	
 
 	static func isMine(senderID: String, ownerID: String) -> Bool {
 		return senderID == ownerID

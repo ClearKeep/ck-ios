@@ -38,7 +38,7 @@ struct HomeView: View {
 	@State private var navigateToChat: Bool = false
 	@State private var navigateToLogin: Bool = false
 	@State private(set) var customServer: CustomServer = CustomServer()
-	@State private var serverURL: String = ""
+	@State private(set) var serverURL: String = ""
 	@State private(set) var loadable: Loadable<HomeViewModels> = .notRequested {
 		didSet {
 			switch loadable {
@@ -168,8 +168,6 @@ struct HomeView: View {
 						label: {
 						})
 				}
-				.edgesIgnoringSafeArea(.bottom)
-				.progressHUD(isLoading)
 				.hiddenNavigationBarStyle()
 				
 				if isShowMenu {
@@ -262,7 +260,7 @@ private extension HomeView {
 				Task {
 					loadableUrl = await injected.interactors.homeInteractor.workspaceInfo(workspaceDomain: urlString)
 				}
-			}).progressHUD(isLoading))
+			}))
 		} else {
 			return AnyView(HomeContentView(groups: $groups, peers: $peers, serverName: .constant(serverName), isExpandGroup: $isExpandGroup, isExpandDirectMessage: $isExpandDirectMessage))
 		}

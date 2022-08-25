@@ -26,6 +26,8 @@ public struct SearchTextField: View {
 	private let placeHolder: String
 	private let keyboardType: UIKeyboardType
 	private let onEditingChanged: (Bool) -> Void
+	private let onSubmit: (() -> Void)
+	private let submitLabel: SubmitLabel
 
 	// MARK: - Init
 	public init(searchText: Binding<String>,
@@ -33,13 +35,17 @@ public struct SearchTextField: View {
 				inputIcon: Image? = nil,
 				placeHolder: String,
 				keyboardType: UIKeyboardType = .default,
-				onEditingChanged: @escaping (Bool) -> Void) {
+				onEditingChanged: @escaping (Bool) -> Void,
+				onSubmit: @escaping (() -> Void) = {},
+				submitLabel: SubmitLabel = .continue) {
 		self._searchText = searchText
 		self._inputStyle = inputStyle
 		self.inputIcon = inputIcon
 		self.placeHolder = placeHolder
 		self.keyboardType = keyboardType
 		self.onEditingChanged = onEditingChanged
+		self.onSubmit = onSubmit
+		self.submitLabel = submitLabel
 	}
 
 	// MARK: - Body
@@ -57,6 +63,8 @@ public struct SearchTextField: View {
 				.onChange(of: searchText) {
 					shouldShowCancelButton = $0.count > 0
 				}
+				.submitLabel(submitLabel)
+				.onSubmit(self.onSubmit)
 				.font(font)
 				.foregroundColor(textColor)
 				.padding(.vertical, Constants.paddingVertical)

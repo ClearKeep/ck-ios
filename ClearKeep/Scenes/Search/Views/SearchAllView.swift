@@ -11,10 +11,8 @@ import Common
 import CommonUI
 
 private enum Constants {
-	static let paddingTop = 13.0
-	static let paddingGroup = 17.0
-	static let paddingTopGroup = 26.0
-	static let paddingPeople = 37.0
+	static let paddingTop = 16.0
+	static let spacing = 10.0
 }
 
 struct SearchAllView: View {
@@ -27,6 +25,7 @@ struct SearchAllView: View {
 	@Binding var searchGroup: [SearchGroupViewModel]
 	@Binding var searchText: String
 	@Binding var dataMessages: [SearchMessageViewModel]
+	@Binding var loadable: Loadable<ISearchViewModels>
 	
 	// MARK: - Init
 	
@@ -34,7 +33,6 @@ struct SearchAllView: View {
 	var body: some View {
 		content
 			.background(backgroundColorView)
-			.padding(.top, Constants.paddingTop)
 	}
 }
 
@@ -85,22 +83,22 @@ private extension SearchAllView {
 	
 	var resultView: some View {
 		ScrollView(showsIndicators: false) {
-			VStack(alignment: .leading, spacing: 10) {
+			VStack(alignment: .leading, spacing: Constants.spacing) {
 				Text("Search.People".localized.uppercased())
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundColorTitle)
-				SearchUserView(searchUser: $searchUser, searchText: $searchText)
+				SearchUserView(searchUser: $searchUser, searchText: $searchText, loadable: $loadable)
 				Text("Search.GroupChat".localized.uppercased())
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundColorTitle)
 				SearchGroupView(searchGroup: $searchGroup, searchText: $searchText)
-					.padding(.top, Constants.paddingTop)
 				Text("Search.Message".localized.uppercased())
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundColorTitle)
 				SearchMessageView(searchText: $searchText, dataMessages: $dataMessages)
 				Spacer()
 			}
+			.padding(.top, Constants.paddingTop)
 		}
 	}
 }
