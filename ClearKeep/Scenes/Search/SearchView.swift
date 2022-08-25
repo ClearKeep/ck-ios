@@ -102,7 +102,6 @@ private extension SearchView {
 				Spacer()
 			}
 			Spacer()
-			Spacer()
 		}
 	}
 	
