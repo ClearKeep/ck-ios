@@ -28,7 +28,7 @@ struct SearchGroupView: View {
 	
 	// MARK: - Body
 	var body: some View {
-		ForEach(searchGroup) { item in
+		ForEach(searchGroup, id: \.groupId) { item in
 			VStack(alignment: .leading) {
 				NavigationLink(
 					destination: ChatView(inputStyle: .default, groupId: item.groupId, avatarLink: ""),
@@ -72,7 +72,7 @@ private extension SearchGroupView {
 		}
 		return string
 	}
-
+	
 	func action() {
 		self.isGroupChat.toggle()
 	}

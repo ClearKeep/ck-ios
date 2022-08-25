@@ -25,6 +25,7 @@ struct SearchAllView: View {
 	@Binding var searchGroup: [SearchGroupViewModel]
 	@Binding var searchText: String
 	@Binding var dataMessages: [SearchMessageViewModel]
+	@Binding var loadable: Loadable<ISearchViewModels>
 	
 	// MARK: - Init
 	
@@ -32,7 +33,6 @@ struct SearchAllView: View {
 	var body: some View {
 		content
 			.background(backgroundColorView)
-			.padding(.top, Constants.paddingTop)
 	}
 }
 
@@ -87,7 +87,7 @@ private extension SearchAllView {
 				Text("Search.People".localized.uppercased())
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundColorTitle)
-				SearchUserView(searchUser: $searchUser, searchText: $searchText)
+				SearchUserView(searchUser: $searchUser, searchText: $searchText, loadable: $loadable)
 				Text("Search.GroupChat".localized.uppercased())
 					.font(AppTheme.shared.fontSet.font(style: .body2))
 					.foregroundColor(foregroundColorTitle)

@@ -89,7 +89,6 @@ private extension CreateDirectMessageView {
 				self.searchData = userData
 			})
 		}
-
 		if let groupData = data.creatGroup {
 			return AnyView(ChatView(messageText: "", inputStyle: .default, groupId: groupData.groupID, avatarLink: ""))
 		}

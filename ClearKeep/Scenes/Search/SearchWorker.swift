@@ -10,7 +10,6 @@ import Model
 import ChatSecure
 import RealmSwift
 
-
 protocol ISearchWorker {
 	var remoteStore: ISearchRemoteStore { get }
 	var inMemoryStore: ISearchInMemoryStore { get }
@@ -18,6 +17,8 @@ protocol ISearchWorker {
 	func getMessageList(groupId: Int64, loadSize: Int, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
 	func getListStatus(data: [[String: String]]) async -> Result<ISearchModels, Error>
 	func getMessageFromLocal(groupId: Int64, ownerDomain: String, ownerId: String) -> Results<RealmMessage>?
+	func searchUser(keyword: String) async -> (Result<ISearchModels, Error>)
+	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [SearchGroupViewModel]) async -> (Result<ISearchModels, Error>)
 }
 
 struct SearchWorker {
@@ -66,5 +67,20 @@ extension SearchWorker: ISearchWorker {
 
 	func getMessageFromLocal(groupId: Int64, ownerDomain: String, ownerId: String) -> Results<RealmMessage>? {
 		return inMemoryStore.getMessageFromLocal(groupId: groupId, ownerDomain: ownerDomain, ownerId: ownerId)
+	}
+
+	func searchUser(keyword: String) async -> (Result<ISearchModels, Error>) {
+		let result = await remoteStore.searchUser(keyword: keyword, domain: currentDomain ?? channelStorage.currentDomain)
+
+		switch result {
+		case .success(let user):
+			return .success(user)
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+
+	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [SearchGroupViewModel]) async -> (Result<ISearchModels, Error>) {
+		return await remoteStore.createGroup(by: clientId, groupName: groupName, groupType: groupType, lstClient: lstClient, domain: currentDomain ?? channelStorage.currentDomain)
 	}
 }

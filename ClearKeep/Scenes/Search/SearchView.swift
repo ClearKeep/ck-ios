@@ -19,7 +19,7 @@ private enum Constants {
 	static let padding = 20.0
 	static let sizeOffset = 30.0
 	static let sizeIcon = 24.0
-	
+	static let spacingSearch = 16.0
 }
 
 struct SearchView: View {
@@ -30,16 +30,46 @@ struct SearchView: View {
 	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	@State private(set) var loadable: Loadable<ISearchViewModels> = .notRequested
 	@State private(set) var serverText: String = ""
-
+	@State private(set) var inputStyle: TextInputStyle = .default
+	@State private(set) var searchText: String = ""
+	@State private(set) var searchCatalogy: SearchCatalogy = .all
+	@State private var searchKeywordStyle: TextInputStyle = .default
 	// MARK: - Body
 	var body: some View {
 		GeometryReader { _ in
-			self.content
-				.onReceive(inspection.notice) { inspection.visit(self, $0) }
-				.hiddenNavigationBarStyle()
-				.edgesIgnoringSafeArea(.all)
-				.background(backgroundColorView)
-				.onAppear(perform: getdata)
+			VStack {
+				SearchTextField(searchText: $searchText,
+								inputStyle: $searchKeywordStyle,
+								placeHolder: "Search.Placehodel".localized,
+								onEditingChanged: { isEditing in
+					searchKeywordStyle = isEditing ? .highlighted : .normal
+				},
+								onSubmit: { seachAction(text: searchText) })
+					.onReceive(searchText.publisher.collect()) {
+						self.searchText = String($0.prefix(200))
+					}
+				CatalogyView(states: SearchCatalogy.allCases, selectedState: $searchCatalogy, selected: SearchCatalogy.all.title)
+				content
+				Spacer()
+			}
+			.applyNavigationBarPlainStyle(title: "",
+										  titleColor: titleColor,
+										  backgroundColors: backgroundButtonBack,
+										  leftBarItems: {
+				Text(serverText)
+					.font(AppTheme.shared.fontSet.font(style: .display3))
+					.foregroundColor(titleColor)
+			},
+										  rightBarItems: {
+				ImageButton(AppTheme.shared.imageSet.crossIcon, action: back)
+					.foregroundColor(titleColor)
+			})
+			.padding(.horizontal, Constants.spacingSearch)
+			.onReceive(inspection.notice) { inspection.visit(self, $0) }
+			.hiddenNavigationBarStyle()
+			.edgesIgnoringSafeArea(.all)
+			.background(backgroundColorView)
+			.onAppear(perform: { seachAction(text: searchText) })
 		}
 	}
 }
@@ -63,7 +93,17 @@ private extension SearchView {
 // MARK: - Displaying Content
 private extension SearchView {
 	var notRequestedView: some View {
-		SearchContentView(serverText: serverText, searchUser: .constant([]), searchGroup: .constant([]), loadable: $loadable, dataMessages: .constant([]))
+		VStack(alignment: .center) {
+			Spacer()
+			HStack {
+				Spacer()
+				Text("Search.Title.Error".localized)
+					.foregroundColor(forceColorTitle)
+				Spacer()
+			}
+			Spacer()
+			Spacer()
+		}
 	}
 	
 	var loadingView: some View {
@@ -72,12 +112,10 @@ private extension SearchView {
 	
 	func loadedView(_ data: ISearchViewModels) -> AnyView {
 		if let searchGroup = data.groupViewModel?.viewModelGroup {
-			let lstGroup = searchGroup.filter { $0.groupType == "group" }.compactMap { profile in
-				SearchGroupViewModel(group: profile)}
-			
-			let lstUser = searchGroup.filter { $0.groupType == "peer" }.compactMap { profile in
-				SearchGroupViewModel(group: profile)}
-			
+			let lstGroup = searchGroup.filter { $0.groupType == "group" }.filter { $0.groupName.lowercased().contains(searchText) }.sorted { $0.updatedAt > $1.updatedAt }
+
+			let lstUser = searchGroup.filter { $0.groupType != "group" }.filter { $0.groupName.lowercased().contains(searchText) }
+
 			var dataMessages = [SearchMessageViewModel]()
 			searchGroup.forEach { group in
 				let messages = injected.interactors.searchInteractor.getMessageFromLocal(groupId: group.groupId)
@@ -85,11 +123,12 @@ private extension SearchView {
 					dataMessages.append(SearchMessageViewModel(data: message, members: group.groupMembers, group: group.groupName))
 				}
 			}
-
-			return AnyView(SearchContentView(serverText: serverText, searchCatalogy: .all, searchUser: .constant(lstUser), searchGroup: .constant(lstGroup), loadable: $loadable, dataMessages: .constant(dataMessages)))
+			
+			let searchDataMessage = dataMessages.filter { $0.message.lowercased().contains(searchText) }.sorted { $0.dateCreated > $1.dateCreated }
+			return AnyView(SearchContentView(searchText: searchText, serverText: serverText, searchCatalogy: $searchCatalogy, searchUser: lstUser, searchGroup: lstGroup, loadable: $loadable, dataMessages: searchDataMessage))
 		}
-		
-		return AnyView(SearchContentView(serverText: serverText, searchUser: .constant([]), searchGroup: .constant([]), loadable: $loadable, dataMessages: .constant([])))
+
+		return AnyView(notRequestedView)
 	}
 	
 	func errorView(_ error: LoginViewError) -> some View {
@@ -111,14 +150,27 @@ private extension SearchView {
 	var forceColorTitle: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.grey3 : AppTheme.shared.colorSet.greyLight
 	}
+
+	var titleColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.black : AppTheme.shared.colorSet.greyLight2
+	}
+
+	var backgroundButtonBack: [Color] {
+		colorScheme == .light ? [AppTheme.shared.colorSet.background, AppTheme.shared.colorSet.background] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
+	}
 }
 
 // MARK: - Interactors
 private extension SearchView {
-	func getdata() {
+	func seachAction(text: String) {
+		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			loadable = await injected.interactors.searchInteractor.getJoinedGroup()
+			loadable = await injected.interactors.searchInteractor.searchUser(keyword: text)
 		}
+	}
+
+	func back() {
+		self.presentationMode.wrappedValue.dismiss()
 	}
 }
 // MARK: - Preview
