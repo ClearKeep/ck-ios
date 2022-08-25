@@ -39,6 +39,7 @@ extension ChangePasswordInteractor: IChangePasswordInteractor {
 		
 		switch result {
 		case .success(let response):
+			_ = await worker.updateGroupClientKey()
 			loadable.wrappedValue = .failed(ChangePasswordAlert.success)
 		case .failure(let error):
 			loadable.wrappedValue = .failed(error)

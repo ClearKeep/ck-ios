@@ -282,8 +282,6 @@ private extension HomeView {
 // MARK: - Interactors
 private extension HomeView {
 	func getServers() {
-		print("get serverrrrr")
-		DependencyResolver.shared.messageService.updateCurrentRoom(roomId: 0)
 		servers = injected.interactors.homeInteractor.getServers()
 	}
 	

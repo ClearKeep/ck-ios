@@ -69,9 +69,7 @@ extension IdentityKeyInMemoryStore: IIdentityKeyInMemoryStore {
 		let jsonEncoder = JSONEncoder()
 		let identityData = try jsonEncoder.encode(identity)
 		identityKeys[identity.userId + identity.domain] = identity
-		let currrentServer = channelStorage.tempServer
-		let domain = currrentServer?.serverDomain ?? channelStorage.currentDomain
-		storage.insert(identityData, forKey: identity.userId + identity.domain, collection: .domain(domain))
+		storage.insert(identityData, forKey: identity.userId + identity.domain, collection: .domain(identity.domain))
 	}
 	
 	func identityKeyPair(context: StoreContext) throws -> IdentityKeyPair {

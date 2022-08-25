@@ -18,6 +18,7 @@ protocol IChangePasswordWorker {
 	func passwordValid(password: String) -> Bool
 	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool
 	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool
+	func updateGroupClientKey() async -> Bool
 }
 
 struct ChangePasswordWorker {
@@ -56,5 +57,9 @@ extension ChangePasswordWorker: IChangePasswordWorker {
 
 	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool {
 		(passwordValdid == false || confirmPasswordValid == false) ?  false : true
+	}
+	
+	func updateGroupClientKey() async -> Bool {
+		return await remoteStore.updateGroupClientKey(domain: currentDomain ?? channelStorage.currentDomain)
 	}
 }

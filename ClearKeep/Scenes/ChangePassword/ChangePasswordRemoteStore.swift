@@ -13,6 +13,7 @@ import Networking
 
 protocol IChangePasswordRemoteStore {
 	func changePassword(oldPassword: String, newPassword: String, domain: String) async -> Result<IChangePasswordModels, Error>
+	func updateGroupClientKey(domain: String) async -> Bool
 }
 
 struct ChangePasswordRemoteStore {
@@ -29,5 +30,11 @@ extension ChangePasswordRemoteStore: IChangePasswordRemoteStore {
 		case .failure(let error):
 			return .failure(error)
 		}
+	}
+	
+	func updateGroupClientKey(domain: String) async -> Bool {
+		let result = await authenticationService.updateGroupClientKey(domain: domain)
+		print(result)
+		return true
 	}
 }

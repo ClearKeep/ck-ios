@@ -27,6 +27,7 @@ public protocol IChannelStorage {
 	func removeUser(_ server: RealmServer)
 	func removeProfile(_ profileId: String)
 	func updateServerUser(displayName: String, avatar: String, phoneNumber: String, domain: String)
+	func updateKeyServer(salt: String, iv: String, domain: String)
 	func getSenderName(fromClientId: String, groupId: Int64, domain: String, ownerId: String) -> String
 	func getGroupName(groupId: Int64, domain: String, ownerId: String) -> String
 	func getServerWithClientId(clientId: String) -> RealmServer?
@@ -58,7 +59,7 @@ public class ChannelStorage: IChannelStorage {
 	}
 	
 	public func updateTempServer(server: TempServer) {
-		if server.serverDomain != tempServer?.serverDomain {
+		if server.ownerClientId != tempServer?.ownerClientId {
 			self.tempServer = server
 		}
 	}
@@ -103,6 +104,10 @@ public class ChannelStorage: IChannelStorage {
 	
 	public func updateServerUser(displayName: String, avatar: String, phoneNumber: String, domain: String) {
 		realmManager.updateServerUser(displayName: displayName, avatar: avatar, phoneNumber: phoneNumber, domain: domain)
+	}
+	
+	public func updateKeyServer(salt: String, iv: String, domain: String) {
+		realmManager.updateKeyServer(salt: salt, iv: iv, domain: domain)
 	}
 	
 	public func getSenderName(fromClientId: String, groupId: Int64, domain: String, ownerId: String) -> String {
