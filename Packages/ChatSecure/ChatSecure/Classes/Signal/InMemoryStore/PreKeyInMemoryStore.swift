@@ -8,6 +8,10 @@
 import LibSignalClient
 import Common
 
+public protocol IPreKeyInMemoryStore: PreKeyStore {
+	func deletePrekeys(domain: String, clientId: String)
+}
+
 final class PreKeyInMemoryStore {
 	// MARK: - Variables
 	private let storage: YapDatabaseManager
@@ -29,7 +33,8 @@ final class PreKeyInMemoryStore {
 	}
 }
 
-extension PreKeyInMemoryStore: PreKeyStore {
+extension PreKeyInMemoryStore: IPreKeyInMemoryStore {
+	
 	func loadPreKey(id: UInt32, context: StoreContext) throws -> PreKeyRecord {
 		let index = getIndex(preKeyId: id)
 		if let record = prekeyMap[index] {
@@ -55,5 +60,11 @@ extension PreKeyInMemoryStore: PreKeyStore {
 	func removePreKey(id: UInt32, context: StoreContext) throws {
 		let index = getIndex(preKeyId: id)
 		prekeyMap.removeValue(forKey: index)
+	}
+	
+	func deletePrekeys(domain: String, clientId: String) {
+		prekeyMap.removeAll()
+		let index = UInt32(bitPattern: ("\(1)" + domain + clientId).hashCode())
+		storage.remove(String(index))
 	}
 }

@@ -10,7 +10,7 @@ import Foundation
 
 public protocol ISenderKeyStore: SenderKeyStore {
 	func getSenderDistributionID(senderID: String, groupId: Int64, isCreateNew: Bool) -> UUID?
-	func removeSenderKey()
+	func removeSenderKey(domain: String)
 	func saveSenderDistributionID(senderID: String, groupId: Int64)
 }
 
@@ -78,9 +78,9 @@ extension SenderKeyInMemoryStore: ISenderKeyStore {
 		_ = getSenderDistributionID(senderID: senderID, groupId: groupId, isCreateNew: true)
 	}
 	
-	public func removeSenderKey() {
+	public func removeSenderKey(domain: String) {
 		senderUuidMap.removeAll()
 		senderKeyMap.removeAll()
-		storage.removeAllObjects(collection: .domain(channelStorage.currentDomain))
+		storage.removeAllObjects(collection: .domain(domain))
 	}
 }

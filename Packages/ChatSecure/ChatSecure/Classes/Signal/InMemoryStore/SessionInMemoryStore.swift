@@ -7,13 +7,17 @@
 
 import LibSignalClient
 
+public protocol ISessionInMemoryStore: SessionStore {
+	func deleteSessions()
+}
+
 final class SessionInMemoryStore {
 	// MARK: - Variables
 	private var sessionMap: [ProtocolAddress: SessionRecord] = [:]
 	
 }
 
-extension SessionInMemoryStore: SessionStore {
+extension SessionInMemoryStore: ISessionInMemoryStore {
 	func loadSession(for address: ProtocolAddress, context: StoreContext) throws -> SessionRecord? {
 		return sessionMap[address]
 	}
@@ -29,5 +33,9 @@ extension SessionInMemoryStore: SessionStore {
 	
 	func storeSession(_ record: SessionRecord, for address: ProtocolAddress, context: StoreContext) throws {
 		sessionMap[address] = record
+	}
+	
+	func deleteSessions() {
+		sessionMap.removeAll()
 	}
 }

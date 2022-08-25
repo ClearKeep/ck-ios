@@ -37,7 +37,7 @@ struct RootView: View {
 			}
 		}
 		.onReceive(serversUpdate) { servers in
-			if self.servers != servers {
+			if servers.count > self.servers.count {
 				subscribeAndListen()
 			}
 			self.servers = servers

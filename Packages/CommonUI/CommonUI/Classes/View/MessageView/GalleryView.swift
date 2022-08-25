@@ -85,31 +85,33 @@ public struct GalleryView: View {
 						}
 					}
 				
-				HStack {
-					ForEach(0..<imageURLs.count, id: \.self) { index in
-						CachedAsyncImage(url: URL(string: imageURLs[index])) { phase in
-							switch phase {
-							case .empty:
-								ProgressView()
-									.frame(width: 65, height: 65)
-							case .success(let image):
-								image
-									.resizable()
-									.scaledToFill()
-									.aspectRatio(contentMode: .fit)
-									.frame(width: 65, height: 65)
-									.scaleEffect(1.0001)
-									.clipped()
-									.onAppear {
-										loadedImages[index] = image
-									}
-							case .failure(let error):
-								EmptyView()
-									.frame(width: 65, height: 65)
+				ScrollView(.horizontal, showsIndicators: false) {
+					HStack {
+						ForEach(0..<imageURLs.count, id: \.self) { index in
+							CachedAsyncImage(url: URL(string: imageURLs[index])) { phase in
+								switch phase {
+								case .empty:
+									ProgressView()
+										.frame(width: 65, height: 65)
+								case .success(let image):
+									image
+										.resizable()
+										.scaledToFill()
+										.aspectRatio(contentMode: .fit)
+										.frame(width: 65, height: 65)
+										.scaleEffect(1.0001)
+										.clipped()
+										.onAppear {
+											loadedImages[index] = image
+										}
+								case .failure(let error):
+									EmptyView()
+										.frame(width: 65, height: 65)
+								}
+							}.border(.white, width: imageURLs[selected] == imageURLs[index] ? 2 : 0)
+							.onTapGesture {
+								selected = index
 							}
-						}.border(.white, width: imageURLs[selected] == imageURLs[index] ? 2 : 0)
-						.onTapGesture {
-							selected = index
 						}
 					}
 				}.padding()

@@ -331,6 +331,7 @@ private extension MessageService {
 				return false
 			}
 		} catch {
+			print(error)
 			return false
 		}
 	}

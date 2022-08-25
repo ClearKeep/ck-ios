@@ -33,7 +33,7 @@ protocol IChatInteractor {
 	func forwardPeerMessage(message: String, group: IGroupModel) async -> Bool
 	func forwardGroupMessage(message: String, groupId: Int64, isJoined: Bool) async -> Bool
 	func uploadFiles(message: String, fileURLs: [URL], group: IGroupModel?, appendFileSize: Bool, isForceProcessKey: Bool) async -> Loadable<Void>
-	func downloadFile(urlString: String) async
+	func downloadFile(urlString: String) async -> Bool
 	func getMessageFromLocal(groupId: Int64) -> Results<RealmMessage>?
 	func requestVideoCall(isCallGroup: Bool, clientId: String, clientName: String, avatar: String, groupId: Int64, callType type: CallType) async -> Result<Bool, Error>
 	func saveDraftMessage(message: String, roomId: Int64)
@@ -201,8 +201,16 @@ extension ChatInteractor: IChatInteractor {
 		}
 	}
 	
-	func downloadFile(urlString: String) async {
-		_ = await worker.downloadFile(urlString: MessageUtils.getFileDownloadURL(content: urlString))
+	func downloadFile(urlString: String) async -> Bool {
+		let result = await worker.downloadFile(urlString: MessageUtils.getFileDownloadURL(content: urlString))
+		switch result {
+		case .success(let value):
+			print(value)
+			return true
+		case .failure(let error):
+			print(error)
+			return false
+		}
 	}
 	
 	private func processFileSizes(urls: [URL]) -> [FileModel]? {
@@ -309,8 +317,8 @@ struct StubChatInteractor: IChatInteractor {
 		return .notRequested
 	}
 	
-	func downloadFile(urlString: String) async {
-		
+	func downloadFile(urlString: String) async -> Bool {
+		return false
 	}
 	
 	func getMessageFromLocal(groupId: Int64) -> Results<RealmMessage>? {
