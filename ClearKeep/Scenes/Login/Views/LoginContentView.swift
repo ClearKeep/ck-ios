@@ -170,6 +170,7 @@ private extension LoginContentView {
 				ImageButton(AppTheme.shared.imageSet.googleIcon) { doSocialLogin(type: .google) }
 				ImageButton(AppTheme.shared.imageSet.officeIcon) { doSocialLogin(type: .office) }
 				ImageButton(AppTheme.shared.imageSet.facebookIcon) { doSocialLogin(type: .facebook) }
+				ImageButton(AppTheme.shared.imageSet.appleIcon) { doSocialLogin(type: .apple) }
 			}
 		}
 	}

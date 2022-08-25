@@ -43,6 +43,8 @@ extension LoginRemoteStore: ILoginRemoteStore {
 			result = await socialAuthenticationService.signInWithGoogle(domain: domain)
 		case .office:
 			result = await socialAuthenticationService.signInWithOffice(domain: domain)
+		case .apple:
+			result = await socialAuthenticationService.signInWithApple(domain: domain)
 		}
 		
 		switch result {

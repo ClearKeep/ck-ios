@@ -65,6 +65,7 @@ public protocol IImageSet {
 	var forderPlusIcon: Image { get }
 	var googleIcon: Image { get }
 	var officeIcon: Image { get }
+	var appleIcon: Image { get }
 	var facebookIcon: Image { get }
 	var unCheckIcon: Image { get }
 	var checkedIcon: Image { get }

@@ -65,6 +65,11 @@ internal protocol Auth_AuthClientProtocol: GRPCClient {
     callOptions: CallOptions?
   ) -> UnaryCall<Auth_FacebookLoginReq, Auth_SocialLoginRes>
 
+	func login_apple(
+	  _ request: Auth_AppleLoginReq,
+	  callOptions: CallOptions?
+	) -> UnaryCall<Auth_AppleLoginReq, Auth_SocialLoginRes>
+	
   func login_social_challange(
     _ request: Auth_AuthSocialChallengeReq,
     callOptions: CallOptions?
@@ -238,6 +243,24 @@ extension Auth_AuthClientProtocol {
     )
   }
 
+	/// Unary call to login_apple
+	///
+	/// - Parameters:
+	///   - request: Request to send to login_apple.
+	///   - callOptions: Call options.
+	/// - Returns: A `UnaryCall` with futures for the metadata, status and response.
+	internal func login_apple(
+	  _ request: Auth_AppleLoginReq,
+	  callOptions: CallOptions? = nil
+	) -> UnaryCall<Auth_AppleLoginReq, Auth_SocialLoginRes> {
+	  return self.makeUnaryCall(
+		path: "/auth.Auth/login_apple",
+		request: request,
+		callOptions: callOptions ?? self.defaultCallOptions,
+		interceptors: self.interceptors?.makelogin_appleInterceptors() ?? []
+	  )
+	}
+	
   /// Unary call to login_social_challange
   ///
   /// - Parameters:
@@ -407,6 +430,9 @@ internal protocol Auth_AuthClientInterceptorFactoryProtocol {
   /// - Returns: Interceptors to use when invoking 'login_facebook'.
   func makelogin_facebookInterceptors() -> [ClientInterceptor<Auth_FacebookLoginReq, Auth_SocialLoginRes>]
 
+	/// - Returns: Interceptors to use when invoking 'login_apple'.
+	func makelogin_appleInterceptors() -> [ClientInterceptor<Auth_AppleLoginReq, Auth_SocialLoginRes>]
+	
   /// - Returns: Interceptors to use when invoking 'login_social_challange'.
   func makelogin_social_challangeInterceptors() -> [ClientInterceptor<Auth_AuthSocialChallengeReq, Auth_AuthChallengeRes>]
 
@@ -475,7 +501,9 @@ internal protocol Auth_AuthProvider: CallHandlerProvider {
   func login_office(request: Auth_OfficeLoginReq, context: StatusOnlyCallContext) -> EventLoopFuture<Auth_SocialLoginRes>
 
   func login_facebook(request: Auth_FacebookLoginReq, context: StatusOnlyCallContext) -> EventLoopFuture<Auth_SocialLoginRes>
-
+	
+	func login_apple(request: Auth_AppleLoginReq, context: StatusOnlyCallContext) -> EventLoopFuture<Auth_SocialLoginRes>
+	
   func login_social_challange(request: Auth_AuthSocialChallengeReq, context: StatusOnlyCallContext) -> EventLoopFuture<Auth_AuthChallengeRes>
 
   /// authenticated challange
@@ -570,6 +598,15 @@ extension Auth_AuthProvider {
         interceptors: self.interceptors?.makelogin_facebookInterceptors() ?? [],
         userFunction: self.login_facebook(request:context:)
       )
+		
+	case "login_apple":
+	  return UnaryServerHandler(
+		context: context,
+		requestDeserializer: ProtobufDeserializer<Auth_AppleLoginReq>(),
+		responseSerializer: ProtobufSerializer<Auth_SocialLoginRes>(),
+		interceptors: self.interceptors?.makelogin_appleInterceptors() ?? [],
+		userFunction: self.login_apple(request:context:)
+	  )
 
     case "login_social_challange":
       return UnaryServerHandler(
@@ -679,6 +716,11 @@ internal protocol Auth_AuthServerInterceptorFactoryProtocol {
   ///   Defaults to calling `self.makeInterceptors()`.
   func makelogin_facebookInterceptors() -> [ServerInterceptor<Auth_FacebookLoginReq, Auth_SocialLoginRes>]
 
+	/// - Returns: Interceptors to use when handling 'login_apple'.
+	///   Defaults to calling `self.makeInterceptors()`.
+	func makelogin_appleInterceptors() -> [ServerInterceptor<Auth_AppleLoginReq, Auth_SocialLoginRes>]
+
+	
   /// - Returns: Interceptors to use when handling 'login_social_challange'.
   ///   Defaults to calling `self.makeInterceptors()`.
   func makelogin_social_challangeInterceptors() -> [ServerInterceptor<Auth_AuthSocialChallengeReq, Auth_AuthChallengeRes>]

@@ -11,11 +11,14 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import MSAL
 import Networking
+import AuthenticationServices
+import Combine
 
 public protocol ISocialAuthenticationService {
 	func signInWithFB(domain: String) async -> Result<Auth_SocialLoginRes, Error>
 	func signInWithGoogle(domain: String) async -> Result<Auth_SocialLoginRes, Error>
 	func signInWithOffice(domain: String) async -> Result<Auth_SocialLoginRes, Error>
+	func signInWithApple(domain: String) async -> Result<Auth_SocialLoginRes, Error>
 	func signOutFacebookAccount()
 	func signOutGoogleAccount()
 	func signOutO365()
@@ -27,15 +30,17 @@ public enum SocialLoginType {
 	case office(clientId: String, redirectUri: String)
 }
 
-public class SocialAuthenticationService {
+public class SocialAuthenticationService: NSObject {
 	private var googleSignInConfiguration: GIDConfiguration?
 	private var applicationContext: MSALPublicClientApplication?
 	private var webViewParamaters: MSALWebviewParameters?
-	
+	private var bag = Set<AnyCancellable>()
+
 	let kGraphEndpoint = "https://graph.microsoft.com/v1.0/me/"
 	let kAuthority = "https://login.microsoftonline.com/common"
+	var loginApple = PassthroughSubject<ASAuthorizationAppleIDCredential?, Error>()
 	
-	init() {}
+	override init() {}
 	
 	public convenience init(_ socicalLoginTypes: [SocialLoginType]) {
 		self.init()
@@ -144,6 +149,63 @@ extension SocialAuthenticationService: ISocialAuthenticationService {
 		}
 	}
 	
+	public func signInWithApple(domain: String) async -> Result<Auth_SocialLoginRes, Error> {
+		let appleIDProvider = ASAuthorizationAppleIDProvider()
+		let request = appleIDProvider.createRequest()
+		request.requestedScopes = [.fullName, .email]
+		
+		let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+		authorizationController.delegate = self
+		authorizationController.presentationContextProvider = self
+		authorizationController.performRequests()
+		loginApple = PassthroughSubject<ASAuthorizationAppleIDCredential?, Error>()
+		let result: Result<ASAuthorizationAppleIDCredential?, Error> = await withCheckedContinuation({ continuation in
+			self.loginApple.receive(on: RunLoop.main).sink { error in
+				switch error {
+				case .failure(let data):
+					if let error = data as? ASAuthorizationError {
+						switch error.code {
+						case .canceled:
+							continuation.resume(returning: .failure(ServerError.cancel))
+						default:
+							continuation.resume(returning: .failure(ServerError.unknown))
+						}
+						return
+					}
+					
+					continuation.resume(returning: .failure(data))
+				default:
+					continuation.resume(returning: .failure(ServerError.unknown))
+				}
+				
+			} receiveValue: { appleIDCredential in
+				continuation.resume(returning: .success(appleIDCredential))
+			}.store(in: &bag)
+		})
+		
+		switch result {
+		case .success(let data):
+			guard let appleIDCredential = data else {
+				return .failure(ServerError.unknown)
+			}
+			guard let appleIDToken = appleIDCredential.identityToken else {
+				return .failure(ServerError.unknown)
+			}
+			
+			guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+				return .failure(ServerError.unknown)
+			}
+			var request = Auth_AppleLoginReq()
+			request.idToken = idTokenString
+			request.endUserEnv = appleIDCredential.user
+			print(request.idToken)
+			print(request.endUserEnv)
+			return await channelStorage.getChannel(domain: domain).login(request)
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
+	
 	public func signOutFacebookAccount() {
 		let loginManager = LoginManager()
 		loginManager.logOut()
@@ -248,6 +310,21 @@ private extension SocialAuthenticationService {
 				}
 			}
 		})
+	}
+}
+
+
+extension SocialAuthenticationService: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+	public func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+		UIApplication.shared.windows.first { $0.isKeyWindow } ?? UIWindow()
+	}
+	
+	public func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+		self.loginApple.send(authorization.credential as? ASAuthorizationAppleIDCredential)
+	}
+	
+	public func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+		self.loginApple.send(completion: .failure(error))
 	}
 }
 

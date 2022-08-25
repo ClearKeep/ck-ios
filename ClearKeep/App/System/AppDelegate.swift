@@ -183,6 +183,7 @@ extension AppDelegate: PKPushRegistryDelegate {
 				  let self = self else {
 				return
 			}
+			call.acceptCall = true
 			Task {
 				await self.systemEventsHandler?.container.interactors.peerCallInteractor.updateVideoCall(groupID: call.roomRtcId, callType: .acceptCall)
 			}

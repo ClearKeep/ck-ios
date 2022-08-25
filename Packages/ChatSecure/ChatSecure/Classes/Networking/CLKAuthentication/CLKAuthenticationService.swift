@@ -18,6 +18,7 @@ public enum SocialType {
 	case google
 	case facebook
 	case office
+	case apple
 }
 
 public protocol IAuthenticationService {
