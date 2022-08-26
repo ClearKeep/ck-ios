@@ -14,8 +14,11 @@ import SwiftSRP
 // swiftlint:disable function_body_length
 public protocol IMessageService {
 	var currentRoomId: Int64 { get set }
+	var proccessingMessageId: String { get set }
 	
 	func updateCurrentRoom(roomId: Int64)
+	
+	func updateProccessingMessageId(id: String)
 	
 	func sendMessageInPeer(senderId: String,
 						   ownerDomain: String,
@@ -58,6 +61,7 @@ public class MessageService {
 	}
 	
 	public var currentRoomId: Int64 = 0
+	public var proccessingMessageId: String = ""
 }
 
 extension MessageService: IMessageService {
@@ -66,9 +70,13 @@ extension MessageService: IMessageService {
 		self.currentRoomId = roomId
 	}
 	
+	public func updateProccessingMessageId(id: String) {
+		self.proccessingMessageId = id
+	}
+	
 	public func sendMessageInPeer(senderId: String, ownerDomain: String, receiverId: String, receiverDomain: String, groupId: Int64, plainMessage: String, isForceProcessKey: Bool, cachedMessageId: Int) async -> Result<RealmMessage, Error> {
 		channelStorage.updateTempServer(server: TempServer(serverDomain: ownerDomain, ownerClientId: senderId))
-		Debug.DLog("sendMessageInPeer: receivcerId: \(receiverId), groupID: \(groupId)")
+		Debug.DLog("sendMessageInPeer: senderId: \(senderId), senderDomain: \(ownerDomain), receivcerId: \(receiverId), receiverDomain: \(receiverDomain), groupID: \(groupId)")
 		do {
 			let receiverAddress = try ProtocolAddress(name: "\(receiverDomain)_\(receiverId)", deviceId: UInt32(Constants.senderDeviceId))
 			
@@ -127,7 +135,7 @@ extension MessageService: IMessageService {
 				return .failure(ServerError(error))
 			}
 		} catch {
-			Debug.DLog("Send message in peer fail - Can't encrypt message")
+			Debug.DLog("Send message in peer fail - Can't encrypt message \(error)")
 			return .failure(ServerError.unknown)
 		}
 	}
@@ -313,8 +321,7 @@ private extension MessageService {
 			let pbkdf2 = PBKDF2(passPharse: bytesConvertToHexString(bytes: privateKey.serialize()))
 			
 			guard let senderKey = try senderStore.loadSenderKey(from: senderAddress, distributionId: distributionId, context: NullContext()) else { return false }
-			let encryptedSenderKey = pbkdf2.encrypt(data: senderKey.serialize(), saltHex: server.salt)
-			
+			let encryptedSenderKey = pbkdf2.encrypt(data: senderKey.serialize(), saltHex: server.salt, oldIv: server.iv)
 			var request = Signal_GroupRegisterClientKeyRequest()
 			request.groupID = groupID
 			request.deviceID = Int32(Constants.senderDeviceId)

@@ -27,7 +27,7 @@ struct HomeView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.joinServerClosure) private var joinServerClosure: JoinServerClosure
-	@State private var selectedGroupId: Int64 = 0
+	@State private var selectedRoomId: Int64 = 0
 	@State private var selectedNotiDomain: String = ""
 	@State private var showMessageBanner: Bool = false
 	@State private var messageData: MessagerBannerViewModifier.MessageData?
@@ -159,7 +159,7 @@ struct HomeView: View {
 					.hiddenNavigationBarStyle()
 					.padding(.top, Constants.paddingTop)
 					.hideKeyboardOnTapped()
-					NavigationLink(destination: ChatView(inputStyle: .default, groupId: selectedGroupId, avatarLink: ""), isActive: $navigateToChat) {
+					NavigationLink(destination: ChatView(inputStyle: .default, groupId: DependencyResolver.shared.messageService.currentRoomId, avatarLink: ""), isActive: $navigateToChat) {
 						EmptyView()
 					}
 					NavigationLink(
@@ -168,6 +168,7 @@ struct HomeView: View {
 						label: {
 						})
 				}
+				.progressHUD(isLoading)
 				.hiddenNavigationBarStyle()
 				
 				if isShowMenu {
@@ -224,7 +225,7 @@ struct HomeView: View {
 						}
 					}
 					if DependencyResolver.shared.messageService.currentRoomId != message.groupId {
-						self.selectedGroupId = message.groupId
+						selectedRoomId = message.groupId
 						self.selectedNotiDomain = ownerDomain
 						self.showMessageBanner = true
 					}
@@ -240,6 +241,7 @@ struct HomeView: View {
 		}
 		.messagerBannerModifier(data: $messageData, show: $showMessageBanner, onTap: {
 			servers = injected.interactors.homeInteractor.didSelectServer(selectedNotiDomain)
+			DependencyResolver.shared.messageService.updateCurrentRoom(roomId: selectedRoomId)
 			navigateToChat = true
 		})
 		.inCallModifier(callViewModel: callViewModel, isInCall: $isInCall)
