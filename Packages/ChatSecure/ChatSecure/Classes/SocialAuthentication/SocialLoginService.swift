@@ -198,8 +198,6 @@ extension SocialAuthenticationService: ISocialAuthenticationService {
 			var request = Auth_AppleLoginReq()
 			request.idToken = idTokenString
 			request.endUserEnv = appleIDCredential.user
-			print(request.idToken)
-			print(request.endUserEnv)
 			return await channelStorage.getChannel(domain: domain).login(request)
 		case .failure(let error):
 			return .failure(error)
