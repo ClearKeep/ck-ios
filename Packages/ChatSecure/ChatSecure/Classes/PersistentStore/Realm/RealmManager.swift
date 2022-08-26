@@ -212,6 +212,15 @@ extension RealmManager {
 		}
 	}
 	
+	func updateKeyServer(salt: String, iv: String, domain: String) {
+		if let oldServer = getServer(by: domain) {
+			write { _ in
+				oldServer.iv = iv
+				oldServer.salt = salt
+			}
+		}
+	}
+	
 	func getServer(by domain: String) -> RealmServer? {
 		let servers = load(listOf: RealmServer.self, filter: NSPredicate(format: "serverDomain == %@", domain))
 		return servers.first
