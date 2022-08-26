@@ -125,8 +125,6 @@ private extension CreateGroupView {
 			self.showAlertPopup = true
 			return
 		}
-		
-		self.presentationMode.wrappedValue.dismiss()
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
 			var clientGroup = clientInGroup
@@ -135,8 +133,11 @@ private extension CreateGroupView {
 			let client = CreatGroupGetUsersViewModel(id: profile?.userId ?? "", displayName: profile?.userName ?? "", workspaceDomain: domain)
 			clientGroup.append(client)
 			loadable = await injected.interactors.chatGroupInteractor.createGroup(by: profile?.userId ?? "fail", groupName: nameGroup.trimmingCharacters(in: .whitespacesAndNewlines), groupType: "group", lstClient: clientGroup)
-
 		}
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+			self.presentationMode.wrappedValue.dismiss()
+		})
+
 	}
 }
 

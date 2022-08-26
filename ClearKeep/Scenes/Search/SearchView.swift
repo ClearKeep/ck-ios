@@ -52,6 +52,7 @@ struct SearchView: View {
 				content
 				Spacer()
 			}
+			.padding(.horizontal, Constants.spacingSearch)
 			.applyNavigationBarPlainStyle(title: "",
 										  titleColor: titleColor,
 										  backgroundColors: backgroundButtonBack,
@@ -64,7 +65,6 @@ struct SearchView: View {
 				ImageButton(AppTheme.shared.imageSet.crossIcon, action: back)
 					.foregroundColor(titleColor)
 			})
-			.padding(.horizontal, Constants.spacingSearch)
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.hiddenNavigationBarStyle()
 			.edgesIgnoringSafeArea(.all)
