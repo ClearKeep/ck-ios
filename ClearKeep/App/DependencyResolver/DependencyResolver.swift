@@ -71,7 +71,7 @@ class DependencyResolver {
 																		   redirectUri: ConfigurationProvider.default.officeRedirectUri)
 																  ])
 		groupService = GroupService(senderStore: senderStore, signalStore: signalStore)
-		userService = UserService(clientStore: clientStore)
+		userService = UserService(signalStore: signalStore)
 		uploadFileService = UploadFileService()
 		callService = CallService()
 		workspaceService = WorkspaceService()

@@ -36,10 +36,10 @@ public protocol IUserService {
 public class UserService {
 	var byteV: UnsafePointer<CUnsignedChar>?
 	var usr: OpaquePointer?
-	var clientStore: ClientStore
+	private let signalStore: ISignalProtocolInMemoryStore
 	
-	public init(clientStore: ClientStore) {
-		self.clientStore = clientStore
+	public init(signalStore: ISignalProtocolInMemoryStore) {
+		self.signalStore = signalStore
 	}
 }
 
@@ -140,41 +140,24 @@ extension UserService: IUserService {
 			guard let mValue = await srp.getM(salt: data.salt.hexaBytes, byte: data.publicChallengeB.hexaBytes, usr: usr) else { return .failure(ServerError.unknown) }
 			let mHex = bytesConvertToHexString(bytes: mValue)
 			
-			guard let salt = srp.getSalt(userName: email, rawPassword: newPassword, byteV: &byteV),
+			guard let newSalt = srp.getSalt(userName: email, rawPassword: newPassword, byteV: &byteV),
 				  let verificator = srp.getVerificator(byteV: byteV) else { return(.failure(ServerError.unknown)) }
-			let saltHex = bytesConvertToHexString(bytes: salt)
+			let newSaltHex = bytesConvertToHexString(bytes: newSalt)
 			let verificatorHex = bytesConvertToHexString(bytes: verificator)
 			
 			srp.freeMemoryAuthenticate(usr: &usr)
 			
 			let pbkdf2 = PBKDF2(passPharse: newPassword)
 			
-			let key = KeyHelper.generateIdentityKeyPair()
-			let preKeys = KeyHelper.generatePreKeys(withStartingPreKeyId: 1, count: 1)
-			guard let preKey = preKeys.first,
-				  let signedPreKeyRecord = KeyHelper.generateSignedPreKeyRecord(withIdentity: key, signedPreKeyId: UInt32(bitPattern: (email + domain).hashCode()))
-			else { return(.failure(ServerError.unknown)) }
+			guard let oldIdentityKey = try? signalStore.identityStore.identityKeyPair(context: NullContext()) else { return .failure(ServerError.unknown) }
 			
-			let preKeyData = preKey.serialize()
-			let signedPrekeyRecordData = signedPreKeyRecord.serialize()
-			
-			var transitionId = KeyHelper.generateRegistrationId()
-			
-			var peerRegisterClientKeyRequest = Auth_PeerRegisterClientKeyRequest()
-			peerRegisterClientKeyRequest.deviceID = Int32(Constants.senderDeviceId)
-			peerRegisterClientKeyRequest.registrationID = Int32(bitPattern: transitionId)
-			peerRegisterClientKeyRequest.identityKeyPublic = Data(key.publicKey.serialize())
-			peerRegisterClientKeyRequest.preKey = Data(preKeyData)
-			peerRegisterClientKeyRequest.preKeyID = Int32(bitPattern: preKey.id)
-			peerRegisterClientKeyRequest.signedPreKey = Data(signedPrekeyRecordData)
-			peerRegisterClientKeyRequest.signedPreKeyID = Int32(bitPattern: signedPreKeyRecord.id)
-			let encrypt = pbkdf2.encrypt(data: key.privateKey.serialize(), saltHex: saltHex)
+			let encrypt = pbkdf2.encrypt(data: oldIdentityKey.privateKey.serialize(), saltHex: newSaltHex)
 			
 			var request = User_ChangePasswordRequest()
 			request.clientPublic = aHex
 			request.clientSessionKeyProof = mHex
 			request.hashPassword = verificatorHex
-			request.salt = saltHex
+			request.salt = newSaltHex
 			request.ivParameter = bytesConvertToHexString(bytes: pbkdf2.iv)
 			request.identityKeyEncrypted = bytesConvertToHexString(bytes: encrypt ?? [])
 			
@@ -182,6 +165,7 @@ extension UserService: IUserService {
 			switch response {
 			case .success(let data):
 				Debug.DLog("change password success")
+				channelStorage.updateKeyServer(salt: newSaltHex, iv: bytesConvertToHexString(bytes: pbkdf2.iv), domain: domain)
 				return(.success(data))
 			case .failure(let error):
 				Debug.DLog("change password fail - \(error)")

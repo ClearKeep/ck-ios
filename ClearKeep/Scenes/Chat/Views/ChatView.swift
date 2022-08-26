@@ -234,6 +234,7 @@ struct ChatView: View {
 		.onDisappear {
 			injected.interactors.chatInteractor.saveDraftMessage(message: messageText, roomId: groupId)
 			notificationToken?.invalidate()
+			DependencyResolver.shared.messageService.updateCurrentRoom(roomId: 0)
 		}
 	}
 }

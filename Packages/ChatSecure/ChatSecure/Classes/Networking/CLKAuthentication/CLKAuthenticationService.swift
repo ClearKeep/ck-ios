@@ -31,6 +31,7 @@ public protocol IAuthenticationService {
 	func logoutFromAPI(domain: String) async -> Result<Auth_BaseResponse, Error>
 	func validateOTP(password: String, userId: String, otp: String, otpHash: String, haskKey: String, domain: String) async -> Result<Auth_AuthRes, Error>
 	func mfaResendOTP(userId: String, otpHash: String, domain: String) async -> Result<Auth_MfaResendOtpRes, Error>
+	func updateGroupClientKey(domain: String) async -> Result<Signal_BaseResponse, Error>
 }
 
 public class CLKAuthenticationService {
@@ -401,7 +402,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 		let response = await channelStorage.getChannel(domain: server.serverDomain).logout(request)
 		channelStorage.realmManager.deleteMessagesByDomain(domain: domain, ownerId: ownerId)
 		signalStore.deleteKeys(domain: domain, clientId: ownerId)
-		senderKeyStore.removeSenderKey(domain: domain)
+		senderKeyStore.removeSenderKey()
 		switch response {
 		case .success(let data):
 			return(.success(data))
@@ -457,6 +458,46 @@ extension CLKAuthenticationService: IAuthenticationService {
 			return(.success(data))
 		case .failure(let error):
 			Debug.DLog("resend otp login failed - \(error)")
+			return(.failure(error))
+		}
+	}
+	
+	public func updateGroupClientKey(domain: String) async -> Result<Signal_BaseResponse, Error> {
+		do {
+			guard let server = channelStorage.currentServer else { return .failure(ServerError.unknown) }
+			let groups = channelStorage.realmManager.getJoinedGroup(ownerId: server.ownerClientId, domain: domain).filter { $0.groupType == "group" }
+			
+			let identityKey = try signalStore.identityStore.identityKeyPair(context: NullContext())
+			let privateKey = identityKey.privateKey
+			let pbkdf2 = PBKDF2(passPharse: bytesConvertToHexString(bytes: privateKey.serialize()))
+			let senderAddress = try ProtocolAddress(name: "\(domain)_\(server.ownerClientId)", deviceId: UInt32(Constants.senderDeviceId))
+			
+			var listGroupClientKey = [Signal_GroupRegisterClientKeyRequest]()
+			groups.forEach { group in
+				guard let distributionId = senderKeyStore.getSenderDistributionID(senderID: server.ownerClientId, groupId: group.groupId, isCreateNew: false) else { return }
+				guard let senderKey = try? senderKeyStore.loadSenderKey(from: senderAddress, distributionId: distributionId, context: NullContext()) else { return }
+				let encryptedSenderKey = pbkdf2.encrypt(data: senderKey.serialize(), saltHex: server.salt)
+				
+				let request: Signal_GroupRegisterClientKeyRequest = .with {
+					$0.groupID = group.groupId
+					$0.senderKey = Data(encryptedSenderKey ?? [])
+				}
+				listGroupClientKey.append(request)
+			}
+			var request = Signal_GroupUpdateClientKeyRequest()
+			request.listGroupClientKey = listGroupClientKey
+			
+			let response = await channelStorage.getChannel(domain: domain).groupUpdateClientKey(request)
+			switch response {
+			case .success(let data):
+				Debug.DLog("updateGroupClientKey success - \(data)")
+				return(.success(data))
+			case .failure(let error):
+				Debug.DLog("updateGroupClientKey failed - \(error)")
+				return(.failure(error))
+			}
+		} catch {
+			Debug.DLog("updateGroupClientKey failed - \(error)")
 			return(.failure(error))
 		}
 	}

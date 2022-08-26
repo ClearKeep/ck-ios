@@ -10,7 +10,7 @@ import Foundation
 
 public protocol ISenderKeyStore: SenderKeyStore {
 	func getSenderDistributionID(senderID: String, groupId: Int64, isCreateNew: Bool) -> UUID?
-	func removeSenderKey(domain: String)
+	func removeSenderKey()
 	func saveSenderDistributionID(senderID: String, groupId: Int64)
 }
 
@@ -63,13 +63,18 @@ extension SenderKeyInMemoryStore: ISenderKeyStore {
 		if let existingId = senderUuidMap[key] {
 			return existingId
 		} else {
-			if isCreateNew {
-				let uuidString = "\(groupId)" + senderID.dropFirst(String(groupId).count)
-				let uuid = UUID(uuidString: uuidString)
-				senderUuidMap[key] = uuid
+			if let uuid: UUID = storage.object(forKey: key, collection: .domain(channelStorage.tempServer?.serverDomain ?? channelStorage.currentDomain)) {
 				return uuid
 			} else {
-				return nil
+				if isCreateNew {
+					let uuidString = "\(groupId)" + senderID.dropFirst(String(groupId).count)
+					let uuid = UUID(uuidString: uuidString)
+					senderUuidMap[key] = uuid
+					storage.insert(uuid, forKey: key, collection: .domain(channelStorage.tempServer?.serverDomain ?? channelStorage.currentDomain))
+					return uuid
+				} else {
+					return nil
+				}
 			}
 		}
 	}
@@ -78,9 +83,8 @@ extension SenderKeyInMemoryStore: ISenderKeyStore {
 		_ = getSenderDistributionID(senderID: senderID, groupId: groupId, isCreateNew: true)
 	}
 	
-	public func removeSenderKey(domain: String) {
+	public func removeSenderKey() {
 		senderUuidMap.removeAll()
 		senderKeyMap.removeAll()
-		storage.removeAllObjects(collection: .domain(domain))
 	}
 }
