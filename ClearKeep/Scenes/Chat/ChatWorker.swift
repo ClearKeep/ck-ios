@@ -9,6 +9,7 @@ import Model
 import ChatSecure
 import CommonUI
 import RealmSwift
+import Common
 
 protocol IChatWorker {
 	var remoteStore: IChatRemoteStore { get }

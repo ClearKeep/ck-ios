@@ -10,6 +10,7 @@ import Combine
 import ChatSecure
 import Model
 import Networking
+import Common
 
 protocol ISearchRemoteStore {
 	func getJoinedGroup(domain: String) async -> Result<ISearchModels, Error>

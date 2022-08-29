@@ -14,7 +14,6 @@ PODS:
     - Mantle
     - MSAL
     - Networking
-    - RealmSwift
     - SignalProtocolObjC
     - SignalServiceKit
     - SocketRocket
@@ -33,6 +32,8 @@ PODS:
   - CocoaLumberjack/Core (3.7.4)
   - Common (1.0.0):
     - KeychainAccess
+    - Networking
+    - RealmSwift
   - CommonUI (1.0.0):
     - Common
     - Introspect
@@ -173,7 +174,6 @@ PODS:
   - nanopb/encode (2.30908.0)
   - netfox (1.21.0)
   - Networking (1.0.0):
-    - Common
     - gRPC-Swift
     - Model
     - SwiftProtobuf
@@ -495,7 +495,7 @@ SPEC CHECKSUMS:
   _NIODataStructures: d8175e5ca5a34ec19b7ff21de298dd2a4d30818d
   AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
   CGRPCZlib: 30d7ed7cd286bf929605052dd64075a694d86d0c
-  ChatSecure: 061179a0392c68fd3941238d88021860a6eb2103
+  ChatSecure: fd0025cc64857413e05356f9227eafe51579a850
   CNIOAtomics: 00b638e1b0dac91d06d4bb089ea9126c117c6650
   CNIOBoringSSL: c99129423da079a9eb74bcfc7cfec41a6775cf94
   CNIOBoringSSLShims: 902ae35fea0b6be5eefb4fdce906751886cfa46f
@@ -504,7 +504,7 @@ SPEC CHECKSUMS:
   CNIOLinux: f8801300bb296d16dee59a82aba1613a08cfbe23
   CNIOWindows: 1cc6fb2af1d445f52f2d39cecf7069873f7d5b0d
   CocoaLumberjack: 543c79c114dadc3b1aba95641d8738b06b05b646
-  Common: 113b48b1abf3ffb950cc5d572b2d0fcac54cd672
+  Common: e3c30556145a36a52c70942b4e81a4c625c0bca9
   CommonUI: 7e13d3080c01ca6c10e014cf05c1baba5acb8f20
   CryptoSwift: a0799ee936271bd2253a006f1e4523df21845000
   FBSDKCoreKit: ada5c8a05188daefc9addb985c52b8a1b26da519
@@ -532,7 +532,7 @@ SPEC CHECKSUMS:
   MSAL: 460571f34a9062c501841d099f8e51fc30557deb
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   netfox: 9d5cc727fe7576c4c7688a2504618a156b7d44b7
-  Networking: 922f56016618067e03318725e99cce62c987dbc0
+  Networking: 8c229e55db7c220043e5fdb5a819e03736655559
   OpenSSL-Universal: cd40d7493c1e9696794f62e2a0e8c729115b7188
   PhoneNumberKit: 441e8b26ec88d598e3591de9061eff18f5dd12e8
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
@@ -562,6 +562,6 @@ SPEC CHECKSUMS:
   SwiftSRP: 98943ac8497e2e7fb1ab1b63f68810aefc28010c
   YapDatabase: 350ab72b61f9dcc32504594da1a52a93f5ef1476
 
-PODFILE CHECKSUM: 1120ee3139e0b70063a3b09c7e402556c77303c2
+PODFILE CHECKSUM: b47461bf0dc7f64e07a7598828baa659ddb3f13c
 
 COCOAPODS: 1.11.3

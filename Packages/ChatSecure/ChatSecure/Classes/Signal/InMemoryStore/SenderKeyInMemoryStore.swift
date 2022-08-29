@@ -63,18 +63,13 @@ extension SenderKeyInMemoryStore: ISenderKeyStore {
 		if let existingId = senderUuidMap[key] {
 			return existingId
 		} else {
-			if let uuid: UUID = storage.object(forKey: key, collection: .domain(channelStorage.tempServer?.serverDomain ?? channelStorage.currentDomain)) {
+			if isCreateNew {
+				let uuidString = "\(groupId)" + senderID.dropFirst(String(groupId).count)
+				let uuid = UUID(uuidString: uuidString)
+				senderUuidMap[key] = uuid
 				return uuid
 			} else {
-				if isCreateNew {
-					let uuidString = "\(groupId)" + senderID.dropFirst(String(groupId).count)
-					let uuid = UUID(uuidString: uuidString)
-					senderUuidMap[key] = uuid
-					storage.insert(uuid, forKey: key, collection: .domain(channelStorage.tempServer?.serverDomain ?? channelStorage.currentDomain))
-					return uuid
-				} else {
-					return nil
-				}
+				return nil
 			}
 		}
 	}

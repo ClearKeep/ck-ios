@@ -90,6 +90,9 @@ target 'ClearKeepUITests' do
 end
 
 target 'notificationextension' do
+	# Pods for notificationextension
+	pod 'Model', :path => './Packages/Model'
+	pod 'Common', :path => './Packages/Common'
 end
 
 post_install do |installer|

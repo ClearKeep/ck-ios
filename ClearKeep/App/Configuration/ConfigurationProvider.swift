@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ChatSecure
+import Model
 
 protocol IConfiguration: IChatSecureConfig {}
 
@@ -56,18 +56,19 @@ enum ConfigurationProvider: IConfiguration {
 	}
 	
 	var dataBaseDebug: String {
-		Configuration.value(for: Keys.databaseDebug)
+		// Configuration.value(for: Keys.databaseDebug)
+		"false"
 	}
 	
 	var databaseURL: URL? {
 		if dataBaseDebug == "true" {
 			let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)
 			let baseDir = paths.count > 0 ? paths[0] : NSTemporaryDirectory()
-			return URL(fileURLWithPath: baseDir).appendingPathComponent(Configuration.value(for: Keys.databasePath))
+			return URL(fileURLWithPath: baseDir).appendingPathComponent("qa.db")
 		}
 		
-		let sharedDirectoryURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Configuration.value(for: Keys.appGroupName))
-		return sharedDirectoryURL?.appendingPathComponent(Configuration.value(for: Keys.databasePath))
+		let sharedDirectoryURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.telred.clearkeep.qa")
+		return sharedDirectoryURL?.appendingPathComponent("qa.db")
 	}
 	
 	var yapDatabaseURL: URL {

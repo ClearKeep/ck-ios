@@ -8,6 +8,7 @@
 import Foundation
 import Networking
 import Model
+import Common
 
 public protocol IChannelStorage {
 	var config: IChatSecureConfig { get }

@@ -9,6 +9,7 @@ import Foundation
 import Networking
 import LibSignalClient
 import SwiftSRP
+import Common
 
 public protocol IGroupService {
 	func createGroup(by clientId: String, groupName: String, groupType: String, lstClient: [Group_ClientInGroupObject], domain: String) async -> (Result<Group_GroupObjectResponse, Error>)

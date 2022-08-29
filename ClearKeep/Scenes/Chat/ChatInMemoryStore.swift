@@ -8,6 +8,7 @@
 import Foundation
 import ChatSecure
 import RealmSwift
+import Common
 
 protocol IChatInMemoryStore {
 	func getJoinedGroupsFromLocal(ownerId: String, domain: String) async -> [RealmGroup]

@@ -6,7 +6,7 @@
 //
 
 import Model
-import ChatSecure
+import Common
 
 struct GroupModel: IGroupModel {
 	var groupId: Int64 = 0

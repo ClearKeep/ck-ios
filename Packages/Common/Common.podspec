@@ -15,5 +15,7 @@ Pod::Spec.new do |spec|
 	spec.source_files = 'Common/**/*.{swift,h,m,c}'
 	
 	spec.dependency 'KeychainAccess'
+	spec.dependency 'RealmSwift'
+	spec.dependency 'Networking'
 end
 

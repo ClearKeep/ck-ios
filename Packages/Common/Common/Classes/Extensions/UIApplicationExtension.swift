@@ -11,6 +11,7 @@ private enum Constants {
 	static let statusBarTag = 1234
 }
 public extension UIApplication {
+	@available(iOSApplicationExtension, unavailable)
 	func setStatusBarBackgroundColor(_ color: UIColor) {
 		if #available(iOS 13.0, *) {
 			let keyWindow = UIApplication.shared.windows.filter { $0.isKeyWindow }.first

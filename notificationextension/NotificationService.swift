@@ -6,6 +6,7 @@
 //
 
 import UserNotifications
+import Common
 
 class NotificationService: UNNotificationServiceExtension {
 	var contentHandler: ((UNNotificationContent) -> Void)?
@@ -14,12 +15,32 @@ class NotificationService: UNNotificationServiceExtension {
 	override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
 		self.contentHandler = contentHandler
 		bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
-		
 		if let bestAttemptContent = bestAttemptContent {
-			// Modify the notification content here...
-			bestAttemptContent.title = "\(bestAttemptContent.title) [modified]"
-			
-			contentHandler(bestAttemptContent)
+			if let publication = bestAttemptContent.userInfo["publication"],
+			   let jsonString = publication as? String,
+			   let jsonData = jsonString.data(using: .utf8) {
+				do {
+					let publication = try JSONDecoder().decode(PublicationMessageNotification.self, from: jsonData)
+					let realmManager = RealmManager(databasePath: ConfigurationProvider.default.databaseURL)
+					if publication.groupType == "peer" {
+						// decrypt peer message
+						let senderName = realmManager.getSenderName(fromClientId: publication.fromClientId, groupId: publication.groupId, domain: publication.clientWorkspaceDomain, ownerId: publication.clientId)
+						bestAttemptContent.title = senderName
+						contentHandler(bestAttemptContent)
+					} else {
+						// decrypt group message
+						let senderName = realmManager.getGroupName(by: publication.groupId, domain: publication.clientWorkspaceDomain, ownerId: publication.clientId)
+						bestAttemptContent.title = senderName
+						contentHandler(bestAttemptContent)
+					}
+				} catch {
+					bestAttemptContent.body = "\(#function) 1"
+					contentHandler(bestAttemptContent)
+				}
+			} else {
+				bestAttemptContent.body = "\(#function) 2"
+				contentHandler(bestAttemptContent)
+			}
 		}
 	}
 	

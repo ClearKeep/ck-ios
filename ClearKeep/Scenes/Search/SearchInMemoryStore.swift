@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ChatSecure
+import Common
 import RealmSwift
 
 protocol ISearchInMemoryStore {

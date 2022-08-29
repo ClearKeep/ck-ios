@@ -7,8 +7,9 @@
 
 import Networking
 import Model
-import ChatSecure
+import Common
 import RealmSwift
+import ChatSecure
 
 protocol ISearchWorker {
 	var remoteStore: ISearchRemoteStore { get }

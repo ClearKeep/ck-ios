@@ -8,6 +8,7 @@
 import ChatSecure
 import Model
 import CommonUI
+import Common
 
 protocol IChatRemoteStore {
 	func getGroupById(domain: String, id: Int64) async -> Result<IGroupModel, Error>

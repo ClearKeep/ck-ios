@@ -18,6 +18,7 @@ public class AppInfo {
 	public static let osVersion = UIDevice.current.systemVersion
 	
 	// MARK: - Variables
+	@available(iOSApplicationExtension, unavailable)
 	public class var appIconBadgeNumber: Int {
 		get { return UIApplication.shared.applicationIconBadgeNumber }
 		set(value) { UIApplication.shared.applicationIconBadgeNumber = value }

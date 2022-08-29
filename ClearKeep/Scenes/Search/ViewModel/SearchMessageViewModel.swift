@@ -8,7 +8,7 @@
 import Foundation
 import CommonUI
 import Model
-import ChatSecure
+import Common
 
 public struct SearchMessageViewModel: Identifiable, Equatable, IMessageViewModel {
 	public var id: String
