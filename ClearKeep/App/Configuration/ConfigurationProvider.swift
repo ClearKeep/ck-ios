@@ -64,11 +64,11 @@ enum ConfigurationProvider: IConfiguration {
 		if dataBaseDebug == "true" {
 			let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)
 			let baseDir = paths.count > 0 ? paths[0] : NSTemporaryDirectory()
-			return URL(fileURLWithPath: baseDir).appendingPathComponent("qa.db")
+			return URL(fileURLWithPath: baseDir).appendingPathComponent("development.realm")
 		}
 		
-		let sharedDirectoryURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.telred.clearkeep.qa")
-		return sharedDirectoryURL?.appendingPathComponent("qa.db")
+		let sharedDirectoryURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.telred.clearkeep.dev")
+		return sharedDirectoryURL?.appendingPathComponent("development.realm")
 	}
 	
 	var yapDatabaseURL: URL {
