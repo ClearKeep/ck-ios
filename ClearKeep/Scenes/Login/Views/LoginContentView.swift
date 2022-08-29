@@ -284,7 +284,11 @@ private extension LoginContentView {
 					case "verify_pincode":
 						self.socialStyle = .verifySecurity
 						self.resetPincodeToken = socialLogin.resetPincodeToken ?? ""
-						self.userName = userName
+						if type == .apple {
+							self.userName = socialLogin.userId ?? userName
+						} else {
+							self.userName = userName
+						}
 						self.navigationTwoFace = 2
 					default:
 						break

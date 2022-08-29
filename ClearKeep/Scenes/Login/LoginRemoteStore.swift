@@ -49,7 +49,11 @@ extension LoginRemoteStore: ILoginRemoteStore {
 		
 		switch result {
 		case .success(let socialLoginResponse):
-			return .success(AuthenticationModel(response: socialLoginResponse))
+			var dataSocial = AuthenticationModel(response: socialLoginResponse)
+			if case .apple = socialType {
+				dataSocial.socialLogin?.userId = SocialAuthenticationService.userAppleId
+			}
+			return .success(dataSocial)
 		case .failure(let error):
 			return .failure(error)
 		case .none:

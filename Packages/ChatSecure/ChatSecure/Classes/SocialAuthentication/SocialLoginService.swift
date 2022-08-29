@@ -35,6 +35,7 @@ public class SocialAuthenticationService: NSObject {
 	private var applicationContext: MSALPublicClientApplication?
 	private var webViewParamaters: MSALWebviewParameters?
 	private var bag = Set<AnyCancellable>()
+	public static var userAppleId: String = ""
 
 	let kGraphEndpoint = "https://graph.microsoft.com/v1.0/me/"
 	let kAuthority = "https://login.microsoftonline.com/common"
@@ -60,6 +61,7 @@ public class SocialAuthenticationService: NSObject {
 // MARK: - ISocialAuthenticationService
 extension SocialAuthenticationService: ISocialAuthenticationService {
 	public func signInWithFB(domain: String) async -> Result<Auth_SocialLoginRes, Error> {
+		Self.userAppleId = ""
 		let fbLoginManager = LoginManager()
 		fbLoginManager.logOut()
 		
@@ -87,6 +89,7 @@ extension SocialAuthenticationService: ISocialAuthenticationService {
 	}
 	
 	public func signInWithGoogle(domain: String) async -> Result<Auth_SocialLoginRes, Error> {
+		Self.userAppleId = ""
 		guard let topViewController = await UIApplication.shared.topMostViewController(),
 			  let googleSignInConfiguration = googleSignInConfiguration else {
 			return .failure(ServerError.unknown)
@@ -117,6 +120,7 @@ extension SocialAuthenticationService: ISocialAuthenticationService {
 	}
 	
 	public func signInWithOffice(domain: String) async -> Result<Auth_SocialLoginRes, Error> {
+		Self.userAppleId = ""
 		guard let topViewController = await UIApplication.shared.topMostViewController() else {
 			return .failure(ServerError.unknown)
 		}
@@ -195,6 +199,7 @@ extension SocialAuthenticationService: ISocialAuthenticationService {
 			guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
 				return .failure(ServerError.unknown)
 			}
+			Self.userAppleId = appleIDCredential.user
 			var request = Auth_AppleLoginReq()
 			request.idToken = idTokenString
 			request.endUserEnv = appleIDCredential.user
