@@ -156,7 +156,6 @@ struct HomeView: View {
 						}
 						.padding(Constants.padding)
 					}
-					.hiddenNavigationBarStyle()
 					.padding(.top, Constants.paddingTop)
 					.hideKeyboardOnTapped()
 					NavigationLink(destination: ChatView(inputStyle: .default, groupId: DependencyResolver.shared.messageService.currentRoomId, avatarLink: ""), isActive: $navigateToChat) {
@@ -231,7 +230,6 @@ struct HomeView: View {
 					}
 				}
 			}
-			.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
 		}
 		.hiddenNavigationBarStyle()
 		.alert(isPresented: $isShowError) {
@@ -249,6 +247,7 @@ struct HomeView: View {
 			self.injected.interactors.homeInteractor.didSelectServer(domain)
 			self.isAddNewServer = false
 		})
+		.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
 	}
 }
 

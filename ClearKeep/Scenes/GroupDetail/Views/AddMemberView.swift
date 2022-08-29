@@ -216,15 +216,6 @@ private extension AddMemberView {
 		}
 	}
 
-	func nextAction() {
-		addMember.forEach { member in
-			Task {
-				loadable = await injected.interactors.groupDetailInteractor.addMember(member, groupId: groupId)
-			}
-		}
-		self.presentationMode.wrappedValue.dismiss()
-	}
-
 	private func addUserWithLink() {
 		if !injected.interactors.groupDetailInteractor.checkPeopleLink(link: searchLinkText) {
 			let people = injected.interactors.groupDetailInteractor.getPeopleFromLink(link: searchLinkText)

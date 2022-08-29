@@ -96,9 +96,9 @@ extension GroupService: IGroupService {
 	}
 	
 	public func addMember(_ user: Group_ClientInGroupObject, groupId: Int64, domain: String) async -> (Result<Group_BaseResponse, Error>) {
-		let apiService = channelStorage.getChannel(domain: domain)
-		guard let clientId = apiService.owner?.id,
-			  let userName = apiService.owner?.displayName else { return .failure(ServerError.unknown) }
+		let apiService = channelStorage.currentServer?.profile
+		guard let clientId = apiService?.userId,
+				let userName = apiService?.userName else { return .failure(ServerError.unknown) }
 		var requestAddedMember = Group_MemberInfo()
 		requestAddedMember.id = user.id
 		requestAddedMember.workspaceDomain = user.workspaceDomain
@@ -116,14 +116,14 @@ extension GroupService: IGroupService {
 		request.addingMemberInfo = requestAddingMember
 		request.addedMemberInfo = requestAddedMember
 		request.groupID = groupId
-		
-		return await apiService.addMember(request)
+	
+		return await channelStorage.getChannel(domain: domain).addMember(request)
 	}
 	
 	public func leaveGroup(_ user: Group_ClientInGroupObject, groupId: Int64, domain: String) async -> (Result<Group_BaseResponse, Error>) {
-		let apiService = channelStorage.getChannel(domain: domain)
-		guard let clientId = apiService.owner?.id,
-			  let userName = apiService.owner?.displayName else { return .failure(ServerError.unknown) }
+		let apiService = channelStorage.currentServer?.profile
+		guard let clientId = apiService?.userId,
+				let userName = apiService?.userName else { return .failure(ServerError.unknown) }
 		var memberInfo = Group_MemberInfo()
 		memberInfo.id = user.id
 		memberInfo.workspaceDomain = user.workspaceDomain

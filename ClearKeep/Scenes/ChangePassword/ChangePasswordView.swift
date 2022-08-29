@@ -14,9 +14,10 @@ struct ChangePasswordView: View {
 	private let inspection = ViewInspector<Self>()
 	
 	// MARK: - Variables
+	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
 	@State private var loadable: Loadable<Bool> = .notRequested
-	
+
 	// MARK: - Body
 	var body: some View {
 		NavigationView {
@@ -60,17 +61,45 @@ private extension ChangePasswordView {
 	}
 	
 	func errorView(_ error: ChangePasswordErrorView) -> some View {
-		return notRequestedView
-			.alert(isPresented: .constant(true)) {
-				Alert(title: Text(error.title),
-					  message: Text(error.message),
-					  dismissButton: .default(Text(error.primaryButtonTitle)))
-			}
+		switch error {
+		case .wrongPassword:
+			return notRequestedView
+				.alert(isPresented: .constant(true)) {
+					Alert(title: Text(error.title),
+						  message: Text(error.message),
+						  dismissButton: .default(Text(error.primaryButtonTitle)))
+				}
+		case .locked:
+			return notRequestedView
+				.alert(isPresented: .constant(true)) {
+					Alert(title: Text(error.title),
+						  message: Text(error.message),
+						  dismissButton: .default(Text(error.primaryButtonTitle)))
+				}
+		case .success:
+			return notRequestedView
+				.alert(isPresented: .constant(true)) {
+					Alert(title: Text(error.title),
+						  message: Text(error.message),
+						  dismissButton: .default(Text(error.primaryButtonTitle), action: back ))
+				}
+		case .unknownError(errorCode: let errorCode):
+			return notRequestedView
+				.alert(isPresented: .constant(true)) {
+					Alert(title: Text(error.title),
+						  message: Text(error.message),
+						  dismissButton: .default(Text(error.primaryButtonTitle)))
+				}
+		}
 	}
 }
 
 // MARK: - Interactor
 private extension ChangePasswordView {
+
+	func back() {
+		presentationMode.wrappedValue.dismiss()
+	}
 }
 
 // MARK: - Preview

@@ -254,7 +254,7 @@ private extension LoginContentView {
 				if let token = UserDefaults.standard.data(forKey: "keySaveTokenPushNotification") {
 					injected.interactors.homeInteractor.registerToken(token)
 				}
-				
+				self.dismiss()
 			case .failed(let error):
 				self.isShowAlertLogin = true
 				self.activeAlert = .error(err: LoginViewError(error))
