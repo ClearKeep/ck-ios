@@ -32,6 +32,7 @@ public final class CallBox: NSObject {
 	public var isCallGroup = false
 	public var isCamera = true
 	public var roomRtcId: Int64 = 0
+	public var acceptCall: Bool = false
 	
 	// MARK: Call State Properties
 	

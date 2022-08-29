@@ -395,6 +395,20 @@ public struct Auth_FacebookLoginReq {
   public init() {}
 }
 
+public struct Auth_AppleLoginReq {
+	// SwiftProtobuf.Message conformance is added in an extension below. See the
+	// `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+	// methods supported on all messages.
+	
+	public var idToken: String = String()
+	
+	public var endUserEnv: String = String()
+	
+	public  var unknownFields = SwiftProtobuf.UnknownStorage()
+	
+	public init() {}
+}
+
 public struct Auth_SocialLoginRes {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -1550,6 +1564,44 @@ extension Auth_FacebookLoginReq: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     if lhs.accessToken != rhs.accessToken {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
+  }
+}
+
+extension Auth_AppleLoginReq: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+	public static let protoMessageName: String = _protobuf_package + ".AppleLoginReq"
+	public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+	1: .standard(proto: "id_token"),
+	2: .standard(proto: "end_user_env"),
+  ]
+
+	public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+	while let fieldNumber = try decoder.nextFieldNumber() {
+	  // The use of inline closures is to circumvent an issue where the compiler
+	  // allocates stack space for every case branch when no optimizations are
+	  // enabled. https://github.com/apple/swift-protobuf/issues/1034
+	  switch fieldNumber {
+	  case 1: try { try decoder.decodeSingularStringField(value: &self.idToken) }()
+	  case 2: try { try decoder.decodeSingularStringField(value: &self.endUserEnv) }()
+	  default: break
+	  }
+	}
+  }
+
+	public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+	if !self.idToken.isEmpty {
+	  try visitor.visitSingularStringField(value: self.idToken, fieldNumber: 1)
+	}
+	if !self.endUserEnv.isEmpty {
+	  try visitor.visitSingularStringField(value: self.endUserEnv, fieldNumber: 2)
+	}
+	try unknownFields.traverse(visitor: &visitor)
+  }
+
+	public static func ==(lhs: Auth_AppleLoginReq, rhs: Auth_AppleLoginReq) -> Bool {
+	if lhs.idToken != rhs.idToken {return false}
+	if lhs.endUserEnv != rhs.endUserEnv {return false}
+	if lhs.unknownFields != rhs.unknownFields {return false}
+	return true
   }
 }
 

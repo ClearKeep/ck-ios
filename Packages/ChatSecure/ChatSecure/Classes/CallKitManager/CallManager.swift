@@ -73,6 +73,7 @@ final public class CallManager: NSObject {
 		call.type = type
 		call.isCallGroup = isCallGroup
 		call.roomRtcId = groupRtcId
+		call.acceptCall = true
 		call.hasStartedConnectingDidChange = { [weak self] in
 			guard let self = self else { return }
 			self.provider.reportOutgoingCall(with: call.uuid, startedConnectingAt: call.connectingDate)
@@ -299,13 +300,8 @@ final public class CallManager: NSObject {
 					  return
 				  }
 		
-		if callNotification.publication?.clientID == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ||
-		   callNotification.publication?.fromClientID == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId {
-			return
-		}
-		
 		if let index = self.calls.firstIndex(where: { item in
-			item.roomId == Int64(callNotification.publication?.groupID ?? "0") && !item.isCallGroup
+			item.roomId == Int64(callNotification.publication?.groupID ?? "0") && !item.acceptCall
 		}) {
 			let call = calls[index]
 			let endCallAction = CXEndCallAction(call: call.uuid)

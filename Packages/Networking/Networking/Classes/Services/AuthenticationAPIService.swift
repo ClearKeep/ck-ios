@@ -147,6 +147,26 @@ extension APIService: IAuthenticationAPIService {
 		})
 	}
 	
+	public func login(_ request: Auth_AppleLoginReq) async -> (Result<Auth_SocialLoginRes, Error>) {
+		return await withCheckedContinuation({ continuation in
+			let caller = clientAuth.login_apple(request, callOptions: callOptions)
+			caller.status.whenComplete({ result in
+				switch result {
+				case .success(let status):
+					if status.isOk {
+						caller.response.whenComplete { result in
+							continuation.resume(returning: result)
+						}
+					} else {
+						continuation.resume(returning: .failure(ServerError(status)))
+					}
+				case .failure(let error):
+					continuation.resume(returning: .failure(ServerError(error)))
+				}
+			})
+		})
+	}
+	
 	public func verifyPinCode(_ request: Auth_VerifyPinCodeReq) async -> (Result<Auth_AuthRes, Error>) {
 		return await withCheckedContinuation({ continuation in
 			let caller = clientAuth.verify_pincode(request, callOptions: callOptions)

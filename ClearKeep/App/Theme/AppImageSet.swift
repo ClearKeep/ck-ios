@@ -79,6 +79,7 @@ struct AppImageSet: IAppImageSet {
 	var speakerOffIcon2: Image { Image("ic_speaker_off-1") }
 	var userImage: Image { Image("ic_user_image") }
 	var fileDocIcon: Image { Image("ic_file_doc") }
+	var appleIcon: Image { Image("ic_apple") }
 }
 
 extension AppImageSet: ICommonUIImageSet {

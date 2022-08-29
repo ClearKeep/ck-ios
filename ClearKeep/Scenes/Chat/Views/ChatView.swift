@@ -104,7 +104,6 @@ struct ChatView: View {
 	@State private var isFirstLoadData: Bool = true
 	@State private var isShowingCall: Bool = false
 	@State private var alertVisible = false
-	@State private var hudVisible = false
 	@State private var disableCall = false
 	@State private var errorType: ChatErrorView = .locked
 	@State private var rediectMessageId = ""
@@ -500,7 +499,7 @@ private extension ChatView {
 		AVCaptureDevice.authorizeVideo(completion: { (status) in
 			AVCaptureDevice.authorizeAudio(completion: { (status) in
 				if status == .alreadyAuthorized || status == .justAuthorized {
-					hudVisible = true
+					isShowLoading = true
 					Task {
 						let response = await self.injected.interactors.chatInteractor.requestVideoCall(isCallGroup: group?.groupType != "peer",
 																									   clientId: DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "",
@@ -508,16 +507,16 @@ private extension ChatView {
 																									   avatar: self.group?.groupAvatar ?? "",
 																									   groupId: self.groupId,
 																									   callType: type)
+						isShowLoading = false
 						switch response {
 						case .success:
-							hudVisible = false
 							self.disableCall = false
 							CallManager.shared.awaitCallGroup = nil
-						case .failure(let error):
-							hudVisible = false
+						case .failure:
 							self.disableCall = false
 							CallManager.shared.awaitCallGroup = nil
-							print(error)
+							self.errorType = .callFail
+							self.alertVisible = true
 						}
 					}
 				} else {

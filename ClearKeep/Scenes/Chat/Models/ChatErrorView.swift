@@ -25,6 +25,7 @@ enum ChatErrorView {
 	case permission
 	case removed
 	case downloadFail
+	case callFail
 	case unknownError(errorCode: Int?)
 
 	// MARK: Init
@@ -67,7 +68,7 @@ enum ChatErrorView {
 		switch self {
 		case .unauthorized:
 			return "General.Error".localized
-		case .locked:
+		case .locked, .callFail:
 			return "General.Error".localized
 		case .unknownError(let errorCode):
 			if let errorCode = errorCode {
@@ -111,12 +112,14 @@ enum ChatErrorView {
 			return "Chat.Error.Removed".localized
 		case .downloadFail:
 			return "Chat.Error.DownloadFail".localized
+		case .callFail:
+			return "Call.FailCall".localized
 		}
 	}
 
 	var primaryButtonTitle: String {
 		switch self {
-		case .unauthorized, .locked, .haveExistACall, .permission, .removed, .downloadFail:
+		case .unauthorized, .locked, .haveExistACall, .permission, .removed, .downloadFail, .callFail:
 			return "General.OK".localized
 		case .fileLimit, .fileSize:
 			return "General.Close".localized
