@@ -9,6 +9,7 @@ import Model
 import Networking
 
 struct SocialLoginModel: ISocialLoginModel {
+	var userId: String?
 	var userName: String?
 	var requireAction: String?
 	var resetPincodeToken: String?

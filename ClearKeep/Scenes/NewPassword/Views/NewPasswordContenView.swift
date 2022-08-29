@@ -36,8 +36,7 @@ struct NewPasswordContenView: View {
 	@State private var checkInvalid: Bool = false
 	@State private var isLoading: Bool = false
 	@State private var isShowError: Bool = false
-	@State private var error: LoginViewError?
-	@State private var resetPasswordSuccess: Bool = false
+	@State private var error: ErrorType?
 	let preAccessToken: String
 	let email: String
 	let domain: String
@@ -94,14 +93,23 @@ struct NewPasswordContenView: View {
 		.edgesIgnoringSafeArea(.all)
 		.progressHUD(isLoading)
 		.alert(isPresented: $isShowError) {
-			Alert(title: Text(self.error?.title ?? ""),
-				  message: Text(self.error?.message ?? ""),
-				  dismissButton: .default(Text(error?.primaryButtonTitle ?? "")))
-		}.alert(isPresented: $resetPasswordSuccess) {
-			Alert(title: Text("ForgotPassword.PasswordChangeSuccess".localized), message: Text("ForgotPassword.PleaseLoginAgainNewPassword".localized), dismissButton: .default(Text("ForgotPassword.OK".localized), action: {
-				self.presentationMode.wrappedValue.dismiss()
-			}))
+			switch error {
+			case .fail(let err):
+				return Alert(title: Text(err.title),
+							 message: Text(err.message),
+							 dismissButton: .default(Text(err.primaryButtonTitle)))
+			default:
+				return 	Alert(title: Text("ForgotPassword.PasswordChangeSuccess".localized), message: Text("ForgotPassword.PleaseLoginAgainNewPassword".localized), dismissButton: .default(Text("ForgotPassword.OK".localized), action: {
+					NotificationCenter.default.post(name: Notification.Name.ForgotPasswordService.forgotSuccess, object: injected.interactors.newPasswordInteractor.getServers())
+					self.presentationMode.wrappedValue.dismiss()
+				}))
+			}
 		}
+	}
+	
+	enum ErrorType {
+		case forgotSuccess
+		case fail(LoginViewError)
 	}
 }
 
@@ -152,10 +160,11 @@ private extension NewPasswordContenView {
 				switch data {
 				case .success:
 					isLoading = false
-					resetPasswordSuccess = true
+					self.error = .forgotSuccess
+					self.isShowError = true
 				case .failure(let error):
 					isLoading = false
-					self.error = LoginViewError(error)
+					self.error = .fail(LoginViewError(error))
 					self.isShowError = true
 				}
 			}
@@ -170,6 +179,12 @@ private extension NewPasswordContenView {
 		rePasswordStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
 		
 		checkInvalid = injected.interactors.newPasswordInteractor.checkValid(passwordValdid: passwordInvalid, confirmPasswordValid: confirmPasswordInvvalid)
+	}
+}
+
+extension Notification.Name {
+	public enum ForgotPasswordService {
+		public static let forgotSuccess = Notification.Name("ForgotPasswordService.forgotSuccess")
 	}
 }
 

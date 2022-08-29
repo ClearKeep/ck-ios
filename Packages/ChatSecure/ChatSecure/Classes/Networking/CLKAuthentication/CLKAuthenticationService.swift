@@ -372,8 +372,24 @@ extension CLKAuthenticationService: IAuthenticationService {
 		
 		let response = await channelStorage.getChannel(domain: domain).forgotPasswordUpdate(request)
 		switch response {
-		case .success(let data):
-			return(.success(data))
+		case .success(let authenResponse):
+			var request = User_Empty()
+			
+			let response = await channelStorage.getChannel(domain: domain, accessToken: authenResponse.accessToken, hashKey: authenResponse.hashKey).getProfile(request)
+			
+			switch response {
+			case .success(let profileResponse):
+				await channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse, isSocialAccount: false)
+				let result = onLoginSuccess(authenResponse, password: rawNewPassword)
+				switch result {
+				case .success(let value):
+					return .success(authenResponse)
+				case .failure(let error):
+					return .failure(error)
+				}
+			case .failure(let error):
+				return .failure(error)
+			}
 		case .failure(let error):
 			print(error)
 			return(.failure(error))

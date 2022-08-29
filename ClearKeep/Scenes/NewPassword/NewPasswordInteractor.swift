@@ -15,22 +15,35 @@ protocol INewPasswordInteractor {
 	func passwordValid(password: String) -> Bool
 	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool
 	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool
+	func getServers() -> [RealmServer]
 }
 
 struct NewPasswordInteractor {
 	let appState: Store<AppState>
+	let channelStorage: IChannelStorage
 	let authenticationService: IAuthenticationService
 }
 
 extension NewPasswordInteractor: INewPasswordInteractor {
+	
 	var worker: INewPasswordWorker {
 		let remoteStore = NewPasswordRemoteStore(authenticationService: authenticationService)
 		let inMemoryStore = NewPasswordInMemoryStore()
-		return NewPasswordWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+		return NewPasswordWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
 	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async -> Result<IAuthenticationModel, Error> {
-		await worker.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: rawNewPassword, domain: domain)
+		let result = await worker.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: rawNewPassword, domain: domain)
+		switch result {
+		case .success(let data):
+			appState.bulkUpdate {
+				$0.authentication.servers = worker.servers
+				$0.authentication.newServerDomain = nil
+			}
+			return .success(data)
+		case .failure(let error):
+			return .failure(error)
+		}
 	}
 
 	func passwordValid(password: String) -> Bool {
@@ -44,15 +57,21 @@ extension NewPasswordInteractor: INewPasswordInteractor {
 	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool {
 		return worker.checkValid(passwordValdid: passwordValdid, confirmPasswordValid: confirmPasswordValid)
 	}
+	
+	func getServers() -> [RealmServer] {
+		return self.channelStorage.getServers(isFirstLoad: false)
+	}
 }
 
 struct StubNewPasswordInteractor: INewPasswordInteractor {
 	let authenticationService: IAuthenticationService
-
+	let channelStorage: IChannelStorage
+	
+	
 	var worker: INewPasswordWorker {
 		let remoteStore = NewPasswordRemoteStore(authenticationService: authenticationService)
 		let inMemoryStore = NewPasswordInMemoryStore()
-		return NewPasswordWorker(remoteStore: remoteStore, inMemoryStore: inMemoryStore)
+		return NewPasswordWorker(channelStorage: channelStorage, remoteStore: remoteStore, inMemoryStore: inMemoryStore)
 	}
 
 	func resetPassword(preAccessToken: String, email: String, rawNewPassword: String, domain: String) async -> Result<IAuthenticationModel, Error> {
@@ -69,5 +88,9 @@ struct StubNewPasswordInteractor: INewPasswordInteractor {
 
 	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool {
 		return worker.checkValid(passwordValdid: passwordValdid, confirmPasswordValid: confirmPasswordValid)
+	}
+	
+	func getServers() -> [RealmServer] {
+		return self.channelStorage.servers
 	}
 }
