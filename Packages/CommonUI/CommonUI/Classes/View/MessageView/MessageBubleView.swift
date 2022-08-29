@@ -184,7 +184,7 @@ private extension MessageBubbleView {
 					} else {
 						Text(messageViewModel.fromClientName)
 							.font(commonUIConfig.fontSet.font(style: .input3))
-							.foregroundColor(commonUIConfig.colorSet.grey1)
+							.foregroundColor(commonUIConfig.colorSet.successDefault)
 					}
 					dateCreatedView
 						.padding(.leading, Constants.groupMessageDateSpacing)

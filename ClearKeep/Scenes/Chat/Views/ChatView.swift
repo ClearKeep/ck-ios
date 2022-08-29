@@ -44,7 +44,7 @@ struct ChatView: View {
 				isShowLoading = false
 				group = data
 				DispatchQueue.main.async {
-					loadLocalMessage()
+					loadLocalMessage(groupId: data?.groupId ?? 0)
 				}
 			case .failed(let error):
 				self.errorType = ChatErrorView(error)
@@ -225,9 +225,19 @@ struct ChatView: View {
 		}
 		.hiddenNavigationBarStyle()
 		.edgesIgnoringSafeArea(.all)
+		.onChange(of: groupId, perform: { newValue in
+			messages = nil
+			dataMessages.removeAll()
+			selectedImages.removeAll()
+			isLatestPeerSignalKeyProcessed = false
+			isEndOfPage = false
+			shouldPaginate = false
+			isFirstLoad = true
+			updateGroup(groupId: newValue)
+		})
 		.onAppear {
 			if isFirstLoadData {
-				updateGroup()
+				updateGroup(groupId: self.groupId)
 				isFirstLoadData = false
 			}
 		}
@@ -658,7 +668,7 @@ private extension ChatView {
 
 // MARK: - Interactor
 private extension ChatView {
-	func updateGroup() {
+	func updateGroup(groupId: Int64) {
 		isShowLoading = true
 		if let draftMessage = injected.interactors.chatInteractor.getDraftMessage(roomId: groupId) {
 			messageText = draftMessage
@@ -669,10 +679,9 @@ private extension ChatView {
 		}
 	}
 	
-	func loadLocalMessage() {
+	func loadLocalMessage(groupId: Int64) {
 		print("load local message")
 		messages = injected.interactors.chatInteractor.getMessageFromLocal(groupId: groupId)
-
 		messages?.filter { !$0.message.isEmpty }.forEach({ message in
 			dataMessages.append(MessageViewModel(data: message, members: group?.groupMembers ?? []))
 		})

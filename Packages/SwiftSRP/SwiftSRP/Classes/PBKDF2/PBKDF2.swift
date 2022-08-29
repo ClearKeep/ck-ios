@@ -29,9 +29,6 @@ public class PBKDF2 {
 		do {
 			let key = try PKCS5.PBKDF2(password: Array(passPharse.utf8), salt: saltHex.hexaBytes, iterations: iterationCount, keyLength: keyLength, variant: .sha1).calculate()
 			let enc = try AES(key: key, blockMode: CBC(iv: iv), padding: .pkcs5).encrypt(data)
-//			let encData = NSData(bytes: enc, length: enc.count ?? 0)
-//			let base64String: String = encData.base64EncodedString()
-//			return base64String.bytes
 			return enc
 		} catch { print(error) }
 		return nil
@@ -39,11 +36,9 @@ public class PBKDF2 {
 
 	public func encrypt(data: [UInt8], saltHex: String, oldIv: String) -> [UInt8]? {
 		do {
-			let key = try PKCS5.PBKDF2(password: Array(passPharse.utf8), salt: Array(saltHex.utf8), iterations: iterationCount, keyLength: keyLength, variant: .sha1).calculate()
-			let enc = try AES(key: key, blockMode: CBC(iv: Array(oldIv.utf8)), padding: .pkcs5).encrypt(data)
-			let encData = NSData(bytes: enc, length: enc.count ?? 0)
-			let base64String: String = encData.base64EncodedString()
-			return base64String.bytes
+			let key = try PKCS5.PBKDF2(password: passPharse.hexaBytes, salt: saltHex.hexaBytes, iterations: iterationCount, keyLength: keyLength, variant: .sha1).calculate()
+			let enc = try AES(key: key, blockMode: CBC(iv: oldIv.hexaBytes), padding: .pkcs5).encrypt(data)
+			return enc
 		} catch { print(error) }
 		return nil
 	}
@@ -51,10 +46,12 @@ public class PBKDF2 {
 	public func decrypt(data: [UInt8], saltEncrypt: [UInt8], ivParameterSpec: [UInt8]) -> [UInt8]? {
 		guard let key = try? PKCS5.PBKDF2(password: Array(passPharse.utf8), salt: saltEncrypt, iterations: iterationCount, keyLength: keyLength, variant: .sha1).calculate(),
 			  let enc = try? AES(key: key, blockMode: CBC(iv: ivParameterSpec), padding: .pkcs5).decrypt(data) else { return nil }
-
-//		let encData = NSData(bytes: enc, length: enc.count)
-//		let base64String: String = encData.base64EncodedString()
-//		return base64String.bytes
+		return enc
+	}
+	
+	public func decrypt(data: [UInt8], saltHex: String, ivParameterSpec: String) -> [UInt8]? {
+		guard let key = try? PKCS5.PBKDF2(password: passPharse.hexaBytes, salt: saltHex.hexaBytes, iterations: iterationCount, keyLength: keyLength, variant: .sha1).calculate(),
+			  let enc = try? AES(key: key, blockMode: CBC(iv: ivParameterSpec.hexaBytes), padding: .pkcs5).decrypt(data) else { return nil }
 		return enc
 	}
 }

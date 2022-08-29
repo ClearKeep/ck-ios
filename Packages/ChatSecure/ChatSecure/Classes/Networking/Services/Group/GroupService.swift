@@ -54,8 +54,6 @@ extension GroupService: IGroupService {
 	public func getGroup(by groupId: Int64, domain: String) async -> (Result<RealmGroup, Error>) {
 		var request = Group_GetGroupRequest()
 		request.groupID = groupId
-		guard let server = channelStorage.realmManager.getServer(by: domain) else { return .failure(ServerError.unknown) }
-		print(server)
 		let response = await channelStorage.getChannel(domain: domain).getGroup(request)
 		
 		switch response {
@@ -166,8 +164,7 @@ private extension GroupService {
 						let identityKey = try signalStore.identityStore.identityKeyPair(context: NullContext())
 						let privateKey = identityKey.privateKey
 						let pbkdf2 = PBKDF2(passPharse: bytesConvertToHexString(bytes: privateKey.serialize()))
-						let senderKeyDecrypted = pbkdf2.decrypt(data: [UInt8](groupResponse.clientKey.senderKey), saltEncrypt: server.salt.hexaBytes, ivParameterSpec: server.iv.hexaBytes)
-						
+						let senderKeyDecrypted = pbkdf2.decrypt(data: [UInt8](groupResponse.clientKey.senderKey), saltHex: server.salt, ivParameterSpec: server.iv)
 						let senderAddress = try ProtocolAddress(name: "\(server.serverDomain)_\(profile.userId)", deviceId: UInt32(Constants.senderDeviceId))
 						let senderKeyRecord = try SenderKeyRecord(bytes: Data(senderKeyDecrypted ?? []))
 						guard let uuid = senderStore.getSenderDistributionID(senderID: profile.userId, groupId: groupResponse.groupID, isCreateNew: true) else { return }

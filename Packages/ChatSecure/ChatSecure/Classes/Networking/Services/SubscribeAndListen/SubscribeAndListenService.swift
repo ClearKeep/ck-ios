@@ -69,6 +69,10 @@ extension SubscribeAndListenService: ISubscribeAndListenService {
 			switch response {
 			case .success(let publication):
 				Debug.DLog("heard from \(publication.fromClientID)")
+				if publication.id == self.messageService.proccessingMessageId {
+					return
+				}
+				self.messageService.updateProccessingMessageId(id: publication.id)
 				channelStorage.tempServer = TempServer(serverDomain: domain, ownerClientId: ownerId)
 				Task {
 					await self.processIncomingMessage(ownerId: ownerId, domain: domain, message: publication)
