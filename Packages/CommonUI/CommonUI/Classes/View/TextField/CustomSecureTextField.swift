@@ -19,6 +19,7 @@ public struct CustomSecureTextField: UIViewRepresentable {
 	public func makeUIView(context: UIViewRepresentableContext<CustomSecureTextField>) -> UITextField {
 		let textField = UITextField(frame: .zero)
 		textField.placeholder = placeHolder
+		textField.font = UIFont.systemFont(ofSize: 14.0)
 		textField.isUserInteractionEnabled = true
 		textField.translatesAutoresizingMaskIntoConstraints = true
 		textField.delegate = context.coordinator
