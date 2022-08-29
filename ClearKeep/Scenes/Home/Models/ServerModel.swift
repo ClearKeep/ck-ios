@@ -6,7 +6,7 @@
 //
 
 import Model
-import ChatSecure
+import Common
 
 struct ServerModel: Equatable, IServerModel {
 	var serverName: String

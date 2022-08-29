@@ -11,6 +11,7 @@ import Networking
 import Model
 
 public class RealmManager {
+	
 	// MARK: - Variables
 	private var configuration = Realm.Configuration()
 	private var backgroundQueue = DispatchQueue(label: "realm.queue",
@@ -25,7 +26,7 @@ public class RealmManager {
 
 // MARK: - Message
 extension RealmManager {
-	func saveMessages(messages: [RealmMessage]) {
+	public func saveMessages(messages: [RealmMessage]) {
 		write { realm in
 			realm.add(messages, update: .modified)
 		}
@@ -48,26 +49,26 @@ extension RealmManager {
 		}
 	}
 	
-	func getMessage(messageId: String) -> RealmMessage? {
+	public func getMessage(messageId: String) -> RealmMessage? {
 		let message = load(ofType: RealmMessage.self, primaryKey: messageId)
 		return message
 	}
 	
-	func deleteMessagesFromGroup(groupId: Int64, ownerDomain: String, ownerId: String) {
+	public func deleteMessagesFromGroup(groupId: Int64, ownerDomain: String, ownerId: String) {
 		delete(listOf: RealmMessage.self, filter: NSPredicate(format: "groupId == %ld && ownerDomain == %@ && ownerClientId == %@", groupId, ownerDomain, ownerId))
 	}
 	
-	func deleteMessagesByDomain(domain: String, ownerId: String) {
+	public func deleteMessagesByDomain(domain: String, ownerId: String) {
 		delete(listOf: RealmMessage.self, filter: NSPredicate(format: "ownerDomain == %@ && ownerClientId == %@", domain, ownerId))
 	}
 	
-	func getSenderName(fromClientId: String, groupId: Int64, domain: String, ownerId: String) -> String {
+	public func getSenderName(fromClientId: String, groupId: Int64, domain: String, ownerId: String) -> String {
 		let group = getGroup(by: groupId, domain: domain, ownerId: ownerId)
 		let user = group?.groupMembers.filter { $0.userId == fromClientId }.first
 		return user?.userName ?? ""
 	}
 	
-	func getGroupName(groupId: Int64, domain: String, ownerId: String) -> String {
+	public func getGroupName(groupId: Int64, domain: String, ownerId: String) -> String {
 		let group = getGroup(by: groupId, domain: domain, ownerId: ownerId)
 		return group?.groupName ?? ""
 	}
@@ -75,7 +76,7 @@ extension RealmManager {
 
 // MARK: - Group
 extension RealmManager {
-	func addAndUpdateGroups(groups: [RealmGroup]) async {
+	public func addAndUpdateGroups(groups: [RealmGroup]) async {
 		return await withCheckedContinuation({ continuation in
 			write { realm in
 				realm.add(groups, update: .modified)
@@ -84,7 +85,7 @@ extension RealmManager {
 		})
 	}
 	
-	func addAndUpdateGroup(group: Group_GroupObjectResponse, domain: String) async -> RealmGroup {
+	public func addAndUpdateGroup(group: Group_GroupObjectResponse, domain: String) async -> RealmGroup {
 		return await withCheckedContinuation({ continuation in
 			
 				let server = getServer(by: domain)
@@ -139,11 +140,11 @@ extension RealmManager {
 		})
 	}
 	
-	func removeGroups(domain: String) {
+	public func removeGroups(domain: String) {
 		delete(listOf: RealmGroup.self, filter: NSPredicate(format: "ownerDomain == %@", domain))
 	}
 	
-	func updateGroupJoinedStatus(groupId: Int64, domain: String, ownerId: String) {
+	public func updateGroupJoinedStatus(groupId: Int64, domain: String, ownerId: String) {
 		if let group = getGroup(by: groupId, domain: domain, ownerId: ownerId) {
 			write { _ in
 				group.isJoined = true
@@ -151,7 +152,7 @@ extension RealmManager {
 		}
 	}
 	
-	func getGroup(by groupId: Int64, domain: String, ownerId: String) -> RealmGroup? {
+	public func getGroup(by groupId: Int64, domain: String, ownerId: String) -> RealmGroup? {
 		let groups = load(listOf: RealmGroup.self, filter: NSPredicate(format: "groupId == %ld && ownerDomain == %@ && ownerClientId == %@", groupId, domain, ownerId))
 		return groups.first
 	}
@@ -161,14 +162,14 @@ extension RealmManager {
 		return groups
 	}
 	
-	func getGroupName(by groupId: Int64, domain: String, ownerId: String) -> String {
+	public func getGroupName(by groupId: Int64, domain: String, ownerId: String) -> String {
 		return getGroup(by: groupId, domain: domain, ownerId: ownerId)?.groupName ?? ""
 	}
 }
 
 // MARK: - Server
 extension RealmManager {
-	func saveServer(profileResponse: User_UserProfileResponse, authenResponse: Auth_AuthRes, isSocialAccount: Bool) {
+	public func saveServer(profileResponse: User_UserProfileResponse, authenResponse: Auth_AuthRes, isSocialAccount: Bool) {
 		let oldServer = getServer(by: authenResponse.workspaceDomain)
 		
 		deactiveAllServer { [weak self] realm in
@@ -202,7 +203,7 @@ extension RealmManager {
 		}
 	}
 	
-	func updateServerUser(displayName: String, avatar: String, phoneNumber: String, domain: String) {
+	public func updateServerUser(displayName: String, avatar: String, phoneNumber: String, domain: String) {
 		if let oldServer = getServer(by: domain) {
 			write { _ in
 				oldServer.profile?.phoneNumber = phoneNumber
@@ -212,7 +213,7 @@ extension RealmManager {
 		}
 	}
 	
-	func updateKeyServer(salt: String, iv: String, domain: String) {
+	public func updateKeyServer(salt: String, iv: String, domain: String) {
 		if let oldServer = getServer(by: domain) {
 			write { _ in
 				oldServer.iv = iv
@@ -221,26 +222,26 @@ extension RealmManager {
 		}
 	}
 	
-	func getServer(by domain: String) -> RealmServer? {
+	public func getServer(by domain: String) -> RealmServer? {
 		let servers = load(listOf: RealmServer.self, filter: NSPredicate(format: "serverDomain == %@", domain))
 		return servers.first
 	}
 	
-	func getServers() -> [RealmServer] {
+	public func getServers() -> [RealmServer] {
 		let servers = load(listOf: RealmServer.self)
 		return servers
 	}
 	
-	func getCurrentServer() -> RealmServer? {
+	public func getCurrentServer() -> RealmServer? {
 		let servers = load(listOf: RealmServer.self, filter: NSPredicate(format: "isActive == true"))
 		return servers.first
 	}
 
-	func removeServer(domain: String) {
+	public func removeServer(domain: String) {
 		delete(listOf: RealmServer.self, filter: NSPredicate(format: "%K == %@", #keyPath(RealmServer.serverDomain), domain))
 	}
 	
-	func deactiveAllServer(completion: @escaping (_ realm: Realm) -> Void) {
+	public func deactiveAllServer(completion: @escaping (_ realm: Realm) -> Void) {
 		write { realm in
 			let servers = self.load(listOf: RealmServer.self, filter: NSPredicate(format: "isActive == true"))
 			servers.forEach { oldServer in
@@ -252,7 +253,7 @@ extension RealmManager {
 		}
 	}
 	
-	func activeServer(domain: String?) -> [RealmServer] {
+	public func activeServer(domain: String?) -> [RealmServer] {
 		guard let domain = domain else {
 			deactiveAllServer { _ in }
 			return getServers()
@@ -268,7 +269,7 @@ extension RealmManager {
 		return getServers()
 	}
 	
-	func getServerWithClientId(clientId: String) -> RealmServer? {
+	public func getServerWithClientId(clientId: String) -> RealmServer? {
 		let servers = load(listOf: RealmServer.self, filter: NSPredicate(format: "%K == %@", #keyPath(RealmServer.ownerClientId), clientId))
 		return servers.first
 	}
@@ -367,11 +368,11 @@ private extension RealmManager {
 
 // MARK: - Memeber
 extension RealmManager {
-	func removeMember(server: RealmServer) {
+	public func removeMember(server: RealmServer) {
 		delete(listOf: RealmMember.self, filter: NSPredicate(format: "%K.%K == %d", #keyPath(RealmMember.server), #keyPath(RealmServer.generateId), server.generateId))
 	}
 	
-	func getMemeberWithId(clientId: String) -> RealmMember? {
+	public func getMemeberWithId(clientId: String) -> RealmMember? {
 		let members = load(listOf: RealmMember.self, filter: NSPredicate(format: "%K == %@", #keyPath(RealmMember.userId), clientId))
 		return members.first
 	}
@@ -379,7 +380,7 @@ extension RealmManager {
 
 // MARK: - Profile
 extension RealmManager {
-	func removeProfile(userId: String) {
+	public func removeProfile(userId: String) {
 		delete(listOf: RealmProfile.self, filter: NSPredicate(format: "%K == %@", #keyPath(RealmProfile.userId), userId))
 	}
 }

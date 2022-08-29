@@ -132,6 +132,10 @@
 		22A1C69B2812B1D500FE957F /* ChatRemoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6962812B1D500FE957F /* ChatRemoteStore.swift */; };
 		22A1C69C2812B1D500FE957F /* ChatInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6972812B1D500FE957F /* ChatInteractor.swift */; };
 		22A1C69D2812B1D500FE957F /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C6982812B1D500FE957F /* ChatView.swift */; };
+		22A4255A28BC984F005ADF9C /* PublicationMessageNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A4255928BC984F005ADF9C /* PublicationMessageNotification.swift */; };
+		22A4255B28BC9870005ADF9C /* PublicationMessageNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A4255928BC984F005ADF9C /* PublicationMessageNotification.swift */; };
+		22A4255E28BC9BB1005ADF9C /* ConfigurationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB40073127E7514600DFBE88 /* ConfigurationProvider.swift */; };
+		22A4256028BC9CF3005ADF9C /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB40072F27E74E1900DFBE88 /* Configuration.swift */; };
 		22AB290E2898FCD40017DF2B /* TwoFactorErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AB290D2898FCD40017DF2B /* TwoFactorErrorView.swift */; };
 		22B1EA4828879CE2008026DC /* InCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1EA4728879CE2008026DC /* InCallView.swift */; };
 		22B1EA5128879D66008026DC /* VideoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1EA4928879D66008026DC /* VideoContainerView.swift */; };
@@ -418,6 +422,7 @@
 		04E8DD4828AE222C002EDD1D /* HomeErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeErrorView.swift; sourceTree = "<group>"; };
 		1D2080FC782DE43A5ADFC387 /* Pods-ClearKeepTests.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClearKeepTests.production.xcconfig"; path = "Target Support Files/Pods-ClearKeepTests/Pods-ClearKeepTests.production.xcconfig"; sourceTree = "<group>"; };
 		2245C219285C70B3008F6C73 /* PreviewImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImage.swift; sourceTree = "<group>"; };
+		2256A97E28BCB01100C379B7 /* notificationextensionQA.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = notificationextensionQA.entitlements; sourceTree = "<group>"; };
 		226732A828534C1900C07852 /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
 		226977F928694A000000D0AE /* FileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileModel.swift; sourceTree = "<group>"; };
 		228C49EC285B28C6003C4FA0 /* ForwardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardViewModel.swift; sourceTree = "<group>"; };
@@ -429,6 +434,8 @@
 		22A1C6962812B1D500FE957F /* ChatRemoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRemoteStore.swift; sourceTree = "<group>"; };
 		22A1C6972812B1D500FE957F /* ChatInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInteractor.swift; sourceTree = "<group>"; };
 		22A1C6982812B1D500FE957F /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		22A4255928BC984F005ADF9C /* PublicationMessageNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationMessageNotification.swift; sourceTree = "<group>"; };
+		22A4256828BCAADC005ADF9C /* notificationextensionDevelopment.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = notificationextensionDevelopment.entitlements; sourceTree = "<group>"; };
 		22AB290D2898FCD40017DF2B /* TwoFactorErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorErrorView.swift; sourceTree = "<group>"; };
 		22B1EA4728879CE2008026DC /* InCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InCallView.swift; sourceTree = "<group>"; };
 		22B1EA4928879D66008026DC /* VideoContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoContainerView.swift; sourceTree = "<group>"; };
@@ -726,6 +733,7 @@
 				0459993B286311BB006754DF /* GroupsModel.swift */,
 				0459993D286312ED006754DF /* GroupBaseModel.swift */,
 				0458986B286BED7900A0631C /* ProfileModel.swift */,
+				22A4255928BC984F005ADF9C /* PublicationMessageNotification.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1414,6 +1422,8 @@
 		CBD9FDF12805DBDC00F54076 /* notificationextension */ = {
 			isa = PBXGroup;
 			children = (
+				2256A97E28BCB01100C379B7 /* notificationextensionQA.entitlements */,
+				22A4256828BCAADC005ADF9C /* notificationextensionDevelopment.entitlements */,
 				CBD9FDF22805DBDC00F54076 /* NotificationService.swift */,
 				CBD9FDF42805DBDC00F54076 /* Info.plist */,
 			);
@@ -2069,6 +2079,7 @@
 				F564482F283B7A79007846F9 /* ProfileView.swift in Sources */,
 				044432C32858D6D800276DB3 /* CreatGroupProfieViewModel.swift in Sources */,
 				F568DC2527FD882600EE9DF0 /* NotificationView.swift in Sources */,
+				22A4255A28BC984F005ADF9C /* PublicationMessageNotification.swift in Sources */,
 				CB23604728322DAA00D98F54 /* StatusType.swift in Sources */,
 				045B12672897CB9A00B9CFB8 /* LoginViewPopUp.swift in Sources */,
 				F5644831283B7A79007846F9 /* CountryCodeModel.swift in Sources */,
@@ -2221,6 +2232,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				CBD9FDF32805DBDC00F54076 /* NotificationService.swift in Sources */,
+				22A4255B28BC9870005ADF9C /* PublicationMessageNotification.swift in Sources */,
+				22A4256028BC9CF3005ADF9C /* Configuration.swift in Sources */,
+				22A4255E28BC9BB1005ADF9C /* ConfigurationProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2703,6 +2717,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = notificationextension/notificationextensionDevelopment.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
@@ -2786,6 +2801,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = notificationextension/notificationextensionQA.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;

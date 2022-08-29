@@ -6,6 +6,7 @@
 //
 
 import ChatSecure
+import Common
 
 protocol ISettingServerInMemoryStore {
 	func getServerInfo() -> RealmServer?

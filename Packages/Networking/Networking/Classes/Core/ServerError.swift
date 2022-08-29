@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Common
 import GRPC
 
 public protocol IServerError: Error, Decodable {
@@ -46,5 +45,17 @@ public struct ServerError: IServerError {
 		} else {
 			self.init(message: "Unknow.Message".localized, name: "Unknow.Message".localized, status: nil)
 		}
+	}
+}
+
+
+extension String {
+	var localized: String {
+		var result = Bundle.main.localizedString(forKey: self, value: nil, table: nil)
+		
+		if result == self {
+			result = Bundle.main.localizedString(forKey: self, value: nil, table: "Localize")
+		}
+		return result
 	}
 }

@@ -268,7 +268,7 @@ private extension MessageService {
 				Debug.DLog("Send message fail - cannot decode message")
 				return .failure(ServerError.unknown)
 			}
-			guard let distributionId = senderStore.getSenderDistributionID(senderID: senderId, groupId: groupId, isCreateNew: false) else {
+			guard let distributionId = senderStore.getSenderDistributionID(senderID: senderId, groupId: groupId, isCreateNew: true) else {
 				Debug.DLog("Send message fail - cannot get sender distribution")
 				return .failure(ServerError.unknown)
 			}

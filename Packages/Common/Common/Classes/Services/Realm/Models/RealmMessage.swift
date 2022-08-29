@@ -40,7 +40,7 @@ public class RealmMessage: Object, RealmOptionalType, Identifiable {
 		super.init()
 	}
 	
-	init(message: IMessageModel) {
+	public init(message: IMessageModel) {
 		messageId = message.messageId
 		groupId = message.groupId
 		groupType = message.groupType
