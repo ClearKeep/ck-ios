@@ -103,7 +103,7 @@ struct InCallModifier: ViewModifier {
 						}
 					}
 					
-				} else if callViewModel.callType == .video && callViewModel.cameraOn, let videoView = callViewModel.localVideoView {
+				} else if callViewModel.callType == .video, let videoView = callViewModel.remoteVideoView {
 					VideoView(rtcVideoView: videoView)
 				} else {
 					ZStack {
