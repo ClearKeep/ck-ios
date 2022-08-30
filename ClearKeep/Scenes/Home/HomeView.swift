@@ -171,7 +171,7 @@ struct HomeView: View {
 				.hiddenNavigationBarStyle()
 				
 				if isShowMenu {
-					LinearGradient(gradient: Gradient(colors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary.compactMap({ $0.opacity(Constants.opacity) }) : AppTheme.shared.colorSet.gradientBlack), startPoint: .leading, endPoint: .trailing)
+					LinearGradient(gradient: Gradient(colors: colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary.compactMap({ $0.opacity(Constants.opacity) }) : AppTheme.shared.colorSet.gradientBlack.compactMap({ $0.opacity(Constants.opacity) })), startPoint: .leading, endPoint: .trailing)
 						.blur(radius: Constants.blur)
 						.edgesIgnoringSafeArea(.vertical)
 					MenuView(isShowMenu: $isShowMenu,

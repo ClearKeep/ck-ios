@@ -27,6 +27,7 @@ public protocol IUserAPIService {
 	func uploadAvatar(_ request: User_UploadAvatarRequest) async -> (Result<User_UploadAvatarResponse, Error>)
 	func updateProfile(_ request: User_UpdateProfileRequest) async -> (Result<User_BaseResponse, Error>)
 	func getProfile(_ request: User_Empty) async -> (Result<User_UserProfileResponse, Error>)
+	func deleteUser(_ request: User_Empty) async -> (Result<User_BaseResponse, Error>)
 }
 
 extension APIService: IUserAPIService {
@@ -412,6 +413,27 @@ extension APIService: IUserAPIService {
 		return await withCheckedContinuation({ continuation in
 			let caller = clientUser.get_profile(request, callOptions: callOptions)
 			
+			caller.status.whenComplete({ result in
+				switch result {
+				case .success(let status):
+					if status.isOk {
+						caller.response.whenComplete { result in
+							continuation.resume(returning: result)
+						}
+					} else {
+						continuation.resume(returning: .failure(ServerError(status)))
+					}
+				case .failure(let error):
+					continuation.resume(returning: .failure(ServerError(error)))
+				}
+			})
+		})
+	}
+
+	public func deleteUser(_ request: User_Empty) async -> (Result<User_BaseResponse, Error>) {
+		return await withCheckedContinuation({ continuation in
+			let caller = clientUser.delete_account(request, callOptions: callOptions)
+
 			caller.status.whenComplete({ result in
 				switch result {
 				case .success(let status):
