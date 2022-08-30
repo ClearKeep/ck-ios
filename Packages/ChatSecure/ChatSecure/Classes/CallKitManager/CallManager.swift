@@ -229,6 +229,21 @@ final public class CallManager: NSObject {
 			let hasVideo = callType == "video"
 			let isGroupCall = groupType == "group"
 			let callerName = isGroupCall ? groupName : username
+			
+			if !calls.isEmpty {
+				let call = CallBox(uuid: UUID(), clientId: clientId, rtcUrl: groupRtcUrl)
+				call.clientName = callerName
+				call.roomId = Int64(roomId) ?? 0
+				call.roomRtcId = Int64(callNotification.publication?.groupID ?? "0") ?? 0
+				call.groupToken = token
+				call.avatar = avatar
+				call.isCallGroup = isGroupCall
+				call.type = .video
+				self.awaitCallGroup = nil
+				self.endCall?(call)
+				return
+			}
+			
 			reportIncomingCall(isCallGroup: isGroupCall,
 							   roomId: roomId,
 							   roomRtcId: callNotification.publication?.groupID ?? "0",
