@@ -56,24 +56,21 @@ enum ConfigurationProvider: IConfiguration {
 	}
 	
 	var dataBaseDebug: String {
-		// Configuration.value(for: Keys.databaseDebug)
-		"false"
+		 Configuration.value(for: Keys.databaseDebug)
 	}
 	
 	var databaseURL: URL? {
-		if dataBaseDebug == "true" {
-			let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)
-			let baseDir = paths.count > 0 ? paths[0] : NSTemporaryDirectory()
-			return URL(fileURLWithPath: baseDir).appendingPathComponent("development.realm")
-		}
-		
-		let sharedDirectoryURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.telred.clearkeep.dev")
-		return sharedDirectoryURL?.appendingPathComponent("development.realm")
+		let sharedDirectoryURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Configuration.value(for: Keys.appGroupName))
+		return sharedDirectoryURL?.appendingPathComponent(Configuration.value(for: Keys.databasePath))
 	}
 	
 	var yapDatabaseURL: URL {
-		let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)
-		let baseDir = paths.count > 0 ? paths[0] : NSTemporaryDirectory()
-		return URL(fileURLWithPath: baseDir).appendingPathComponent(Configuration.value(for: Keys.yapDatabasePath))
+		if let sharedDirectoryURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Configuration.value(for: Keys.appGroupName)) {
+			return sharedDirectoryURL.appendingPathComponent(Configuration.value(for: Keys.yapDatabasePath))
+		} else {
+			let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)
+			let baseDir = paths.count > 0 ? paths[0] : NSTemporaryDirectory()
+			return URL(fileURLWithPath: baseDir).appendingPathComponent(Configuration.value(for: Keys.yapDatabasePath))
+		}
 	}
 }

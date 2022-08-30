@@ -22,12 +22,14 @@ private struct SenderKeyName: Hashable {
 public final class SenderKeyInMemoryStore {
 	// MARK: - Variables
 	private let storage: YapDatabaseManager
+	private let channelStorage: ChannelStorage
 	private var senderKeyMap: [SenderKeyName: SenderKeyRecord] = [:]
 	private var senderUuidMap: [String: UUID] = [:]
-
+	
 	// MARK: - Init
-	public init(storage: YapDatabaseManager) {
+	public init(storage: YapDatabaseManager, channelStorage: ChannelStorage) {
 		self.storage = storage
+		self.channelStorage = channelStorage
 	}
 	
 	private func getKey(distributionId: UUID, name: String) -> String {

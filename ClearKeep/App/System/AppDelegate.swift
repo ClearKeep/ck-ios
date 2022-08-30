@@ -15,6 +15,7 @@ import MSAL
 import PushKit
 import ChatSecure
 import AVKit
+import CallManager
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {

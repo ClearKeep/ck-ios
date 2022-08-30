@@ -9,6 +9,7 @@ import UIKit
 import ChatSecure
 import Model
 import Networking
+import CallManager
 
 protocol IPeerCallRemoteStore {
 	func updateVideoCall(domain: String, groupID: Int64, callType type: CallType) async -> (Result<IVideoCallModel, Error>)

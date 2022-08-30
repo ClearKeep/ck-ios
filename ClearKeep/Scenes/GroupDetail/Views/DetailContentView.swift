@@ -10,6 +10,7 @@ import Common
 import CommonUI
 import ChatSecure
 import AVFoundation
+import CallManager
 
 private enum Constants {
 	static let padding = 20.0

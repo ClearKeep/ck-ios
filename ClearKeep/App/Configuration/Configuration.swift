@@ -13,7 +13,7 @@ enum Configuration {
 	}
 	
 	static func value<T>(for key: String) -> T where T: LosslessStringConvertible {
-		guard let object = Bundle.main.object(forInfoDictionaryKey: key) else {
+		guard let object = Bundle.app.object(forInfoDictionaryKey: key) else {
 			fatalError("missing key \(key)")
 		}
 
@@ -24,5 +24,20 @@ enum Configuration {
 			return value
 		default: fatalError("Invalid value for \(key)")
 		}
+	}
+}
+
+extension Bundle {
+	/// Return the main bundle when in the app or an app extension.
+	static var app: Bundle {
+		var components = main.bundleURL.path.split(separator: "/")
+		var bundle: Bundle?
+
+		if let index = components.lastIndex(where: { $0.hasSuffix(".app") }) {
+			components.removeLast((components.count - 1) - index)
+			bundle = Bundle(path: components.joined(separator: "/"))
+		}
+
+		return bundle ?? main
 	}
 }

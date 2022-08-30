@@ -7,7 +7,7 @@
 
 import SwiftUI
 import WebRTC
-import ChatSecure
+import CallManager
 
 struct CustomVideoView: View {
 	

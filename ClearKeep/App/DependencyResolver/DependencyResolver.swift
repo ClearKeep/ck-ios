@@ -10,6 +10,7 @@ import Common
 import CommonUI
 import ChatSecure
 import SignalServiceKit
+import SocialAuthentication
 
 class DependencyResolver {
 	static let shared = DependencyResolver()
@@ -54,7 +55,6 @@ class DependencyResolver {
 		// MARK: - Chat Secure
 		realmManager = RealmManager(databasePath: ConfigurationProvider.default.databaseURL)
 		channelStorage = ChannelStorage(config: ConfigurationProvider.default, clientStore: clientStore, realmManager: realmManager)
-		ChatSecure.DependencyResolver.shared = ChatSecure.DependencyResolver(channelStorage)
 		
 		// MARK: - Signal
 		yapDatabaseManager = YapDatabaseManager(databasePath: ConfigurationProvider.default.yapDatabaseURL)
@@ -62,9 +62,9 @@ class DependencyResolver {
 		
 		// MARK: - Services
 		appTokenService = AppTokenService(securedStoreService: securedStoreService, persistentStoreService: persistentStoreService)
-		let senderStore = SenderKeyInMemoryStore(storage: yapDatabaseManager)
+		let senderStore = SenderKeyInMemoryStore(storage: yapDatabaseManager, channelStorage: channelStorage)
 		authenticationService = CLKAuthenticationService(signalStore: signalStore, clientStore: clientStore, senderKeyStore: senderStore)
-		messageService = MessageService(clientStore: clientStore, signalStore: signalStore, senderStore: senderStore)
+		messageService = MessageService(clientStore: clientStore, signalStore: signalStore, senderStore: senderStore, channelStorage: channelStorage)
 		socialAuthenticationService = SocialAuthenticationService([.facebook,
 																   .google(clientId: ConfigurationProvider.default.googleClientId),
 																   .office(clientId: ConfigurationProvider.default.officeClientId,
@@ -75,6 +75,7 @@ class DependencyResolver {
 		uploadFileService = UploadFileService()
 		callService = CallService()
 		workspaceService = WorkspaceService()
+		ChatSecure.DependencyResolver.shared = ChatSecure.DependencyResolver(channelStorage)
 		// MARK: - Location
 		locationManager = CLLocationManager()
 		let locationConfiguration = LocationConfigurations()

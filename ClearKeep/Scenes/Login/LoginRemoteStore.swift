@@ -10,6 +10,7 @@ import Combine
 import ChatSecure
 import Model
 import Networking
+import SocialAuthentication
 
 protocol ILoginRemoteStore {
 	func signIn(email: String, password: String, domain: String) async -> Result<IAuthenticationModel, Error>

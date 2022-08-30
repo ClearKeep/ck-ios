@@ -6,17 +6,16 @@ PODS:
   - AppAuth/Core (1.5.0)
   - AppAuth/ExternalUserAgent (1.5.0):
     - AppAuth/Core
+  - CallManager (1.0.0):
+    - ChatSecure
+    - GoogleWebRTC
+    - SocketRocket
   - CGRPCZlib (1.7.3)
   - ChatSecure (1.0.0):
-    - FBSDKLoginKit
-    - GoogleSignIn
-    - GoogleWebRTC
     - Mantle
-    - MSAL
     - Networking
     - SignalProtocolObjC
     - SignalServiceKit
-    - SocketRocket
     - SwiftSRP
     - YapDatabase/SQLCipher
   - CNIOAtomics (2.38.0)
@@ -200,6 +199,12 @@ PODS:
     - Common
     - LibSignalClient
     - SignalCoreKit
+  - SocialAuthentication (1.0.0):
+    - ChatSecure
+    - FBSDKLoginKit
+    - GoogleSignIn
+    - MSAL
+    - Networking
   - SocketRocket (0.6.0)
   - SQLCipher (4.5.1):
     - SQLCipher/standard (= 4.5.1)
@@ -374,6 +379,7 @@ PODS:
     - YapDatabase/SQLCipher/Core
 
 DEPENDENCIES:
+  - CallManager (from `./Packages/CallManager`)
   - ChatSecure (from `./Packages/ChatSecure`)
   - Common (from `./Packages/Common`)
   - CommonUI (from `./Packages/CommonUI`)
@@ -392,6 +398,7 @@ DEPENDENCIES:
   - SignalCoreKit (from `https://github.com/signalapp/SignalCoreKit.git`)
   - SignalProtocolObjC (from `https://github.com/nohtbook/SignalProtocol-ObjC.git`)
   - SignalServiceKit (from `./Packages/SignalServiceKit`)
+  - SocialAuthentication (from `./Packages/SocialAuthentication`)
   - SocketRocket
   - SwiftLint
   - SwiftSRP (from `./Packages/SwiftSRP`)
@@ -459,6 +466,8 @@ SPEC REPOS:
     - YapDatabase
 
 EXTERNAL SOURCES:
+  CallManager:
+    :path: "./Packages/CallManager"
   ChatSecure:
     :path: "./Packages/ChatSecure"
   Common:
@@ -477,6 +486,8 @@ EXTERNAL SOURCES:
     :git: https://github.com/nohtbook/SignalProtocol-ObjC.git
   SignalServiceKit:
     :path: "./Packages/SignalServiceKit"
+  SocialAuthentication:
+    :path: "./Packages/SocialAuthentication"
   SwiftSRP:
     :path: "./Packages/SwiftSRP"
 
@@ -494,8 +505,9 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   _NIODataStructures: d8175e5ca5a34ec19b7ff21de298dd2a4d30818d
   AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
+  CallManager: 47b5694cd700873417b55725830fd49a9251da74
   CGRPCZlib: 30d7ed7cd286bf929605052dd64075a694d86d0c
-  ChatSecure: fd0025cc64857413e05356f9227eafe51579a850
+  ChatSecure: 40725723d7a422786459f1acb656318c8f5611f9
   CNIOAtomics: 00b638e1b0dac91d06d4bb089ea9126c117c6650
   CNIOBoringSSL: c99129423da079a9eb74bcfc7cfec41a6775cf94
   CNIOBoringSSLShims: 902ae35fea0b6be5eefb4fdce906751886cfa46f
@@ -541,7 +553,8 @@ SPEC CHECKSUMS:
   SignalCoreKit: 87da14c58d57760793b892ff03838c5ef2ce1167
   SignalProtocolC: e61c89693515347df8ed97961160a36cbe55c441
   SignalProtocolObjC: 35f26e21de41b6c9fbf8ec5087f3e02580df15e3
-  SignalServiceKit: ed4b0d05096bf1c50d9ab9f793a07c94b52d5a94
+  SignalServiceKit: 8e59ea550cebc2dd82d056ce496f4b7d67bc8751
+  SocialAuthentication: a292577b91a34fe538d8d00f2afcda60707d8801
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   SQLCipher: 712e8416685e8e575b9b0706ffee71678b2fdcf8
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
@@ -562,6 +575,6 @@ SPEC CHECKSUMS:
   SwiftSRP: 98943ac8497e2e7fb1ab1b63f68810aefc28010c
   YapDatabase: 350ab72b61f9dcc32504594da1a52a93f5ef1476
 
-PODFILE CHECKSUM: b47461bf0dc7f64e07a7598828baa659ddb3f13c
+PODFILE CHECKSUM: f9cc1a428218f06d578a5b4bfa06e7296231e178
 
 COCOAPODS: 1.11.3

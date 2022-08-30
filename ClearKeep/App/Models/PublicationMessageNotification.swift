@@ -16,6 +16,7 @@ class PublicationMessageNotification: Codable {
 	var message: Data
 	var createdAt: Int64
 	var clientWorkspaceDomain: String
+	var fromClientWorkspaceDomain: String
 	
 	enum CodingKeys: String, CodingKey {
 		case id = "id"
@@ -26,6 +27,7 @@ class PublicationMessageNotification: Codable {
 		case message = "message"
 		case createdAt = "created_at"
 		case clientWorkspaceDomain = "client_workspace_domain"
+		case fromClientWorkspaceDomain = "from_client_workspace_domain"
 	}
 	
 	required init(from decoder: Decoder) throws {
@@ -38,5 +40,6 @@ class PublicationMessageNotification: Codable {
 		message = try Data(base64Encoded: container.decode(String.self, forKey: .message).data(using: .utf8) ?? Data()) ?? Data()
 		createdAt = try container.decode(Int64.self, forKey: .createdAt)
 		clientWorkspaceDomain = try container.decode(String.self, forKey: .clientWorkspaceDomain)
+		fromClientWorkspaceDomain = try container.decode(String.self, forKey: .fromClientWorkspaceDomain)
 	}
 }

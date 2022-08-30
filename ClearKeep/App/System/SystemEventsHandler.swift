@@ -72,6 +72,7 @@ struct SystemEventsHandler: ISystemEventsHandler {
 	func sceneDidBecomeActive() {
 		container.appState[\.system.isActive] = true
 		container.interactors.homeInteractor.subscribeAndListenServers()
+		NotificationCenter.default.post(name: NSNotification.reloadChat, object: nil)
 	}
 	
 	func sceneWillResignActive() {

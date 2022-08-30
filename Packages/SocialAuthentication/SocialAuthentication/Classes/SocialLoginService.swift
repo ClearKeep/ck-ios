@@ -13,6 +13,7 @@ import MSAL
 import Networking
 import AuthenticationServices
 import Combine
+import ChatSecure
 
 public protocol ISocialAuthenticationService {
 	func signInWithFB(domain: String) async -> Result<Auth_SocialLoginRes, Error>

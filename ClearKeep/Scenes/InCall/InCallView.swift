@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import ChatSecure
+import CallManager
 import CommonUI
 
 struct InCallView: View {

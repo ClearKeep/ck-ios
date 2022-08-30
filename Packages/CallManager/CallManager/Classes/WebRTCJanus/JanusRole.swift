@@ -103,10 +103,10 @@ public class JanusRole: JanusPlugin {
 	
 	func defaultSTUNServer() -> [RTCIceServer] {
 		
-		let turnUser = UserDefaults.standard.string(forKey: ChatSecure.Constants.keySaveTurnServerUser) ?? ""
-		let turnPWD = UserDefaults.standard.string(forKey: ChatSecure.Constants.keySaveTurnServerPWD) ?? ""
-		let turnServer = UserDefaults.standard.string(forKey: ChatSecure.Constants.keySaveTurnServer) ?? ""
-		let stunServer = UserDefaults.standard.string(forKey: ChatSecure.Constants.keySaveStunServer) ?? ""
+		let turnUser = UserDefaults.standard.string(forKey: Constants.keySaveTurnServerUser) ?? ""
+		let turnPWD = UserDefaults.standard.string(forKey: Constants.keySaveTurnServerPWD) ?? ""
+		let turnServer = UserDefaults.standard.string(forKey: Constants.keySaveTurnServer) ?? ""
+		let stunServer = UserDefaults.standard.string(forKey: Constants.keySaveStunServer) ?? ""
 		// 8f87a00be37f0bfe19c0168ed0614966d70f2f8513ad66bda31a4a0a55fa89bd
 		// leZgnMWJMJ8QRFapC5liDHUrxJjalYqbhxPq+/V2zz8=
 		let stun = RTCIceServer(urlStrings: [stunServer])
@@ -135,7 +135,7 @@ public class JanusRole: JanusPlugin {
 		var msg: [String: Any]
 		if pType == .publish {
 			msg = ["request": "join", "room": NSNumber(value: roomId), "ptype": "publisher", "display": self.display]
-			let displayName = UserDefaults.standard.string(forKey: ChatSecure.Constants.keyDisplayname)
+			let displayName = UserDefaults.standard.string(forKey: Constants.keyDisplayname)
 			if let displayName = displayName {
 				msg["display"] = displayName
 			}

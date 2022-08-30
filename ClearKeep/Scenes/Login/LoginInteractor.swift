@@ -8,6 +8,7 @@
 import Common
 import ChatSecure
 import Model
+import SocialAuthentication
 
 protocol ILoginInteractor {
 	func signIn(email: String, password: String, customServer: CustomServer) async -> Loadable<IAuthenticationModel>

@@ -130,7 +130,7 @@ public class ChannelStorage: IChannelStorage {
 
 // MARK: - Internal
 extension ChannelStorage {
-	func getChannel(domain: String, accessToken: String? = nil, hashKey: String? = nil) -> APIService {
+	public func getChannel(domain: String, accessToken: String? = nil, hashKey: String? = nil) -> APIService {
 		if channels.contains(where: { $0.key == domain }) {
 			let channel = channels[domain]
 			if accessToken != nil {
