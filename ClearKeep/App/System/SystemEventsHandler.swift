@@ -71,10 +71,12 @@ struct SystemEventsHandler: ISystemEventsHandler {
 	
 	func sceneDidBecomeActive() {
 		container.appState[\.system.isActive] = true
+		container.interactors.homeInteractor.subscribeAndListenServers()
 	}
 	
 	func sceneWillResignActive() {
 		container.appState[\.system.isActive] = false
+		container.interactors.notificationInteractor.unSubscribeAndListenServers()
 	}
 	
 	func handlePushRegistration(result: Result<Data, Error>) {
