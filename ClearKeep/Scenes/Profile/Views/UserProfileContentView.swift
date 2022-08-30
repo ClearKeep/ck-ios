@@ -38,7 +38,7 @@ struct UserProfileContentView: View {
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.joinServerClosure) private var joinServerClosure: JoinServerClosure
-
+	
 	@Binding private(set) var countryCode: String
 	@Binding private(set) var urlAvatar: String
 	@Binding private(set) var username: String
@@ -120,10 +120,10 @@ struct UserProfileContentView: View {
 									usernameStyle = .error(message: "UserProfile.UserName.Valid".localized)
 								}
 							})
-								.onChange(of: self.username, perform: { text in
-									self.checkUserValid(text: text)
-								})
-								.onReceive(Just(username)) { _ in limitText(Constants.userNameLimit) }
+							.onChange(of: self.username, perform: { text in
+								self.checkUserValid(text: text)
+							})
+							.onReceive(Just(username)) { _ in limitText(Constants.userNameLimit) }
 						}
 						VStack(alignment: .leading, spacing: Constants.spacerSetting) {
 							Text("UserProfile.Email".localized)
@@ -134,7 +134,7 @@ struct UserProfileContentView: View {
 											placeHolder: "UserProfile.Email".localized,
 											keyboardType: .default,
 											onEditingChanged: { _ in })
-								.disabled(true)
+							.disabled(true)
 						}
 						
 						VStack(alignment: .leading, spacing: Constants.spacerSetting) {
@@ -176,14 +176,14 @@ struct UserProfileContentView: View {
 									self.phoneStyle = isEditing ? .highlighted : .normal
 									self.onEditing = isEditing
 								})
-									.onChange(of: phoneNumber, perform: { text in
-										checkPhoneValid(text: text)
-									})
-									.cornerRadius(Constants.radius)
-									.overlay(
-										RoundedRectangle(cornerRadius: Constants.radius)
-											.stroke(borderColor, lineWidth: Constants.borderWidth)
-									)
+								.onChange(of: phoneNumber, perform: { text in
+									checkPhoneValid(text: text)
+								})
+								.cornerRadius(Constants.radius)
+								.overlay(
+									RoundedRectangle(cornerRadius: Constants.radius)
+										.stroke(borderColor, lineWidth: Constants.borderWidth)
+								)
 								
 							}
 							if phoneInvalid == false {
@@ -316,11 +316,11 @@ private extension UserProfileContentView {
 	func avartarOptions() {
 		self.showingImageOptions.toggle()
 	}
-
+	
 	func showPopUp() {
 		self.showAlertDelete = true
 	}
-
+	
 	func deleteUser() {
 		self.showLoading = true
 		servers = injected.interactors.profileInteractor.getServers()
@@ -329,7 +329,7 @@ private extension UserProfileContentView {
 				let loadable = await injected.interactors.profileInteractor.deleteUser()
 				self.showLoading = false
 				switch loadable {
-				case .loaded(let data):
+				case .loaded:
 					DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
 						injected.appState[\.authentication.servers] = []
 					})
@@ -346,11 +346,15 @@ private extension UserProfileContentView {
 				let loadable = await injected.interactors.profileInteractor.deleteUser()
 				self.showLoading = false
 				switch loadable {
-				case .loaded(let data):
+				case .loaded:
 					injected.interactors.profileInteractor.removeServer()
 					if let joinServer = injected.interactors.profileInteractor.getServers().last {
 						self.joinServerClosure?(joinServer.serverDomain)
+						DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+							injected.appState[\.authentication.servers] = DependencyResolver.shared.channelStorage.getServers(isFirstLoad: false).compactMap({ ServerModel($0) })
+						})
 					}
+					
 					DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
 						NotificationCenter.default.post(name: NSNotification.reloadDataHome, object: nil)
 					})
@@ -363,7 +367,7 @@ private extension UserProfileContentView {
 				}
 			}
 		}
-
+		
 	}
 	
 	func updateAvata() {
@@ -376,7 +380,7 @@ private extension UserProfileContentView {
 			switch loadable {
 			case .loaded(let data):
 				guard let urlData = data.urlAvatarViewModel,
-				let url = URL(string: urlData.fileURL) else {
+					  let url = URL(string: urlData.fileURL) else {
 					return
 				}
 				URLCache.shared.removeCachedResponse(for: URLRequest(url: url))
