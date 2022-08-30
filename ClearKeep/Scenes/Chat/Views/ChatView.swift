@@ -138,8 +138,10 @@ struct ChatView: View {
 						}
 					}, rightBarItems: {
 						HStack(spacing: 24) {
-							audioButtonView
-							videoButtonView
+							if !(group?.groupType == "peer" && self.getPartnerUser(group: self.group) == nil) {
+								audioButtonView
+								videoButtonView
+							}
 						}
 					})
 			}.bottomSheet(

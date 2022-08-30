@@ -206,13 +206,14 @@ private extension DirectMessageContentView {
 	}
 	
 	func searchEmail() {
-		if searchEmailText.validEmail {
-			Task {
-				loadable = await self.injected.interactors.createDirectMessageInteractor.searchUserWithEmail(email: searchEmailText.trimmingCharacters(in: .whitespacesAndNewlines))
-			}
-		} else {
+		if !searchEmailText.trimmingCharacters(in: .whitespacesAndNewlines).validEmail {
 			self.messageAlert = "GroupChat.EmailIsIncorrect".localized
 			self.isShowAlert = true
+			return
+		}
+		
+		Task {
+			loadable = await self.injected.interactors.createDirectMessageInteractor.searchUserWithEmail(email: searchEmailText.trimmingCharacters(in: .whitespacesAndNewlines))
 		}
 	}
 	

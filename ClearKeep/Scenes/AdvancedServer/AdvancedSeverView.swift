@@ -127,7 +127,7 @@ private extension AdvancedSeverView {
 	func submitAction() {
 		loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			loadable = await injected.interactors.advancedSeverInteractor.workspaceInfo(workspaceDomain: editingCustomServer.customServerURL)
+			loadable = await injected.interactors.advancedSeverInteractor.workspaceInfo(workspaceDomain: editingCustomServer.customServerURL.trimmingCharacters(in: .whitespacesAndNewlines))
 		}
 	}
 }

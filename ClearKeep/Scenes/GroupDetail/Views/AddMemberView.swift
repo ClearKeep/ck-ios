@@ -99,7 +99,7 @@ struct AddMemberView: View {
 					})
 				}
 			}
-			RoundedGradientButton(textButton, disabled: .constant(addMember.isEmpty && searchLinkText.isEmpty), action: nextToCreateGroup)
+			RoundedGradientButton(textButton, disabled: .constant(self.checkDisableButton()), action: nextToCreateGroup)
 				.frame(maxWidth: .infinity)
 				.frame(height: Constants.heightButton)
 				.font(AppTheme.shared.fontSet.font(style: .body3))
@@ -195,6 +195,40 @@ private extension AddMemberView {
 	func checkUserIsSelected(item: GroupDetailUserViewModels) -> Bool {
 		return self.addMember.contains(where: { $0.id == item.id })
 	}
+	
+	private func checkDisableButton() -> Bool {
+		if self.useCustomServerChecked {
+			if self.searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+				return true
+			}
+			
+			guard let first = searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: ":").first,
+				  let last = searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: ":").last else {
+				return true
+			}
+			
+			let validated = first.textFieldValidatorURL() && (first != last) && searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines).last != ":"
+			if !validated {
+				return true
+			}
+			
+			if searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: "/").count != 3 {
+				return true
+			}
+			
+			return false
+		}
+		
+		if self.useFindByEmail {
+			if self.searchEmailText.isEmpty {
+				return true
+			}
+			
+			return false
+		}
+		
+		return addMember.isEmpty
+	}
 }
 
 // MARK: - Interactor
@@ -217,8 +251,8 @@ private extension AddMemberView {
 	}
 
 	private func addUserWithLink() {
-		if !injected.interactors.groupDetailInteractor.checkPeopleLink(link: searchLinkText) {
-			let people = injected.interactors.groupDetailInteractor.getPeopleFromLink(link: searchLinkText)
+		if !injected.interactors.groupDetailInteractor.checkPeopleLink(link: searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines)) {
+			let people = injected.interactors.groupDetailInteractor.getPeopleFromLink(link: searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines))
 			loadable = .isLoading(last: nil, cancelBag: CancelBag())
 			Task {
 				loadable = await self.injected.interactors.groupDetailInteractor.getUserInfor(clientId: people?.id ?? "", workSpace: people?.domain ?? "")
@@ -232,15 +266,15 @@ private extension AddMemberView {
 	}
 
 	private func searchEmail() {
-		if searchEmailText.validEmail {
-			Task {
-				loadable = await self.injected.interactors.groupDetailInteractor.searchUserWithEmail(email: searchEmailText)
-
-			}
-
-		} else {
+		if !searchEmailText.trimmingCharacters(in: .whitespacesAndNewlines).validEmail {
 			self.messageAlert = "GroupChat.EmailIsIncorrect".localized
 			self.isShowAlert = true
+			return
+		}
+		
+		Task {
+			loadable = await self.injected.interactors.groupDetailInteractor.searchUserWithEmail(email: searchEmailText.trimmingCharacters(in: .whitespacesAndNewlines))
+
 		}
 	}
 

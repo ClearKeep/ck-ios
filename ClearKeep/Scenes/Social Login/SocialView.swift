@@ -26,7 +26,7 @@ struct SocialView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Binding var customServer: CustomServer
-	@State private(set) var security: String = ""
+	@State private(set) var security: String = "    phan van hoan 1234     "
 	@State private(set) var securityStyle: TextInputStyle = .default
 	@State private(set) var isNext: Bool = false
 	@State private var showAlert: Bool = false
@@ -199,13 +199,13 @@ private extension SocialView {
 				isNext = true
 			case .confirmSecurity:
 				self.isLoading = true
-				result = await injected.interactors.socialInteractor.registerSocialPin(userName: userName, rawPin: self.convertString(text: security.trimmingCharacters(in: .whitespacesAndNewlines)), customServer: customServer)
+				result = await injected.interactors.socialInteractor.registerSocialPin(userName: userName, rawPin: self.convertString(text: security).trimmingCharacters(in: .whitespaces), customServer: customServer)
 			case .verifySecurity:
 				self.isLoading = true
-				result = await injected.interactors.socialInteractor.verifySocialPin(userName: userName, rawPin: self.convertString(text: security.trimmingCharacters(in: .whitespacesAndNewlines)), customServer: customServer)
+				result = await injected.interactors.socialInteractor.verifySocialPin(userName: userName, rawPin: self.convertString(text: security).trimmingCharacters(in: .whitespaces), customServer: customServer)
 			case .confirmResetSecurity:
 				self.isLoading = true
-				result = await injected.interactors.socialInteractor.resetSocialPin(userName: userName, rawPin: self.convertString(text: security.trimmingCharacters(in: .whitespacesAndNewlines)), token: self.resetToken, customServer: customServer)
+				result = await injected.interactors.socialInteractor.resetSocialPin(userName: userName, rawPin: self.convertString(text: security).trimmingCharacters(in: .whitespacesAndNewlines), token: self.resetToken, customServer: customServer)
 			}
 			
 			self.isLoading = false
