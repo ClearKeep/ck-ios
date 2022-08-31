@@ -15,6 +15,7 @@ import UniformTypeIdentifiers
 import ChatSecure
 import RealmSwift
 import AVFoundation
+import CallManager
 
 private enum Constants {
 	static let padding = 15.0
@@ -201,6 +202,12 @@ struct ChatView: View {
 			.onReceive(NotificationCenter.default.publisher(for: NSNotification.alertChat, object: nil), perform: { _ in
 				self.errorType = .removed
 				self.alertVisible = true
+			})
+			.onReceive(NotificationCenter.default.publisher(for: NSNotification.reloadChat, object: nil), perform: { _ in
+				Task {
+					let isGroup = group?.groupType == "group"
+					await injected.interactors.chatInteractor.updateMessages(loadable: $loadable, isEndOfPage: $isEndOfPage, groupId: groupId, isGroup: isGroup, lastMessageAt: 0)
+				}
 			})
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
 			.alert(isPresented: $alertVisible, content: {
@@ -755,4 +762,5 @@ private extension ChatView {
 }
 extension NSNotification {
 	static let alertChat = Notification.Name.init("alertChat")
+	static let reloadChat = Notification.Name.init("reloadChat")
 }

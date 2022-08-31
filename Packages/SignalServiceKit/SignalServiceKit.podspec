@@ -15,11 +15,6 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '15.0'
 
 	s.source_files = 'SignalServiceKit/**/*.{swift,h,m,c}'
-	s.pod_target_xcconfig = {
-		'ENABLE_BITCODE' => 'NO',
-		'OTHER_CFLAGS' => '-DSQLITE_HAS_CODEC',
-		'GCC_PREPROCESSOR_DEFINITIONS' => 'SQLITE_HAS_CODEC=1'
-	}
 	
 	s.dependency 'LibSignalClient'
 	s.dependency 'SignalCoreKit'

@@ -23,5 +23,4 @@ FOUNDATION_EXPORT const unsigned char NetworkingVersionString[];
 #import "CKDevice.h"
 #import "CKAccount.h"
 #import "CKBuddy.h"
-#import "Tools.h"
 @import YapDatabase;

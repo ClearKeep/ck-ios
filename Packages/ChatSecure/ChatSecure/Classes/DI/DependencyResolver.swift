@@ -10,14 +10,14 @@ import Foundation
 public class DependencyResolver {
 	public static var shared = DependencyResolver()
 	
-	var channelStorage: ChannelStorage!
+	public var channelStorage: ChannelStorage!
 	
 	public init(_ channelStorage: ChannelStorage? = nil) {
 		self.channelStorage = channelStorage
 	}
 }
 
-var channelStorage: ChannelStorage { return DependencyResolver.shared.channelStorage }
+public var channelStorage: ChannelStorage { return DependencyResolver.shared.channelStorage }
 
 func commonUIBundle(for aClass: AnyClass) -> Bundle {
 	let podBundle = Bundle(for: aClass)

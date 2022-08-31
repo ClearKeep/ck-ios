@@ -11,7 +11,6 @@
 import UIKit
 import AVFoundation
 import WebRTC
-
 protocol JanusVideoRoomDelegate: NSObject {
 	func janusVideoRoom(janusRoom: JanusVideoRoom, didJoinRoomWithId clientId: Int)
 	func janusVideoRoom(janusRoom: JanusVideoRoom, remoteLeaveWithID clientId: Int)
@@ -19,7 +18,6 @@ protocol JanusVideoRoomDelegate: NSObject {
 	func janusVideoRoom(janusRoom: JanusVideoRoom, firstFrameDecodeWithSize size: CGSize, uId: Int)
 	func janusVideoRoom(janusRoom: JanusVideoRoom, renderSizeChangeWithSize size: CGSize, uId: Int)
 }
-
 extension JanusVideoRoomDelegate {
 	func janusVideoRoom(janusRoom: JanusVideoRoom, didSetRemoteVideoTrack remoteVideoTrack: RTCVideoTrack) { }
 	
@@ -157,7 +155,6 @@ public class JanusVideoRoom: NSObject {
 		self.publisher?.janus?.destroySession()
 	}
 }
-
 extension JanusVideoRoom: JanusRoleListenDelegate {
 	
 	func janusRoleListen(role: JanusRoleListen, firstRenderWithSize size: CGSize) {

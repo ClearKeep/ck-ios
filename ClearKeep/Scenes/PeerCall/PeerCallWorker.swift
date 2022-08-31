@@ -8,6 +8,7 @@
 import Model
 import ChatSecure
 import CommonUI
+import CallManager
 
 protocol IPeerCallWorker {
 	func updateVideoCall(domain: String, groupID: Int64, callType type: CallType) async -> (Result<IVideoCallModel, Error>)

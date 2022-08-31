@@ -8,6 +8,7 @@
 import Common
 import ChatSecure
 import Model
+import CallManager
 
 protocol IPeerCallInteractor {
 	var worker: IPeerCallWorker { get }

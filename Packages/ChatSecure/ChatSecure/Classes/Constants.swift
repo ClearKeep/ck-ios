@@ -8,12 +8,6 @@
 import Foundation
 
 enum Constants {
-	static let keySaveTurnServerUser = "keySaveTurnServerUser"
-	static let keySaveTurnServerPWD = "keySaveTurnServerPWD"
-	static let keySaveTurnServer = "keySaveTurnServer"
-	static let keySaveStunServer = "keySaveStunServer"
-	static let keyDisplayname = "keyDisplayname"
-	
 	static let senderDeviceId = 111
 	static let receiverDeviceId = 222
 }

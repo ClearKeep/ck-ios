@@ -17,6 +17,7 @@ struct RootView: View {
 	@State private var isLoggedIn: Bool = false
 	@State private var servers: [ServerModel] = []
 	@State private var newServerDomain: String?
+	@State private var isFirstLoad: Bool = true
 	
 	init(container: DIContainer, isRunningTests: Bool = ProcessInfo.processInfo.isRunningTests) {
 		self.container = container
@@ -38,9 +39,10 @@ struct RootView: View {
 			}
 		}
 		.onReceive(serversUpdate) { servers in
-			if servers.count > self.servers.count {
+			if servers.count > self.servers.count && !isFirstLoad {
 				subscribeAndListen()
 			}
+			isFirstLoad = false
 			self.servers = servers
 		}
 		.onReceive(newServerDomainUpdate) { newServerDomain in

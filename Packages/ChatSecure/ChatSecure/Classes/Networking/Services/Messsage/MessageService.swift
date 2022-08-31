@@ -53,11 +53,13 @@ public class MessageService {
 	private let clientStore: ClientStore
 	private let signalStore: ISignalProtocolInMemoryStore
 	private let senderStore: ISenderKeyStore
+	private let channelStorage: ChannelStorage
 		
-	public init(clientStore: ClientStore, signalStore: ISignalProtocolInMemoryStore, senderStore: ISenderKeyStore) {
+	public init(clientStore: ClientStore, signalStore: ISignalProtocolInMemoryStore, senderStore: ISenderKeyStore, channelStorage: ChannelStorage) {
 		self.clientStore = clientStore
 		self.signalStore = signalStore
 		self.senderStore = senderStore
+		self.channelStorage = channelStorage
 	}
 	
 	public var currentRoomId: Int64 = 0
@@ -421,11 +423,10 @@ private extension MessageService {
 	func initSessionUserInGroup(address: ProtocolAddress, distributionId: UUID?, domain: String, groupID: Int64, clientID: String, isForceProcess: Bool) async -> Bool {
 		do {
 			if distributionId == nil || isForceProcess {
-				guard let server = channelStorage.realmManager.getServer(by: domain) else { return false }
 				var request = Signal_GroupGetClientKeyRequest()
 				request.groupID = groupID
 				request.clientID = clientID
-				let response = await channelStorage.getChannel(domain: domain).groupGetClientKey(request)
+				let response = await self.channelStorage.getChannel(domain: domain).groupGetClientKey(request)
 				switch response {
 				case .success(let result):
 					print(result)

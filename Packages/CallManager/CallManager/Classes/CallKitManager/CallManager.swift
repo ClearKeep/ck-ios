@@ -9,6 +9,7 @@ import UIKit
 import CallKit
 import AVFoundation
 import PushKit
+import ChatSecure
 
 public enum CallType: String {
 	case audio
@@ -328,7 +329,6 @@ final public class CallManager: NSObject {
 		}
 	}
 }
-
 extension CallManager {
 	// MARK: Incoming Calls
 	/// Use CXProvider to report the incoming call to the system
@@ -396,7 +396,6 @@ extension CallManager {
 		}
 	}
 }
-
 extension CallManager: CXProviderDelegate {
 	public func providerDidReset(_ provider: CXProvider) {
 		print("Provider did reset")
