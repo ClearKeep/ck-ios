@@ -146,6 +146,7 @@
 "AdvancedServer.Alert" = "You are using custom server";
 "AdvancedServer.Title.Error" = "Error";
 "AdvancedServer.Message.Error" = "Wrong server URL. Please try again";
+"AdvancedServer.Message.Error.DomainUsed" = "Server URL has been used. Please try again";
 
 // MARK: - Home
 "Home.Title" = "CK Development";

@@ -146,6 +146,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 				case .success(let profileResponse):
 					await channelStorage.realmManager.saveServer(profileResponse: profileResponse, authenResponse: authenResponse, isSocialAccount: false)
 					let result = onLoginSuccess(authenResponse, password: password)
+					print("authenResponse", authenResponse)
 					switch result {
 					case .success(let value):
 						return .success(authenResponse)

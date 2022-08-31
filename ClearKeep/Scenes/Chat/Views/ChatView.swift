@@ -222,6 +222,10 @@ struct ChatView: View {
 						UIApplication.shared.open(url)
 					}),
 								 secondaryButton: .default(Text("Call.Cancel".localized)))
+				case .removed:
+					return Alert(title: Text(errorType.title),
+								 message: Text(errorType.message),
+								 dismissButton: .default(Text("General.OK".localized), action: { self.presentationMode.wrappedValue.dismiss() }))
 				default:
 					return Alert(title: Text(errorType.title),
 								 message: Text(errorType.message),

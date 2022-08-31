@@ -44,8 +44,9 @@ struct HomeView: View {
 			switch loadable {
 			case .loaded(let load):
 				isLoading = false
-				let groups = load.groupViewModel?.viewModelGroup.filter { $0.groupType == "group" }.sorted(by: { $0.updatedAt > $1.updatedAt }).compactMap { profile in
-					GroupViewModel(profile)} ?? []
+				let groups = load.groupViewModel?.viewModelGroup.filter { $0.groupType == "group" && $0.groupMembers.contains(where: { $0.userId == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId && $0.userState != "leaved" }) }.sorted(by: { $0.updatedAt > $1.updatedAt }).compactMap { profile in
+									GroupViewModel(profile)} ?? []
+				print("groups", groups)
 				let peers = load.groupViewModel?.viewModelGroup.filter { $0.groupType != "group" }.sorted(by: { $0.updatedAt > $1.updatedAt }).compactMap { profile in
 					GroupViewModel(profile)} ?? []
 				if !groups.isEmpty && !isFirstShowGroup {
@@ -248,6 +249,9 @@ struct HomeView: View {
 			self.isAddNewServer = false
 		})
 		.onReceive(inspection.notice) { self.inspection.visit(self, $0) }
+		.onDisappear {
+			self.serverURL = ""
+		}
 	}
 }
 
@@ -255,11 +259,18 @@ struct HomeView: View {
 private extension HomeView {
 	var content: AnyView {
 		if isAddNewServer {
-			return AnyView(JoinServerView(serverURL: serverURL, checkUrl: { urlString in
-				serverURL = urlString
-				loadableUrl = .isLoading(last: nil, cancelBag: CancelBag())
-				Task {
-					loadableUrl = await injected.interactors.homeInteractor.workspaceInfo(workspaceDomain: urlString)
+			return AnyView(JoinServerView(serverURL: $serverURL, checkUrl: { urlString in
+				servers.forEach { server in
+					if urlString == server.serverDomain {
+						self.error = .domainUsed
+						self.isShowError = true
+					} else {
+						serverURL = urlString
+						loadableUrl = .isLoading(last: nil, cancelBag: CancelBag())
+						Task {
+							loadableUrl = await injected.interactors.homeInteractor.workspaceInfo(workspaceDomain: urlString)
+						}
+					}
 				}
 			}))
 		} else {
