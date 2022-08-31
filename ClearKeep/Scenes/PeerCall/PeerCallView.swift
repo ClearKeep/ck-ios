@@ -11,6 +11,7 @@ import ChatSecure
 import Combine
 import Common
 import Model
+import CallManager
 
 struct PeerCallView: View {
 	@ObservedObject var viewModel: CallViewModel

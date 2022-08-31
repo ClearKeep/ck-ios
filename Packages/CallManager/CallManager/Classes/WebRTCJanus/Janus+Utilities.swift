@@ -135,7 +135,6 @@ extension String {
 		return String(self[startIndex...endIndex])
 	}
 }
-
 func availableVideoResolutions() -> [String]? {
 	var resolutions: Set<[NSNumber]> = []
 	for device in RTCCameraVideoCapturer.captureDevices() {

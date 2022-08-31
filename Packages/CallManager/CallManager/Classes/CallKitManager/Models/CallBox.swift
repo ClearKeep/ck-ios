@@ -217,7 +217,6 @@ public final class CallBox: NSObject {
 }
 
 // MARK: - JanusVideoRoomDelegate
-
 extension CallBox: JanusVideoRoomDelegate {
 	func janusVideoRoom(janusRoom: JanusVideoRoom, remoteLeaveWithID clientId: Int) {
 		if self.isCallGroup {

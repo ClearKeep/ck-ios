@@ -24,6 +24,8 @@ def common
 	pod 'Model', :path => './Packages/Model'
 	pod 'SwiftSRP', :path => './Packages/SwiftSRP'
 	pod 'SignalServiceKit', :path => './Packages/SignalServiceKit'
+	pod 'SocialAuthentication', :path => './Packages/SocialAuthentication'
+	pod 'CallManager', :path => './Packages/CallManager'
 	pod 'SignalProtocolObjC', :git =>'https://github.com/nohtbook/SignalProtocol-ObjC.git'
 	pod 'LibSignalClient', git: 'https://github.com/signalapp/libsignal.git'
 	pod 'SignalCoreKit', git: 'https://github.com/signalapp/SignalCoreKit.git'
@@ -93,6 +95,7 @@ target 'notificationextension' do
 	# Pods for notificationextension
 	pod 'Model', :path => './Packages/Model'
 	pod 'Common', :path => './Packages/Common'
+	pod 'ChatSecure', :path => './Packages/ChatSecure'
 end
 
 post_install do |installer|

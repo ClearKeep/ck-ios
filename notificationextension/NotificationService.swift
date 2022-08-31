@@ -7,11 +7,12 @@
 
 import UserNotifications
 import Common
+import ChatSecure
 
 class NotificationService: UNNotificationServiceExtension {
 	var contentHandler: ((UNNotificationContent) -> Void)?
 	var bestAttemptContent: UNMutableNotificationContent?
-	
+			
 	override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
 		self.contentHandler = contentHandler
 		bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
@@ -19,19 +20,31 @@ class NotificationService: UNNotificationServiceExtension {
 			if let publication = bestAttemptContent.userInfo["publication"],
 			   let jsonString = publication as? String,
 			   let jsonData = jsonString.data(using: .utf8) {
+				print(publication)
 				do {
-					let publication = try JSONDecoder().decode(PublicationMessageNotification.self, from: jsonData)
 					let realmManager = RealmManager(databasePath: ConfigurationProvider.default.databaseURL)
+					let yapDatabase = YapDatabaseManager(databasePath: ConfigurationProvider.default.yapDatabaseURL)
+					let clientStore = ClientStore(persistentStoreService: PersistentStoreService(), securedStoreService: SecuredStoreService())
+					let channelStorage = ChannelStorage(config: ConfigurationProvider.default, clientStore: clientStore, realmManager: realmManager)
+					let signalStore = SignalProtocolInMemoryStore(storage: yapDatabase, channelStorage: channelStorage)
+					let senderStore = SenderKeyInMemoryStore(storage: yapDatabase, channelStorage: channelStorage)
+					let messageService = MessageService(clientStore: clientStore, signalStore: signalStore, senderStore: senderStore, channelStorage: channelStorage)
+					let publication = try JSONDecoder().decode(PublicationMessageNotification.self, from: jsonData)
+					channelStorage.updateTempServer(server: TempServer(serverDomain: publication.clientWorkspaceDomain, ownerClientId: publication.clientId))
+					let senderName = realmManager.getSenderName(fromClientId: publication.fromClientId, groupId: publication.groupId, domain: publication.clientWorkspaceDomain, ownerId: publication.clientId)
 					if publication.groupType == "peer" {
-						// decrypt peer message
-						let senderName = realmManager.getSenderName(fromClientId: publication.fromClientId, groupId: publication.groupId, domain: publication.clientWorkspaceDomain, ownerId: publication.clientId)
+						let message = messageService.decryptPeerMessage(senderName: publication.fromClientId, message: publication.message, messageId: publication.id)
 						bestAttemptContent.title = senderName
+						bestAttemptContent.body = message ?? "x"
 						contentHandler(bestAttemptContent)
 					} else {
-						// decrypt group message
-						let senderName = realmManager.getGroupName(by: publication.groupId, domain: publication.clientWorkspaceDomain, ownerId: publication.clientId)
-						bestAttemptContent.title = senderName
-						contentHandler(bestAttemptContent)
+						let groupName = realmManager.getGroupName(by: publication.groupId, domain: publication.clientWorkspaceDomain, ownerId: publication.clientId)
+						Task {
+							let message = await messageService.decryptGroupMessage(senderId: publication.fromClientId, senderDomain: publication.fromClientWorkspaceDomain, ownerId: publication.clientId, ownerDomain: publication.clientWorkspaceDomain, groupID: publication.groupId, message: publication.message)
+							bestAttemptContent.title = groupName
+							bestAttemptContent.body = "\(senderName): \(message ?? "x")"
+							contentHandler(bestAttemptContent)
+						}
 					}
 				} catch {
 					bestAttemptContent.body = "\(#function) 1"

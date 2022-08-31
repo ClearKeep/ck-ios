@@ -7,7 +7,7 @@
 
 import SwiftUI
 import CommonUI
-import ChatSecure
+import CallManager
 
 struct VideoContainerView: View {
     @ObservedObject var viewModel: CallViewModel

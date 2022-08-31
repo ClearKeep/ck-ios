@@ -8,7 +8,7 @@
 import Foundation
 import WebRTC
 import ChatSecure
-import ChatSecure
+import CallManager
 
 class CallViewModel: NSObject, ObservableObject {
 	@Published var localVideoView: RTCMTLEAGLVideoView?
