@@ -32,11 +32,11 @@ private enum Constants {
 
 // swiftlint:disable file_length
 struct ChatView: View {
+	static var picktureImage = MultipleImagePicker()
 	// MARK: - Environment Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Environment(\.injected) private var injected: DIContainer
-	
 	// MARK: - Variables
 	@State private(set) var loadable: Loadable<IGroupModel?> = .notRequested {
 		didSet {
@@ -649,15 +649,17 @@ private extension ChatView {
 						showingCameraPicker = true
 					}
 					Button("Chat.Albums".localized, role: .destructive) {
+						Self.picktureImage = MultipleImagePicker()
+						Self.picktureImage.doneAction = { photo in
+							selectedImages = photo.filter { $0.url != nil }
+						}
 						isImagePickerPresented = true
 					}
 					Button("Chat.Cancel".localized, role: .cancel) {
 					}
 				}
 				.fullScreenCover(isPresented: $isImagePickerPresented) {
-					MultipleImagePicker(doneAction: { photo in
-						selectedImages = photo.filter { $0.url != nil }
-					})
+					Self.picktureImage
 				}
 		}.onChange(of: shouldPaginate) { newValue in
 			if isFirstLoad {

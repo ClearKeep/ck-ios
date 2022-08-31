@@ -317,7 +317,7 @@ final public class CallManager: NSObject {
 				  }
 		
 		if let index = self.calls.firstIndex(where: { item in
-			item.roomId == Int64(callNotification.publication?.groupID ?? "0") && !item.acceptCall
+			item.roomId == Int64(callNotification.publication?.groupID ?? "0") && !item.acceptCall && DependencyResolver.shared.channelStorage.getServerWithClientId(clientId: callNotification.publication?.fromClientID ?? "") != nil
 		}) {
 			let call = calls[index]
 			let endCallAction = CXEndCallAction(call: call.uuid)

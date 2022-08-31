@@ -20,14 +20,13 @@ public struct MultipleImagePicker: View {
 	@Environment(\.presentationMode) var presentationMode
 	@Environment(\.colorScheme) var colorScheme
 	
-	var doneAction: ([SelectedImageModel]) -> Void
+	public var doneAction: (([SelectedImageModel]) -> Void)?
 		
 	@StateObject private var viewModel = ImagePickerViewModel()
 		
 	private var columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 2)
 	// MARK: - Init
-	public init(doneAction: @escaping ([SelectedImageModel]) -> Void) {
-		self.doneAction = doneAction
+	public init() {
 	}
 	
 	public var body: some View {
@@ -57,12 +56,12 @@ public struct MultipleImagePicker: View {
 				}
 			}
 			.padding(.horizontal, Constants.paddingHorizontal)
-			.onAppear(perform: {
-				viewModel.requestAuthorization()
-			})
 		}
 		.background(backgroundColorView)
 		.edgesIgnoringSafeArea(.all)
+		.onAppear(perform: {
+			viewModel.requestAuthorization()
+		})
 	}
 	
 	private var headerView: some View {
@@ -77,7 +76,7 @@ public struct MultipleImagePicker: View {
 			})
 			Spacer()
 			Button(action: {
-				self.doneAction(viewModel.selectedImages.map { $0.toSelectedImageModel() })
+				self.doneAction?(viewModel.selectedImages.map { $0.toSelectedImageModel() })
 				presentationMode.wrappedValue.dismiss()
 			}, label: {
 				Text("Chat.UploadButton".localized + " (\(viewModel.selectedImages.count))")
