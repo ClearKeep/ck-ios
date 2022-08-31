@@ -150,6 +150,8 @@ private extension LoginContentView {
 					LinkButton("Login.AdvancedServerSettings".localized, alignment: .leading, action: advancedServer)
 						.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault)
 				})
+			} else {
+				HStack{}.frame(maxWidth: .infinity, maxHeight: .infinity)
 			}
 			Spacer()
 			NavigationLink(destination: FogotPasswordView(customServer: $customServer),

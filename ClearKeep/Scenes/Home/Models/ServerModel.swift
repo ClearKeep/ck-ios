@@ -40,4 +40,5 @@ extension ServerModel {
 				  refreshToken: server.refreshToken,
 				  isActive: server.isActive)
 	}
+	
 }
