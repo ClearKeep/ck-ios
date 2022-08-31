@@ -36,7 +36,7 @@ public class PBKDF2 {
 
 	public func encrypt(data: [UInt8], saltHex: String, oldIv: String) -> [UInt8]? {
 		do {
-			let key = try PKCS5.PBKDF2(password: passPharse.hexaBytes, salt: saltHex.hexaBytes, iterations: iterationCount, keyLength: keyLength, variant: .sha1).calculate()
+			let key = try PKCS5.PBKDF2(password: Array(passPharse.utf8), salt: saltHex.hexaBytes, iterations: iterationCount, keyLength: keyLength, variant: .sha1).calculate()
 			let enc = try AES(key: key, blockMode: CBC(iv: oldIv.hexaBytes), padding: .pkcs5).encrypt(data)
 			return enc
 		} catch { print(error) }
@@ -50,7 +50,7 @@ public class PBKDF2 {
 	}
 	
 	public func decrypt(data: [UInt8], saltHex: String, ivParameterSpec: String) -> [UInt8]? {
-		guard let key = try? PKCS5.PBKDF2(password: passPharse.hexaBytes, salt: saltHex.hexaBytes, iterations: iterationCount, keyLength: keyLength, variant: .sha1).calculate(),
+		guard let key = try? PKCS5.PBKDF2(password: Array(passPharse.utf8), salt: saltHex.hexaBytes, iterations: iterationCount, keyLength: keyLength, variant: .sha1).calculate(),
 			  let enc = try? AES(key: key, blockMode: CBC(iv: ivParameterSpec.hexaBytes), padding: .pkcs5).decrypt(data) else { return nil }
 		return enc
 	}
