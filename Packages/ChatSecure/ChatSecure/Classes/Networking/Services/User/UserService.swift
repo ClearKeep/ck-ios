@@ -31,6 +31,7 @@ public protocol IUserService {
 	func mfaValidateOTP(otp: String, domain: String) async -> Result<User_MfaBaseResponse, Error>
 	func getMfaState(domain: String) async -> Result<User_MfaStateResponse, Error>
 	func updateMfaSettings(domain: String, enabled: Bool) async -> Result<User_MfaBaseResponse, Error>
+	func deleteUser(domain: String) async -> Result<User_BaseResponse, Error>
 }
 
 public class UserService {
@@ -262,6 +263,11 @@ extension UserService: IUserService {
 		} else {
 			return await channelStorage.getChannel(domain: domain).disableMFA(request)
 		}
+	}
+
+	public func deleteUser(domain: String) async -> Result<User_BaseResponse, Error> {
+		let request = User_Empty()
+		return await channelStorage.getChannel(domain: domain).deleteUser(request)
 	}
 }
 

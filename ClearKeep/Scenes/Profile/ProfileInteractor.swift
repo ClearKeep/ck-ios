@@ -17,6 +17,9 @@ protocol IProfileInteractor {
 	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool) async -> Loadable<IProfileViewModels>
 	func validate(phoneNumber: String) -> Bool
 	func updateMfaSettings(enabled: Bool, isHavePhoneNumber: Bool) async -> Loadable<Bool>
+	func deleteUser() async -> Loadable<Bool>
+	func getServers() -> [ServerViewModel]
+	func removeServer()
 }
 
 struct ProfileInteractor {
@@ -92,6 +95,24 @@ extension ProfileInteractor: IProfileInteractor {
 			return .failed(error)
 		}
 	}
+
+	func deleteUser() async -> Loadable<Bool> {
+		let result = await worker.deleteUser()
+		switch result {
+		case .success(let user):
+			return .loaded(user)
+		case .failure(let error):
+			return .failed(error)
+		}
+	}
+
+	func getServers() -> [ServerViewModel] {
+		return worker.servers.compactMap { ServerViewModel($0) }
+	}
+
+	func removeServer() {
+		worker.removeServer()
+	}
 }
 
 struct StubProfileInteractor: IProfileInteractor {
@@ -123,5 +144,17 @@ struct StubProfileInteractor: IProfileInteractor {
 	
 	func updateMfaSettings(enabled: Bool, isHavePhoneNumber: Bool) async -> Loadable<Bool> {
 		return .notRequested
+	}
+
+	func deleteUser() async -> Loadable<Bool> {
+		return .notRequested
+	}
+
+	func getServers() -> [ServerViewModel] {
+		return []
+	}
+
+	func removeServer() {
+		worker.removeServer()
 	}
 }

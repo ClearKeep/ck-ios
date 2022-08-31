@@ -16,6 +16,7 @@ protocol IProfileRemoteStore {
 	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool, domain: String) async -> (Result<IProfileModels, Error>)
 	func getMfaSettings(domain: String) async -> Result<Bool, Error>
 	func updateMfaSettings(domain: String, enabled: Bool) async -> Result<Bool, Error>
+	func deleteUser(domain: String) async -> Result<Bool, Error>
 }
 
 struct ProfileRemoteStore {
@@ -73,6 +74,18 @@ extension ProfileRemoteStore: IProfileRemoteStore {
 			return .success(data.success)
 		case .failure(let error):
 			print("update mfa setting fail: \(error)")
+			return .failure(error)
+		}
+	}
+
+	func deleteUser(domain: String) async -> Result<Bool, Error> {
+		let result = await userService.deleteUser(domain: domain)
+		switch result {
+		case .success(let data):
+			print("delete user success: \(data)")
+			return .success(true)
+		case .failure(let error):
+			print("delete user fail: \(error)")
 			return .failure(error)
 		}
 	}

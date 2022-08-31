@@ -37,6 +37,7 @@ struct UserProfileContentView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+	@Environment(\.joinServerClosure) private var joinServerClosure: JoinServerClosure
 	
 	@Binding private(set) var countryCode: String
 	@Binding private(set) var urlAvatar: String
@@ -70,7 +71,8 @@ struct UserProfileContentView: View {
 	let phoneNumberKit = PhoneNumberKit()
 	@State private var showAlertPopup: Bool = false
 	@State private(set) var isSocialAccount: Bool = false
-
+	@State private var showAlertDelete: Bool = false
+	@State private(set) var servers: [ServerViewModel] = []
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -118,10 +120,10 @@ struct UserProfileContentView: View {
 									usernameStyle = .error(message: "UserProfile.UserName.Valid".localized)
 								}
 							})
-								.onChange(of: self.username, perform: { text in
-									self.checkUserValid(text: text)
-								})
-								.onReceive(Just(username)) { _ in limitText(Constants.userNameLimit) }
+							.onChange(of: self.username, perform: { text in
+								self.checkUserValid(text: text)
+							})
+							.onReceive(Just(username)) { _ in limitText(Constants.userNameLimit) }
 						}
 						VStack(alignment: .leading, spacing: Constants.spacerSetting) {
 							Text("UserProfile.Email".localized)
@@ -132,7 +134,7 @@ struct UserProfileContentView: View {
 											placeHolder: "UserProfile.Email".localized,
 											keyboardType: .default,
 											onEditingChanged: { _ in })
-								.disabled(true)
+							.disabled(true)
 						}
 						
 						VStack(alignment: .leading, spacing: Constants.spacerSetting) {
@@ -174,14 +176,14 @@ struct UserProfileContentView: View {
 									self.phoneStyle = isEditing ? .highlighted : .normal
 									self.onEditing = isEditing
 								})
-									.onChange(of: phoneNumber, perform: { text in
-										checkPhoneValid(text: text)
-									})
-									.cornerRadius(Constants.radius)
-									.overlay(
-										RoundedRectangle(cornerRadius: Constants.radius)
-											.stroke(borderColor, lineWidth: Constants.borderWidth)
-									)
+								.onChange(of: phoneNumber, perform: { text in
+									checkPhoneValid(text: text)
+								})
+								.cornerRadius(Constants.radius)
+								.overlay(
+									RoundedRectangle(cornerRadius: Constants.radius)
+										.stroke(borderColor, lineWidth: Constants.borderWidth)
+								)
 								
 							}
 							if phoneInvalid == false {
@@ -242,6 +244,16 @@ struct UserProfileContentView: View {
 								}
 							}
 						}
+						Button(action: showPopUp) {
+							HStack {
+								Text("UserProfile.Delete.Title".localized)
+									.font(AppTheme.shared.fontSet.font(style: .body3))
+									.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+								Spacer()
+								AppTheme.shared.imageSet.arrowRightIcon
+									.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+							}
+						}
 					}
 					Spacer()
 				}
@@ -289,6 +301,12 @@ struct UserProfileContentView: View {
 			} message: {
 				Text("UserProfile.Error.DoNotChange".localized)
 			}
+			.alert("GroupChat.Warning".localized, isPresented: $showAlertDelete) {
+				Button("General.Cancel".localized, role: .cancel) { }
+				Button("General.Delete".localized, role: .destructive) { deleteUser() }
+			} message: {
+				Text("UserProfile.Delete.Popup".localized)
+			}
 		}.hiddenNavigationBarStyle()
 	}
 }
@@ -297,6 +315,59 @@ struct UserProfileContentView: View {
 private extension UserProfileContentView {
 	func avartarOptions() {
 		self.showingImageOptions.toggle()
+	}
+	
+	func showPopUp() {
+		self.showAlertDelete = true
+	}
+	
+	func deleteUser() {
+		self.showLoading = true
+		servers = injected.interactors.profileInteractor.getServers()
+		if servers.count < 2 {
+			Task {
+				let loadable = await injected.interactors.profileInteractor.deleteUser()
+				self.showLoading = false
+				switch loadable {
+				case .loaded:
+					DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+						injected.appState[\.authentication.servers] = []
+					})
+				case .failed(let error):
+					let error = ProfileErrorView(error)
+					self.error = error
+					self.showError = true
+				default:
+					return
+				}
+			}
+		} else {
+			Task {
+				let loadable = await injected.interactors.profileInteractor.deleteUser()
+				self.showLoading = false
+				switch loadable {
+				case .loaded:
+					injected.interactors.profileInteractor.removeServer()
+					if let joinServer = injected.interactors.profileInteractor.getServers().last {
+						self.joinServerClosure?(joinServer.serverDomain)
+						DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+							injected.appState[\.authentication.servers] = DependencyResolver.shared.channelStorage.getServers(isFirstLoad: false).compactMap({ ServerModel($0) })
+						})
+					}
+					
+					DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+						NotificationCenter.default.post(name: NSNotification.reloadDataHome, object: nil)
+					})
+				case .failed(let error):
+					let error = ProfileErrorView(error)
+					self.error = error
+					self.showError = true
+				default:
+					return
+				}
+			}
+		}
+		
 	}
 	
 	func updateAvata() {
@@ -309,7 +380,7 @@ private extension UserProfileContentView {
 			switch loadable {
 			case .loaded(let data):
 				guard let urlData = data.urlAvatarViewModel,
-				let url = URL(string: urlData.fileURL) else {
+					  let url = URL(string: urlData.fileURL) else {
 					return
 				}
 				URLCache.shared.removeCachedResponse(for: URLRequest(url: url))

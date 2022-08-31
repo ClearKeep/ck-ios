@@ -18,6 +18,8 @@ private enum Constants {
 protocol IProfileWorker {
 	var remoteStore: IProfileRemoteStore { get }
 	var inMemoryStore: IProfileInMemoryStore { get }
+	var servers: [ServerModel] { get }
+
 	func getProfile() async -> Result<IProfileModels, Error>
 	func uploadAvatar(url: URL, imageData: UIImage) async -> (Result<IProfileModels, Error>)
 	func updateProfile(displayName: String, avatar: String, phoneNumber: String, clearPhoneNumber: Bool) async -> (Result<IProfileModels, Error>)
@@ -25,6 +27,8 @@ protocol IProfileWorker {
 	func getMfaSettings() async -> Result<Bool, Error>
 	func updateMfaSettings(enabled: Bool) async -> Result<Bool, Error>
 	func isValidAvatarSize(url: URL) -> Bool
+	func deleteUser() async -> Result<Bool, Error>
+	func removeServer()
 }
 
 struct ProfileWorker {
@@ -110,5 +114,25 @@ extension ProfileWorker: IProfileWorker {
 		} catch {
 			return false
 		}
+	}
+
+	func deleteUser() async -> Result<Bool, Error> {
+		return await remoteStore.deleteUser(domain: currentDomain ?? channelStorage.currentDomain)
+	}
+
+	var servers: [ServerModel] {
+		channelStorage.getServers(isFirstLoad: false).compactMap({
+			ServerModel($0)
+		})
+	}
+
+	func removeServer() {
+		let domain = currentDomain ?? channelStorage.currentDomain
+		if let currentServer = channelStorage.currentServer {
+			channelStorage.removeUser(currentServer)
+		}
+		channelStorage.removeProfile(channelStorage.currentServer?.ownerClientId ?? "")
+		channelStorage.removeServer(domain)
+		channelStorage.removeGroup(domain)
 	}
 }

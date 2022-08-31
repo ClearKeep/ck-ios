@@ -26,6 +26,7 @@
 "General.Success" = "Success";
 "General.Message.Banner" = "New message from %@";
 "General.Message.Banner.Preview" = "You have a new message";
+"General.Delete" = "Delete";
 
 // MARK: - Error
 "Error.Unknow.Message" = "Unknow message (%ld)";
@@ -79,6 +80,9 @@
 "UserProfile.UserName.Valid" = "This field is required";
 "UserProfile.Avatar.Size.Warning" = "Your Profile Picture cannot be larger than 5MB";
 "UserProfile.Error.DoNotChange" = " You have unsaved changes that will be lost";
+"UserProfile.Delete.Title" = " Delete User";
+"UserProfile.Delete.Popup" = " Deleting your account will delete all your data.";
+
 // MARK: - Country Codes
 "Country.Code" = "Country Codes";
 "Country.Search" = "Search";
