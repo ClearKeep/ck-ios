@@ -44,7 +44,7 @@ struct HomeView: View {
 			switch loadable {
 			case .loaded(let load):
 				isLoading = false
-				let groups = load.groupViewModel?.viewModelGroup.filter { $0.groupType == "group" && $0.groupMembers.contains(where: { $0.userId == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId && $0.userState != "leaved" }) }.sorted(by: { $0.updatedAt > $1.updatedAt }).compactMap { profile in
+				let groups = load.groupViewModel?.viewModelGroup.filter { $0.groupType == "group" && $0.groupMembers.contains(where: { $0.userId == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId && $0.userState == "active" }) }.sorted(by: { $0.updatedAt > $1.updatedAt }).compactMap { profile in
 									GroupViewModel(profile)} ?? []
 				print("groups", groups)
 				let peers = load.groupViewModel?.viewModelGroup.filter { $0.groupType != "group" }.sorted(by: { $0.updatedAt > $1.updatedAt }).compactMap { profile in
