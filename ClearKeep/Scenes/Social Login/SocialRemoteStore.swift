@@ -46,8 +46,8 @@ extension SocialRemoteStore: ISocialRemoteStore {
 		let result = await authenticationService.resetSocialPin(rawPin: rawPin, token: token, userId: userId, domain: domain)
 		
 		switch result {
-		case .success:
-			return await self.verifySocialPin(rawPin: rawPin, userId: userId, domain: domain)
+		case .success(let authenticationResponse):
+			return .success(AuthenticationModel(response: authenticationResponse))
 		case .failure(let error):
 			return .failure(error)
 		}
