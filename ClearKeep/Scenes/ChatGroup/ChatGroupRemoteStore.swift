@@ -16,6 +16,7 @@ protocol IChatGroupRemoteStore {
 	func getProfile(domain: String) async -> Result<IGroupChatModels, Error>
 	func getUserProfile(clientId: String, workspaceDomain: String, domain: String) async -> Result<IGroupChatModels, Error>
 	func searchUserWithEmail(keyword: String, domain: String) async -> (Result<IGroupChatModels, Error>)
+	func getListStatus(domain: String, data: [[String: String]]) async -> Result<IGroupChatModels, Error>
 }
 
 struct ChatGroupRemoteStore {
@@ -89,5 +90,15 @@ extension ChatGroupRemoteStore: IChatGroupRemoteStore {
 			return .failure(error)
 		}
 	}
-	
+
+	func getListStatus(domain: String, data: [[String: String]]) async -> Result<IGroupChatModels, Error> {
+		let result = await userService.getListStatus(data: data, domain: domain)
+		switch result {
+		case .success(let response):
+			let client = response.lstClient.first(where: { $0.clientID == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId })
+			return .success(GroupChatModels(responseUser: client, members: response.lstClient))
+		case .failure(let error):
+			return .failure(error)
+		}
+	}
 }

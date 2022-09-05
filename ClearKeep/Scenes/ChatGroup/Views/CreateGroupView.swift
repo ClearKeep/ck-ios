@@ -60,7 +60,7 @@ struct CreateGroupView: View {
 			}
 			ScrollView {
 				ForEach(clientInGroup) { item in
-					ListUser(imageUrl: .constant(""), name: .constant(item.displayName))
+					ListUser(imageUrl: .constant(item.avatar), name: .constant(item.displayName))
 				}
 			}
 			RoundedGradientButton("GroupChat.Create".localized,

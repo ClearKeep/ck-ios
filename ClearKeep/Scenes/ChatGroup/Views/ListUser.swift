@@ -22,7 +22,7 @@ struct ListUser: View {
 	// MARK: - Body
 	var body: some View {
 		HStack {
-			AvatarDefault($name, imageUrl: "")
+			AvatarDefault($name, imageUrl: imageUrl)
 				.frame(width: Constants.avatarSize.width, height: Constants.avatarSize.height)
 				.clipShape(Circle())
 			Text(name)

@@ -12,16 +12,26 @@ struct CreatGroupGetUsersViewModel: Identifiable {
 	var id: String
 	var displayName: String
 	var workspaceDomain: String
-	
-	init(_ user: IUserInfo?) {
-		id = user?.id ?? ""
-		displayName = user?.displayName ?? ""
-		workspaceDomain = user?.workspaceDomain ?? ""
+	var avatar: String = ""
+	var status: StatusType = .undefined
+
+	init(user: IUserInfo?) {
+		self.id = user?.id ?? ""
+		self.displayName = user?.displayName ?? ""
+		self.workspaceDomain = user?.workspaceDomain ?? ""
 	}
 
-	init(id: String, displayName: String, workspaceDomain: String) {
+	init(id: String, displayName: String, workspaceDomain: String ) {
 		self.id = id
 		self.displayName = displayName
 		self.workspaceDomain = workspaceDomain
+	}
+
+	init(searchUser: IUserInfo?, profile: IUser?) {
+		self.id = searchUser?.id ?? ""
+		self.displayName = searchUser?.displayName ?? ""
+		self.workspaceDomain = searchUser?.workspaceDomain ?? ""
+		self.avatar = profile?.avatar ?? ""
+		self.status = StatusType(rawValue: profile?.status ?? "") ?? .undefined
 	}
 }
