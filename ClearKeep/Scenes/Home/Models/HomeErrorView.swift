@@ -9,6 +9,7 @@ import Foundation
 import Networking
 
 enum HomeErrorView {
+	case domainUsed
 	case existed
 	case wrongInformation
 	case unauthorized
@@ -47,6 +48,8 @@ enum HomeErrorView {
 
 	var message: String {
 		switch self {
+		case .domainUsed:
+			return "AdvancedServer.Message.Error.DomainUsed".localized
 		case .existed:
 			return "AdvancedServer.Message.Error".localized
 		case .wrongInformation:

@@ -19,14 +19,14 @@ struct GroupViewModels: IGroupViewModels {
 		self.viewModelGroup = model.groupModel ?? [IGroupModel]()
 		self.viewModelGroup = self.viewModelGroup.map { data -> IGroupModel in
 			var group = data
-			
+
 			let members = group.groupMembers.map { item -> MemberModel in
 				let memberStatus = responseUser.members?.first(where: { $0.id == item.userId })
 				return MemberModel(userId: item.userId,
 							userName: item.userName,
 							domain: item.domain,
-							userState: memberStatus?.status ?? item.userState,
-							userStatus: item.userStatus,
+							userState: item.userState,
+							userStatus: memberStatus?.status ?? item.userState,
 							phoneNumber: item.phoneNumber,
 							avatar: memberStatus?.avatar ?? item.avatar,
 							email: item.email)

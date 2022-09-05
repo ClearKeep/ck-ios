@@ -104,20 +104,17 @@ extension GroupService: IGroupService {
 		requestAddedMember.id = user.id
 		requestAddedMember.workspaceDomain = user.workspaceDomain
 		requestAddedMember.displayName = user.displayName
-		requestAddedMember.status = ""
-		
+
 		var requestAddingMember = Group_MemberInfo()
 		requestAddingMember.id = clientId
 		requestAddingMember.workspaceDomain = domain
 		requestAddingMember.displayName = userName
-		requestAddingMember.status = ""
-		requestAddingMember.refGroupID = groupId
-		
+
 		var request = Group_AddMemberRequest()
 		request.addingMemberInfo = requestAddingMember
 		request.addedMemberInfo = requestAddedMember
 		request.groupID = groupId
-	
+
 		return await channelStorage.getChannel(domain: domain).addMember(request)
 	}
 	
@@ -129,15 +126,11 @@ extension GroupService: IGroupService {
 		memberInfo.id = user.id
 		memberInfo.workspaceDomain = user.workspaceDomain
 		memberInfo.displayName = user.displayName
-		memberInfo.status = ""
-		memberInfo.refGroupID = groupId
 
 		var memberBy = Group_MemberInfo()
 		memberBy.id = clientId
 		memberBy.workspaceDomain = domain
 		memberBy.displayName = userName
-		memberBy.status = ""
-		memberBy.refGroupID = groupId
 
 		var request = Group_LeaveGroupRequest()
 		request.leaveMember = memberInfo
@@ -155,6 +148,7 @@ private extension GroupService {
 			guard let profile = server.profile else {
 				return
 			}
+			
 			groups.lstGroup.forEach { groupResponse in
 				let oldGroup = channelStorage.realmManager.getGroup(by: groupResponse.groupID, domain: server.serverDomain, ownerId: profile.userId)
 				var isRegisteredKey = oldGroup?.isJoined ?? false

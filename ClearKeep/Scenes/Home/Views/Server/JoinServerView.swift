@@ -17,7 +17,7 @@ struct JoinServerView: View {
 	// MARK: - Variables
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.injected) private var injected: DIContainer
-	@State private(set) var serverURL: String = ""
+	@Binding var serverURL: String
 	@State private var serverURLInputStyle: TextInputStyle = .default
 	var checkUrl: (String) -> Void
 
