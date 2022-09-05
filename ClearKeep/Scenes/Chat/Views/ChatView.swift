@@ -44,6 +44,7 @@ struct ChatView: View {
 			case .loaded(let data):
 				isShowLoading = false
 				group = data
+				isGroupJoined = data?.isJoined ?? false
 				DispatchQueue.main.async {
 					loadLocalMessage(groupId: data?.groupId ?? 0)
 				}
@@ -109,6 +110,7 @@ struct ChatView: View {
 	@State private var errorType: ChatErrorView = .locked
 	@State private var rediectMessageId = ""
 	@State private var isShowDownloadToast = false
+	@State private var isGroupJoined = false
 	
 	private let groupId: Int64
 	private let avatarLink: String
@@ -245,6 +247,7 @@ struct ChatView: View {
 			isEndOfPage = false
 			shouldPaginate = false
 			isFirstLoad = true
+			isGroupJoined = false
 			updateGroup(groupId: newValue)
 		})
 		.onAppear {
@@ -310,11 +313,13 @@ private extension ChatView {
 			Button(action: userAction) {
 				HStack(spacing: 20) {
 					let member = self.getPartnerUser(group: self.group)
-					MessageAvatarView(avatarSize: Constants.sizeImage,
-									  userName: group?.groupType == "peer" ? group?.groupMembers.count ?? 0 < 2 ? "Home.DeletedUser".localized : member?.userName ?? "" : group?.groupName ?? "",
-									  font: AppTheme.shared.fontSet.font(style: .input3),
-									  image: group?.groupAvatar ?? ""
-					)
+					if group?.groupType == "peer" {
+						MessageAvatarView(avatarSize: Constants.sizeImage,
+										  userName: group?.groupType == "peer" ? group?.groupMembers.count ?? 0 < 2 ? "Home.DeletedUser".localized : member?.userName ?? "" : group?.groupName ?? "",
+										  font: AppTheme.shared.fontSet.font(style: .input3),
+										  image: group?.groupAvatar ?? ""
+						)
+					}
 					Text(group?.groupType == "peer" ? group?.groupMembers.count ?? 0 < 2 ? "Home.DeletedUser".localized : member?.userName ?? "" : group?.groupName ?? "")
 						.lineLimit(1)
 						.font(AppTheme.shared.fontSet.font(style: .body1))
@@ -492,8 +497,7 @@ private extension ChatView {
 			if group?.groupType == "peer" {
 				sendMessageLoadable = await injected.interactors.chatInteractor.sendMessageInPeer(message: encodedMessage, groupId: groupId, group: group, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
 			} else {
-				let isJoined = group?.isJoined ?? false
-				sendMessageLoadable = await injected.interactors.chatInteractor.sendMessageInGroup(message: encodedMessage, groupId: groupId, isJoined: isJoined, isForward: false)
+				sendMessageLoadable = await injected.interactors.chatInteractor.sendMessageInGroup(message: encodedMessage, groupId: groupId, isJoined: isGroupJoined, isForward: false)
 			}
 		}
 		isShowingQuoteView = false
@@ -734,6 +738,7 @@ private extension ChatView {
 				if isNewSentMessage {
 					isQuoteMessage = false
 					isLatestPeerSignalKeyProcessed = true
+					isGroupJoined = true
 					isNewSentMessage = false
 				}
 			case .error(let error):

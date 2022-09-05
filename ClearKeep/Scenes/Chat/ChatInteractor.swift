@@ -68,14 +68,8 @@ extension ChatInteractor: IChatInteractor {
 		switch result {
 		case .success(let group):
 			let isGroup = group.groupType == "group"
-			let messagesResult = await getMessageList(groupId: groupId, loadSize: Constants.loadSize, isGroup: isGroup, lastMessageAt: 0)
-			switch messagesResult {
-			case .success(let message):
-				print(message)
-				return .loaded(group)
-			case .failure(let error):
-				return .failed(error)
-			}
+			await getMessageList(groupId: groupId, loadSize: Constants.loadSize, isGroup: isGroup, lastMessageAt: 0)
+			return .loaded(group)
 		case .failure(let error):
 			return .failed(error)
 		}
@@ -93,6 +87,7 @@ extension ChatInteractor: IChatInteractor {
 		}
 	}
 	
+	@discardableResult
 	func getMessageList(groupId: Int64, loadSize: Int, isGroup: Bool, lastMessageAt: Int64) async -> Result<[RealmMessage], Error> {
 		guard let server = channelStorage.currentServer,
 			  let ownerId = server.profile?.userId else { return .failure(ServerError.unknown) }
