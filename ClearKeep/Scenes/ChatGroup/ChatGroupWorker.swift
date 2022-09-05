@@ -21,6 +21,7 @@ protocol IChatGroupWorker {
 	func searchUserWithEmail(email: String) async -> (Result<IGroupChatModels, Error>)
 	func checkPeopleLink(link: String) -> Bool
 	func getPeopleFromLink(link: String) -> (id: String, userName: String, domain: String)?
+	func getListStatus(data: [[String: String]]) async -> Result<IGroupChatModels, Error>
 }
 
 struct ChatGroupWorker {
@@ -98,5 +99,15 @@ extension ChatGroupWorker: IChatGroupWorker {
 	
 	func checkPeopleLink(link: String) -> Bool {
 		return self.getPeopleFromLink(link: link)?.id == channelStorage.currentServer?.profile?.userId
+	}
+
+	func getListStatus(data: [[String: String]]) async -> Result<IGroupChatModels, Error> {
+		let result = await remoteStore.getListStatus(domain: self.channelStorage.currentDomain, data: data)
+		switch result {
+		case .success(let user):
+			return .success(user)
+		case .failure(let error):
+			return .failure(error)
+		}
 	}
 }

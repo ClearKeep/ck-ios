@@ -51,8 +51,11 @@ extension ChatGroupInteractor: IChatGroupInteractor {
 		
 		switch result {
 		case .success(let searchUser):
-			let result = await worker.getProfile()
+			var ids: [[String: String]] = []
+			let userData = searchUser.searchUserModel?.lstUser.map({ ["id": $0.id, "domain": DependencyResolver.shared.channelStorage.currentDomain] }) ?? []
+			ids.append(contentsOf: userData)
 
+			let result = await worker.getListStatus(data: Array(Set(ids)))
 			switch result {
 			case .success(let user):
 				return .loaded(CreatGroupViewModels(users: searchUser, profile: user))

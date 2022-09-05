@@ -143,7 +143,7 @@ private extension DirectMessageContentView {
 	}
 
 	var backgroundButtonBack: [Color] {
-		colorScheme == .light ? [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
+		colorScheme == .light ? [AppTheme.shared.colorSet.background, AppTheme.shared.colorSet.background] : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
 
 	var titleColor: Color {

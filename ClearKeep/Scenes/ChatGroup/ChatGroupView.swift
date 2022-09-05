@@ -72,10 +72,8 @@ private extension ChatGroupView {
 	func loadedView(_ data: ICreatGroupViewModels) -> AnyView {
 		
 		if let searchUser = data.searchUser {
-			var userData = self.searchText.isEmpty ? [] : searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
-			userData = searchUser.map { item in
-				return CreatGroupGetUsersViewModel(id: item.id, displayName: item.displayName, workspaceDomain: DependencyResolver.shared.channelStorage.currentDomain)
-			}
+			let userData = self.searchText.isEmpty ? [] : searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
+
 			DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
 				self.searchData = userData
 			})

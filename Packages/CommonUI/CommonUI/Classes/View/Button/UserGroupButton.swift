@@ -29,9 +29,9 @@ public struct UserGroupButton: View {
 	public init(_ title: Binding<String>, imageUrl: String, isChecked: Bool, action: @escaping(Bool) -> Void) {
 		self._title = title
 		self.action = action
-        self.isChecked = isChecked
+		self.isChecked = isChecked
 		self.imageUrl = URL(string: imageUrl)
-        
+
 	}
 
 	init(_ title: Binding<String>, action: @escaping(Bool) -> Void) {
@@ -43,7 +43,7 @@ public struct UserGroupButton: View {
 	// MARK: - Body
 	public var body: some View {
 		Button(action: {
-            action(!self.isChecked)
+			action(!self.isChecked)
 		}, label: {
 			if let imageURL = imageUrl {
 				HStack(spacing: Constants.spacing) {
@@ -52,9 +52,9 @@ public struct UserGroupButton: View {
 										 urlCache: Constants.imageCache,
 										 content: { image in image.resizable() },
 										 placeholder: { ProgressView() })
-							.frame(maxWidth: .infinity, maxHeight: .infinity)
-							.cornerRadius(Constants.cornerRadius)
-							.padding(Constants.padding)
+							.frame(width: Constants.imageSize.width, height: Constants.imageSize.width)
+							.aspectRatio(contentMode: .fill)
+							.clipShape(Circle())
 					} else {
 						// Fallback on earlier versions
 					}

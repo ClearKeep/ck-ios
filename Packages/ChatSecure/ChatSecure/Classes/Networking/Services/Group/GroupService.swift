@@ -134,7 +134,7 @@ extension GroupService: IGroupService {
 
 		var request = Group_LeaveGroupRequest()
 		request.leaveMember = memberInfo
-		request.leaveMemberBy = memberInfo
+		request.leaveMemberBy = memberBy
 		request.groupID = groupId
 		
 		return await channelStorage.getChannel(domain: domain).leaveGroup(request)
