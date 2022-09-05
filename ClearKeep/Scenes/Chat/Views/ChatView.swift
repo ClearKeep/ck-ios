@@ -311,11 +311,11 @@ private extension ChatView {
 				HStack(spacing: 20) {
 					let member = self.getPartnerUser(group: self.group)
 					MessageAvatarView(avatarSize: Constants.sizeImage,
-									  userName: group?.groupType == "peer" ? member == nil ? "Deleted user" : member?.userName ?? "" : group?.groupName ?? "",
+									  userName: group?.groupType == "peer" ? group?.groupMembers.count ?? 0 < 2 ? "Home.DeletedUser".localized : member?.userName ?? "" : group?.groupName ?? "",
 									  font: AppTheme.shared.fontSet.font(style: .input3),
 									  image: group?.groupAvatar ?? ""
 					)
-					Text(group?.groupType == "peer" ? member == nil ? "Deleted user" : member?.userName ?? "" : group?.groupName ?? "")
+					Text(group?.groupType == "peer" ? group?.groupMembers.count ?? 0 < 2 ? "Home.DeletedUser".localized : member?.userName ?? "" : group?.groupName ?? "")
 						.lineLimit(1)
 						.font(AppTheme.shared.fontSet.font(style: .body1))
 						.frame(maxWidth: .infinity, alignment: .leading)
