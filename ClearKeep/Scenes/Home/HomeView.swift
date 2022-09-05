@@ -131,6 +131,7 @@ struct HomeView: View {
 	@State private var isInCall = false
 	@AppStorage("preview") private var isPreviewBanner: Bool?
 	let inspection = ViewInspector<Self>()
+	@State var isViewDisplayed = false
 	
 	// MARK: - Body
 	var body: some View {
@@ -190,6 +191,12 @@ struct HomeView: View {
 			}
 			.onAppear(perform: getServers)
 			.onAppear(perform: getServerInfo)
+			.onAppear {
+				self.isViewDisplayed = true
+			}
+			.onDisappear(perform: {
+				self.isViewDisplayed = false
+			})
 			.onReceive(NotificationCenter.default.publisher(for: NSNotification.reloadDataHome, object: nil), perform: { _ in
 				self.isShowMenu = false
 				self.serverInfo()
@@ -199,7 +206,9 @@ struct HomeView: View {
 				if let userInfo = obj.userInfo,
 				   let publication = userInfo["notification"] as? Notification_NotifyObjectResponse {
 					if publication.notifyType == "new-peer" || publication.notifyType == "new-group" {
-						getServerInfo()
+						if self.isViewDisplayed {
+							getServerInfo()
+						}
 					}
 				}
 			})
