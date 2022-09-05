@@ -58,6 +58,7 @@ extension PushNotificationsHandler: UNUserNotificationCenterDelegate {
 				completionHandler()
 				return
 			}
+			
 			if let publicationRemove = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any],
 			   let remove = publicationRemove["leave_member"] as? String {
 				handleAlert()
@@ -87,6 +88,9 @@ extension PushNotificationsHandler: UNUserNotificationCenterDelegate {
 	
 	fileprivate func handleLogout(deactiveAccountId: String) {
 		guard let serverLogout = DependencyResolver.shared.channelStorage.getServerWithClientId(clientId: deactiveAccountId) else {
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+				NotificationCenter.default.post(name: NSNotification.reloadDataHome, object: nil)
+			})
 			return
 		}
 		
