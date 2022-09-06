@@ -19,6 +19,7 @@ struct CreatGroupGetUsersViewModel: Identifiable {
 		self.id = user?.id ?? ""
 		self.displayName = user?.displayName ?? ""
 		self.workspaceDomain = user?.workspaceDomain ?? ""
+		self.avatar = user?.avatar ?? ""
 	}
 
 	init(id: String, displayName: String, workspaceDomain: String ) {

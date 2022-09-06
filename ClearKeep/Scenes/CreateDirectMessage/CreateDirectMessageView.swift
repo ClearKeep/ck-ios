@@ -74,10 +74,7 @@ private extension CreateDirectMessageView {
 
 	func loadedView(_ data: ICreatePeerViewModels) -> AnyView {
 		if let searchUser = data.searchUser {
-			var userData = self.searchText.isEmpty ? [] : searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
-			userData = searchUser.map { item in
-				return CreatePeerUserViewModel(id: item.id, displayName: item.displayName, workspaceDomain: DependencyResolver.shared.channelStorage.currentDomain)
-			}
+			let userData = self.searchText.isEmpty ? [] : searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
 			DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
 				searchData = userData
 			})

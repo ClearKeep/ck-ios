@@ -25,16 +25,19 @@ struct CreatePeerViewModels: ICreatePeerViewModels {
 }
 
 extension CreatePeerViewModels {
+
 	init(users: ICreatePeerModels, profile: ICreatePeerModels) {
-		let searchUsers = users.searchUserModel?.lstUser.map { member in
-			CreatePeerUserViewModel(member)
+			var data = [CreatePeerUserViewModel]()
+			users.searchUserModel?.lstUser.forEach { member in
+				profile.members?.forEach { item in
+					if member.id == item.id {
+						let user = CreatePeerUserViewModel(searchUser: member, profile: item)
+						data.append(user)
+					}
+				}
+			}
+			self.init(searchUser: data)
 		}
-		let myprofile = profile.getProfileModel.map { member in
-			CreatePeerProfileViewModel(member)
-		}
-		self.searchUser = searchUsers
-		self.getProfile = myprofile
-	}
 
 	init(groups: ICreatePeerModels) {
 		let creatGroups = groups.creatGroupModel.map { member in

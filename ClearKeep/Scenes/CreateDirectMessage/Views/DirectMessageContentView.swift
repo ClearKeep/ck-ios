@@ -95,7 +95,7 @@ struct DirectMessageContentView: View {
 			if !isShowingLinkUser {
 				ScrollView(showsIndicators: false) {
 					ForEach(userData) { item in
-						UserPeerButton(item.displayName, imageUrl: "", action: { nextAction(item) })
+						UserPeerButton(item.displayName, imageUrl: item.avatar, action: { nextAction(item) })
 					}
 				}
 			}
