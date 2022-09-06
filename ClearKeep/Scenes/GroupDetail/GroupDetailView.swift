@@ -80,7 +80,7 @@ private extension GroupDetailView {
 		if let search = data.searchUser {
 			var searchData = search.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
 			searchData = search.map { item in
-				return GroupDetailUserViewModels(id: item.id, displayName: item.displayName, workspaceDomain: DependencyResolver.shared.channelStorage.currentDomain)
+				return GroupDetailUserViewModels(id: item.id, displayName: item.displayName, workspaceDomain: item.workspaceDomain, avatar: item.avatar)
 			}
 			return AnyView(AddMemberView(loadable: $loadable, search: .constant(searchData), groupId: groupId))
 		}

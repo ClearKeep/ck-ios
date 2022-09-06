@@ -34,6 +34,7 @@ struct UserInforModel: IUserInfo {
 	var id: String
 	var displayName: String
 	var workspaceDomain: String
+	var avatar: String
 }
 
 extension UserInforModel {
@@ -41,5 +42,6 @@ extension UserInforModel {
 		self.id = userInfor.id
 		self.workspaceDomain = userInfor.workspaceDomain
 		self.displayName = userInfor.displayName
+		self.avatar = userInfor.avatar
 	}
 }

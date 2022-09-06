@@ -13,13 +13,15 @@ struct UserInfoModel: IUserInfo {
 	var id: String
 	var displayName: String
 	var workspaceDomain: String
+	var avatar: String
 }
 
 extension UserInfoModel {
 	init(userResponse: User_UserInfoResponse) {
 		self.init(id: userResponse.id,
 				  displayName: userResponse.displayName,
-				  workspaceDomain: userResponse.workspaceDomain)
+				  workspaceDomain: userResponse.workspaceDomain,
+				  avatar: userResponse.avatar)
 	}
 
 }

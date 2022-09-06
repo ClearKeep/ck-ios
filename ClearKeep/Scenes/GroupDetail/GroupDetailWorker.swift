@@ -46,7 +46,6 @@ extension GroupDetailWorker: IGroupDetailWorker {
 
 		switch result {
 		case .success(let user):
-			print("dsadasdsa", user)
 			return .success(user)
 		case .failure(let error):
 			return .failure(error)

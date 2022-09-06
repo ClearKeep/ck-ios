@@ -94,7 +94,7 @@ struct AddMemberView: View {
 			}
 			ScrollView(showsIndicators: false) {
 				ForEach($search) { item in
-					UserGroupButton(item.displayName, imageUrl: "", isChecked: self.checkUserIsSelected(item: item.wrappedValue), action: { isSelectedUser in
+					UserGroupButton(item.displayName, imageUrl: item.avatar.wrappedValue, isChecked: self.checkUserIsSelected(item: item.wrappedValue), action: { isSelectedUser in
 						addClient(item.wrappedValue, isSelected: isSelectedUser)
 					})
 				}
