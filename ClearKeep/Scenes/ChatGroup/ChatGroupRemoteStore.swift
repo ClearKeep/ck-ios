@@ -82,7 +82,7 @@ extension ChatGroupRemoteStore: IChatGroupRemoteStore {
 	}
 	
 	func searchUserWithEmail(keyword: String, domain: String) async -> (Result<IGroupChatModels, Error>) {
-		let result = await userService.searchUserWithEmail(emailHash: keyword.sha256(), domain: domain)
+		let result = await userService.searchUserWithEmail(email: keyword, domain: domain)
 		switch result {
 		case .success(let user):
 			return .success(GroupChatModels(searchUserWithEmail: user))

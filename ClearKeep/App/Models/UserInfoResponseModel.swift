@@ -27,13 +27,6 @@ extension UserResponseModel {
 		}
 		self.init(lstUser: users)
 	}
-	
-	init(searchUser: User_FindUserByEmailResponse) {
-		let users = searchUser.lstUser.map { member in
-			UserInfoModel(userResponse: member)
-		}
-		self.init(lstUser: users)
-	}
 
 }
 

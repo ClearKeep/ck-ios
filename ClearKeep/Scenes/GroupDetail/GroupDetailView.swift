@@ -86,7 +86,7 @@ private extension GroupDetailView {
 		}
 
 		if let searchUser = data.searchUserWithEmail {
-			let userData = searchUser.sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
+			let userData = [searchUser]
 			return AnyView(AddMemberView(loadable: $loadable, search: .constant(userData), groupId: groupId))
 		}
 

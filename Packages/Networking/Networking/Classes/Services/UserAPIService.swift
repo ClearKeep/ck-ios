@@ -17,7 +17,7 @@ public protocol IUserAPIService {
 	func getMFAState(_ request: User_MfaGetStateRequest) async -> (Result<User_MfaStateResponse, Error>)
 	func getUsers(_ request: User_Empty) async -> (Result<User_GetUsersResponse, Error>)
 	func searchUser(_ request: User_SearchUserRequest) async -> (Result<User_SearchUserResponse, Error>)
-	func searchUserWithEmail(_ request: User_FindUserByEmailRequest) async -> (Result<User_FindUserByEmailResponse, Error>)
+	func searchUserWithEmail(_ request: User_FindUserByEmailRequest) async -> (Result<User_UserInfoResponse, Error>)
 	func getUserInfo(_ request: User_GetUserRequest) async -> (Result<User_UserInfoResponse, Error>)
 	func getClientsStatus(_ request: User_GetClientsStatusRequest) async -> (Result<User_GetClientsStatusResponse, Error>)
 	func updateStatus(_ request: User_SetUserStatusRequest) async -> (Result<User_BaseResponse, Error>)
@@ -220,7 +220,7 @@ extension APIService: IUserAPIService {
 		})
 	}
 	
-	public func searchUserWithEmail(_ request: User_FindUserByEmailRequest) async -> (Result<User_FindUserByEmailResponse, Error>) {
+	public func searchUserWithEmail(_ request: User_FindUserByEmailRequest) async -> (Result<User_UserInfoResponse, Error>) {
 		return await withCheckedContinuation({ continuation in
 			let caller = clientUser.find_user_by_email(request, callOptions: callOptions)
 			
