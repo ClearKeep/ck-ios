@@ -62,6 +62,13 @@ struct HomeView: View {
 				self.groups = groups
 				self.peers = peers
 				self.user = [UserViewModel(load.userViewModel?.viewModelUser)]
+				
+				if hasPendingNotification {
+					servers = injected.interactors.homeInteractor.didSelectServer(selectedNotiDomain)
+					DependencyResolver.shared.messageService.updateCurrentRoom(roomId: selectedRoomId)
+					navigateToChat = true
+					hasPendingNotification = false
+				}
 			case .failed(let error):
 				isLoading = false
 				let error = HomeErrorView(error)
@@ -132,6 +139,7 @@ struct HomeView: View {
 	@AppStorage("preview") private var isPreviewBanner: Bool?
 	let inspection = ViewInspector<Self>()
 	@State var isViewDisplayed = false
+	@State var hasPendingNotification = false
 	
 	// MARK: - Body
 	var body: some View {
@@ -241,6 +249,20 @@ struct HomeView: View {
 				}
 			}
 		}
+		.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.IncomingMessage.didOpenMessage), perform: { obj in
+			if let userInfo = obj.userInfo,
+			   let message = userInfo["message"] as? PublicationMessageNotification {
+				self.selectedRoomId = message.groupId
+				self.selectedNotiDomain = message.clientWorkspaceDomain
+				if isLoading {
+					hasPendingNotification = true
+				} else {
+					servers = injected.interactors.homeInteractor.didSelectServer(selectedNotiDomain)
+					DependencyResolver.shared.messageService.updateCurrentRoom(roomId: selectedRoomId)
+					navigateToChat = true
+				}
+			}
+		})
 		.hiddenNavigationBarStyle()
 		.alert(isPresented: $isShowError) {
 			Alert(title: Text(self.error?.title ?? ""),

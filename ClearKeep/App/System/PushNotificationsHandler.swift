@@ -45,7 +45,26 @@ extension PushNotificationsHandler: UNUserNotificationCenterDelegate {
 								withCompletionHandler completionHandler: @escaping () -> Void) {
 		let userInfo = response.notification.request.content.userInfo
 		print("notification payload: \(userInfo)")
-		self.handleNotification(userInfo: userInfo, completionHandler: completionHandler)
+		self.handleClickNotification(userInfo: userInfo, completionHandler: completionHandler)
+	}
+	
+	func handleClickNotification(userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
+		if let jsonString = userInfo["publication"] as? String,
+		   let jsonData = jsonString.data(using: .utf8) {
+			do {
+				let publication = try JSONDecoder().decode(PublicationMessageNotification.self, from: jsonData)
+				let userInfo: [String: Any] = ["message": publication]
+				DispatchQueue.main.async {
+					NotificationCenter.default.post(name: NSNotification.Name.IncomingMessage.didOpenMessage,
+													object: nil,
+													userInfo: userInfo)
+				}
+				completionHandler()
+			} catch {
+				completionHandler()
+			}
+		}
+		completionHandler()
 	}
 	
 	func handleNotification(userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
@@ -73,14 +92,7 @@ extension PushNotificationsHandler: UNUserNotificationCenterDelegate {
 				completionHandler()
 				return
 			}
-
-			do {
-				let publication = try JSONDecoder().decode(PublicationMessageNotification.self, from: jsonData)
-				//container.appState[\.authentication.selectedGroupId] = publication.groupId
-				completionHandler()
-			} catch {
-				completionHandler()
-			}
+			
 			return
 		}
 
@@ -124,5 +136,11 @@ extension PushNotificationsHandler: UNUserNotificationCenterDelegate {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
 			NotificationCenter.default.post(name: NSNotification.alertChat, object: nil)
 		})
+	}
+}
+
+extension Notification.Name {
+	public enum IncomingMessage {
+		public static let didOpenMessage = Notification.Name("IncomingMessage.didOpenMessage")
 	}
 }
