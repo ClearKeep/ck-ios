@@ -176,7 +176,7 @@ struct ChatView: View {
 					print(files)
 					isNewSentMessage = true
 					Task {
-						sendMessageLoadable = await injected.interactors.chatInteractor.uploadFiles(message: "", fileURLs: files, group: group, appendFileSize: true, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
+						sendMessageLoadable = await injected.interactors.chatInteractor.uploadFiles(message: "", fileURLs: files, group: group, appendFileSize: true, isForceProcessKey: !isLatestPeerSignalKeyProcessed, isJoined: isGroupJoined)
 					}
 				}
 			}
@@ -477,7 +477,7 @@ private extension ChatView {
 				let selectedImageURL = selectedImages.compactMap { $0.url }
 				print(selectedImageURL)
 				selectedImages.removeAll()
-				sendMessageLoadable = await injected.interactors.chatInteractor.uploadFiles(message: trimmedMessage, fileURLs: selectedImageURL, group: group, appendFileSize: false, isForceProcessKey: !isLatestPeerSignalKeyProcessed)
+				sendMessageLoadable = await injected.interactors.chatInteractor.uploadFiles(message: trimmedMessage, fileURLs: selectedImageURL, group: group, appendFileSize: false, isForceProcessKey: !isLatestPeerSignalKeyProcessed, isJoined: isGroupJoined)
 			}
 			return
 		}
@@ -729,7 +729,7 @@ private extension ChatView {
 							dataMessages.append(MessageViewModel(data: message, members: group?.groupMembers ?? []))
 						}
 					} else {
-						newMessages.filter { !$0.message.isEmpty }.forEach { message in
+						newMessages.reversed().filter { !$0.message.isEmpty }.forEach { message in
 							dataMessages.insert(MessageViewModel(data: message, members: group?.groupMembers ?? []), at: 0)
 						}
 						scrollToBottom = true

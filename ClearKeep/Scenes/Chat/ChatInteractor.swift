@@ -34,7 +34,7 @@ protocol IChatInteractor {
 	func getJoinedGroupsFromLocal() async -> [IGroupModel]
 	func forwardPeerMessage(message: String, group: IGroupModel) async -> Bool
 	func forwardGroupMessage(message: String, groupId: Int64, isJoined: Bool) async -> Bool
-	func uploadFiles(message: String, fileURLs: [URL], group: IGroupModel?, appendFileSize: Bool, isForceProcessKey: Bool) async -> Loadable<Void>
+	func uploadFiles(message: String, fileURLs: [URL], group: IGroupModel?, appendFileSize: Bool, isForceProcessKey: Bool, isJoined: Bool) async -> Loadable<Void>
 	func downloadFile(urlString: String) async -> Bool
 	func getMessageFromLocal(groupId: Int64) -> Results<RealmMessage>?
 	func requestVideoCall(isCallGroup: Bool, clientId: String, clientName: String, avatar: String, groupId: Int64, callType type: CallType) async -> Result<Bool, Error>
@@ -173,7 +173,7 @@ extension ChatInteractor: IChatInteractor {
 		}
 	}
 	
-	func uploadFiles(message: String, fileURLs: [URL], group: IGroupModel?, appendFileSize: Bool, isForceProcessKey: Bool) async -> Loadable<Void> {
+	func uploadFiles(message: String, fileURLs: [URL], group: IGroupModel?, appendFileSize: Bool, isForceProcessKey: Bool, isJoined: Bool) async -> Loadable<Void> {
 		if fileURLs.count > 10 {
 			return .failed(ChatError.fileLimit)
 		}
@@ -191,7 +191,6 @@ extension ChatInteractor: IChatInteractor {
 		}
 		print(messageContent)
 		if group?.groupType == "group" {
-			let isJoined = group?.isJoined ?? false
 			return await self.sendMessageInGroup(message: messageContent, groupId: group?.groupId ?? 0, isJoined: isJoined, isForward: false)
 		} else {
 			return await self.sendMessageInPeer(message: messageContent, groupId: group?.groupId ?? 0, group: group, isForceProcessKey: isForceProcessKey)
@@ -311,7 +310,7 @@ struct StubChatInteractor: IChatInteractor {
 		return false
 	}
 	
-	func uploadFiles(message: String, fileURLs: [URL], group: IGroupModel?, appendFileSize: Bool, isForceProcessKey: Bool) async -> Loadable<Void> {
+	func uploadFiles(message: String, fileURLs: [URL], group: IGroupModel?, appendFileSize: Bool, isForceProcessKey: Bool, isJoined: Bool) async -> Loadable<Void> {
 		return .notRequested
 	}
 	
