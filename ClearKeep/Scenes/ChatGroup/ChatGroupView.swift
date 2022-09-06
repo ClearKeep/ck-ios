@@ -80,9 +80,8 @@ private extension ChatGroupView {
 		}
 		
 		if let searchUser = data.searchUserWithEmail {
-			let userData = searchUser.filter({ $0.id != DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "" }).sorted(by: { $0.displayName.lowercased().prefix(1) < $1.displayName.lowercased().prefix(1) })
 			DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
-				self.searchData = userData
+				self.searchData = [searchUser]
 			})
 		}
 		

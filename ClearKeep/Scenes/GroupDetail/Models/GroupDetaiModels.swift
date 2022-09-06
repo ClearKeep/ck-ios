@@ -15,7 +15,7 @@ protocol IGroupDetailModels {
 	var groupBase: IGroupBaseResponse? { get }
 	var getProfile: IUser? { get }
 	var getProfileModelWithLink: IUserInfo? { get }
-	var searchUserModelWithEmail: IGetUserResponse? { get }
+	var searchUserModelWithEmail: IUserInfo? { get }
 	var userModel: IUser? { get }
 	var members: [IUser]? { get }
 }
@@ -26,7 +26,7 @@ struct GroupDetailModels: IGroupDetailModels {
 	var groupBase: IGroupBaseResponse?
 	var getProfile: IUser?
 	var getProfileModelWithLink: IUserInfo?
-	var searchUserModelWithEmail: IGetUserResponse?
+	var searchUserModelWithEmail: IUserInfo?
 	var userModel: IUser?
 	var members: [IUser]?
 }
@@ -52,8 +52,8 @@ extension GroupDetailModels {
 		self.init(getProfileModelWithLink: UserInforModel(userInfor: userProfileWithLink))
 	}
 
-	init(searchUserWithEmail: User_FindUserByEmailResponse) {
-		self.init(searchUserModelWithEmail: UserResponseModel(searchUser: searchUserWithEmail))
+	init(searchUserWithEmail: User_UserInfoResponse) {
+		self.init(searchUserModelWithEmail: UserInforModel(userInfor: searchUserWithEmail))
 	}
 
 	init(responseUser: User_MemberInfoRes?, members: [User_MemberInfoRes]) {

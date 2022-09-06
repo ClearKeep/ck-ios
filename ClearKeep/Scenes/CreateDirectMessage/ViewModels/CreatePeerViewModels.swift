@@ -13,7 +13,7 @@ protocol ICreatePeerViewModels {
 	var creatGroup: CreatePeerChatViewModel? { get }
 	var getProfile: CreatePeerProfileViewModel? { get }
 	var profileWithLink: CreatePeerUserViewModel? { get }
-	var searchUserWithEmail: [CreatePeerUserViewModel]? { get }
+	var searchUserWithEmail: CreatePeerUserViewModel? { get }
 }
 
 struct CreatePeerViewModels: ICreatePeerViewModels {
@@ -21,7 +21,7 @@ struct CreatePeerViewModels: ICreatePeerViewModels {
 	var creatGroup: CreatePeerChatViewModel?
 	var getProfile: CreatePeerProfileViewModel?
 	var profileWithLink: CreatePeerUserViewModel?
-	var searchUserWithEmail: [CreatePeerUserViewModel]?
+	var searchUserWithEmail: CreatePeerUserViewModel?
 }
 
 extension CreatePeerViewModels {
@@ -52,9 +52,6 @@ extension CreatePeerViewModels {
 	}
 	
 	init(usersWithEmail: ICreatePeerModels) {
-		let searchUsers = usersWithEmail.searchUserModelWithEmail?.lstUser.map { member in
-			CreatePeerUserViewModel(member)
-		}
-		self.searchUserWithEmail = searchUsers
+		self.searchUserWithEmail = CreatePeerUserViewModel.init(usersWithEmail.searchUserModelWithEmail)
 	}
 }
