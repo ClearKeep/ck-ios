@@ -10,7 +10,7 @@ import SwiftUI
 import Common
 
 private enum Constants {
-	static let remoteImageRegex = "(https://s3.amazonaws.com/storage.clearkeep.io/[a-zA-Z0-9\\/\\_\\-\\.]+(\\.png|\\.jpeg|\\.jpg|\\.gif|\\.PNG|\\.JPEG|\\.JPG|\\.GIF))"
+	static let remoteImageRegex = "(https://s3.amazonaws.com/storage.clearkeep.io/[a-zA-Z0-9\\/\\_\\-\\.]+(\\.png|\\.jpeg|\\.jpg|\\.gif|\\.heic|\\.PNG|\\.JPEG|\\.JPG|\\.GIF|\\.HEIC))"
 	static let remoteFileRegex = "(https://s3.amazonaws.com/storage.clearkeep.io/.+)"
 	static let fileNameRegex = "(?:.(?!\\/))+$"
 	static let fileSizeRegex = "\\|.+"
