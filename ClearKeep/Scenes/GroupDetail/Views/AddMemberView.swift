@@ -27,6 +27,28 @@ struct AddMemberView: View {
 	@Environment(\.injected) private var injected: DIContainer
 	@Binding var loadable: Loadable<IGroupDetailViewModels>
 	@Binding var search: [GroupDetailUserViewModels]
+	@State private(set) var loadableUrl: Loadable<IGroupDetailViewModels> = .notRequested {
+		didSet {
+			switch loadableUrl {
+			case .loaded(let load):
+				isLoading = false
+				let data = load.profileWithLink
+				let user = GroupDetailUserViewModels(id: data?.id ?? "", displayName: data?.displayName ?? "", workspaceDomain: data?.workspaceDomain ?? "", avatar: data?.avatar ?? "" )
+				if !addMember.contains(where: { $0.id == user.id }) {
+					self.addMember.append(user)
+					searchLinkText = ""
+				}
+			case .failed(let error):
+				isLoading = false
+				self.error = GroupDetailErrorView(error)
+				self.isShowError = true
+			case .isLoading:
+				isLoading = true
+			default: break
+			}
+		}
+	}
+
 	@State private(set) var groupId: Int64 = 0
 	@State private(set) var searchText: String = ""
 	@State private(set) var searchStyle: TextInputStyle = .default
@@ -36,14 +58,14 @@ struct AddMemberView: View {
 	@State private(set) var searchEmailStyle: TextInputStyle = .default
 	@State private(set) var isSelectedUser: Bool = false
 	@State private(set) var addMember: [GroupDetailUserViewModels] = []
-	@State private(set) var dataMember: GroupDetailUserViewModels?
-	@State private(set) var getProfile: GroupDetailUserViewModels?
-	@State private(set) var myProfile: GroupDetailProfileViewModel?
 	@State private(set) var useCustomServerChecked: Bool = false
 	@State private var isNextCreateGroup: Bool = false
 	@State private var messageAlert: String = ""
 	@State private var isShowAlert: Bool = false
 	@State private var useFindByEmail: Bool = false
+	@State private var isLoading: Bool = false
+	@State private var error: GroupDetailErrorView?
+	@State private var isShowError: Bool = false
 
 	// MARK: - Init
 
@@ -98,7 +120,7 @@ struct AddMemberView: View {
 						addClient(item.wrappedValue, isSelected: isSelectedUser)
 					})
 				}
-			}
+			}.progressHUD(isLoading)
 			RoundedGradientButton(textButton, disabled: .constant(self.checkDisableButton()), action: nextToCreateGroup)
 				.frame(maxWidth: .infinity)
 				.frame(height: Constants.heightButton)
@@ -126,6 +148,11 @@ struct AddMemberView: View {
 			Alert(title: Text("General.Warning".localized),
 				  message: Text(self.messageAlert),
 				  dismissButton: .default(Text("General.OK".localized)))
+		}
+		.alert(isPresented: $isShowError) {
+			Alert(title: Text(self.error?.title ?? ""),
+				  message: Text(self.error?.message ?? ""),
+				  dismissButton: .default(Text(error?.primaryButtonTitle ?? "")))
 		}
 		.onAppear(perform: notloaded)
 	}
@@ -253,9 +280,9 @@ private extension AddMemberView {
 	private func addUserWithLink() {
 		if !injected.interactors.groupDetailInteractor.checkPeopleLink(link: searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines)) {
 			let people = injected.interactors.groupDetailInteractor.getPeopleFromLink(link: searchLinkText.trimmingCharacters(in: .whitespacesAndNewlines))
-			loadable = .isLoading(last: nil, cancelBag: CancelBag())
+			loadableUrl = .isLoading(last: nil, cancelBag: CancelBag())
 			Task {
-				loadable = await self.injected.interactors.groupDetailInteractor.getUserInfor(clientId: people?.id ?? "", workSpace: people?.domain ?? "")
+				loadableUrl = await self.injected.interactors.groupDetailInteractor.getUserInfor(clientId: people?.id ?? "", workSpace: people?.domain ?? "")
 			}
 		} else {
 			self.messageAlert = "GroupChat.YouCantCreateConversationWithYouSelf".localized
