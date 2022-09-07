@@ -100,7 +100,6 @@ struct NewPasswordContenView: View {
 							 dismissButton: .default(Text(err.primaryButtonTitle)))
 			default:
 				return 	Alert(title: Text("ForgotPassword.PasswordChangeSuccess".localized), message: Text("ForgotPassword.PleaseLoginAgainNewPassword".localized), dismissButton: .default(Text("ForgotPassword.OK".localized), action: {
-					NotificationCenter.default.post(name: Notification.Name.ForgotPasswordService.forgotSuccess, object: injected.interactors.newPasswordInteractor.getServers())
 					self.presentationMode.wrappedValue.dismiss()
 				}))
 			}
@@ -179,12 +178,6 @@ private extension NewPasswordContenView {
 		rePasswordStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
 		
 		checkInvalid = injected.interactors.newPasswordInteractor.checkValid(passwordValdid: passwordInvalid, confirmPasswordValid: confirmPasswordInvvalid)
-	}
-}
-
-extension Notification.Name {
-	public enum ForgotPasswordService {
-		public static let forgotSuccess = Notification.Name("ForgotPasswordService.forgotSuccess")
 	}
 }
 

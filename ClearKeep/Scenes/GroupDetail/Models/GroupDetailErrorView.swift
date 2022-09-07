@@ -23,7 +23,7 @@ enum GroupDetailErrorView {
 
 		let errorCode = errorResponse.status
 		switch errorCode {
-		case 1005 :
+		case 1008 :
 			self = .wrongLink
 		case 1057:
 			self = .memberAdded

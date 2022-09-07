@@ -73,6 +73,7 @@ struct UserProfileContentView: View {
 	@State private(set) var isSocialAccount: Bool = false
 	@State private var showAlertDelete: Bool = false
 	@State private(set) var servers: [ServerViewModel] = []
+	@State private var showTwoFA: Bool = false
 	// MARK: - Init
 	
 	// MARK: - Body
@@ -120,10 +121,10 @@ struct UserProfileContentView: View {
 									usernameStyle = .error(message: "UserProfile.UserName.Valid".localized)
 								}
 							})
-							.onChange(of: self.username, perform: { text in
-								self.checkUserValid(text: text)
-							})
-							.onReceive(Just(username)) { _ in limitText(Constants.userNameLimit) }
+								.onChange(of: self.username, perform: { text in
+									self.checkUserValid(text: text)
+								})
+								.onReceive(Just(username)) { _ in limitText(Constants.userNameLimit) }
 						}
 						VStack(alignment: .leading, spacing: Constants.spacerSetting) {
 							Text("UserProfile.Email".localized)
@@ -134,7 +135,7 @@ struct UserProfileContentView: View {
 											placeHolder: "UserProfile.Email".localized,
 											keyboardType: .default,
 											onEditingChanged: { _ in })
-							.disabled(true)
+								.disabled(true)
 						}
 						
 						VStack(alignment: .leading, spacing: Constants.spacerSetting) {
@@ -176,14 +177,14 @@ struct UserProfileContentView: View {
 									self.phoneStyle = isEditing ? .highlighted : .normal
 									self.onEditing = isEditing
 								})
-								.onChange(of: phoneNumber, perform: { text in
-									checkPhoneValid(text: text)
-								})
-								.cornerRadius(Constants.radius)
-								.overlay(
-									RoundedRectangle(cornerRadius: Constants.radius)
-										.stroke(borderColor, lineWidth: Constants.borderWidth)
-								)
+									.onChange(of: phoneNumber, perform: { text in
+										checkPhoneValid(text: text)
+									})
+									.cornerRadius(Constants.radius)
+									.overlay(
+										RoundedRectangle(cornerRadius: Constants.radius)
+											.stroke(borderColor, lineWidth: Constants.borderWidth)
+									)
 								
 							}
 							if phoneInvalid == false {
@@ -224,23 +225,25 @@ struct UserProfileContentView: View {
 					}
 					
 					VStack(alignment: .leading, spacing: Constants.spacerTop) {
-						HStack(alignment: .top) {
-							VStack(alignment: .leading, spacing: Constants.spacerTop) {
-								Text("UserProfile.Authen.2FA".localized)
-									.font(AppTheme.shared.fontSet.font(style: .body2))
-									.foregroundColor(foregroundColorSetting)
-								Text("UserProfile.2FA.Title".localized)
-									.font(AppTheme.shared.fontSet.font(style: .input3))
-									.foregroundColor(foregroundColor)
-							}
-							Spacer()
-							
-							NavigationLink(destination: TwoFactorView(twoFactorType: .setting),
-										   isActive: $isCurrentPass) {
-								Button(action: change2FAStatus) {
-									Text(statusTwoFA)
-										.font(AppTheme.shared.fontSet.font(style: .body3))
-										.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+						if !showTwoFA {
+							HStack(alignment: .top) {
+								VStack(alignment: .leading, spacing: Constants.spacerTop) {
+									Text("UserProfile.Authen.2FA".localized)
+										.font(AppTheme.shared.fontSet.font(style: .body2))
+										.foregroundColor(foregroundColorSetting)
+									Text("UserProfile.2FA.Title".localized)
+										.font(AppTheme.shared.fontSet.font(style: .input3))
+										.foregroundColor(foregroundColor)
+								}
+								Spacer()
+
+								NavigationLink(destination: TwoFactorView(twoFactorType: .setting),
+											   isActive: $isCurrentPass) {
+									Button(action: change2FAStatus) {
+										Text(statusTwoFA)
+											.font(AppTheme.shared.fontSet.font(style: .body3))
+											.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+									}
 								}
 							}
 						}
@@ -381,8 +384,8 @@ private extension UserProfileContentView {
 			case .loaded(let data):
 				guard let urlData = data.urlAvatarViewModel,
 					  let url = URL(string: urlData.fileURL) else {
-					return
-				}
+						  return
+					  }
 				URLCache.shared.removeCachedResponse(for: URLRequest(url: url))
 				self.urlAvatar = urlData.fileURL
 			case .failed(let error):

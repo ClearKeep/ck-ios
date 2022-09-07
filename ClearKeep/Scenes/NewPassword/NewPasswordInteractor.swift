@@ -36,10 +36,6 @@ extension NewPasswordInteractor: INewPasswordInteractor {
 		let result = await worker.resetPassword(preAccessToken: preAccessToken, email: email, rawNewPassword: rawNewPassword, domain: domain)
 		switch result {
 		case .success(let data):
-			appState.bulkUpdate {
-				$0.authentication.servers = worker.servers
-				$0.authentication.newServerDomain = nil
-			}
 			return .success(data)
 		case .failure(let error):
 			return .failure(error)

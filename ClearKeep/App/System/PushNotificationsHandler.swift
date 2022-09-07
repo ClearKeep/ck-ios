@@ -87,8 +87,14 @@ extension PushNotificationsHandler: UNUserNotificationCenterDelegate {
 				return
 			}
 
-			if let publicationRemove = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any],
-			   let add = publicationRemove["added_member_id"] as? String {
+			if let publicationAdd = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any],
+			   let add = publicationAdd["added_member_id"] as? String ,
+			   let id = DependencyResolver.shared.channelStorage.currentServer?.profile?.userId {
+				if add == id {
+					DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+						NotificationCenter.default.post(name: NSNotification.reloadDataHome, object: nil)
+					})
+				}
 				completionHandler()
 				return
 			}
