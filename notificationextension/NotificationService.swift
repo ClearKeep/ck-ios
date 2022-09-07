@@ -40,7 +40,7 @@ class NotificationService: UNNotificationServiceExtension {
 					} else {
 						let groupName = realmManager.getGroupName(by: publication.groupId, domain: publication.clientWorkspaceDomain, ownerId: publication.clientId)
 						Task {
-							let message = await messageService.decryptGroupMessage(senderId: publication.fromClientId, senderDomain: publication.fromClientWorkspaceDomain, ownerId: publication.clientId, ownerDomain: publication.clientWorkspaceDomain, groupID: publication.groupId, message: publication.message)
+							let message = await messageService.decryptGroupMessage(senderId: publication.fromClientId, senderDomain: publication.fromClientWorkspaceDomain, ownerId: publication.clientId, ownerDomain: publication.clientWorkspaceDomain, groupID: publication.groupId, message: publication.message, messageId: publication.id)
 							bestAttemptContent.title = groupName
 							bestAttemptContent.body = "\(senderName): \(message ?? "x")"
 							contentHandler(bestAttemptContent)
