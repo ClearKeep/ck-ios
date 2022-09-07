@@ -47,20 +47,6 @@ struct RootView: View {
 		}
 		.onReceive(newServerDomainUpdate) { newServerDomain in
 			self.newServerDomain = newServerDomain
-		}.onReceive(NotificationCenter.default.publisher(for: Notification.Name.ForgotPasswordService.forgotSuccess)) { data in
-			guard let servers = data.object as? [RealmServer] else {
-				return
-			}
-			
-			DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
-				container.appState.bulkUpdate {
-					$0.authentication.servers = servers.compactMap { ServerModel($0) }
-					$0.authentication.newServerDomain = nil
-				}
-				
-				self.servers = servers.compactMap { ServerModel($0) }
-				self.newServerDomain = nil
-			})
 		}
 	}
 }
