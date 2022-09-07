@@ -136,8 +136,17 @@ extension GroupService: IGroupService {
 		request.leaveMember = memberInfo
 		request.leaveMemberBy = memberBy
 		request.groupID = groupId
+		let response = await channelStorage.getChannel(domain: domain).leaveGroup(request)
 		
-		return await channelStorage.getChannel(domain: domain).leaveGroup(request)
+		switch response {
+		case .success(let data):
+			senderStore.deleteSenderKey(groupId: groupId, clientId: clientId, domain: domain)
+			channelStorage.realmManager.deleteGroup(groupId: groupId, domain: domain)
+			channelStorage.realmManager.deleteMessagesFromGroup(groupId: groupId, ownerDomain: domain, ownerId: clientId)
+			return .success(data)
+		case .failure(let error):
+			return .failure(error)
+		}
 	}
 }
 

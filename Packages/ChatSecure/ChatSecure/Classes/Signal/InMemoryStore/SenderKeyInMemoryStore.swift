@@ -12,6 +12,7 @@ public protocol ISenderKeyStore: SenderKeyStore {
 	func getSenderDistributionID(senderID: String, groupId: Int64, isCreateNew: Bool) -> UUID?
 	func removeSenderKey()
 	func saveSenderDistributionID(senderID: String, groupId: Int64)
+	func deleteSenderKey(groupId: Int64, clientId: String, domain: String)
 }
 
 private struct SenderKeyName: Hashable {
@@ -83,5 +84,15 @@ extension SenderKeyInMemoryStore: ISenderKeyStore {
 	public func removeSenderKey() {
 		senderUuidMap.removeAll()
 		senderKeyMap.removeAll()
+	}
+	
+	public func deleteSenderKey(groupId: Int64, clientId: String, domain: String) {
+		guard let sender = try? ProtocolAddress(name: "\(domain)_\(clientId)", deviceId: UInt32(Constants.senderDeviceId)),
+			  let uuid = getSenderDistributionID(senderID: clientId, groupId: groupId, isCreateNew: true)
+		else { return }
+		
+		let key = getKey(distributionId: uuid, name: sender.name)
+		senderKeyMap.removeValue(forKey: SenderKeyName(sender: sender, distributionId: uuid))
+		storage.remove(key, collection: .domain(domain))
 	}
 }

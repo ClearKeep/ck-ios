@@ -128,7 +128,7 @@ extension SubscribeAndListenService: ISubscribeAndListenService {
 				decryptedMessage = messageService.decryptPeerMessage(senderName: "\(message.fromClientWorkspaceDomain)_\(message.fromClientID)", message: message.message, messageId: message.id) ?? ""
 			}
 		} else {
-			decryptedMessage = await messageService.decryptGroupMessage(senderId: message.fromClientID, senderDomain: message.fromClientWorkspaceDomain, ownerId: ownerId, ownerDomain: domain, groupID: message.groupID, message: message.message) ?? ""
+			decryptedMessage = await messageService.decryptGroupMessage(senderId: message.fromClientID, senderDomain: message.fromClientWorkspaceDomain, ownerId: ownerId, ownerDomain: domain, groupID: message.groupID, message: message.message, messageId: message.id) ?? ""
 		}
 		messageModel.message = decryptedMessage
 		channelStorage.realmManager.saveMessage(message: RealmMessage(message: messageModel))

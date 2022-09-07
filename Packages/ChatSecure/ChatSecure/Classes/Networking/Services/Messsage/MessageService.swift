@@ -45,7 +45,7 @@ public protocol IMessageService {
 					lastMessageAt: Int64) async -> Result<[RealmMessage], Error>
 	
 	func decryptPeerMessage(senderName: String, message: Data, messageId: String) -> String?
-	func decryptGroupMessage(senderId: String, senderDomain: String, ownerId: String, ownerDomain: String, groupID: Int64, message: Data) async -> String?
+	func decryptGroupMessage(senderId: String, senderDomain: String, ownerId: String, ownerDomain: String, groupID: Int64, message: Data, messageId: String) async -> String?
 	
 }
 
@@ -179,7 +179,7 @@ extension MessageService: IMessageService {
 					decryptedMessage = oldMessage.message
 				} else {
 					if isGroup {
-						decryptedMessage = await decryptGroupMessage(senderId: message.fromClientID, senderDomain: message.fromClientWorkspaceDomain, ownerId: ownerId, ownerDomain: ownerDomain, groupID: groupId, message: message.message) ?? ""
+						decryptedMessage = await decryptGroupMessage(senderId: message.fromClientID, senderDomain: message.fromClientWorkspaceDomain, ownerId: ownerId, ownerDomain: ownerDomain, groupID: groupId, message: message.message, messageId: message.id) ?? ""
 					} else {
 						if message.fromClientID == ownerId {
 							decryptedMessage = decryptPeerMessage(senderName: "\(ownerDomain)_\(ownerId)", message: message.senderMessage, messageId: message.id) ?? ""
@@ -371,7 +371,7 @@ private extension MessageService {
 		}
 	}
 	
-	public func decryptGroupMessage(senderId: String, senderDomain: String, ownerId: String, ownerDomain: String, groupID: Int64, message: Data) async -> String? {
+	public func decryptGroupMessage(senderId: String, senderDomain: String, ownerId: String, ownerDomain: String, groupID: Int64, message: Data, messageId: String) async -> String? {
 		do {
 			let senderAddress: ProtocolAddress
 			let distributionId: UUID?
@@ -394,10 +394,18 @@ private extension MessageService {
 			do {
 				let plaintextFromAlice = try groupDecrypt(message, from: senderAddress, store: senderStore, context: NullContext())
 				Debug.DLog("decrypt group message success")
+				let realmMessage = RealmMessage()
+				realmMessage.messageId = messageId
+				realmMessage.message = String(bytes: plaintextFromAlice, encoding: .utf8) ?? ""
+				channelStorage.realmManager.saveMessage(message: realmMessage)
 				return String(bytes: plaintextFromAlice, encoding: .utf8)
 			} catch SignalError.duplicatedMessage {
 				Debug.DLog("decrypt group message fail duplicate message")
-				return nil
+				if let oldMessage = channelStorage.realmManager.getMessage(messageId: messageId) {
+					return oldMessage.message
+				} else {
+					return nil
+				}
 			} catch {
 				Debug.DLog("decrypt group message 1st time fail \(error)")
 				let initSessionAgain = await initSessionUserInGroup(address: senderAddress,

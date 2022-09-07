@@ -144,6 +144,10 @@ extension RealmManager {
 		delete(listOf: RealmGroup.self, filter: NSPredicate(format: "ownerDomain == %@", domain))
 	}
 	
+	public func deleteGroup(groupId: Int64, domain: String) {
+		delete(listOf: RealmGroup.self, filter: NSPredicate(format: "groupId == %ld && ownerDomain == %@", groupId, domain))
+	}
+	
 	public func updateGroupJoinedStatus(groupId: Int64, domain: String, ownerId: String) {
 		if let group = getGroup(by: groupId, domain: domain, ownerId: ownerId) {
 			write { _ in
