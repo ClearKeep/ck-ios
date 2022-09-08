@@ -219,6 +219,11 @@ struct HomeView: View {
 					}
 				}
 			})
+			.onReceive(NotificationCenter.default.publisher(for: Notification.Name.IncomingMessage.groupMemberLeave), perform: { _ in
+				if self.isViewDisplayed {
+					getServerInfo()
+				}
+			})
 			.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.SubscribeAndListenService.didReceiveMessage)) { (obj) in
 				print("received message banner...... \(obj)")
 				if let userInfo = obj.userInfo,

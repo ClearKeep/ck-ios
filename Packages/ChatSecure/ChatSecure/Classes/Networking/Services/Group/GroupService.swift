@@ -140,9 +140,10 @@ extension GroupService: IGroupService {
 		
 		switch response {
 		case .success(let data):
-			senderStore.deleteSenderKey(groupId: groupId, clientId: clientId, domain: domain)
-			channelStorage.realmManager.deleteGroup(groupId: groupId, domain: domain)
-			channelStorage.realmManager.deleteMessagesFromGroup(groupId: groupId, ownerDomain: domain, ownerId: clientId)
+			if clientId == user.id {
+				senderStore.deleteSenderKey(groupId: groupId, clientId: clientId, domain: domain)
+				channelStorage.realmManager.deleteGroup(groupId: groupId, domain: domain)
+			}
 			return .success(data)
 		case .failure(let error):
 			return .failure(error)

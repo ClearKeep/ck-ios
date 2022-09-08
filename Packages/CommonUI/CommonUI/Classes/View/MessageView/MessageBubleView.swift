@@ -192,9 +192,16 @@ private extension MessageBubbleView {
 					Spacer()
 				}.padding(.top, Constants.spacer)
 				
-				messageContentView(isMine: false)
-					.padding(.leading, Constants.groupMessageLeadingSpacing)
-					.frame(width: Constants.maxWidthBuble, alignment: .leading)
+				if messageViewModel.isImageMessage {
+					imageContentView(isMine: false)
+				} else if messageViewModel.isFileMessage {
+					fileContentView(isMine: false)
+				} else {
+					messageContentView(isMine: false)
+						.padding(.leading, Constants.groupMessageLeadingSpacing)
+						.frame(width: Constants.maxWidthBuble, alignment: .leading)
+				}
+				
 			}
 			Spacer()
 		}

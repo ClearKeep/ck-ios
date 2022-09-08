@@ -21,15 +21,15 @@ class NotificationService: UNNotificationServiceExtension {
 			   let jsonString = publication as? String,
 			   let jsonData = jsonString.data(using: .utf8) {
 				print(publication)
-				do {
-					let realmManager = RealmManager(databasePath: ConfigurationProvider.default.databaseURL)
-					let yapDatabase = YapDatabaseManager(databasePath: ConfigurationProvider.default.yapDatabaseURL)
-					let clientStore = ClientStore(persistentStoreService: PersistentStoreService(), securedStoreService: SecuredStoreService())
-					let channelStorage = ChannelStorage(config: ConfigurationProvider.default, clientStore: clientStore, realmManager: realmManager)
-					let signalStore = SignalProtocolInMemoryStore(storage: yapDatabase, channelStorage: channelStorage)
-					let senderStore = SenderKeyInMemoryStore(storage: yapDatabase, channelStorage: channelStorage)
-					let messageService = MessageService(clientStore: clientStore, signalStore: signalStore, senderStore: senderStore, channelStorage: channelStorage)
-					let publication = try JSONDecoder().decode(PublicationMessageNotification.self, from: jsonData)
+				let realmManager = RealmManager(databasePath: ConfigurationProvider.default.databaseURL)
+				let yapDatabase = YapDatabaseManager(databasePath: ConfigurationProvider.default.yapDatabaseURL)
+				let clientStore = ClientStore(persistentStoreService: PersistentStoreService(), securedStoreService: SecuredStoreService())
+				let channelStorage = ChannelStorage(config: ConfigurationProvider.default, clientStore: clientStore, realmManager: realmManager)
+				let signalStore = SignalProtocolInMemoryStore(storage: yapDatabase, channelStorage: channelStorage)
+				let senderStore = SenderKeyInMemoryStore(storage: yapDatabase, channelStorage: channelStorage)
+				let messageService = MessageService(clientStore: clientStore, signalStore: signalStore, senderStore: senderStore, channelStorage: channelStorage)
+				
+				if let publication = try? JSONDecoder().decode(PublicationMessageNotification.self, from: jsonData) {
 					channelStorage.updateTempServer(server: TempServer(serverDomain: publication.clientWorkspaceDomain, ownerClientId: publication.clientId))
 					let senderName = realmManager.getSenderName(fromClientId: publication.fromClientId, groupId: publication.groupId, domain: publication.clientWorkspaceDomain, ownerId: publication.clientId)
 					if publication.groupType == "peer" {
@@ -46,12 +46,21 @@ class NotificationService: UNNotificationServiceExtension {
 							contentHandler(bestAttemptContent)
 						}
 					}
-				} catch {
-					bestAttemptContent.body = "\(#function) 1"
+				} else if let publicationJson = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any],
+						  let remove = publicationJson["leave_member"] as? String {
+					let groupId = publicationJson["group_id"] as? String ?? ""
+					let domain = publicationJson["client_workspace_domain"] as? String ?? ""
+					let clientId = publicationJson["client_id"] as? String ?? ""
+					if clientId == remove {
+						realmManager.deleteGroup(groupId: Int64(groupId) ?? 0, domain: domain)
+						senderStore.deleteSenderKey(groupId: Int64(groupId) ?? 0, clientId: clientId, domain: domain)
+					}
+					contentHandler(bestAttemptContent)
+				} else {
 					contentHandler(bestAttemptContent)
 				}
 			} else {
-				bestAttemptContent.body = "\(#function) 2"
+				bestAttemptContent.body = "\(#function)"
 				contentHandler(bestAttemptContent)
 			}
 		}
