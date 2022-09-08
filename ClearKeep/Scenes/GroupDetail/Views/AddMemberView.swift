@@ -36,8 +36,8 @@ struct AddMemberView: View {
 				let user = GroupDetailUserViewModels(id: data?.id ?? "", displayName: data?.displayName ?? "", workspaceDomain: data?.workspaceDomain ?? "", avatar: data?.avatar ?? "" )
 				if !addMember.contains(where: { $0.id == user.id }) {
 					self.addMember.append(user)
-					searchLinkText = ""
 				}
+				self.useCustomServerChecked = false
 			case .failed(let error):
 				isLoading = false
 				self.error = GroupDetailErrorView(error)
