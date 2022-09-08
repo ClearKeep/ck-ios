@@ -68,6 +68,7 @@ extension PushNotificationsHandler: UNUserNotificationCenterDelegate {
 	}
 	
 	func handleNotification(userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
+		print("notification payload: \(userInfo)")
 		if let jsonString = userInfo["publication"] as? String,
 		   let jsonData = jsonString.data(using: .utf8) {
 			
@@ -82,7 +83,10 @@ extension PushNotificationsHandler: UNUserNotificationCenterDelegate {
 			   let remove = publicationRemove["leave_member"] as? String,
 			   let id = DependencyResolver.shared.channelStorage.currentServer?.profile?.userId {
 				if remove == id {
-				handleAlert()
+					DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+						NotificationCenter.default.post(name: Notification.Name.IncomingMessage.groupMemberLeave, object: nil)
+					})
+					handleAlert()
 				}
 				return
 			}
@@ -148,5 +152,6 @@ extension PushNotificationsHandler: UNUserNotificationCenterDelegate {
 extension Notification.Name {
 	public enum IncomingMessage {
 		public static let didOpenMessage = Notification.Name("IncomingMessage.didOpenMessage")
+		public static let groupMemberLeave = Notification.Name("IncomingMessage.groupMemberLeave")
 	}
 }

@@ -225,7 +225,7 @@ struct UserProfileContentView: View {
 					}
 					
 					VStack(alignment: .leading, spacing: Constants.spacerTop) {
-						if !showTwoFA {
+						if showTwoFA {
 							HStack(alignment: .top) {
 								VStack(alignment: .leading, spacing: Constants.spacerTop) {
 									Text("UserProfile.Authen.2FA".localized)
