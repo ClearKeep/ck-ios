@@ -493,7 +493,7 @@ extension CLKAuthenticationService: IAuthenticationService {
 			
 			var listGroupClientKey = [Signal_GroupRegisterClientKeyRequest]()
 			groups.forEach { group in
-				guard let distributionId = senderKeyStore.getSenderDistributionID(senderID: server.ownerClientId, groupId: group.groupId, isCreateNew: false) else { return }
+				guard let distributionId = senderKeyStore.getSenderDistributionID(senderID: server.ownerClientId, groupId: group.groupId, isCreateNew: true) else { return }
 				guard let senderKey = try? senderKeyStore.loadSenderKey(from: senderAddress, distributionId: distributionId, context: NullContext()) else { return }
 				let encryptedSenderKey = pbkdf2.encrypt(data: senderKey.serialize(), saltHex: server.salt)
 				
