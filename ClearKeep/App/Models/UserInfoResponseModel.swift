@@ -35,14 +35,3 @@ extension UserResponseModel {
 		self.init(lstUser: users)
 	}
 }
-
-//struct UserInforModel: IUserInfo {
-//	var id: String
-//	var displayName: String
-//	var workspaceDomain: String
-//	var avatar: String
-//}
-//
-//extension UserInforModel {
-//	
-//}
