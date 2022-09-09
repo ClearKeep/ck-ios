@@ -93,7 +93,7 @@ internal protocol User_UserClientProtocol: GRPCClient {
   func find_user_by_email(
     _ request: User_FindUserByEmailRequest,
     callOptions: CallOptions?
-  ) -> UnaryCall<User_FindUserByEmailRequest, User_UserInfoResponse>
+  ) -> UnaryCall<User_FindUserByEmailRequest, User_FindUserByEmailResponse>
 
   func get_mfa_state(
     _ request: User_MfaGetStateRequest,
@@ -138,7 +138,7 @@ internal protocol User_UserClientProtocol: GRPCClient {
   func workspace_find_user_by_email(
     _ request: User_FindUserByEmailRequest,
     callOptions: CallOptions?
-  ) -> UnaryCall<User_FindUserByEmailRequest, User_UserInfoResponse>
+  ) -> UnaryCall<User_FindUserByEmailRequest, User_FindUserByEmailResponse>
 }
 
 extension User_UserClientProtocol {
@@ -372,7 +372,7 @@ extension User_UserClientProtocol {
   internal func find_user_by_email(
     _ request: User_FindUserByEmailRequest,
     callOptions: CallOptions? = nil
-  ) -> UnaryCall<User_FindUserByEmailRequest, User_UserInfoResponse> {
+  ) -> UnaryCall<User_FindUserByEmailRequest, User_FindUserByEmailResponse> {
     return self.makeUnaryCall(
       path: "/user.User/find_user_by_email",
       request: request,
@@ -534,7 +534,7 @@ extension User_UserClientProtocol {
   internal func workspace_find_user_by_email(
     _ request: User_FindUserByEmailRequest,
     callOptions: CallOptions? = nil
-  ) -> UnaryCall<User_FindUserByEmailRequest, User_UserInfoResponse> {
+  ) -> UnaryCall<User_FindUserByEmailRequest, User_FindUserByEmailResponse> {
     return self.makeUnaryCall(
       path: "/user.User/workspace_find_user_by_email",
       request: request,
@@ -583,7 +583,7 @@ internal protocol User_UserClientInterceptorFactoryProtocol {
   func makeget_usersInterceptors() -> [ClientInterceptor<User_Empty, User_GetUsersResponse>]
 
   /// - Returns: Interceptors to use when invoking 'find_user_by_email'.
-  func makefind_user_by_emailInterceptors() -> [ClientInterceptor<User_FindUserByEmailRequest, User_UserInfoResponse>]
+  func makefind_user_by_emailInterceptors() -> [ClientInterceptor<User_FindUserByEmailRequest, User_FindUserByEmailResponse>]
 
   /// - Returns: Interceptors to use when invoking 'get_mfa_state'.
   func makeget_mfa_stateInterceptors() -> [ClientInterceptor<User_MfaGetStateRequest, User_MfaStateResponse>]
@@ -610,7 +610,7 @@ internal protocol User_UserClientInterceptorFactoryProtocol {
   func makeworkspace_update_display_nameInterceptors() -> [ClientInterceptor<User_WorkspaceUpdateDisplayNameRequest, User_BaseResponse>]
 
   /// - Returns: Interceptors to use when invoking 'workspace_find_user_by_email'.
-  func makeworkspace_find_user_by_emailInterceptors() -> [ClientInterceptor<User_FindUserByEmailRequest, User_UserInfoResponse>]
+  func makeworkspace_find_user_by_emailInterceptors() -> [ClientInterceptor<User_FindUserByEmailRequest, User_FindUserByEmailResponse>]
 }
 
 internal final class User_UserClient: User_UserClientProtocol {
@@ -666,7 +666,7 @@ internal protocol User_UserProvider: CallHandlerProvider {
 
   func get_users(request: User_Empty, context: StatusOnlyCallContext) -> EventLoopFuture<User_GetUsersResponse>
 
-  func find_user_by_email(request: User_FindUserByEmailRequest, context: StatusOnlyCallContext) -> EventLoopFuture<User_UserInfoResponse>
+  func find_user_by_email(request: User_FindUserByEmailRequest, context: StatusOnlyCallContext) -> EventLoopFuture<User_FindUserByEmailResponse>
 
   ///----- MFA ENABLE FLOW -----
   func get_mfa_state(request: User_MfaGetStateRequest, context: StatusOnlyCallContext) -> EventLoopFuture<User_MfaStateResponse>
@@ -685,7 +685,7 @@ internal protocol User_UserProvider: CallHandlerProvider {
 
   func workspace_update_display_name(request: User_WorkspaceUpdateDisplayNameRequest, context: StatusOnlyCallContext) -> EventLoopFuture<User_BaseResponse>
 
-  func workspace_find_user_by_email(request: User_FindUserByEmailRequest, context: StatusOnlyCallContext) -> EventLoopFuture<User_UserInfoResponse>
+  func workspace_find_user_by_email(request: User_FindUserByEmailRequest, context: StatusOnlyCallContext) -> EventLoopFuture<User_FindUserByEmailResponse>
 }
 
 extension User_UserProvider {
@@ -810,7 +810,7 @@ extension User_UserProvider {
       return UnaryServerHandler(
         context: context,
         requestDeserializer: ProtobufDeserializer<User_FindUserByEmailRequest>(),
-        responseSerializer: ProtobufSerializer<User_UserInfoResponse>(),
+        responseSerializer: ProtobufSerializer<User_FindUserByEmailResponse>(),
         interceptors: self.interceptors?.makefind_user_by_emailInterceptors() ?? [],
         userFunction: self.find_user_by_email(request:context:)
       )
@@ -891,7 +891,7 @@ extension User_UserProvider {
       return UnaryServerHandler(
         context: context,
         requestDeserializer: ProtobufDeserializer<User_FindUserByEmailRequest>(),
-        responseSerializer: ProtobufSerializer<User_UserInfoResponse>(),
+        responseSerializer: ProtobufSerializer<User_FindUserByEmailResponse>(),
         interceptors: self.interceptors?.makeworkspace_find_user_by_emailInterceptors() ?? [],
         userFunction: self.workspace_find_user_by_email(request:context:)
       )
@@ -954,7 +954,7 @@ internal protocol User_UserServerInterceptorFactoryProtocol {
 
   /// - Returns: Interceptors to use when handling 'find_user_by_email'.
   ///   Defaults to calling `self.makeInterceptors()`.
-  func makefind_user_by_emailInterceptors() -> [ServerInterceptor<User_FindUserByEmailRequest, User_UserInfoResponse>]
+  func makefind_user_by_emailInterceptors() -> [ServerInterceptor<User_FindUserByEmailRequest, User_FindUserByEmailResponse>]
 
   /// - Returns: Interceptors to use when handling 'get_mfa_state'.
   ///   Defaults to calling `self.makeInterceptors()`.
@@ -990,5 +990,5 @@ internal protocol User_UserServerInterceptorFactoryProtocol {
 
   /// - Returns: Interceptors to use when handling 'workspace_find_user_by_email'.
   ///   Defaults to calling `self.makeInterceptors()`.
-  func makeworkspace_find_user_by_emailInterceptors() -> [ServerInterceptor<User_FindUserByEmailRequest, User_UserInfoResponse>]
+  func makeworkspace_find_user_by_emailInterceptors() -> [ServerInterceptor<User_FindUserByEmailRequest, User_FindUserByEmailResponse>]
 }

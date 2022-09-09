@@ -20,7 +20,7 @@ public protocol IUserService {
 	func searchUser(keyword: String, domain: String) async -> (Result<User_SearchUserResponse, Error>)
 	func getUserInfo(clientID: String, workspaceDomain: String, domain: String) async -> (Result<User_UserInfoResponse, Error>)
 	func getListStatus(data: [[String: String]], domain: String) async -> (Result<User_GetClientsStatusResponse, Error>)
-	func searchUserWithEmail(email: String, domain: String) async -> (Result<User_UserInfoResponse, Error>)
+	func searchUserWithEmail(email: String, domain: String) async -> (Result<User_FindUserByEmailResponse, Error>)
 	func pingRequest(domain: String) async -> Result<User_BaseResponse, Error>
 	func updateStatus(status: String, domain: String) async -> Result<User_BaseResponse, Error>
 	func uploadAvatar(fileName: String, fileContentType: String, fileData: Data, fileHash: String, domain: String) async -> (Result<User_UploadAvatarResponse, Error>)
@@ -87,7 +87,7 @@ extension UserService: IUserService {
 		
 	}
 	
-	public func searchUserWithEmail(email: String, domain: String) async -> (Result<User_UserInfoResponse, Error>) {
+	public func searchUserWithEmail(email: String, domain: String) async -> (Result<User_FindUserByEmailResponse, Error>) {
 		var request = User_FindUserByEmailRequest()
 		request.email = email
 		

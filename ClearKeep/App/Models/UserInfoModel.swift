@@ -23,5 +23,11 @@ extension UserInfoModel {
 				  workspaceDomain: userResponse.workspaceDomain,
 				  avatar: userResponse.avatar)
 	}
-
+	
+	init(userInfor: User_UserInfoResponse) {
+		self.id = userInfor.id
+		self.workspaceDomain = userInfor.workspaceDomain
+		self.displayName = userInfor.displayName
+		self.avatar = userInfor.avatar
+	}
 }

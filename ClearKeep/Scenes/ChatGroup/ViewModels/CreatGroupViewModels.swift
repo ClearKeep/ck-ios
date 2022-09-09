@@ -14,7 +14,7 @@ protocol ICreatGroupViewModels {
 	var getProfile: CreatGroupProfieViewModel? { get }
 	var clientInGroup: [CreatGroupGetUsersViewModel]? { get }
 	var profileWithLink: CreatGroupGetUsersViewModel? { get }
-	var searchUserWithEmail: CreatGroupGetUsersViewModel? { get }
+	var searchUserWithEmail: [CreatGroupGetUsersViewModel]? { get }
 }
 
 struct CreatGroupViewModels: ICreatGroupViewModels {
@@ -23,7 +23,7 @@ struct CreatGroupViewModels: ICreatGroupViewModels {
 	var getProfile: CreatGroupProfieViewModel?
 	var clientInGroup: [CreatGroupGetUsersViewModel]?
 	var profileWithLink: CreatGroupGetUsersViewModel?
-	var searchUserWithEmail: CreatGroupGetUsersViewModel?
+	var searchUserWithEmail: [CreatGroupGetUsersViewModel]?
 }
 
 extension CreatGroupViewModels {
@@ -65,6 +65,9 @@ extension CreatGroupViewModels {
 	}
 	
 	init(usersWithEmail: IGroupChatModels) {
-		self.searchUserWithEmail = CreatGroupGetUsersViewModel.init(user: usersWithEmail.searchUserModelWithEmail)
+		let searchUsers = usersWithEmail.searchUserModelWithEmail?.lstUser.map { member in
+			CreatGroupGetUsersViewModel(user: member)
+		}
+		self.searchUserWithEmail = searchUsers
 	}
 }

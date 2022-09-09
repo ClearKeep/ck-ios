@@ -14,7 +14,7 @@ protocol ICreatePeerModels {
 	var creatGroupModel: IGroupResponseModel? { get }
 	var getProfileModel: IUser? { get }
 	var getProfileModelWithLink: IUserInfo? { get }
-	var searchUserModelWithEmail: IUserInfo? { get }
+	var searchUserModelWithEmail: IGetUserResponse? { get }
 	var userModel: IUser? { get }
 	var members: [IUser]? { get }
 }
@@ -24,7 +24,7 @@ struct CreatePeerModels: ICreatePeerModels {
 	var creatGroupModel: IGroupResponseModel?
 	var getProfileModel: IUser?
 	var getProfileModelWithLink: IUserInfo?
-	var searchUserModelWithEmail: IUserInfo?
+	var searchUserModelWithEmail: IGetUserResponse?
 	var userModel: IUser?
 	var members: [IUser]?
 
@@ -44,11 +44,11 @@ extension CreatePeerModels {
 	}
 	
 	init(userProfileWithLink: User_UserInfoResponse) {
-		self.init(getProfileModelWithLink: UserInforModel(userInfor: userProfileWithLink))
+		self.init(getProfileModelWithLink: UserInfoModel(userInfor: userProfileWithLink))
 	}
 	
-	init(searchUserWithEmail: User_UserInfoResponse) {
-		self.init(searchUserModelWithEmail: UserInforModel(userInfor: searchUserWithEmail))
+	init(searchUserWithEmail: User_FindUserByEmailResponse) {
+		self.init(searchUserModelWithEmail: UserResponseModel(searchUserbyMail: searchUserWithEmail))
 	}
 
 	init(responseUser: User_MemberInfoRes?, members: [User_MemberInfoRes]) {
