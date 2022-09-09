@@ -204,6 +204,18 @@ public struct User_FindUserByEmailRequest {
   public init() {}
 }
 
+public struct User_FindUserByEmailResponse {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var lstUser: [User_UserInfoResponse] = []
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
 /// Request: Get Users
 /// Response
 public struct User_GetUsersResponse {
@@ -477,6 +489,7 @@ extension User_GetUserRequest: @unchecked Sendable {}
 extension User_SearchUserRequest: @unchecked Sendable {}
 extension User_SearchUserResponse: @unchecked Sendable {}
 extension User_FindUserByEmailRequest: @unchecked Sendable {}
+extension User_FindUserByEmailResponse: @unchecked Sendable {}
 extension User_GetUsersResponse: @unchecked Sendable {}
 extension User_SetUserStatusRequest: @unchecked Sendable {}
 extension User_PingRequest: @unchecked Sendable {}
@@ -970,6 +983,38 @@ extension User_FindUserByEmailRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
 
   public static func ==(lhs: User_FindUserByEmailRequest, rhs: User_FindUserByEmailRequest) -> Bool {
     if lhs.email != rhs.email {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension User_FindUserByEmailResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".FindUserByEmailResponse"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "lst_user"),
+  ]
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeRepeatedMessageField(value: &self.lstUser) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.lstUser.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.lstUser, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: User_FindUserByEmailResponse, rhs: User_FindUserByEmailResponse) -> Bool {
+    if lhs.lstUser != rhs.lstUser {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

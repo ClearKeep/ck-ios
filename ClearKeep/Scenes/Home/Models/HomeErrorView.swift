@@ -9,6 +9,7 @@ import Foundation
 import Networking
 
 enum HomeErrorView {
+	case groupNotFound
 	case domainUsed
 	case existed
 	case wrongInformation
@@ -36,6 +37,8 @@ enum HomeErrorView {
 			self = .notActivated
 		case 1069:
 			self = .locked
+		case 1017:
+			self = .groupNotFound
 		default:
 			self = .unknownError(errorCode: errorCode)
 		}
@@ -48,6 +51,8 @@ enum HomeErrorView {
 
 	var message: String {
 		switch self {
+		case .groupNotFound:
+			return "Home.Error.GroupNotFound".localized
 		case .domainUsed:
 			return "AdvancedServer.Message.Error.DomainUsed".localized
 		case .existed:
