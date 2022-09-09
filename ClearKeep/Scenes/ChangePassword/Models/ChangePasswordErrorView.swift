@@ -55,7 +55,7 @@ enum ChangePasswordErrorView {
 			}
 			return "Unknow.Message".localized
 		case .success:
-			return "General.Warning".localized
+			return "NewPassword.Sucess.Title".localized
 		}
 	}
 

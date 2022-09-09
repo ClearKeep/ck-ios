@@ -134,8 +134,9 @@
 "NewPassword.Current.PlaceHold" = "Current Password";
 "NewPassword.Confirm.PlaceHold" = "Confirm Password";
 "NewPassword.Error.Oldpasss" = "The password is incorrect. Try again";
-"NewPassword.Sucess" = "Password changed successfully. Please login again with a new password!";
+"NewPassword.Sucess" = "Please login again with a new password!";
 "NewPassword.Diffirent.OldPass" = "The new password must be different from the previous one!";
+"NewPassword.Sucess.Title" = "Password changed successfully.";
 
 // MARK: - AdvancedServer
 "AdvancedServer.Title" = "Please enter your server URL to enter custom server";
