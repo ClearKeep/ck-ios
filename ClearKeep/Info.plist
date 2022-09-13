@@ -4,6 +4,10 @@
 <dict>
 	<key>APP_GROUP_NAME</key>
 	<string>$(APP_GROUP_NAME)</string>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -161,5 +165,9 @@
 	</array>
 	<key>YAP_DATABASE_PATH</key>
 	<string>$(YAP_DATABASE_PATH)</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Your location is not needed. This request has popped up due to a 3rd party framework used by the app in a context that does NOT need you to reveal you location. Do be sure to check audit trail for the location queries on ios 15 or later.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>You will get zero benefit allowing this app accessing your location.</string>
 </dict>
 </plist>
