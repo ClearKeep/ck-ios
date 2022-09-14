@@ -53,6 +53,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	
 	func sceneDidBecomeActive(_ scene: UIScene) {
 		systemEventsHandler?.sceneDidBecomeActive()
+		UIApplication.shared.applicationIconBadgeNumber = 0
 	}
 	
 	func sceneWillResignActive(_ scene: UIScene) {
