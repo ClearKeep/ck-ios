@@ -20,7 +20,7 @@ iOS client with end to end encryption messaging
    ```
 4. Copy folder to Packages/Networking/Networking/Classes/Protobuf
 
-### Install rust for Mac M1 
+### Install rust for Apple silicon:
 1. brew install rustup
 2. rustc --version
 3. rustup-init
