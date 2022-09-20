@@ -6,142 +6,165 @@
 //
 
 import SwiftUI
+import Common
 import CommonUI
-import RealmSwift
-import SwiftUIX
 
 private enum Constants {
-	static let radius = 20.0
-	static let sapcing = 20.0
-	static let padding = 10.0
+	static let buttonSize = CGSize(width: 120.0, height: 40.0)
+	static let spacing = 20.0
+	static let padding = UIEdgeInsets(top: 24.0, left: 16.0, bottom: 24.0, right: 16.0)
+	static let paddingtop = 60.0
+}
+
+enum CheckoutFocusable: Hashable {
+	case email
+	case displayName
+	case newpass
+	case confirm
 }
 
 struct RegisterContentView: View {
 	// MARK: - Variables
+	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
-	@Binding var email: String
-	@Binding var password: String
-	@Binding var displayname: String
-	@Binding var rePassword: String
-	@Binding var emailStyle: TextInputStyle
-	@Binding var nameStyle: TextInputStyle
-	@Binding var passwordStyle: TextInputStyle
-	@Binding var rePasswordStyle: TextInputStyle
+	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+	@Binding var loadable: Loadable<Bool>
+	@Binding var customServer: CustomServer
+	@State private var email: String = ""
+	@State private var emailStyle: TextInputStyle = .default
+	@State private var displayName: String = ""
+	@State private var displayNameStyle: TextInputStyle = .default
+	@State private var password: String = ""
+	@State private var passwordStyle: TextInputStyle = .default
+	@State private var confirmPassword: String = ""
+	@State private var confirmPasswordStyle: TextInputStyle = .default
+	@State private var emailInvalid: Bool = false
+	@State private var passwordInvalid: Bool = false
+	@State private var confirmPasswordInvvalid: Bool = false
+	@State private var checkInvalid: Bool = false
+	@FocusState private var checkoutInFocus: CheckoutFocusable?
 	// MARK: - Body
 	var body: some View {
-		GroupBox(label:
-					Text("Register.Title".localized)
-					.font(AppTheme.shared.fontSet.font(style: .body1))
-					.frame(maxWidth: .infinity, alignment: .leading)
-					.padding(.all, Constants.padding)) {
-			VStack(alignment: .center, spacing: Constants.sapcing) {
-				nomalTextfield
-				secureTexfield
-				button
-			}
-			.frame(maxWidth: .infinity, alignment: .center)
-			.padding(.all, Constants.padding)
-		}
-	}
-}
-
-// MARK: - Private variables
-private extension RegisterContentView {
-	var backgroundColorView: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: backgroundColorButton), startPoint: .leading, endPoint: .trailing)
-	}
-	var backgroundColorButton: [Color] {
-		AppTheme.shared.colorSet.gradientPrimary
-	}
-	
-	var foregroundColorWhite: Color {
-		AppTheme.shared.colorSet.offWhite
-	}
-	
-	var foregroundColorPrimary: Color {
-		AppTheme.shared.colorSet.primaryDefault
-	}
-}
-// MARK: - Private
-private extension RegisterContentView {
-	
-	var button: AnyView {
-		AnyView(buttonView)
-	}
-	var secureTexfield: AnyView {
-		AnyView(secureView)
-	}
-	var nomalTextfield: AnyView {
-		AnyView(nomalTextfieldView)
-	}
-}
-// MARK: - Loading Content
-private extension RegisterContentView {
-	var buttonView: some View {
-		HStack {
-			Button("Register.SignInInstead".localized) {
-			}
-			.foregroundColor(foregroundColorPrimary)
-			Spacer()
-			Button("Register.SignUp".localized) {
-			}
-			.frame(maxWidth: .infinity, alignment: .center)
-			.padding(.all, Constants.padding)
-			.background(backgroundColorView)
-			.foregroundColor(foregroundColorWhite)
-			.cornerRadius(Constants.radius)
-		}
-	}
-	
-	var secureView: some View {
-		VStack(spacing: Constants.sapcing) {
-			SecureTextField(secureText: $password,
-							inputStyle: $passwordStyle,
-							inputIcon: AppTheme.shared.imageSet.lockIcon,
-							placeHolder: "General.Password".localized,
-							keyboardType: .default )
-			SecureTextField(secureText: $rePassword,
-							inputStyle: $rePasswordStyle,
-							inputIcon: AppTheme.shared.imageSet.lockIcon,
-							placeHolder: "General.ConfirmPassword".localized,
-							keyboardType: .default )
-		}
-	}
-	
-	var nomalTextfieldView: some View {
-		VStack(spacing: Constants.sapcing) {
+		VStack(alignment: .center, spacing: Constants.spacing) {
+			Text("Register.Title".localized)
+				.font(AppTheme.shared.fontSet.font(style: .input2))
 			CommonTextField(text: $email,
 							inputStyle: $emailStyle,
 							inputIcon: AppTheme.shared.imageSet.mailIcon,
 							placeHolder: "General.Email".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
-				if isEditing {
-					emailStyle = .default
-				} else {
-					emailStyle = .normal
-				}
-			})
-			CommonTextField(text: $displayname,
-							inputStyle: $nameStyle,
-							inputIcon: AppTheme.shared.imageSet.userIcon,
-							placeHolder: "General.Displayname".localized,
+				emailStyle = isEditing ? .highlighted : .normal
+			},
+							submitLabel: .continue,
+							onSubmit: { checkoutInFocus = .displayName })
+				.focused($checkoutInFocus, equals: .email)
+
+			CommonTextField(text: $displayName,
+							inputStyle: $displayNameStyle,
+							inputIcon: AppTheme.shared.imageSet.userCheckIcon,
+							placeHolder: "General.DisplayName".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
-				if isEditing {
-					nameStyle = .highlighted
-				} else {
-					nameStyle = .normal
+				displayNameStyle = isEditing ? .highlighted : .normal
+			},
+							submitLabel: .continue,
+							onSubmit: { checkoutInFocus = .newpass })
+				.onReceive(displayName.publisher.collect()) {
+					self.displayName = String($0.prefix(30))
 				}
-			})
+				.focused($checkoutInFocus, equals: .displayName)
+
+			SecureTextField(secureText: $password,
+							inputStyle: $passwordStyle,
+							inputIcon: AppTheme.shared.imageSet.lockIcon,
+							placeHolder: "General.Password".localized,
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				passwordStyle = isEditing ? .highlighted : .normal
+			},
+							submitLabel: .continue,
+							onSubmit: { checkoutInFocus = .confirm })
+				.onSubmit({ self.checkoutInFocus = .confirm })
+				.focused($checkoutInFocus, equals: .newpass)
+			SecureTextField(secureText: $confirmPassword,
+							inputStyle: $confirmPasswordStyle,
+							inputIcon: AppTheme.shared.imageSet.lockIcon,
+							placeHolder: "General.ConfirmPassword".localized,
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				confirmPasswordStyle = isEditing ? .highlighted : .normal
+			},
+							submitLabel: .done,
+							onSubmit: { self.checkoutInFocus = nil })
+				.focused($checkoutInFocus, equals: .confirm)
+			HStack {
+				Button(action: customBack) {
+					Text("Register.SignInInstead".localized)
+						.padding(.all)
+						.font(AppTheme.shared.fontSet.font(style: .body4))
+						.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+				}
+				Spacer()
+				RoundedGradientButton("Register.SignUp".localized,
+									  disabled: .constant(email.isEmpty || displayCheck(displayName: displayName) || password.isEmpty || confirmPassword.isEmpty),
+									  action: doRegister)
+					.frame(width: Constants.buttonSize.width)
+			}
 		}
+		.onChange(of: checkoutInFocus) { checkoutInFocus = $0 }
+		.padding(.vertical, Constants.padding.top)
+		.padding(.horizontal, Constants.padding.left)
+		.applyCardViewStyle(backgroundColor: backgroundColor)
 	}
 }
+
+// MARK: - Private variables
+private extension RegisterContentView {
+	var backgroundColor: Color {
+		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey6
+	}
+}
+
+// MARK: - Interactor
+private extension RegisterContentView {
+	func doRegister() {
+		invalid()
+		if checkInvalid {
+			loadable = .isLoading(last: nil, cancelBag: CancelBag())
+			Task {
+				loadable = await injected.interactors.registerInteractor.register(displayName: displayName.trimmingCharacters(in: .whitespaces), email: email, password: password, customServer: customServer)
+			}
+		}
+	}
+	
+	func customBack() {
+		self.presentationMode.wrappedValue.dismiss()
+	}
+	
+	func invalid() {
+		emailInvalid = injected.interactors.registerInteractor.emailValid(email: email)
+		emailStyle = emailInvalid ? .normal : .error(message: "General.Email.Valid".localized)
+
+		passwordInvalid = injected.interactors.registerInteractor.passwordValid(password: password)
+		passwordStyle = passwordInvalid ? .normal : .error(message: "General.Password.Valid".localized)
+
+		confirmPasswordInvvalid = injected.interactors.registerInteractor.confirmPasswordValid(password: password, confirmPassword: confirmPassword)
+		confirmPasswordStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
+
+		checkInvalid = injected.interactors.registerInteractor.checkValid(emailValid: emailInvalid, passwordValdid: passwordInvalid, confirmPasswordValid: confirmPasswordInvvalid)
+	}
+
+	func displayCheck(displayName: String) -> Bool {
+		return displayName.filter { $0 != " " }.isEmpty
+	}
+}
+
 // MARK: - Preview
 #if DEBUG
 struct RegisterContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		RegisterContentView(email: .constant("Test"), password: .constant("Test"), displayname: .constant("Test"), rePassword: .constant("Test"), emailStyle: .constant(.default), nameStyle: .constant(.default), passwordStyle: .constant(.default), rePasswordStyle: .constant(.default))
+		RegisterContentView(loadable: .constant(.notRequested), customServer: .constant(CustomServer()))
 	}
 }
 #endif

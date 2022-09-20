@@ -5,244 +5,328 @@
 //  Created by đông on 02/03/2022.
 //
 import SwiftUI
+import Combine
+import Common
 import CommonUI
+import Model
+import ChatSecure
+import Networking
 
-private enum Constant {
-	static let spacerTopView = 50.0
-	static let spacerBottomView = 20.0
-	static let spacer = 25.0
-	static let spacerBottom = 45.0
-	static let widthLogo = 160.0
-	static let heightLogo = 120.0
-	static let paddingVertical = 14.0
-	static let paddingHorizontal = 24.0
-	static let paddingHorizontalSignUp = 60.0
-	static let widthIconButton = 54.0
-	static let heightButton = 40.0
-	static let radius = 40.0
-	static let heightRectangle = 1.0
-	static let lineWidthBorder = 3.0
+private enum Constants {
+	static let inputViewSpacing = 24.0
+	static let extraButtonViewHeight = 22.0
+	static let extraButtonViewPaddingTop = 16.0
+	static let separateLineHeight = 1.0
+	static let separateLinePaddingTop = 32.0
+	static let socialViewPaddingTop = 24.0
+	static let socialViewSpacing = 40.0
+	static let signUpViewPaddingTop = 45.0
+	static let appVersionPaddingTop = 30.0
 }
 
 struct LoginContentView: View {
-	@Binding var email: String
-	@Binding var password: String
-	@Binding var emailStyle: TextInputStyle
-	@Binding var passwordStyle: TextInputStyle
+	// MARK: - Variables
+	@Environment(\.injected) private var injected: DIContainer
+	@Environment(\.colorScheme) var colorScheme
+	@Environment(\.joinServerClosure) private var joinServerClosure: JoinServerClosure
+	@Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
+	@Binding var customServer: CustomServer
+	var dismiss: (() -> Void)
+	@State private var email: String = ""
+	@State private var password: String = ""
+	@State private var emailStyle: TextInputStyle = .default
+	@State private var passwordStyle: TextInputStyle = .default
+	@State private var appVersion: String = "General.Version".localized
 	@State private var editingEmail = false
 	@State private var editingPassword = false
-	@Environment(\.colorScheme) var colorScheme
-
+	@State private var isAdvanceServer: Bool = false
+	@State private var isForgotPassword: Bool = false
+	@State private var isRegister: Bool = false
+	@State private(set) var navigateToHome: Bool = false
+	@State private(set) var isShowAlertLogin: Bool = false
+	@State private var activeAlert: LoginViewPopUp = .invalidEmail
+	@State private var isShowLoading: Bool = false
+	@State private var normalLogin: INormalLoginModel?
+	@State private var navigationTwoFace: Int? = 0
+	@State private var userName: String = ""
+	@State private var socialStyle: SocialCommonStyle = .setSecurity
+	@State private var resetPincodeToken: String = ""
+	// MARK: - Init
+	
+	// MARK: - Body
 	var body: some View {
-		VStack(alignment: .center, spacing: Constant.spacer) {
-			textInput
-			button
-			extraButton
-			lineSeperate
-			signInWith
-			socialLoginButton
-			signUp
+		VStack {
+			NavigationLink(destination: TwoFactorView(otpHash: normalLogin?.otpHash ?? "",
+													  userId: normalLogin?.sub ?? "",
+													  domain: normalLogin?.workspaceDomain ?? "",
+													  password: password,
+													  twoFactorType: .login),
+						   tag: 1,
+						   selection: $navigationTwoFace,
+						   label: {
+				EmptyView()
+			})
+			
+			NavigationLink(destination: SocialView(userName: userName, resetToken: resetPincodeToken, pinCode: nil, socialStyle: socialStyle, customServer: $customServer, dismiss: self.dismiss),
+						   tag: 2,
+						   selection: $navigationTwoFace,
+						   label: {
+				EmptyView()
+			})
+			inputView
+			extraButtonView
+				.frame(height: Constants.extraButtonViewHeight)
+				.padding(.top, Constants.extraButtonViewPaddingTop)
+			Rectangle()
+				.frame(height: Constants.separateLineHeight)
+				.foregroundColor(AppTheme.shared.colorSet.offWhite)
+				.padding(.top, Constants.separateLinePaddingTop)
+			socialView
+				.padding(.top, Constants.socialViewPaddingTop)
+			signUpView
+				.padding(.top, Constants.signUpViewPaddingTop)
+			
+			Text(appVersion)
+				.font(AppTheme.shared.fontSet.font(style: .placeholder3))
+				.foregroundColor(AppTheme.shared.colorSet.offWhite)
+				.onAppear(perform: {
+					getAppVersion()
+				})
+				.padding(.top, Constants.appVersionPaddingTop)
 		}
+		.alert(isPresented: $isShowAlertLogin) {
+			switch activeAlert {
+			case .invalid, .error, .invalidEmail, .emailBlank, .passwordBlank:
+				return Alert(title: Text(activeAlert.title),
+							 message: Text(activeAlert.message),
+							 dismissButton: .default(Text(activeAlert.primaryButtonTitle)))
+			case .forgotPassword:
+				return Alert(title: Text(activeAlert.title),
+							 message: Text(activeAlert.message),
+					primaryButton: .default(Text("ForgotPassword.Cancel".localized)),
+					secondaryButton: .default(Text("ForgotPassword.OK" .localized), action: {
+				  self.isForgotPassword = true
+			  }))
+			}
+		}
+		.progressHUD(isShowLoading)
 	}
 }
 
 // MARK: - Private
 private extension LoginContentView {
-
-	var button: AnyView {
-		AnyView(buttonSignIn)
-	}
-
-	var textInput: AnyView {
-		AnyView(textInputView)
-	}
-
-	var extraButton: AnyView {
-		AnyView(extraButtonView)
-	}
-
-	var lineSeperate: AnyView {
-		AnyView(lineSeperateView)
-	}
-
-	var signInWith: AnyView {
-		AnyView(signInWithView)
-	}
-
-	var socialLoginButton: AnyView {
-		AnyView(socialLoginButtonView)
-	}
-
-	var signUp: AnyView {
-		AnyView(signUpView)
-	}
 }
 
 // MARK: - Loading Content
 private extension LoginContentView {
-	var buttonSignIn: some View {
-		Button("Login.SignIn".localized) {}
-			.frame(maxWidth: .infinity)
-			.frame(height: Constant.heightButton)
-			.font(fontSignIn)
-			.background(backgroundSignInButton)
-			.foregroundColor(foregroundColorView)
-			.cornerRadius(Constant.radius)
-	}
-
-	var textInputView: some View {
-		VStack(spacing: Constant.spacer) {
+	var inputView: some View {
+		VStack(spacing: Constants.inputViewSpacing) {
 			CommonTextField(text: $email,
 							inputStyle: $emailStyle,
 							inputIcon: AppTheme.shared.imageSet.mailIcon,
 							placeHolder: "General.Email".localized,
 							keyboardType: .default,
 							onEditingChanged: { isEditing in
-				if isEditing {
-					emailStyle = .normal
-				} else {
-					emailStyle = .highlighted
-				}
+				emailStyle = isEditing ? .highlighted : .normal
 			})
 			SecureTextField(secureText: $password,
 							inputStyle: $passwordStyle,
 							inputIcon: AppTheme.shared.imageSet.lockIcon,
 							placeHolder: "General.Password".localized,
-							keyboardType: .default )
+							keyboardType: .default,
+							onEditingChanged: { isEditing in
+				passwordStyle = isEditing ? .highlighted : .normal
+			})
+			RoundedButton("Login.SignIn".localized, action: checkValid)
 		}
 	}
-
+	
 	var extraButtonView: some View {
 		HStack {
-			Button("Login.AdvancedServerSettings".localized) {}
-			.padding()
-			.font(fontSignIn)
-			.foregroundColor(foregroundColorViewButton)
-
+			if navigateToHome == false {
+				NavigationLink(destination: AdvancedSeverView(),
+							   isActive: $isAdvanceServer,
+							   label: {
+					LinkButton("Login.AdvancedServerSettings".localized, alignment: .leading, action: advancedServer)
+						.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault)
+				})
+			} else {
+				HStack{}.frame(maxWidth: .infinity, maxHeight: .infinity)
+			}
 			Spacer()
-
-			Button("Login.ForgotPassword?".localized) {}
-			.padding()
-			.font(fontSignIn)
-			.foregroundColor(foregroundColorViewButton)
+			NavigationLink(destination: FogotPasswordView(customServer: $customServer),
+						   isActive: $isForgotPassword,
+						   label: {
+				LinkButton("Login.ForgotPassword".localized, alignment: .trailing, action: forgotPassword)
+					.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault)
+			})
 		}
 	}
-
-	var lineSeperateView: some View {
-		Rectangle().frame(height: Constant.heightRectangle)
-			.padding(.horizontal).foregroundColor(foregroundColorWhite)
-	}
-
-	var signInWithView: some View {
-		Text("Login.SignUp.Suggest".localized)
-			.font(fontSignIn)
-			.foregroundColor(foregroundColorWhite)
-	}
-
-	var socialLoginButtonView: some View {
-		HStack(spacing: Constant.spacerBottom) {
-			Button(action: { }, label: {
-				Text("")
-				AppTheme.shared.imageSet.googleIcon
-			})
-				.frame(width: Constant.widthIconButton, height: Constant.widthIconButton)
-
-			Button(action: { }, label: {
-				Text("")
-				AppTheme.shared.imageSet.officeIcon
-			})
-				.frame(width: Constant.widthIconButton, height: Constant.widthIconButton)
-
-			Button(action: { }, label: {
-				Text("")
-				AppTheme.shared.imageSet.facebookIcon
-			})
-				.frame(width: Constant.widthIconButton, height: Constant.widthIconButton)
+	
+	var socialView: some View {
+		VStack(alignment: .center, spacing: Constants.socialViewPaddingTop) {
+			Text("Login.SignInWith".localized)
+				.font(AppTheme.shared.fontSet.font(style: .body3))
+				.foregroundColor(AppTheme.shared.colorSet.offWhite)
+			HStack(spacing: Constants.socialViewSpacing) {
+				ImageButton(AppTheme.shared.imageSet.googleIcon) { doSocialLogin(type: .google) }
+				ImageButton(AppTheme.shared.imageSet.officeIcon) { doSocialLogin(type: .office) }
+				ImageButton(AppTheme.shared.imageSet.facebookIcon) { doSocialLogin(type: .facebook) }
+				ImageButton(AppTheme.shared.imageSet.appleIcon) { doSocialLogin(type: .apple) }
+			}
 		}
-		.frame(maxWidth: .infinity)
-		.padding(.leading, Constant.paddingHorizontalSignUp)
-		.padding(.trailing, Constant.paddingHorizontalSignUp)
 	}
-
+	
 	var signUpView: some View {
-		VStack {
+		VStack(spacing: Constants.extraButtonViewPaddingTop) {
 			Text("Login.SignUp.Suggest".localized)
-				.font(fontSignIn)
-				.foregroundColor(foregroundColorWhite)
-
-			Spacer(minLength: Constant.spacer)
-
-			Button("Login.SignUp".localized) {}
-			.frame(maxWidth: .infinity)
-			.frame(height: Constant.heightButton)
-			.font(fontSignIn)
-			.foregroundColor(foregroundColorViewButton)
-			.overlay(
-				RoundedRectangle(cornerRadius: Constant.radius)
-					.stroke(foregroundColorViewButton, lineWidth: Constant.lineWidthBorder))
-
-			Spacer(minLength: Constant.spacerBottomView)
-
-			Text("Login.Version".localized)
-				.font(AppTheme.shared.fontSet.font(style: .placeholder3))
-				.foregroundColor(foregroundColorWhite)
+				.font(AppTheme.shared.fontSet.font(style: .body3))
+				.foregroundColor(AppTheme.shared.colorSet.offWhite)
+			
+			NavigationLink(destination: RegisterView(customServer: $customServer),
+						   isActive: $isRegister,
+						   label: {
+				RoundedBorderButton("Login.SignUp".localized, action: register)
+			})
 		}
-		.padding(.leading, Constant.paddingHorizontalSignUp)
-		.padding(.trailing, Constant.paddingHorizontalSignUp)
 	}
 }
 
 // MARK: - Private func
 private extension LoginContentView {
-	var backgroundColorView: LinearGradient {
-		colorScheme == .light ? backgroundColorGradient : backgroundColorDark
+}
+
+// MARK: - Interactors
+private extension LoginContentView {
+	func getAppVersion() {
+		appVersion = injected.interactors.loginInteractor.getAppVersion()
+	}
+	
+	func checkValid() {
+		email.isEmpty ? {
+			self.activeAlert = .emailBlank
+			self.isShowAlertLogin = true
+		}() : passwordValid()
+	}
+	
+	func passwordValid() {
+		password.isEmpty ? {
+			self.activeAlert = .passwordBlank
+			self.isShowAlertLogin = true
+		}() : emailValid()
 	}
 
-	var backgroundSignInButton: LinearGradient {
-		colorScheme == .light ? backgroundColorWhite : backgroundColorGradient
+	func emailValid() {
+		let emailValidate = injected.interactors.loginInteractor.emailValid(email: email.trimmingCharacters(in: .whitespacesAndNewlines))
+		emailValidate ? passvalid() : ({
+			self.activeAlert = .invalidEmail
+			self.isShowAlertLogin = true
+		})()
+	
 	}
 
-	var foregroundColorView: Color {
-		colorScheme == .light ? foregroundColorPrimary : foregroundColorWhite
+	func passvalid() {
+		let passValidate = injected.interactors.loginInteractor.passwordValid(password: password)
+		passValidate ? doLogin() : ({
+			self.activeAlert = .invalidEmail
+			self.isShowAlertLogin = true
+		})()
 	}
 
-	var foregroundColorViewButton: Color {
-		colorScheme == .light ? foregroundColorWhite : foregroundColorPrimary
+	func doLogin() {
+		self.isShowLoading = true
+		Task {
+			let loadable = await injected.interactors.loginInteractor.signIn(email: email.trimmingCharacters(in: .whitespacesAndNewlines), password: password, customServer: customServer)
+			self.isShowLoading = false
+			switch loadable {
+			case .loaded(let data):
+				guard let normalLogin = data.normalLogin else {
+					return
+				}
+				let accessToken = normalLogin.accessToken ?? ""
+				if accessToken.isEmpty {
+					navigationTwoFace = 1
+					return
+				}
+				
+				if navigateToHome {
+					self.presentationMode.wrappedValue.dismiss()
+					self.joinServerClosure?(customServer.customServerURL)
+				}
+				if let token = UserDefaults.standard.data(forKey: "keySaveTokenPushNotification") {
+					injected.interactors.homeInteractor.registerToken(token)
+				}
+				self.dismiss()
+			case .failed(let error):
+				self.isShowAlertLogin = true
+				self.activeAlert = .error(err: LoginViewError(error))
+			default:
+				break
+			}
+		}
 	}
-
-	var foregroundColorWhite: Color {
-		AppTheme.shared.colorSet.offWhite
+	
+	func doSocialLogin(type: SocialType) {
+		self.isShowLoading = true
+		Task {
+			let loadable = await injected.interactors.loginInteractor.signInSocial(type, customServer: customServer)
+			self.isShowLoading = false
+			switch loadable {
+			case .loaded(let data):
+				guard let socialLogin = data.socialLogin,
+					  let userName = socialLogin.userName else {
+					return
+				}
+					switch socialLogin.requireAction {
+					case "register_pincode":
+						self.socialStyle = .setSecurity
+						self.resetPincodeToken = ""
+						self.userName = userName
+						self.navigationTwoFace = 2
+					case "verify_pincode":
+						self.socialStyle = .verifySecurity
+						self.resetPincodeToken = socialLogin.resetPincodeToken ?? ""
+						if type == .apple {
+							self.userName = socialLogin.userId ?? userName
+						} else {
+							self.userName = userName
+						}
+						self.navigationTwoFace = 2
+					default:
+						break
+					}
+				
+			case .failed(let error):
+				if let errorResponse = error as? IServerError,
+				   errorResponse.message == nil && errorResponse.name == nil && errorResponse.status == nil {
+					return
+				}
+				self.isShowAlertLogin = true
+				self.activeAlert = .error(err: LoginViewError(error))
+			default:
+				break
+			}
+		}
 	}
-
-	var foregroundColorPrimary: Color {
-		AppTheme.shared.colorSet.primaryDefault
+	
+	func advancedServer() {
+		isAdvanceServer = true
 	}
-
-	var foregroundColorGradient: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
+	
+	func forgotPassword() {
+		self.activeAlert = .forgotPassword
+		self.isShowAlertLogin = true
 	}
-
-	var backgroundColorWhite: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.offWhite, AppTheme.shared.colorSet.offWhite]), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var backgroundColorDark: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var backgroundColorGradient: LinearGradient {
-		LinearGradient(gradient: Gradient(colors: AppTheme.shared.colorSet.gradientPrimary), startPoint: .leading, endPoint: .trailing)
-	}
-
-	var fontSignIn: Font {
-		AppTheme.shared.fontSet.font(style: .body3)
+	
+	func register() {
+		isRegister = true
 	}
 }
 
 #if DEBUG
 struct LoginContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		LoginContentView(email: .constant("Test"), password: .constant("Test"), emailStyle: .constant(.default), passwordStyle: .constant(.default))
+		LoginContentView(customServer: .constant(CustomServer()), dismiss: {})
 	}
 }
 #endif

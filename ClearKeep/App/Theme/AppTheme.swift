@@ -14,7 +14,7 @@ struct AppTheme {
 	
 	// MARK: - Variables
 	let fontSet: IFontSet!
-	let colorSet: IColorSet!
+	let colorSet: IAppColorSet!
 	let imageSet: IAppImageSet!
 	
 	// MARK: - Init

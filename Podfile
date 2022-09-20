@@ -3,8 +3,8 @@ source 'https://github.com/CocoaPods/Specs.git'
 ##################
 # App
 ##################
-workspace "iOSBase-SwiftUI"
-platform :ios, '14.0'
+workspace "ClearKeep"
+platform :ios, '15.0'
 
 ##################
 # Global
@@ -17,7 +17,18 @@ use_frameworks!
 # Pods
 ##################
 def common
+	pod 'Common', :path => './Packages/Common'
+	pod 'CommonUI', :path => './Packages/CommonUI'
 	pod 'ChatSecure', :path => './Packages/ChatSecure'
+	pod 'Networking', :path => './Packages/Networking'
+	pod 'Model', :path => './Packages/Model'
+	pod 'SwiftSRP', :path => './Packages/SwiftSRP'
+	pod 'SignalServiceKit', :path => './Packages/SignalServiceKit'
+	pod 'SocialAuthentication', :path => './Packages/SocialAuthentication'
+	pod 'CallManager', :path => './Packages/CallManager'
+	pod 'SignalProtocolObjC', :git =>'https://github.com/nohtbook/SignalProtocol-ObjC.git'
+	pod 'LibSignalClient', git: 'https://github.com/signalapp/libsignal.git'
+	pod 'SignalCoreKit', git: 'https://github.com/signalapp/SignalCoreKit.git'
 end
 
 def xctools
@@ -25,6 +36,23 @@ def xctools
 end
 
 def analytics
+	pod 'Firebase/Analytics'
+end
+
+def socialLogin
+	pod 'GoogleSignIn'
+	pod 'MSAL'
+	pod 'FBSDKCoreKit/Swift'
+	pod 'FBSDKLoginKit/Swift'
+end
+
+def security
+	pod 'KeychainAccess'
+end
+
+def callmanager
+	pod 'GoogleWebRTC'
+	pod 'SocketRocket'
 end
 
 def utilities
@@ -32,11 +60,15 @@ def utilities
 end
 
 def ui
+	pod 'PhoneNumberKit', '~> 3.3'
 end
 
 def shared
 	common
+	security
 	ui
+	socialLogin
+	callmanager
 end
 
 ##################
@@ -57,6 +89,13 @@ end
 
 target 'ClearKeepUITests' do
 	# Pods for testing
+end
+
+target 'notificationextension' do
+	# Pods for notificationextension
+	pod 'Model', :path => './Packages/Model'
+	pod 'Common', :path => './Packages/Common'
+	pod 'ChatSecure', :path => './Packages/ChatSecure'
 end
 
 post_install do |installer|

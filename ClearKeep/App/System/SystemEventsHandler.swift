@@ -9,6 +9,7 @@
 import UIKit
 import Common
 import Combine
+import PushKit
 
 typealias FetchCompletion = (UIBackgroundFetchResult) -> Void
 
@@ -19,6 +20,7 @@ protocol ISystemEventsHandler {
 	func handlePushRegistration(result: Result<Data, Error>)
 	func appDidReceiveRemoteNotification(payload: NotificationPayload,
 										 fetchCompletion: @escaping FetchCompletion)
+	func handlePushRegistration(pushCredentials: PKPushCredentials)
 }
 
 struct SystemEventsHandler: ISystemEventsHandler {
@@ -50,31 +52,56 @@ struct SystemEventsHandler: ISystemEventsHandler {
 	}
 	
 	private func installPushNotificationsSubscriberOnLaunch() {
+		UNUserNotificationCenter.current()
+			.requestAuthorization(
+				options: [.alert, .sound, .badge]) { granted, _ in
+					print("Permission granted: \(granted)")
+					guard granted else { return }
+					DispatchQueue.main.async {
+						UIApplication.shared.registerForRemoteNotifications()
+					}
+					
+				}
 	}
 	
 	func sceneOpenURLContexts(_ urlContexts: Set<UIOpenURLContext>) {
 		guard let url = urlContexts.first?.url else { return }
-		handle(url: url)
-	}
-	
-	private func handle(url: URL) {
-		guard let deepLink = DeepLink(url: url) else { return }
-		deepLinksHandler.open(deepLink: deepLink)
+		deepLinksHandler.open(deepLink: url)
 	}
 	
 	func sceneDidBecomeActive() {
 		container.appState[\.system.isActive] = true
+		container.interactors.homeInteractor.subscribeAndListenServers()
+		NotificationCenter.default.post(name: NSNotification.reloadChat, object: nil)
 	}
 	
 	func sceneWillResignActive() {
 		container.appState[\.system.isActive] = false
+		container.interactors.notificationInteractor.unSubscribeAndListenServers()
 	}
 	
 	func handlePushRegistration(result: Result<Data, Error>) {
+		switch result {
+		case .success(let token):
+			UserDefaults.standard.setValue(token, forKey: "keySaveTokenPushNotification")
+			UserDefaults.standard.synchronize()
+			container.interactors.homeInteractor.registerToken(token)
+		case .failure(let error):
+			print(error)
+		}
 	}
 	
 	func appDidReceiveRemoteNotification(payload: NotificationPayload,
 										 fetchCompletion: @escaping FetchCompletion) {
+	}
+	
+	func handlePushRegistration(pushCredentials: PKPushCredentials) {
+		let token = pushCredentials.token.reduce("", { $0 + String(format: "%02X", $1) })
+		
+		print("token: ------- \(token)")
+		
+		UserDefaults.standard.setValue(token, forKey: "keySaveTokenPushNotify")
+		UserDefaults.standard.synchronize()
 	}
 }
 

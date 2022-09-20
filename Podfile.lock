@@ -1,17 +1,23 @@
 PODS:
   - _NIODataStructures (2.38.0)
-  - CGRPCZlib (1.7.1)
-  - ChatSecure (1.0.0):
-    - CryptoSwift
+  - AppAuth (1.5.0):
+    - AppAuth/Core (= 1.5.0)
+    - AppAuth/ExternalUserAgent (= 1.5.0)
+  - AppAuth/Core (1.5.0)
+  - AppAuth/ExternalUserAgent (1.5.0):
+    - AppAuth/Core
+  - CallManager (1.0.0):
+    - ChatSecure
     - GoogleWebRTC
-    - gRPC-Swift
-    - Mantle
-    - OpenSSL-Universal
-    - RealmSwift
-    - SignalProtocolObjC
     - SocketRocket
-    - SwiftProtobuf
-    - YapDatabase
+  - CGRPCZlib (1.7.3)
+  - ChatSecure (1.0.0):
+    - Mantle
+    - Networking
+    - SignalProtocolObjC
+    - SignalServiceKit
+    - SwiftSRP
+    - YapDatabase/SQLCipher
   - CNIOAtomics (2.38.0)
   - CNIOBoringSSL (2.15.1)
   - CNIOBoringSSLShims (2.15.1):
@@ -20,10 +26,122 @@ PODS:
   - CNIOHTTPParser (2.38.0)
   - CNIOLinux (2.38.0)
   - CNIOWindows (2.38.0)
+  - CocoaLumberjack (3.7.4):
+    - CocoaLumberjack/Core (= 3.7.4)
+  - CocoaLumberjack/Core (3.7.4)
+  - Common (1.0.0):
+    - KeychainAccess
+    - Networking
+    - RealmSwift
+  - CommonUI (1.0.0):
+    - Common
+    - Introspect
+    - Kingfisher (~> 7.0)
   - CryptoSwift (1.4.3)
+  - FBSDKCoreKit (6.5.2):
+    - FBSDKCoreKit/Basics (= 6.5.2)
+    - FBSDKCoreKit/Core (= 6.5.2)
+  - FBSDKCoreKit/Basics (6.5.2)
+  - FBSDKCoreKit/Core (6.5.2):
+    - FBSDKCoreKit/Basics
+  - FBSDKCoreKit/Swift (6.5.2):
+    - FBSDKCoreKit/Core
+  - FBSDKLoginKit (6.5.2):
+    - FBSDKLoginKit/Login (= 6.5.2)
+  - FBSDKLoginKit/Login (6.5.2):
+    - FBSDKCoreKit (~> 6.5.2)
+  - FBSDKLoginKit/Swift (6.5.2):
+    - FBSDKCoreKit/Swift (~> 6.5.2)
+    - FBSDKLoginKit/Login
+  - Firebase/Analytics (8.15.0):
+    - Firebase/Core
+  - Firebase/Core (8.15.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (~> 8.15.0)
+  - Firebase/CoreOnly (8.15.0):
+    - FirebaseCore (= 8.15.0)
+  - FirebaseAnalytics (8.15.0):
+    - FirebaseAnalytics/AdIdSupport (= 8.15.0)
+    - FirebaseCore (~> 8.0)
+    - FirebaseInstallations (~> 8.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
+    - GoogleUtilities/MethodSwizzler (~> 7.7)
+    - GoogleUtilities/Network (~> 7.7)
+    - "GoogleUtilities/NSData+zlib (~> 7.7)"
+    - nanopb (~> 2.30908.0)
+  - FirebaseAnalytics/AdIdSupport (8.15.0):
+    - FirebaseCore (~> 8.0)
+    - FirebaseInstallations (~> 8.0)
+    - GoogleAppMeasurement (= 8.15.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
+    - GoogleUtilities/MethodSwizzler (~> 7.7)
+    - GoogleUtilities/Network (~> 7.7)
+    - "GoogleUtilities/NSData+zlib (~> 7.7)"
+    - nanopb (~> 2.30908.0)
+  - FirebaseCore (8.15.0):
+    - FirebaseCoreDiagnostics (~> 8.0)
+    - GoogleUtilities/Environment (~> 7.7)
+    - GoogleUtilities/Logger (~> 7.7)
+  - FirebaseCoreDiagnostics (8.15.0):
+    - GoogleDataTransport (~> 9.1)
+    - GoogleUtilities/Environment (~> 7.7)
+    - GoogleUtilities/Logger (~> 7.7)
+    - nanopb (~> 2.30908.0)
+  - FirebaseInstallations (8.15.0):
+    - FirebaseCore (~> 8.0)
+    - GoogleUtilities/Environment (~> 7.7)
+    - GoogleUtilities/UserDefaults (~> 7.7)
+    - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleAppMeasurement (8.15.0):
+    - GoogleAppMeasurement/AdIdSupport (= 8.15.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
+    - GoogleUtilities/MethodSwizzler (~> 7.7)
+    - GoogleUtilities/Network (~> 7.7)
+    - "GoogleUtilities/NSData+zlib (~> 7.7)"
+    - nanopb (~> 2.30908.0)
+  - GoogleAppMeasurement/AdIdSupport (8.15.0):
+    - GoogleAppMeasurement/WithoutAdIdSupport (= 8.15.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
+    - GoogleUtilities/MethodSwizzler (~> 7.7)
+    - GoogleUtilities/Network (~> 7.7)
+    - "GoogleUtilities/NSData+zlib (~> 7.7)"
+    - nanopb (~> 2.30908.0)
+  - GoogleAppMeasurement/WithoutAdIdSupport (8.15.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
+    - GoogleUtilities/MethodSwizzler (~> 7.7)
+    - GoogleUtilities/Network (~> 7.7)
+    - "GoogleUtilities/NSData+zlib (~> 7.7)"
+    - nanopb (~> 2.30908.0)
+  - GoogleDataTransport (9.1.2):
+    - GoogleUtilities/Environment (~> 7.2)
+    - nanopb (~> 2.30908.0)
+    - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleSignIn (6.1.0):
+    - AppAuth (~> 1.4)
+    - GTMAppAuth (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GoogleUtilities/AppDelegateSwizzler (7.7.0):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (7.7.0):
+    - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleUtilities/Logger (7.7.0):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/MethodSwizzler (7.7.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/Network (7.7.0):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (7.7.0)"
+  - GoogleUtilities/Reachability (7.7.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (7.7.0):
+    - GoogleUtilities/Logger
   - GoogleWebRTC (1.1.31999)
-  - gRPC-Swift (1.7.1):
-    - CGRPCZlib (= 1.7.1)
+  - gRPC-Swift (1.7.3):
+    - CGRPCZlib (= 1.7.3)
     - Logging (< 2.0.0, >= 1.4.0)
     - SwiftNIO (< 3.0.0, >= 2.32.0)
     - SwiftNIOExtras (< 2.0.0, >= 1.4.0)
@@ -31,22 +149,69 @@ PODS:
     - SwiftNIOSSL (< 3.0.0, >= 2.14.0)
     - SwiftNIOTransportServices (< 2.0.0, >= 1.11.1)
     - SwiftProtobuf (< 2.0.0, >= 1.9.0)
+  - GTMAppAuth (1.2.3):
+    - AppAuth/Core (~> 1.4)
+    - GTMSessionFetcher/Core (~> 1.5)
+  - GTMSessionFetcher/Core (1.7.1)
+  - Introspect (0.1.4)
+  - KeychainAccess (4.2.2)
+  - Kingfisher (7.2.4)
+  - LibSignalClient (0.17.0):
+    - SignalCoreKit
   - Logging (1.4.0)
   - Mantle (2.2.0):
     - Mantle/extobjc (= 2.2.0)
   - Mantle/extobjc (2.2.0)
-  - netfox (1.20.0)
+  - Model (1.0.0)
+  - MSAL (1.2.1):
+    - MSAL/app-lib (= 1.2.1)
+  - MSAL/app-lib (1.2.1)
+  - nanopb (2.30908.0):
+    - nanopb/decode (= 2.30908.0)
+    - nanopb/encode (= 2.30908.0)
+  - nanopb/decode (2.30908.0)
+  - nanopb/encode (2.30908.0)
+  - netfox (1.21.0)
+  - Networking (1.0.0):
+    - gRPC-Swift
+    - Model
+    - SwiftProtobuf
   - OpenSSL-Universal (1.1.1400)
-  - Realm (10.24.1):
-    - Realm/Headers (= 10.24.1)
-  - Realm/Headers (10.24.1)
-  - RealmSwift (10.24.1):
-    - Realm (= 10.24.1)
-  - SignalProtocolC (2.3.2)
-  - SignalProtocolObjC (1.1.0):
-    - SignalProtocolC (~> 2.3.2)
+  - PhoneNumberKit (3.3.4):
+    - PhoneNumberKit/PhoneNumberKitCore (= 3.3.4)
+    - PhoneNumberKit/UIKit (= 3.3.4)
+  - PhoneNumberKit/PhoneNumberKitCore (3.3.4)
+  - PhoneNumberKit/UIKit (3.3.4):
+    - PhoneNumberKit/PhoneNumberKitCore
+  - PromisesObjC (2.1.0)
+  - Realm (10.25.1):
+    - Realm/Headers (= 10.25.1)
+  - Realm/Headers (10.25.1)
+  - RealmSwift (10.25.1):
+    - Realm (= 10.25.1)
+  - SignalCoreKit (1.0.0):
+    - CocoaLumberjack
+    - OpenSSL-Universal
+  - SignalProtocolC (2.3.1)
+  - SignalProtocolObjC (1.0.0):
+    - SignalProtocolC (= 2.3.1)
+  - SignalServiceKit (1.0.0):
+    - Common
+    - LibSignalClient
+    - SignalCoreKit
+  - SocialAuthentication (1.0.0):
+    - ChatSecure
+    - FBSDKLoginKit
+    - GoogleSignIn
+    - MSAL
+    - Networking
   - SocketRocket (0.6.0)
-  - SwiftLint (0.46.5)
+  - SQLCipher (4.5.1):
+    - SQLCipher/standard (= 4.5.1)
+  - SQLCipher/common (4.5.1)
+  - SQLCipher/standard (4.5.1):
+    - SQLCipher/common
+  - SwiftLint (0.47.0)
   - SwiftNIO (2.38.0):
     - SwiftNIOCore (= 2.38.0)
     - SwiftNIOEmbedded (= 2.38.0)
@@ -64,23 +229,23 @@ PODS:
   - SwiftNIOFoundationCompat (2.38.0):
     - SwiftNIO (= 2.38.0)
     - SwiftNIOCore (= 2.38.0)
-  - SwiftNIOHPACK (1.19.2):
-    - SwiftNIO (< 3, >= 2.32.0)
-    - SwiftNIOConcurrencyHelpers (< 3, >= 2.32.0)
-    - SwiftNIOCore (< 3, >= 2.32.0)
-    - SwiftNIOHTTP1 (< 3, >= 2.32.0)
+  - SwiftNIOHPACK (1.20.1):
+    - SwiftNIO (< 3, >= 2.35.0)
+    - SwiftNIOConcurrencyHelpers (< 3, >= 2.35.0)
+    - SwiftNIOCore (< 3, >= 2.35.0)
+    - SwiftNIOHTTP1 (< 3, >= 2.35.0)
   - SwiftNIOHTTP1 (2.38.0):
     - CNIOHTTPParser (= 2.38.0)
     - SwiftNIO (= 2.38.0)
     - SwiftNIOConcurrencyHelpers (= 2.38.0)
     - SwiftNIOCore (= 2.38.0)
-  - SwiftNIOHTTP2 (1.19.2):
-    - SwiftNIO (< 3, >= 2.32.0)
-    - SwiftNIOConcurrencyHelpers (< 3, >= 2.32.0)
-    - SwiftNIOCore (< 3, >= 2.32.0)
-    - SwiftNIOHPACK (= 1.19.2)
-    - SwiftNIOHTTP1 (< 3, >= 2.32.0)
-    - SwiftNIOTLS (< 3, >= 2.32.0)
+  - SwiftNIOHTTP2 (1.20.1):
+    - SwiftNIO (< 3, >= 2.35.0)
+    - SwiftNIOConcurrencyHelpers (< 3, >= 2.35.0)
+    - SwiftNIOCore (< 3, >= 2.35.0)
+    - SwiftNIOHPACK (= 1.20.1)
+    - SwiftNIOHTTP1 (< 3, >= 2.35.0)
+    - SwiftNIOTLS (< 3, >= 2.35.0)
   - SwiftNIOPosix (2.38.0):
     - _NIODataStructures (= 2.38.0)
     - CNIODarwin (= 2.38.0)
@@ -98,127 +263,150 @@ PODS:
   - SwiftNIOTLS (2.38.0):
     - SwiftNIO (= 2.38.0)
     - SwiftNIOCore (= 2.38.0)
-  - SwiftNIOTransportServices (1.11.3):
+  - SwiftNIOTransportServices (1.11.4):
     - SwiftNIO (< 3, >= 2.32.0)
     - SwiftNIOConcurrencyHelpers (< 3, >= 2.32.0)
     - SwiftNIOFoundationCompat (< 3, >= 2.32.0)
     - SwiftNIOTLS (< 3, >= 2.32.0)
   - SwiftProtobuf (1.19.0)
-  - YapDatabase (4.0.1):
-    - YapDatabase/Standard (= 4.0.1)
-  - YapDatabase/Standard (4.0.1):
-    - YapDatabase/Standard/Core (= 4.0.1)
-    - YapDatabase/Standard/Extensions (= 4.0.1)
-  - YapDatabase/Standard-ObjC/Core (4.0.1)
-  - YapDatabase/Standard-ObjC/Extensions/ActionManager (4.0.1):
-    - YapDatabase/Standard-ObjC/Core
-    - YapDatabase/Standard-ObjC/Extensions/AutoView
-  - YapDatabase/Standard-ObjC/Extensions/AutoView (4.0.1):
-    - YapDatabase/Standard-ObjC/Core
-    - YapDatabase/Standard-ObjC/Extensions/View
-  - YapDatabase/Standard-ObjC/Extensions/CloudCore (4.0.1):
-    - YapDatabase/Standard-ObjC/Core
-  - YapDatabase/Standard-ObjC/Extensions/CloudKit (4.0.1):
-    - YapDatabase/Standard-ObjC/Core
-  - YapDatabase/Standard-ObjC/Extensions/CrossProcessNotification (4.0.1):
-    - YapDatabase/Standard-ObjC/Core
-  - YapDatabase/Standard-ObjC/Extensions/FilteredView (4.0.1):
-    - YapDatabase/Standard-ObjC/Core
-    - YapDatabase/Standard-ObjC/Extensions/View
-  - YapDatabase/Standard-ObjC/Extensions/FullTextSearch (4.0.1):
-    - YapDatabase/Standard-ObjC/Core
-  - YapDatabase/Standard-ObjC/Extensions/Hooks (4.0.1):
-    - YapDatabase/Standard-ObjC/Core
-  - YapDatabase/Standard-ObjC/Extensions/ManualView (4.0.1):
-    - YapDatabase/Standard-ObjC/Core
-    - YapDatabase/Standard-ObjC/Extensions/View
-  - YapDatabase/Standard-ObjC/Extensions/Relationships (4.0.1):
-    - YapDatabase/Standard-ObjC/Core
-  - YapDatabase/Standard-ObjC/Extensions/RTreeIndex (4.0.1):
-    - YapDatabase/Standard-ObjC/Core
-  - YapDatabase/Standard-ObjC/Extensions/SearchResultsView (4.0.1):
-    - YapDatabase/Standard-ObjC/Core
-    - YapDatabase/Standard-ObjC/Extensions/AutoView
-    - YapDatabase/Standard-ObjC/Extensions/FullTextSearch
-  - YapDatabase/Standard-ObjC/Extensions/SecondaryIndex (4.0.1):
-    - YapDatabase/Standard-ObjC/Core
-  - YapDatabase/Standard-ObjC/Extensions/View (4.0.1):
-    - YapDatabase/Standard-ObjC/Core
-  - YapDatabase/Standard/Core (4.0.1):
-    - YapDatabase/Standard-ObjC/Core
-  - YapDatabase/Standard/Extensions (4.0.1):
-    - YapDatabase/Standard/Core
-    - YapDatabase/Standard/Extensions/ActionManager (= 4.0.1)
-    - YapDatabase/Standard/Extensions/AutoView (= 4.0.1)
-    - YapDatabase/Standard/Extensions/CloudCore (= 4.0.1)
-    - YapDatabase/Standard/Extensions/CloudKit (= 4.0.1)
-    - YapDatabase/Standard/Extensions/CrossProcessNotification (= 4.0.1)
-    - YapDatabase/Standard/Extensions/FilteredView (= 4.0.1)
-    - YapDatabase/Standard/Extensions/FullTextSearch (= 4.0.1)
-    - YapDatabase/Standard/Extensions/Hooks (= 4.0.1)
-    - YapDatabase/Standard/Extensions/ManualView (= 4.0.1)
-    - YapDatabase/Standard/Extensions/Relationships (= 4.0.1)
-    - YapDatabase/Standard/Extensions/RTreeIndex (= 4.0.1)
-    - YapDatabase/Standard/Extensions/SearchResultsView (= 4.0.1)
-    - YapDatabase/Standard/Extensions/SecondaryIndex (= 4.0.1)
-    - YapDatabase/Standard/Extensions/View (= 4.0.1)
-  - YapDatabase/Standard/Extensions/ActionManager (4.0.1):
-    - YapDatabase/Standard-ObjC/Extensions/ActionManager
-    - YapDatabase/Standard/Core
-    - YapDatabase/Standard/Extensions/AutoView
-  - YapDatabase/Standard/Extensions/AutoView (4.0.1):
-    - YapDatabase/Standard-ObjC/Extensions/AutoView
-    - YapDatabase/Standard/Core
-    - YapDatabase/Standard/Extensions/View
-  - YapDatabase/Standard/Extensions/CloudCore (4.0.1):
-    - YapDatabase/Standard-ObjC/Extensions/CloudCore
-    - YapDatabase/Standard/Core
-  - YapDatabase/Standard/Extensions/CloudKit (4.0.1):
-    - YapDatabase/Standard-ObjC/Extensions/CloudKit
-    - YapDatabase/Standard/Core
-  - YapDatabase/Standard/Extensions/CrossProcessNotification (4.0.1):
-    - YapDatabase/Standard-ObjC/Extensions/CrossProcessNotification
-    - YapDatabase/Standard/Core
-  - YapDatabase/Standard/Extensions/FilteredView (4.0.1):
-    - YapDatabase/Standard-ObjC/Extensions/FilteredView
-    - YapDatabase/Standard/Core
-    - YapDatabase/Standard/Extensions/View
-  - YapDatabase/Standard/Extensions/FullTextSearch (4.0.1):
-    - YapDatabase/Standard-ObjC/Extensions/FullTextSearch
-    - YapDatabase/Standard/Core
-  - YapDatabase/Standard/Extensions/Hooks (4.0.1):
-    - YapDatabase/Standard-ObjC/Extensions/Hooks
-    - YapDatabase/Standard/Core
-  - YapDatabase/Standard/Extensions/ManualView (4.0.1):
-    - YapDatabase/Standard-ObjC/Extensions/ManualView
-    - YapDatabase/Standard/Core
-    - YapDatabase/Standard/Extensions/View
-  - YapDatabase/Standard/Extensions/Relationships (4.0.1):
-    - YapDatabase/Standard-ObjC/Extensions/Relationships
-    - YapDatabase/Standard/Core
-  - YapDatabase/Standard/Extensions/RTreeIndex (4.0.1):
-    - YapDatabase/Standard-ObjC/Extensions/RTreeIndex
-    - YapDatabase/Standard/Core
-  - YapDatabase/Standard/Extensions/SearchResultsView (4.0.1):
-    - YapDatabase/Standard-ObjC/Extensions/SearchResultsView
-    - YapDatabase/Standard/Core
-    - YapDatabase/Standard/Extensions/AutoView
-    - YapDatabase/Standard/Extensions/FullTextSearch
-  - YapDatabase/Standard/Extensions/SecondaryIndex (4.0.1):
-    - YapDatabase/Standard-ObjC/Extensions/SecondaryIndex
-    - YapDatabase/Standard/Core
-  - YapDatabase/Standard/Extensions/View (4.0.1):
-    - YapDatabase/Standard-ObjC/Extensions/View
-    - YapDatabase/Standard/Core
+  - SwiftSRP (1.0.0):
+    - CryptoSwift
+    - OpenSSL-Universal
+  - YapDatabase/SQLCipher (4.0.1):
+    - YapDatabase/SQLCipher/Core (= 4.0.1)
+    - YapDatabase/SQLCipher/Extensions (= 4.0.1)
+  - YapDatabase/SQLCipher-ObjC/Core (4.0.1):
+    - SQLCipher (>= 3.4.0)
+  - YapDatabase/SQLCipher-ObjC/Extensions/ActionManager (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Core
+    - YapDatabase/SQLCipher-ObjC/Extensions/AutoView
+  - YapDatabase/SQLCipher-ObjC/Extensions/AutoView (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Core
+    - YapDatabase/SQLCipher-ObjC/Extensions/View
+  - YapDatabase/SQLCipher-ObjC/Extensions/CloudCore (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Core
+  - YapDatabase/SQLCipher-ObjC/Extensions/CloudKit (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Core
+  - YapDatabase/SQLCipher-ObjC/Extensions/CrossProcessNotification (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Core
+  - YapDatabase/SQLCipher-ObjC/Extensions/FilteredView (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Core
+    - YapDatabase/SQLCipher-ObjC/Extensions/View
+  - YapDatabase/SQLCipher-ObjC/Extensions/FullTextSearch (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Core
+  - YapDatabase/SQLCipher-ObjC/Extensions/Hooks (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Core
+  - YapDatabase/SQLCipher-ObjC/Extensions/ManualView (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Core
+    - YapDatabase/SQLCipher-ObjC/Extensions/View
+  - YapDatabase/SQLCipher-ObjC/Extensions/Relationships (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Core
+  - YapDatabase/SQLCipher-ObjC/Extensions/RTreeIndex (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Core
+  - YapDatabase/SQLCipher-ObjC/Extensions/SearchResultsView (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Core
+    - YapDatabase/SQLCipher-ObjC/Extensions/AutoView
+    - YapDatabase/SQLCipher-ObjC/Extensions/FullTextSearch
+  - YapDatabase/SQLCipher-ObjC/Extensions/SecondaryIndex (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Core
+  - YapDatabase/SQLCipher-ObjC/Extensions/View (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Core
+  - YapDatabase/SQLCipher/Core (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Core
+  - YapDatabase/SQLCipher/Extensions (4.0.1):
+    - YapDatabase/SQLCipher/Core
+    - YapDatabase/SQLCipher/Extensions/ActionManager (= 4.0.1)
+    - YapDatabase/SQLCipher/Extensions/AutoView (= 4.0.1)
+    - YapDatabase/SQLCipher/Extensions/CloudCore (= 4.0.1)
+    - YapDatabase/SQLCipher/Extensions/CloudKit (= 4.0.1)
+    - YapDatabase/SQLCipher/Extensions/CrossProcessNotification (= 4.0.1)
+    - YapDatabase/SQLCipher/Extensions/FilteredView (= 4.0.1)
+    - YapDatabase/SQLCipher/Extensions/FullTextSearch (= 4.0.1)
+    - YapDatabase/SQLCipher/Extensions/Hooks (= 4.0.1)
+    - YapDatabase/SQLCipher/Extensions/ManualView (= 4.0.1)
+    - YapDatabase/SQLCipher/Extensions/Relationships (= 4.0.1)
+    - YapDatabase/SQLCipher/Extensions/RTreeIndex (= 4.0.1)
+    - YapDatabase/SQLCipher/Extensions/SearchResultsView (= 4.0.1)
+    - YapDatabase/SQLCipher/Extensions/SecondaryIndex (= 4.0.1)
+    - YapDatabase/SQLCipher/Extensions/View (= 4.0.1)
+  - YapDatabase/SQLCipher/Extensions/ActionManager (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Extensions/ActionManager
+    - YapDatabase/SQLCipher/Core
+    - YapDatabase/SQLCipher/Extensions/AutoView
+  - YapDatabase/SQLCipher/Extensions/AutoView (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Extensions/AutoView
+    - YapDatabase/SQLCipher/Core
+    - YapDatabase/SQLCipher/Extensions/View
+  - YapDatabase/SQLCipher/Extensions/CloudCore (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Extensions/CloudCore
+    - YapDatabase/SQLCipher/Core
+  - YapDatabase/SQLCipher/Extensions/CloudKit (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Extensions/CloudKit
+    - YapDatabase/SQLCipher/Core
+  - YapDatabase/SQLCipher/Extensions/CrossProcessNotification (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Extensions/CrossProcessNotification
+    - YapDatabase/SQLCipher/Core
+  - YapDatabase/SQLCipher/Extensions/FilteredView (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Extensions/FilteredView
+    - YapDatabase/SQLCipher/Core
+    - YapDatabase/SQLCipher/Extensions/View
+  - YapDatabase/SQLCipher/Extensions/FullTextSearch (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Extensions/FullTextSearch
+    - YapDatabase/SQLCipher/Core
+  - YapDatabase/SQLCipher/Extensions/Hooks (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Extensions/Hooks
+    - YapDatabase/SQLCipher/Core
+  - YapDatabase/SQLCipher/Extensions/ManualView (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Extensions/ManualView
+    - YapDatabase/SQLCipher/Core
+    - YapDatabase/SQLCipher/Extensions/View
+  - YapDatabase/SQLCipher/Extensions/Relationships (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Extensions/Relationships
+    - YapDatabase/SQLCipher/Core
+  - YapDatabase/SQLCipher/Extensions/RTreeIndex (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Extensions/RTreeIndex
+    - YapDatabase/SQLCipher/Core
+  - YapDatabase/SQLCipher/Extensions/SearchResultsView (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Extensions/SearchResultsView
+    - YapDatabase/SQLCipher/Core
+    - YapDatabase/SQLCipher/Extensions/AutoView
+    - YapDatabase/SQLCipher/Extensions/FullTextSearch
+  - YapDatabase/SQLCipher/Extensions/SecondaryIndex (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Extensions/SecondaryIndex
+    - YapDatabase/SQLCipher/Core
+  - YapDatabase/SQLCipher/Extensions/View (4.0.1):
+    - YapDatabase/SQLCipher-ObjC/Extensions/View
+    - YapDatabase/SQLCipher/Core
 
 DEPENDENCIES:
+  - CallManager (from `./Packages/CallManager`)
   - ChatSecure (from `./Packages/ChatSecure`)
+  - Common (from `./Packages/Common`)
+  - CommonUI (from `./Packages/CommonUI`)
+  - FBSDKCoreKit/Swift
+  - FBSDKLoginKit/Swift
+  - Firebase/Analytics
+  - GoogleSignIn
+  - GoogleWebRTC
+  - KeychainAccess
+  - LibSignalClient (from `https://github.com/signalapp/libsignal.git`)
+  - Model (from `./Packages/Model`)
+  - MSAL
   - netfox
+  - Networking (from `./Packages/Networking`)
+  - PhoneNumberKit (~> 3.3)
+  - SignalCoreKit (from `https://github.com/signalapp/SignalCoreKit.git`)
+  - SignalProtocolObjC (from `https://github.com/nohtbook/SignalProtocol-ObjC.git`)
+  - SignalServiceKit (from `./Packages/SignalServiceKit`)
+  - SocialAuthentication (from `./Packages/SocialAuthentication`)
+  - SocketRocket
   - SwiftLint
+  - SwiftSRP (from `./Packages/SwiftSRP`)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - _NIODataStructures
+    - AppAuth
     - CGRPCZlib
     - CNIOAtomics
     - CNIOBoringSSL
@@ -227,18 +415,39 @@ SPEC REPOS:
     - CNIOHTTPParser
     - CNIOLinux
     - CNIOWindows
+    - CocoaLumberjack
     - CryptoSwift
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseCore
+    - FirebaseCoreDiagnostics
+    - FirebaseInstallations
+    - GoogleAppMeasurement
+    - GoogleDataTransport
+    - GoogleSignIn
+    - GoogleUtilities
     - GoogleWebRTC
     - gRPC-Swift
+    - GTMAppAuth
+    - GTMSessionFetcher
+    - Introspect
+    - KeychainAccess
+    - Kingfisher
     - Logging
     - Mantle
+    - MSAL
+    - nanopb
     - netfox
     - OpenSSL-Universal
+    - PhoneNumberKit
+    - PromisesObjC
     - Realm
     - RealmSwift
     - SignalProtocolC
-    - SignalProtocolObjC
     - SocketRocket
+    - SQLCipher
     - SwiftLint
     - SwiftNIO
     - SwiftNIOConcurrencyHelpers
@@ -257,13 +466,48 @@ SPEC REPOS:
     - YapDatabase
 
 EXTERNAL SOURCES:
+  CallManager:
+    :path: "./Packages/CallManager"
   ChatSecure:
     :path: "./Packages/ChatSecure"
+  Common:
+    :path: "./Packages/Common"
+  CommonUI:
+    :path: "./Packages/CommonUI"
+  LibSignalClient:
+    :git: https://github.com/signalapp/libsignal.git
+  Model:
+    :path: "./Packages/Model"
+  Networking:
+    :path: "./Packages/Networking"
+  SignalCoreKit:
+    :git: https://github.com/signalapp/SignalCoreKit.git
+  SignalProtocolObjC:
+    :git: https://github.com/nohtbook/SignalProtocol-ObjC.git
+  SignalServiceKit:
+    :path: "./Packages/SignalServiceKit"
+  SocialAuthentication:
+    :path: "./Packages/SocialAuthentication"
+  SwiftSRP:
+    :path: "./Packages/SwiftSRP"
+
+CHECKOUT OPTIONS:
+  LibSignalClient:
+    :commit: 2c32fb802d1f8d6739ade32901a3f5d84e7ec19b
+    :git: https://github.com/signalapp/libsignal.git
+  SignalCoreKit:
+    :commit: 603f75807e30b7fa83843a74e6934563136c3027
+    :git: https://github.com/signalapp/SignalCoreKit.git
+  SignalProtocolObjC:
+    :commit: 69f3a62db411613a2dc64b67d1acad8602545ef3
+    :git: https://github.com/nohtbook/SignalProtocol-ObjC.git
 
 SPEC CHECKSUMS:
   _NIODataStructures: d8175e5ca5a34ec19b7ff21de298dd2a4d30818d
-  CGRPCZlib: 8b4c1074399f6ba2db3361862d4340d57d7b77f0
-  ChatSecure: f8cd79ee74a5f4934636363806a9123edc5cf299
+  AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
+  CallManager: 47b5694cd700873417b55725830fd49a9251da74
+  CGRPCZlib: 30d7ed7cd286bf929605052dd64075a694d86d0c
+  ChatSecure: 40725723d7a422786459f1acb656318c8f5611f9
   CNIOAtomics: 00b638e1b0dac91d06d4bb089ea9126c117c6650
   CNIOBoringSSL: c99129423da079a9eb74bcfc7cfec41a6775cf94
   CNIOBoringSSLShims: 902ae35fea0b6be5eefb4fdce906751886cfa46f
@@ -271,35 +515,66 @@ SPEC CHECKSUMS:
   CNIOHTTPParser: f3bd2955c9c8669ea2ae0f1f4f03df1fea2ed90d
   CNIOLinux: f8801300bb296d16dee59a82aba1613a08cfbe23
   CNIOWindows: 1cc6fb2af1d445f52f2d39cecf7069873f7d5b0d
+  CocoaLumberjack: 543c79c114dadc3b1aba95641d8738b06b05b646
+  Common: e3c30556145a36a52c70942b4e81a4c625c0bca9
+  CommonUI: 7e13d3080c01ca6c10e014cf05c1baba5acb8f20
   CryptoSwift: a0799ee936271bd2253a006f1e4523df21845000
+  FBSDKCoreKit: ada5c8a05188daefc9addb985c52b8a1b26da519
+  FBSDKLoginKit: caa165495afa29a12324cb2307fe6e5b33783142
+  Firebase: 5f8193dff4b5b7c5d5ef72ae54bb76c08e2b841d
+  FirebaseAnalytics: 7761cbadb00a717d8d0939363eb46041526474fa
+  FirebaseCore: 5743c5785c074a794d35f2fff7ecc254a91e08b1
+  FirebaseCoreDiagnostics: 92e07a649aeb66352b319d43bdd2ee3942af84cb
+  FirebaseInstallations: 40bd9054049b2eae9a2c38ef1c3dd213df3605cd
+  GoogleAppMeasurement: 4c19f031220c72464d460c9daa1fb5d1acce958e
+  GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
+  GoogleSignIn: c90b5bec45e780f54c6a8e1e3c182a86e3dda69d
+  GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GoogleWebRTC: b39a78c4f5cc6b0323415b9233db03a2faa7b0f0
-  gRPC-Swift: c5541e5fed500f45d31bf1369cecec753d1007e2
+  gRPC-Swift: 910b685f0527f496c39751d1f1add981287e8b9d
+  GTMAppAuth: 987526d41b07efb1bedda5e936fe0cb718a03113
+  GTMSessionFetcher: 4577a4cc914a5a07c40a8a0ad0acc22080418c2d
+  Introspect: b62c4dd2063072327c21d618ef2bedc3c87bc366
+  KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
+  Kingfisher: 2457be2121734e69e54a2312ecc0150eb9ae70b3
+  LibSignalClient: 0979e736d85a419b75ecedc36ffcea821a5cea14
   Logging: beeb016c9c80cf77042d62e83495816847ef108b
   Mantle: c5aa8794a29a022dfbbfc9799af95f477a69b62d
-  netfox: 6b5c9724304b0cd99ca8515ac732a9f710e4ea5f
+  Model: 7d8df91e7e99744bd128a6da2f17a3fc0f31fd18
+  MSAL: 460571f34a9062c501841d099f8e51fc30557deb
+  nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
+  netfox: 9d5cc727fe7576c4c7688a2504618a156b7d44b7
+  Networking: 8c229e55db7c220043e5fdb5a819e03736655559
   OpenSSL-Universal: cd40d7493c1e9696794f62e2a0e8c729115b7188
-  Realm: f9bc5a212a9ab084b4ed90cda1c28d835a38a06b
-  RealmSwift: 0b03bb38001bee4280dcc27709e6b33f438cfad1
-  SignalProtocolC: 051512e9f3abfeb4120c5e9673af9ae0ee370070
-  SignalProtocolObjC: b992ed29c3b7b453510ff0102ed16ef143f7efd2
+  PhoneNumberKit: 441e8b26ec88d598e3591de9061eff18f5dd12e8
+  PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
+  Realm: 1a6e9b4f6983711655d8c0bcb6d2d29c3afbb1f3
+  RealmSwift: e72669550d27082aa4fad5d176f5076cfe806245
+  SignalCoreKit: 87da14c58d57760793b892ff03838c5ef2ce1167
+  SignalProtocolC: e61c89693515347df8ed97961160a36cbe55c441
+  SignalProtocolObjC: 35f26e21de41b6c9fbf8ec5087f3e02580df15e3
+  SignalServiceKit: 8e59ea550cebc2dd82d056ce496f4b7d67bc8751
+  SocialAuthentication: a292577b91a34fe538d8d00f2afcda60707d8801
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
-  SwiftLint: 2c16e8fa99dac2e440dc0c70ea74d2532048f6cf
+  SQLCipher: 712e8416685e8e575b9b0706ffee71678b2fdcf8
+  SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
   SwiftNIO: 9bc23fada7254a38f1417533a4514aabdcb7cf31
   SwiftNIOConcurrencyHelpers: ec57adfc490604a341904994fbf98de61a8b5497
   SwiftNIOCore: 156fd84c03dc877a5f22d0ba575745cafe4a83ca
   SwiftNIOEmbedded: b5625cb78841ad4daa50d71a930c768531233770
   SwiftNIOExtras: 70f09aa8eca3ab6baeaf1993da9c855b6e95e97f
   SwiftNIOFoundationCompat: 98de7f9d7c70510cbe1d1b0faf843b29926da520
-  SwiftNIOHPACK: 5692b7d669e954adf9920432a8a3e279aceee55e
+  SwiftNIOHPACK: 73074b776ec3950049bcd03c4be7d2d233416492
   SwiftNIOHTTP1: 2ec5bf1a511b8c04b5da3d9803374dc6077eff57
-  SwiftNIOHTTP2: f6dd22df6f4463d4f5bf310cb2f43e52f4e79ce2
+  SwiftNIOHTTP2: c916c2e6383446bc1f3da61eb1036fd8943f994a
   SwiftNIOPosix: b9cee2136fcb51223bf63b00795089c6928dd876
   SwiftNIOSSL: 7c2ddcbcbb2a8188468b7fe9c2bc6124df4b3772
   SwiftNIOTLS: 0182f05297af9faa8e03f63be3fed637523496d4
-  SwiftNIOTransportServices: 1fbbdb58510af3c53a838a1dbea98f18132dc952
+  SwiftNIOTransportServices: 0b0baa86fcdbef3e4651b3ea8311ea7b43c13211
   SwiftProtobuf: 6ef3f0e422ef90d6605ca20b21a94f6c1324d6b3
+  SwiftSRP: 98943ac8497e2e7fb1ab1b63f68810aefc28010c
   YapDatabase: 350ab72b61f9dcc32504594da1a52a93f5ef1476
 
-PODFILE CHECKSUM: 8e7f8bcf9d6e3303a7ceda8c2769276f25d90782
+PODFILE CHECKSUM: f9cc1a428218f06d578a5b4bfa06e7296231e178
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

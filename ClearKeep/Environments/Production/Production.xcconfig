@@ -1,0 +1,39 @@
+//
+//  Production.xcconfig
+//  ClearKeep
+//
+//  Created by NamNH on 20/03/2022.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include "Pods/Target Support Files/Pods-ClearKeep/Pods-ClearKeep.production.xcconfig"
+
+IOS_APP_NAME = ClearKeep
+IOS_APP_ICON = AppIcon
+IOS_BUNDLE_ID = com.telred.clearkeep
+IOS_NOTIFICATION_EXTENSION_BUNDLE_ID = com.telred.clearkeep.notificationextension
+CODE_SIGNING_ENTITLEMENTS =  ClearKeep/Environments/Production/ClearKeepProduction.entitlements
+URL_SCHEME = clearkeep
+APP_GROUP_NAME = group.com.telred.clearkeep
+DATABASE_DEBUG = false
+DATABASE_PATH = production.db
+YAP_DATABASE_PATH = production.sqlite
+MARKETING_VERSION = 2.0
+CURRENT_PROJECT_VERSION = 1
+
+CLK_DOMAIN = clearkeep.org
+CLK_PORT = 25000
+SENDER_DEVICE_ID = 111
+RECEIVER_DEVICE_ID = 222
+FACEBOOK_DISPLAY_NAME = ClearKeep
+FACEBOOK_APP_ID = 2535496880092217
+FACEBOOK_URL_SCHEME = fb2535496880092217
+FACEBOOK_CLIENT_TOKEN = bf629274b2f4d82173d7c479c82d0cdf
+GOOGLE_SERVICE_INFO_PLIST = Environments/Production/GoogleService-Info-Production.plist
+GOOGLE_CLIENT_ID = 1092685949059-h3ns9ci77jfrgmsqu7bjnj54ep784th8.apps.googleusercontent.com
+GOOGLE_URL_SCHEME = com.googleusercontent.apps.1092685949059-h3ns9ci77jfrgmsqu7bjnj54ep784th8
+OFFICE_CLIENT_ID = b3b868d8-bc41-4718-a7ba-0f8c8ff260d0
+OFFICE_REDIRECT_URI = msauth.com.telred.clearkeep:/$()/auth
+OFFICE_URL_SCHEME = msauth.com.telred.clearkeep

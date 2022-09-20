@@ -1,0 +1,39 @@
+//
+//  Development.xcconfig
+//  ClearKeep
+//
+//  Created by NamNH on 20/03/2022.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include "Pods/Target Support Files/Pods-ClearKeep/Pods-ClearKeep.development.xcconfig"
+
+IOS_APP_NAME = [DEV] ClearKeep
+IOS_APP_ICON = AppIcon-Development
+IOS_BUNDLE_ID = com.telred.clearkeep.dev
+IOS_NOTIFICATION_EXTENSION_BUNDLE_ID = com.telred.clearkeep.dev.notificationextension
+CODE_SIGNING_ENTITLEMENTS =  ClearKeep/Environments/Development/ClearKeepDevelopment.entitlements
+URL_SCHEME = clearkeep
+APP_GROUP_NAME =group.com.telred.clearkeep.dev
+DATABASE_DEBUG = true
+DATABASE_PATH = development.realm
+YAP_DATABASE_PATH = development.sqlite
+MARKETING_VERSION = 3.0.0
+CURRENT_PROJECT_VERSION = 63
+
+CLK_DOMAIN = clearkeep.org
+CLK_PORT = 25000
+SENDER_DEVICE_ID = 111
+RECEIVER_DEVICE_ID = 222
+FACEBOOK_DISPLAY_NAME = ClearKeep (Development)
+FACEBOOK_APP_ID = 2535496880092217
+FACEBOOK_URL_SCHEME = fb2535496880092217
+FACEBOOK_CLIENT_TOKEN = bf629274b2f4d82173d7c479c82d0cdf
+GOOGLE_SERVICE_INFO_PLIST = Environments/Development/GoogleService-Info-Development.plist
+GOOGLE_CLIENT_ID = 1092685949059-a4pshjn2qh4d6t9mhvrqdqbtjra8erjf.apps.googleusercontent.com
+GOOGLE_URL_SCHEME = com.googleusercontent.apps.1092685949059-a4pshjn2qh4d6t9mhvrqdqbtjra8erjf
+OFFICE_CLIENT_ID = db255c27-0df8-402d-98c5-387f025d298a
+OFFICE_REDIRECT_URI = msauth.com.telred.clearkeep.dev:/$()/auth
+OFFICE_URL_SCHEME = msauth.com.telred.clearkeep.dev

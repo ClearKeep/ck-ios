@@ -5,7 +5,7 @@
 //  Created by NamNH on 24/02/2022.
 //
 
-import UIKit
+import Common
 import SignalProtocolObjC
 
 enum ClientError: LocalizedError {
@@ -15,28 +15,29 @@ enum ClientError: LocalizedError {
 	case initKeyPair(message: String)
 }
 
-struct ClientStore {
-	let keyHelper: SignalKeyHelper?
-	let preKey: SignalPreKey?
-	let signedPreKey: SignalSignedPreKey?
-	let address: SignalAddress
+public struct ClientStore {
+	private var persistentStoreService: IPersistentStoreService!
+	private var securedStoreService: ISecuredStoreService
+	public init(persistentStoreService: IPersistentStoreService, securedStoreService: ISecuredStoreService) {
+		self.persistentStoreService = persistentStoreService
+		self.securedStoreService = securedStoreService
+	}
 	
-	init(clientID: String, deviceID: Int32) {
-		address = SignalAddress(name: clientID, deviceId: deviceID)
-		
-		let inMemoryStore: SignalInMemoryStore = SignalInMemoryStore()
-		let storage = SignalStorage(signalStore: inMemoryStore)
-		let context = SignalContext(storage: storage)
-		keyHelper = SignalKeyHelper(context: context ?? SignalContext())
-		
-		inMemoryStore.identityKeyPair = keyHelper?.generateIdentityKeyPair()
-		inMemoryStore.localRegistrationId = UInt32(keyHelper?.generateRegistrationId() ?? 0)
-		
-		let preKeys = keyHelper?.generatePreKeys(withStartingPreKeyId: 0, count: 2)
-		preKey = preKeys?.first
-		signedPreKey = keyHelper?.generateSignedPreKey(withIdentity: inMemoryStore.getIdentityKeyPair(), signedPreKeyId: 1)
-		
-		inMemoryStore.storePreKey(preKey?.serializedData() ?? Data(), preKeyId: preKey?.preKeyId ?? 0)
-		inMemoryStore.storeSignedPreKey(signedPreKey?.serializedData() ?? Data(), signedPreKeyId: signedPreKey?.preKeyId ?? 0)
+	func getUniqueDeviceId() -> String {
+		guard let deviceId = securedStoreService.get(key: "DEVICE_ID") as? String else {
+			let newDeviceId = UIDevice.current.identifierForVendor?.uuidString ?? UUID().uuidString
+			Debug.DLog("Generate new unique device id: \(newDeviceId)")
+			securedStoreService.set(value: newDeviceId, key: "DEVICE_ID")
+			return newDeviceId
+		}
+		return deviceId
+	}
+	
+	public func saveDraftMessage(message: String, roomId: Int64, clientId: String, domain: String) {
+		persistentStoreService.set(value: message, key: "\(roomId)\(clientId)\(domain)")
+	}
+	
+	public func getDraftMessage(roomId: Int64, clientId: String, domain: String) -> String? {
+		return persistentStoreService.get(key: "\(roomId)\(clientId)\(domain)") as? String
 	}
 }
