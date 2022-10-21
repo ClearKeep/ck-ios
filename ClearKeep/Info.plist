@@ -108,13 +108,13 @@
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>""</string>
+	<string>We need that so that you can take and share photos and videos, as well as make video calls.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>""</string>
+	<string>We need that so you can share voice messages and videos with sound.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>""</string>
+	<string>We need this so that you can share photos and videos from your photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>""</string>
+	<string>We need this so that you can share photos and videos from your photo library.</string>
 	<key>OFFICE_CLIENT_ID</key>
 	<string>$(OFFICE_CLIENT_ID)</string>
 	<key>OFFICE_REDIRECT_URI</key>
