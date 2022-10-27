@@ -70,11 +70,8 @@ enum ChatErrorView {
 			return "General.Error".localized
 		case .locked, .callFail:
 			return "General.Error".localized
-		case .unknownError(let errorCode):
-			if let errorCode = errorCode {
-				return String(format: "Error.Unknow.Message".localized, errorCode)
-			}
-			return "Unknow.Message".localized
+		case .unknownError(let _):
+			return "General.Error".localized
 		case .haveExistACall:
 			return "General.Warning".localized
 		case .fileLimit, .fileSize:
@@ -95,11 +92,6 @@ enum ChatErrorView {
 			return "Error.Authentication.UnAuthorized".localized
 		case .locked:
 			return "Error.Authentication.Locked".localized
-		case .unknownError(let errorCode):
-			if let errorCode = errorCode {
-				return String(format: "Error.Unknow.Message".localized, errorCode)
-			}
-			return "Unknow.Message".localized
 		case .fileLimit:
 			return "Chat.Error.FileLimit".localized
 		case .fileSize:
@@ -114,6 +106,8 @@ enum ChatErrorView {
 			return "Chat.Error.DownloadFail".localized
 		case .callFail:
 			return "Call.FailCall".localized
+		default:
+			return "Error.Unknow.Message".localized
 		}
 	}
 
@@ -123,10 +117,7 @@ enum ChatErrorView {
 			return "General.OK".localized
 		case .fileLimit, .fileSize:
 			return "General.Close".localized
-		case .unknownError(let errorCode):
-			if let errorCode = errorCode {
-				return String(format: "Error.Unknow.Message".localized, errorCode)
-			}
+		default:
 			return "General.OK".localized
 		}
 	}

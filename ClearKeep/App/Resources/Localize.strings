@@ -11,7 +11,7 @@
 "General.Video" = "Video";
 "General.Audio" = "Audio";
 "General.Version" = "App version: %@";
-"Unknow.Message" = "Unknow message";
+"Unknow.Message" = "Unknown message";
 "General.Next" = "Next";
 "General.Error" = "Error";
 "General.Warning" = "Warning";
@@ -29,7 +29,7 @@
 "General.Delete" = "Delete";
 
 // MARK: - Error
-"Error.Unknow.Message" = "Unknow message (%ld)";
+"Error.Unknow.Message" = "Oops, something went wrong. Please try again later.";
 "Error.Authentication.Existed" = "This email address is already being used!";
 "Error.Authentication.UnAuthorized" = "Please check your details and try again!";
 "Error.Authentication.NotActivated" = "Your account has not been activated. Please check the email for the activation link!";

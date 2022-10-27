@@ -63,13 +63,10 @@ enum TwoFactorErrorView {
 			return "2FA.Error.PasswordInCorrect".localized
 		case .locked:
 			return "Error.Authentication.Locked".localized
-		case .unknownError(let errorCode):
-			if let errorCode = errorCode {
-				return String(format: "Error.Unknow.Message".localized, errorCode)
-			}
-			return "Unknow.Message".localized
 		case .expiredOTP:
 			return "2FA.Error.Pincode.RequestTimeout".localized
+		default:
+			return "Error.Unknow.Message".localized
 		}
 	}
 	
@@ -83,9 +80,9 @@ enum TwoFactorErrorView {
 			return "General.OK".localized
 		case .locked:
 			return "General.OK".localized
-		case .unknownError(let errorCode):
-			return "General.OK".localized
 		case .expiredOTP:
+			return "General.OK".localized
+		default:
 			return "General.OK".localized
 		}
 	}

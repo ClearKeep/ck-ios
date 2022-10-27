@@ -65,11 +65,8 @@ enum HomeErrorView {
 			return "General.Error".localized
 		case .locked:
 			return "General.Error".localized
-		case .unknownError(let errorCode):
-			if let errorCode = errorCode {
-				return String(format: "Error.Unknow.Message".localized, errorCode)
-			}
-			return "Unknow.Message".localized
+		default:
+			return "Error.Unknow.Message".localized
 		}
 	}
 

@@ -20,7 +20,7 @@ public struct ServerError: IServerError {
 	public let status: Int?
 	
 	public static var unknown: IServerError {
-		ServerError(message: "Unknow.Message".localized, name: "Unknow.Message".localized, status: nil)
+		ServerError(message: "Error.Unknow.Message".localized, name: "General.Error".localized, status: nil)
 	}
 	
 	public static var cancel: IServerError {
@@ -43,11 +43,10 @@ public struct ServerError: IServerError {
 			let errorCode = errorMessages?.first?["code"] as? Int
 			self.init(message: errorMessage, name: grpcError.code.description, status: errorCode)
 		} else {
-			self.init(message: "Unknow.Message".localized, name: "Unknow.Message".localized, status: nil)
+			self.init(message: "Error.Unknow.Message".localized, name: "General.Error".localized, status: nil)
 		}
 	}
 }
-
 
 extension String {
 	var localized: String {
