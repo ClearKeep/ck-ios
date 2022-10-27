@@ -49,13 +49,10 @@ enum ChangePasswordErrorView {
 			return "General.Error".localized
 		case .locked:
 			return "General.Error".localized
-		case .unknownError(let errorCode):
-			if let errorCode = errorCode {
-				return String(format: "Error.Unknow.Message".localized, errorCode)
-			}
-			return "Unknow.Message".localized
 		case .success:
 			return "NewPassword.Sucess.Title".localized
+		default:
+			return "General.Error".localized
 		}
 	}
 
@@ -65,13 +62,10 @@ enum ChangePasswordErrorView {
 			return "NewPassword.Error.Oldpasss".localized
 		case .locked:
 			return "Error.Authentication.Locked".localized
-		case .unknownError(let errorCode):
-			if let errorCode = errorCode {
-				return String(format: "Error.Unknow.Message".localized, errorCode)
-			}
-			return "Unknow.Message".localized
 		case .success:
 			return "NewPassword.Sucess".localized
+		default:
+			return "Error.Unknow.Message".localized
 		}
 	}
 

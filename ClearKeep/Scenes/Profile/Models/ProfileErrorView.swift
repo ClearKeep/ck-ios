@@ -65,11 +65,8 @@ enum ProfileErrorView {
 			return "General.Error".localized
 		case .locked:
 			return "General.Error".localized
-		case .unknownError(let errorCode):
-			if let errorCode = errorCode {
-				return String(format: "Error.Unknow.Message".localized, errorCode)
-			}
-			return "Unknow.Message".localized
+		default:
+			return "General.Error".localized
 		}
 	}
 
@@ -85,11 +82,8 @@ enum ProfileErrorView {
 			return "Error.Authentication.UnAuthorized".localized
 		case .locked:
 			return "Error.Authentication.Locked".localized
-		case .unknownError(let errorCode):
-			if let errorCode = errorCode {
-				return String(format: "Error.Unknow.Message".localized, errorCode)
-			}
-			return "Unknow.Message".localized
+		default:
+			return "Error.Unknow.Message".localized
 		}
 	}
 

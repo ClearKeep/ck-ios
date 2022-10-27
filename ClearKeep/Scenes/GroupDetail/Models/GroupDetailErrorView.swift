@@ -43,11 +43,8 @@ enum GroupDetailErrorView {
 			return "General.Warning".localized
 		case .unauthorized:
 			return "General.Error".localized
-		case .unknownError(let errorCode):
-			if let errorCode = errorCode {
-				return String(format: "Error.Unknow.Message".localized, errorCode)
-			}
-			return "Unknow.Message".localized
+		default:
+			return "General.Error".localized
 		}
 	}
 
@@ -59,11 +56,8 @@ enum GroupDetailErrorView {
 			return "Error.Authentication.UnAuthorized".localized
 		case .unauthorized:
 			return "Error.Authentication.Locked".localized
-		case .unknownError(let errorCode):
-			if let errorCode = errorCode {
-				return String(format: "Error.Unknow.Message".localized, errorCode)
-			}
-			return "Unknow.Message".localized
+		default:
+			return "Error.Unknow.Message".localized
 		}
 	}
 

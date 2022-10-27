@@ -37,11 +37,8 @@ enum RegisterViewError {
 		switch self {
 		case .existed:
 			return "Error.Authentication.Existed".localized
-		case .unknownError(let errorCode):
-			if let errorCode = errorCode {
-				return String(format: "Error.Unknow.Message".localized, errorCode)
-			}
-			return "Unknow.Message".localized
+		default:
+			return "Error.Unknow.Message".localized
 		}
 	}
 	

@@ -33,11 +33,9 @@ enum FogotPasswordViewError {
 		switch self {
 		case .unauthorized:
 			return "General.Error".localized
-		case .unknownError(let errorCode):
-			if let errorCode = errorCode {
-				return String(format: "Error.Unknow.Message".localized, errorCode)
-			}
-			return "Unknow.Message".localized
+		default:
+			return "General.Error".localized
+
 		}
 	}
 
@@ -45,11 +43,8 @@ enum FogotPasswordViewError {
 		switch self {
 		case .unauthorized:
 			return "ForgotPassword.Error.FindAccount".localized
-		case .unknownError(let errorCode):
-			if let errorCode = errorCode {
-				return String(format: "Error.Unknow.Message".localized, errorCode)
-			}
-			return "Unknow.Message".localized
+		default:
+			return "Error.Unknow.Message".localized
 		}
 	}
 

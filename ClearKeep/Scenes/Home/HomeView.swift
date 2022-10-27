@@ -214,14 +214,14 @@ struct HomeView: View {
 				   let publication = userInfo["notification"] as? Notification_NotifyObjectResponse {
 					if publication.notifyType == "new-peer" || publication.notifyType == "new-group" {
 						if self.isViewDisplayed {
-							getServerInfo()
+							serverInfo()
 						}
 					}
 				}
 			})
 			.onReceive(NotificationCenter.default.publisher(for: Notification.Name.IncomingMessage.groupMemberLeave), perform: { _ in
 				if self.isViewDisplayed {
-					getServerInfo()
+					serverInfo()
 				}
 			})
 			.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.SubscribeAndListenService.didReceiveMessage)) { (obj) in
@@ -333,14 +333,14 @@ private extension HomeView {
 	}
 	
 	func getServerInfo() {
-		self.loadable = .isLoading(last: nil, cancelBag: CancelBag())
+//		self.loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
 			loadable = await injected.interactors.homeInteractor.getServerInfo()
 		}
 	}
 	
 	func serverInfo() {
-		self.loadable = .isLoading(last: nil, cancelBag: CancelBag())
+//		self.loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
 			loadable = await injected.interactors.homeInteractor.getServerInfo()
 		}
