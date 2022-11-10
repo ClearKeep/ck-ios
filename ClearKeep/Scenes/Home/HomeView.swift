@@ -45,7 +45,7 @@ struct HomeView: View {
 			case .loaded(let load):
 				isLoading = false
 				let groups = load.groupViewModel?.viewModelGroup.filter { $0.groupType == "group" && $0.groupMembers.contains(where: { $0.userId == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId && $0.userState == "active" }) }.sorted(by: { $0.updatedAt > $1.updatedAt }).compactMap { profile in
-									GroupViewModel(profile)} ?? []
+					GroupViewModel(profile)} ?? []
 				let peers = load.groupViewModel?.viewModelGroup.filter { $0.groupType != "group" }.sorted(by: { $0.updatedAt > $1.updatedAt }).compactMap { profile in
 					GroupViewModel(profile)} ?? []
 				if !groups.isEmpty && !isFirstShowGroup {
@@ -146,7 +146,7 @@ struct HomeView: View {
 			GeometryReader { geometry in
 				ZStack {
 					HStack {
-						ListServerView(servers: $servers, isAddNewServer: $isAddNewServer, action: getServerInfo)
+						ListServerView(servers: $servers, isAddNewServer: $isAddNewServer, action: serverInfo)
 						VStack(spacing: Constants.spacing) {
 							HStack {
 								Text(serverName)
@@ -197,7 +197,7 @@ struct HomeView: View {
 				}
 			}
 			.onAppear(perform: getServers)
-			.onAppear(perform: getServerInfo)
+			.onAppear(perform: serverInfo)
 			.onAppear {
 				self.isViewDisplayed = true
 			}
@@ -214,14 +214,14 @@ struct HomeView: View {
 				   let publication = userInfo["notification"] as? Notification_NotifyObjectResponse {
 					if publication.notifyType == "new-peer" || publication.notifyType == "new-group" {
 						if self.isViewDisplayed {
-							serverInfo()
+							self.serverInfo()
 						}
 					}
 				}
 			})
 			.onReceive(NotificationCenter.default.publisher(for: Notification.Name.IncomingMessage.groupMemberLeave), perform: { _ in
 				if self.isViewDisplayed {
-					serverInfo()
+					self.serverInfo()
 				}
 			})
 			.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.SubscribeAndListenService.didReceiveMessage)) { (obj) in
@@ -287,6 +287,7 @@ struct HomeView: View {
 		.onDisappear {
 			self.serverURL = ""
 		}
+		.onAppear(perform: callBack)
 	}
 }
 
@@ -332,17 +333,34 @@ private extension HomeView {
 		servers = injected.interactors.homeInteractor.getServers()
 	}
 	
-	func getServerInfo() {
-//		self.loadable = .isLoading(last: nil, cancelBag: CancelBag())
-		Task {
-			loadable = await injected.interactors.homeInteractor.getServerInfo()
-		}
-	}
-	
 	func serverInfo() {
-//		self.loadable = .isLoading(last: nil, cancelBag: CancelBag())
 		Task {
-			loadable = await injected.interactors.homeInteractor.getServerInfo()
+			do {
+				let load = try await injected.interactors.homeInteractor.getServerInfo().get()
+				self.groups = load.groupViewModel?.viewModelGroup.filter { $0.groupType == "group" && $0.groupMembers.contains(where: { $0.userId == DependencyResolver.shared.channelStorage.currentServer?.profile?.userId && $0.userState == "active" }) }.sorted(by: { $0.updatedAt > $1.updatedAt }).compactMap { profile in
+					GroupViewModel(profile)} ?? []
+				self.peers = load.groupViewModel?.viewModelGroup.filter { $0.groupType != "group" }.sorted(by: { $0.updatedAt > $1.updatedAt }).compactMap { profile in
+					GroupViewModel(profile)} ?? []
+				if !groups.isEmpty && !isFirstShowGroup {
+					isFirstShowGroup = true
+					isExpandGroup = true
+				}
+				
+				if !peers.isEmpty && !isFirstShowPeer {
+					isFirstShowPeer = true
+					isExpandDirectMessage = true
+				}
+				self.user = [UserViewModel(load.userViewModel?.viewModelUser)]
+				
+				if hasPendingNotification {
+					servers = injected.interactors.homeInteractor.didSelectServer(selectedNotiDomain)
+					DependencyResolver.shared.messageService.updateCurrentRoom(roomId: selectedRoomId)
+					navigateToChat = true
+					hasPendingNotification = false
+				}
+			} catch {
+				print("error")
+			}
 		}
 	}
 	
@@ -376,6 +394,16 @@ private extension HomeView {
 			self.serverInfo()
 			self.getServers()
 		})
+	}
+	
+	func callBack() {
+		let repeatTimer = Timer.init(timeInterval: 180, repeats: true) { _ in
+			serverInfo()
+			Task {
+				await injected.interactors.homeInteractor.pingRequest()
+			}
+		}
+		RunLoop.current.add(repeatTimer, forMode: .common)
 	}
 }
 

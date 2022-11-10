@@ -25,7 +25,7 @@ struct NewPasswordWorker {
 	let channelStorage: IChannelStorage
 	let remoteStore: INewPasswordRemoteStore
 	let inMemoryStore: INewPasswordInMemoryStore
-	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "[0-9a-zA-Z._%+-?=.*[ !$%&?._-]]{6,12}")
+	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "[0-9a-zA-Z._%+-?=.*[ !$%&?._-]]{8,64}")
 	init(channelStorage: IChannelStorage, remoteStore: INewPasswordRemoteStore,
 		 inMemoryStore: INewPasswordInMemoryStore) {
 		self.remoteStore = remoteStore

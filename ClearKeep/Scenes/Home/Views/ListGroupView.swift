@@ -106,7 +106,7 @@ extension ListGroupView {
 	}
 	
 	func getPartnerUserStatusColor(group: GroupViewModel) -> Color {
-		let status = getPartnerUser(group: group)?.userState
-		return StatusType(rawValue: status ?? "")?.color ?? .green
+		let status = getPartnerUser(group: group)?.userStatus
+		return StatusType(rawValue: status ?? "")?.color ?? AppTheme.shared.colorSet.grey3
 	}
 }
