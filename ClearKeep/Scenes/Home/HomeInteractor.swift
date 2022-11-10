@@ -17,7 +17,8 @@ protocol IHomeInteractor {
 	func registerToken(_ token: Data)
 	func subscribeAndListenServers()
 	func getServers() -> [ServerViewModel]
-	func getServerInfo() async -> Loadable<HomeViewModels>
+	func getServerInfo() async -> Result<HomeViewModels, Error>
+	func pingRequest() async
 	@discardableResult
 	func didSelectServer(_ domain: String?) -> [ServerViewModel]
 	func signOut() async
@@ -26,6 +27,7 @@ protocol IHomeInteractor {
 	func getGroupName(groupID: Int64) -> String
 	func removeServer()
 	func workspaceInfo(workspaceDomain: String) async -> Loadable<Bool>
+	
 }
 
 struct HomeInteractor {
@@ -64,7 +66,7 @@ extension HomeInteractor: IHomeInteractor {
 		worker.removeServer()
 	}
 
-	func getServerInfo() async -> Loadable<HomeViewModels> {
+	func getServerInfo() async -> Result<HomeViewModels, Error> {
 		let result = await worker.getJoinedGroup()
 		await worker.pingRequest()
 		
@@ -81,12 +83,12 @@ extension HomeInteractor: IHomeInteractor {
 
 			switch result {
 			case .success(let user):
-				return .loaded(HomeViewModels(responseGroup: groups, responseUser: user))
+				return .success(HomeViewModels(responseGroup: groups, responseUser: user))
 			case .failure(let error):
-				return .failed(error)
+				return .failure(error)
 			}
 		case .failure(let error):
-			return .failed(error)
+			return .failure(error)
 		}
 	}
 	
@@ -138,6 +140,10 @@ extension HomeInteractor: IHomeInteractor {
 			return .failed(error)
 		}
 	}
+	
+	func pingRequest() async {
+		await worker.pingRequest()
+	}
 }
 
 struct StubHomeInteractor: IHomeInteractor {
@@ -169,8 +175,30 @@ struct StubHomeInteractor: IHomeInteractor {
 		return []
 	}
 	
-	func getServerInfo() async -> Loadable<HomeViewModels> {
-		return .notRequested
+	func getServerInfo() async -> Result<HomeViewModels, Error> {
+		let result = await worker.getJoinedGroup()
+		await worker.pingRequest()
+		
+		switch result {
+		case .success(let groups):
+			var ids: [[String: String]] = []
+			groups.groupModel?.forEach({ data in
+				let idMembers = data.groupMembers.map({ ["id": $0.userId, "domain": $0.domain] })
+				ids.append(contentsOf: idMembers)
+			})
+			ids.append(["id": DependencyResolver.shared.channelStorage.currentServer?.profile?.userId ?? "",
+						"domain": DependencyResolver.shared.channelStorage.currentDomain])
+			let result = await worker.getListStatus(data: Array(Set(ids)))
+
+			switch result {
+			case .success(let user):
+				return .success(HomeViewModels(responseGroup: groups, responseUser: user))
+			case .failure(let error):
+				return .failure(error)
+			}
+		case .failure(let error):
+			return .failure(error)
+		}
 	}
 	
 	func didSelectServer(_ domain: String?) -> [ServerViewModel] {
@@ -199,5 +227,9 @@ struct StubHomeInteractor: IHomeInteractor {
 
 	func workspaceInfo(workspaceDomain: String) async -> Loadable<Bool> {
 		return .notRequested
+	}
+	
+	func pingRequest() async {
+		await worker.pingRequest()
 	}
 }
