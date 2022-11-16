@@ -16,6 +16,7 @@ protocol INewPasswordInteractor {
 	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool
 	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool
 	func getServers() -> [RealmServer]
+	func lengthPassword(_ password: String) -> Bool
 }
 
 struct NewPasswordInteractor {
@@ -57,12 +58,15 @@ extension NewPasswordInteractor: INewPasswordInteractor {
 	func getServers() -> [RealmServer] {
 		return self.channelStorage.getServers(isFirstLoad: false)
 	}
+	
+	func lengthPassword(_ password: String) -> Bool {
+		return worker.lengthPassword(password)
+	}
 }
 
 struct StubNewPasswordInteractor: INewPasswordInteractor {
 	let authenticationService: IAuthenticationService
 	let channelStorage: IChannelStorage
-	
 	
 	var worker: INewPasswordWorker {
 		let remoteStore = NewPasswordRemoteStore(authenticationService: authenticationService)
@@ -88,5 +92,9 @@ struct StubNewPasswordInteractor: INewPasswordInteractor {
 	
 	func getServers() -> [RealmServer] {
 		return self.channelStorage.servers
+	}
+	
+	func lengthPassword(_ password: String) -> Bool {
+		return worker.lengthPassword(password)
 	}
 }

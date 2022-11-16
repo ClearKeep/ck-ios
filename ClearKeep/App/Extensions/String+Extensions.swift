@@ -32,3 +32,61 @@ public extension String {
 		return components(separatedBy: .whitespaces).joined()
 	}
 }
+
+public enum PasswordType {
+	
+	case strong
+	case soft
+	case weak
+	case errorPassword
+}
+
+/// Private properties
+private let capitalLetters = "QWEÉRTYUÚIÍOÓPAÁSDFGHJKLÑZXCVBNM"
+private let lowercasedLetters = "qweértyuúiíoópaásdfghjklñzxcvbnm"
+private let numbers = "0987654321"
+private let specialLetter = "!@#$%&_-"
+
+class ValidatePasswords: NSObject {
+	
+	class func getLevelPasswordFullRegEx(_ password: String,
+										 _ minimumCharacters: Int) -> PasswordType {
+		var rules: Int = 0
+		var characterSet: CharacterSet!
+		
+		characterSet = CharacterSet(charactersIn: capitalLetters)
+		if password.rangeOfCharacter(from: characterSet) != nil {
+			rules += 1
+		}
+		
+		characterSet = CharacterSet(charactersIn: lowercasedLetters)
+		if password.rangeOfCharacter(from: characterSet) != nil {
+			rules += 1
+		}
+		
+		characterSet = CharacterSet(charactersIn: numbers)
+		if password.rangeOfCharacter(from: characterSet) != nil {
+			rules += 1
+		}
+		
+		characterSet = CharacterSet(charactersIn: specialLetter)
+		if password.rangeOfCharacter(from: characterSet) != nil {
+			rules += 1
+		}
+		
+		switch rules {
+		case 0:
+			return PasswordType.errorPassword
+		case 1:
+			return PasswordType.weak
+		case 2:
+			return PasswordType.weak
+		case 3:
+			return PasswordType.soft
+		case 4:
+			return PasswordType.strong
+		default:
+			return PasswordType.strong
+		}
+	}
+}

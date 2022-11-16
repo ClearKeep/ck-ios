@@ -18,7 +18,8 @@
 "General.OK" = "OK";
 "General.Add" = "Add";
 "General.Email.Valid" = "Email is invalid";
-"General.Password.Valid" = "Password must be between 6-12 characters";
+"General.Password.Invalid" = "Password is invalid";
+"General.Password.Valid" = "Password must be between 8-64 characters";
 "General.ConfirmPassword.Valid" = "Password and Confirm password do not match. Please try again";
 "General.Close" = "Close";
 "General.Cancel" = "Cancel";
@@ -27,7 +28,7 @@
 "General.Message.Banner" = "New message from %@";
 "General.Message.Banner.Preview" = "You have a new message";
 "General.Delete" = "Delete";
-
+"General.Password.Rules" = "\U2022 Must be between 8–64 characters\n\U2022 Must contain at least 1 lowercase character\n\U2022 Must contain at least 1 uppercase character\n\U2022 Must contain at least 1 number\n\U2022 Must contain at least 1 special character in (!@#$%^&*-_)";
 // MARK: - Error
 "Error.Unknow.Message" = "Oops, something went wrong. Please try again later.";
 "Error.Authentication.Existed" = "This email address is already being used!";

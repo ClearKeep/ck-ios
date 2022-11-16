@@ -16,6 +16,7 @@ protocol IChangePasswordInteractor {
 	func passwordValid(password: String) -> Bool
 	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool
 	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool
+	func lengthPassword(_ password: String) -> Bool
 }
 
 struct ChangePasswordInteractor {
@@ -61,6 +62,10 @@ extension ChangePasswordInteractor: IChangePasswordInteractor {
 	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool {
 		return worker.checkValid(passwordValdid: passwordValdid, confirmPasswordValid: confirmPasswordValid)
 	}
+	
+	func lengthPassword(_ password: String) -> Bool {
+		return worker.lengthPassword(password)
+	}
 }
 
 struct StubChangePasswordInteractor: IChangePasswordInteractor {
@@ -91,5 +96,9 @@ struct StubChangePasswordInteractor: IChangePasswordInteractor {
 	
 	func oldPassValid(oldpassword: String) -> Bool {
 		return worker.oldValid(oldpassword: oldpassword)
+	}
+	
+	func lengthPassword(_ password: String) -> Bool {
+		return worker.lengthPassword(password)
 	}
 }

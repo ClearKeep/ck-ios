@@ -15,6 +15,8 @@ private enum Constants {
 	static let spacing = 20.0
 	static let padding = 16.0
 	static let paddingtop = 50.0
+	static let spacingForm = 5.0
+	static let opacity = 0.4
 }
 
 struct ChangePasswordContentView: View {
@@ -38,9 +40,9 @@ struct ChangePasswordContentView: View {
 	@State private var passwordInvalid: Bool = false
 	@State private var confirmPasswordInvvalid: Bool = false
 	@State private var checkInvalid: Bool = false
-	
+	@State private var isShowAlert: Bool = false
 	// MARK: - Init
-
+	
 	// MARK: - Body
 	var body: some View {
 		content
@@ -48,7 +50,7 @@ struct ChangePasswordContentView: View {
 										  titleColor: titleColor,
 										  backgroundColors: backgroundButtonBack,
 										  leftBarItems: {
-				BackButtonStandard(customBack)
+				BackButton(customBack)
 			},
 										  rightBarItems: {
 				Spacer()
@@ -72,11 +74,11 @@ private extension ChangePasswordContentView {
 	var foregroundBackButton: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
-
+	
 	var backgroundButtonBack: [Color] {
 		colorScheme == .light ? AppTheme.shared.colorSet.gradientPrimary : [AppTheme.shared.colorSet.black, AppTheme.shared.colorSet.black]
 	}
-
+	
 	var titleColor: Color {
 		colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.grey3
 	}
@@ -91,15 +93,15 @@ private extension ChangePasswordContentView {
 	var content: AnyView {
 		AnyView(changePasswordView)
 	}
-
+	
 	func dochangPassword() {
 		Task {
 			await injected.interactors.changePasswordInteractor.changePassword(loadable: $loadable, oldPassword: currentPassword, newPassword: newPassword)
 		}
 	}
-
+	
 	func checkCurrentpass(text: String) {
-		currentInvalid = injected.interactors.changePasswordInteractor.passwordValid(password: text)
+		currentInvalid = injected.interactors.changePasswordInteractor.lengthPassword(text)
 		currentStyle = currentInvalid ? .normal : .error(message: "General.Password.Valid".localized)
 		if !newPassword.isEmpty {
 			if newPassword == text {
@@ -111,10 +113,11 @@ private extension ChangePasswordContentView {
 			}
 		}
 	}
-
+	
 	func checkNewpass(text: String) {
+		let lengthPassword = injected.interactors.changePasswordInteractor.lengthPassword(text)
 		passwordInvalid = injected.interactors.changePasswordInteractor.passwordValid(password: text)
-		newStyle = passwordInvalid ? .normal : .error(message: "General.Password.Valid".localized)
+		newStyle = passwordInvalid ? .normal : .error(message: lengthPassword ? "General.Password.Invalid".localized : "General.Password.Valid".localized)
 		if text == currentPassword {
 			newStyle = .error(message: "NewPassword.Diffirent.OldPass".localized)
 		}
@@ -123,68 +126,118 @@ private extension ChangePasswordContentView {
 			confirmStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
 		}
 	}
-
+	
 	func checkConfirm(text: String) {
 		confirmPasswordInvvalid = injected.interactors.changePasswordInteractor.confirmPasswordValid(password: newPassword, confirmPassword: text)
 		confirmStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
 	}
-
+	
 	func disableButton() -> Bool {
 		return !(currentInvalid && passwordInvalid && confirmPasswordInvvalid)
+	}
+	
+	func suggestionsValid() {
+		isShowAlert = true
 	}
 }
 
 // MARK: - Loading Content
 private extension ChangePasswordContentView {
 	var changePasswordView: some View {
-		VStack(spacing: Constants.spacing) {
-			Text("NewPassword.Description".localized)
-				.font(AppTheme.shared.fontSet.font(style: .input2))
-				.foregroundColor(foregroundBackButton)
-				.frame(alignment: .leading)
-			SecureTextField(secureText: $currentPassword,
-							inputStyle: $currentStyle,
-							inputIcon: AppTheme.shared.imageSet.lockIcon,
-							placeHolder: "NewPassword.Current.PlaceHold".localized,
-							keyboardType: .default,
-							onEditingChanged: { isEditing in
-				self.currentStyle = isEditing ? .highlighted : (currentInvalid ? .normal : .error(message: "General.Password.Valid".localized))
-			})
-				.onChange(of: currentPassword, perform: { text in
-					checkCurrentpass(text: text)
-				})
-
-			SecureTextField(secureText: $newPassword,
-							inputStyle: $newStyle,
-							inputIcon: AppTheme.shared.imageSet.lockIcon,
-							placeHolder: "NewPassword.New.PlaceHold".localized,
-							keyboardType: .default,
-							onEditingChanged: { isEditing in
-				self.newStyle = isEditing ? .highlighted : (passwordInvalid ? .normal : .error(message: "General.Password.Valid".localized))
-				self.newStyle = isEditing ? .highlighted : ((newPassword != currentPassword) ? .normal : .error(message: "NewPassword.Diffirent.OldPass".localized))
-
-			})
-				.onChange(of: newPassword, perform: { text in
-					checkNewpass(text: text)
-				})
-
-			SecureTextField(secureText: $confirmPassword,
-							inputStyle: $confirmStyle,
-							inputIcon: AppTheme.shared.imageSet.lockIcon,
-							placeHolder: "NewPassword.Confirm.PlaceHold".localized,
-							keyboardType: .default,
-							onEditingChanged: { isEditing in
-				self.confirmStyle = isEditing ? .highlighted : (confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized))
-			})
-				.onChange(of: confirmPassword, perform: { text in
-					checkConfirm(text: text)
-				})
-			RoundedButton("General.Save".localized,
-						  disabled: .constant(disableButton()),
-						  action: dochangPassword)
-			Spacer()
+		ZStack {
+			VStack(spacing: Constants.spacing) {
+				Text("NewPassword.Description".localized)
+					.font(AppTheme.shared.fontSet.font(style: .input2))
+					.foregroundColor(foregroundBackButton)
+					.frame(alignment: .leading)
+				VStack(alignment: .leading, spacing: Constants.spacingForm) {
+					Text("NewPassword.Current.PlaceHold".localized)
+						.foregroundColor(foregroundBackButton)
+						.font(AppTheme.shared.fontSet.font(style: .input2))
+					SecureTextField(secureText: $currentPassword,
+									inputStyle: $currentStyle,
+									inputIcon: AppTheme.shared.imageSet.lockIcon,
+									placeHolder: "NewPassword.Current.PlaceHold".localized,
+									keyboardType: .default,
+									onEditingChanged: { isEditing in
+						self.currentStyle = isEditing ? .highlighted : (currentInvalid ? .normal : .error(message: "General.Password.Valid".localized))
+					})
+						.onChange(of: currentPassword, perform: { text in
+							checkCurrentpass(text: text)
+						})
+				}
+				VStack(alignment: .leading, spacing: Constants.spacingForm) {
+					HStack {
+						Text("General.Password".localized)
+							.foregroundColor(foregroundBackButton)
+							.font(AppTheme.shared.fontSet.font(style: .input2))
+						Button(action: suggestionsValid ) {
+							Image(systemName: "info.circle.fill")
+								.resizable()
+								.frame(width: 12, height: 12)
+								.foregroundColor(foregroundBackButton)
+						}
+					}
+					SecureTextField(secureText: $newPassword,
+									inputStyle: $newStyle,
+									inputIcon: AppTheme.shared.imageSet.lockIcon,
+									placeHolder: "NewPassword.New.PlaceHold".localized,
+									keyboardType: .default,
+									onEditingChanged: { isEditing in
+						self.newStyle = isEditing ? .highlighted : (passwordInvalid ? .normal : .error(message: "General.Password.Valid".localized))
+						self.newStyle = isEditing ? .highlighted : ((newPassword != currentPassword) ? .normal : .error(message: "NewPassword.Diffirent.OldPass".localized))
+						
+					})
+						.onChange(of: newPassword, perform: { text in
+							checkNewpass(text: text)
+						})
+				}
+				VStack(alignment: .leading, spacing: Constants.spacingForm) {
+					Text("General.ConfirmPassword".localized)
+						.foregroundColor(foregroundBackButton)
+						.font(AppTheme.shared.fontSet.font(style: .input2))
+					SecureTextField(secureText: $confirmPassword,
+									inputStyle: $confirmStyle,
+									inputIcon: AppTheme.shared.imageSet.lockIcon,
+									placeHolder: "NewPassword.Confirm.PlaceHold".localized,
+									keyboardType: .default,
+									onEditingChanged: { isEditing in
+						self.confirmStyle = isEditing ? .highlighted : (confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized))
+					})
+						.onChange(of: confirmPassword, perform: { text in
+							checkConfirm(text: text)
+						})
+				}
+				RoundedButton("General.Save".localized,
+							  disabled: .constant(disableButton()),
+							  action: dochangPassword)
+				Spacer()
+			}
+			.frame(maxHeight: .infinity)
+			.padding(.all, Constants.padding)
+			if $isShowAlert.wrappedValue {
+				ZStack {
+					Color.white
+					VStack {
+						Text("General.Password.Rules".localized)
+							.font(AppTheme.shared.fontSet.font(style: .placeholder2))
+							.frame(alignment: .leading)
+						Spacer()
+						Button(action: {
+							self.isShowAlert = false
+						}, label: {
+							Text("Close")
+						})
+					}.padding()
+				}
+				.animation(.easeIn(duration: 1))
+				.frame(width: 300, height: 200)
+				.cornerRadius(20)
+				.shadow(color: AppTheme.shared.colorSet.black.opacity(Constants.opacity), radius: 20)
+				.zIndex(2)
+				.offset(y: -80)
+			}
 		}
-		.frame(maxHeight: .infinity)
-		.padding(.all, Constants.padding)
+		
 	}
 }

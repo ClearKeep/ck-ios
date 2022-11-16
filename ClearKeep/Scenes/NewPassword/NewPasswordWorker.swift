@@ -19,6 +19,7 @@ protocol INewPasswordWorker {
 	func passwordValid(password: String) -> Bool
 	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool
 	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool
+	func lengthPassword(_ password: String) -> Bool
 }
 
 struct NewPasswordWorker {
@@ -44,8 +45,8 @@ extension NewPasswordWorker: INewPasswordWorker {
 	}
 
 	func passwordValid(password: String) -> Bool {
-		let result = self.passwordPredicate.evaluate(with: password)
-		return result
+		let levelPassword = ValidatePasswords.getLevelPasswordFullRegEx(password, 8)
+		return levelPassword == .strong ? true : false
 	}
 
 	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool {
@@ -58,5 +59,10 @@ extension NewPasswordWorker: INewPasswordWorker {
 
 	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool {
 		(passwordValdid == false || confirmPasswordValid == false) ?  false : true
+	}
+	
+	func lengthPassword(_ password: String) -> Bool {
+		let result = password.count >= 8 && 64 >= password.count
+		return result
 	}
 }
