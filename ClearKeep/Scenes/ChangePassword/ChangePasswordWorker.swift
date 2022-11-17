@@ -27,7 +27,7 @@ struct ChangePasswordWorker {
 	let remoteStore: IChangePasswordRemoteStore
 	let inMemoryStore: IChangePasswordInMemoryStore
 	var currentDomain: String?
-	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&\"*()\\-_=+{};:,<.>])[A-Za-z\\d!@#$%^&\"*()\\-_=+{};:,<.>]{8,64}")
+	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*&-_])[A-Za-z\\d@$!%*&-_]{8,64}")
 	
 	init(channelStorage: IChannelStorage,
 		 remoteStore: IChangePasswordRemoteStore,
