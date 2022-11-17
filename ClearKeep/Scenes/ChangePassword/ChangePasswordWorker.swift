@@ -27,7 +27,8 @@ struct ChangePasswordWorker {
 	let remoteStore: IChangePasswordRemoteStore
 	let inMemoryStore: IChangePasswordInMemoryStore
 	var currentDomain: String?
-
+	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&\"*()\\-_=+{};:,<.>])[A-Za-z\\d!@#$%^&\"*()\\-_=+{};:,<.>]{8,64}")
+	
 	init(channelStorage: IChannelStorage,
 		 remoteStore: IChangePasswordRemoteStore,
 		 inMemoryStore: IChangePasswordInMemoryStore) {
@@ -48,8 +49,8 @@ extension ChangePasswordWorker: IChangePasswordWorker {
 	}
 	
 	func passwordValid(password: String) -> Bool {
-		let levelPassword = ValidatePasswords.getLevelPasswordFullRegEx(password, 8)
-		return levelPassword == .strong ? true : false
+		let result = self.passwordPredicate.evaluate(with: password)
+		return result
 	}
 	
 	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool {

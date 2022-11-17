@@ -26,7 +26,7 @@ struct RegisterWorker {
 	let remoteStore: IRegisterRemoteStore
 	let inMemoryStore: IRegisterInMemoryStore
 	let emailPredicate = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
-	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "[0-9a-zA-Z._%+-?=.*[ !$%&?._-]]{8,64}")
+	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&\"*()\\-_=+{};:,<.>])[A-Za-z\\d!@#$%^&\"*()\\-_=+{};:,<.>]{8,64}")
 	init(channelStorage: IChannelStorage,
 		remoteStore: IRegisterRemoteStore,
 		 inMemoryStore: IRegisterInMemoryStore) {
@@ -52,8 +52,8 @@ extension RegisterWorker: IRegisterWorker {
 	}
 
 	func passwordValid(password: String) -> Bool {
-		let levelPassword = ValidatePasswords.getLevelPasswordFullRegEx(password, 8)
-		return levelPassword == .strong ? true : false
+		let result = self.passwordPredicate.evaluate(with: password)
+		return result
 	}
 
 	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool {
