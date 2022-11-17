@@ -19,6 +19,7 @@ protocol IChangePasswordWorker {
 	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool
 	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool
 	func updateGroupClientKey() async -> Bool
+	func lengthPassword(_ password: String) -> Bool
 }
 
 struct ChangePasswordWorker {
@@ -26,7 +27,8 @@ struct ChangePasswordWorker {
 	let remoteStore: IChangePasswordRemoteStore
 	let inMemoryStore: IChangePasswordInMemoryStore
 	var currentDomain: String?
-
+	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*&-_])[A-Za-z\\d@$!%*&-_]{8,64}")
+	
 	init(channelStorage: IChannelStorage,
 		 remoteStore: IChangePasswordRemoteStore,
 		 inMemoryStore: IChangePasswordInMemoryStore) {
@@ -40,26 +42,31 @@ extension ChangePasswordWorker: IChangePasswordWorker {
 	func changePassword(oldPassword: String, newPassword: String) async -> Result<IChangePasswordModels, Error> {
 		return await remoteStore.changePassword(oldPassword: oldPassword, newPassword: newPassword, domain: currentDomain ?? channelStorage.currentDomain)
 	}
-
+	
 	func oldValid(oldpassword: String) -> Bool {
-		let result = oldpassword.count >= 6 && 12 >= oldpassword.count
+		let result = oldpassword.count >= 8 && 64 >= oldpassword.count
 		return result
 	}
-
+	
 	func passwordValid(password: String) -> Bool {
-		let result = password.count >= 6 && 12 >= password.count
+		let result = self.passwordPredicate.evaluate(with: password)
 		return result
 	}
-
+	
 	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool {
 		return password == confirmPassword
 	}
-
+	
 	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool {
 		(passwordValdid == false || confirmPasswordValid == false) ?  false : true
 	}
 	
 	func updateGroupClientKey() async -> Bool {
 		return await remoteStore.updateGroupClientKey(domain: currentDomain ?? channelStorage.currentDomain)
+	}
+	
+	func lengthPassword(_ password: String) -> Bool {
+		let result = password.count >= 8 && 64 >= password.count
+		return result
 	}
 }

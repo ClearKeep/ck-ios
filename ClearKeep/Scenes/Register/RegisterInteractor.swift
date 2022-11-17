@@ -14,6 +14,7 @@ protocol IRegisterInteractor {
 	func passwordValid(password: String) -> Bool
 	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool
 	func checkValid(emailValid: Bool, passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool
+	func lengthPassword(_ password: String) -> Bool
 }
 
 struct RegisterInteractor {
@@ -55,6 +56,10 @@ extension RegisterInteractor: IRegisterInteractor {
 	func checkValid(emailValid: Bool, passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool {
 		return worker.checkValid(emailValid: emailValid, passwordValdid: passwordValdid, confirmPasswordValid: confirmPasswordValid)
 	}
+	
+	func lengthPassword(_ password: String) -> Bool {
+		return worker.lengthPassword(password)
+	}
 }
 
 struct StubRegisterInteractor: IRegisterInteractor {
@@ -87,4 +92,7 @@ struct StubRegisterInteractor: IRegisterInteractor {
 		return worker.checkValid(emailValid: emailValid, passwordValdid: passwordValdid, confirmPasswordValid: confirmPasswordValid)
 	}
 
+	func lengthPassword(_ password: String) -> Bool {
+		return worker.lengthPassword(password)
+	}
 }

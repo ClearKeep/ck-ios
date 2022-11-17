@@ -8,12 +8,15 @@
 import SwiftUI
 import Common
 import CommonUI
+import Foundation
 
 private enum Constants {
 	static let buttonSize = CGSize(width: 120.0, height: 40.0)
 	static let spacing = 20.0
 	static let padding = UIEdgeInsets(top: 24.0, left: 16.0, bottom: 24.0, right: 16.0)
 	static let paddingtop = 60.0
+	static let spacingForm = 5.0
+	static let opacity = 0.4
 }
 
 enum CheckoutFocusable: Hashable {
@@ -43,73 +46,120 @@ struct RegisterContentView: View {
 	@State private var confirmPasswordInvvalid: Bool = false
 	@State private var checkInvalid: Bool = false
 	@FocusState private var checkoutInFocus: CheckoutFocusable?
+	@State private var isShowAlert: Bool = false
 	// MARK: - Body
 	var body: some View {
-		VStack(alignment: .center, spacing: Constants.spacing) {
-			Text("Register.Title".localized)
-				.font(AppTheme.shared.fontSet.font(style: .input2))
-			CommonTextField(text: $email,
-							inputStyle: $emailStyle,
-							inputIcon: AppTheme.shared.imageSet.mailIcon,
-							placeHolder: "General.Email".localized,
-							keyboardType: .default,
-							onEditingChanged: { isEditing in
-				emailStyle = isEditing ? .highlighted : .normal
-			},
-							submitLabel: .continue,
-							onSubmit: { checkoutInFocus = .displayName })
-				.focused($checkoutInFocus, equals: .email)
-
-			CommonTextField(text: $displayName,
-							inputStyle: $displayNameStyle,
-							inputIcon: AppTheme.shared.imageSet.userCheckIcon,
-							placeHolder: "General.DisplayName".localized,
-							keyboardType: .default,
-							onEditingChanged: { isEditing in
-				displayNameStyle = isEditing ? .highlighted : .normal
-			},
-							submitLabel: .continue,
-							onSubmit: { checkoutInFocus = .newpass })
-				.onReceive(displayName.publisher.collect()) {
-					self.displayName = String($0.prefix(30))
+		ZStack {
+			VStack(alignment: .leading, spacing: Constants.spacing) {
+				Text("Register.Title".localized)
+					.font(AppTheme.shared.fontSet.font(style: .input2))
+				VStack(alignment: .leading, spacing: Constants.spacingForm) {
+					Text("General.Email".localized)
+						.font(AppTheme.shared.fontSet.font(style: .input2))
+					CommonTextField(text: $email,
+									inputStyle: $emailStyle,
+									inputIcon: AppTheme.shared.imageSet.mailIcon,
+									placeHolder: "General.Email".localized,
+									keyboardType: .default,
+									onEditingChanged: { isEditing in
+						emailStyle = isEditing ? .highlighted : .normal
+					},
+									submitLabel: .continue,
+									onSubmit: { checkoutInFocus = .displayName })
+						.focused($checkoutInFocus, equals: .email)
 				}
-				.focused($checkoutInFocus, equals: .displayName)
-
-			SecureTextField(secureText: $password,
-							inputStyle: $passwordStyle,
-							inputIcon: AppTheme.shared.imageSet.lockIcon,
-							placeHolder: "General.Password".localized,
-							keyboardType: .default,
-							onEditingChanged: { isEditing in
-				passwordStyle = isEditing ? .highlighted : .normal
-			},
-							submitLabel: .continue,
-							onSubmit: { checkoutInFocus = .confirm })
-				.onSubmit({ self.checkoutInFocus = .confirm })
-				.focused($checkoutInFocus, equals: .newpass)
-			SecureTextField(secureText: $confirmPassword,
-							inputStyle: $confirmPasswordStyle,
-							inputIcon: AppTheme.shared.imageSet.lockIcon,
-							placeHolder: "General.ConfirmPassword".localized,
-							keyboardType: .default,
-							onEditingChanged: { isEditing in
-				confirmPasswordStyle = isEditing ? .highlighted : .normal
-			},
-							submitLabel: .done,
-							onSubmit: { self.checkoutInFocus = nil })
-				.focused($checkoutInFocus, equals: .confirm)
-			HStack {
-				Button(action: customBack) {
-					Text("Register.SignInInstead".localized)
-						.padding(.all)
-						.font(AppTheme.shared.fontSet.font(style: .body4))
-						.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+				VStack(alignment: .leading, spacing: Constants.spacingForm) {
+					Text("General.DisplayName".localized)
+						.font(AppTheme.shared.fontSet.font(style: .input2))
+					CommonTextField(text: $displayName,
+									inputStyle: $displayNameStyle,
+									inputIcon: AppTheme.shared.imageSet.userCheckIcon,
+									placeHolder: "General.DisplayName".localized,
+									keyboardType: .default,
+									onEditingChanged: { isEditing in
+						displayNameStyle = isEditing ? .highlighted : .normal
+					},
+									submitLabel: .continue,
+									onSubmit: { checkoutInFocus = .newpass })
+						.onReceive(displayName.publisher.collect()) {
+							self.displayName = String($0.prefix(30))
+						}
+						.focused($checkoutInFocus, equals: .displayName)
 				}
-				Spacer()
-				RoundedGradientButton("Register.SignUp".localized,
-									  disabled: .constant(email.isEmpty || displayCheck(displayName: displayName) || password.isEmpty || confirmPassword.isEmpty),
-									  action: doRegister)
-					.frame(width: Constants.buttonSize.width)
+				VStack(alignment: .leading, spacing: Constants.spacingForm) {
+					HStack {
+						Text("General.Password".localized)
+							.font(AppTheme.shared.fontSet.font(style: .input2))
+						Button(action: suggestionsValid ) {
+							Image(systemName: "info.circle.fill")
+								.resizable()
+								.frame(width: 12, height: 12)
+								.foregroundColor(.black)
+						}
+					}
+					
+					SecureTextField(secureText: $password,
+									inputStyle: $passwordStyle,
+									inputIcon: AppTheme.shared.imageSet.lockIcon,
+									placeHolder: "General.Password".localized,
+									keyboardType: .default,
+									onEditingChanged: { isEditing in
+						passwordStyle = isEditing ? .highlighted : .normal
+					},
+									submitLabel: .continue,
+									onSubmit: { checkoutInFocus = .confirm })
+						.onSubmit({ self.checkoutInFocus = .confirm })
+						.focused($checkoutInFocus, equals: .newpass)
+				}
+				VStack(alignment: .leading, spacing: Constants.spacingForm) {
+					Text("General.ConfirmPassword".localized)
+						.font(AppTheme.shared.fontSet.font(style: .input2))
+					SecureTextField(secureText: $confirmPassword,
+									inputStyle: $confirmPasswordStyle,
+									inputIcon: AppTheme.shared.imageSet.lockIcon,
+									placeHolder: "General.ConfirmPassword".localized,
+									keyboardType: .default,
+									onEditingChanged: { isEditing in
+						confirmPasswordStyle = isEditing ? .highlighted : .normal
+					},
+									submitLabel: .done,
+									onSubmit: { self.checkoutInFocus = nil })
+						.focused($checkoutInFocus, equals: .confirm)
+				}
+				HStack {
+					Button(action: customBack) {
+						Text("Register.SignInInstead".localized)
+							.padding(.all)
+							.font(AppTheme.shared.fontSet.font(style: .body4))
+							.foregroundColor(AppTheme.shared.colorSet.primaryDefault)
+					}
+					Spacer()
+					RoundedGradientButton("Register.SignUp".localized,
+										  disabled: .constant(email.isEmpty || displayCheck(displayName: displayName) || password.isEmpty || confirmPassword.isEmpty),
+										  action: doRegister)
+						.frame(width: Constants.buttonSize.width)
+				}
+			}
+			if $isShowAlert.wrappedValue {
+				ZStack {
+					Color.white
+					VStack {
+						Text("General.Password.Rules".localized)
+							.font(AppTheme.shared.fontSet.font(style: .placeholder2))
+							.frame(alignment: .leading)
+						Spacer()
+						Button(action: {
+							self.isShowAlert = false
+						}, label: {
+							Text("Close")
+						})
+					}.padding()
+				}
+				.animation(.easeIn(duration: 1))
+				.frame(width: 300, height: 200)
+				.cornerRadius(20)
+				.shadow(color: AppTheme.shared.colorSet.black.opacity(Constants.opacity), radius: 20)
+				.zIndex(2)
 			}
 		}
 		.onChange(of: checkoutInFocus) { checkoutInFocus = $0 }
@@ -145,19 +195,26 @@ private extension RegisterContentView {
 	func invalid() {
 		emailInvalid = injected.interactors.registerInteractor.emailValid(email: email)
 		emailStyle = emailInvalid ? .normal : .error(message: "General.Email.Valid".localized)
-
+		
+		let lengthPassword = injected.interactors.registerInteractor.lengthPassword(password)
+		
 		passwordInvalid = injected.interactors.registerInteractor.passwordValid(password: password)
-		passwordStyle = passwordInvalid ? .normal : .error(message: "General.Password.Valid".localized)
-
+		passwordStyle = passwordInvalid ? .normal : .error(message: lengthPassword ?  "General.Password.Invalid".localized : "General.Password.Valid".localized )
+		
 		confirmPasswordInvvalid = injected.interactors.registerInteractor.confirmPasswordValid(password: password, confirmPassword: confirmPassword)
 		confirmPasswordStyle = confirmPasswordInvvalid ? .normal : .error(message: "General.ConfirmPassword.Valid".localized)
-
+		
 		checkInvalid = injected.interactors.registerInteractor.checkValid(emailValid: emailInvalid, passwordValdid: passwordInvalid, confirmPasswordValid: confirmPasswordInvvalid)
 	}
-
+	
 	func displayCheck(displayName: String) -> Bool {
 		return displayName.filter { $0 != " " }.isEmpty
 	}
+	
+	func suggestionsValid() {
+		isShowAlert = true
+	}
+	
 }
 
 // MARK: - Preview

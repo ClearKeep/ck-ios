@@ -20,29 +20,23 @@ private enum Constants {
 struct RegisterView: View {
 	// MARK: - Constants
 	private let inspection = ViewInspector<Self>()
-
+	
 	// MARK: - Variables
 	@Environment(\.injected) private var injected: DIContainer
 	@Environment(\.colorScheme) var colorScheme
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@Binding var customServer: CustomServer
 	@State private(set) var loadable: Loadable<Bool> = .notRequested
-
+	
 	// MARK: - Init
-
+	
 	// MARK: - Body
 	var body: some View {
-		GeometryReader { _ in
-			ScrollView(showsIndicators: false) {
-				AppLogo()
-					.frame(width: Constants.logoSize.width, height: Constants.logoSize.height)
-					.padding(.top, Constants.logoPadding.top)
-					.padding(.bottom, Constants.logoPadding.bottom)
-				content
-					.padding(.horizontal, Constants.contentPadding.left)
-			}
-			.keyboardAdaptive()
+		ScrollView(showsIndicators: false) {
+			content
+				.padding(.horizontal, Constants.contentPadding.left)
 		}
+		.keyboardAdaptive()
 		.onReceive(inspection.notice) { inspection.visit(self, $0) }
 		.grandientBackground()
 		.hiddenNavigationBarStyle()
@@ -74,7 +68,11 @@ private extension RegisterView {
 // MARK: - Loading Content
 private extension RegisterView {
 	var notRequestedView: some View {
-		RegisterContentView(loadable: $loadable, customServer: $customServer)
+		VStack {
+			Text("")
+				.frame(width: Constants.logoSize.width, height: Constants.logoSize.height)
+			RegisterContentView(loadable: $loadable, customServer: $customServer)
+		}
 	}
 	
 	var loadingView: some View {

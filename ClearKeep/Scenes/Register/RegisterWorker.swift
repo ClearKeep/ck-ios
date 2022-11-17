@@ -18,6 +18,7 @@ protocol IRegisterWorker {
 	func passwordValid(password: String) -> Bool
 	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool
 	func checkValid(emailValid: Bool, passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool
+	func lengthPassword(_ password: String) -> Bool
 }
 
 struct RegisterWorker {
@@ -25,7 +26,7 @@ struct RegisterWorker {
 	let remoteStore: IRegisterRemoteStore
 	let inMemoryStore: IRegisterInMemoryStore
 	let emailPredicate = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
-	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "[0-9a-zA-Z._%+-?=.*[ !$%&?._-]]{8,64}")
+	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*&-_])[A-Za-z\\d@$!%*&-_]{8,64}")
 	init(channelStorage: IChannelStorage,
 		remoteStore: IRegisterRemoteStore,
 		 inMemoryStore: IRegisterInMemoryStore) {
@@ -65,5 +66,10 @@ extension RegisterWorker: IRegisterWorker {
 
 	func checkValid(emailValid: Bool, passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool {
 		(emailValid == false || passwordValdid == false || confirmPasswordValid == false) ?  false : true
+	}
+	
+	func lengthPassword(_ password: String) -> Bool {
+		let result = password.count >= 8 && 64 >= password.count
+		return result
 	}
 }

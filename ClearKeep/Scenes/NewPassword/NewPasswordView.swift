@@ -37,14 +37,6 @@ struct NewPasswordView: View {
 	var body: some View {
 		content
 			.onReceive(inspection.notice) { inspection.visit(self, $0) }
-			.applyNavigationBarPlainStyle(title: "NewPassword.Title".localized,
-										  titleColor: titleColor,
-										  leftBarItems: {
-				BackButton(customBack)
-			},
-										  rightBarItems: {
-				Spacer()
-			})
 			.hideKeyboardOnTapped()
 			.grandientBackground()
 	}

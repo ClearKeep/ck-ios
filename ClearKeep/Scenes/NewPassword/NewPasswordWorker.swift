@@ -19,13 +19,14 @@ protocol INewPasswordWorker {
 	func passwordValid(password: String) -> Bool
 	func confirmPasswordValid(password: String, confirmPassword: String) -> Bool
 	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool
+	func lengthPassword(_ password: String) -> Bool
 }
 
 struct NewPasswordWorker {
 	let channelStorage: IChannelStorage
 	let remoteStore: INewPasswordRemoteStore
 	let inMemoryStore: INewPasswordInMemoryStore
-	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "[0-9a-zA-Z._%+-?=.*[ !$%&?._-]]{8,64}")
+	let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*&-_])[A-Za-z\\d@$!%*&-_]{8,64}")
 	init(channelStorage: IChannelStorage, remoteStore: INewPasswordRemoteStore,
 		 inMemoryStore: INewPasswordInMemoryStore) {
 		self.remoteStore = remoteStore
@@ -58,5 +59,10 @@ extension NewPasswordWorker: INewPasswordWorker {
 
 	func checkValid(passwordValdid: Bool, confirmPasswordValid: Bool) -> Bool {
 		(passwordValdid == false || confirmPasswordValid == false) ?  false : true
+	}
+	
+	func lengthPassword(_ password: String) -> Bool {
+		let result = password.count >= 8 && 64 >= password.count
+		return result
 	}
 }
