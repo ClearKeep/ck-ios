@@ -1,16 +1,16 @@
 PODS:
-  - _NIODataStructures (2.38.0)
-  - AppAuth (1.5.0):
-    - AppAuth/Core (= 1.5.0)
-    - AppAuth/ExternalUserAgent (= 1.5.0)
-  - AppAuth/Core (1.5.0)
-  - AppAuth/ExternalUserAgent (1.5.0):
+  - _NIODataStructures (2.40.0)
+  - AppAuth (1.6.0):
+    - AppAuth/Core (= 1.6.0)
+    - AppAuth/ExternalUserAgent (= 1.6.0)
+  - AppAuth/Core (1.6.0)
+  - AppAuth/ExternalUserAgent (1.6.0):
     - AppAuth/Core
   - CallManager (1.0.0):
     - ChatSecure
     - GoogleWebRTC
     - SocketRocket
-  - CGRPCZlib (1.7.3)
+  - CGRPCZlib (1.8.0)
   - ChatSecure (1.0.0):
     - Mantle
     - Networking
@@ -18,17 +18,17 @@ PODS:
     - SignalServiceKit
     - SwiftSRP
     - YapDatabase/SQLCipher
-  - CNIOAtomics (2.38.0)
-  - CNIOBoringSSL (2.15.1)
-  - CNIOBoringSSLShims (2.15.1):
-    - CNIOBoringSSL (= 2.15.1)
-  - CNIODarwin (2.38.0)
-  - CNIOHTTPParser (2.38.0)
-  - CNIOLinux (2.38.0)
-  - CNIOWindows (2.38.0)
-  - CocoaLumberjack (3.7.4):
-    - CocoaLumberjack/Core (= 3.7.4)
-  - CocoaLumberjack/Core (3.7.4)
+  - CNIOAtomics (2.40.0)
+  - CNIOBoringSSL (2.19.0)
+  - CNIOBoringSSLShims (2.19.0):
+    - CNIOBoringSSL (= 2.19.0)
+  - CNIODarwin (2.40.0)
+  - CNIOHTTPParser (2.40.0)
+  - CNIOLinux (2.40.0)
+  - CNIOWindows (2.40.0)
+  - CocoaLumberjack (3.8.0):
+    - CocoaLumberjack/Core (= 3.8.0)
+  - CocoaLumberjack/Core (3.8.0)
   - Common (1.0.0):
     - KeychainAccess
     - Networking
@@ -37,7 +37,7 @@ PODS:
     - Common
     - Introspect
     - Kingfisher (~> 7.0)
-  - CryptoSwift (1.4.3)
+  - CryptoSwift (1.6.0)
   - FBSDKCoreKit (6.5.2):
     - FBSDKCoreKit/Basics (= 6.5.2)
     - FBSDKCoreKit/Core (= 6.5.2)
@@ -53,142 +53,135 @@ PODS:
   - FBSDKLoginKit/Swift (6.5.2):
     - FBSDKCoreKit/Swift (~> 6.5.2)
     - FBSDKLoginKit/Login
-  - Firebase/Analytics (8.15.0):
+  - Firebase/Analytics (10.3.0):
     - Firebase/Core
-  - Firebase/Core (8.15.0):
+  - Firebase/Core (10.3.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (~> 8.15.0)
-  - Firebase/CoreOnly (8.15.0):
-    - FirebaseCore (= 8.15.0)
-  - FirebaseAnalytics (8.15.0):
-    - FirebaseAnalytics/AdIdSupport (= 8.15.0)
-    - FirebaseCore (~> 8.0)
-    - FirebaseInstallations (~> 8.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
-    - GoogleUtilities/MethodSwizzler (~> 7.7)
-    - GoogleUtilities/Network (~> 7.7)
-    - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - FirebaseAnalytics/AdIdSupport (8.15.0):
-    - FirebaseCore (~> 8.0)
-    - FirebaseInstallations (~> 8.0)
-    - GoogleAppMeasurement (= 8.15.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
-    - GoogleUtilities/MethodSwizzler (~> 7.7)
-    - GoogleUtilities/Network (~> 7.7)
-    - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - FirebaseCore (8.15.0):
-    - FirebaseCoreDiagnostics (~> 8.0)
-    - GoogleUtilities/Environment (~> 7.7)
-    - GoogleUtilities/Logger (~> 7.7)
-  - FirebaseCoreDiagnostics (8.15.0):
-    - GoogleDataTransport (~> 9.1)
-    - GoogleUtilities/Environment (~> 7.7)
-    - GoogleUtilities/Logger (~> 7.7)
-    - nanopb (~> 2.30908.0)
-  - FirebaseInstallations (8.15.0):
-    - FirebaseCore (~> 8.0)
-    - GoogleUtilities/Environment (~> 7.7)
-    - GoogleUtilities/UserDefaults (~> 7.7)
-    - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleAppMeasurement (8.15.0):
-    - GoogleAppMeasurement/AdIdSupport (= 8.15.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
-    - GoogleUtilities/MethodSwizzler (~> 7.7)
-    - GoogleUtilities/Network (~> 7.7)
-    - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - GoogleAppMeasurement/AdIdSupport (8.15.0):
-    - GoogleAppMeasurement/WithoutAdIdSupport (= 8.15.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
-    - GoogleUtilities/MethodSwizzler (~> 7.7)
-    - GoogleUtilities/Network (~> 7.7)
-    - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - GoogleAppMeasurement/WithoutAdIdSupport (8.15.0):
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
-    - GoogleUtilities/MethodSwizzler (~> 7.7)
-    - GoogleUtilities/Network (~> 7.7)
-    - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - GoogleDataTransport (9.1.2):
-    - GoogleUtilities/Environment (~> 7.2)
-    - nanopb (~> 2.30908.0)
-    - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleSignIn (6.1.0):
-    - AppAuth (~> 1.4)
-    - GTMAppAuth (~> 1.0)
-    - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleUtilities/AppDelegateSwizzler (7.7.0):
+    - FirebaseAnalytics (~> 10.3.0)
+  - Firebase/CoreOnly (10.3.0):
+    - FirebaseCore (= 10.3.0)
+  - FirebaseAnalytics (10.3.0):
+    - FirebaseAnalytics/AdIdSupport (= 10.3.0)
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/MethodSwizzler (~> 7.8)
+    - GoogleUtilities/Network (~> 7.8)
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseAnalytics/AdIdSupport (10.3.0):
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleAppMeasurement (= 10.3.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/MethodSwizzler (~> 7.8)
+    - GoogleUtilities/Network (~> 7.8)
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseCore (10.3.0):
+    - FirebaseCoreInternal (~> 10.0)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/Logger (~> 7.8)
+  - FirebaseCoreInternal (10.3.0):
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+  - FirebaseInstallations (10.3.0):
+    - FirebaseCore (~> 10.0)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/UserDefaults (~> 7.8)
+    - PromisesObjC (~> 2.1)
+  - GoogleAppMeasurement (10.3.0):
+    - GoogleAppMeasurement/AdIdSupport (= 10.3.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/MethodSwizzler (~> 7.8)
+    - GoogleUtilities/Network (~> 7.8)
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleAppMeasurement/AdIdSupport (10.3.0):
+    - GoogleAppMeasurement/WithoutAdIdSupport (= 10.3.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/MethodSwizzler (~> 7.8)
+    - GoogleUtilities/Network (~> 7.8)
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleAppMeasurement/WithoutAdIdSupport (10.3.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/MethodSwizzler (~> 7.8)
+    - GoogleUtilities/Network (~> 7.8)
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleSignIn (7.0.0):
+    - AppAuth (~> 1.5)
+    - GTMAppAuth (< 3.0, >= 1.3)
+    - GTMSessionFetcher/Core (< 4.0, >= 1.1)
+  - GoogleUtilities/AppDelegateSwizzler (7.11.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (7.7.0):
+  - GoogleUtilities/Environment (7.11.0):
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/Logger (7.7.0):
+  - GoogleUtilities/Logger (7.11.0):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (7.7.0):
+  - GoogleUtilities/MethodSwizzler (7.11.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (7.7.0):
+  - GoogleUtilities/Network (7.11.0):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.7.0)"
-  - GoogleUtilities/Reachability (7.7.0):
+  - "GoogleUtilities/NSData+zlib (7.11.0)"
+  - GoogleUtilities/Reachability (7.11.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (7.7.0):
+  - GoogleUtilities/UserDefaults (7.11.0):
     - GoogleUtilities/Logger
   - GoogleWebRTC (1.1.31999)
-  - gRPC-Swift (1.7.3):
-    - CGRPCZlib (= 1.7.3)
+  - gRPC-Swift (1.8.0):
+    - CGRPCZlib (= 1.8.0)
     - Logging (< 2.0.0, >= 1.4.0)
     - SwiftNIO (< 3.0.0, >= 2.32.0)
     - SwiftNIOExtras (< 2.0.0, >= 1.4.0)
-    - SwiftNIOHTTP2 (< 2.0.0, >= 1.19.2)
+    - SwiftNIOHTTP2 (< 2.0.0, >= 1.22.0)
     - SwiftNIOSSL (< 3.0.0, >= 2.14.0)
     - SwiftNIOTransportServices (< 2.0.0, >= 1.11.1)
-    - SwiftProtobuf (< 2.0.0, >= 1.9.0)
-  - GTMAppAuth (1.2.3):
-    - AppAuth/Core (~> 1.4)
-    - GTMSessionFetcher/Core (~> 1.5)
-  - GTMSessionFetcher/Core (1.7.1)
+    - SwiftProtobuf (< 2.0.0, >= 1.19.0)
+  - GTMAppAuth (2.0.0):
+    - AppAuth/Core (~> 1.6)
+    - GTMSessionFetcher/Core (< 4.0, >= 1.5)
+  - GTMSessionFetcher/Core (3.1.0)
   - Introspect (0.1.4)
   - KeychainAccess (4.2.2)
-  - Kingfisher (7.2.4)
-  - LibSignalClient (0.17.0):
+  - Kingfisher (7.5.0)
+  - LibSignalClient (0.21.1):
     - SignalCoreKit
   - Logging (1.4.0)
   - Mantle (2.2.0):
     - Mantle/extobjc (= 2.2.0)
   - Mantle/extobjc (2.2.0)
   - Model (1.0.0)
-  - MSAL (1.2.1):
-    - MSAL/app-lib (= 1.2.1)
-  - MSAL/app-lib (1.2.1)
-  - nanopb (2.30908.0):
-    - nanopb/decode (= 2.30908.0)
-    - nanopb/encode (= 2.30908.0)
-  - nanopb/decode (2.30908.0)
-  - nanopb/encode (2.30908.0)
+  - MSAL (1.2.6):
+    - MSAL/app-lib (= 1.2.6)
+  - MSAL/app-lib (1.2.6)
+  - nanopb (2.30909.0):
+    - nanopb/decode (= 2.30909.0)
+    - nanopb/encode (= 2.30909.0)
+  - nanopb/decode (2.30909.0)
+  - nanopb/encode (2.30909.0)
   - netfox (1.21.0)
   - Networking (1.0.0):
     - gRPC-Swift
     - Model
     - SwiftProtobuf
-  - OpenSSL-Universal (1.1.1400)
+  - OpenSSL-Universal (1.1.1900)
   - PhoneNumberKit (3.3.4):
     - PhoneNumberKit/PhoneNumberKitCore (= 3.3.4)
     - PhoneNumberKit/UIKit (= 3.3.4)
   - PhoneNumberKit/PhoneNumberKitCore (3.3.4)
   - PhoneNumberKit/UIKit (3.3.4):
     - PhoneNumberKit/PhoneNumberKitCore
-  - PromisesObjC (2.1.0)
-  - Realm (10.25.1):
-    - Realm/Headers (= 10.25.1)
-  - Realm/Headers (10.25.1)
-  - RealmSwift (10.25.1):
-    - Realm (= 10.25.1)
+  - PromisesObjC (2.1.1)
+  - Realm (10.33.0):
+    - Realm/Headers (= 10.33.0)
+  - Realm/Headers (10.33.0)
+  - RealmSwift (10.33.0):
+    - Realm (= 10.33.0)
   - SignalCoreKit (1.0.0):
     - CocoaLumberjack
     - OpenSSL-Universal
@@ -206,69 +199,143 @@ PODS:
     - MSAL
     - Networking
   - SocketRocket (0.6.0)
-  - SQLCipher (4.5.1):
-    - SQLCipher/standard (= 4.5.1)
-  - SQLCipher/common (4.5.1)
-  - SQLCipher/standard (4.5.1):
+  - SQLCipher (4.5.3):
+    - SQLCipher/standard (= 4.5.3)
+  - SQLCipher/common (4.5.3)
+  - SQLCipher/standard (4.5.3):
     - SQLCipher/common
-  - SwiftLint (0.47.0)
-  - SwiftNIO (2.38.0):
-    - SwiftNIOCore (= 2.38.0)
-    - SwiftNIOEmbedded (= 2.38.0)
-    - SwiftNIOPosix (= 2.38.0)
-  - SwiftNIOConcurrencyHelpers (2.38.0):
-    - CNIOAtomics (= 2.38.0)
-  - SwiftNIOCore (2.38.0):
-    - CNIOLinux (= 2.38.0)
-    - SwiftNIOConcurrencyHelpers (= 2.38.0)
-  - SwiftNIOEmbedded (2.38.0):
-    - _NIODataStructures (= 2.38.0)
-    - SwiftNIOCore (= 2.38.0)
-  - SwiftNIOExtras (1.10.2):
-    - SwiftNIO (< 3, >= 2.32.0)
-  - SwiftNIOFoundationCompat (2.38.0):
-    - SwiftNIO (= 2.38.0)
-    - SwiftNIOCore (= 2.38.0)
-  - SwiftNIOHPACK (1.20.1):
-    - SwiftNIO (< 3, >= 2.35.0)
-    - SwiftNIOConcurrencyHelpers (< 3, >= 2.35.0)
-    - SwiftNIOCore (< 3, >= 2.35.0)
-    - SwiftNIOHTTP1 (< 3, >= 2.35.0)
-  - SwiftNIOHTTP1 (2.38.0):
-    - CNIOHTTPParser (= 2.38.0)
-    - SwiftNIO (= 2.38.0)
-    - SwiftNIOConcurrencyHelpers (= 2.38.0)
-    - SwiftNIOCore (= 2.38.0)
-  - SwiftNIOHTTP2 (1.20.1):
-    - SwiftNIO (< 3, >= 2.35.0)
-    - SwiftNIOConcurrencyHelpers (< 3, >= 2.35.0)
-    - SwiftNIOCore (< 3, >= 2.35.0)
-    - SwiftNIOHPACK (= 1.20.1)
-    - SwiftNIOHTTP1 (< 3, >= 2.35.0)
-    - SwiftNIOTLS (< 3, >= 2.35.0)
-  - SwiftNIOPosix (2.38.0):
-    - _NIODataStructures (= 2.38.0)
-    - CNIODarwin (= 2.38.0)
-    - CNIOLinux (= 2.38.0)
-    - CNIOWindows (= 2.38.0)
-    - SwiftNIOConcurrencyHelpers (= 2.38.0)
-    - SwiftNIOCore (= 2.38.0)
-  - SwiftNIOSSL (2.15.1):
-    - CNIOBoringSSL (= 2.15.1)
-    - CNIOBoringSSLShims (= 2.15.1)
+  - SwiftLint (0.50.3)
+  - SwiftNIO (2.40.0):
+    - _NIODataStructures (= 2.40.0)
+    - CNIOAtomics (= 2.40.0)
+    - CNIODarwin (= 2.40.0)
+    - CNIOLinux (= 2.40.0)
+    - CNIOWindows (= 2.40.0)
+    - SwiftNIOConcurrencyHelpers (= 2.40.0)
+    - SwiftNIOCore (= 2.40.0)
+    - SwiftNIOEmbedded (= 2.40.0)
+    - SwiftNIOPosix (= 2.40.0)
+  - SwiftNIOConcurrencyHelpers (2.40.0):
+    - CNIOAtomics (= 2.40.0)
+  - SwiftNIOCore (2.40.0):
+    - CNIOAtomics (= 2.40.0)
+    - CNIOLinux (= 2.40.0)
+    - SwiftNIOConcurrencyHelpers (= 2.40.0)
+  - SwiftNIOEmbedded (2.40.0):
+    - _NIODataStructures (= 2.40.0)
+    - CNIOAtomics (= 2.40.0)
+    - CNIOLinux (= 2.40.0)
+    - SwiftNIOConcurrencyHelpers (= 2.40.0)
+    - SwiftNIOCore (= 2.40.0)
+  - SwiftNIOExtras (1.11.0):
+    - _NIODataStructures (< 3, >= 2.32.0)
+    - CNIOAtomics (< 3, >= 2.32.0)
+    - CNIODarwin (< 3, >= 2.32.0)
+    - CNIOLinux (< 3, >= 2.32.0)
+    - CNIOWindows (< 3, >= 2.32.0)
     - SwiftNIO (< 3, >= 2.32.0)
     - SwiftNIOConcurrencyHelpers (< 3, >= 2.32.0)
     - SwiftNIOCore (< 3, >= 2.32.0)
-    - SwiftNIOTLS (< 3, >= 2.32.0)
-  - SwiftNIOTLS (2.38.0):
-    - SwiftNIO (= 2.38.0)
-    - SwiftNIOCore (= 2.38.0)
-  - SwiftNIOTransportServices (1.11.4):
+    - SwiftNIOEmbedded (< 3, >= 2.32.0)
+    - SwiftNIOPosix (< 3, >= 2.32.0)
+  - SwiftNIOFoundationCompat (2.40.0):
+    - _NIODataStructures (= 2.40.0)
+    - CNIOAtomics (= 2.40.0)
+    - CNIODarwin (= 2.40.0)
+    - CNIOLinux (= 2.40.0)
+    - CNIOWindows (= 2.40.0)
+    - SwiftNIO (= 2.40.0)
+    - SwiftNIOConcurrencyHelpers (= 2.40.0)
+    - SwiftNIOCore (= 2.40.0)
+    - SwiftNIOEmbedded (= 2.40.0)
+    - SwiftNIOPosix (= 2.40.0)
+  - SwiftNIOHPACK (1.22.0):
+    - _NIODataStructures (< 3, >= 2.35.0)
+    - CNIOAtomics (< 3, >= 2.35.0)
+    - CNIODarwin (< 3, >= 2.35.0)
+    - CNIOHTTPParser (< 3, >= 2.35.0)
+    - CNIOLinux (< 3, >= 2.35.0)
+    - CNIOWindows (< 3, >= 2.35.0)
+    - SwiftNIO (< 3, >= 2.35.0)
+    - SwiftNIOConcurrencyHelpers (< 3, >= 2.35.0)
+    - SwiftNIOCore (< 3, >= 2.35.0)
+    - SwiftNIOEmbedded (< 3, >= 2.35.0)
+    - SwiftNIOHTTP1 (< 3, >= 2.35.0)
+    - SwiftNIOPosix (< 3, >= 2.35.0)
+  - SwiftNIOHTTP1 (2.40.0):
+    - _NIODataStructures (= 2.40.0)
+    - CNIOAtomics (= 2.40.0)
+    - CNIODarwin (= 2.40.0)
+    - CNIOHTTPParser (= 2.40.0)
+    - CNIOLinux (= 2.40.0)
+    - CNIOWindows (= 2.40.0)
+    - SwiftNIO (= 2.40.0)
+    - SwiftNIOConcurrencyHelpers (= 2.40.0)
+    - SwiftNIOCore (= 2.40.0)
+    - SwiftNIOEmbedded (= 2.40.0)
+    - SwiftNIOPosix (= 2.40.0)
+  - SwiftNIOHTTP2 (1.22.0):
+    - _NIODataStructures (< 3, >= 2.35.0)
+    - CNIOAtomics (< 3, >= 2.35.0)
+    - CNIODarwin (< 3, >= 2.35.0)
+    - CNIOHTTPParser (< 3, >= 2.35.0)
+    - CNIOLinux (< 3, >= 2.35.0)
+    - CNIOWindows (< 3, >= 2.35.0)
+    - SwiftNIO (< 3, >= 2.35.0)
+    - SwiftNIOConcurrencyHelpers (< 3, >= 2.35.0)
+    - SwiftNIOCore (< 3, >= 2.35.0)
+    - SwiftNIOEmbedded (< 3, >= 2.35.0)
+    - SwiftNIOHPACK (= 1.22.0)
+    - SwiftNIOHTTP1 (< 3, >= 2.35.0)
+    - SwiftNIOPosix (< 3, >= 2.35.0)
+    - SwiftNIOTLS (< 3, >= 2.35.0)
+  - SwiftNIOPosix (2.40.0):
+    - _NIODataStructures (= 2.40.0)
+    - CNIOAtomics (= 2.40.0)
+    - CNIODarwin (= 2.40.0)
+    - CNIOLinux (= 2.40.0)
+    - CNIOWindows (= 2.40.0)
+    - SwiftNIOConcurrencyHelpers (= 2.40.0)
+    - SwiftNIOCore (= 2.40.0)
+  - SwiftNIOSSL (2.19.0):
+    - _NIODataStructures (< 3, >= 2.32.0)
+    - CNIOAtomics (< 3, >= 2.32.0)
+    - CNIOBoringSSL (= 2.19.0)
+    - CNIOBoringSSLShims (= 2.19.0)
+    - CNIODarwin (< 3, >= 2.32.0)
+    - CNIOLinux (< 3, >= 2.32.0)
+    - CNIOWindows (< 3, >= 2.32.0)
     - SwiftNIO (< 3, >= 2.32.0)
     - SwiftNIOConcurrencyHelpers (< 3, >= 2.32.0)
-    - SwiftNIOFoundationCompat (< 3, >= 2.32.0)
+    - SwiftNIOCore (< 3, >= 2.32.0)
+    - SwiftNIOEmbedded (< 3, >= 2.32.0)
+    - SwiftNIOPosix (< 3, >= 2.32.0)
     - SwiftNIOTLS (< 3, >= 2.32.0)
-  - SwiftProtobuf (1.19.0)
+  - SwiftNIOTLS (2.40.0):
+    - _NIODataStructures (= 2.40.0)
+    - CNIOAtomics (= 2.40.0)
+    - CNIODarwin (= 2.40.0)
+    - CNIOLinux (= 2.40.0)
+    - CNIOWindows (= 2.40.0)
+    - SwiftNIO (= 2.40.0)
+    - SwiftNIOConcurrencyHelpers (= 2.40.0)
+    - SwiftNIOCore (= 2.40.0)
+    - SwiftNIOEmbedded (= 2.40.0)
+    - SwiftNIOPosix (= 2.40.0)
+  - SwiftNIOTransportServices (1.12.0):
+    - _NIODataStructures (< 3, >= 2.32.0)
+    - CNIOAtomics (< 3, >= 2.32.0)
+    - CNIODarwin (< 3, >= 2.32.0)
+    - CNIOLinux (< 3, >= 2.32.0)
+    - CNIOWindows (< 3, >= 2.32.0)
+    - SwiftNIO (< 3, >= 2.32.0)
+    - SwiftNIOConcurrencyHelpers (< 3, >= 2.32.0)
+    - SwiftNIOCore (< 3, >= 2.32.0)
+    - SwiftNIOEmbedded (< 3, >= 2.32.0)
+    - SwiftNIOFoundationCompat (< 3, >= 2.32.0)
+    - SwiftNIOPosix (< 3, >= 2.32.0)
+    - SwiftNIOTLS (< 3, >= 2.32.0)
+  - SwiftProtobuf (1.20.3)
   - SwiftSRP (1.0.0):
     - CryptoSwift
     - OpenSSL-Universal
@@ -422,10 +489,9 @@ SPEC REPOS:
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
-    - FirebaseCoreDiagnostics
+    - FirebaseCoreInternal
     - FirebaseInstallations
     - GoogleAppMeasurement
-    - GoogleDataTransport
     - GoogleSignIn
     - GoogleUtilities
     - GoogleWebRTC
@@ -493,88 +559,87 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   LibSignalClient:
-    :commit: 2c32fb802d1f8d6739ade32901a3f5d84e7ec19b
+    :commit: dd0315ad267d7bfc3118524285644a6d00fb7763
     :git: https://github.com/signalapp/libsignal.git
   SignalCoreKit:
-    :commit: 603f75807e30b7fa83843a74e6934563136c3027
+    :commit: 5ae90e076c516a4b025045e38017f49353cf3f76
     :git: https://github.com/signalapp/SignalCoreKit.git
   SignalProtocolObjC:
     :commit: 69f3a62db411613a2dc64b67d1acad8602545ef3
     :git: https://github.com/nohtbook/SignalProtocol-ObjC.git
 
 SPEC CHECKSUMS:
-  _NIODataStructures: d8175e5ca5a34ec19b7ff21de298dd2a4d30818d
-  AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
+  _NIODataStructures: 3d45d8e70a1d17a15b1dc59d102c63dbc0525ffd
+  AppAuth: 8fca6b5563a5baef2c04bee27538025e4ceb2add
   CallManager: 47b5694cd700873417b55725830fd49a9251da74
-  CGRPCZlib: 30d7ed7cd286bf929605052dd64075a694d86d0c
+  CGRPCZlib: 298dd3237ba4bd7b3eed109e7080ff3324b7d9c9
   ChatSecure: 40725723d7a422786459f1acb656318c8f5611f9
-  CNIOAtomics: 00b638e1b0dac91d06d4bb089ea9126c117c6650
-  CNIOBoringSSL: c99129423da079a9eb74bcfc7cfec41a6775cf94
-  CNIOBoringSSLShims: 902ae35fea0b6be5eefb4fdce906751886cfa46f
-  CNIODarwin: e6cba4513e4f7633981e2e0eb3fca39cfbb834c4
-  CNIOHTTPParser: f3bd2955c9c8669ea2ae0f1f4f03df1fea2ed90d
-  CNIOLinux: f8801300bb296d16dee59a82aba1613a08cfbe23
-  CNIOWindows: 1cc6fb2af1d445f52f2d39cecf7069873f7d5b0d
-  CocoaLumberjack: 543c79c114dadc3b1aba95641d8738b06b05b646
+  CNIOAtomics: 8edf08644e5e6fa0f021c239be9e8beb1cd9ef18
+  CNIOBoringSSL: 2c9c96c2e95f15e83fb8d26b9738d939cc39ae33
+  CNIOBoringSSLShims: c5c9346e7bbd1040f4f8793a35441dda7487539a
+  CNIODarwin: 93850990d29f2626b05306c6c9309f9be0d74c2f
+  CNIOHTTPParser: 8ce395236fa1d09ac3b4f4bcfba79b849b2ac684
+  CNIOLinux: 62e3505f50de558c393dc2f273dde71dcce518da
+  CNIOWindows: 3047f2d8165848a3936a0a755fee27c6b5ee479b
+  CocoaLumberjack: 78abfb691154e2a9df8ded4350d504ee19d90732
   Common: e3c30556145a36a52c70942b4e81a4c625c0bca9
   CommonUI: 7e13d3080c01ca6c10e014cf05c1baba5acb8f20
-  CryptoSwift: a0799ee936271bd2253a006f1e4523df21845000
+  CryptoSwift: 562f8eceb40e80796fffc668b0cad9313284cfa6
   FBSDKCoreKit: ada5c8a05188daefc9addb985c52b8a1b26da519
   FBSDKLoginKit: caa165495afa29a12324cb2307fe6e5b33783142
-  Firebase: 5f8193dff4b5b7c5d5ef72ae54bb76c08e2b841d
-  FirebaseAnalytics: 7761cbadb00a717d8d0939363eb46041526474fa
-  FirebaseCore: 5743c5785c074a794d35f2fff7ecc254a91e08b1
-  FirebaseCoreDiagnostics: 92e07a649aeb66352b319d43bdd2ee3942af84cb
-  FirebaseInstallations: 40bd9054049b2eae9a2c38ef1c3dd213df3605cd
-  GoogleAppMeasurement: 4c19f031220c72464d460c9daa1fb5d1acce958e
-  GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
-  GoogleSignIn: c90b5bec45e780f54c6a8e1e3c182a86e3dda69d
-  GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
+  Firebase: f92fc551ead69c94168d36c2b26188263860acd9
+  FirebaseAnalytics: 036232b6a1e2918e5f67572417be1173576245f3
+  FirebaseCore: 988754646ab3bd4bdcb740f1bfe26b9f6c0d5f2a
+  FirebaseCoreInternal: 29b76f784d607df8b2a1259d73c3f04f1210137b
+  FirebaseInstallations: e2f26126089dcf41e215f7b8925af8d953c7d602
+  GoogleAppMeasurement: c7d6fff39bf2d829587d74088d582e32d75133c3
+  GoogleSignIn: b232380cf495a429b8095d3178a8d5855b42e842
+  GoogleUtilities: c2bdc4cf2ce786c4d2e6b3bcfd599a25ca78f06f
   GoogleWebRTC: b39a78c4f5cc6b0323415b9233db03a2faa7b0f0
-  gRPC-Swift: 910b685f0527f496c39751d1f1add981287e8b9d
-  GTMAppAuth: 987526d41b07efb1bedda5e936fe0cb718a03113
-  GTMSessionFetcher: 4577a4cc914a5a07c40a8a0ad0acc22080418c2d
+  gRPC-Swift: 74adcaaa62ac5e0a018938840328cb1fdfb09e7b
+  GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
+  GTMSessionFetcher: c9e714f7eec91a55641e2bab9f45fd83a219b882
   Introspect: b62c4dd2063072327c21d618ef2bedc3c87bc366
   KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
-  Kingfisher: 2457be2121734e69e54a2312ecc0150eb9ae70b3
-  LibSignalClient: 0979e736d85a419b75ecedc36ffcea821a5cea14
+  Kingfisher: b9c2a4a4af2990a768445c277359b27bde287d71
+  LibSignalClient: e85dcaa008cc02b9fe828d8d8aebc527565d1e7b
   Logging: beeb016c9c80cf77042d62e83495816847ef108b
   Mantle: c5aa8794a29a022dfbbfc9799af95f477a69b62d
   Model: 7d8df91e7e99744bd128a6da2f17a3fc0f31fd18
-  MSAL: 460571f34a9062c501841d099f8e51fc30557deb
-  nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
+  MSAL: bd4b040f859205c39b01859eb177974a7ec20704
+  nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   netfox: 9d5cc727fe7576c4c7688a2504618a156b7d44b7
   Networking: 8c229e55db7c220043e5fdb5a819e03736655559
-  OpenSSL-Universal: cd40d7493c1e9696794f62e2a0e8c729115b7188
+  OpenSSL-Universal: 84efb8a29841f2764ac5403e0c4119a28b713346
   PhoneNumberKit: 441e8b26ec88d598e3591de9061eff18f5dd12e8
-  PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
-  Realm: 1a6e9b4f6983711655d8c0bcb6d2d29c3afbb1f3
-  RealmSwift: e72669550d27082aa4fad5d176f5076cfe806245
-  SignalCoreKit: 87da14c58d57760793b892ff03838c5ef2ce1167
+  PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
+  Realm: d4f810e161fa2c2c589b9860b6eb09238deacd73
+  RealmSwift: cef9946f09f2333a8f2ac8bac4f8de52fb9f5ac3
+  SignalCoreKit: 9febad2d82f80c5b2f446740c68f1fba6d4cd9b2
   SignalProtocolC: e61c89693515347df8ed97961160a36cbe55c441
   SignalProtocolObjC: 35f26e21de41b6c9fbf8ec5087f3e02580df15e3
   SignalServiceKit: 8e59ea550cebc2dd82d056ce496f4b7d67bc8751
   SocialAuthentication: a292577b91a34fe538d8d00f2afcda60707d8801
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
-  SQLCipher: 712e8416685e8e575b9b0706ffee71678b2fdcf8
-  SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
-  SwiftNIO: 9bc23fada7254a38f1417533a4514aabdcb7cf31
-  SwiftNIOConcurrencyHelpers: ec57adfc490604a341904994fbf98de61a8b5497
-  SwiftNIOCore: 156fd84c03dc877a5f22d0ba575745cafe4a83ca
-  SwiftNIOEmbedded: b5625cb78841ad4daa50d71a930c768531233770
-  SwiftNIOExtras: 70f09aa8eca3ab6baeaf1993da9c855b6e95e97f
-  SwiftNIOFoundationCompat: 98de7f9d7c70510cbe1d1b0faf843b29926da520
-  SwiftNIOHPACK: 73074b776ec3950049bcd03c4be7d2d233416492
-  SwiftNIOHTTP1: 2ec5bf1a511b8c04b5da3d9803374dc6077eff57
-  SwiftNIOHTTP2: c916c2e6383446bc1f3da61eb1036fd8943f994a
-  SwiftNIOPosix: b9cee2136fcb51223bf63b00795089c6928dd876
-  SwiftNIOSSL: 7c2ddcbcbb2a8188468b7fe9c2bc6124df4b3772
-  SwiftNIOTLS: 0182f05297af9faa8e03f63be3fed637523496d4
-  SwiftNIOTransportServices: 0b0baa86fcdbef3e4651b3ea8311ea7b43c13211
-  SwiftProtobuf: 6ef3f0e422ef90d6605ca20b21a94f6c1324d6b3
+  SQLCipher: 57fa9f863fa4a3ed9dd3c90ace52315db8c0fdca
+  SwiftLint: 77f7cb2b9bb81ab4a12fcc86448ba3f11afa50c6
+  SwiftNIO: 829958aab300642625091f82fc2f49cb7cf4ef24
+  SwiftNIOConcurrencyHelpers: 697370136789b1074e4535eaae75cbd7f900370e
+  SwiftNIOCore: 473fdfe746534d7aa25766916459eeaf6f92ef49
+  SwiftNIOEmbedded: ffcb5147db67d9686c8366b7f8427b36132f2c8a
+  SwiftNIOExtras: 481f74d6bf0b0ef699905ed66439cb019c4975c9
+  SwiftNIOFoundationCompat: b9cdbea4806e4a12e9f66d9696fa3b98c4c3232b
+  SwiftNIOHPACK: e7d3ff5bd671528adfb11cd4e0c84ddfdc3c4453
+  SwiftNIOHTTP1: ef56706550a1dc135ea69d65215b9941e643c23b
+  SwiftNIOHTTP2: cc81d7a6ba70d2ddc5376f471904b27ef5d2b7b8
+  SwiftNIOPosix: b49af4bdbecaadfadd5c93dfe28594d6722b75e4
+  SwiftNIOSSL: d153c5a6fc5b2301b0519b4c4d037a9414212da6
+  SwiftNIOTLS: 598af547490133e9aac52aed0c23c4a90c31dcfc
+  SwiftNIOTransportServices: 0b2b407819d82eb63af558c5396e33c945759503
+  SwiftProtobuf: b02b5075dcf60c9f5f403000b3b0c202a11b6ae1
   SwiftSRP: 98943ac8497e2e7fb1ab1b63f68810aefc28010c
   YapDatabase: 350ab72b61f9dcc32504594da1a52a93f5ef1476
 
 PODFILE CHECKSUM: f9cc1a428218f06d578a5b4bfa06e7296231e178
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.11.2

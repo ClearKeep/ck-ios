@@ -50,7 +50,7 @@ struct CallVoiceActionView: View {
 							self.callAction()
 						})
 						Spacer()
-						CallActionButtonView(onIcon: AppTheme.shared.imageSet.speakerIcon2 ,
+						CallActionButtonView(onIcon: AppTheme.shared.imageSet.speakerIcon2,
 											 offIcon: AppTheme.shared.imageSet.speakerOffIcon2,
 											 isOn: viewModel.speakerEnable,
 											 title: "CallGroup.Speaker".localized,
