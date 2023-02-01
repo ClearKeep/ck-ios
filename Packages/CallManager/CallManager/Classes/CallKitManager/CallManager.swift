@@ -63,7 +63,7 @@ final public class CallManager: NSObject {
 				   groupId: Int64,
 				   groupRtcId: Int64,
 				   groupToken: String,
-				   callType type: CallType = .audio ,
+				   callType type: CallType = .audio,
 				   isCallGroup: Bool,
 				   groupRtcUrl: String) {
 		let call = CallBox(uuid: UUID(), clientId: clientId, isOutgoing: true, rtcUrl: groupRtcUrl)

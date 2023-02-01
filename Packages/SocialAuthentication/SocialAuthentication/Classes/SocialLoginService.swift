@@ -32,7 +32,7 @@ public enum SocialLoginType {
 }
 
 public class SocialAuthenticationService: NSObject {
-	private var googleSignInConfiguration: GIDConfiguration?
+//	private var googleSignInConfiguration: GIDConfiguration?
 	private var applicationContext: MSALPublicClientApplication?
 	private var webViewParamaters: MSALWebviewParameters?
 	private var bag = Set<AnyCancellable>()
@@ -91,26 +91,28 @@ extension SocialAuthenticationService: ISocialAuthenticationService {
 	
 	public func signInWithGoogle(domain: String) async -> Result<Auth_SocialLoginRes, Error> {
 		Self.userAppleId = ""
-		guard let topViewController = await UIApplication.shared.topMostViewController(),
-			  let googleSignInConfiguration = googleSignInConfiguration else {
+        guard let topViewController = await UIApplication.shared.topMostViewController() else {
+//			  let googleSignInConfiguration = googleSignInConfiguration else {
 			return .failure(ServerError.unknown)
 		}
-		let result: Result<String, Error> = await withCheckedContinuation({ continuation in
-			DispatchQueue.main.async {
-				GIDSignIn.sharedInstance.signIn(with: googleSignInConfiguration, presenting: topViewController) { user, error in
-					if let error = error { return continuation.resume(returning: .failure(error)) }
-					guard let idToken = user?.authentication.idToken else { return continuation.resume(returning: .failure(ServerError.unknown)) }
-					return continuation.resume(returning: .success(idToken))
-				}
-			}
-		})
-		
+
+        let result: Result<String, Error> = await withCheckedContinuation({ continuation in
+            DispatchQueue.main.async {
+                GIDSignIn.sharedInstance.signIn(withPresenting: topViewController) { result, error in
+                    if let error = error { return continuation.resume(returning: .failure(error)) }
+                    guard let idToken = result?.user.idToken?.tokenString else { return continuation.resume(returning: .failure(ServerError.unknown)) }
+
+                    return continuation.resume(returning: .success(idToken))
+                }
+            }
+        })
+
 		switch result {
 		case .success(let idToken):
 			var request = Auth_GoogleLoginReq()
 			request.idToken = idToken
 			request.workspaceDomain = domain
-			
+
 			return await channelStorage.getChannel(domain: domain).login(request)
 		case .failure(let error):
 			if case GIDSignInError.canceled = error {
@@ -232,7 +234,7 @@ extension SocialAuthenticationService: ISocialAuthenticationService {
 // MARK: - Private
 private extension SocialAuthenticationService {
 	func initGoogleSignIn(clientId: String) {
-		googleSignInConfiguration = GIDConfiguration(clientID: clientId)
+        GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: clientId)
 	}
 	
 	func initMSAL(clientId: String, redirectUri: String) {

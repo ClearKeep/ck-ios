@@ -92,7 +92,7 @@ extension PushNotificationsHandler: UNUserNotificationCenterDelegate {
 			}
 
 			if let publicationAdd = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any],
-			   let add = publicationAdd["added_member_id"] as? String ,
+			   let add = publicationAdd["added_member_id"] as? String,
 			   let id = DependencyResolver.shared.channelStorage.currentServer?.profile?.userId {
 				if add == id {
 					DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
