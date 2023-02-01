@@ -255,7 +255,7 @@ struct HomeView: View {
 		}
 		.onReceive(NotificationCenter.default.publisher(for: NSNotification.Name.IncomingMessage.didOpenMessage), perform: { obj in
 			if let userInfo = obj.userInfo,
-			   let message = userInfo["message"] as? PublicationMessageNotification {
+				let message = userInfo["message"] as? PublicationMessageNotification {
 				self.selectedRoomId = message.groupId
 				self.selectedNotiDomain = message.clientWorkspaceDomain
 				if isLoading {

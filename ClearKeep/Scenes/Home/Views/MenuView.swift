@@ -259,3 +259,12 @@ private extension MenuView {
 		isExpand ? 1 : 0
 	}
 }
+
+// MARK: - Preview
+#if DEBUG
+struct MenuView_Previews: PreviewProvider {
+	static var previews: some View {
+		MenuView(isShowMenu: .constant(true), user: .constant([]), chageStatus: { _ in }, servers: .constant([]))
+	}
+}
+#endif

@@ -42,7 +42,8 @@ struct LoginView: View {
 					if navigateToHome {
 						BackButton({ self.presentationMode.wrappedValue.dismiss() })
 							.frame(maxWidth: .infinity, maxHeight: 40.0, alignment: .leading)
-					}
+					} else if UIDevice().hasDynamicIsland { Spacer() }
+
 					AppLogo()
 						.frame(width: Constants.widthLogo, height: Constants.heightLogo)
 					if customServer.isSelectedCustomServer {
@@ -68,7 +69,7 @@ struct LoginView: View {
 			.hideKeyboardOnTapped()
 			.hiddenNavigationBarStyle()
 			.grandientBackground()
-			.edgesIgnoringSafeArea(.all)
+            .edgesIgnoringSafeArea(.all)
 		}
 		.hiddenNavigationBarStyle()
 	}
