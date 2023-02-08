@@ -169,7 +169,7 @@
 
 // MARK: - Menu
 "Menu.Profile.Title" = "Profile";
-"Menu.Server.Title" = "Sever";
+"Menu.Server.Title" = "Server";
 "Menu.Notification.Title" = "Notification";
 "Menu.Copy.Title" = "You copied";
 

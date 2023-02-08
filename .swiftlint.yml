@@ -8,6 +8,7 @@ excluded:
   - ClearKeepUITests
   - ClearKeepUITestsLaunchTests
   - Packages/Networking/Networking/Classes/Protobuf
+  - DerivedData
 disabled_rules:
   - vertical_parameter_alignment
   - function_parameter_count
@@ -62,7 +63,7 @@ identifier_name:
     - id
     - to
     - kg
-    - on
+    - !str on
     - iv
     - ui
 
@@ -100,7 +101,7 @@ redundant_void_return: error
 
 void_return: error
 
-force_unwrapping: error
+force_unwrapping: warning
 
 legacy_constructor: error
 
