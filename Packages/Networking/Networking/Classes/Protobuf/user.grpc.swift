@@ -22,7 +22,6 @@
 //
 import GRPC
 import NIO
-import NIOConcurrencyHelpers
 import SwiftProtobuf
 
 
@@ -159,7 +158,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_Empty, User_UserProfileResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.get_profile.path,
+      path: "/user.User/get_profile",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeget_profileInterceptors() ?? []
@@ -177,7 +176,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_UpdateProfileRequest, User_BaseResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.update_profile.path,
+      path: "/user.User/update_profile",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeupdate_profileInterceptors() ?? []
@@ -195,7 +194,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_UploadAvatarRequest, User_UploadAvatarResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.upload_avatar.path,
+      path: "/user.User/upload_avatar",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeupload_avatarInterceptors() ?? []
@@ -213,7 +212,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_RequestChangePasswordReq, User_RequestChangePasswordRes> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.request_change_password.path,
+      path: "/user.User/request_change_password",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makerequest_change_passwordInterceptors() ?? []
@@ -231,7 +230,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_ChangePasswordRequest, User_BaseResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.change_password.path,
+      path: "/user.User/change_password",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makechange_passwordInterceptors() ?? []
@@ -249,7 +248,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_SetUserStatusRequest, User_BaseResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.update_status.path,
+      path: "/user.User/update_status",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeupdate_statusInterceptors() ?? []
@@ -267,7 +266,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_PingRequest, User_BaseResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.ping_request.path,
+      path: "/user.User/ping_request",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeping_requestInterceptors() ?? []
@@ -285,7 +284,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_GetClientsStatusRequest, User_GetClientsStatusResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.get_clients_status.path,
+      path: "/user.User/get_clients_status",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeget_clients_statusInterceptors() ?? []
@@ -303,7 +302,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_Empty, User_BaseResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.delete_account.path,
+      path: "/user.User/delete_account",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makedelete_accountInterceptors() ?? []
@@ -321,7 +320,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_GetUserRequest, User_UserInfoResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.get_user_info.path,
+      path: "/user.User/get_user_info",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeget_user_infoInterceptors() ?? []
@@ -339,7 +338,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_SearchUserRequest, User_SearchUserResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.search_user.path,
+      path: "/user.User/search_user",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makesearch_userInterceptors() ?? []
@@ -357,7 +356,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_Empty, User_GetUsersResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.get_users.path,
+      path: "/user.User/get_users",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeget_usersInterceptors() ?? []
@@ -375,7 +374,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_FindUserByEmailRequest, User_FindUserByEmailResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.find_user_by_email.path,
+      path: "/user.User/find_user_by_email",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makefind_user_by_emailInterceptors() ?? []
@@ -393,7 +392,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_MfaGetStateRequest, User_MfaStateResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.get_mfa_state.path,
+      path: "/user.User/get_mfa_state",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeget_mfa_stateInterceptors() ?? []
@@ -411,7 +410,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_MfaChangingStateRequest, User_MfaBaseResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.enable_mfa.path,
+      path: "/user.User/enable_mfa",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeenable_mfaInterceptors() ?? []
@@ -429,7 +428,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_MfaChangingStateRequest, User_MfaBaseResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.disable_mfa.path,
+      path: "/user.User/disable_mfa",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makedisable_mfaInterceptors() ?? []
@@ -447,7 +446,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_MfaAuthChallengeRequest, User_MfaAuthChallengeResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.mfa_auth_challenge.path,
+      path: "/user.User/mfa_auth_challenge",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makemfa_auth_challengeInterceptors() ?? []
@@ -465,7 +464,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_MfaValidatePasswordRequest, User_MfaBaseResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.mfa_validate_password.path,
+      path: "/user.User/mfa_validate_password",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makemfa_validate_passwordInterceptors() ?? []
@@ -483,7 +482,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_MfaValidateOtpRequest, User_MfaBaseResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.mfa_validate_otp.path,
+      path: "/user.User/mfa_validate_otp",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makemfa_validate_otpInterceptors() ?? []
@@ -501,7 +500,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_MfaResendOtpRequest, User_MfaBaseResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.mfa_resend_otp.path,
+      path: "/user.User/mfa_resend_otp",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makemfa_resend_otpInterceptors() ?? []
@@ -519,7 +518,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_WorkspaceUpdateDisplayNameRequest, User_BaseResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.workspace_update_display_name.path,
+      path: "/user.User/workspace_update_display_name",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeworkspace_update_display_nameInterceptors() ?? []
@@ -537,7 +536,7 @@ extension User_UserClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<User_FindUserByEmailRequest, User_FindUserByEmailResponse> {
     return self.makeUnaryCall(
-      path: User_UserClientMetadata.Methods.workspace_find_user_by_email.path,
+      path: "/user.User/workspace_find_user_by_email",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeworkspace_find_user_by_emailInterceptors() ?? []
@@ -545,744 +544,7 @@ extension User_UserClientProtocol {
   }
 }
 
-#if compiler(>=5.6)
-@available(*, deprecated)
-extension User_UserClient: @unchecked Sendable {}
-#endif // compiler(>=5.6)
-
-@available(*, deprecated, renamed: "User_UserNIOClient")
-internal final class User_UserClient: User_UserClientProtocol {
-  private let lock = Lock()
-  private var _defaultCallOptions: CallOptions
-  private var _interceptors: User_UserClientInterceptorFactoryProtocol?
-  internal let channel: GRPCChannel
-  internal var defaultCallOptions: CallOptions {
-    get { self.lock.withLock { return self._defaultCallOptions } }
-    set { self.lock.withLockVoid { self._defaultCallOptions = newValue } }
-  }
-  internal var interceptors: User_UserClientInterceptorFactoryProtocol? {
-    get { self.lock.withLock { return self._interceptors } }
-    set { self.lock.withLockVoid { self._interceptors = newValue } }
-  }
-
-  /// Creates a client for the user.User service.
-  ///
-  /// - Parameters:
-  ///   - channel: `GRPCChannel` to the service host.
-  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
-  ///   - interceptors: A factory providing interceptors for each RPC.
-  internal init(
-    channel: GRPCChannel,
-    defaultCallOptions: CallOptions = CallOptions(),
-    interceptors: User_UserClientInterceptorFactoryProtocol? = nil
-  ) {
-    self.channel = channel
-    self._defaultCallOptions = defaultCallOptions
-    self._interceptors = interceptors
-  }
-}
-
-internal struct User_UserNIOClient: User_UserClientProtocol {
-  internal var channel: GRPCChannel
-  internal var defaultCallOptions: CallOptions
-  internal var interceptors: User_UserClientInterceptorFactoryProtocol?
-
-  /// Creates a client for the user.User service.
-  ///
-  /// - Parameters:
-  ///   - channel: `GRPCChannel` to the service host.
-  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
-  ///   - interceptors: A factory providing interceptors for each RPC.
-  internal init(
-    channel: GRPCChannel,
-    defaultCallOptions: CallOptions = CallOptions(),
-    interceptors: User_UserClientInterceptorFactoryProtocol? = nil
-  ) {
-    self.channel = channel
-    self.defaultCallOptions = defaultCallOptions
-    self.interceptors = interceptors
-  }
-}
-
-#if compiler(>=5.6)
-@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-internal protocol User_UserAsyncClientProtocol: GRPCClient {
-  static var serviceDescriptor: GRPCServiceDescriptor { get }
-  var interceptors: User_UserClientInterceptorFactoryProtocol? { get }
-
-  func makeGetProfileCall(
-    _ request: User_Empty,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_Empty, User_UserProfileResponse>
-
-  func makeUpdateProfileCall(
-    _ request: User_UpdateProfileRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_UpdateProfileRequest, User_BaseResponse>
-
-  func makeUploadAvatarCall(
-    _ request: User_UploadAvatarRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_UploadAvatarRequest, User_UploadAvatarResponse>
-
-  func makeRequestChangePasswordCall(
-    _ request: User_RequestChangePasswordReq,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_RequestChangePasswordReq, User_RequestChangePasswordRes>
-
-  func makeChangePasswordCall(
-    _ request: User_ChangePasswordRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_ChangePasswordRequest, User_BaseResponse>
-
-  func makeUpdateStatusCall(
-    _ request: User_SetUserStatusRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_SetUserStatusRequest, User_BaseResponse>
-
-  func makePingRequestCall(
-    _ request: User_PingRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_PingRequest, User_BaseResponse>
-
-  func makeGetClientsStatusCall(
-    _ request: User_GetClientsStatusRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_GetClientsStatusRequest, User_GetClientsStatusResponse>
-
-  func makeDeleteAccountCall(
-    _ request: User_Empty,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_Empty, User_BaseResponse>
-
-  func makeGetUserInfoCall(
-    _ request: User_GetUserRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_GetUserRequest, User_UserInfoResponse>
-
-  func makeSearchUserCall(
-    _ request: User_SearchUserRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_SearchUserRequest, User_SearchUserResponse>
-
-  func makeGetUsersCall(
-    _ request: User_Empty,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_Empty, User_GetUsersResponse>
-
-  func makeFindUserByEmailCall(
-    _ request: User_FindUserByEmailRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_FindUserByEmailRequest, User_FindUserByEmailResponse>
-
-  func makeGetMfaStateCall(
-    _ request: User_MfaGetStateRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_MfaGetStateRequest, User_MfaStateResponse>
-
-  func makeEnableMfaCall(
-    _ request: User_MfaChangingStateRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_MfaChangingStateRequest, User_MfaBaseResponse>
-
-  func makeDisableMfaCall(
-    _ request: User_MfaChangingStateRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_MfaChangingStateRequest, User_MfaBaseResponse>
-
-  func makeMfaAuthChallengeCall(
-    _ request: User_MfaAuthChallengeRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_MfaAuthChallengeRequest, User_MfaAuthChallengeResponse>
-
-  func makeMfaValidatePasswordCall(
-    _ request: User_MfaValidatePasswordRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_MfaValidatePasswordRequest, User_MfaBaseResponse>
-
-  func makeMfaValidateOtpCall(
-    _ request: User_MfaValidateOtpRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_MfaValidateOtpRequest, User_MfaBaseResponse>
-
-  func makeMfaResendOtpCall(
-    _ request: User_MfaResendOtpRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_MfaResendOtpRequest, User_MfaBaseResponse>
-
-  func makeWorkspaceUpdateDisplayNameCall(
-    _ request: User_WorkspaceUpdateDisplayNameRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_WorkspaceUpdateDisplayNameRequest, User_BaseResponse>
-
-  func makeWorkspaceFindUserByEmailCall(
-    _ request: User_FindUserByEmailRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<User_FindUserByEmailRequest, User_FindUserByEmailResponse>
-}
-
-@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-extension User_UserAsyncClientProtocol {
-  internal static var serviceDescriptor: GRPCServiceDescriptor {
-    return User_UserClientMetadata.serviceDescriptor
-  }
-
-  internal var interceptors: User_UserClientInterceptorFactoryProtocol? {
-    return nil
-  }
-
-  internal func makeGetProfileCall(
-    _ request: User_Empty,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_Empty, User_UserProfileResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.get_profile.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeget_profileInterceptors() ?? []
-    )
-  }
-
-  internal func makeUpdateProfileCall(
-    _ request: User_UpdateProfileRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_UpdateProfileRequest, User_BaseResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.update_profile.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeupdate_profileInterceptors() ?? []
-    )
-  }
-
-  internal func makeUploadAvatarCall(
-    _ request: User_UploadAvatarRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_UploadAvatarRequest, User_UploadAvatarResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.upload_avatar.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeupload_avatarInterceptors() ?? []
-    )
-  }
-
-  internal func makeRequestChangePasswordCall(
-    _ request: User_RequestChangePasswordReq,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_RequestChangePasswordReq, User_RequestChangePasswordRes> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.request_change_password.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makerequest_change_passwordInterceptors() ?? []
-    )
-  }
-
-  internal func makeChangePasswordCall(
-    _ request: User_ChangePasswordRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_ChangePasswordRequest, User_BaseResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.change_password.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makechange_passwordInterceptors() ?? []
-    )
-  }
-
-  internal func makeUpdateStatusCall(
-    _ request: User_SetUserStatusRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_SetUserStatusRequest, User_BaseResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.update_status.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeupdate_statusInterceptors() ?? []
-    )
-  }
-
-  internal func makePingRequestCall(
-    _ request: User_PingRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_PingRequest, User_BaseResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.ping_request.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeping_requestInterceptors() ?? []
-    )
-  }
-
-  internal func makeGetClientsStatusCall(
-    _ request: User_GetClientsStatusRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_GetClientsStatusRequest, User_GetClientsStatusResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.get_clients_status.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeget_clients_statusInterceptors() ?? []
-    )
-  }
-
-  internal func makeDeleteAccountCall(
-    _ request: User_Empty,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_Empty, User_BaseResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.delete_account.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makedelete_accountInterceptors() ?? []
-    )
-  }
-
-  internal func makeGetUserInfoCall(
-    _ request: User_GetUserRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_GetUserRequest, User_UserInfoResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.get_user_info.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeget_user_infoInterceptors() ?? []
-    )
-  }
-
-  internal func makeSearchUserCall(
-    _ request: User_SearchUserRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_SearchUserRequest, User_SearchUserResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.search_user.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makesearch_userInterceptors() ?? []
-    )
-  }
-
-  internal func makeGetUsersCall(
-    _ request: User_Empty,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_Empty, User_GetUsersResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.get_users.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeget_usersInterceptors() ?? []
-    )
-  }
-
-  internal func makeFindUserByEmailCall(
-    _ request: User_FindUserByEmailRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_FindUserByEmailRequest, User_FindUserByEmailResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.find_user_by_email.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makefind_user_by_emailInterceptors() ?? []
-    )
-  }
-
-  internal func makeGetMfaStateCall(
-    _ request: User_MfaGetStateRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_MfaGetStateRequest, User_MfaStateResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.get_mfa_state.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeget_mfa_stateInterceptors() ?? []
-    )
-  }
-
-  internal func makeEnableMfaCall(
-    _ request: User_MfaChangingStateRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_MfaChangingStateRequest, User_MfaBaseResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.enable_mfa.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeenable_mfaInterceptors() ?? []
-    )
-  }
-
-  internal func makeDisableMfaCall(
-    _ request: User_MfaChangingStateRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_MfaChangingStateRequest, User_MfaBaseResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.disable_mfa.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makedisable_mfaInterceptors() ?? []
-    )
-  }
-
-  internal func makeMfaAuthChallengeCall(
-    _ request: User_MfaAuthChallengeRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_MfaAuthChallengeRequest, User_MfaAuthChallengeResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.mfa_auth_challenge.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makemfa_auth_challengeInterceptors() ?? []
-    )
-  }
-
-  internal func makeMfaValidatePasswordCall(
-    _ request: User_MfaValidatePasswordRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_MfaValidatePasswordRequest, User_MfaBaseResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.mfa_validate_password.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makemfa_validate_passwordInterceptors() ?? []
-    )
-  }
-
-  internal func makeMfaValidateOtpCall(
-    _ request: User_MfaValidateOtpRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_MfaValidateOtpRequest, User_MfaBaseResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.mfa_validate_otp.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makemfa_validate_otpInterceptors() ?? []
-    )
-  }
-
-  internal func makeMfaResendOtpCall(
-    _ request: User_MfaResendOtpRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_MfaResendOtpRequest, User_MfaBaseResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.mfa_resend_otp.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makemfa_resend_otpInterceptors() ?? []
-    )
-  }
-
-  internal func makeWorkspaceUpdateDisplayNameCall(
-    _ request: User_WorkspaceUpdateDisplayNameRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_WorkspaceUpdateDisplayNameRequest, User_BaseResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.workspace_update_display_name.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeworkspace_update_display_nameInterceptors() ?? []
-    )
-  }
-
-  internal func makeWorkspaceFindUserByEmailCall(
-    _ request: User_FindUserByEmailRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<User_FindUserByEmailRequest, User_FindUserByEmailResponse> {
-    return self.makeAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.workspace_find_user_by_email.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeworkspace_find_user_by_emailInterceptors() ?? []
-    )
-  }
-}
-
-@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-extension User_UserAsyncClientProtocol {
-  internal func get_profile(
-    _ request: User_Empty,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_UserProfileResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.get_profile.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeget_profileInterceptors() ?? []
-    )
-  }
-
-  internal func update_profile(
-    _ request: User_UpdateProfileRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_BaseResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.update_profile.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeupdate_profileInterceptors() ?? []
-    )
-  }
-
-  internal func upload_avatar(
-    _ request: User_UploadAvatarRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_UploadAvatarResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.upload_avatar.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeupload_avatarInterceptors() ?? []
-    )
-  }
-
-  internal func request_change_password(
-    _ request: User_RequestChangePasswordReq,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_RequestChangePasswordRes {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.request_change_password.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makerequest_change_passwordInterceptors() ?? []
-    )
-  }
-
-  internal func change_password(
-    _ request: User_ChangePasswordRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_BaseResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.change_password.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makechange_passwordInterceptors() ?? []
-    )
-  }
-
-  internal func update_status(
-    _ request: User_SetUserStatusRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_BaseResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.update_status.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeupdate_statusInterceptors() ?? []
-    )
-  }
-
-  internal func ping_request(
-    _ request: User_PingRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_BaseResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.ping_request.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeping_requestInterceptors() ?? []
-    )
-  }
-
-  internal func get_clients_status(
-    _ request: User_GetClientsStatusRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_GetClientsStatusResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.get_clients_status.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeget_clients_statusInterceptors() ?? []
-    )
-  }
-
-  internal func delete_account(
-    _ request: User_Empty,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_BaseResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.delete_account.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makedelete_accountInterceptors() ?? []
-    )
-  }
-
-  internal func get_user_info(
-    _ request: User_GetUserRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_UserInfoResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.get_user_info.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeget_user_infoInterceptors() ?? []
-    )
-  }
-
-  internal func search_user(
-    _ request: User_SearchUserRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_SearchUserResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.search_user.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makesearch_userInterceptors() ?? []
-    )
-  }
-
-  internal func get_users(
-    _ request: User_Empty,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_GetUsersResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.get_users.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeget_usersInterceptors() ?? []
-    )
-  }
-
-  internal func find_user_by_email(
-    _ request: User_FindUserByEmailRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_FindUserByEmailResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.find_user_by_email.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makefind_user_by_emailInterceptors() ?? []
-    )
-  }
-
-  internal func get_mfa_state(
-    _ request: User_MfaGetStateRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_MfaStateResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.get_mfa_state.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeget_mfa_stateInterceptors() ?? []
-    )
-  }
-
-  internal func enable_mfa(
-    _ request: User_MfaChangingStateRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_MfaBaseResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.enable_mfa.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeenable_mfaInterceptors() ?? []
-    )
-  }
-
-  internal func disable_mfa(
-    _ request: User_MfaChangingStateRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_MfaBaseResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.disable_mfa.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makedisable_mfaInterceptors() ?? []
-    )
-  }
-
-  internal func mfa_auth_challenge(
-    _ request: User_MfaAuthChallengeRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_MfaAuthChallengeResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.mfa_auth_challenge.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makemfa_auth_challengeInterceptors() ?? []
-    )
-  }
-
-  internal func mfa_validate_password(
-    _ request: User_MfaValidatePasswordRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_MfaBaseResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.mfa_validate_password.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makemfa_validate_passwordInterceptors() ?? []
-    )
-  }
-
-  internal func mfa_validate_otp(
-    _ request: User_MfaValidateOtpRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_MfaBaseResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.mfa_validate_otp.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makemfa_validate_otpInterceptors() ?? []
-    )
-  }
-
-  internal func mfa_resend_otp(
-    _ request: User_MfaResendOtpRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_MfaBaseResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.mfa_resend_otp.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makemfa_resend_otpInterceptors() ?? []
-    )
-  }
-
-  internal func workspace_update_display_name(
-    _ request: User_WorkspaceUpdateDisplayNameRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_BaseResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.workspace_update_display_name.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeworkspace_update_display_nameInterceptors() ?? []
-    )
-  }
-
-  internal func workspace_find_user_by_email(
-    _ request: User_FindUserByEmailRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> User_FindUserByEmailResponse {
-    return try await self.performAsyncUnaryCall(
-      path: User_UserClientMetadata.Methods.workspace_find_user_by_email.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeworkspace_find_user_by_emailInterceptors() ?? []
-    )
-  }
-}
-
-@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-internal struct User_UserAsyncClient: User_UserAsyncClientProtocol {
-  internal var channel: GRPCChannel
-  internal var defaultCallOptions: CallOptions
-  internal var interceptors: User_UserClientInterceptorFactoryProtocol?
-
-  internal init(
-    channel: GRPCChannel,
-    defaultCallOptions: CallOptions = CallOptions(),
-    interceptors: User_UserClientInterceptorFactoryProtocol? = nil
-  ) {
-    self.channel = channel
-    self.defaultCallOptions = defaultCallOptions
-    self.interceptors = interceptors
-  }
-}
-
-#endif // compiler(>=5.6)
-
-internal protocol User_UserClientInterceptorFactoryProtocol: GRPCSendable {
+internal protocol User_UserClientInterceptorFactoryProtocol {
 
   /// - Returns: Interceptors to use when invoking 'get_profile'.
   func makeget_profileInterceptors() -> [ClientInterceptor<User_Empty, User_UserProfileResponse>]
@@ -1351,168 +613,25 @@ internal protocol User_UserClientInterceptorFactoryProtocol: GRPCSendable {
   func makeworkspace_find_user_by_emailInterceptors() -> [ClientInterceptor<User_FindUserByEmailRequest, User_FindUserByEmailResponse>]
 }
 
-internal enum User_UserClientMetadata {
-  internal static let serviceDescriptor = GRPCServiceDescriptor(
-    name: "User",
-    fullName: "user.User",
-    methods: [
-      User_UserClientMetadata.Methods.get_profile,
-      User_UserClientMetadata.Methods.update_profile,
-      User_UserClientMetadata.Methods.upload_avatar,
-      User_UserClientMetadata.Methods.request_change_password,
-      User_UserClientMetadata.Methods.change_password,
-      User_UserClientMetadata.Methods.update_status,
-      User_UserClientMetadata.Methods.ping_request,
-      User_UserClientMetadata.Methods.get_clients_status,
-      User_UserClientMetadata.Methods.delete_account,
-      User_UserClientMetadata.Methods.get_user_info,
-      User_UserClientMetadata.Methods.search_user,
-      User_UserClientMetadata.Methods.get_users,
-      User_UserClientMetadata.Methods.find_user_by_email,
-      User_UserClientMetadata.Methods.get_mfa_state,
-      User_UserClientMetadata.Methods.enable_mfa,
-      User_UserClientMetadata.Methods.disable_mfa,
-      User_UserClientMetadata.Methods.mfa_auth_challenge,
-      User_UserClientMetadata.Methods.mfa_validate_password,
-      User_UserClientMetadata.Methods.mfa_validate_otp,
-      User_UserClientMetadata.Methods.mfa_resend_otp,
-      User_UserClientMetadata.Methods.workspace_update_display_name,
-      User_UserClientMetadata.Methods.workspace_find_user_by_email,
-    ]
-  )
+internal final class User_UserClient: User_UserClientProtocol {
+  internal let channel: GRPCChannel
+  internal var defaultCallOptions: CallOptions
+  internal var interceptors: User_UserClientInterceptorFactoryProtocol?
 
-  internal enum Methods {
-    internal static let get_profile = GRPCMethodDescriptor(
-      name: "get_profile",
-      path: "/user.User/get_profile",
-      type: GRPCCallType.unary
-    )
-
-    internal static let update_profile = GRPCMethodDescriptor(
-      name: "update_profile",
-      path: "/user.User/update_profile",
-      type: GRPCCallType.unary
-    )
-
-    internal static let upload_avatar = GRPCMethodDescriptor(
-      name: "upload_avatar",
-      path: "/user.User/upload_avatar",
-      type: GRPCCallType.unary
-    )
-
-    internal static let request_change_password = GRPCMethodDescriptor(
-      name: "request_change_password",
-      path: "/user.User/request_change_password",
-      type: GRPCCallType.unary
-    )
-
-    internal static let change_password = GRPCMethodDescriptor(
-      name: "change_password",
-      path: "/user.User/change_password",
-      type: GRPCCallType.unary
-    )
-
-    internal static let update_status = GRPCMethodDescriptor(
-      name: "update_status",
-      path: "/user.User/update_status",
-      type: GRPCCallType.unary
-    )
-
-    internal static let ping_request = GRPCMethodDescriptor(
-      name: "ping_request",
-      path: "/user.User/ping_request",
-      type: GRPCCallType.unary
-    )
-
-    internal static let get_clients_status = GRPCMethodDescriptor(
-      name: "get_clients_status",
-      path: "/user.User/get_clients_status",
-      type: GRPCCallType.unary
-    )
-
-    internal static let delete_account = GRPCMethodDescriptor(
-      name: "delete_account",
-      path: "/user.User/delete_account",
-      type: GRPCCallType.unary
-    )
-
-    internal static let get_user_info = GRPCMethodDescriptor(
-      name: "get_user_info",
-      path: "/user.User/get_user_info",
-      type: GRPCCallType.unary
-    )
-
-    internal static let search_user = GRPCMethodDescriptor(
-      name: "search_user",
-      path: "/user.User/search_user",
-      type: GRPCCallType.unary
-    )
-
-    internal static let get_users = GRPCMethodDescriptor(
-      name: "get_users",
-      path: "/user.User/get_users",
-      type: GRPCCallType.unary
-    )
-
-    internal static let find_user_by_email = GRPCMethodDescriptor(
-      name: "find_user_by_email",
-      path: "/user.User/find_user_by_email",
-      type: GRPCCallType.unary
-    )
-
-    internal static let get_mfa_state = GRPCMethodDescriptor(
-      name: "get_mfa_state",
-      path: "/user.User/get_mfa_state",
-      type: GRPCCallType.unary
-    )
-
-    internal static let enable_mfa = GRPCMethodDescriptor(
-      name: "enable_mfa",
-      path: "/user.User/enable_mfa",
-      type: GRPCCallType.unary
-    )
-
-    internal static let disable_mfa = GRPCMethodDescriptor(
-      name: "disable_mfa",
-      path: "/user.User/disable_mfa",
-      type: GRPCCallType.unary
-    )
-
-    internal static let mfa_auth_challenge = GRPCMethodDescriptor(
-      name: "mfa_auth_challenge",
-      path: "/user.User/mfa_auth_challenge",
-      type: GRPCCallType.unary
-    )
-
-    internal static let mfa_validate_password = GRPCMethodDescriptor(
-      name: "mfa_validate_password",
-      path: "/user.User/mfa_validate_password",
-      type: GRPCCallType.unary
-    )
-
-    internal static let mfa_validate_otp = GRPCMethodDescriptor(
-      name: "mfa_validate_otp",
-      path: "/user.User/mfa_validate_otp",
-      type: GRPCCallType.unary
-    )
-
-    internal static let mfa_resend_otp = GRPCMethodDescriptor(
-      name: "mfa_resend_otp",
-      path: "/user.User/mfa_resend_otp",
-      type: GRPCCallType.unary
-    )
-
-    internal static let workspace_update_display_name = GRPCMethodDescriptor(
-      name: "workspace_update_display_name",
-      path: "/user.User/workspace_update_display_name",
-      type: GRPCCallType.unary
-    )
-
-    internal static let workspace_find_user_by_email = GRPCMethodDescriptor(
-      name: "workspace_find_user_by_email",
-      path: "/user.User/workspace_find_user_by_email",
-      type: GRPCCallType.unary
-    )
+  /// Creates a client for the user.User service.
+  ///
+  /// - Parameters:
+  ///   - channel: `GRPCChannel` to the service host.
+  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
+  ///   - interceptors: A factory providing interceptors for each RPC.
+  internal init(
+    channel: GRPCChannel,
+    defaultCallOptions: CallOptions = CallOptions(),
+    interceptors: User_UserClientInterceptorFactoryProtocol? = nil
+  ) {
+    self.channel = channel
+    self.defaultCallOptions = defaultCallOptions
+    self.interceptors = interceptors
   }
 }
 
@@ -1570,9 +689,7 @@ internal protocol User_UserProvider: CallHandlerProvider {
 }
 
 extension User_UserProvider {
-  internal var serviceName: Substring {
-    return User_UserServerMetadata.serviceDescriptor.fullName[...]
-  }
+  internal var serviceName: Substring { return "user.User" }
 
   /// Determines, calls and returns the appropriate request handler, depending on the request's method.
   /// Returns nil for methods not handled by this service.
@@ -1785,354 +902,6 @@ extension User_UserProvider {
   }
 }
 
-#if compiler(>=5.6)
-
-/// To implement a server, implement an object which conforms to this protocol.
-@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-internal protocol User_UserAsyncProvider: CallHandlerProvider {
-  static var serviceDescriptor: GRPCServiceDescriptor { get }
-  var interceptors: User_UserServerInterceptorFactoryProtocol? { get }
-
-  ///----- FROM MY ACCOUNT -----
-  /// => profile api
-  @Sendable func get_profile(
-    request: User_Empty,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_UserProfileResponse
-
-  @Sendable func update_profile(
-    request: User_UpdateProfileRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_BaseResponse
-
-  @Sendable func upload_avatar(
-    request: User_UploadAvatarRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_UploadAvatarResponse
-
-  @Sendable func request_change_password(
-    request: User_RequestChangePasswordReq,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_RequestChangePasswordRes
-
-  @Sendable func change_password(
-    request: User_ChangePasswordRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_BaseResponse
-
-  @Sendable func update_status(
-    request: User_SetUserStatusRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_BaseResponse
-
-  @Sendable func ping_request(
-    request: User_PingRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_BaseResponse
-
-  @Sendable func get_clients_status(
-    request: User_GetClientsStatusRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_GetClientsStatusResponse
-
-  @Sendable func delete_account(
-    request: User_Empty,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_BaseResponse
-
-  ///----- FROM OTHER ACCOUNT -----
-  @Sendable func get_user_info(
-    request: User_GetUserRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_UserInfoResponse
-
-  @Sendable func search_user(
-    request: User_SearchUserRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_SearchUserResponse
-
-  @Sendable func get_users(
-    request: User_Empty,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_GetUsersResponse
-
-  @Sendable func find_user_by_email(
-    request: User_FindUserByEmailRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_FindUserByEmailResponse
-
-  ///----- MFA ENABLE FLOW -----
-  @Sendable func get_mfa_state(
-    request: User_MfaGetStateRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_MfaStateResponse
-
-  @Sendable func enable_mfa(
-    request: User_MfaChangingStateRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_MfaBaseResponse
-
-  @Sendable func disable_mfa(
-    request: User_MfaChangingStateRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_MfaBaseResponse
-
-  @Sendable func mfa_auth_challenge(
-    request: User_MfaAuthChallengeRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_MfaAuthChallengeResponse
-
-  @Sendable func mfa_validate_password(
-    request: User_MfaValidatePasswordRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_MfaBaseResponse
-
-  @Sendable func mfa_validate_otp(
-    request: User_MfaValidateOtpRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_MfaBaseResponse
-
-  @Sendable func mfa_resend_otp(
-    request: User_MfaResendOtpRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_MfaBaseResponse
-
-  @Sendable func workspace_update_display_name(
-    request: User_WorkspaceUpdateDisplayNameRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_BaseResponse
-
-  @Sendable func workspace_find_user_by_email(
-    request: User_FindUserByEmailRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> User_FindUserByEmailResponse
-}
-
-@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-extension User_UserAsyncProvider {
-  internal static var serviceDescriptor: GRPCServiceDescriptor {
-    return User_UserServerMetadata.serviceDescriptor
-  }
-
-  internal var serviceName: Substring {
-    return User_UserServerMetadata.serviceDescriptor.fullName[...]
-  }
-
-  internal var interceptors: User_UserServerInterceptorFactoryProtocol? {
-    return nil
-  }
-
-  internal func handle(
-    method name: Substring,
-    context: CallHandlerContext
-  ) -> GRPCServerHandlerProtocol? {
-    switch name {
-    case "get_profile":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_Empty>(),
-        responseSerializer: ProtobufSerializer<User_UserProfileResponse>(),
-        interceptors: self.interceptors?.makeget_profileInterceptors() ?? [],
-        wrapping: self.get_profile(request:context:)
-      )
-
-    case "update_profile":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_UpdateProfileRequest>(),
-        responseSerializer: ProtobufSerializer<User_BaseResponse>(),
-        interceptors: self.interceptors?.makeupdate_profileInterceptors() ?? [],
-        wrapping: self.update_profile(request:context:)
-      )
-
-    case "upload_avatar":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_UploadAvatarRequest>(),
-        responseSerializer: ProtobufSerializer<User_UploadAvatarResponse>(),
-        interceptors: self.interceptors?.makeupload_avatarInterceptors() ?? [],
-        wrapping: self.upload_avatar(request:context:)
-      )
-
-    case "request_change_password":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_RequestChangePasswordReq>(),
-        responseSerializer: ProtobufSerializer<User_RequestChangePasswordRes>(),
-        interceptors: self.interceptors?.makerequest_change_passwordInterceptors() ?? [],
-        wrapping: self.request_change_password(request:context:)
-      )
-
-    case "change_password":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_ChangePasswordRequest>(),
-        responseSerializer: ProtobufSerializer<User_BaseResponse>(),
-        interceptors: self.interceptors?.makechange_passwordInterceptors() ?? [],
-        wrapping: self.change_password(request:context:)
-      )
-
-    case "update_status":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_SetUserStatusRequest>(),
-        responseSerializer: ProtobufSerializer<User_BaseResponse>(),
-        interceptors: self.interceptors?.makeupdate_statusInterceptors() ?? [],
-        wrapping: self.update_status(request:context:)
-      )
-
-    case "ping_request":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_PingRequest>(),
-        responseSerializer: ProtobufSerializer<User_BaseResponse>(),
-        interceptors: self.interceptors?.makeping_requestInterceptors() ?? [],
-        wrapping: self.ping_request(request:context:)
-      )
-
-    case "get_clients_status":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_GetClientsStatusRequest>(),
-        responseSerializer: ProtobufSerializer<User_GetClientsStatusResponse>(),
-        interceptors: self.interceptors?.makeget_clients_statusInterceptors() ?? [],
-        wrapping: self.get_clients_status(request:context:)
-      )
-
-    case "delete_account":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_Empty>(),
-        responseSerializer: ProtobufSerializer<User_BaseResponse>(),
-        interceptors: self.interceptors?.makedelete_accountInterceptors() ?? [],
-        wrapping: self.delete_account(request:context:)
-      )
-
-    case "get_user_info":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_GetUserRequest>(),
-        responseSerializer: ProtobufSerializer<User_UserInfoResponse>(),
-        interceptors: self.interceptors?.makeget_user_infoInterceptors() ?? [],
-        wrapping: self.get_user_info(request:context:)
-      )
-
-    case "search_user":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_SearchUserRequest>(),
-        responseSerializer: ProtobufSerializer<User_SearchUserResponse>(),
-        interceptors: self.interceptors?.makesearch_userInterceptors() ?? [],
-        wrapping: self.search_user(request:context:)
-      )
-
-    case "get_users":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_Empty>(),
-        responseSerializer: ProtobufSerializer<User_GetUsersResponse>(),
-        interceptors: self.interceptors?.makeget_usersInterceptors() ?? [],
-        wrapping: self.get_users(request:context:)
-      )
-
-    case "find_user_by_email":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_FindUserByEmailRequest>(),
-        responseSerializer: ProtobufSerializer<User_FindUserByEmailResponse>(),
-        interceptors: self.interceptors?.makefind_user_by_emailInterceptors() ?? [],
-        wrapping: self.find_user_by_email(request:context:)
-      )
-
-    case "get_mfa_state":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_MfaGetStateRequest>(),
-        responseSerializer: ProtobufSerializer<User_MfaStateResponse>(),
-        interceptors: self.interceptors?.makeget_mfa_stateInterceptors() ?? [],
-        wrapping: self.get_mfa_state(request:context:)
-      )
-
-    case "enable_mfa":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_MfaChangingStateRequest>(),
-        responseSerializer: ProtobufSerializer<User_MfaBaseResponse>(),
-        interceptors: self.interceptors?.makeenable_mfaInterceptors() ?? [],
-        wrapping: self.enable_mfa(request:context:)
-      )
-
-    case "disable_mfa":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_MfaChangingStateRequest>(),
-        responseSerializer: ProtobufSerializer<User_MfaBaseResponse>(),
-        interceptors: self.interceptors?.makedisable_mfaInterceptors() ?? [],
-        wrapping: self.disable_mfa(request:context:)
-      )
-
-    case "mfa_auth_challenge":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_MfaAuthChallengeRequest>(),
-        responseSerializer: ProtobufSerializer<User_MfaAuthChallengeResponse>(),
-        interceptors: self.interceptors?.makemfa_auth_challengeInterceptors() ?? [],
-        wrapping: self.mfa_auth_challenge(request:context:)
-      )
-
-    case "mfa_validate_password":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_MfaValidatePasswordRequest>(),
-        responseSerializer: ProtobufSerializer<User_MfaBaseResponse>(),
-        interceptors: self.interceptors?.makemfa_validate_passwordInterceptors() ?? [],
-        wrapping: self.mfa_validate_password(request:context:)
-      )
-
-    case "mfa_validate_otp":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_MfaValidateOtpRequest>(),
-        responseSerializer: ProtobufSerializer<User_MfaBaseResponse>(),
-        interceptors: self.interceptors?.makemfa_validate_otpInterceptors() ?? [],
-        wrapping: self.mfa_validate_otp(request:context:)
-      )
-
-    case "mfa_resend_otp":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_MfaResendOtpRequest>(),
-        responseSerializer: ProtobufSerializer<User_MfaBaseResponse>(),
-        interceptors: self.interceptors?.makemfa_resend_otpInterceptors() ?? [],
-        wrapping: self.mfa_resend_otp(request:context:)
-      )
-
-    case "workspace_update_display_name":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_WorkspaceUpdateDisplayNameRequest>(),
-        responseSerializer: ProtobufSerializer<User_BaseResponse>(),
-        interceptors: self.interceptors?.makeworkspace_update_display_nameInterceptors() ?? [],
-        wrapping: self.workspace_update_display_name(request:context:)
-      )
-
-    case "workspace_find_user_by_email":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<User_FindUserByEmailRequest>(),
-        responseSerializer: ProtobufSerializer<User_FindUserByEmailResponse>(),
-        interceptors: self.interceptors?.makeworkspace_find_user_by_emailInterceptors() ?? [],
-        wrapping: self.workspace_find_user_by_email(request:context:)
-      )
-
-    default:
-      return nil
-    }
-  }
-}
-
-#endif // compiler(>=5.6)
-
 internal protocol User_UserServerInterceptorFactoryProtocol {
 
   /// - Returns: Interceptors to use when handling 'get_profile'.
@@ -2222,169 +991,4 @@ internal protocol User_UserServerInterceptorFactoryProtocol {
   /// - Returns: Interceptors to use when handling 'workspace_find_user_by_email'.
   ///   Defaults to calling `self.makeInterceptors()`.
   func makeworkspace_find_user_by_emailInterceptors() -> [ServerInterceptor<User_FindUserByEmailRequest, User_FindUserByEmailResponse>]
-}
-
-internal enum User_UserServerMetadata {
-  internal static let serviceDescriptor = GRPCServiceDescriptor(
-    name: "User",
-    fullName: "user.User",
-    methods: [
-      User_UserServerMetadata.Methods.get_profile,
-      User_UserServerMetadata.Methods.update_profile,
-      User_UserServerMetadata.Methods.upload_avatar,
-      User_UserServerMetadata.Methods.request_change_password,
-      User_UserServerMetadata.Methods.change_password,
-      User_UserServerMetadata.Methods.update_status,
-      User_UserServerMetadata.Methods.ping_request,
-      User_UserServerMetadata.Methods.get_clients_status,
-      User_UserServerMetadata.Methods.delete_account,
-      User_UserServerMetadata.Methods.get_user_info,
-      User_UserServerMetadata.Methods.search_user,
-      User_UserServerMetadata.Methods.get_users,
-      User_UserServerMetadata.Methods.find_user_by_email,
-      User_UserServerMetadata.Methods.get_mfa_state,
-      User_UserServerMetadata.Methods.enable_mfa,
-      User_UserServerMetadata.Methods.disable_mfa,
-      User_UserServerMetadata.Methods.mfa_auth_challenge,
-      User_UserServerMetadata.Methods.mfa_validate_password,
-      User_UserServerMetadata.Methods.mfa_validate_otp,
-      User_UserServerMetadata.Methods.mfa_resend_otp,
-      User_UserServerMetadata.Methods.workspace_update_display_name,
-      User_UserServerMetadata.Methods.workspace_find_user_by_email,
-    ]
-  )
-
-  internal enum Methods {
-    internal static let get_profile = GRPCMethodDescriptor(
-      name: "get_profile",
-      path: "/user.User/get_profile",
-      type: GRPCCallType.unary
-    )
-
-    internal static let update_profile = GRPCMethodDescriptor(
-      name: "update_profile",
-      path: "/user.User/update_profile",
-      type: GRPCCallType.unary
-    )
-
-    internal static let upload_avatar = GRPCMethodDescriptor(
-      name: "upload_avatar",
-      path: "/user.User/upload_avatar",
-      type: GRPCCallType.unary
-    )
-
-    internal static let request_change_password = GRPCMethodDescriptor(
-      name: "request_change_password",
-      path: "/user.User/request_change_password",
-      type: GRPCCallType.unary
-    )
-
-    internal static let change_password = GRPCMethodDescriptor(
-      name: "change_password",
-      path: "/user.User/change_password",
-      type: GRPCCallType.unary
-    )
-
-    internal static let update_status = GRPCMethodDescriptor(
-      name: "update_status",
-      path: "/user.User/update_status",
-      type: GRPCCallType.unary
-    )
-
-    internal static let ping_request = GRPCMethodDescriptor(
-      name: "ping_request",
-      path: "/user.User/ping_request",
-      type: GRPCCallType.unary
-    )
-
-    internal static let get_clients_status = GRPCMethodDescriptor(
-      name: "get_clients_status",
-      path: "/user.User/get_clients_status",
-      type: GRPCCallType.unary
-    )
-
-    internal static let delete_account = GRPCMethodDescriptor(
-      name: "delete_account",
-      path: "/user.User/delete_account",
-      type: GRPCCallType.unary
-    )
-
-    internal static let get_user_info = GRPCMethodDescriptor(
-      name: "get_user_info",
-      path: "/user.User/get_user_info",
-      type: GRPCCallType.unary
-    )
-
-    internal static let search_user = GRPCMethodDescriptor(
-      name: "search_user",
-      path: "/user.User/search_user",
-      type: GRPCCallType.unary
-    )
-
-    internal static let get_users = GRPCMethodDescriptor(
-      name: "get_users",
-      path: "/user.User/get_users",
-      type: GRPCCallType.unary
-    )
-
-    internal static let find_user_by_email = GRPCMethodDescriptor(
-      name: "find_user_by_email",
-      path: "/user.User/find_user_by_email",
-      type: GRPCCallType.unary
-    )
-
-    internal static let get_mfa_state = GRPCMethodDescriptor(
-      name: "get_mfa_state",
-      path: "/user.User/get_mfa_state",
-      type: GRPCCallType.unary
-    )
-
-    internal static let enable_mfa = GRPCMethodDescriptor(
-      name: "enable_mfa",
-      path: "/user.User/enable_mfa",
-      type: GRPCCallType.unary
-    )
-
-    internal static let disable_mfa = GRPCMethodDescriptor(
-      name: "disable_mfa",
-      path: "/user.User/disable_mfa",
-      type: GRPCCallType.unary
-    )
-
-    internal static let mfa_auth_challenge = GRPCMethodDescriptor(
-      name: "mfa_auth_challenge",
-      path: "/user.User/mfa_auth_challenge",
-      type: GRPCCallType.unary
-    )
-
-    internal static let mfa_validate_password = GRPCMethodDescriptor(
-      name: "mfa_validate_password",
-      path: "/user.User/mfa_validate_password",
-      type: GRPCCallType.unary
-    )
-
-    internal static let mfa_validate_otp = GRPCMethodDescriptor(
-      name: "mfa_validate_otp",
-      path: "/user.User/mfa_validate_otp",
-      type: GRPCCallType.unary
-    )
-
-    internal static let mfa_resend_otp = GRPCMethodDescriptor(
-      name: "mfa_resend_otp",
-      path: "/user.User/mfa_resend_otp",
-      type: GRPCCallType.unary
-    )
-
-    internal static let workspace_update_display_name = GRPCMethodDescriptor(
-      name: "workspace_update_display_name",
-      path: "/user.User/workspace_update_display_name",
-      type: GRPCCallType.unary
-    )
-
-    internal static let workspace_find_user_by_email = GRPCMethodDescriptor(
-      name: "workspace_find_user_by_email",
-      path: "/user.User/workspace_find_user_by_email",
-      type: GRPCCallType.unary
-    )
-  }
 }

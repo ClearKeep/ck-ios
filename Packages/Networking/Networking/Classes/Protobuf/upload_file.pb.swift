@@ -138,17 +138,6 @@ public struct UploadFile_UploadFilesResponse {
   public init() {}
 }
 
-#if swift(>=5.5) && canImport(_Concurrency)
-extension UploadFile_BaseResponse: @unchecked Sendable {}
-extension UploadFile_GetUploadFileLinkRequest: @unchecked Sendable {}
-extension UploadFile_GetUploadFileLinkResponse: @unchecked Sendable {}
-extension UploadFile_GetDownloadFileLinkRequest: @unchecked Sendable {}
-extension UploadFile_GetDownloadFileLinkResponse: @unchecked Sendable {}
-extension UploadFile_FileUploadRequest: @unchecked Sendable {}
-extension UploadFile_FileDataBlockRequest: @unchecked Sendable {}
-extension UploadFile_UploadFilesResponse: @unchecked Sendable {}
-#endif  // swift(>=5.5) && canImport(_Concurrency)
-
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "upload_file"

@@ -273,22 +273,6 @@ public struct Signal_GroupGetAllClientKeyResponse {
   public init() {}
 }
 
-#if swift(>=5.5) && canImport(_Concurrency)
-extension Signal_BaseResponse: @unchecked Sendable {}
-extension Signal_PeerRegisterClientKeyRequest: @unchecked Sendable {}
-extension Signal_PeerGetClientKeyRequest: @unchecked Sendable {}
-extension Signal_PeerGetClientKeyResponse: @unchecked Sendable {}
-extension Signal_GroupRegisterClientKeyRequest: @unchecked Sendable {}
-extension Signal_GroupUpdateClientKeyRequest: @unchecked Sendable {}
-extension Signal_GroupClientKeyObject: @unchecked Sendable {}
-extension Signal_GroupGetClientKeyRequest: @unchecked Sendable {}
-extension Signal_GroupGetClientKeyResponse: @unchecked Sendable {}
-extension Signal_WorkspaceGroupGetClientKeyRequest: @unchecked Sendable {}
-extension Signal_WorkspaceGroupGetClientKeyResponse: @unchecked Sendable {}
-extension Signal_GroupGetAllClientKeyRequest: @unchecked Sendable {}
-extension Signal_GroupGetAllClientKeyResponse: @unchecked Sendable {}
-#endif  // swift(>=5.5) && canImport(_Concurrency)
-
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "signal"

@@ -22,7 +22,6 @@
 //
 import GRPC
 import NIO
-import NIOConcurrencyHelpers
 import SwiftProtobuf
 
 
@@ -58,7 +57,7 @@ extension Workspace_WorkspaceClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Workspace_WorkspaceInfoRequest, Workspace_WorkspaceInfoResponse> {
     return self.makeUnaryCall(
-      path: Workspace_WorkspaceClientMetadata.Methods.workspace_info.path,
+      path: "/workspace.Workspace/workspace_info",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeworkspace_infoInterceptors() ?? []
@@ -76,7 +75,7 @@ extension Workspace_WorkspaceClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Workspace_LeaveWorkspaceRequest, Workspace_BaseResponse> {
     return self.makeUnaryCall(
-      path: Workspace_WorkspaceClientMetadata.Methods.leave_workspace.path,
+      path: "/workspace.Workspace/leave_workspace",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeleave_workspaceInterceptors() ?? []
@@ -84,164 +83,7 @@ extension Workspace_WorkspaceClientProtocol {
   }
 }
 
-#if compiler(>=5.6)
-@available(*, deprecated)
-extension Workspace_WorkspaceClient: @unchecked Sendable {}
-#endif // compiler(>=5.6)
-
-@available(*, deprecated, renamed: "Workspace_WorkspaceNIOClient")
-internal final class Workspace_WorkspaceClient: Workspace_WorkspaceClientProtocol {
-  private let lock = Lock()
-  private var _defaultCallOptions: CallOptions
-  private var _interceptors: Workspace_WorkspaceClientInterceptorFactoryProtocol?
-  internal let channel: GRPCChannel
-  internal var defaultCallOptions: CallOptions {
-    get { self.lock.withLock { return self._defaultCallOptions } }
-    set { self.lock.withLockVoid { self._defaultCallOptions = newValue } }
-  }
-  internal var interceptors: Workspace_WorkspaceClientInterceptorFactoryProtocol? {
-    get { self.lock.withLock { return self._interceptors } }
-    set { self.lock.withLockVoid { self._interceptors = newValue } }
-  }
-
-  /// Creates a client for the workspace.Workspace service.
-  ///
-  /// - Parameters:
-  ///   - channel: `GRPCChannel` to the service host.
-  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
-  ///   - interceptors: A factory providing interceptors for each RPC.
-  internal init(
-    channel: GRPCChannel,
-    defaultCallOptions: CallOptions = CallOptions(),
-    interceptors: Workspace_WorkspaceClientInterceptorFactoryProtocol? = nil
-  ) {
-    self.channel = channel
-    self._defaultCallOptions = defaultCallOptions
-    self._interceptors = interceptors
-  }
-}
-
-internal struct Workspace_WorkspaceNIOClient: Workspace_WorkspaceClientProtocol {
-  internal var channel: GRPCChannel
-  internal var defaultCallOptions: CallOptions
-  internal var interceptors: Workspace_WorkspaceClientInterceptorFactoryProtocol?
-
-  /// Creates a client for the workspace.Workspace service.
-  ///
-  /// - Parameters:
-  ///   - channel: `GRPCChannel` to the service host.
-  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
-  ///   - interceptors: A factory providing interceptors for each RPC.
-  internal init(
-    channel: GRPCChannel,
-    defaultCallOptions: CallOptions = CallOptions(),
-    interceptors: Workspace_WorkspaceClientInterceptorFactoryProtocol? = nil
-  ) {
-    self.channel = channel
-    self.defaultCallOptions = defaultCallOptions
-    self.interceptors = interceptors
-  }
-}
-
-#if compiler(>=5.6)
-@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-internal protocol Workspace_WorkspaceAsyncClientProtocol: GRPCClient {
-  static var serviceDescriptor: GRPCServiceDescriptor { get }
-  var interceptors: Workspace_WorkspaceClientInterceptorFactoryProtocol? { get }
-
-  func makeWorkspaceInfoCall(
-    _ request: Workspace_WorkspaceInfoRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<Workspace_WorkspaceInfoRequest, Workspace_WorkspaceInfoResponse>
-
-  func makeLeaveWorkspaceCall(
-    _ request: Workspace_LeaveWorkspaceRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<Workspace_LeaveWorkspaceRequest, Workspace_BaseResponse>
-}
-
-@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-extension Workspace_WorkspaceAsyncClientProtocol {
-  internal static var serviceDescriptor: GRPCServiceDescriptor {
-    return Workspace_WorkspaceClientMetadata.serviceDescriptor
-  }
-
-  internal var interceptors: Workspace_WorkspaceClientInterceptorFactoryProtocol? {
-    return nil
-  }
-
-  internal func makeWorkspaceInfoCall(
-    _ request: Workspace_WorkspaceInfoRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<Workspace_WorkspaceInfoRequest, Workspace_WorkspaceInfoResponse> {
-    return self.makeAsyncUnaryCall(
-      path: Workspace_WorkspaceClientMetadata.Methods.workspace_info.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeworkspace_infoInterceptors() ?? []
-    )
-  }
-
-  internal func makeLeaveWorkspaceCall(
-    _ request: Workspace_LeaveWorkspaceRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<Workspace_LeaveWorkspaceRequest, Workspace_BaseResponse> {
-    return self.makeAsyncUnaryCall(
-      path: Workspace_WorkspaceClientMetadata.Methods.leave_workspace.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeleave_workspaceInterceptors() ?? []
-    )
-  }
-}
-
-@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-extension Workspace_WorkspaceAsyncClientProtocol {
-  internal func workspace_info(
-    _ request: Workspace_WorkspaceInfoRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> Workspace_WorkspaceInfoResponse {
-    return try await self.performAsyncUnaryCall(
-      path: Workspace_WorkspaceClientMetadata.Methods.workspace_info.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeworkspace_infoInterceptors() ?? []
-    )
-  }
-
-  internal func leave_workspace(
-    _ request: Workspace_LeaveWorkspaceRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> Workspace_BaseResponse {
-    return try await self.performAsyncUnaryCall(
-      path: Workspace_WorkspaceClientMetadata.Methods.leave_workspace.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeleave_workspaceInterceptors() ?? []
-    )
-  }
-}
-
-@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-internal struct Workspace_WorkspaceAsyncClient: Workspace_WorkspaceAsyncClientProtocol {
-  internal var channel: GRPCChannel
-  internal var defaultCallOptions: CallOptions
-  internal var interceptors: Workspace_WorkspaceClientInterceptorFactoryProtocol?
-
-  internal init(
-    channel: GRPCChannel,
-    defaultCallOptions: CallOptions = CallOptions(),
-    interceptors: Workspace_WorkspaceClientInterceptorFactoryProtocol? = nil
-  ) {
-    self.channel = channel
-    self.defaultCallOptions = defaultCallOptions
-    self.interceptors = interceptors
-  }
-}
-
-#endif // compiler(>=5.6)
-
-internal protocol Workspace_WorkspaceClientInterceptorFactoryProtocol: GRPCSendable {
+internal protocol Workspace_WorkspaceClientInterceptorFactoryProtocol {
 
   /// - Returns: Interceptors to use when invoking 'workspace_info'.
   func makeworkspace_infoInterceptors() -> [ClientInterceptor<Workspace_WorkspaceInfoRequest, Workspace_WorkspaceInfoResponse>]
@@ -250,28 +92,25 @@ internal protocol Workspace_WorkspaceClientInterceptorFactoryProtocol: GRPCSenda
   func makeleave_workspaceInterceptors() -> [ClientInterceptor<Workspace_LeaveWorkspaceRequest, Workspace_BaseResponse>]
 }
 
-internal enum Workspace_WorkspaceClientMetadata {
-  internal static let serviceDescriptor = GRPCServiceDescriptor(
-    name: "Workspace",
-    fullName: "workspace.Workspace",
-    methods: [
-      Workspace_WorkspaceClientMetadata.Methods.workspace_info,
-      Workspace_WorkspaceClientMetadata.Methods.leave_workspace,
-    ]
-  )
+internal final class Workspace_WorkspaceClient: Workspace_WorkspaceClientProtocol {
+  internal let channel: GRPCChannel
+  internal var defaultCallOptions: CallOptions
+  internal var interceptors: Workspace_WorkspaceClientInterceptorFactoryProtocol?
 
-  internal enum Methods {
-    internal static let workspace_info = GRPCMethodDescriptor(
-      name: "workspace_info",
-      path: "/workspace.Workspace/workspace_info",
-      type: GRPCCallType.unary
-    )
-
-    internal static let leave_workspace = GRPCMethodDescriptor(
-      name: "leave_workspace",
-      path: "/workspace.Workspace/leave_workspace",
-      type: GRPCCallType.unary
-    )
+  /// Creates a client for the workspace.Workspace service.
+  ///
+  /// - Parameters:
+  ///   - channel: `GRPCChannel` to the service host.
+  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
+  ///   - interceptors: A factory providing interceptors for each RPC.
+  internal init(
+    channel: GRPCChannel,
+    defaultCallOptions: CallOptions = CallOptions(),
+    interceptors: Workspace_WorkspaceClientInterceptorFactoryProtocol? = nil
+  ) {
+    self.channel = channel
+    self.defaultCallOptions = defaultCallOptions
+    self.interceptors = interceptors
   }
 }
 
@@ -285,9 +124,7 @@ internal protocol Workspace_WorkspaceProvider: CallHandlerProvider {
 }
 
 extension Workspace_WorkspaceProvider {
-  internal var serviceName: Substring {
-    return Workspace_WorkspaceServerMetadata.serviceDescriptor.fullName[...]
-  }
+  internal var serviceName: Substring { return "workspace.Workspace" }
 
   /// Determines, calls and returns the appropriate request handler, depending on the request's method.
   /// Returns nil for methods not handled by this service.
@@ -320,70 +157,6 @@ extension Workspace_WorkspaceProvider {
   }
 }
 
-#if compiler(>=5.6)
-
-/// To implement a server, implement an object which conforms to this protocol.
-@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-internal protocol Workspace_WorkspaceAsyncProvider: CallHandlerProvider {
-  static var serviceDescriptor: GRPCServiceDescriptor { get }
-  var interceptors: Workspace_WorkspaceServerInterceptorFactoryProtocol? { get }
-
-  @Sendable func workspace_info(
-    request: Workspace_WorkspaceInfoRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> Workspace_WorkspaceInfoResponse
-
-  @Sendable func leave_workspace(
-    request: Workspace_LeaveWorkspaceRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> Workspace_BaseResponse
-}
-
-@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-extension Workspace_WorkspaceAsyncProvider {
-  internal static var serviceDescriptor: GRPCServiceDescriptor {
-    return Workspace_WorkspaceServerMetadata.serviceDescriptor
-  }
-
-  internal var serviceName: Substring {
-    return Workspace_WorkspaceServerMetadata.serviceDescriptor.fullName[...]
-  }
-
-  internal var interceptors: Workspace_WorkspaceServerInterceptorFactoryProtocol? {
-    return nil
-  }
-
-  internal func handle(
-    method name: Substring,
-    context: CallHandlerContext
-  ) -> GRPCServerHandlerProtocol? {
-    switch name {
-    case "workspace_info":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<Workspace_WorkspaceInfoRequest>(),
-        responseSerializer: ProtobufSerializer<Workspace_WorkspaceInfoResponse>(),
-        interceptors: self.interceptors?.makeworkspace_infoInterceptors() ?? [],
-        wrapping: self.workspace_info(request:context:)
-      )
-
-    case "leave_workspace":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<Workspace_LeaveWorkspaceRequest>(),
-        responseSerializer: ProtobufSerializer<Workspace_BaseResponse>(),
-        interceptors: self.interceptors?.makeleave_workspaceInterceptors() ?? [],
-        wrapping: self.leave_workspace(request:context:)
-      )
-
-    default:
-      return nil
-    }
-  }
-}
-
-#endif // compiler(>=5.6)
-
 internal protocol Workspace_WorkspaceServerInterceptorFactoryProtocol {
 
   /// - Returns: Interceptors to use when handling 'workspace_info'.
@@ -393,29 +166,4 @@ internal protocol Workspace_WorkspaceServerInterceptorFactoryProtocol {
   /// - Returns: Interceptors to use when handling 'leave_workspace'.
   ///   Defaults to calling `self.makeInterceptors()`.
   func makeleave_workspaceInterceptors() -> [ServerInterceptor<Workspace_LeaveWorkspaceRequest, Workspace_BaseResponse>]
-}
-
-internal enum Workspace_WorkspaceServerMetadata {
-  internal static let serviceDescriptor = GRPCServiceDescriptor(
-    name: "Workspace",
-    fullName: "workspace.Workspace",
-    methods: [
-      Workspace_WorkspaceServerMetadata.Methods.workspace_info,
-      Workspace_WorkspaceServerMetadata.Methods.leave_workspace,
-    ]
-  )
-
-  internal enum Methods {
-    internal static let workspace_info = GRPCMethodDescriptor(
-      name: "workspace_info",
-      path: "/workspace.Workspace/workspace_info",
-      type: GRPCCallType.unary
-    )
-
-    internal static let leave_workspace = GRPCMethodDescriptor(
-      name: "leave_workspace",
-      path: "/workspace.Workspace/leave_workspace",
-      type: GRPCCallType.unary
-    )
-  }
 }

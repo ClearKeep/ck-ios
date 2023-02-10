@@ -68,13 +68,6 @@ public struct Workspace_LeaveWorkspaceRequest {
   public init() {}
 }
 
-#if swift(>=5.5) && canImport(_Concurrency)
-extension Workspace_BaseResponse: @unchecked Sendable {}
-extension Workspace_WorkspaceInfoRequest: @unchecked Sendable {}
-extension Workspace_WorkspaceInfoResponse: @unchecked Sendable {}
-extension Workspace_LeaveWorkspaceRequest: @unchecked Sendable {}
-#endif  // swift(>=5.5) && canImport(_Concurrency)
-
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "workspace"

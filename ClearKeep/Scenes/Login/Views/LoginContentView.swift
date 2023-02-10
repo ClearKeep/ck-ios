@@ -145,7 +145,7 @@ private extension LoginContentView {
 		HStack {
 			if navigateToHome == false {
 				NavigationLink(destination: AdvancedSeverView(),
-							   isActive: $isAdvanceServer,
+											 isActive: $isAdvanceServer,
 											 label: {
 					Button(action: advancedServer) {
 						AppTheme.shared.imageSet.gearIcon.renderingMode(.template)

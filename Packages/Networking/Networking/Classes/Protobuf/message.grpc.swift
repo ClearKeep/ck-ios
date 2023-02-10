@@ -22,7 +22,6 @@
 //
 import GRPC
 import NIO
-import NIOConcurrencyHelpers
 import SwiftProtobuf
 
 
@@ -91,7 +90,7 @@ extension Message_MessageClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Message_GetMessagesInGroupRequest, Message_GetMessagesInGroupResponse> {
     return self.makeUnaryCall(
-      path: Message_MessageClientMetadata.Methods.get_messages_in_group.path,
+      path: "/message.Message/get_messages_in_group",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeget_messages_in_groupInterceptors() ?? []
@@ -109,7 +108,7 @@ extension Message_MessageClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Message_WorkspaceGetMessagesInGroupRequest, Message_GetMessagesInGroupResponse> {
     return self.makeUnaryCall(
-      path: Message_MessageClientMetadata.Methods.workspace_get_messages_in_group.path,
+      path: "/message.Message/workspace_get_messages_in_group",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeworkspace_get_messages_in_groupInterceptors() ?? []
@@ -127,7 +126,7 @@ extension Message_MessageClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Message_SubscribeRequest, Message_BaseResponse> {
     return self.makeUnaryCall(
-      path: Message_MessageClientMetadata.Methods.subscribe.path,
+      path: "/message.Message/Subscribe",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeSubscribeInterceptors() ?? []
@@ -145,7 +144,7 @@ extension Message_MessageClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Message_UnSubscribeRequest, Message_BaseResponse> {
     return self.makeUnaryCall(
-      path: Message_MessageClientMetadata.Methods.unSubscribe.path,
+      path: "/message.Message/UnSubscribe",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeUnSubscribeInterceptors() ?? []
@@ -165,7 +164,7 @@ extension Message_MessageClientProtocol {
     handler: @escaping (Message_MessageObjectResponse) -> Void
   ) -> ServerStreamingCall<Message_ListenRequest, Message_MessageObjectResponse> {
     return self.makeServerStreamingCall(
-      path: Message_MessageClientMetadata.Methods.listen.path,
+      path: "/message.Message/Listen",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeListenInterceptors() ?? [],
@@ -184,7 +183,7 @@ extension Message_MessageClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Message_PublishRequest, Message_MessageObjectResponse> {
     return self.makeUnaryCall(
-      path: Message_MessageClientMetadata.Methods.publish.path,
+      path: "/message.Message/Publish",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makePublishInterceptors() ?? []
@@ -202,7 +201,7 @@ extension Message_MessageClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Message_ReadMessagesRequest, Message_BaseResponse> {
     return self.makeUnaryCall(
-      path: Message_MessageClientMetadata.Methods.read_messages.path,
+      path: "/message.Message/read_messages",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeread_messagesInterceptors() ?? []
@@ -220,7 +219,7 @@ extension Message_MessageClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Message_WorkspacePublishRequest, Message_MessageObjectResponse> {
     return self.makeUnaryCall(
-      path: Message_MessageClientMetadata.Methods.workspace_publish.path,
+      path: "/message.Message/workspace_publish",
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeworkspace_publishInterceptors() ?? []
@@ -228,339 +227,7 @@ extension Message_MessageClientProtocol {
   }
 }
 
-#if compiler(>=5.6)
-@available(*, deprecated)
-extension Message_MessageClient: @unchecked Sendable {}
-#endif // compiler(>=5.6)
-
-@available(*, deprecated, renamed: "Message_MessageNIOClient")
-internal final class Message_MessageClient: Message_MessageClientProtocol {
-  private let lock = Lock()
-  private var _defaultCallOptions: CallOptions
-  private var _interceptors: Message_MessageClientInterceptorFactoryProtocol?
-  internal let channel: GRPCChannel
-  internal var defaultCallOptions: CallOptions {
-    get { self.lock.withLock { return self._defaultCallOptions } }
-    set { self.lock.withLockVoid { self._defaultCallOptions = newValue } }
-  }
-  internal var interceptors: Message_MessageClientInterceptorFactoryProtocol? {
-    get { self.lock.withLock { return self._interceptors } }
-    set { self.lock.withLockVoid { self._interceptors = newValue } }
-  }
-
-  /// Creates a client for the message.Message service.
-  ///
-  /// - Parameters:
-  ///   - channel: `GRPCChannel` to the service host.
-  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
-  ///   - interceptors: A factory providing interceptors for each RPC.
-  internal init(
-    channel: GRPCChannel,
-    defaultCallOptions: CallOptions = CallOptions(),
-    interceptors: Message_MessageClientInterceptorFactoryProtocol? = nil
-  ) {
-    self.channel = channel
-    self._defaultCallOptions = defaultCallOptions
-    self._interceptors = interceptors
-  }
-}
-
-internal struct Message_MessageNIOClient: Message_MessageClientProtocol {
-  internal var channel: GRPCChannel
-  internal var defaultCallOptions: CallOptions
-  internal var interceptors: Message_MessageClientInterceptorFactoryProtocol?
-
-  /// Creates a client for the message.Message service.
-  ///
-  /// - Parameters:
-  ///   - channel: `GRPCChannel` to the service host.
-  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
-  ///   - interceptors: A factory providing interceptors for each RPC.
-  internal init(
-    channel: GRPCChannel,
-    defaultCallOptions: CallOptions = CallOptions(),
-    interceptors: Message_MessageClientInterceptorFactoryProtocol? = nil
-  ) {
-    self.channel = channel
-    self.defaultCallOptions = defaultCallOptions
-    self.interceptors = interceptors
-  }
-}
-
-#if compiler(>=5.6)
-/// Method
-@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-internal protocol Message_MessageAsyncClientProtocol: GRPCClient {
-  static var serviceDescriptor: GRPCServiceDescriptor { get }
-  var interceptors: Message_MessageClientInterceptorFactoryProtocol? { get }
-
-  func makeGetMessagesInGroupCall(
-    _ request: Message_GetMessagesInGroupRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<Message_GetMessagesInGroupRequest, Message_GetMessagesInGroupResponse>
-
-  func makeWorkspaceGetMessagesInGroupCall(
-    _ request: Message_WorkspaceGetMessagesInGroupRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<Message_WorkspaceGetMessagesInGroupRequest, Message_GetMessagesInGroupResponse>
-
-  func makeSubscribeCall(
-    _ request: Message_SubscribeRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<Message_SubscribeRequest, Message_BaseResponse>
-
-  func makeUnSubscribeCall(
-    _ request: Message_UnSubscribeRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<Message_UnSubscribeRequest, Message_BaseResponse>
-
-  func makeListenCall(
-    _ request: Message_ListenRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncServerStreamingCall<Message_ListenRequest, Message_MessageObjectResponse>
-
-  func makePublishCall(
-    _ request: Message_PublishRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<Message_PublishRequest, Message_MessageObjectResponse>
-
-  func makeReadMessagesCall(
-    _ request: Message_ReadMessagesRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<Message_ReadMessagesRequest, Message_BaseResponse>
-
-  func makeWorkspacePublishCall(
-    _ request: Message_WorkspacePublishRequest,
-    callOptions: CallOptions?
-  ) -> GRPCAsyncUnaryCall<Message_WorkspacePublishRequest, Message_MessageObjectResponse>
-}
-
-@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-extension Message_MessageAsyncClientProtocol {
-  internal static var serviceDescriptor: GRPCServiceDescriptor {
-    return Message_MessageClientMetadata.serviceDescriptor
-  }
-
-  internal var interceptors: Message_MessageClientInterceptorFactoryProtocol? {
-    return nil
-  }
-
-  internal func makeGetMessagesInGroupCall(
-    _ request: Message_GetMessagesInGroupRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<Message_GetMessagesInGroupRequest, Message_GetMessagesInGroupResponse> {
-    return self.makeAsyncUnaryCall(
-      path: Message_MessageClientMetadata.Methods.get_messages_in_group.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeget_messages_in_groupInterceptors() ?? []
-    )
-  }
-
-  internal func makeWorkspaceGetMessagesInGroupCall(
-    _ request: Message_WorkspaceGetMessagesInGroupRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<Message_WorkspaceGetMessagesInGroupRequest, Message_GetMessagesInGroupResponse> {
-    return self.makeAsyncUnaryCall(
-      path: Message_MessageClientMetadata.Methods.workspace_get_messages_in_group.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeworkspace_get_messages_in_groupInterceptors() ?? []
-    )
-  }
-
-  internal func makeSubscribeCall(
-    _ request: Message_SubscribeRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<Message_SubscribeRequest, Message_BaseResponse> {
-    return self.makeAsyncUnaryCall(
-      path: Message_MessageClientMetadata.Methods.subscribe.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeSubscribeInterceptors() ?? []
-    )
-  }
-
-  internal func makeUnSubscribeCall(
-    _ request: Message_UnSubscribeRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<Message_UnSubscribeRequest, Message_BaseResponse> {
-    return self.makeAsyncUnaryCall(
-      path: Message_MessageClientMetadata.Methods.unSubscribe.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeUnSubscribeInterceptors() ?? []
-    )
-  }
-
-  internal func makeListenCall(
-    _ request: Message_ListenRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncServerStreamingCall<Message_ListenRequest, Message_MessageObjectResponse> {
-    return self.makeAsyncServerStreamingCall(
-      path: Message_MessageClientMetadata.Methods.listen.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeListenInterceptors() ?? []
-    )
-  }
-
-  internal func makePublishCall(
-    _ request: Message_PublishRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<Message_PublishRequest, Message_MessageObjectResponse> {
-    return self.makeAsyncUnaryCall(
-      path: Message_MessageClientMetadata.Methods.publish.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makePublishInterceptors() ?? []
-    )
-  }
-
-  internal func makeReadMessagesCall(
-    _ request: Message_ReadMessagesRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<Message_ReadMessagesRequest, Message_BaseResponse> {
-    return self.makeAsyncUnaryCall(
-      path: Message_MessageClientMetadata.Methods.read_messages.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeread_messagesInterceptors() ?? []
-    )
-  }
-
-  internal func makeWorkspacePublishCall(
-    _ request: Message_WorkspacePublishRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncUnaryCall<Message_WorkspacePublishRequest, Message_MessageObjectResponse> {
-    return self.makeAsyncUnaryCall(
-      path: Message_MessageClientMetadata.Methods.workspace_publish.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeworkspace_publishInterceptors() ?? []
-    )
-  }
-}
-
-@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-extension Message_MessageAsyncClientProtocol {
-  internal func get_messages_in_group(
-    _ request: Message_GetMessagesInGroupRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> Message_GetMessagesInGroupResponse {
-    return try await self.performAsyncUnaryCall(
-      path: Message_MessageClientMetadata.Methods.get_messages_in_group.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeget_messages_in_groupInterceptors() ?? []
-    )
-  }
-
-  internal func workspace_get_messages_in_group(
-    _ request: Message_WorkspaceGetMessagesInGroupRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> Message_GetMessagesInGroupResponse {
-    return try await self.performAsyncUnaryCall(
-      path: Message_MessageClientMetadata.Methods.workspace_get_messages_in_group.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeworkspace_get_messages_in_groupInterceptors() ?? []
-    )
-  }
-
-  internal func subscribe(
-    _ request: Message_SubscribeRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> Message_BaseResponse {
-    return try await self.performAsyncUnaryCall(
-      path: Message_MessageClientMetadata.Methods.subscribe.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeSubscribeInterceptors() ?? []
-    )
-  }
-
-  internal func unSubscribe(
-    _ request: Message_UnSubscribeRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> Message_BaseResponse {
-    return try await self.performAsyncUnaryCall(
-      path: Message_MessageClientMetadata.Methods.unSubscribe.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeUnSubscribeInterceptors() ?? []
-    )
-  }
-
-  internal func listen(
-    _ request: Message_ListenRequest,
-    callOptions: CallOptions? = nil
-  ) -> GRPCAsyncResponseStream<Message_MessageObjectResponse> {
-    return self.performAsyncServerStreamingCall(
-      path: Message_MessageClientMetadata.Methods.listen.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeListenInterceptors() ?? []
-    )
-  }
-
-  internal func publish(
-    _ request: Message_PublishRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> Message_MessageObjectResponse {
-    return try await self.performAsyncUnaryCall(
-      path: Message_MessageClientMetadata.Methods.publish.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makePublishInterceptors() ?? []
-    )
-  }
-
-  internal func read_messages(
-    _ request: Message_ReadMessagesRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> Message_BaseResponse {
-    return try await self.performAsyncUnaryCall(
-      path: Message_MessageClientMetadata.Methods.read_messages.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeread_messagesInterceptors() ?? []
-    )
-  }
-
-  internal func workspace_publish(
-    _ request: Message_WorkspacePublishRequest,
-    callOptions: CallOptions? = nil
-  ) async throws -> Message_MessageObjectResponse {
-    return try await self.performAsyncUnaryCall(
-      path: Message_MessageClientMetadata.Methods.workspace_publish.path,
-      request: request,
-      callOptions: callOptions ?? self.defaultCallOptions,
-      interceptors: self.interceptors?.makeworkspace_publishInterceptors() ?? []
-    )
-  }
-}
-
-@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-internal struct Message_MessageAsyncClient: Message_MessageAsyncClientProtocol {
-  internal var channel: GRPCChannel
-  internal var defaultCallOptions: CallOptions
-  internal var interceptors: Message_MessageClientInterceptorFactoryProtocol?
-
-  internal init(
-    channel: GRPCChannel,
-    defaultCallOptions: CallOptions = CallOptions(),
-    interceptors: Message_MessageClientInterceptorFactoryProtocol? = nil
-  ) {
-    self.channel = channel
-    self.defaultCallOptions = defaultCallOptions
-    self.interceptors = interceptors
-  }
-}
-
-#endif // compiler(>=5.6)
-
-internal protocol Message_MessageClientInterceptorFactoryProtocol: GRPCSendable {
+internal protocol Message_MessageClientInterceptorFactoryProtocol {
 
   /// - Returns: Interceptors to use when invoking 'get_messages_in_group'.
   func makeget_messages_in_groupInterceptors() -> [ClientInterceptor<Message_GetMessagesInGroupRequest, Message_GetMessagesInGroupResponse>]
@@ -587,70 +254,25 @@ internal protocol Message_MessageClientInterceptorFactoryProtocol: GRPCSendable 
   func makeworkspace_publishInterceptors() -> [ClientInterceptor<Message_WorkspacePublishRequest, Message_MessageObjectResponse>]
 }
 
-internal enum Message_MessageClientMetadata {
-  internal static let serviceDescriptor = GRPCServiceDescriptor(
-    name: "Message",
-    fullName: "message.Message",
-    methods: [
-      Message_MessageClientMetadata.Methods.get_messages_in_group,
-      Message_MessageClientMetadata.Methods.workspace_get_messages_in_group,
-      Message_MessageClientMetadata.Methods.subscribe,
-      Message_MessageClientMetadata.Methods.unSubscribe,
-      Message_MessageClientMetadata.Methods.listen,
-      Message_MessageClientMetadata.Methods.publish,
-      Message_MessageClientMetadata.Methods.read_messages,
-      Message_MessageClientMetadata.Methods.workspace_publish,
-    ]
-  )
+internal final class Message_MessageClient: Message_MessageClientProtocol {
+  internal let channel: GRPCChannel
+  internal var defaultCallOptions: CallOptions
+  internal var interceptors: Message_MessageClientInterceptorFactoryProtocol?
 
-  internal enum Methods {
-    internal static let get_messages_in_group = GRPCMethodDescriptor(
-      name: "get_messages_in_group",
-      path: "/message.Message/get_messages_in_group",
-      type: GRPCCallType.unary
-    )
-
-    internal static let workspace_get_messages_in_group = GRPCMethodDescriptor(
-      name: "workspace_get_messages_in_group",
-      path: "/message.Message/workspace_get_messages_in_group",
-      type: GRPCCallType.unary
-    )
-
-    internal static let subscribe = GRPCMethodDescriptor(
-      name: "Subscribe",
-      path: "/message.Message/Subscribe",
-      type: GRPCCallType.unary
-    )
-
-    internal static let unSubscribe = GRPCMethodDescriptor(
-      name: "UnSubscribe",
-      path: "/message.Message/UnSubscribe",
-      type: GRPCCallType.unary
-    )
-
-    internal static let listen = GRPCMethodDescriptor(
-      name: "Listen",
-      path: "/message.Message/Listen",
-      type: GRPCCallType.serverStreaming
-    )
-
-    internal static let publish = GRPCMethodDescriptor(
-      name: "Publish",
-      path: "/message.Message/Publish",
-      type: GRPCCallType.unary
-    )
-
-    internal static let read_messages = GRPCMethodDescriptor(
-      name: "read_messages",
-      path: "/message.Message/read_messages",
-      type: GRPCCallType.unary
-    )
-
-    internal static let workspace_publish = GRPCMethodDescriptor(
-      name: "workspace_publish",
-      path: "/message.Message/workspace_publish",
-      type: GRPCCallType.unary
-    )
+  /// Creates a client for the message.Message service.
+  ///
+  /// - Parameters:
+  ///   - channel: `GRPCChannel` to the service host.
+  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
+  ///   - interceptors: A factory providing interceptors for each RPC.
+  internal init(
+    channel: GRPCChannel,
+    defaultCallOptions: CallOptions = CallOptions(),
+    interceptors: Message_MessageClientInterceptorFactoryProtocol? = nil
+  ) {
+    self.channel = channel
+    self.defaultCallOptions = defaultCallOptions
+    self.interceptors = interceptors
   }
 }
 
@@ -679,9 +301,7 @@ internal protocol Message_MessageProvider: CallHandlerProvider {
 }
 
 extension Message_MessageProvider {
-  internal var serviceName: Substring {
-    return Message_MessageServerMetadata.serviceDescriptor.fullName[...]
-  }
+  internal var serviceName: Substring { return "message.Message" }
 
   /// Determines, calls and returns the appropriate request handler, depending on the request's method.
   /// Returns nil for methods not handled by this service.
@@ -768,158 +388,6 @@ extension Message_MessageProvider {
   }
 }
 
-#if compiler(>=5.6)
-
-/// Method
-///
-/// To implement a server, implement an object which conforms to this protocol.
-@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-internal protocol Message_MessageAsyncProvider: CallHandlerProvider {
-  static var serviceDescriptor: GRPCServiceDescriptor { get }
-  var interceptors: Message_MessageServerInterceptorFactoryProtocol? { get }
-
-  @Sendable func get_messages_in_group(
-    request: Message_GetMessagesInGroupRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> Message_GetMessagesInGroupResponse
-
-  @Sendable func workspace_get_messages_in_group(
-    request: Message_WorkspaceGetMessagesInGroupRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> Message_GetMessagesInGroupResponse
-
-  ///action
-  @Sendable func subscribe(
-    request: Message_SubscribeRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> Message_BaseResponse
-
-  @Sendable func unSubscribe(
-    request: Message_UnSubscribeRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> Message_BaseResponse
-
-  @Sendable func listen(
-    request: Message_ListenRequest,
-    responseStream: GRPCAsyncResponseStreamWriter<Message_MessageObjectResponse>,
-    context: GRPCAsyncServerCallContext
-  ) async throws
-
-  @Sendable func publish(
-    request: Message_PublishRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> Message_MessageObjectResponse
-
-  @Sendable func read_messages(
-    request: Message_ReadMessagesRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> Message_BaseResponse
-
-  @Sendable func workspace_publish(
-    request: Message_WorkspacePublishRequest,
-    context: GRPCAsyncServerCallContext
-  ) async throws -> Message_MessageObjectResponse
-}
-
-@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-extension Message_MessageAsyncProvider {
-  internal static var serviceDescriptor: GRPCServiceDescriptor {
-    return Message_MessageServerMetadata.serviceDescriptor
-  }
-
-  internal var serviceName: Substring {
-    return Message_MessageServerMetadata.serviceDescriptor.fullName[...]
-  }
-
-  internal var interceptors: Message_MessageServerInterceptorFactoryProtocol? {
-    return nil
-  }
-
-  internal func handle(
-    method name: Substring,
-    context: CallHandlerContext
-  ) -> GRPCServerHandlerProtocol? {
-    switch name {
-    case "get_messages_in_group":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<Message_GetMessagesInGroupRequest>(),
-        responseSerializer: ProtobufSerializer<Message_GetMessagesInGroupResponse>(),
-        interceptors: self.interceptors?.makeget_messages_in_groupInterceptors() ?? [],
-        wrapping: self.get_messages_in_group(request:context:)
-      )
-
-    case "workspace_get_messages_in_group":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<Message_WorkspaceGetMessagesInGroupRequest>(),
-        responseSerializer: ProtobufSerializer<Message_GetMessagesInGroupResponse>(),
-        interceptors: self.interceptors?.makeworkspace_get_messages_in_groupInterceptors() ?? [],
-        wrapping: self.workspace_get_messages_in_group(request:context:)
-      )
-
-    case "Subscribe":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<Message_SubscribeRequest>(),
-        responseSerializer: ProtobufSerializer<Message_BaseResponse>(),
-        interceptors: self.interceptors?.makeSubscribeInterceptors() ?? [],
-        wrapping: self.subscribe(request:context:)
-      )
-
-    case "UnSubscribe":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<Message_UnSubscribeRequest>(),
-        responseSerializer: ProtobufSerializer<Message_BaseResponse>(),
-        interceptors: self.interceptors?.makeUnSubscribeInterceptors() ?? [],
-        wrapping: self.unSubscribe(request:context:)
-      )
-
-    case "Listen":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<Message_ListenRequest>(),
-        responseSerializer: ProtobufSerializer<Message_MessageObjectResponse>(),
-        interceptors: self.interceptors?.makeListenInterceptors() ?? [],
-        wrapping: self.listen(request:responseStream:context:)
-      )
-
-    case "Publish":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<Message_PublishRequest>(),
-        responseSerializer: ProtobufSerializer<Message_MessageObjectResponse>(),
-        interceptors: self.interceptors?.makePublishInterceptors() ?? [],
-        wrapping: self.publish(request:context:)
-      )
-
-    case "read_messages":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<Message_ReadMessagesRequest>(),
-        responseSerializer: ProtobufSerializer<Message_BaseResponse>(),
-        interceptors: self.interceptors?.makeread_messagesInterceptors() ?? [],
-        wrapping: self.read_messages(request:context:)
-      )
-
-    case "workspace_publish":
-      return GRPCAsyncServerHandler(
-        context: context,
-        requestDeserializer: ProtobufDeserializer<Message_WorkspacePublishRequest>(),
-        responseSerializer: ProtobufSerializer<Message_MessageObjectResponse>(),
-        interceptors: self.interceptors?.makeworkspace_publishInterceptors() ?? [],
-        wrapping: self.workspace_publish(request:context:)
-      )
-
-    default:
-      return nil
-    }
-  }
-}
-
-#endif // compiler(>=5.6)
-
 internal protocol Message_MessageServerInterceptorFactoryProtocol {
 
   /// - Returns: Interceptors to use when handling 'get_messages_in_group'.
@@ -953,71 +421,4 @@ internal protocol Message_MessageServerInterceptorFactoryProtocol {
   /// - Returns: Interceptors to use when handling 'workspace_publish'.
   ///   Defaults to calling `self.makeInterceptors()`.
   func makeworkspace_publishInterceptors() -> [ServerInterceptor<Message_WorkspacePublishRequest, Message_MessageObjectResponse>]
-}
-
-internal enum Message_MessageServerMetadata {
-  internal static let serviceDescriptor = GRPCServiceDescriptor(
-    name: "Message",
-    fullName: "message.Message",
-    methods: [
-      Message_MessageServerMetadata.Methods.get_messages_in_group,
-      Message_MessageServerMetadata.Methods.workspace_get_messages_in_group,
-      Message_MessageServerMetadata.Methods.subscribe,
-      Message_MessageServerMetadata.Methods.unSubscribe,
-      Message_MessageServerMetadata.Methods.listen,
-      Message_MessageServerMetadata.Methods.publish,
-      Message_MessageServerMetadata.Methods.read_messages,
-      Message_MessageServerMetadata.Methods.workspace_publish,
-    ]
-  )
-
-  internal enum Methods {
-    internal static let get_messages_in_group = GRPCMethodDescriptor(
-      name: "get_messages_in_group",
-      path: "/message.Message/get_messages_in_group",
-      type: GRPCCallType.unary
-    )
-
-    internal static let workspace_get_messages_in_group = GRPCMethodDescriptor(
-      name: "workspace_get_messages_in_group",
-      path: "/message.Message/workspace_get_messages_in_group",
-      type: GRPCCallType.unary
-    )
-
-    internal static let subscribe = GRPCMethodDescriptor(
-      name: "Subscribe",
-      path: "/message.Message/Subscribe",
-      type: GRPCCallType.unary
-    )
-
-    internal static let unSubscribe = GRPCMethodDescriptor(
-      name: "UnSubscribe",
-      path: "/message.Message/UnSubscribe",
-      type: GRPCCallType.unary
-    )
-
-    internal static let listen = GRPCMethodDescriptor(
-      name: "Listen",
-      path: "/message.Message/Listen",
-      type: GRPCCallType.serverStreaming
-    )
-
-    internal static let publish = GRPCMethodDescriptor(
-      name: "Publish",
-      path: "/message.Message/Publish",
-      type: GRPCCallType.unary
-    )
-
-    internal static let read_messages = GRPCMethodDescriptor(
-      name: "read_messages",
-      path: "/message.Message/read_messages",
-      type: GRPCCallType.unary
-    )
-
-    internal static let workspace_publish = GRPCMethodDescriptor(
-      name: "workspace_publish",
-      path: "/message.Message/workspace_publish",
-      type: GRPCCallType.unary
-    )
-  }
 }

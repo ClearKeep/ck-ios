@@ -610,60 +610,6 @@ public struct Group_WorkspaceNotifyDeactiveMember {
   public init() {}
 }
 
-public struct Group_WorkspaceMemberForgotPasswordInGroup {
-  // SwiftProtobuf.Message conformance is added in an extension below. See the
-  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
-  // methods supported on all messages.
-
-  public var userID: String = String()
-
-  public var unknownFields = SwiftProtobuf.UnknownStorage()
-
-  public init() {}
-}
-
-public struct Group_WorkspaceMemberResetPincodeInGroup {
-  // SwiftProtobuf.Message conformance is added in an extension below. See the
-  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
-  // methods supported on all messages.
-
-  public var userID: String = String()
-
-  public var unknownFields = SwiftProtobuf.UnknownStorage()
-
-  public init() {}
-}
-
-#if swift(>=5.5) && canImport(_Concurrency)
-extension Group_MessageObjectResponse: @unchecked Sendable {}
-extension Group_ClientReadObject: @unchecked Sendable {}
-extension Group_ClientInGroupResponse: @unchecked Sendable {}
-extension Group_GroupClientKeyObject: @unchecked Sendable {}
-extension Group_GroupObjectResponse: @unchecked Sendable {}
-extension Group_BaseResponse: @unchecked Sendable {}
-extension Group_ClientInGroupObject: @unchecked Sendable {}
-extension Group_CreateGroupRequest: @unchecked Sendable {}
-extension Group_UpdateGroupRequest: @unchecked Sendable {}
-extension Group_GetGroupRequest: @unchecked Sendable {}
-extension Group_GetJoinedGroupsRequest: @unchecked Sendable {}
-extension Group_GetJoinedGroupsResponse: @unchecked Sendable {}
-extension Group_SearchGroupsRequest: @unchecked Sendable {}
-extension Group_SearchGroupsResponse: @unchecked Sendable {}
-extension Group_MemberInfo: @unchecked Sendable {}
-extension Group_AddMemberRequest: @unchecked Sendable {}
-extension Group_JoinGroupRequest: @unchecked Sendable {}
-extension Group_CreateGroupWorkspaceRequest: @unchecked Sendable {}
-extension Group_CreateGroupWorkspaceResponse: @unchecked Sendable {}
-extension Group_GroupInfo: @unchecked Sendable {}
-extension Group_AddMemberWorkspaceRequest: @unchecked Sendable {}
-extension Group_AddMemberWorkspaceResponse: @unchecked Sendable {}
-extension Group_LeaveGroupRequest: @unchecked Sendable {}
-extension Group_WorkspaceLeaveGroupRequest: @unchecked Sendable {}
-extension Group_WorkspaceNotifyDeactiveMember: @unchecked Sendable {}
-extension Group_WorkspaceMemberForgotPasswordInGroup: @unchecked Sendable {}
-extension Group_WorkspaceMemberResetPincodeInGroup: @unchecked Sendable {}
-#endif  // swift(>=5.5) && canImport(_Concurrency)
-
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "group"
@@ -1954,70 +1900,6 @@ extension Group_WorkspaceNotifyDeactiveMember: SwiftProtobuf.Message, SwiftProto
   public static func ==(lhs: Group_WorkspaceNotifyDeactiveMember, rhs: Group_WorkspaceNotifyDeactiveMember) -> Bool {
     if lhs.deactiveAccountID != rhs.deactiveAccountID {return false}
     if lhs.clientIds != rhs.clientIds {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
-    return true
-  }
-}
-
-extension Group_WorkspaceMemberForgotPasswordInGroup: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  public static let protoMessageName: String = _protobuf_package + ".WorkspaceMemberForgotPasswordInGroup"
-  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "user_id"),
-  ]
-
-  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-    while let fieldNumber = try decoder.nextFieldNumber() {
-      // The use of inline closures is to circumvent an issue where the compiler
-      // allocates stack space for every case branch when no optimizations are
-      // enabled. https://github.com/apple/swift-protobuf/issues/1034
-      switch fieldNumber {
-      case 1: try { try decoder.decodeSingularStringField(value: &self.userID) }()
-      default: break
-      }
-    }
-  }
-
-  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if !self.userID.isEmpty {
-      try visitor.visitSingularStringField(value: self.userID, fieldNumber: 1)
-    }
-    try unknownFields.traverse(visitor: &visitor)
-  }
-
-  public static func ==(lhs: Group_WorkspaceMemberForgotPasswordInGroup, rhs: Group_WorkspaceMemberForgotPasswordInGroup) -> Bool {
-    if lhs.userID != rhs.userID {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
-    return true
-  }
-}
-
-extension Group_WorkspaceMemberResetPincodeInGroup: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  public static let protoMessageName: String = _protobuf_package + ".WorkspaceMemberResetPincodeInGroup"
-  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "user_id"),
-  ]
-
-  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-    while let fieldNumber = try decoder.nextFieldNumber() {
-      // The use of inline closures is to circumvent an issue where the compiler
-      // allocates stack space for every case branch when no optimizations are
-      // enabled. https://github.com/apple/swift-protobuf/issues/1034
-      switch fieldNumber {
-      case 1: try { try decoder.decodeSingularStringField(value: &self.userID) }()
-      default: break
-      }
-    }
-  }
-
-  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if !self.userID.isEmpty {
-      try visitor.visitSingularStringField(value: self.userID, fieldNumber: 1)
-    }
-    try unknownFields.traverse(visitor: &visitor)
-  }
-
-  public static func ==(lhs: Group_WorkspaceMemberResetPincodeInGroup, rhs: Group_WorkspaceMemberResetPincodeInGroup) -> Bool {
-    if lhs.userID != rhs.userID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

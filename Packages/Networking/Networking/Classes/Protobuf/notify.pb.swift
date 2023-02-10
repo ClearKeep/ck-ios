@@ -143,17 +143,6 @@ public struct Notification_ReadNotifyRequest {
   public init() {}
 }
 
-#if swift(>=5.5) && canImport(_Concurrency)
-extension Notification_NotifyObjectResponse: @unchecked Sendable {}
-extension Notification_BaseResponse: @unchecked Sendable {}
-extension Notification_Empty: @unchecked Sendable {}
-extension Notification_GetNotifiesResponse: @unchecked Sendable {}
-extension Notification_SubscribeRequest: @unchecked Sendable {}
-extension Notification_UnSubscribeRequest: @unchecked Sendable {}
-extension Notification_ListenRequest: @unchecked Sendable {}
-extension Notification_ReadNotifyRequest: @unchecked Sendable {}
-#endif  // swift(>=5.5) && canImport(_Concurrency)
-
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "notification"

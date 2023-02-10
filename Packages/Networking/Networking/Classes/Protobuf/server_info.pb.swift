@@ -71,13 +71,6 @@ public struct ServerInfo_GetThreadResponse {
   public init() {}
 }
 
-#if swift(>=5.5) && canImport(_Concurrency)
-extension ServerInfo_UpdateNTSReq: @unchecked Sendable {}
-extension ServerInfo_BaseResponse: @unchecked Sendable {}
-extension ServerInfo_Empty: @unchecked Sendable {}
-extension ServerInfo_GetThreadResponse: @unchecked Sendable {}
-#endif  // swift(>=5.5) && canImport(_Concurrency)
-
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "server_info"

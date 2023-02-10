@@ -186,17 +186,6 @@ public struct VideoCall_WorkspaceUpdateCallRequest {
   public init() {}
 }
 
-#if swift(>=5.5) && canImport(_Concurrency)
-extension VideoCall_BaseResponse: @unchecked Sendable {}
-extension VideoCall_ServerResponse: @unchecked Sendable {}
-extension VideoCall_StunServer: @unchecked Sendable {}
-extension VideoCall_TurnServer: @unchecked Sendable {}
-extension VideoCall_VideoCallRequest: @unchecked Sendable {}
-extension VideoCall_WorkspaceVideoCallRequest: @unchecked Sendable {}
-extension VideoCall_UpdateCallRequest: @unchecked Sendable {}
-extension VideoCall_WorkspaceUpdateCallRequest: @unchecked Sendable {}
-#endif  // swift(>=5.5) && canImport(_Concurrency)
-
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "video_call"
