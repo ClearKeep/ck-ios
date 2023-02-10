@@ -22,6 +22,7 @@
 //
 import GRPC
 import NIO
+import NIOConcurrencyHelpers
 import SwiftProtobuf
 
 
@@ -86,6 +87,16 @@ internal protocol Group_GroupClientProtocol: GRPCClient {
     _ request: Group_WorkspaceNotifyDeactiveMember,
     callOptions: CallOptions?
   ) -> UnaryCall<Group_WorkspaceNotifyDeactiveMember, Group_BaseResponse>
+
+  func workspace_member_forgot_password_in_group(
+    _ request: Group_WorkspaceMemberForgotPasswordInGroup,
+    callOptions: CallOptions?
+  ) -> UnaryCall<Group_WorkspaceMemberForgotPasswordInGroup, Group_BaseResponse>
+
+  func workspace_member_reset_pincode_in_group(
+    _ request: Group_WorkspaceMemberResetPincodeInGroup,
+    callOptions: CallOptions?
+  ) -> UnaryCall<Group_WorkspaceMemberResetPincodeInGroup, Group_BaseResponse>
 }
 
 extension Group_GroupClientProtocol {
@@ -104,7 +115,7 @@ extension Group_GroupClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Group_CreateGroupRequest, Group_GroupObjectResponse> {
     return self.makeUnaryCall(
-      path: "/group.Group/create_group",
+      path: Group_GroupClientMetadata.Methods.create_group.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makecreate_groupInterceptors() ?? []
@@ -122,7 +133,7 @@ extension Group_GroupClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Group_CreateGroupWorkspaceRequest, Group_CreateGroupWorkspaceResponse> {
     return self.makeUnaryCall(
-      path: "/group.Group/create_group_workspace",
+      path: Group_GroupClientMetadata.Methods.create_group_workspace.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makecreate_group_workspaceInterceptors() ?? []
@@ -140,7 +151,7 @@ extension Group_GroupClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Group_GetGroupRequest, Group_GroupObjectResponse> {
     return self.makeUnaryCall(
-      path: "/group.Group/get_group",
+      path: Group_GroupClientMetadata.Methods.get_group.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeget_groupInterceptors() ?? []
@@ -158,7 +169,7 @@ extension Group_GroupClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Group_SearchGroupsRequest, Group_SearchGroupsResponse> {
     return self.makeUnaryCall(
-      path: "/group.Group/search_groups",
+      path: Group_GroupClientMetadata.Methods.search_groups.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makesearch_groupsInterceptors() ?? []
@@ -176,7 +187,7 @@ extension Group_GroupClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Group_GetJoinedGroupsRequest, Group_GetJoinedGroupsResponse> {
     return self.makeUnaryCall(
-      path: "/group.Group/get_joined_groups",
+      path: Group_GroupClientMetadata.Methods.get_joined_groups.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeget_joined_groupsInterceptors() ?? []
@@ -194,7 +205,7 @@ extension Group_GroupClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Group_JoinGroupRequest, Group_BaseResponse> {
     return self.makeUnaryCall(
-      path: "/group.Group/join_group",
+      path: Group_GroupClientMetadata.Methods.join_group.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makejoin_groupInterceptors() ?? []
@@ -212,7 +223,7 @@ extension Group_GroupClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Group_AddMemberRequest, Group_BaseResponse> {
     return self.makeUnaryCall(
-      path: "/group.Group/add_member",
+      path: Group_GroupClientMetadata.Methods.add_member.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeadd_memberInterceptors() ?? []
@@ -230,7 +241,7 @@ extension Group_GroupClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Group_LeaveGroupRequest, Group_BaseResponse> {
     return self.makeUnaryCall(
-      path: "/group.Group/leave_group",
+      path: Group_GroupClientMetadata.Methods.leave_group.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeleave_groupInterceptors() ?? []
@@ -248,7 +259,7 @@ extension Group_GroupClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Group_AddMemberWorkspaceRequest, Group_AddMemberWorkspaceResponse> {
     return self.makeUnaryCall(
-      path: "/group.Group/workspace_add_member",
+      path: Group_GroupClientMetadata.Methods.workspace_add_member.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeworkspace_add_memberInterceptors() ?? []
@@ -266,7 +277,7 @@ extension Group_GroupClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Group_WorkspaceLeaveGroupRequest, Group_BaseResponse> {
     return self.makeUnaryCall(
-      path: "/group.Group/workspace_leave_group",
+      path: Group_GroupClientMetadata.Methods.workspace_leave_group.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeworkspace_leave_groupInterceptors() ?? []
@@ -284,15 +295,528 @@ extension Group_GroupClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Group_WorkspaceNotifyDeactiveMember, Group_BaseResponse> {
     return self.makeUnaryCall(
-      path: "/group.Group/workspace_notify_deactive_member",
+      path: Group_GroupClientMetadata.Methods.workspace_notify_deactive_member.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeworkspace_notify_deactive_memberInterceptors() ?? []
     )
   }
+
+  /// Unary call to workspace_member_forgot_password_in_group
+  ///
+  /// - Parameters:
+  ///   - request: Request to send to workspace_member_forgot_password_in_group.
+  ///   - callOptions: Call options.
+  /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
+  internal func workspace_member_forgot_password_in_group(
+    _ request: Group_WorkspaceMemberForgotPasswordInGroup,
+    callOptions: CallOptions? = nil
+  ) -> UnaryCall<Group_WorkspaceMemberForgotPasswordInGroup, Group_BaseResponse> {
+    return self.makeUnaryCall(
+      path: Group_GroupClientMetadata.Methods.workspace_member_forgot_password_in_group.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeworkspace_member_forgot_password_in_groupInterceptors() ?? []
+    )
+  }
+
+  /// Unary call to workspace_member_reset_pincode_in_group
+  ///
+  /// - Parameters:
+  ///   - request: Request to send to workspace_member_reset_pincode_in_group.
+  ///   - callOptions: Call options.
+  /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
+  internal func workspace_member_reset_pincode_in_group(
+    _ request: Group_WorkspaceMemberResetPincodeInGroup,
+    callOptions: CallOptions? = nil
+  ) -> UnaryCall<Group_WorkspaceMemberResetPincodeInGroup, Group_BaseResponse> {
+    return self.makeUnaryCall(
+      path: Group_GroupClientMetadata.Methods.workspace_member_reset_pincode_in_group.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeworkspace_member_reset_pincode_in_groupInterceptors() ?? []
+    )
+  }
 }
 
-internal protocol Group_GroupClientInterceptorFactoryProtocol {
+#if compiler(>=5.6)
+@available(*, deprecated)
+extension Group_GroupClient: @unchecked Sendable {}
+#endif // compiler(>=5.6)
+
+@available(*, deprecated, renamed: "Group_GroupNIOClient")
+internal final class Group_GroupClient: Group_GroupClientProtocol {
+  private let lock = Lock()
+  private var _defaultCallOptions: CallOptions
+  private var _interceptors: Group_GroupClientInterceptorFactoryProtocol?
+  internal let channel: GRPCChannel
+  internal var defaultCallOptions: CallOptions {
+    get { self.lock.withLock { return self._defaultCallOptions } }
+    set { self.lock.withLockVoid { self._defaultCallOptions = newValue } }
+  }
+  internal var interceptors: Group_GroupClientInterceptorFactoryProtocol? {
+    get { self.lock.withLock { return self._interceptors } }
+    set { self.lock.withLockVoid { self._interceptors = newValue } }
+  }
+
+  /// Creates a client for the group.Group service.
+  ///
+  /// - Parameters:
+  ///   - channel: `GRPCChannel` to the service host.
+  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
+  ///   - interceptors: A factory providing interceptors for each RPC.
+  internal init(
+    channel: GRPCChannel,
+    defaultCallOptions: CallOptions = CallOptions(),
+    interceptors: Group_GroupClientInterceptorFactoryProtocol? = nil
+  ) {
+    self.channel = channel
+    self._defaultCallOptions = defaultCallOptions
+    self._interceptors = interceptors
+  }
+}
+
+internal struct Group_GroupNIOClient: Group_GroupClientProtocol {
+  internal var channel: GRPCChannel
+  internal var defaultCallOptions: CallOptions
+  internal var interceptors: Group_GroupClientInterceptorFactoryProtocol?
+
+  /// Creates a client for the group.Group service.
+  ///
+  /// - Parameters:
+  ///   - channel: `GRPCChannel` to the service host.
+  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
+  ///   - interceptors: A factory providing interceptors for each RPC.
+  internal init(
+    channel: GRPCChannel,
+    defaultCallOptions: CallOptions = CallOptions(),
+    interceptors: Group_GroupClientInterceptorFactoryProtocol? = nil
+  ) {
+    self.channel = channel
+    self.defaultCallOptions = defaultCallOptions
+    self.interceptors = interceptors
+  }
+}
+
+#if compiler(>=5.6)
+/// Method
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+internal protocol Group_GroupAsyncClientProtocol: GRPCClient {
+  static var serviceDescriptor: GRPCServiceDescriptor { get }
+  var interceptors: Group_GroupClientInterceptorFactoryProtocol? { get }
+
+  func makeCreateGroupCall(
+    _ request: Group_CreateGroupRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Group_CreateGroupRequest, Group_GroupObjectResponse>
+
+  func makeCreateGroupWorkspaceCall(
+    _ request: Group_CreateGroupWorkspaceRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Group_CreateGroupWorkspaceRequest, Group_CreateGroupWorkspaceResponse>
+
+  func makeGetGroupCall(
+    _ request: Group_GetGroupRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Group_GetGroupRequest, Group_GroupObjectResponse>
+
+  func makeSearchGroupsCall(
+    _ request: Group_SearchGroupsRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Group_SearchGroupsRequest, Group_SearchGroupsResponse>
+
+  func makeGetJoinedGroupsCall(
+    _ request: Group_GetJoinedGroupsRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Group_GetJoinedGroupsRequest, Group_GetJoinedGroupsResponse>
+
+  func makeJoinGroupCall(
+    _ request: Group_JoinGroupRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Group_JoinGroupRequest, Group_BaseResponse>
+
+  func makeAddMemberCall(
+    _ request: Group_AddMemberRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Group_AddMemberRequest, Group_BaseResponse>
+
+  func makeLeaveGroupCall(
+    _ request: Group_LeaveGroupRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Group_LeaveGroupRequest, Group_BaseResponse>
+
+  func makeWorkspaceAddMemberCall(
+    _ request: Group_AddMemberWorkspaceRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Group_AddMemberWorkspaceRequest, Group_AddMemberWorkspaceResponse>
+
+  func makeWorkspaceLeaveGroupCall(
+    _ request: Group_WorkspaceLeaveGroupRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Group_WorkspaceLeaveGroupRequest, Group_BaseResponse>
+
+  func makeWorkspaceNotifyDeactiveMemberCall(
+    _ request: Group_WorkspaceNotifyDeactiveMember,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Group_WorkspaceNotifyDeactiveMember, Group_BaseResponse>
+
+  func makeWorkspaceMemberForgotPasswordInGroupCall(
+    _ request: Group_WorkspaceMemberForgotPasswordInGroup,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Group_WorkspaceMemberForgotPasswordInGroup, Group_BaseResponse>
+
+  func makeWorkspaceMemberResetPincodeInGroupCall(
+    _ request: Group_WorkspaceMemberResetPincodeInGroup,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Group_WorkspaceMemberResetPincodeInGroup, Group_BaseResponse>
+}
+
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+extension Group_GroupAsyncClientProtocol {
+  internal static var serviceDescriptor: GRPCServiceDescriptor {
+    return Group_GroupClientMetadata.serviceDescriptor
+  }
+
+  internal var interceptors: Group_GroupClientInterceptorFactoryProtocol? {
+    return nil
+  }
+
+  internal func makeCreateGroupCall(
+    _ request: Group_CreateGroupRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Group_CreateGroupRequest, Group_GroupObjectResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.create_group.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makecreate_groupInterceptors() ?? []
+    )
+  }
+
+  internal func makeCreateGroupWorkspaceCall(
+    _ request: Group_CreateGroupWorkspaceRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Group_CreateGroupWorkspaceRequest, Group_CreateGroupWorkspaceResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.create_group_workspace.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makecreate_group_workspaceInterceptors() ?? []
+    )
+  }
+
+  internal func makeGetGroupCall(
+    _ request: Group_GetGroupRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Group_GetGroupRequest, Group_GroupObjectResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.get_group.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeget_groupInterceptors() ?? []
+    )
+  }
+
+  internal func makeSearchGroupsCall(
+    _ request: Group_SearchGroupsRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Group_SearchGroupsRequest, Group_SearchGroupsResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.search_groups.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makesearch_groupsInterceptors() ?? []
+    )
+  }
+
+  internal func makeGetJoinedGroupsCall(
+    _ request: Group_GetJoinedGroupsRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Group_GetJoinedGroupsRequest, Group_GetJoinedGroupsResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.get_joined_groups.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeget_joined_groupsInterceptors() ?? []
+    )
+  }
+
+  internal func makeJoinGroupCall(
+    _ request: Group_JoinGroupRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Group_JoinGroupRequest, Group_BaseResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.join_group.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makejoin_groupInterceptors() ?? []
+    )
+  }
+
+  internal func makeAddMemberCall(
+    _ request: Group_AddMemberRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Group_AddMemberRequest, Group_BaseResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.add_member.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeadd_memberInterceptors() ?? []
+    )
+  }
+
+  internal func makeLeaveGroupCall(
+    _ request: Group_LeaveGroupRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Group_LeaveGroupRequest, Group_BaseResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.leave_group.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeleave_groupInterceptors() ?? []
+    )
+  }
+
+  internal func makeWorkspaceAddMemberCall(
+    _ request: Group_AddMemberWorkspaceRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Group_AddMemberWorkspaceRequest, Group_AddMemberWorkspaceResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.workspace_add_member.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeworkspace_add_memberInterceptors() ?? []
+    )
+  }
+
+  internal func makeWorkspaceLeaveGroupCall(
+    _ request: Group_WorkspaceLeaveGroupRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Group_WorkspaceLeaveGroupRequest, Group_BaseResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.workspace_leave_group.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeworkspace_leave_groupInterceptors() ?? []
+    )
+  }
+
+  internal func makeWorkspaceNotifyDeactiveMemberCall(
+    _ request: Group_WorkspaceNotifyDeactiveMember,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Group_WorkspaceNotifyDeactiveMember, Group_BaseResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.workspace_notify_deactive_member.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeworkspace_notify_deactive_memberInterceptors() ?? []
+    )
+  }
+
+  internal func makeWorkspaceMemberForgotPasswordInGroupCall(
+    _ request: Group_WorkspaceMemberForgotPasswordInGroup,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Group_WorkspaceMemberForgotPasswordInGroup, Group_BaseResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.workspace_member_forgot_password_in_group.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeworkspace_member_forgot_password_in_groupInterceptors() ?? []
+    )
+  }
+
+  internal func makeWorkspaceMemberResetPincodeInGroupCall(
+    _ request: Group_WorkspaceMemberResetPincodeInGroup,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Group_WorkspaceMemberResetPincodeInGroup, Group_BaseResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.workspace_member_reset_pincode_in_group.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeworkspace_member_reset_pincode_in_groupInterceptors() ?? []
+    )
+  }
+}
+
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+extension Group_GroupAsyncClientProtocol {
+  internal func create_group(
+    _ request: Group_CreateGroupRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Group_GroupObjectResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.create_group.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makecreate_groupInterceptors() ?? []
+    )
+  }
+
+  internal func create_group_workspace(
+    _ request: Group_CreateGroupWorkspaceRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Group_CreateGroupWorkspaceResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.create_group_workspace.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makecreate_group_workspaceInterceptors() ?? []
+    )
+  }
+
+  internal func get_group(
+    _ request: Group_GetGroupRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Group_GroupObjectResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.get_group.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeget_groupInterceptors() ?? []
+    )
+  }
+
+  internal func search_groups(
+    _ request: Group_SearchGroupsRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Group_SearchGroupsResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.search_groups.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makesearch_groupsInterceptors() ?? []
+    )
+  }
+
+  internal func get_joined_groups(
+    _ request: Group_GetJoinedGroupsRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Group_GetJoinedGroupsResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.get_joined_groups.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeget_joined_groupsInterceptors() ?? []
+    )
+  }
+
+  internal func join_group(
+    _ request: Group_JoinGroupRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Group_BaseResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.join_group.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makejoin_groupInterceptors() ?? []
+    )
+  }
+
+  internal func add_member(
+    _ request: Group_AddMemberRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Group_BaseResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.add_member.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeadd_memberInterceptors() ?? []
+    )
+  }
+
+  internal func leave_group(
+    _ request: Group_LeaveGroupRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Group_BaseResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.leave_group.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeleave_groupInterceptors() ?? []
+    )
+  }
+
+  internal func workspace_add_member(
+    _ request: Group_AddMemberWorkspaceRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Group_AddMemberWorkspaceResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.workspace_add_member.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeworkspace_add_memberInterceptors() ?? []
+    )
+  }
+
+  internal func workspace_leave_group(
+    _ request: Group_WorkspaceLeaveGroupRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Group_BaseResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.workspace_leave_group.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeworkspace_leave_groupInterceptors() ?? []
+    )
+  }
+
+  internal func workspace_notify_deactive_member(
+    _ request: Group_WorkspaceNotifyDeactiveMember,
+    callOptions: CallOptions? = nil
+  ) async throws -> Group_BaseResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.workspace_notify_deactive_member.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeworkspace_notify_deactive_memberInterceptors() ?? []
+    )
+  }
+
+  internal func workspace_member_forgot_password_in_group(
+    _ request: Group_WorkspaceMemberForgotPasswordInGroup,
+    callOptions: CallOptions? = nil
+  ) async throws -> Group_BaseResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.workspace_member_forgot_password_in_group.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeworkspace_member_forgot_password_in_groupInterceptors() ?? []
+    )
+  }
+
+  internal func workspace_member_reset_pincode_in_group(
+    _ request: Group_WorkspaceMemberResetPincodeInGroup,
+    callOptions: CallOptions? = nil
+  ) async throws -> Group_BaseResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Group_GroupClientMetadata.Methods.workspace_member_reset_pincode_in_group.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeworkspace_member_reset_pincode_in_groupInterceptors() ?? []
+    )
+  }
+}
+
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+internal struct Group_GroupAsyncClient: Group_GroupAsyncClientProtocol {
+  internal var channel: GRPCChannel
+  internal var defaultCallOptions: CallOptions
+  internal var interceptors: Group_GroupClientInterceptorFactoryProtocol?
+
+  internal init(
+    channel: GRPCChannel,
+    defaultCallOptions: CallOptions = CallOptions(),
+    interceptors: Group_GroupClientInterceptorFactoryProtocol? = nil
+  ) {
+    self.channel = channel
+    self.defaultCallOptions = defaultCallOptions
+    self.interceptors = interceptors
+  }
+}
+
+#endif // compiler(>=5.6)
+
+internal protocol Group_GroupClientInterceptorFactoryProtocol: GRPCSendable {
 
   /// - Returns: Interceptors to use when invoking 'create_group'.
   func makecreate_groupInterceptors() -> [ClientInterceptor<Group_CreateGroupRequest, Group_GroupObjectResponse>]
@@ -326,27 +850,113 @@ internal protocol Group_GroupClientInterceptorFactoryProtocol {
 
   /// - Returns: Interceptors to use when invoking 'workspace_notify_deactive_member'.
   func makeworkspace_notify_deactive_memberInterceptors() -> [ClientInterceptor<Group_WorkspaceNotifyDeactiveMember, Group_BaseResponse>]
+
+  /// - Returns: Interceptors to use when invoking 'workspace_member_forgot_password_in_group'.
+  func makeworkspace_member_forgot_password_in_groupInterceptors() -> [ClientInterceptor<Group_WorkspaceMemberForgotPasswordInGroup, Group_BaseResponse>]
+
+  /// - Returns: Interceptors to use when invoking 'workspace_member_reset_pincode_in_group'.
+  func makeworkspace_member_reset_pincode_in_groupInterceptors() -> [ClientInterceptor<Group_WorkspaceMemberResetPincodeInGroup, Group_BaseResponse>]
 }
 
-internal final class Group_GroupClient: Group_GroupClientProtocol {
-  internal let channel: GRPCChannel
-  internal var defaultCallOptions: CallOptions
-  internal var interceptors: Group_GroupClientInterceptorFactoryProtocol?
+internal enum Group_GroupClientMetadata {
+  internal static let serviceDescriptor = GRPCServiceDescriptor(
+    name: "Group",
+    fullName: "group.Group",
+    methods: [
+      Group_GroupClientMetadata.Methods.create_group,
+      Group_GroupClientMetadata.Methods.create_group_workspace,
+      Group_GroupClientMetadata.Methods.get_group,
+      Group_GroupClientMetadata.Methods.search_groups,
+      Group_GroupClientMetadata.Methods.get_joined_groups,
+      Group_GroupClientMetadata.Methods.join_group,
+      Group_GroupClientMetadata.Methods.add_member,
+      Group_GroupClientMetadata.Methods.leave_group,
+      Group_GroupClientMetadata.Methods.workspace_add_member,
+      Group_GroupClientMetadata.Methods.workspace_leave_group,
+      Group_GroupClientMetadata.Methods.workspace_notify_deactive_member,
+      Group_GroupClientMetadata.Methods.workspace_member_forgot_password_in_group,
+      Group_GroupClientMetadata.Methods.workspace_member_reset_pincode_in_group,
+    ]
+  )
 
-  /// Creates a client for the group.Group service.
-  ///
-  /// - Parameters:
-  ///   - channel: `GRPCChannel` to the service host.
-  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
-  ///   - interceptors: A factory providing interceptors for each RPC.
-  internal init(
-    channel: GRPCChannel,
-    defaultCallOptions: CallOptions = CallOptions(),
-    interceptors: Group_GroupClientInterceptorFactoryProtocol? = nil
-  ) {
-    self.channel = channel
-    self.defaultCallOptions = defaultCallOptions
-    self.interceptors = interceptors
+  internal enum Methods {
+    internal static let create_group = GRPCMethodDescriptor(
+      name: "create_group",
+      path: "/group.Group/create_group",
+      type: GRPCCallType.unary
+    )
+
+    internal static let create_group_workspace = GRPCMethodDescriptor(
+      name: "create_group_workspace",
+      path: "/group.Group/create_group_workspace",
+      type: GRPCCallType.unary
+    )
+
+    internal static let get_group = GRPCMethodDescriptor(
+      name: "get_group",
+      path: "/group.Group/get_group",
+      type: GRPCCallType.unary
+    )
+
+    internal static let search_groups = GRPCMethodDescriptor(
+      name: "search_groups",
+      path: "/group.Group/search_groups",
+      type: GRPCCallType.unary
+    )
+
+    internal static let get_joined_groups = GRPCMethodDescriptor(
+      name: "get_joined_groups",
+      path: "/group.Group/get_joined_groups",
+      type: GRPCCallType.unary
+    )
+
+    internal static let join_group = GRPCMethodDescriptor(
+      name: "join_group",
+      path: "/group.Group/join_group",
+      type: GRPCCallType.unary
+    )
+
+    internal static let add_member = GRPCMethodDescriptor(
+      name: "add_member",
+      path: "/group.Group/add_member",
+      type: GRPCCallType.unary
+    )
+
+    internal static let leave_group = GRPCMethodDescriptor(
+      name: "leave_group",
+      path: "/group.Group/leave_group",
+      type: GRPCCallType.unary
+    )
+
+    internal static let workspace_add_member = GRPCMethodDescriptor(
+      name: "workspace_add_member",
+      path: "/group.Group/workspace_add_member",
+      type: GRPCCallType.unary
+    )
+
+    internal static let workspace_leave_group = GRPCMethodDescriptor(
+      name: "workspace_leave_group",
+      path: "/group.Group/workspace_leave_group",
+      type: GRPCCallType.unary
+    )
+
+    internal static let workspace_notify_deactive_member = GRPCMethodDescriptor(
+      name: "workspace_notify_deactive_member",
+      path: "/group.Group/workspace_notify_deactive_member",
+      type: GRPCCallType.unary
+    )
+
+    internal static let workspace_member_forgot_password_in_group = GRPCMethodDescriptor(
+      name: "workspace_member_forgot_password_in_group",
+      path: "/group.Group/workspace_member_forgot_password_in_group",
+      type: GRPCCallType.unary
+    )
+
+    internal static let workspace_member_reset_pincode_in_group = GRPCMethodDescriptor(
+      name: "workspace_member_reset_pincode_in_group",
+      path: "/group.Group/workspace_member_reset_pincode_in_group",
+      type: GRPCCallType.unary
+    )
   }
 }
 
@@ -378,10 +988,16 @@ internal protocol Group_GroupProvider: CallHandlerProvider {
   func workspace_leave_group(request: Group_WorkspaceLeaveGroupRequest, context: StatusOnlyCallContext) -> EventLoopFuture<Group_BaseResponse>
 
   func workspace_notify_deactive_member(request: Group_WorkspaceNotifyDeactiveMember, context: StatusOnlyCallContext) -> EventLoopFuture<Group_BaseResponse>
+
+  func workspace_member_forgot_password_in_group(request: Group_WorkspaceMemberForgotPasswordInGroup, context: StatusOnlyCallContext) -> EventLoopFuture<Group_BaseResponse>
+
+  func workspace_member_reset_pincode_in_group(request: Group_WorkspaceMemberResetPincodeInGroup, context: StatusOnlyCallContext) -> EventLoopFuture<Group_BaseResponse>
 }
 
 extension Group_GroupProvider {
-  internal var serviceName: Substring { return "group.Group" }
+  internal var serviceName: Substring {
+    return Group_GroupServerMetadata.serviceDescriptor.fullName[...]
+  }
 
   /// Determines, calls and returns the appropriate request handler, depending on the request's method.
   /// Returns nil for methods not handled by this service.
@@ -489,11 +1105,250 @@ extension Group_GroupProvider {
         userFunction: self.workspace_notify_deactive_member(request:context:)
       )
 
+    case "workspace_member_forgot_password_in_group":
+      return UnaryServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Group_WorkspaceMemberForgotPasswordInGroup>(),
+        responseSerializer: ProtobufSerializer<Group_BaseResponse>(),
+        interceptors: self.interceptors?.makeworkspace_member_forgot_password_in_groupInterceptors() ?? [],
+        userFunction: self.workspace_member_forgot_password_in_group(request:context:)
+      )
+
+    case "workspace_member_reset_pincode_in_group":
+      return UnaryServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Group_WorkspaceMemberResetPincodeInGroup>(),
+        responseSerializer: ProtobufSerializer<Group_BaseResponse>(),
+        interceptors: self.interceptors?.makeworkspace_member_reset_pincode_in_groupInterceptors() ?? [],
+        userFunction: self.workspace_member_reset_pincode_in_group(request:context:)
+      )
+
     default:
       return nil
     }
   }
 }
+
+#if compiler(>=5.6)
+
+/// Method
+///
+/// To implement a server, implement an object which conforms to this protocol.
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+internal protocol Group_GroupAsyncProvider: CallHandlerProvider {
+  static var serviceDescriptor: GRPCServiceDescriptor { get }
+  var interceptors: Group_GroupServerInterceptorFactoryProtocol? { get }
+
+  @Sendable func create_group(
+    request: Group_CreateGroupRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Group_GroupObjectResponse
+
+  @Sendable func create_group_workspace(
+    request: Group_CreateGroupWorkspaceRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Group_CreateGroupWorkspaceResponse
+
+  @Sendable func get_group(
+    request: Group_GetGroupRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Group_GroupObjectResponse
+
+  @Sendable func search_groups(
+    request: Group_SearchGroupsRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Group_SearchGroupsResponse
+
+  @Sendable func get_joined_groups(
+    request: Group_GetJoinedGroupsRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Group_GetJoinedGroupsResponse
+
+  @Sendable func join_group(
+    request: Group_JoinGroupRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Group_BaseResponse
+
+  @Sendable func add_member(
+    request: Group_AddMemberRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Group_BaseResponse
+
+  @Sendable func leave_group(
+    request: Group_LeaveGroupRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Group_BaseResponse
+
+  ///workspace call
+  @Sendable func workspace_add_member(
+    request: Group_AddMemberWorkspaceRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Group_AddMemberWorkspaceResponse
+
+  @Sendable func workspace_leave_group(
+    request: Group_WorkspaceLeaveGroupRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Group_BaseResponse
+
+  @Sendable func workspace_notify_deactive_member(
+    request: Group_WorkspaceNotifyDeactiveMember,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Group_BaseResponse
+
+  @Sendable func workspace_member_forgot_password_in_group(
+    request: Group_WorkspaceMemberForgotPasswordInGroup,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Group_BaseResponse
+
+  @Sendable func workspace_member_reset_pincode_in_group(
+    request: Group_WorkspaceMemberResetPincodeInGroup,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Group_BaseResponse
+}
+
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+extension Group_GroupAsyncProvider {
+  internal static var serviceDescriptor: GRPCServiceDescriptor {
+    return Group_GroupServerMetadata.serviceDescriptor
+  }
+
+  internal var serviceName: Substring {
+    return Group_GroupServerMetadata.serviceDescriptor.fullName[...]
+  }
+
+  internal var interceptors: Group_GroupServerInterceptorFactoryProtocol? {
+    return nil
+  }
+
+  internal func handle(
+    method name: Substring,
+    context: CallHandlerContext
+  ) -> GRPCServerHandlerProtocol? {
+    switch name {
+    case "create_group":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Group_CreateGroupRequest>(),
+        responseSerializer: ProtobufSerializer<Group_GroupObjectResponse>(),
+        interceptors: self.interceptors?.makecreate_groupInterceptors() ?? [],
+        wrapping: self.create_group(request:context:)
+      )
+
+    case "create_group_workspace":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Group_CreateGroupWorkspaceRequest>(),
+        responseSerializer: ProtobufSerializer<Group_CreateGroupWorkspaceResponse>(),
+        interceptors: self.interceptors?.makecreate_group_workspaceInterceptors() ?? [],
+        wrapping: self.create_group_workspace(request:context:)
+      )
+
+    case "get_group":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Group_GetGroupRequest>(),
+        responseSerializer: ProtobufSerializer<Group_GroupObjectResponse>(),
+        interceptors: self.interceptors?.makeget_groupInterceptors() ?? [],
+        wrapping: self.get_group(request:context:)
+      )
+
+    case "search_groups":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Group_SearchGroupsRequest>(),
+        responseSerializer: ProtobufSerializer<Group_SearchGroupsResponse>(),
+        interceptors: self.interceptors?.makesearch_groupsInterceptors() ?? [],
+        wrapping: self.search_groups(request:context:)
+      )
+
+    case "get_joined_groups":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Group_GetJoinedGroupsRequest>(),
+        responseSerializer: ProtobufSerializer<Group_GetJoinedGroupsResponse>(),
+        interceptors: self.interceptors?.makeget_joined_groupsInterceptors() ?? [],
+        wrapping: self.get_joined_groups(request:context:)
+      )
+
+    case "join_group":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Group_JoinGroupRequest>(),
+        responseSerializer: ProtobufSerializer<Group_BaseResponse>(),
+        interceptors: self.interceptors?.makejoin_groupInterceptors() ?? [],
+        wrapping: self.join_group(request:context:)
+      )
+
+    case "add_member":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Group_AddMemberRequest>(),
+        responseSerializer: ProtobufSerializer<Group_BaseResponse>(),
+        interceptors: self.interceptors?.makeadd_memberInterceptors() ?? [],
+        wrapping: self.add_member(request:context:)
+      )
+
+    case "leave_group":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Group_LeaveGroupRequest>(),
+        responseSerializer: ProtobufSerializer<Group_BaseResponse>(),
+        interceptors: self.interceptors?.makeleave_groupInterceptors() ?? [],
+        wrapping: self.leave_group(request:context:)
+      )
+
+    case "workspace_add_member":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Group_AddMemberWorkspaceRequest>(),
+        responseSerializer: ProtobufSerializer<Group_AddMemberWorkspaceResponse>(),
+        interceptors: self.interceptors?.makeworkspace_add_memberInterceptors() ?? [],
+        wrapping: self.workspace_add_member(request:context:)
+      )
+
+    case "workspace_leave_group":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Group_WorkspaceLeaveGroupRequest>(),
+        responseSerializer: ProtobufSerializer<Group_BaseResponse>(),
+        interceptors: self.interceptors?.makeworkspace_leave_groupInterceptors() ?? [],
+        wrapping: self.workspace_leave_group(request:context:)
+      )
+
+    case "workspace_notify_deactive_member":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Group_WorkspaceNotifyDeactiveMember>(),
+        responseSerializer: ProtobufSerializer<Group_BaseResponse>(),
+        interceptors: self.interceptors?.makeworkspace_notify_deactive_memberInterceptors() ?? [],
+        wrapping: self.workspace_notify_deactive_member(request:context:)
+      )
+
+    case "workspace_member_forgot_password_in_group":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Group_WorkspaceMemberForgotPasswordInGroup>(),
+        responseSerializer: ProtobufSerializer<Group_BaseResponse>(),
+        interceptors: self.interceptors?.makeworkspace_member_forgot_password_in_groupInterceptors() ?? [],
+        wrapping: self.workspace_member_forgot_password_in_group(request:context:)
+      )
+
+    case "workspace_member_reset_pincode_in_group":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Group_WorkspaceMemberResetPincodeInGroup>(),
+        responseSerializer: ProtobufSerializer<Group_BaseResponse>(),
+        interceptors: self.interceptors?.makeworkspace_member_reset_pincode_in_groupInterceptors() ?? [],
+        wrapping: self.workspace_member_reset_pincode_in_group(request:context:)
+      )
+
+    default:
+      return nil
+    }
+  }
+}
+
+#endif // compiler(>=5.6)
 
 internal protocol Group_GroupServerInterceptorFactoryProtocol {
 
@@ -540,4 +1395,114 @@ internal protocol Group_GroupServerInterceptorFactoryProtocol {
   /// - Returns: Interceptors to use when handling 'workspace_notify_deactive_member'.
   ///   Defaults to calling `self.makeInterceptors()`.
   func makeworkspace_notify_deactive_memberInterceptors() -> [ServerInterceptor<Group_WorkspaceNotifyDeactiveMember, Group_BaseResponse>]
+
+  /// - Returns: Interceptors to use when handling 'workspace_member_forgot_password_in_group'.
+  ///   Defaults to calling `self.makeInterceptors()`.
+  func makeworkspace_member_forgot_password_in_groupInterceptors() -> [ServerInterceptor<Group_WorkspaceMemberForgotPasswordInGroup, Group_BaseResponse>]
+
+  /// - Returns: Interceptors to use when handling 'workspace_member_reset_pincode_in_group'.
+  ///   Defaults to calling `self.makeInterceptors()`.
+  func makeworkspace_member_reset_pincode_in_groupInterceptors() -> [ServerInterceptor<Group_WorkspaceMemberResetPincodeInGroup, Group_BaseResponse>]
+}
+
+internal enum Group_GroupServerMetadata {
+  internal static let serviceDescriptor = GRPCServiceDescriptor(
+    name: "Group",
+    fullName: "group.Group",
+    methods: [
+      Group_GroupServerMetadata.Methods.create_group,
+      Group_GroupServerMetadata.Methods.create_group_workspace,
+      Group_GroupServerMetadata.Methods.get_group,
+      Group_GroupServerMetadata.Methods.search_groups,
+      Group_GroupServerMetadata.Methods.get_joined_groups,
+      Group_GroupServerMetadata.Methods.join_group,
+      Group_GroupServerMetadata.Methods.add_member,
+      Group_GroupServerMetadata.Methods.leave_group,
+      Group_GroupServerMetadata.Methods.workspace_add_member,
+      Group_GroupServerMetadata.Methods.workspace_leave_group,
+      Group_GroupServerMetadata.Methods.workspace_notify_deactive_member,
+      Group_GroupServerMetadata.Methods.workspace_member_forgot_password_in_group,
+      Group_GroupServerMetadata.Methods.workspace_member_reset_pincode_in_group,
+    ]
+  )
+
+  internal enum Methods {
+    internal static let create_group = GRPCMethodDescriptor(
+      name: "create_group",
+      path: "/group.Group/create_group",
+      type: GRPCCallType.unary
+    )
+
+    internal static let create_group_workspace = GRPCMethodDescriptor(
+      name: "create_group_workspace",
+      path: "/group.Group/create_group_workspace",
+      type: GRPCCallType.unary
+    )
+
+    internal static let get_group = GRPCMethodDescriptor(
+      name: "get_group",
+      path: "/group.Group/get_group",
+      type: GRPCCallType.unary
+    )
+
+    internal static let search_groups = GRPCMethodDescriptor(
+      name: "search_groups",
+      path: "/group.Group/search_groups",
+      type: GRPCCallType.unary
+    )
+
+    internal static let get_joined_groups = GRPCMethodDescriptor(
+      name: "get_joined_groups",
+      path: "/group.Group/get_joined_groups",
+      type: GRPCCallType.unary
+    )
+
+    internal static let join_group = GRPCMethodDescriptor(
+      name: "join_group",
+      path: "/group.Group/join_group",
+      type: GRPCCallType.unary
+    )
+
+    internal static let add_member = GRPCMethodDescriptor(
+      name: "add_member",
+      path: "/group.Group/add_member",
+      type: GRPCCallType.unary
+    )
+
+    internal static let leave_group = GRPCMethodDescriptor(
+      name: "leave_group",
+      path: "/group.Group/leave_group",
+      type: GRPCCallType.unary
+    )
+
+    internal static let workspace_add_member = GRPCMethodDescriptor(
+      name: "workspace_add_member",
+      path: "/group.Group/workspace_add_member",
+      type: GRPCCallType.unary
+    )
+
+    internal static let workspace_leave_group = GRPCMethodDescriptor(
+      name: "workspace_leave_group",
+      path: "/group.Group/workspace_leave_group",
+      type: GRPCCallType.unary
+    )
+
+    internal static let workspace_notify_deactive_member = GRPCMethodDescriptor(
+      name: "workspace_notify_deactive_member",
+      path: "/group.Group/workspace_notify_deactive_member",
+      type: GRPCCallType.unary
+    )
+
+    internal static let workspace_member_forgot_password_in_group = GRPCMethodDescriptor(
+      name: "workspace_member_forgot_password_in_group",
+      path: "/group.Group/workspace_member_forgot_password_in_group",
+      type: GRPCCallType.unary
+    )
+
+    internal static let workspace_member_reset_pincode_in_group = GRPCMethodDescriptor(
+      name: "workspace_member_reset_pincode_in_group",
+      path: "/group.Group/workspace_member_reset_pincode_in_group",
+      type: GRPCCallType.unary
+    )
+  }
 }

@@ -22,6 +22,7 @@
 //
 import GRPC
 import NIO
+import NIOConcurrencyHelpers
 import SwiftProtobuf
 
 
@@ -65,11 +66,11 @@ internal protocol Auth_AuthClientProtocol: GRPCClient {
     callOptions: CallOptions?
   ) -> UnaryCall<Auth_FacebookLoginReq, Auth_SocialLoginRes>
 
-	func login_apple(
-	  _ request: Auth_AppleLoginReq,
-	  callOptions: CallOptions?
-	) -> UnaryCall<Auth_AppleLoginReq, Auth_SocialLoginRes>
-	
+  func login_apple(
+    _ request: Auth_AppleLoginReq,
+    callOptions: CallOptions?
+  ) -> UnaryCall<Auth_AppleLoginReq, Auth_SocialLoginRes>
+
   func login_social_challange(
     _ request: Auth_AuthSocialChallengeReq,
     callOptions: CallOptions?
@@ -79,6 +80,11 @@ internal protocol Auth_AuthClientProtocol: GRPCClient {
     _ request: Auth_AuthenticateReq,
     callOptions: CallOptions?
   ) -> UnaryCall<Auth_AuthenticateReq, Auth_AuthRes>
+
+  func refresh_token(
+    _ request: Auth_RefreshTokenReq,
+    callOptions: CallOptions?
+  ) -> UnaryCall<Auth_RefreshTokenReq, Auth_RefreshTokenRes>
 
   func logout(
     _ request: Auth_LogoutReq,
@@ -128,7 +134,7 @@ extension Auth_AuthClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Auth_RegisterSRPReq, Auth_RegisterSRPRes> {
     return self.makeUnaryCall(
-      path: "/auth.Auth/register_srp",
+      path: Auth_AuthClientMetadata.Methods.register_srp.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeregister_srpInterceptors() ?? []
@@ -146,7 +152,7 @@ extension Auth_AuthClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Auth_ForgotPasswordReq, Auth_BaseResponse> {
     return self.makeUnaryCall(
-      path: "/auth.Auth/forgot_password",
+      path: Auth_AuthClientMetadata.Methods.forgot_password.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeforgot_passwordInterceptors() ?? []
@@ -164,7 +170,7 @@ extension Auth_AuthClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Auth_AuthChallengeReq, Auth_AuthChallengeRes> {
     return self.makeUnaryCall(
-      path: "/auth.Auth/login_challenge",
+      path: Auth_AuthClientMetadata.Methods.login_challenge.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makelogin_challengeInterceptors() ?? []
@@ -182,7 +188,7 @@ extension Auth_AuthClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Auth_ForgotPasswordUpdateReq, Auth_AuthRes> {
     return self.makeUnaryCall(
-      path: "/auth.Auth/forgot_password_update",
+      path: Auth_AuthClientMetadata.Methods.forgot_password_update.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeforgot_password_updateInterceptors() ?? []
@@ -200,7 +206,7 @@ extension Auth_AuthClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Auth_GoogleLoginReq, Auth_SocialLoginRes> {
     return self.makeUnaryCall(
-      path: "/auth.Auth/login_google",
+      path: Auth_AuthClientMetadata.Methods.login_google.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makelogin_googleInterceptors() ?? []
@@ -218,7 +224,7 @@ extension Auth_AuthClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Auth_OfficeLoginReq, Auth_SocialLoginRes> {
     return self.makeUnaryCall(
-      path: "/auth.Auth/login_office",
+      path: Auth_AuthClientMetadata.Methods.login_office.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makelogin_officeInterceptors() ?? []
@@ -236,31 +242,31 @@ extension Auth_AuthClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Auth_FacebookLoginReq, Auth_SocialLoginRes> {
     return self.makeUnaryCall(
-      path: "/auth.Auth/login_facebook",
+      path: Auth_AuthClientMetadata.Methods.login_facebook.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makelogin_facebookInterceptors() ?? []
     )
   }
 
-	/// Unary call to login_apple
-	///
-	/// - Parameters:
-	///   - request: Request to send to login_apple.
-	///   - callOptions: Call options.
-	/// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-	internal func login_apple(
-	  _ request: Auth_AppleLoginReq,
-	  callOptions: CallOptions? = nil
-	) -> UnaryCall<Auth_AppleLoginReq, Auth_SocialLoginRes> {
-	  return self.makeUnaryCall(
-		path: "/auth.Auth/login_apple",
-		request: request,
-		callOptions: callOptions ?? self.defaultCallOptions,
-		interceptors: self.interceptors?.makelogin_appleInterceptors() ?? []
-	  )
-	}
-	
+  /// Unary call to login_apple
+  ///
+  /// - Parameters:
+  ///   - request: Request to send to login_apple.
+  ///   - callOptions: Call options.
+  /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
+  internal func login_apple(
+    _ request: Auth_AppleLoginReq,
+    callOptions: CallOptions? = nil
+  ) -> UnaryCall<Auth_AppleLoginReq, Auth_SocialLoginRes> {
+    return self.makeUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.login_apple.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelogin_appleInterceptors() ?? []
+    )
+  }
+
   /// Unary call to login_social_challange
   ///
   /// - Parameters:
@@ -272,7 +278,7 @@ extension Auth_AuthClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Auth_AuthSocialChallengeReq, Auth_AuthChallengeRes> {
     return self.makeUnaryCall(
-      path: "/auth.Auth/login_social_challange",
+      path: Auth_AuthClientMetadata.Methods.login_social_challange.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makelogin_social_challangeInterceptors() ?? []
@@ -290,10 +296,28 @@ extension Auth_AuthClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Auth_AuthenticateReq, Auth_AuthRes> {
     return self.makeUnaryCall(
-      path: "/auth.Auth/login_authenticate",
+      path: Auth_AuthClientMetadata.Methods.login_authenticate.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makelogin_authenticateInterceptors() ?? []
+    )
+  }
+
+  /// Unary call to refresh_token
+  ///
+  /// - Parameters:
+  ///   - request: Request to send to refresh_token.
+  ///   - callOptions: Call options.
+  /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
+  internal func refresh_token(
+    _ request: Auth_RefreshTokenReq,
+    callOptions: CallOptions? = nil
+  ) -> UnaryCall<Auth_RefreshTokenReq, Auth_RefreshTokenRes> {
+    return self.makeUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.refresh_token.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makerefresh_tokenInterceptors() ?? []
     )
   }
 
@@ -308,7 +332,7 @@ extension Auth_AuthClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Auth_LogoutReq, Auth_BaseResponse> {
     return self.makeUnaryCall(
-      path: "/auth.Auth/logout",
+      path: Auth_AuthClientMetadata.Methods.logout.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makelogoutInterceptors() ?? []
@@ -326,7 +350,7 @@ extension Auth_AuthClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Auth_RegisterPinCodeReq, Auth_AuthRes> {
     return self.makeUnaryCall(
-      path: "/auth.Auth/register_pincode",
+      path: Auth_AuthClientMetadata.Methods.register_pincode.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeregister_pincodeInterceptors() ?? []
@@ -344,7 +368,7 @@ extension Auth_AuthClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Auth_VerifyPinCodeReq, Auth_AuthRes> {
     return self.makeUnaryCall(
-      path: "/auth.Auth/verify_pincode",
+      path: Auth_AuthClientMetadata.Methods.verify_pincode.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeverify_pincodeInterceptors() ?? []
@@ -362,7 +386,7 @@ extension Auth_AuthClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Auth_ResetPinCodeReq, Auth_AuthRes> {
     return self.makeUnaryCall(
-      path: "/auth.Auth/reset_pincode",
+      path: Auth_AuthClientMetadata.Methods.reset_pincode.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makereset_pincodeInterceptors() ?? []
@@ -381,7 +405,7 @@ extension Auth_AuthClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Auth_MfaValidateOtpRequest, Auth_AuthRes> {
     return self.makeUnaryCall(
-      path: "/auth.Auth/validate_otp",
+      path: Auth_AuthClientMetadata.Methods.validate_otp.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makevalidate_otpInterceptors() ?? []
@@ -399,7 +423,7 @@ extension Auth_AuthClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Auth_MfaResendOtpReq, Auth_MfaResendOtpRes> {
     return self.makeUnaryCall(
-      path: "/auth.Auth/resend_otp",
+      path: Auth_AuthClientMetadata.Methods.resend_otp.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeresend_otpInterceptors() ?? []
@@ -407,7 +431,599 @@ extension Auth_AuthClientProtocol {
   }
 }
 
-internal protocol Auth_AuthClientInterceptorFactoryProtocol {
+#if compiler(>=5.6)
+@available(*, deprecated)
+extension Auth_AuthClient: @unchecked Sendable {}
+#endif // compiler(>=5.6)
+
+@available(*, deprecated, renamed: "Auth_AuthNIOClient")
+internal final class Auth_AuthClient: Auth_AuthClientProtocol {
+  private let lock = Lock()
+  private var _defaultCallOptions: CallOptions
+  private var _interceptors: Auth_AuthClientInterceptorFactoryProtocol?
+  internal let channel: GRPCChannel
+  internal var defaultCallOptions: CallOptions {
+    get { self.lock.withLock { return self._defaultCallOptions } }
+    set { self.lock.withLockVoid { self._defaultCallOptions = newValue } }
+  }
+  internal var interceptors: Auth_AuthClientInterceptorFactoryProtocol? {
+    get { self.lock.withLock { return self._interceptors } }
+    set { self.lock.withLockVoid { self._interceptors = newValue } }
+  }
+
+  /// Creates a client for the auth.Auth service.
+  ///
+  /// - Parameters:
+  ///   - channel: `GRPCChannel` to the service host.
+  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
+  ///   - interceptors: A factory providing interceptors for each RPC.
+  internal init(
+    channel: GRPCChannel,
+    defaultCallOptions: CallOptions = CallOptions(),
+    interceptors: Auth_AuthClientInterceptorFactoryProtocol? = nil
+  ) {
+    self.channel = channel
+    self._defaultCallOptions = defaultCallOptions
+    self._interceptors = interceptors
+  }
+}
+
+internal struct Auth_AuthNIOClient: Auth_AuthClientProtocol {
+  internal var channel: GRPCChannel
+  internal var defaultCallOptions: CallOptions
+  internal var interceptors: Auth_AuthClientInterceptorFactoryProtocol?
+
+  /// Creates a client for the auth.Auth service.
+  ///
+  /// - Parameters:
+  ///   - channel: `GRPCChannel` to the service host.
+  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
+  ///   - interceptors: A factory providing interceptors for each RPC.
+  internal init(
+    channel: GRPCChannel,
+    defaultCallOptions: CallOptions = CallOptions(),
+    interceptors: Auth_AuthClientInterceptorFactoryProtocol? = nil
+  ) {
+    self.channel = channel
+    self.defaultCallOptions = defaultCallOptions
+    self.interceptors = interceptors
+  }
+}
+
+#if compiler(>=5.6)
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+internal protocol Auth_AuthAsyncClientProtocol: GRPCClient {
+  static var serviceDescriptor: GRPCServiceDescriptor { get }
+  var interceptors: Auth_AuthClientInterceptorFactoryProtocol? { get }
+
+  func makeRegisterSrpCall(
+    _ request: Auth_RegisterSRPReq,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Auth_RegisterSRPReq, Auth_RegisterSRPRes>
+
+  func makeForgotPasswordCall(
+    _ request: Auth_ForgotPasswordReq,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Auth_ForgotPasswordReq, Auth_BaseResponse>
+
+  func makeLoginChallengeCall(
+    _ request: Auth_AuthChallengeReq,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Auth_AuthChallengeReq, Auth_AuthChallengeRes>
+
+  func makeForgotPasswordUpdateCall(
+    _ request: Auth_ForgotPasswordUpdateReq,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Auth_ForgotPasswordUpdateReq, Auth_AuthRes>
+
+  func makeLoginGoogleCall(
+    _ request: Auth_GoogleLoginReq,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Auth_GoogleLoginReq, Auth_SocialLoginRes>
+
+  func makeLoginOfficeCall(
+    _ request: Auth_OfficeLoginReq,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Auth_OfficeLoginReq, Auth_SocialLoginRes>
+
+  func makeLoginFacebookCall(
+    _ request: Auth_FacebookLoginReq,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Auth_FacebookLoginReq, Auth_SocialLoginRes>
+
+  func makeLoginAppleCall(
+    _ request: Auth_AppleLoginReq,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Auth_AppleLoginReq, Auth_SocialLoginRes>
+
+  func makeLoginSocialChallangeCall(
+    _ request: Auth_AuthSocialChallengeReq,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Auth_AuthSocialChallengeReq, Auth_AuthChallengeRes>
+
+  func makeLoginAuthenticateCall(
+    _ request: Auth_AuthenticateReq,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Auth_AuthenticateReq, Auth_AuthRes>
+
+  func makeRefreshTokenCall(
+    _ request: Auth_RefreshTokenReq,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Auth_RefreshTokenReq, Auth_RefreshTokenRes>
+
+  func makeLogoutCall(
+    _ request: Auth_LogoutReq,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Auth_LogoutReq, Auth_BaseResponse>
+
+  func makeRegisterPincodeCall(
+    _ request: Auth_RegisterPinCodeReq,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Auth_RegisterPinCodeReq, Auth_AuthRes>
+
+  func makeVerifyPincodeCall(
+    _ request: Auth_VerifyPinCodeReq,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Auth_VerifyPinCodeReq, Auth_AuthRes>
+
+  func makeResetPincodeCall(
+    _ request: Auth_ResetPinCodeReq,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Auth_ResetPinCodeReq, Auth_AuthRes>
+
+  func makeValidateOtpCall(
+    _ request: Auth_MfaValidateOtpRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Auth_MfaValidateOtpRequest, Auth_AuthRes>
+
+  func makeResendOtpCall(
+    _ request: Auth_MfaResendOtpReq,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Auth_MfaResendOtpReq, Auth_MfaResendOtpRes>
+}
+
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+extension Auth_AuthAsyncClientProtocol {
+  internal static var serviceDescriptor: GRPCServiceDescriptor {
+    return Auth_AuthClientMetadata.serviceDescriptor
+  }
+
+  internal var interceptors: Auth_AuthClientInterceptorFactoryProtocol? {
+    return nil
+  }
+
+  internal func makeRegisterSrpCall(
+    _ request: Auth_RegisterSRPReq,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Auth_RegisterSRPReq, Auth_RegisterSRPRes> {
+    return self.makeAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.register_srp.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeregister_srpInterceptors() ?? []
+    )
+  }
+
+  internal func makeForgotPasswordCall(
+    _ request: Auth_ForgotPasswordReq,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Auth_ForgotPasswordReq, Auth_BaseResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.forgot_password.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeforgot_passwordInterceptors() ?? []
+    )
+  }
+
+  internal func makeLoginChallengeCall(
+    _ request: Auth_AuthChallengeReq,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Auth_AuthChallengeReq, Auth_AuthChallengeRes> {
+    return self.makeAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.login_challenge.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelogin_challengeInterceptors() ?? []
+    )
+  }
+
+  internal func makeForgotPasswordUpdateCall(
+    _ request: Auth_ForgotPasswordUpdateReq,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Auth_ForgotPasswordUpdateReq, Auth_AuthRes> {
+    return self.makeAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.forgot_password_update.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeforgot_password_updateInterceptors() ?? []
+    )
+  }
+
+  internal func makeLoginGoogleCall(
+    _ request: Auth_GoogleLoginReq,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Auth_GoogleLoginReq, Auth_SocialLoginRes> {
+    return self.makeAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.login_google.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelogin_googleInterceptors() ?? []
+    )
+  }
+
+  internal func makeLoginOfficeCall(
+    _ request: Auth_OfficeLoginReq,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Auth_OfficeLoginReq, Auth_SocialLoginRes> {
+    return self.makeAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.login_office.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelogin_officeInterceptors() ?? []
+    )
+  }
+
+  internal func makeLoginFacebookCall(
+    _ request: Auth_FacebookLoginReq,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Auth_FacebookLoginReq, Auth_SocialLoginRes> {
+    return self.makeAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.login_facebook.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelogin_facebookInterceptors() ?? []
+    )
+  }
+
+  internal func makeLoginAppleCall(
+    _ request: Auth_AppleLoginReq,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Auth_AppleLoginReq, Auth_SocialLoginRes> {
+    return self.makeAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.login_apple.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelogin_appleInterceptors() ?? []
+    )
+  }
+
+  internal func makeLoginSocialChallangeCall(
+    _ request: Auth_AuthSocialChallengeReq,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Auth_AuthSocialChallengeReq, Auth_AuthChallengeRes> {
+    return self.makeAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.login_social_challange.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelogin_social_challangeInterceptors() ?? []
+    )
+  }
+
+  internal func makeLoginAuthenticateCall(
+    _ request: Auth_AuthenticateReq,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Auth_AuthenticateReq, Auth_AuthRes> {
+    return self.makeAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.login_authenticate.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelogin_authenticateInterceptors() ?? []
+    )
+  }
+
+  internal func makeRefreshTokenCall(
+    _ request: Auth_RefreshTokenReq,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Auth_RefreshTokenReq, Auth_RefreshTokenRes> {
+    return self.makeAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.refresh_token.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makerefresh_tokenInterceptors() ?? []
+    )
+  }
+
+  internal func makeLogoutCall(
+    _ request: Auth_LogoutReq,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Auth_LogoutReq, Auth_BaseResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.logout.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelogoutInterceptors() ?? []
+    )
+  }
+
+  internal func makeRegisterPincodeCall(
+    _ request: Auth_RegisterPinCodeReq,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Auth_RegisterPinCodeReq, Auth_AuthRes> {
+    return self.makeAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.register_pincode.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeregister_pincodeInterceptors() ?? []
+    )
+  }
+
+  internal func makeVerifyPincodeCall(
+    _ request: Auth_VerifyPinCodeReq,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Auth_VerifyPinCodeReq, Auth_AuthRes> {
+    return self.makeAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.verify_pincode.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeverify_pincodeInterceptors() ?? []
+    )
+  }
+
+  internal func makeResetPincodeCall(
+    _ request: Auth_ResetPinCodeReq,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Auth_ResetPinCodeReq, Auth_AuthRes> {
+    return self.makeAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.reset_pincode.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makereset_pincodeInterceptors() ?? []
+    )
+  }
+
+  internal func makeValidateOtpCall(
+    _ request: Auth_MfaValidateOtpRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Auth_MfaValidateOtpRequest, Auth_AuthRes> {
+    return self.makeAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.validate_otp.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makevalidate_otpInterceptors() ?? []
+    )
+  }
+
+  internal func makeResendOtpCall(
+    _ request: Auth_MfaResendOtpReq,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Auth_MfaResendOtpReq, Auth_MfaResendOtpRes> {
+    return self.makeAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.resend_otp.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeresend_otpInterceptors() ?? []
+    )
+  }
+}
+
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+extension Auth_AuthAsyncClientProtocol {
+  internal func register_srp(
+    _ request: Auth_RegisterSRPReq,
+    callOptions: CallOptions? = nil
+  ) async throws -> Auth_RegisterSRPRes {
+    return try await self.performAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.register_srp.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeregister_srpInterceptors() ?? []
+    )
+  }
+
+  internal func forgot_password(
+    _ request: Auth_ForgotPasswordReq,
+    callOptions: CallOptions? = nil
+  ) async throws -> Auth_BaseResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.forgot_password.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeforgot_passwordInterceptors() ?? []
+    )
+  }
+
+  internal func login_challenge(
+    _ request: Auth_AuthChallengeReq,
+    callOptions: CallOptions? = nil
+  ) async throws -> Auth_AuthChallengeRes {
+    return try await self.performAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.login_challenge.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelogin_challengeInterceptors() ?? []
+    )
+  }
+
+  internal func forgot_password_update(
+    _ request: Auth_ForgotPasswordUpdateReq,
+    callOptions: CallOptions? = nil
+  ) async throws -> Auth_AuthRes {
+    return try await self.performAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.forgot_password_update.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeforgot_password_updateInterceptors() ?? []
+    )
+  }
+
+  internal func login_google(
+    _ request: Auth_GoogleLoginReq,
+    callOptions: CallOptions? = nil
+  ) async throws -> Auth_SocialLoginRes {
+    return try await self.performAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.login_google.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelogin_googleInterceptors() ?? []
+    )
+  }
+
+  internal func login_office(
+    _ request: Auth_OfficeLoginReq,
+    callOptions: CallOptions? = nil
+  ) async throws -> Auth_SocialLoginRes {
+    return try await self.performAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.login_office.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelogin_officeInterceptors() ?? []
+    )
+  }
+
+  internal func login_facebook(
+    _ request: Auth_FacebookLoginReq,
+    callOptions: CallOptions? = nil
+  ) async throws -> Auth_SocialLoginRes {
+    return try await self.performAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.login_facebook.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelogin_facebookInterceptors() ?? []
+    )
+  }
+
+  internal func login_apple(
+    _ request: Auth_AppleLoginReq,
+    callOptions: CallOptions? = nil
+  ) async throws -> Auth_SocialLoginRes {
+    return try await self.performAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.login_apple.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelogin_appleInterceptors() ?? []
+    )
+  }
+
+  internal func login_social_challange(
+    _ request: Auth_AuthSocialChallengeReq,
+    callOptions: CallOptions? = nil
+  ) async throws -> Auth_AuthChallengeRes {
+    return try await self.performAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.login_social_challange.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelogin_social_challangeInterceptors() ?? []
+    )
+  }
+
+  internal func login_authenticate(
+    _ request: Auth_AuthenticateReq,
+    callOptions: CallOptions? = nil
+  ) async throws -> Auth_AuthRes {
+    return try await self.performAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.login_authenticate.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelogin_authenticateInterceptors() ?? []
+    )
+  }
+
+  internal func refresh_token(
+    _ request: Auth_RefreshTokenReq,
+    callOptions: CallOptions? = nil
+  ) async throws -> Auth_RefreshTokenRes {
+    return try await self.performAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.refresh_token.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makerefresh_tokenInterceptors() ?? []
+    )
+  }
+
+  internal func logout(
+    _ request: Auth_LogoutReq,
+    callOptions: CallOptions? = nil
+  ) async throws -> Auth_BaseResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.logout.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelogoutInterceptors() ?? []
+    )
+  }
+
+  internal func register_pincode(
+    _ request: Auth_RegisterPinCodeReq,
+    callOptions: CallOptions? = nil
+  ) async throws -> Auth_AuthRes {
+    return try await self.performAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.register_pincode.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeregister_pincodeInterceptors() ?? []
+    )
+  }
+
+  internal func verify_pincode(
+    _ request: Auth_VerifyPinCodeReq,
+    callOptions: CallOptions? = nil
+  ) async throws -> Auth_AuthRes {
+    return try await self.performAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.verify_pincode.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeverify_pincodeInterceptors() ?? []
+    )
+  }
+
+  internal func reset_pincode(
+    _ request: Auth_ResetPinCodeReq,
+    callOptions: CallOptions? = nil
+  ) async throws -> Auth_AuthRes {
+    return try await self.performAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.reset_pincode.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makereset_pincodeInterceptors() ?? []
+    )
+  }
+
+  internal func validate_otp(
+    _ request: Auth_MfaValidateOtpRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Auth_AuthRes {
+    return try await self.performAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.validate_otp.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makevalidate_otpInterceptors() ?? []
+    )
+  }
+
+  internal func resend_otp(
+    _ request: Auth_MfaResendOtpReq,
+    callOptions: CallOptions? = nil
+  ) async throws -> Auth_MfaResendOtpRes {
+    return try await self.performAsyncUnaryCall(
+      path: Auth_AuthClientMetadata.Methods.resend_otp.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeresend_otpInterceptors() ?? []
+    )
+  }
+}
+
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+internal struct Auth_AuthAsyncClient: Auth_AuthAsyncClientProtocol {
+  internal var channel: GRPCChannel
+  internal var defaultCallOptions: CallOptions
+  internal var interceptors: Auth_AuthClientInterceptorFactoryProtocol?
+
+  internal init(
+    channel: GRPCChannel,
+    defaultCallOptions: CallOptions = CallOptions(),
+    interceptors: Auth_AuthClientInterceptorFactoryProtocol? = nil
+  ) {
+    self.channel = channel
+    self.defaultCallOptions = defaultCallOptions
+    self.interceptors = interceptors
+  }
+}
+
+#endif // compiler(>=5.6)
+
+internal protocol Auth_AuthClientInterceptorFactoryProtocol: GRPCSendable {
 
   /// - Returns: Interceptors to use when invoking 'register_srp'.
   func makeregister_srpInterceptors() -> [ClientInterceptor<Auth_RegisterSRPReq, Auth_RegisterSRPRes>]
@@ -430,14 +1046,17 @@ internal protocol Auth_AuthClientInterceptorFactoryProtocol {
   /// - Returns: Interceptors to use when invoking 'login_facebook'.
   func makelogin_facebookInterceptors() -> [ClientInterceptor<Auth_FacebookLoginReq, Auth_SocialLoginRes>]
 
-	/// - Returns: Interceptors to use when invoking 'login_apple'.
-	func makelogin_appleInterceptors() -> [ClientInterceptor<Auth_AppleLoginReq, Auth_SocialLoginRes>]
-	
+  /// - Returns: Interceptors to use when invoking 'login_apple'.
+  func makelogin_appleInterceptors() -> [ClientInterceptor<Auth_AppleLoginReq, Auth_SocialLoginRes>]
+
   /// - Returns: Interceptors to use when invoking 'login_social_challange'.
   func makelogin_social_challangeInterceptors() -> [ClientInterceptor<Auth_AuthSocialChallengeReq, Auth_AuthChallengeRes>]
 
   /// - Returns: Interceptors to use when invoking 'login_authenticate'.
   func makelogin_authenticateInterceptors() -> [ClientInterceptor<Auth_AuthenticateReq, Auth_AuthRes>]
+
+  /// - Returns: Interceptors to use when invoking 'refresh_token'.
+  func makerefresh_tokenInterceptors() -> [ClientInterceptor<Auth_RefreshTokenReq, Auth_RefreshTokenRes>]
 
   /// - Returns: Interceptors to use when invoking 'logout'.
   func makelogoutInterceptors() -> [ClientInterceptor<Auth_LogoutReq, Auth_BaseResponse>]
@@ -458,25 +1077,133 @@ internal protocol Auth_AuthClientInterceptorFactoryProtocol {
   func makeresend_otpInterceptors() -> [ClientInterceptor<Auth_MfaResendOtpReq, Auth_MfaResendOtpRes>]
 }
 
-internal final class Auth_AuthClient: Auth_AuthClientProtocol {
-  internal let channel: GRPCChannel
-  internal var defaultCallOptions: CallOptions
-  internal var interceptors: Auth_AuthClientInterceptorFactoryProtocol?
+internal enum Auth_AuthClientMetadata {
+  internal static let serviceDescriptor = GRPCServiceDescriptor(
+    name: "Auth",
+    fullName: "auth.Auth",
+    methods: [
+      Auth_AuthClientMetadata.Methods.register_srp,
+      Auth_AuthClientMetadata.Methods.forgot_password,
+      Auth_AuthClientMetadata.Methods.login_challenge,
+      Auth_AuthClientMetadata.Methods.forgot_password_update,
+      Auth_AuthClientMetadata.Methods.login_google,
+      Auth_AuthClientMetadata.Methods.login_office,
+      Auth_AuthClientMetadata.Methods.login_facebook,
+      Auth_AuthClientMetadata.Methods.login_apple,
+      Auth_AuthClientMetadata.Methods.login_social_challange,
+      Auth_AuthClientMetadata.Methods.login_authenticate,
+      Auth_AuthClientMetadata.Methods.refresh_token,
+      Auth_AuthClientMetadata.Methods.logout,
+      Auth_AuthClientMetadata.Methods.register_pincode,
+      Auth_AuthClientMetadata.Methods.verify_pincode,
+      Auth_AuthClientMetadata.Methods.reset_pincode,
+      Auth_AuthClientMetadata.Methods.validate_otp,
+      Auth_AuthClientMetadata.Methods.resend_otp,
+    ]
+  )
 
-  /// Creates a client for the auth.Auth service.
-  ///
-  /// - Parameters:
-  ///   - channel: `GRPCChannel` to the service host.
-  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
-  ///   - interceptors: A factory providing interceptors for each RPC.
-  internal init(
-    channel: GRPCChannel,
-    defaultCallOptions: CallOptions = CallOptions(),
-    interceptors: Auth_AuthClientInterceptorFactoryProtocol? = nil
-  ) {
-    self.channel = channel
-    self.defaultCallOptions = defaultCallOptions
-    self.interceptors = interceptors
+  internal enum Methods {
+    internal static let register_srp = GRPCMethodDescriptor(
+      name: "register_srp",
+      path: "/auth.Auth/register_srp",
+      type: GRPCCallType.unary
+    )
+
+    internal static let forgot_password = GRPCMethodDescriptor(
+      name: "forgot_password",
+      path: "/auth.Auth/forgot_password",
+      type: GRPCCallType.unary
+    )
+
+    internal static let login_challenge = GRPCMethodDescriptor(
+      name: "login_challenge",
+      path: "/auth.Auth/login_challenge",
+      type: GRPCCallType.unary
+    )
+
+    internal static let forgot_password_update = GRPCMethodDescriptor(
+      name: "forgot_password_update",
+      path: "/auth.Auth/forgot_password_update",
+      type: GRPCCallType.unary
+    )
+
+    internal static let login_google = GRPCMethodDescriptor(
+      name: "login_google",
+      path: "/auth.Auth/login_google",
+      type: GRPCCallType.unary
+    )
+
+    internal static let login_office = GRPCMethodDescriptor(
+      name: "login_office",
+      path: "/auth.Auth/login_office",
+      type: GRPCCallType.unary
+    )
+
+    internal static let login_facebook = GRPCMethodDescriptor(
+      name: "login_facebook",
+      path: "/auth.Auth/login_facebook",
+      type: GRPCCallType.unary
+    )
+
+    internal static let login_apple = GRPCMethodDescriptor(
+      name: "login_apple",
+      path: "/auth.Auth/login_apple",
+      type: GRPCCallType.unary
+    )
+
+    internal static let login_social_challange = GRPCMethodDescriptor(
+      name: "login_social_challange",
+      path: "/auth.Auth/login_social_challange",
+      type: GRPCCallType.unary
+    )
+
+    internal static let login_authenticate = GRPCMethodDescriptor(
+      name: "login_authenticate",
+      path: "/auth.Auth/login_authenticate",
+      type: GRPCCallType.unary
+    )
+
+    internal static let refresh_token = GRPCMethodDescriptor(
+      name: "refresh_token",
+      path: "/auth.Auth/refresh_token",
+      type: GRPCCallType.unary
+    )
+
+    internal static let logout = GRPCMethodDescriptor(
+      name: "logout",
+      path: "/auth.Auth/logout",
+      type: GRPCCallType.unary
+    )
+
+    internal static let register_pincode = GRPCMethodDescriptor(
+      name: "register_pincode",
+      path: "/auth.Auth/register_pincode",
+      type: GRPCCallType.unary
+    )
+
+    internal static let verify_pincode = GRPCMethodDescriptor(
+      name: "verify_pincode",
+      path: "/auth.Auth/verify_pincode",
+      type: GRPCCallType.unary
+    )
+
+    internal static let reset_pincode = GRPCMethodDescriptor(
+      name: "reset_pincode",
+      path: "/auth.Auth/reset_pincode",
+      type: GRPCCallType.unary
+    )
+
+    internal static let validate_otp = GRPCMethodDescriptor(
+      name: "validate_otp",
+      path: "/auth.Auth/validate_otp",
+      type: GRPCCallType.unary
+    )
+
+    internal static let resend_otp = GRPCMethodDescriptor(
+      name: "resend_otp",
+      path: "/auth.Auth/resend_otp",
+      type: GRPCCallType.unary
+    )
   }
 }
 
@@ -501,13 +1228,15 @@ internal protocol Auth_AuthProvider: CallHandlerProvider {
   func login_office(request: Auth_OfficeLoginReq, context: StatusOnlyCallContext) -> EventLoopFuture<Auth_SocialLoginRes>
 
   func login_facebook(request: Auth_FacebookLoginReq, context: StatusOnlyCallContext) -> EventLoopFuture<Auth_SocialLoginRes>
-	
-	func login_apple(request: Auth_AppleLoginReq, context: StatusOnlyCallContext) -> EventLoopFuture<Auth_SocialLoginRes>
-	
+
+  func login_apple(request: Auth_AppleLoginReq, context: StatusOnlyCallContext) -> EventLoopFuture<Auth_SocialLoginRes>
+
   func login_social_challange(request: Auth_AuthSocialChallengeReq, context: StatusOnlyCallContext) -> EventLoopFuture<Auth_AuthChallengeRes>
 
   /// authenticated challange
   func login_authenticate(request: Auth_AuthenticateReq, context: StatusOnlyCallContext) -> EventLoopFuture<Auth_AuthRes>
+
+  func refresh_token(request: Auth_RefreshTokenReq, context: StatusOnlyCallContext) -> EventLoopFuture<Auth_RefreshTokenRes>
 
   ///logout
   func logout(request: Auth_LogoutReq, context: StatusOnlyCallContext) -> EventLoopFuture<Auth_BaseResponse>
@@ -527,7 +1256,9 @@ internal protocol Auth_AuthProvider: CallHandlerProvider {
 }
 
 extension Auth_AuthProvider {
-  internal var serviceName: Substring { return "auth.Auth" }
+  internal var serviceName: Substring {
+    return Auth_AuthServerMetadata.serviceDescriptor.fullName[...]
+  }
 
   /// Determines, calls and returns the appropriate request handler, depending on the request's method.
   /// Returns nil for methods not handled by this service.
@@ -598,15 +1329,15 @@ extension Auth_AuthProvider {
         interceptors: self.interceptors?.makelogin_facebookInterceptors() ?? [],
         userFunction: self.login_facebook(request:context:)
       )
-		
-	case "login_apple":
-	  return UnaryServerHandler(
-		context: context,
-		requestDeserializer: ProtobufDeserializer<Auth_AppleLoginReq>(),
-		responseSerializer: ProtobufSerializer<Auth_SocialLoginRes>(),
-		interceptors: self.interceptors?.makelogin_appleInterceptors() ?? [],
-		userFunction: self.login_apple(request:context:)
-	  )
+
+    case "login_apple":
+      return UnaryServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_AppleLoginReq>(),
+        responseSerializer: ProtobufSerializer<Auth_SocialLoginRes>(),
+        interceptors: self.interceptors?.makelogin_appleInterceptors() ?? [],
+        userFunction: self.login_apple(request:context:)
+      )
 
     case "login_social_challange":
       return UnaryServerHandler(
@@ -624,6 +1355,15 @@ extension Auth_AuthProvider {
         responseSerializer: ProtobufSerializer<Auth_AuthRes>(),
         interceptors: self.interceptors?.makelogin_authenticateInterceptors() ?? [],
         userFunction: self.login_authenticate(request:context:)
+      )
+
+    case "refresh_token":
+      return UnaryServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_RefreshTokenReq>(),
+        responseSerializer: ProtobufSerializer<Auth_RefreshTokenRes>(),
+        interceptors: self.interceptors?.makerefresh_tokenInterceptors() ?? [],
+        userFunction: self.refresh_token(request:context:)
       )
 
     case "logout":
@@ -686,6 +1426,289 @@ extension Auth_AuthProvider {
   }
 }
 
+#if compiler(>=5.6)
+
+/// To implement a server, implement an object which conforms to this protocol.
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+internal protocol Auth_AuthAsyncProvider: CallHandlerProvider {
+  static var serviceDescriptor: GRPCServiceDescriptor { get }
+  var interceptors: Auth_AuthServerInterceptorFactoryProtocol? { get }
+
+  /// rpc register(RegisterReq) returns (RegisterRes) {};
+  /// rpc login(AuthReq) returns (AuthRes) {};
+  @Sendable func register_srp(
+    request: Auth_RegisterSRPReq,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Auth_RegisterSRPRes
+
+  @Sendable func forgot_password(
+    request: Auth_ForgotPasswordReq,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Auth_BaseResponse
+
+  ///new flow login with srp
+  @Sendable func login_challenge(
+    request: Auth_AuthChallengeReq,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Auth_AuthChallengeRes
+
+  @Sendable func forgot_password_update(
+    request: Auth_ForgotPasswordUpdateReq,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Auth_AuthRes
+
+  ///login with social
+  @Sendable func login_google(
+    request: Auth_GoogleLoginReq,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Auth_SocialLoginRes
+
+  @Sendable func login_office(
+    request: Auth_OfficeLoginReq,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Auth_SocialLoginRes
+
+  @Sendable func login_facebook(
+    request: Auth_FacebookLoginReq,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Auth_SocialLoginRes
+
+  @Sendable func login_apple(
+    request: Auth_AppleLoginReq,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Auth_SocialLoginRes
+
+  @Sendable func login_social_challange(
+    request: Auth_AuthSocialChallengeReq,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Auth_AuthChallengeRes
+
+  /// authenticated challange
+  @Sendable func login_authenticate(
+    request: Auth_AuthenticateReq,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Auth_AuthRes
+
+  @Sendable func refresh_token(
+    request: Auth_RefreshTokenReq,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Auth_RefreshTokenRes
+
+  ///logout
+  @Sendable func logout(
+    request: Auth_LogoutReq,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Auth_BaseResponse
+
+  ///pincode flow
+  @Sendable func register_pincode(
+    request: Auth_RegisterPinCodeReq,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Auth_AuthRes
+
+  @Sendable func verify_pincode(
+    request: Auth_VerifyPinCodeReq,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Auth_AuthRes
+
+  @Sendable func reset_pincode(
+    request: Auth_ResetPinCodeReq,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Auth_AuthRes
+
+  ///end new flow login with srp
+  ///mfa flow
+  @Sendable func validate_otp(
+    request: Auth_MfaValidateOtpRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Auth_AuthRes
+
+  @Sendable func resend_otp(
+    request: Auth_MfaResendOtpReq,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Auth_MfaResendOtpRes
+}
+
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+extension Auth_AuthAsyncProvider {
+  internal static var serviceDescriptor: GRPCServiceDescriptor {
+    return Auth_AuthServerMetadata.serviceDescriptor
+  }
+
+  internal var serviceName: Substring {
+    return Auth_AuthServerMetadata.serviceDescriptor.fullName[...]
+  }
+
+  internal var interceptors: Auth_AuthServerInterceptorFactoryProtocol? {
+    return nil
+  }
+
+  internal func handle(
+    method name: Substring,
+    context: CallHandlerContext
+  ) -> GRPCServerHandlerProtocol? {
+    switch name {
+    case "register_srp":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_RegisterSRPReq>(),
+        responseSerializer: ProtobufSerializer<Auth_RegisterSRPRes>(),
+        interceptors: self.interceptors?.makeregister_srpInterceptors() ?? [],
+        wrapping: self.register_srp(request:context:)
+      )
+
+    case "forgot_password":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_ForgotPasswordReq>(),
+        responseSerializer: ProtobufSerializer<Auth_BaseResponse>(),
+        interceptors: self.interceptors?.makeforgot_passwordInterceptors() ?? [],
+        wrapping: self.forgot_password(request:context:)
+      )
+
+    case "login_challenge":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_AuthChallengeReq>(),
+        responseSerializer: ProtobufSerializer<Auth_AuthChallengeRes>(),
+        interceptors: self.interceptors?.makelogin_challengeInterceptors() ?? [],
+        wrapping: self.login_challenge(request:context:)
+      )
+
+    case "forgot_password_update":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_ForgotPasswordUpdateReq>(),
+        responseSerializer: ProtobufSerializer<Auth_AuthRes>(),
+        interceptors: self.interceptors?.makeforgot_password_updateInterceptors() ?? [],
+        wrapping: self.forgot_password_update(request:context:)
+      )
+
+    case "login_google":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_GoogleLoginReq>(),
+        responseSerializer: ProtobufSerializer<Auth_SocialLoginRes>(),
+        interceptors: self.interceptors?.makelogin_googleInterceptors() ?? [],
+        wrapping: self.login_google(request:context:)
+      )
+
+    case "login_office":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_OfficeLoginReq>(),
+        responseSerializer: ProtobufSerializer<Auth_SocialLoginRes>(),
+        interceptors: self.interceptors?.makelogin_officeInterceptors() ?? [],
+        wrapping: self.login_office(request:context:)
+      )
+
+    case "login_facebook":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_FacebookLoginReq>(),
+        responseSerializer: ProtobufSerializer<Auth_SocialLoginRes>(),
+        interceptors: self.interceptors?.makelogin_facebookInterceptors() ?? [],
+        wrapping: self.login_facebook(request:context:)
+      )
+
+    case "login_apple":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_AppleLoginReq>(),
+        responseSerializer: ProtobufSerializer<Auth_SocialLoginRes>(),
+        interceptors: self.interceptors?.makelogin_appleInterceptors() ?? [],
+        wrapping: self.login_apple(request:context:)
+      )
+
+    case "login_social_challange":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_AuthSocialChallengeReq>(),
+        responseSerializer: ProtobufSerializer<Auth_AuthChallengeRes>(),
+        interceptors: self.interceptors?.makelogin_social_challangeInterceptors() ?? [],
+        wrapping: self.login_social_challange(request:context:)
+      )
+
+    case "login_authenticate":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_AuthenticateReq>(),
+        responseSerializer: ProtobufSerializer<Auth_AuthRes>(),
+        interceptors: self.interceptors?.makelogin_authenticateInterceptors() ?? [],
+        wrapping: self.login_authenticate(request:context:)
+      )
+
+    case "refresh_token":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_RefreshTokenReq>(),
+        responseSerializer: ProtobufSerializer<Auth_RefreshTokenRes>(),
+        interceptors: self.interceptors?.makerefresh_tokenInterceptors() ?? [],
+        wrapping: self.refresh_token(request:context:)
+      )
+
+    case "logout":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_LogoutReq>(),
+        responseSerializer: ProtobufSerializer<Auth_BaseResponse>(),
+        interceptors: self.interceptors?.makelogoutInterceptors() ?? [],
+        wrapping: self.logout(request:context:)
+      )
+
+    case "register_pincode":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_RegisterPinCodeReq>(),
+        responseSerializer: ProtobufSerializer<Auth_AuthRes>(),
+        interceptors: self.interceptors?.makeregister_pincodeInterceptors() ?? [],
+        wrapping: self.register_pincode(request:context:)
+      )
+
+    case "verify_pincode":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_VerifyPinCodeReq>(),
+        responseSerializer: ProtobufSerializer<Auth_AuthRes>(),
+        interceptors: self.interceptors?.makeverify_pincodeInterceptors() ?? [],
+        wrapping: self.verify_pincode(request:context:)
+      )
+
+    case "reset_pincode":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_ResetPinCodeReq>(),
+        responseSerializer: ProtobufSerializer<Auth_AuthRes>(),
+        interceptors: self.interceptors?.makereset_pincodeInterceptors() ?? [],
+        wrapping: self.reset_pincode(request:context:)
+      )
+
+    case "validate_otp":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_MfaValidateOtpRequest>(),
+        responseSerializer: ProtobufSerializer<Auth_AuthRes>(),
+        interceptors: self.interceptors?.makevalidate_otpInterceptors() ?? [],
+        wrapping: self.validate_otp(request:context:)
+      )
+
+    case "resend_otp":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Auth_MfaResendOtpReq>(),
+        responseSerializer: ProtobufSerializer<Auth_MfaResendOtpRes>(),
+        interceptors: self.interceptors?.makeresend_otpInterceptors() ?? [],
+        wrapping: self.resend_otp(request:context:)
+      )
+
+    default:
+      return nil
+    }
+  }
+}
+
+#endif // compiler(>=5.6)
+
 internal protocol Auth_AuthServerInterceptorFactoryProtocol {
 
   /// - Returns: Interceptors to use when handling 'register_srp'.
@@ -716,11 +1739,10 @@ internal protocol Auth_AuthServerInterceptorFactoryProtocol {
   ///   Defaults to calling `self.makeInterceptors()`.
   func makelogin_facebookInterceptors() -> [ServerInterceptor<Auth_FacebookLoginReq, Auth_SocialLoginRes>]
 
-	/// - Returns: Interceptors to use when handling 'login_apple'.
-	///   Defaults to calling `self.makeInterceptors()`.
-	func makelogin_appleInterceptors() -> [ServerInterceptor<Auth_AppleLoginReq, Auth_SocialLoginRes>]
+  /// - Returns: Interceptors to use when handling 'login_apple'.
+  ///   Defaults to calling `self.makeInterceptors()`.
+  func makelogin_appleInterceptors() -> [ServerInterceptor<Auth_AppleLoginReq, Auth_SocialLoginRes>]
 
-	
   /// - Returns: Interceptors to use when handling 'login_social_challange'.
   ///   Defaults to calling `self.makeInterceptors()`.
   func makelogin_social_challangeInterceptors() -> [ServerInterceptor<Auth_AuthSocialChallengeReq, Auth_AuthChallengeRes>]
@@ -728,6 +1750,10 @@ internal protocol Auth_AuthServerInterceptorFactoryProtocol {
   /// - Returns: Interceptors to use when handling 'login_authenticate'.
   ///   Defaults to calling `self.makeInterceptors()`.
   func makelogin_authenticateInterceptors() -> [ServerInterceptor<Auth_AuthenticateReq, Auth_AuthRes>]
+
+  /// - Returns: Interceptors to use when handling 'refresh_token'.
+  ///   Defaults to calling `self.makeInterceptors()`.
+  func makerefresh_tokenInterceptors() -> [ServerInterceptor<Auth_RefreshTokenReq, Auth_RefreshTokenRes>]
 
   /// - Returns: Interceptors to use when handling 'logout'.
   ///   Defaults to calling `self.makeInterceptors()`.
@@ -752,4 +1778,134 @@ internal protocol Auth_AuthServerInterceptorFactoryProtocol {
   /// - Returns: Interceptors to use when handling 'resend_otp'.
   ///   Defaults to calling `self.makeInterceptors()`.
   func makeresend_otpInterceptors() -> [ServerInterceptor<Auth_MfaResendOtpReq, Auth_MfaResendOtpRes>]
+}
+
+internal enum Auth_AuthServerMetadata {
+  internal static let serviceDescriptor = GRPCServiceDescriptor(
+    name: "Auth",
+    fullName: "auth.Auth",
+    methods: [
+      Auth_AuthServerMetadata.Methods.register_srp,
+      Auth_AuthServerMetadata.Methods.forgot_password,
+      Auth_AuthServerMetadata.Methods.login_challenge,
+      Auth_AuthServerMetadata.Methods.forgot_password_update,
+      Auth_AuthServerMetadata.Methods.login_google,
+      Auth_AuthServerMetadata.Methods.login_office,
+      Auth_AuthServerMetadata.Methods.login_facebook,
+      Auth_AuthServerMetadata.Methods.login_apple,
+      Auth_AuthServerMetadata.Methods.login_social_challange,
+      Auth_AuthServerMetadata.Methods.login_authenticate,
+      Auth_AuthServerMetadata.Methods.refresh_token,
+      Auth_AuthServerMetadata.Methods.logout,
+      Auth_AuthServerMetadata.Methods.register_pincode,
+      Auth_AuthServerMetadata.Methods.verify_pincode,
+      Auth_AuthServerMetadata.Methods.reset_pincode,
+      Auth_AuthServerMetadata.Methods.validate_otp,
+      Auth_AuthServerMetadata.Methods.resend_otp,
+    ]
+  )
+
+  internal enum Methods {
+    internal static let register_srp = GRPCMethodDescriptor(
+      name: "register_srp",
+      path: "/auth.Auth/register_srp",
+      type: GRPCCallType.unary
+    )
+
+    internal static let forgot_password = GRPCMethodDescriptor(
+      name: "forgot_password",
+      path: "/auth.Auth/forgot_password",
+      type: GRPCCallType.unary
+    )
+
+    internal static let login_challenge = GRPCMethodDescriptor(
+      name: "login_challenge",
+      path: "/auth.Auth/login_challenge",
+      type: GRPCCallType.unary
+    )
+
+    internal static let forgot_password_update = GRPCMethodDescriptor(
+      name: "forgot_password_update",
+      path: "/auth.Auth/forgot_password_update",
+      type: GRPCCallType.unary
+    )
+
+    internal static let login_google = GRPCMethodDescriptor(
+      name: "login_google",
+      path: "/auth.Auth/login_google",
+      type: GRPCCallType.unary
+    )
+
+    internal static let login_office = GRPCMethodDescriptor(
+      name: "login_office",
+      path: "/auth.Auth/login_office",
+      type: GRPCCallType.unary
+    )
+
+    internal static let login_facebook = GRPCMethodDescriptor(
+      name: "login_facebook",
+      path: "/auth.Auth/login_facebook",
+      type: GRPCCallType.unary
+    )
+
+    internal static let login_apple = GRPCMethodDescriptor(
+      name: "login_apple",
+      path: "/auth.Auth/login_apple",
+      type: GRPCCallType.unary
+    )
+
+    internal static let login_social_challange = GRPCMethodDescriptor(
+      name: "login_social_challange",
+      path: "/auth.Auth/login_social_challange",
+      type: GRPCCallType.unary
+    )
+
+    internal static let login_authenticate = GRPCMethodDescriptor(
+      name: "login_authenticate",
+      path: "/auth.Auth/login_authenticate",
+      type: GRPCCallType.unary
+    )
+
+    internal static let refresh_token = GRPCMethodDescriptor(
+      name: "refresh_token",
+      path: "/auth.Auth/refresh_token",
+      type: GRPCCallType.unary
+    )
+
+    internal static let logout = GRPCMethodDescriptor(
+      name: "logout",
+      path: "/auth.Auth/logout",
+      type: GRPCCallType.unary
+    )
+
+    internal static let register_pincode = GRPCMethodDescriptor(
+      name: "register_pincode",
+      path: "/auth.Auth/register_pincode",
+      type: GRPCCallType.unary
+    )
+
+    internal static let verify_pincode = GRPCMethodDescriptor(
+      name: "verify_pincode",
+      path: "/auth.Auth/verify_pincode",
+      type: GRPCCallType.unary
+    )
+
+    internal static let reset_pincode = GRPCMethodDescriptor(
+      name: "reset_pincode",
+      path: "/auth.Auth/reset_pincode",
+      type: GRPCCallType.unary
+    )
+
+    internal static let validate_otp = GRPCMethodDescriptor(
+      name: "validate_otp",
+      path: "/auth.Auth/validate_otp",
+      type: GRPCCallType.unary
+    )
+
+    internal static let resend_otp = GRPCMethodDescriptor(
+      name: "resend_otp",
+      path: "/auth.Auth/resend_otp",
+      type: GRPCCallType.unary
+    )
+  }
 }

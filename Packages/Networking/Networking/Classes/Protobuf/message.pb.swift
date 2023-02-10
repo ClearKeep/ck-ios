@@ -267,6 +267,22 @@ public struct Message_EditMessageRequest {
   public init() {}
 }
 
+#if swift(>=5.5) && canImport(_Concurrency)
+extension Message_MessageObjectResponse: @unchecked Sendable {}
+extension Message_ClientReadObject: @unchecked Sendable {}
+extension Message_BaseResponse: @unchecked Sendable {}
+extension Message_GetMessagesInGroupRequest: @unchecked Sendable {}
+extension Message_WorkspaceGetMessagesInGroupRequest: @unchecked Sendable {}
+extension Message_GetMessagesInGroupResponse: @unchecked Sendable {}
+extension Message_PublishRequest: @unchecked Sendable {}
+extension Message_WorkspacePublishRequest: @unchecked Sendable {}
+extension Message_SubscribeRequest: @unchecked Sendable {}
+extension Message_UnSubscribeRequest: @unchecked Sendable {}
+extension Message_ListenRequest: @unchecked Sendable {}
+extension Message_ReadMessagesRequest: @unchecked Sendable {}
+extension Message_EditMessageRequest: @unchecked Sendable {}
+#endif  // swift(>=5.5) && canImport(_Concurrency)
+
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "message"
