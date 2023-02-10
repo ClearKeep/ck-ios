@@ -132,6 +132,17 @@ public struct Note_GetUserNotesResponse {
   public init() {}
 }
 
+#if swift(>=5.5) && canImport(_Concurrency)
+extension Note_BaseResponse: @unchecked Sendable {}
+extension Note_CreateNoteRequest: @unchecked Sendable {}
+extension Note_EditNoteRequest: @unchecked Sendable {}
+extension Note_DeleteNoteRequest: @unchecked Sendable {}
+extension Note_Empty: @unchecked Sendable {}
+extension Note_UserNoteResponse: @unchecked Sendable {}
+extension Note_GetUserNotesRequest: @unchecked Sendable {}
+extension Note_GetUserNotesResponse: @unchecked Sendable {}
+#endif  // swift(>=5.5) && canImport(_Concurrency)
+
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "note"

@@ -91,21 +91,20 @@ extension SocialAuthenticationService: ISocialAuthenticationService {
 	
 	public func signInWithGoogle(domain: String) async -> Result<Auth_SocialLoginRes, Error> {
 		Self.userAppleId = ""
-        guard let topViewController = await UIApplication.shared.topMostViewController() else {
-//			  let googleSignInConfiguration = googleSignInConfiguration else {
+		guard let topViewController = await UIApplication.shared.topMostViewController() else {
 			return .failure(ServerError.unknown)
 		}
 
-        let result: Result<String, Error> = await withCheckedContinuation({ continuation in
-            DispatchQueue.main.async {
-                GIDSignIn.sharedInstance.signIn(withPresenting: topViewController) { result, error in
-                    if let error = error { return continuation.resume(returning: .failure(error)) }
-                    guard let idToken = result?.user.idToken?.tokenString else { return continuation.resume(returning: .failure(ServerError.unknown)) }
+		let result: Result<String, Error> = await withCheckedContinuation({ continuation in
+			DispatchQueue.main.async {
+				GIDSignIn.sharedInstance.signIn(withPresenting: topViewController) { result, error in
+					if let error = error { return continuation.resume(returning: .failure(error)) }
+					guard let idToken = result?.user.idToken?.tokenString else { return continuation.resume(returning: .failure(ServerError.unknown)) }
 
-                    return continuation.resume(returning: .success(idToken))
-                }
-            }
-        })
+					return continuation.resume(returning: .success(idToken))
+				}
+			}
+		})
 
 		switch result {
 		case .success(let idToken):

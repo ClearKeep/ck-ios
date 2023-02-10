@@ -22,6 +22,7 @@
 //
 import GRPC
 import NIO
+import NIOConcurrencyHelpers
 import SwiftProtobuf
 
 
@@ -69,7 +70,7 @@ extension Note_NoteClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Note_CreateNoteRequest, Note_UserNoteResponse> {
     return self.makeUnaryCall(
-      path: "/note.Note/create_note",
+      path: Note_NoteClientMetadata.Methods.create_note.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makecreate_noteInterceptors() ?? []
@@ -87,7 +88,7 @@ extension Note_NoteClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Note_EditNoteRequest, Note_BaseResponse> {
     return self.makeUnaryCall(
-      path: "/note.Note/edit_note",
+      path: Note_NoteClientMetadata.Methods.edit_note.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeedit_noteInterceptors() ?? []
@@ -105,7 +106,7 @@ extension Note_NoteClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Note_DeleteNoteRequest, Note_BaseResponse> {
     return self.makeUnaryCall(
-      path: "/note.Note/delete_note",
+      path: Note_NoteClientMetadata.Methods.delete_note.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makedelete_noteInterceptors() ?? []
@@ -123,7 +124,7 @@ extension Note_NoteClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Note_GetUserNotesRequest, Note_GetUserNotesResponse> {
     return self.makeUnaryCall(
-      path: "/note.Note/get_user_notes",
+      path: Note_NoteClientMetadata.Methods.get_user_notes.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeget_user_notesInterceptors() ?? []
@@ -131,23 +132,45 @@ extension Note_NoteClientProtocol {
   }
 }
 
-internal protocol Note_NoteClientInterceptorFactoryProtocol {
+#if compiler(>=5.6)
+@available(*, deprecated)
+extension Note_NoteClient: @unchecked Sendable {}
+#endif // compiler(>=5.6)
 
-  /// - Returns: Interceptors to use when invoking 'create_note'.
-  func makecreate_noteInterceptors() -> [ClientInterceptor<Note_CreateNoteRequest, Note_UserNoteResponse>]
+@available(*, deprecated, renamed: "Note_NoteNIOClient")
+internal final class Note_NoteClient: Note_NoteClientProtocol {
+  private let lock = Lock()
+  private var _defaultCallOptions: CallOptions
+  private var _interceptors: Note_NoteClientInterceptorFactoryProtocol?
+  internal let channel: GRPCChannel
+  internal var defaultCallOptions: CallOptions {
+    get { self.lock.withLock { return self._defaultCallOptions } }
+    set { self.lock.withLockVoid { self._defaultCallOptions = newValue } }
+  }
+  internal var interceptors: Note_NoteClientInterceptorFactoryProtocol? {
+    get { self.lock.withLock { return self._interceptors } }
+    set { self.lock.withLockVoid { self._interceptors = newValue } }
+  }
 
-  /// - Returns: Interceptors to use when invoking 'edit_note'.
-  func makeedit_noteInterceptors() -> [ClientInterceptor<Note_EditNoteRequest, Note_BaseResponse>]
-
-  /// - Returns: Interceptors to use when invoking 'delete_note'.
-  func makedelete_noteInterceptors() -> [ClientInterceptor<Note_DeleteNoteRequest, Note_BaseResponse>]
-
-  /// - Returns: Interceptors to use when invoking 'get_user_notes'.
-  func makeget_user_notesInterceptors() -> [ClientInterceptor<Note_GetUserNotesRequest, Note_GetUserNotesResponse>]
+  /// Creates a client for the note.Note service.
+  ///
+  /// - Parameters:
+  ///   - channel: `GRPCChannel` to the service host.
+  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
+  ///   - interceptors: A factory providing interceptors for each RPC.
+  internal init(
+    channel: GRPCChannel,
+    defaultCallOptions: CallOptions = CallOptions(),
+    interceptors: Note_NoteClientInterceptorFactoryProtocol? = nil
+  ) {
+    self.channel = channel
+    self._defaultCallOptions = defaultCallOptions
+    self._interceptors = interceptors
+  }
 }
 
-internal final class Note_NoteClient: Note_NoteClientProtocol {
-  internal let channel: GRPCChannel
+internal struct Note_NoteNIOClient: Note_NoteClientProtocol {
+  internal var channel: GRPCChannel
   internal var defaultCallOptions: CallOptions
   internal var interceptors: Note_NoteClientInterceptorFactoryProtocol?
 
@@ -168,6 +191,217 @@ internal final class Note_NoteClient: Note_NoteClientProtocol {
   }
 }
 
+#if compiler(>=5.6)
+/// gRPC methods
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+internal protocol Note_NoteAsyncClientProtocol: GRPCClient {
+  static var serviceDescriptor: GRPCServiceDescriptor { get }
+  var interceptors: Note_NoteClientInterceptorFactoryProtocol? { get }
+
+  func makeCreateNoteCall(
+    _ request: Note_CreateNoteRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Note_CreateNoteRequest, Note_UserNoteResponse>
+
+  func makeEditNoteCall(
+    _ request: Note_EditNoteRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Note_EditNoteRequest, Note_BaseResponse>
+
+  func makeDeleteNoteCall(
+    _ request: Note_DeleteNoteRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Note_DeleteNoteRequest, Note_BaseResponse>
+
+  func makeGetUserNotesCall(
+    _ request: Note_GetUserNotesRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Note_GetUserNotesRequest, Note_GetUserNotesResponse>
+}
+
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+extension Note_NoteAsyncClientProtocol {
+  internal static var serviceDescriptor: GRPCServiceDescriptor {
+    return Note_NoteClientMetadata.serviceDescriptor
+  }
+
+  internal var interceptors: Note_NoteClientInterceptorFactoryProtocol? {
+    return nil
+  }
+
+  internal func makeCreateNoteCall(
+    _ request: Note_CreateNoteRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Note_CreateNoteRequest, Note_UserNoteResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Note_NoteClientMetadata.Methods.create_note.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makecreate_noteInterceptors() ?? []
+    )
+  }
+
+  internal func makeEditNoteCall(
+    _ request: Note_EditNoteRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Note_EditNoteRequest, Note_BaseResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Note_NoteClientMetadata.Methods.edit_note.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeedit_noteInterceptors() ?? []
+    )
+  }
+
+  internal func makeDeleteNoteCall(
+    _ request: Note_DeleteNoteRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Note_DeleteNoteRequest, Note_BaseResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Note_NoteClientMetadata.Methods.delete_note.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makedelete_noteInterceptors() ?? []
+    )
+  }
+
+  internal func makeGetUserNotesCall(
+    _ request: Note_GetUserNotesRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Note_GetUserNotesRequest, Note_GetUserNotesResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Note_NoteClientMetadata.Methods.get_user_notes.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeget_user_notesInterceptors() ?? []
+    )
+  }
+}
+
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+extension Note_NoteAsyncClientProtocol {
+  internal func create_note(
+    _ request: Note_CreateNoteRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Note_UserNoteResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Note_NoteClientMetadata.Methods.create_note.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makecreate_noteInterceptors() ?? []
+    )
+  }
+
+  internal func edit_note(
+    _ request: Note_EditNoteRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Note_BaseResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Note_NoteClientMetadata.Methods.edit_note.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeedit_noteInterceptors() ?? []
+    )
+  }
+
+  internal func delete_note(
+    _ request: Note_DeleteNoteRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Note_BaseResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Note_NoteClientMetadata.Methods.delete_note.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makedelete_noteInterceptors() ?? []
+    )
+  }
+
+  internal func get_user_notes(
+    _ request: Note_GetUserNotesRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Note_GetUserNotesResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Note_NoteClientMetadata.Methods.get_user_notes.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeget_user_notesInterceptors() ?? []
+    )
+  }
+}
+
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+internal struct Note_NoteAsyncClient: Note_NoteAsyncClientProtocol {
+  internal var channel: GRPCChannel
+  internal var defaultCallOptions: CallOptions
+  internal var interceptors: Note_NoteClientInterceptorFactoryProtocol?
+
+  internal init(
+    channel: GRPCChannel,
+    defaultCallOptions: CallOptions = CallOptions(),
+    interceptors: Note_NoteClientInterceptorFactoryProtocol? = nil
+  ) {
+    self.channel = channel
+    self.defaultCallOptions = defaultCallOptions
+    self.interceptors = interceptors
+  }
+}
+
+#endif // compiler(>=5.6)
+
+internal protocol Note_NoteClientInterceptorFactoryProtocol: GRPCSendable {
+
+  /// - Returns: Interceptors to use when invoking 'create_note'.
+  func makecreate_noteInterceptors() -> [ClientInterceptor<Note_CreateNoteRequest, Note_UserNoteResponse>]
+
+  /// - Returns: Interceptors to use when invoking 'edit_note'.
+  func makeedit_noteInterceptors() -> [ClientInterceptor<Note_EditNoteRequest, Note_BaseResponse>]
+
+  /// - Returns: Interceptors to use when invoking 'delete_note'.
+  func makedelete_noteInterceptors() -> [ClientInterceptor<Note_DeleteNoteRequest, Note_BaseResponse>]
+
+  /// - Returns: Interceptors to use when invoking 'get_user_notes'.
+  func makeget_user_notesInterceptors() -> [ClientInterceptor<Note_GetUserNotesRequest, Note_GetUserNotesResponse>]
+}
+
+internal enum Note_NoteClientMetadata {
+  internal static let serviceDescriptor = GRPCServiceDescriptor(
+    name: "Note",
+    fullName: "note.Note",
+    methods: [
+      Note_NoteClientMetadata.Methods.create_note,
+      Note_NoteClientMetadata.Methods.edit_note,
+      Note_NoteClientMetadata.Methods.delete_note,
+      Note_NoteClientMetadata.Methods.get_user_notes,
+    ]
+  )
+
+  internal enum Methods {
+    internal static let create_note = GRPCMethodDescriptor(
+      name: "create_note",
+      path: "/note.Note/create_note",
+      type: GRPCCallType.unary
+    )
+
+    internal static let edit_note = GRPCMethodDescriptor(
+      name: "edit_note",
+      path: "/note.Note/edit_note",
+      type: GRPCCallType.unary
+    )
+
+    internal static let delete_note = GRPCMethodDescriptor(
+      name: "delete_note",
+      path: "/note.Note/delete_note",
+      type: GRPCCallType.unary
+    )
+
+    internal static let get_user_notes = GRPCMethodDescriptor(
+      name: "get_user_notes",
+      path: "/note.Note/get_user_notes",
+      type: GRPCCallType.unary
+    )
+  }
+}
+
 /// gRPC methods
 ///
 /// To build a server, implement a class that conforms to this protocol.
@@ -184,7 +418,9 @@ internal protocol Note_NoteProvider: CallHandlerProvider {
 }
 
 extension Note_NoteProvider {
-  internal var serviceName: Substring { return "note.Note" }
+  internal var serviceName: Substring {
+    return Note_NoteServerMetadata.serviceDescriptor.fullName[...]
+  }
 
   /// Determines, calls and returns the appropriate request handler, depending on the request's method.
   /// Returns nil for methods not handled by this service.
@@ -235,6 +471,100 @@ extension Note_NoteProvider {
   }
 }
 
+#if compiler(>=5.6)
+
+/// gRPC methods
+///
+/// To implement a server, implement an object which conforms to this protocol.
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+internal protocol Note_NoteAsyncProvider: CallHandlerProvider {
+  static var serviceDescriptor: GRPCServiceDescriptor { get }
+  var interceptors: Note_NoteServerInterceptorFactoryProtocol? { get }
+
+  @Sendable func create_note(
+    request: Note_CreateNoteRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Note_UserNoteResponse
+
+  @Sendable func edit_note(
+    request: Note_EditNoteRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Note_BaseResponse
+
+  @Sendable func delete_note(
+    request: Note_DeleteNoteRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Note_BaseResponse
+
+  @Sendable func get_user_notes(
+    request: Note_GetUserNotesRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Note_GetUserNotesResponse
+}
+
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+extension Note_NoteAsyncProvider {
+  internal static var serviceDescriptor: GRPCServiceDescriptor {
+    return Note_NoteServerMetadata.serviceDescriptor
+  }
+
+  internal var serviceName: Substring {
+    return Note_NoteServerMetadata.serviceDescriptor.fullName[...]
+  }
+
+  internal var interceptors: Note_NoteServerInterceptorFactoryProtocol? {
+    return nil
+  }
+
+  internal func handle(
+    method name: Substring,
+    context: CallHandlerContext
+  ) -> GRPCServerHandlerProtocol? {
+    switch name {
+    case "create_note":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Note_CreateNoteRequest>(),
+        responseSerializer: ProtobufSerializer<Note_UserNoteResponse>(),
+        interceptors: self.interceptors?.makecreate_noteInterceptors() ?? [],
+        wrapping: self.create_note(request:context:)
+      )
+
+    case "edit_note":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Note_EditNoteRequest>(),
+        responseSerializer: ProtobufSerializer<Note_BaseResponse>(),
+        interceptors: self.interceptors?.makeedit_noteInterceptors() ?? [],
+        wrapping: self.edit_note(request:context:)
+      )
+
+    case "delete_note":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Note_DeleteNoteRequest>(),
+        responseSerializer: ProtobufSerializer<Note_BaseResponse>(),
+        interceptors: self.interceptors?.makedelete_noteInterceptors() ?? [],
+        wrapping: self.delete_note(request:context:)
+      )
+
+    case "get_user_notes":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Note_GetUserNotesRequest>(),
+        responseSerializer: ProtobufSerializer<Note_GetUserNotesResponse>(),
+        interceptors: self.interceptors?.makeget_user_notesInterceptors() ?? [],
+        wrapping: self.get_user_notes(request:context:)
+      )
+
+    default:
+      return nil
+    }
+  }
+}
+
+#endif // compiler(>=5.6)
+
 internal protocol Note_NoteServerInterceptorFactoryProtocol {
 
   /// - Returns: Interceptors to use when handling 'create_note'.
@@ -252,4 +582,43 @@ internal protocol Note_NoteServerInterceptorFactoryProtocol {
   /// - Returns: Interceptors to use when handling 'get_user_notes'.
   ///   Defaults to calling `self.makeInterceptors()`.
   func makeget_user_notesInterceptors() -> [ServerInterceptor<Note_GetUserNotesRequest, Note_GetUserNotesResponse>]
+}
+
+internal enum Note_NoteServerMetadata {
+  internal static let serviceDescriptor = GRPCServiceDescriptor(
+    name: "Note",
+    fullName: "note.Note",
+    methods: [
+      Note_NoteServerMetadata.Methods.create_note,
+      Note_NoteServerMetadata.Methods.edit_note,
+      Note_NoteServerMetadata.Methods.delete_note,
+      Note_NoteServerMetadata.Methods.get_user_notes,
+    ]
+  )
+
+  internal enum Methods {
+    internal static let create_note = GRPCMethodDescriptor(
+      name: "create_note",
+      path: "/note.Note/create_note",
+      type: GRPCCallType.unary
+    )
+
+    internal static let edit_note = GRPCMethodDescriptor(
+      name: "edit_note",
+      path: "/note.Note/edit_note",
+      type: GRPCCallType.unary
+    )
+
+    internal static let delete_note = GRPCMethodDescriptor(
+      name: "delete_note",
+      path: "/note.Note/delete_note",
+      type: GRPCCallType.unary
+    )
+
+    internal static let get_user_notes = GRPCMethodDescriptor(
+      name: "get_user_notes",
+      path: "/note.Note/get_user_notes",
+      type: GRPCCallType.unary
+    )
+  }
 }
