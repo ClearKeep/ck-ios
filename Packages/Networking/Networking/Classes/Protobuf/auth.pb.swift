@@ -396,17 +396,17 @@ public struct Auth_FacebookLoginReq {
 }
 
 public struct Auth_AppleLoginReq {
-	// SwiftProtobuf.Message conformance is added in an extension below. See the
-	// `Message` and `Message+*Additions` files in the SwiftProtobuf library for
-	// methods supported on all messages.
-	
-	public var idToken: String = String()
-	
-	public var endUserEnv: String = String()
-	
-	public  var unknownFields = SwiftProtobuf.UnknownStorage()
-	
-	public init() {}
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var idToken: String = String()
+
+  public var endUserEnv: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
 }
 
 public struct Auth_SocialLoginRes {
@@ -690,6 +690,74 @@ public struct Auth_RegisterSRPRes {
 
   public init() {}
 }
+
+public struct Auth_RefreshTokenReq {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var refreshToken: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public struct Auth_RefreshTokenRes {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var accessToken: String = String()
+
+  public var expiresIn: Int64 = 0
+
+  public var refreshExpiresIn: Int64 = 0
+
+  public var refreshToken: String = String()
+
+  public var tokenType: String = String()
+
+  public var sessionState: String = String()
+
+  public var scope: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+#if swift(>=5.5) && canImport(_Concurrency)
+extension Auth_BaseResponse: @unchecked Sendable {}
+extension Auth_PeerRegisterClientKeyRequest: @unchecked Sendable {}
+extension Auth_PeerGetClientKeyResponse: @unchecked Sendable {}
+extension Auth_AuthReq: @unchecked Sendable {}
+extension Auth_LogoutReq: @unchecked Sendable {}
+extension Auth_ForgotPasswordReq: @unchecked Sendable {}
+extension Auth_ForgotPasswordUpdateReq: @unchecked Sendable {}
+extension Auth_AuthRes: @unchecked Sendable {}
+extension Auth_RegisterReq: @unchecked Sendable {}
+extension Auth_RegisterRes: @unchecked Sendable {}
+extension Auth_GoogleLoginReq: @unchecked Sendable {}
+extension Auth_OfficeLoginReq: @unchecked Sendable {}
+extension Auth_FacebookLoginReq: @unchecked Sendable {}
+extension Auth_AppleLoginReq: @unchecked Sendable {}
+extension Auth_SocialLoginRes: @unchecked Sendable {}
+extension Auth_RegisterPinCodeReq: @unchecked Sendable {}
+extension Auth_VerifyPinCodeReq: @unchecked Sendable {}
+extension Auth_ResetPinCodeReq: @unchecked Sendable {}
+extension Auth_MfaValidateOtpRequest: @unchecked Sendable {}
+extension Auth_MfaResendOtpReq: @unchecked Sendable {}
+extension Auth_MfaResendOtpRes: @unchecked Sendable {}
+extension Auth_AuthChallengeReq: @unchecked Sendable {}
+extension Auth_AuthSocialChallengeReq: @unchecked Sendable {}
+extension Auth_AuthChallengeRes: @unchecked Sendable {}
+extension Auth_AuthenticateReq: @unchecked Sendable {}
+extension Auth_RegisterSRPReq: @unchecked Sendable {}
+extension Auth_RegisterSRPRes: @unchecked Sendable {}
+extension Auth_RefreshTokenReq: @unchecked Sendable {}
+extension Auth_RefreshTokenRes: @unchecked Sendable {}
+#endif  // swift(>=5.5) && canImport(_Concurrency)
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
@@ -1568,40 +1636,40 @@ extension Auth_FacebookLoginReq: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
 }
 
 extension Auth_AppleLoginReq: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-	public static let protoMessageName: String = _protobuf_package + ".AppleLoginReq"
-	public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-	1: .standard(proto: "id_token"),
-	2: .standard(proto: "end_user_env"),
+  public static let protoMessageName: String = _protobuf_package + ".AppleLoginReq"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "id_token"),
+    2: .standard(proto: "end_user_env"),
   ]
 
-	public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-	while let fieldNumber = try decoder.nextFieldNumber() {
-	  // The use of inline closures is to circumvent an issue where the compiler
-	  // allocates stack space for every case branch when no optimizations are
-	  // enabled. https://github.com/apple/swift-protobuf/issues/1034
-	  switch fieldNumber {
-	  case 1: try { try decoder.decodeSingularStringField(value: &self.idToken) }()
-	  case 2: try { try decoder.decodeSingularStringField(value: &self.endUserEnv) }()
-	  default: break
-	  }
-	}
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.idToken) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.endUserEnv) }()
+      default: break
+      }
+    }
   }
 
-	public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-	if !self.idToken.isEmpty {
-	  try visitor.visitSingularStringField(value: self.idToken, fieldNumber: 1)
-	}
-	if !self.endUserEnv.isEmpty {
-	  try visitor.visitSingularStringField(value: self.endUserEnv, fieldNumber: 2)
-	}
-	try unknownFields.traverse(visitor: &visitor)
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.idToken.isEmpty {
+      try visitor.visitSingularStringField(value: self.idToken, fieldNumber: 1)
+    }
+    if !self.endUserEnv.isEmpty {
+      try visitor.visitSingularStringField(value: self.endUserEnv, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
   }
 
-	public static func ==(lhs: Auth_AppleLoginReq, rhs: Auth_AppleLoginReq) -> Bool {
-	if lhs.idToken != rhs.idToken {return false}
-	if lhs.endUserEnv != rhs.endUserEnv {return false}
-	if lhs.unknownFields != rhs.unknownFields {return false}
-	return true
+  public static func ==(lhs: Auth_AppleLoginReq, rhs: Auth_AppleLoginReq) -> Bool {
+    if lhs.idToken != rhs.idToken {return false}
+    if lhs.endUserEnv != rhs.endUserEnv {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
   }
 }
 
@@ -2270,6 +2338,106 @@ extension Auth_RegisterSRPRes: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
 
   public static func ==(lhs: Auth_RegisterSRPRes, rhs: Auth_RegisterSRPRes) -> Bool {
     if lhs.error != rhs.error {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Auth_RefreshTokenReq: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".RefreshTokenReq"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "refresh_token"),
+  ]
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.refreshToken) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.refreshToken.isEmpty {
+      try visitor.visitSingularStringField(value: self.refreshToken, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Auth_RefreshTokenReq, rhs: Auth_RefreshTokenReq) -> Bool {
+    if lhs.refreshToken != rhs.refreshToken {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Auth_RefreshTokenRes: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".RefreshTokenRes"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "access_token"),
+    2: .standard(proto: "expires_in"),
+    3: .standard(proto: "refresh_expires_in"),
+    4: .standard(proto: "refresh_token"),
+    5: .standard(proto: "token_type"),
+    6: .standard(proto: "session_state"),
+    7: .same(proto: "scope"),
+  ]
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.accessToken) }()
+      case 2: try { try decoder.decodeSingularInt64Field(value: &self.expiresIn) }()
+      case 3: try { try decoder.decodeSingularInt64Field(value: &self.refreshExpiresIn) }()
+      case 4: try { try decoder.decodeSingularStringField(value: &self.refreshToken) }()
+      case 5: try { try decoder.decodeSingularStringField(value: &self.tokenType) }()
+      case 6: try { try decoder.decodeSingularStringField(value: &self.sessionState) }()
+      case 7: try { try decoder.decodeSingularStringField(value: &self.scope) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.accessToken.isEmpty {
+      try visitor.visitSingularStringField(value: self.accessToken, fieldNumber: 1)
+    }
+    if self.expiresIn != 0 {
+      try visitor.visitSingularInt64Field(value: self.expiresIn, fieldNumber: 2)
+    }
+    if self.refreshExpiresIn != 0 {
+      try visitor.visitSingularInt64Field(value: self.refreshExpiresIn, fieldNumber: 3)
+    }
+    if !self.refreshToken.isEmpty {
+      try visitor.visitSingularStringField(value: self.refreshToken, fieldNumber: 4)
+    }
+    if !self.tokenType.isEmpty {
+      try visitor.visitSingularStringField(value: self.tokenType, fieldNumber: 5)
+    }
+    if !self.sessionState.isEmpty {
+      try visitor.visitSingularStringField(value: self.sessionState, fieldNumber: 6)
+    }
+    if !self.scope.isEmpty {
+      try visitor.visitSingularStringField(value: self.scope, fieldNumber: 7)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Auth_RefreshTokenRes, rhs: Auth_RefreshTokenRes) -> Bool {
+    if lhs.accessToken != rhs.accessToken {return false}
+    if lhs.expiresIn != rhs.expiresIn {return false}
+    if lhs.refreshExpiresIn != rhs.refreshExpiresIn {return false}
+    if lhs.refreshToken != rhs.refreshToken {return false}
+    if lhs.tokenType != rhs.tokenType {return false}
+    if lhs.sessionState != rhs.sessionState {return false}
+    if lhs.scope != rhs.scope {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

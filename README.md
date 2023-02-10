@@ -9,18 +9,6 @@ iOS client with end to end encryption messaging
 * Ruby: 3.2.0
 
 ## Build & Run
-### Clone source from github
-<!-- ### Generate and import protos
-1. Get protos from https://github.com/ClearKeep/ck-backend/tree/master/protos
-2. Install swift-protobuf and Grpc-Swift
-   ```brew install brew install swift-protobuf grpc-swift```
-3. Generate pb.swift and grpc.swift 
-   ```
-   mkdir Protobuf
-   protoc --grpc-swift_out=Protobuf/ --swift_out=proto/ *.proto
-   ```
-4. Copy folder to Packages/ChatServices -->
-
 ### Install rust
 1. brew install rustup
 2. rustup-init
@@ -39,3 +27,13 @@ rustup +nightly-2021-09-16 component add rust-src
 
 #### Then run pod install
 
+### Generate and import protos
+1. Get protos from https://github.com/ClearKeep/ck-backend/tree/master/protos
+2. Install swift-protobuf and Grpc-Swift
+   ```brew install brew install swift-protobuf grpc-swift```
+3. Generate pb.swift and grpc.swift 
+   ```
+   mkdir Protobuf
+   protoc --grpc-swift_out=Protobuf/ --swift_out=proto/ *.proto
+   ```
+4. Copy folder to Packages/ChatServices

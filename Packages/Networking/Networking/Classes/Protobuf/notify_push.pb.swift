@@ -31,6 +31,8 @@ public struct NotifyPush_RegisterTokenRequest {
 
   public var token: String = String()
 
+  public var endUserEnv: String = String()
+
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
   public init() {}
@@ -82,6 +84,13 @@ public struct NotifyPush_PushVoipRequest {
   public init() {}
 }
 
+#if swift(>=5.5) && canImport(_Concurrency)
+extension NotifyPush_RegisterTokenRequest: @unchecked Sendable {}
+extension NotifyPush_BaseResponse: @unchecked Sendable {}
+extension NotifyPush_PushTextRequest: @unchecked Sendable {}
+extension NotifyPush_PushVoipRequest: @unchecked Sendable {}
+#endif  // swift(>=5.5) && canImport(_Concurrency)
+
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "notify_push"
@@ -92,6 +101,7 @@ extension NotifyPush_RegisterTokenRequest: SwiftProtobuf.Message, SwiftProtobuf.
     1: .standard(proto: "device_id"),
     2: .standard(proto: "device_type"),
     3: .same(proto: "token"),
+    4: .standard(proto: "end_user_env"),
   ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -103,6 +113,7 @@ extension NotifyPush_RegisterTokenRequest: SwiftProtobuf.Message, SwiftProtobuf.
       case 1: try { try decoder.decodeSingularStringField(value: &self.deviceID) }()
       case 2: try { try decoder.decodeSingularStringField(value: &self.deviceType) }()
       case 3: try { try decoder.decodeSingularStringField(value: &self.token) }()
+      case 4: try { try decoder.decodeSingularStringField(value: &self.endUserEnv) }()
       default: break
       }
     }
@@ -118,6 +129,9 @@ extension NotifyPush_RegisterTokenRequest: SwiftProtobuf.Message, SwiftProtobuf.
     if !self.token.isEmpty {
       try visitor.visitSingularStringField(value: self.token, fieldNumber: 3)
     }
+    if !self.endUserEnv.isEmpty {
+      try visitor.visitSingularStringField(value: self.endUserEnv, fieldNumber: 4)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -125,6 +139,7 @@ extension NotifyPush_RegisterTokenRequest: SwiftProtobuf.Message, SwiftProtobuf.
     if lhs.deviceID != rhs.deviceID {return false}
     if lhs.deviceType != rhs.deviceType {return false}
     if lhs.token != rhs.token {return false}
+    if lhs.endUserEnv != rhs.endUserEnv {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

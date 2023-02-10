@@ -22,6 +22,7 @@
 //
 import GRPC
 import NIO
+import NIOConcurrencyHelpers
 import SwiftProtobuf
 
 
@@ -75,7 +76,7 @@ extension Notification_NotifyClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Notification_ReadNotifyRequest, Notification_BaseResponse> {
     return self.makeUnaryCall(
-      path: "/notification.Notify/read_notify",
+      path: Notification_NotifyClientMetadata.Methods.read_notify.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeread_notifyInterceptors() ?? []
@@ -93,7 +94,7 @@ extension Notification_NotifyClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Notification_Empty, Notification_GetNotifiesResponse> {
     return self.makeUnaryCall(
-      path: "/notification.Notify/get_unread_notifies",
+      path: Notification_NotifyClientMetadata.Methods.get_unread_notifies.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeget_unread_notifiesInterceptors() ?? []
@@ -111,7 +112,7 @@ extension Notification_NotifyClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Notification_SubscribeRequest, Notification_BaseResponse> {
     return self.makeUnaryCall(
-      path: "/notification.Notify/subscribe",
+      path: Notification_NotifyClientMetadata.Methods.subscribe.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makesubscribeInterceptors() ?? []
@@ -129,7 +130,7 @@ extension Notification_NotifyClientProtocol {
     callOptions: CallOptions? = nil
   ) -> UnaryCall<Notification_UnSubscribeRequest, Notification_BaseResponse> {
     return self.makeUnaryCall(
-      path: "/notification.Notify/un_subscribe",
+      path: Notification_NotifyClientMetadata.Methods.un_subscribe.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makeun_subscribeInterceptors() ?? []
@@ -149,7 +150,7 @@ extension Notification_NotifyClientProtocol {
     handler: @escaping (Notification_NotifyObjectResponse) -> Void
   ) -> ServerStreamingCall<Notification_ListenRequest, Notification_NotifyObjectResponse> {
     return self.makeServerStreamingCall(
-      path: "/notification.Notify/listen",
+      path: Notification_NotifyClientMetadata.Methods.listen.path,
       request: request,
       callOptions: callOptions ?? self.defaultCallOptions,
       interceptors: self.interceptors?.makelistenInterceptors() ?? [],
@@ -158,26 +159,45 @@ extension Notification_NotifyClientProtocol {
   }
 }
 
-internal protocol Notification_NotifyClientInterceptorFactoryProtocol {
+#if compiler(>=5.6)
+@available(*, deprecated)
+extension Notification_NotifyClient: @unchecked Sendable {}
+#endif // compiler(>=5.6)
 
-  /// - Returns: Interceptors to use when invoking 'read_notify'.
-  func makeread_notifyInterceptors() -> [ClientInterceptor<Notification_ReadNotifyRequest, Notification_BaseResponse>]
+@available(*, deprecated, renamed: "Notification_NotifyNIOClient")
+internal final class Notification_NotifyClient: Notification_NotifyClientProtocol {
+  private let lock = Lock()
+  private var _defaultCallOptions: CallOptions
+  private var _interceptors: Notification_NotifyClientInterceptorFactoryProtocol?
+  internal let channel: GRPCChannel
+  internal var defaultCallOptions: CallOptions {
+    get { self.lock.withLock { return self._defaultCallOptions } }
+    set { self.lock.withLockVoid { self._defaultCallOptions = newValue } }
+  }
+  internal var interceptors: Notification_NotifyClientInterceptorFactoryProtocol? {
+    get { self.lock.withLock { return self._interceptors } }
+    set { self.lock.withLockVoid { self._interceptors = newValue } }
+  }
 
-  /// - Returns: Interceptors to use when invoking 'get_unread_notifies'.
-  func makeget_unread_notifiesInterceptors() -> [ClientInterceptor<Notification_Empty, Notification_GetNotifiesResponse>]
-
-  /// - Returns: Interceptors to use when invoking 'subscribe'.
-  func makesubscribeInterceptors() -> [ClientInterceptor<Notification_SubscribeRequest, Notification_BaseResponse>]
-
-  /// - Returns: Interceptors to use when invoking 'un_subscribe'.
-  func makeun_subscribeInterceptors() -> [ClientInterceptor<Notification_UnSubscribeRequest, Notification_BaseResponse>]
-
-  /// - Returns: Interceptors to use when invoking 'listen'.
-  func makelistenInterceptors() -> [ClientInterceptor<Notification_ListenRequest, Notification_NotifyObjectResponse>]
+  /// Creates a client for the notification.Notify service.
+  ///
+  /// - Parameters:
+  ///   - channel: `GRPCChannel` to the service host.
+  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
+  ///   - interceptors: A factory providing interceptors for each RPC.
+  internal init(
+    channel: GRPCChannel,
+    defaultCallOptions: CallOptions = CallOptions(),
+    interceptors: Notification_NotifyClientInterceptorFactoryProtocol? = nil
+  ) {
+    self.channel = channel
+    self._defaultCallOptions = defaultCallOptions
+    self._interceptors = interceptors
+  }
 }
 
-internal final class Notification_NotifyClient: Notification_NotifyClientProtocol {
-  internal let channel: GRPCChannel
+internal struct Notification_NotifyNIOClient: Notification_NotifyClientProtocol {
+  internal var channel: GRPCChannel
   internal var defaultCallOptions: CallOptions
   internal var interceptors: Notification_NotifyClientInterceptorFactoryProtocol?
 
@@ -195,6 +215,256 @@ internal final class Notification_NotifyClient: Notification_NotifyClientProtoco
     self.channel = channel
     self.defaultCallOptions = defaultCallOptions
     self.interceptors = interceptors
+  }
+}
+
+#if compiler(>=5.6)
+/// Method
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+internal protocol Notification_NotifyAsyncClientProtocol: GRPCClient {
+  static var serviceDescriptor: GRPCServiceDescriptor { get }
+  var interceptors: Notification_NotifyClientInterceptorFactoryProtocol? { get }
+
+  func makeReadNotifyCall(
+    _ request: Notification_ReadNotifyRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Notification_ReadNotifyRequest, Notification_BaseResponse>
+
+  func makeGetUnreadNotifiesCall(
+    _ request: Notification_Empty,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Notification_Empty, Notification_GetNotifiesResponse>
+
+  func makeSubscribeCall(
+    _ request: Notification_SubscribeRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Notification_SubscribeRequest, Notification_BaseResponse>
+
+  func makeUnSubscribeCall(
+    _ request: Notification_UnSubscribeRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncUnaryCall<Notification_UnSubscribeRequest, Notification_BaseResponse>
+
+  func makeListenCall(
+    _ request: Notification_ListenRequest,
+    callOptions: CallOptions?
+  ) -> GRPCAsyncServerStreamingCall<Notification_ListenRequest, Notification_NotifyObjectResponse>
+}
+
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+extension Notification_NotifyAsyncClientProtocol {
+  internal static var serviceDescriptor: GRPCServiceDescriptor {
+    return Notification_NotifyClientMetadata.serviceDescriptor
+  }
+
+  internal var interceptors: Notification_NotifyClientInterceptorFactoryProtocol? {
+    return nil
+  }
+
+  internal func makeReadNotifyCall(
+    _ request: Notification_ReadNotifyRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Notification_ReadNotifyRequest, Notification_BaseResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Notification_NotifyClientMetadata.Methods.read_notify.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeread_notifyInterceptors() ?? []
+    )
+  }
+
+  internal func makeGetUnreadNotifiesCall(
+    _ request: Notification_Empty,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Notification_Empty, Notification_GetNotifiesResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Notification_NotifyClientMetadata.Methods.get_unread_notifies.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeget_unread_notifiesInterceptors() ?? []
+    )
+  }
+
+  internal func makeSubscribeCall(
+    _ request: Notification_SubscribeRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Notification_SubscribeRequest, Notification_BaseResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Notification_NotifyClientMetadata.Methods.subscribe.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makesubscribeInterceptors() ?? []
+    )
+  }
+
+  internal func makeUnSubscribeCall(
+    _ request: Notification_UnSubscribeRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncUnaryCall<Notification_UnSubscribeRequest, Notification_BaseResponse> {
+    return self.makeAsyncUnaryCall(
+      path: Notification_NotifyClientMetadata.Methods.un_subscribe.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeun_subscribeInterceptors() ?? []
+    )
+  }
+
+  internal func makeListenCall(
+    _ request: Notification_ListenRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncServerStreamingCall<Notification_ListenRequest, Notification_NotifyObjectResponse> {
+    return self.makeAsyncServerStreamingCall(
+      path: Notification_NotifyClientMetadata.Methods.listen.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelistenInterceptors() ?? []
+    )
+  }
+}
+
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+extension Notification_NotifyAsyncClientProtocol {
+  internal func read_notify(
+    _ request: Notification_ReadNotifyRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Notification_BaseResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Notification_NotifyClientMetadata.Methods.read_notify.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeread_notifyInterceptors() ?? []
+    )
+  }
+
+  internal func get_unread_notifies(
+    _ request: Notification_Empty,
+    callOptions: CallOptions? = nil
+  ) async throws -> Notification_GetNotifiesResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Notification_NotifyClientMetadata.Methods.get_unread_notifies.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeget_unread_notifiesInterceptors() ?? []
+    )
+  }
+
+  internal func subscribe(
+    _ request: Notification_SubscribeRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Notification_BaseResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Notification_NotifyClientMetadata.Methods.subscribe.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makesubscribeInterceptors() ?? []
+    )
+  }
+
+  internal func un_subscribe(
+    _ request: Notification_UnSubscribeRequest,
+    callOptions: CallOptions? = nil
+  ) async throws -> Notification_BaseResponse {
+    return try await self.performAsyncUnaryCall(
+      path: Notification_NotifyClientMetadata.Methods.un_subscribe.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeun_subscribeInterceptors() ?? []
+    )
+  }
+
+  internal func listen(
+    _ request: Notification_ListenRequest,
+    callOptions: CallOptions? = nil
+  ) -> GRPCAsyncResponseStream<Notification_NotifyObjectResponse> {
+    return self.performAsyncServerStreamingCall(
+      path: Notification_NotifyClientMetadata.Methods.listen.path,
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makelistenInterceptors() ?? []
+    )
+  }
+}
+
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+internal struct Notification_NotifyAsyncClient: Notification_NotifyAsyncClientProtocol {
+  internal var channel: GRPCChannel
+  internal var defaultCallOptions: CallOptions
+  internal var interceptors: Notification_NotifyClientInterceptorFactoryProtocol?
+
+  internal init(
+    channel: GRPCChannel,
+    defaultCallOptions: CallOptions = CallOptions(),
+    interceptors: Notification_NotifyClientInterceptorFactoryProtocol? = nil
+  ) {
+    self.channel = channel
+    self.defaultCallOptions = defaultCallOptions
+    self.interceptors = interceptors
+  }
+}
+
+#endif // compiler(>=5.6)
+
+internal protocol Notification_NotifyClientInterceptorFactoryProtocol: GRPCSendable {
+
+  /// - Returns: Interceptors to use when invoking 'read_notify'.
+  func makeread_notifyInterceptors() -> [ClientInterceptor<Notification_ReadNotifyRequest, Notification_BaseResponse>]
+
+  /// - Returns: Interceptors to use when invoking 'get_unread_notifies'.
+  func makeget_unread_notifiesInterceptors() -> [ClientInterceptor<Notification_Empty, Notification_GetNotifiesResponse>]
+
+  /// - Returns: Interceptors to use when invoking 'subscribe'.
+  func makesubscribeInterceptors() -> [ClientInterceptor<Notification_SubscribeRequest, Notification_BaseResponse>]
+
+  /// - Returns: Interceptors to use when invoking 'un_subscribe'.
+  func makeun_subscribeInterceptors() -> [ClientInterceptor<Notification_UnSubscribeRequest, Notification_BaseResponse>]
+
+  /// - Returns: Interceptors to use when invoking 'listen'.
+  func makelistenInterceptors() -> [ClientInterceptor<Notification_ListenRequest, Notification_NotifyObjectResponse>]
+}
+
+internal enum Notification_NotifyClientMetadata {
+  internal static let serviceDescriptor = GRPCServiceDescriptor(
+    name: "Notify",
+    fullName: "notification.Notify",
+    methods: [
+      Notification_NotifyClientMetadata.Methods.read_notify,
+      Notification_NotifyClientMetadata.Methods.get_unread_notifies,
+      Notification_NotifyClientMetadata.Methods.subscribe,
+      Notification_NotifyClientMetadata.Methods.un_subscribe,
+      Notification_NotifyClientMetadata.Methods.listen,
+    ]
+  )
+
+  internal enum Methods {
+    internal static let read_notify = GRPCMethodDescriptor(
+      name: "read_notify",
+      path: "/notification.Notify/read_notify",
+      type: GRPCCallType.unary
+    )
+
+    internal static let get_unread_notifies = GRPCMethodDescriptor(
+      name: "get_unread_notifies",
+      path: "/notification.Notify/get_unread_notifies",
+      type: GRPCCallType.unary
+    )
+
+    internal static let subscribe = GRPCMethodDescriptor(
+      name: "subscribe",
+      path: "/notification.Notify/subscribe",
+      type: GRPCCallType.unary
+    )
+
+    internal static let un_subscribe = GRPCMethodDescriptor(
+      name: "un_subscribe",
+      path: "/notification.Notify/un_subscribe",
+      type: GRPCCallType.unary
+    )
+
+    internal static let listen = GRPCMethodDescriptor(
+      name: "listen",
+      path: "/notification.Notify/listen",
+      type: GRPCCallType.serverStreaming
+    )
   }
 }
 
@@ -216,7 +486,9 @@ internal protocol Notification_NotifyProvider: CallHandlerProvider {
 }
 
 extension Notification_NotifyProvider {
-  internal var serviceName: Substring { return "notification.Notify" }
+  internal var serviceName: Substring {
+    return Notification_NotifyServerMetadata.serviceDescriptor.fullName[...]
+  }
 
   /// Determines, calls and returns the appropriate request handler, depending on the request's method.
   /// Returns nil for methods not handled by this service.
@@ -276,6 +548,115 @@ extension Notification_NotifyProvider {
   }
 }
 
+#if compiler(>=5.6)
+
+/// Method
+///
+/// To implement a server, implement an object which conforms to this protocol.
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+internal protocol Notification_NotifyAsyncProvider: CallHandlerProvider {
+  static var serviceDescriptor: GRPCServiceDescriptor { get }
+  var interceptors: Notification_NotifyServerInterceptorFactoryProtocol? { get }
+
+  @Sendable func read_notify(
+    request: Notification_ReadNotifyRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Notification_BaseResponse
+
+  @Sendable func get_unread_notifies(
+    request: Notification_Empty,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Notification_GetNotifiesResponse
+
+  @Sendable func subscribe(
+    request: Notification_SubscribeRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Notification_BaseResponse
+
+  @Sendable func un_subscribe(
+    request: Notification_UnSubscribeRequest,
+    context: GRPCAsyncServerCallContext
+  ) async throws -> Notification_BaseResponse
+
+  @Sendable func listen(
+    request: Notification_ListenRequest,
+    responseStream: GRPCAsyncResponseStreamWriter<Notification_NotifyObjectResponse>,
+    context: GRPCAsyncServerCallContext
+  ) async throws
+}
+
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+extension Notification_NotifyAsyncProvider {
+  internal static var serviceDescriptor: GRPCServiceDescriptor {
+    return Notification_NotifyServerMetadata.serviceDescriptor
+  }
+
+  internal var serviceName: Substring {
+    return Notification_NotifyServerMetadata.serviceDescriptor.fullName[...]
+  }
+
+  internal var interceptors: Notification_NotifyServerInterceptorFactoryProtocol? {
+    return nil
+  }
+
+  internal func handle(
+    method name: Substring,
+    context: CallHandlerContext
+  ) -> GRPCServerHandlerProtocol? {
+    switch name {
+    case "read_notify":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Notification_ReadNotifyRequest>(),
+        responseSerializer: ProtobufSerializer<Notification_BaseResponse>(),
+        interceptors: self.interceptors?.makeread_notifyInterceptors() ?? [],
+        wrapping: self.read_notify(request:context:)
+      )
+
+    case "get_unread_notifies":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Notification_Empty>(),
+        responseSerializer: ProtobufSerializer<Notification_GetNotifiesResponse>(),
+        interceptors: self.interceptors?.makeget_unread_notifiesInterceptors() ?? [],
+        wrapping: self.get_unread_notifies(request:context:)
+      )
+
+    case "subscribe":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Notification_SubscribeRequest>(),
+        responseSerializer: ProtobufSerializer<Notification_BaseResponse>(),
+        interceptors: self.interceptors?.makesubscribeInterceptors() ?? [],
+        wrapping: self.subscribe(request:context:)
+      )
+
+    case "un_subscribe":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Notification_UnSubscribeRequest>(),
+        responseSerializer: ProtobufSerializer<Notification_BaseResponse>(),
+        interceptors: self.interceptors?.makeun_subscribeInterceptors() ?? [],
+        wrapping: self.un_subscribe(request:context:)
+      )
+
+    case "listen":
+      return GRPCAsyncServerHandler(
+        context: context,
+        requestDeserializer: ProtobufDeserializer<Notification_ListenRequest>(),
+        responseSerializer: ProtobufSerializer<Notification_NotifyObjectResponse>(),
+        interceptors: self.interceptors?.makelistenInterceptors() ?? [],
+        wrapping: self.listen(request:responseStream:context:)
+      )
+
+    default:
+      return nil
+    }
+  }
+}
+
+#endif // compiler(>=5.6)
+
 internal protocol Notification_NotifyServerInterceptorFactoryProtocol {
 
   /// - Returns: Interceptors to use when handling 'read_notify'.
@@ -297,4 +678,50 @@ internal protocol Notification_NotifyServerInterceptorFactoryProtocol {
   /// - Returns: Interceptors to use when handling 'listen'.
   ///   Defaults to calling `self.makeInterceptors()`.
   func makelistenInterceptors() -> [ServerInterceptor<Notification_ListenRequest, Notification_NotifyObjectResponse>]
+}
+
+internal enum Notification_NotifyServerMetadata {
+  internal static let serviceDescriptor = GRPCServiceDescriptor(
+    name: "Notify",
+    fullName: "notification.Notify",
+    methods: [
+      Notification_NotifyServerMetadata.Methods.read_notify,
+      Notification_NotifyServerMetadata.Methods.get_unread_notifies,
+      Notification_NotifyServerMetadata.Methods.subscribe,
+      Notification_NotifyServerMetadata.Methods.un_subscribe,
+      Notification_NotifyServerMetadata.Methods.listen,
+    ]
+  )
+
+  internal enum Methods {
+    internal static let read_notify = GRPCMethodDescriptor(
+      name: "read_notify",
+      path: "/notification.Notify/read_notify",
+      type: GRPCCallType.unary
+    )
+
+    internal static let get_unread_notifies = GRPCMethodDescriptor(
+      name: "get_unread_notifies",
+      path: "/notification.Notify/get_unread_notifies",
+      type: GRPCCallType.unary
+    )
+
+    internal static let subscribe = GRPCMethodDescriptor(
+      name: "subscribe",
+      path: "/notification.Notify/subscribe",
+      type: GRPCCallType.unary
+    )
+
+    internal static let un_subscribe = GRPCMethodDescriptor(
+      name: "un_subscribe",
+      path: "/notification.Notify/un_subscribe",
+      type: GRPCCallType.unary
+    )
+
+    internal static let listen = GRPCMethodDescriptor(
+      name: "listen",
+      path: "/notification.Notify/listen",
+      type: GRPCCallType.serverStreaming
+    )
+  }
 }
