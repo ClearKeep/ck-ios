@@ -145,13 +145,16 @@ private extension LoginContentView {
 		HStack {
 			if navigateToHome == false {
 				NavigationLink(destination: AdvancedSeverView(),
-							   isActive: $isAdvanceServer,
-							   label: {
-					LinkButton("Login.AdvancedServerSettings".localized, alignment: .leading, action: advancedServer)
-						.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault)
+											 isActive: $isAdvanceServer,
+											 label: {
+					Button(action: advancedServer) {
+						AppTheme.shared.imageSet.gearIcon.renderingMode(.template)
+							.aspectRatio(contentMode: .fit)
+							.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault)
+					}
 				})
 			} else {
-				HStack{}.frame(maxWidth: .infinity, maxHeight: .infinity)
+				HStack {}.frame(maxWidth: .infinity, maxHeight: .infinity)
 			}
 			Spacer()
 			NavigationLink(destination: FogotPasswordView(customServer: $customServer),
