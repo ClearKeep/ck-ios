@@ -656,7 +656,7 @@ private extension ChatView {
 					Button("Chat.TakePhoto".localized) {
 						showingCameraPicker = true
 					}
-					Button("Chat.Albums".localized, role: .destructive) {
+					Button("Chat.Albums".localized) {
 						Self.picktureImage = MultipleImagePicker()
 						Self.picktureImage.doneAction = { photo in
 							selectedImages = photo.filter { $0.url != nil }
