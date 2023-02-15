@@ -38,6 +38,11 @@ rustup +nightly-2021-09-16 component add rust-src
 2. Generate pb.swift and grpc.swift 
    ```
    mkdir Protobuf
-   protoc --grpc-swift_out=Protobuf/ --swift_out=proto/ *.proto
+   protoc --grpc-swift_out=Protobuf/ --swift_out=Protobuf/ *.proto --swift_opt=Visibility=Public
    ```
-3. Copy folder to Packages/ChatServices
+3. Copy folder to Packages/Networking/Networking/Classes/Protobuf
+
+### Install rust for Apple silicon:
+1. brew install rustup
+2. rustc --version
+3. rustup-init

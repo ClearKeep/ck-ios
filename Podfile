@@ -104,6 +104,10 @@ post_install do |installer|
 			if Gem::Version.new('14.0') > Gem::Version.new(config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'])
 				config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
 			end
+
+			if target.respond_to?(:product_type) and target.product_type == "com.apple.product-type.bundle"
+				config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+			end
 		end
 	end
 
