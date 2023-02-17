@@ -13,15 +13,16 @@ import ChatSecure
 import Networking
 
 private enum Constants {
-	static let inputViewSpacing = 24.0
+	static let inputViewSpacing = 20.0
 	static let extraButtonViewHeight = 22.0
 	static let extraButtonViewPaddingTop = 16.0
 	static let separateLineHeight = 1.0
-	static let separateLinePaddingTop = 32.0
-	static let socialViewPaddingTop = 24.0
+	static let socialViewPaddingTop = 20.0
 	static let socialViewSpacing = 40.0
-	static let signUpViewPaddingTop = 45.0
-	static let appVersionPaddingTop = 30.0
+	static let appVersionPaddingTop = 10.0
+	static var paddingSmallScreen: CGFloat {
+		return (UIScreen.main.bounds.size.height > 736) ? 20 : 5
+	}
 }
 
 struct LoginContentView: View {
@@ -76,15 +77,14 @@ struct LoginContentView: View {
 			inputView
 			extraButtonView
 				.frame(height: Constants.extraButtonViewHeight)
-				.padding(.top, Constants.extraButtonViewPaddingTop)
+				.padding(.top, Constants.paddingSmallScreen * 2)
 			Rectangle()
 				.frame(height: Constants.separateLineHeight)
 				.foregroundColor(AppTheme.shared.colorSet.offWhite)
-				.padding(.top, Constants.separateLinePaddingTop)
+				.padding(Constants.paddingSmallScreen)
 			socialView
-				.padding(.top, Constants.socialViewPaddingTop)
 			signUpView
-				.padding(.top, Constants.signUpViewPaddingTop)
+				.padding(Constants.paddingSmallScreen * 2)
 			
 			Text(appVersion)
 				.font(AppTheme.shared.fontSet.font(style: .placeholder3))
@@ -92,7 +92,7 @@ struct LoginContentView: View {
 				.onAppear(perform: {
 					getAppVersion()
 				})
-				.padding(.top, Constants.appVersionPaddingTop)
+				.padding(Constants.appVersionPaddingTop)
 		}
 		.alert(isPresented: $isShowAlertLogin) {
 			switch activeAlert {
@@ -103,10 +103,10 @@ struct LoginContentView: View {
 			case .forgotPassword:
 				return Alert(title: Text(activeAlert.title),
 							 message: Text(activeAlert.message),
-					primaryButton: .default(Text("ForgotPassword.Cancel".localized)),
-					secondaryButton: .default(Text("ForgotPassword.OK" .localized), action: {
-				  self.isForgotPassword = true
-			  }))
+							 primaryButton: .default(Text("ForgotPassword.Cancel".localized)),
+							 secondaryButton: .default(Text("ForgotPassword.OK" .localized), action: {
+					self.isForgotPassword = true
+				}))
 			}
 		}
 		.progressHUD(isShowLoading)
@@ -145,8 +145,8 @@ private extension LoginContentView {
 		HStack {
 			if navigateToHome == false {
 				NavigationLink(destination: AdvancedSeverView(),
-											 isActive: $isAdvanceServer,
-											 label: {
+							   isActive: $isAdvanceServer,
+							   label: {
 					Button(action: advancedServer) {
 						AppTheme.shared.imageSet.gearIcon.renderingMode(.template)
 							.aspectRatio(contentMode: .fit)
@@ -162,7 +162,7 @@ private extension LoginContentView {
 						   label: {
 				LinkButton("Login.ForgotPassword".localized, alignment: .trailing, action: forgotPassword)
 					.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault)
-			})
+			}).frame(maxWidth: 130)
 		}
 	}
 	
@@ -175,7 +175,8 @@ private extension LoginContentView {
 				ImageButton(AppTheme.shared.imageSet.googleIcon) { doSocialLogin(type: .google) }
 				ImageButton(AppTheme.shared.imageSet.officeIcon) { doSocialLogin(type: .office) }
 				ImageButton(AppTheme.shared.imageSet.facebookIcon) { doSocialLogin(type: .facebook) }
-				ImageButton(AppTheme.shared.imageSet.appleIcon) { doSocialLogin(type: .apple) }
+				ImageButton(AppTheme.shared.imageSet.appleIcon) { doSocialLogin(type: .apple)
+				}
 			}
 		}
 	}
@@ -211,23 +212,22 @@ private extension LoginContentView {
 			self.isShowAlertLogin = true
 		}() : passwordValid()
 	}
-	
+
 	func passwordValid() {
 		password.isEmpty ? {
 			self.activeAlert = .passwordBlank
 			self.isShowAlertLogin = true
 		}() : emailValid()
 	}
-
+	
 	func emailValid() {
 		let emailValidate = injected.interactors.loginInteractor.emailValid(email: email.trimmingCharacters(in: .whitespacesAndNewlines))
 		emailValidate ? passvalid() : ({
 			self.activeAlert = .invalidEmail
 			self.isShowAlertLogin = true
 		})()
-	
 	}
-
+	
 	func passvalid() {
 		let passValidate = injected.interactors.loginInteractor.passwordValid(password: password)
 		passValidate ? doLogin() : ({
@@ -235,7 +235,7 @@ private extension LoginContentView {
 			self.isShowAlertLogin = true
 		})()
 	}
-
+	
 	func doLogin() {
 		self.isShowLoading = true
 		Task {
@@ -280,24 +280,24 @@ private extension LoginContentView {
 					  let userName = socialLogin.userName else {
 					return
 				}
-					switch socialLogin.requireAction {
-					case "register_pincode":
-						self.socialStyle = .setSecurity
-						self.resetPincodeToken = ""
+				switch socialLogin.requireAction {
+				case "register_pincode":
+					self.socialStyle = .setSecurity
+					self.resetPincodeToken = ""
+					self.userName = userName
+					self.navigationTwoFace = 2
+				case "verify_pincode":
+					self.socialStyle = .verifySecurity
+					self.resetPincodeToken = socialLogin.resetPincodeToken ?? ""
+					if type == .apple {
+						self.userName = socialLogin.userId ?? userName
+					} else {
 						self.userName = userName
-						self.navigationTwoFace = 2
-					case "verify_pincode":
-						self.socialStyle = .verifySecurity
-						self.resetPincodeToken = socialLogin.resetPincodeToken ?? ""
-						if type == .apple {
-							self.userName = socialLogin.userId ?? userName
-						} else {
-							self.userName = userName
-						}
-						self.navigationTwoFace = 2
-					default:
-						break
 					}
+					self.navigationTwoFace = 2
+				default:
+					break
+				}
 				
 			case .failed(let error):
 				if let errorResponse = error as? IServerError,
