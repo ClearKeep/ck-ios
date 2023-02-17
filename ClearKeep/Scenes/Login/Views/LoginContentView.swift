@@ -13,15 +13,16 @@ import ChatSecure
 import Networking
 
 private enum Constants {
-	static let inputViewSpacing = 24.0
+	static let inputViewSpacing = 20.0
 	static let extraButtonViewHeight = 22.0
 	static let extraButtonViewPaddingTop = 16.0
 	static let separateLineHeight = 1.0
-	static let separateLinePaddingTop = 32.0
-	static let socialViewPaddingTop = 24.0
+	static let socialViewPaddingTop = 20.0
 	static let socialViewSpacing = 40.0
-	static let signUpViewPaddingTop = 45.0
-	static let appVersionPaddingTop = 30.0
+	static let appVersionPaddingTop = 10.0
+	static var paddingSmallScreen: CGFloat {
+        return (UIScreen.main.bounds.size.height > 736) ? 20 : 5
+    }
 }
 
 struct LoginContentView: View {
@@ -76,15 +77,14 @@ struct LoginContentView: View {
 			inputView
 			extraButtonView
 				.frame(height: Constants.extraButtonViewHeight)
-				.padding(.top, Constants.extraButtonViewPaddingTop)
+                .padding(.top, Constants.paddingSmallScreen * 2)
 			Rectangle()
 				.frame(height: Constants.separateLineHeight)
 				.foregroundColor(AppTheme.shared.colorSet.offWhite)
-				.padding(.top, Constants.separateLinePaddingTop)
+                .padding(Constants.paddingSmallScreen)
 			socialView
-				.padding(.top, Constants.socialViewPaddingTop)
 			signUpView
-				.padding(.top, Constants.signUpViewPaddingTop)
+                .padding(Constants.paddingSmallScreen * 2)
 			
 			Text(appVersion)
 				.font(AppTheme.shared.fontSet.font(style: .placeholder3))
@@ -92,7 +92,7 @@ struct LoginContentView: View {
 				.onAppear(perform: {
 					getAppVersion()
 				})
-				.padding(.top, Constants.appVersionPaddingTop)
+                .padding(Constants.appVersionPaddingTop)
 		}
 		.alert(isPresented: $isShowAlertLogin) {
 			switch activeAlert {
@@ -162,7 +162,7 @@ private extension LoginContentView {
 						   label: {
 				LinkButton("Login.ForgotPassword".localized, alignment: .trailing, action: forgotPassword)
 					.foregroundColor(colorScheme == .light ? AppTheme.shared.colorSet.offWhite : AppTheme.shared.colorSet.primaryDefault)
-			})
+			}).frame(maxWidth: 130)
 		}
 	}
 	
