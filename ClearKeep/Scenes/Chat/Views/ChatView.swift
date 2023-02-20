@@ -606,7 +606,7 @@ private extension ChatView {
 				})
 					.confirmationDialog("", isPresented: $showingMessageOptions, titleVisibility: .hidden) {
 						Button("Chat.CopyButton".localized) {
-							copyMessage(message: self.tempSelectedMessage?.message ?? "")
+							copyMessage(message: getCopyMessage(data: self.tempSelectedMessage))
 						}
 						Button("Chat.ForwardButton".localized) {
 							selectedMessage = tempSelectedMessage
@@ -767,6 +767,19 @@ private extension ChatView {
 	
 	func getPartnerUser(group: IGroupModel?) -> IMemberModel? {
 		return group?.groupMembers.first(where: { $0.userId != DependencyResolver.shared.channelStorage.currentServer?.profile?.userId })
+	}
+	
+	func getCopyMessage(data: IMessageViewModel?) -> String {
+		guard let messageViewModel = data else { return "" }
+		if messageViewModel.isForwardedMessage {
+			return String(messageViewModel.message.dropFirst(3))
+		} else if messageViewModel.isQuoteMessage {
+			let parts = messageViewModel.message.dropFirst(3).split(separator: "|")
+			if parts.count == 5 {
+				return String(parts[4])
+			}
+		}
+		return messageViewModel.message
 	}
 }
 extension NSNotification {
