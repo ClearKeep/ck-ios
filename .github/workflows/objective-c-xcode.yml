@@ -17,7 +17,7 @@ jobs:
       - name: Setup Cocoapods
         uses: maxim-lobanov/setup-cocoapods@v1        
         with:
-          podfile-path: .
+          podfile-path: Podfile.lock
 #      - name: Set Default Scheme
 #        run: |
 #          scheme_list=$(xcodebuild -list -json | tr -d "\n")
