@@ -18,8 +18,9 @@ jobs:
         uses: maxim-lobanov/setup-cocoapods@v1        
         with:
           podfile-path: Podfile.lock
-      - name: install-cocoapods-action
-        uses: NiftyStack/install-cocoapods-action@1.0.0
+      - name: Install Cocoapods
+        run: |
+          pod install
 
 #      - name: Set Default Scheme
 #        run: |
